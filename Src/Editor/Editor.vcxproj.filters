@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="Fragments\MenuBar.cpp" />
+    <ClCompile Include="Fragments\Panels\HierarchyPanel.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_GameObject.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Transform.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Camera.cpp" />
+    <ClCompile Include="Fragments\Panels\ViewportPanel.cpp" />
+    <ClCompile Include="Fragments\Viewports\SceneViewport.cpp" />
+    <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
+    <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
+    <ClCompile Include="Fragments\Panel.cpp" />
+    <ClCompile Include="InternalAssets\FreeCameraScript.cpp" />
+    <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
+    <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
+    <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.cpp" />
+    <ClCompile Include="Fragments\EditorSkin.cpp" />
+    <ClCompile Include="Fragments\Panels\AttributePanel.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Material.cpp" />
+    <ClCompile Include="Fragments\SelectorPopup.cpp" />
+    <ClCompile Include="Fragments\EditorSettings.cpp" />
+    <ClCompile Include="Fragments\Panels\AssetsPanel.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Material.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Shader.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Shader.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Texture.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Scene.cpp" />
+    <ClCompile Include="Utils\CustomTreeWidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="Fragments\MenuBar.h" />
+    <ClInclude Include="Fragments\Panel.h" />
+    <ClInclude Include="Fragments\Panels\HierarchyPanel.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_GameObject.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Transform.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Camera.h" />
+    <ClInclude Include="Fragments\Panels\ViewportPanel.h" />
+    <ClInclude Include="Fragments\Viewports\SceneViewport.h" />
+    <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
+    <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
+    <ClInclude Include="InternalAssets\FreeCameraScript.h" />
+    <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
+    <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
+    <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.h" />
+    <ClInclude Include="Fragments\EditorSkin.h" />
+    <ClInclude Include="Fragments\Panels\AttributePanel.h" />
+    <ClInclude Include="Fragments\Selectors\Selector.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Material.h" />
+    <ClInclude Include="Fragments\SelectorPopup.h" />
+    <ClInclude Include="Fragments\EditorSettings.h" />
+    <ClInclude Include="Fragments\Panels\AssetsPanel.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Material.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Shader.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Shader.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Texture.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Scene.h" />
+    <ClInclude Include="Utils\CustomTreeWidget.h" />
+  </ItemGroup>
+</Project>

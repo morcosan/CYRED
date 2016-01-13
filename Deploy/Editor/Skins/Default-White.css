@@ -1,0 +1,295 @@
+/** Copyright (c) 2015 Morco (www.morco.ro)
+  * MIT License
+  */
+
+
+/* layout customization not working a.t.m. */
+
+
+/*** general main window ***/
+QMainWindow
+{
+	background-color: #bbb;
+}
+/*** general main window ***/
+
+
+/*** general status bar ***/
+QStatusBar
+{
+    background-color: #bbb;
+    color: #000;
+}
+/*** general status bar ***/
+
+
+/*** general toolbar ***/
+QToolBar
+{
+	border: 0;
+	spacing: 5px;
+}
+QToolButton
+{
+	color: #ddd;
+	background-color: #444;
+}
+QToolButton:checked
+{
+	background-color: #c33;
+}
+/*** general toolbar ***/
+
+
+/*** general panel ***/
+QDockWidget
+{
+	color: #333;
+	font: bold;
+}
+QDockWidget:title
+{
+	padding: 5px;
+	background-color: #dfdfdf;
+}
+QTabBar::tab
+{
+	background-color: transparent;
+	color: #ddd;
+}
+QTabBar::tab:selected
+{
+	background-color: #0bb;
+    color: #000;
+}
+#PanelLayout
+{
+	background-color: #f9f9f9;
+}
+/*** general panel ***/
+
+
+/*** general top menu ***/
+QMenu
+{
+	background-color: #ccc;
+	color: #000;
+}
+QMenu::item:selected
+{
+	background-color: #0cc;
+	color: #fff;
+}
+QMenuBar, QMenuBar::item
+{
+	background-color: #ccc;
+	color: #000;
+}
+/*** general top menu ***/
+
+
+/*** attribute panel ***/
+#AttrGroup
+{
+	border: 1px solid #ccc;
+	border-radius: 1px;
+	margin-top: 7px;		/* only for the frame, not title, but it aligns title */
+	margin-right: 8px;
+	padding: 10px 5px 10px 10px;
+	font: italic 11px;
+}
+#AttrGroup::title
+{
+	subcontrol-origin: margin;		/*FIXED*/
+	subcontrol-position: top left;	/*FIXED*/
+	left: 10px;
+	padding: 0 7px;
+	color: #888;
+}
+#AttrButton
+{
+	color: #111;
+	background-color: #d9d9d9;
+}
+#AttrCompTree
+{
+	background-color: #f9f9f9;
+	border: 0;
+	outline: 0;
+}
+#AttrCompTree::item:hover
+{
+	background-color: transparent;		/*FIXED*/
+}
+#AttrCompTitle
+{
+	font: bold 13px;
+	color: #444;
+}
+/*** attribute panel ***/
+
+
+/*** general label ***/
+QLabel
+{
+	color: #111;
+}
+/*** general label ***/
+
+
+/*** general edit field ***/
+QLineEdit
+{
+	background-color: #f0f0f0;
+	color: #000;
+	border: 1px solid #aaa;
+}
+/*** general edit field ***/
+
+
+/*** general checkbox ***/
+QCheckBox::indicator:unchecked
+{
+	background-color: #f0f0f0;
+	border: 1px solid #aaa;
+}
+QCheckBox::indicator:checked
+{
+	background-color: #0dd;
+	border: 1px solid #aaa;
+}
+/*** general checkbox ***/
+
+
+/*** general dropdown ***/
+QComboBox
+{
+	background-color: #f0f0f0;
+	border: 1px solid #aaa;
+	color: #000;
+	min-width: 80px;
+	min-height: 20px;
+}
+QComboBox QListView
+{
+	background-color: #f0f0f0;
+	border: 1px solid #aaa;
+	color: #000;
+}
+QComboBox QAbstractItemView
+{
+	outline: 0px;
+	selection-background-color: #0cc;
+	color: #000;
+}
+/*** general dropdown ***/
+
+
+/*** viewport panel ***/
+#ViewportButton
+{
+	color: #222;
+	background-color: #ddd;
+}
+#ViewportButton:checked
+{
+	background-color: #c33;
+}
+/*** viewport panel ***/
+
+
+/*** general scrollbar ***/
+QScrollBar
+{
+	background: #ccc;
+}
+QScrollBar:vertical
+{
+	margin: 16px 0 16px 0;
+	width: 15px;
+}
+QScrollBar:horizontal
+{
+	margin: 0 16px 0 16px;
+	height: 15px;
+}
+QScrollBar::add-page, QScrollBar::sub-page
+{
+	background: none;		/*FIXED*/
+}
+QScrollBar::handle
+{
+	border: 1px solid #999;
+	background: #f9f9f9;
+}
+QScrollBar::handle:vertical
+{
+	min-height: 20px;
+}
+QScrollBar::handle:horizontal
+{
+	min-width: 20px;
+}
+QScrollBar::handle:pressed,
+QScrollBar::add-line:pressed,
+QScrollBar::sub-line:pressed
+{
+	border: 1px solid #0dd;
+}
+QScrollBar::add-line, QScrollBar::sub-line
+{
+	border: 1px solid #999;
+	background: #f9f9f9;
+	subcontrol-origin: margin;		/*FIXED*/
+}
+QScrollBar::add-line:vertical
+{
+	height: 16px;
+	subcontrol-position: bottom;	/*FIXED*/
+}
+QScrollBar::add-line:horizontal
+{
+	width: 16px;
+	subcontrol-position: right;		/*FIXED*/
+}
+QScrollBar::sub-line:vertical
+{
+	height: 16px;
+	subcontrol-position: top;		/*FIXED*/
+}
+QScrollBar::sub-line:horizontal
+{
+	width: 16px;
+	subcontrol-position: left;		/*FIXED*/
+}
+QScrollBar::up-arrow,
+QScrollBar::down-arrow,
+QScrollBar::left-arrow,
+QScrollBar::right-arrow
+{
+	width: 3px;
+	height: 3px;
+	background-color: #222;
+}
+/*** general scrollbar ***/
+
+
+/*** hierarchy panel ***/
+#HierarchyTree
+{
+	background-color: #f9f9f9;
+	color: #222;
+	outline: 0;
+	border: 0;
+}
+#HierarchyTree::item:hover
+{
+	background-color: #0cc;
+	color: #fff;
+}
+#HierarchyTree::item:selected
+{
+	background-color: #d9d9d9;
+	color: #111;
+}
+/*** hierarchy panel ***/

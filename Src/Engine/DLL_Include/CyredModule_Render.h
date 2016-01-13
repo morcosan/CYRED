@@ -1,0 +1,17 @@
+// Copyright (c) 2015 Morco (www.morco.ro)
+// MIT License
+
+#pragma once
+
+#include "../3_Modules/Render/RenderManager.h"
+
+#include "../3_Modules/Render/Components/Camera.h"
+#include "../3_Modules/Render/Components/MeshRendering.h"
+#include "../3_Modules/Render/Components/ParticleEmitter.h"
+
+#include "../3_Modules/Render/Assets/Material.h"
+#include "../3_Modules/Render/Assets/Mesh.h"
+#include "../3_Modules/Render/Assets/Shader.h"
+#include "../3_Modules/Render/Assets/Texture.h"
+
+

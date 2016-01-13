@@ -1,0 +1,21 @@
+id,token,name,notes,created_at,updated_at,status,due,section
+1126572,dxBpBOLG,add random position when resetting particles,"",2015-12-02T11:17:07Z,2015-12-22T11:20:31Z,open,"",To Do
+784176,6W8EsbQ3,serializing system,"",2015-10-20T11:11:15Z,2015-12-22T11:20:31Z,open,"",To Do
+1276585,fBP6jYn8,add assets panel,"",2015-12-22T11:20:29Z,2015-12-22T11:21:27Z,open,"",To Do
+1058400,5sc9DRZO,add the save / load system,"",2015-11-23T14:04:09Z,2015-12-20T23:35:30Z,open,"",To Do
+1276571,khKGs1uA,replace the call of colorize in attr viewer from derived classes,"",2015-12-22T11:19:30Z,2015-12-22T11:19:30Z,open,"",In Progress
+1032936,hxnivGg8,add keyboard movement to camera like unreal,"",2015-11-19T14:15:37Z,2015-12-02T15:53:32Z,open,"",Backlog
+768371,oMF1WBqM,record all inputs for deterministic games to create reply video,"",2015-10-17T10:47:35Z,2015-12-02T15:53:32Z,open,"",Backlog
+768373,y0n26bac,use proxy pattern for resources,"",2015-10-17T10:49:22Z,2015-12-02T15:53:32Z,open,"",Backlog
+768374,aIKW5RZD,replace arrays with lists ( and iterators ) where possible,"",2015-10-17T10:49:38Z,2015-12-02T15:53:32Z,open,"",Backlog
+768378,bN8GWbtm,add event listener to game object as component,"",2015-10-17T10:51:19Z,2015-12-02T15:53:32Z,open,"",Backlog
+1055758,5eQaWLtz,add all cameras in scenes to viewport list,"",2015-11-23T09:51:01Z,2015-12-11T09:00:23Z,open,"",Backlog
+768382,lTXQG2q9,do the f*king destructors,"",2015-10-17T10:53:01Z,2015-12-03T13:53:07Z,open,"",Tech Dept / Bugs
+783986,iZIMu8iC,refactor AttributesPanel from editor,"OnEvent , generic for any component",2015-10-20T10:31:37Z,2015-12-03T13:53:07Z,open,"",Tech Dept / Bugs
+784725,dIJuhlVw,comment code,"",2015-10-20T12:42:50Z,2015-12-03T13:53:07Z,open,"",Tech Dept / Bugs
+1032545,xII02CrI,TODO parts in code need to be remade,"",2015-11-19T13:36:38Z,2015-12-03T13:53:07Z,open,"",Tech Dept / Bugs
+1199284,zDCrMdfx,refactor emit events system,"",2015-12-11T09:00:23Z,2015-12-11T09:00:36Z,open,"",Tech Dept / Bugs
+1048227,8yVHpf1a,input system: key events taken multiple times,"",2015-11-21T10:35:39Z,2015-12-11T09:00:36Z,open,"",Tech Dept / Bugs
+1054995,zWcjmIZX,add const to methods,"",2015-11-23T08:24:58Z,2015-12-11T09:00:36Z,open,"",Tech Dept / Bugs
+1066356,3E9eSGho,add opengl free buffers,"",2015-11-24T10:15:27Z,2015-12-11T09:00:36Z,open,"",Tech Dept / Bugs
+1263562,6QUJuNG3,fix the string,"",2015-12-20T23:35:08Z,2015-12-20T23:35:08Z,open,"",Tech Dept / Bugs

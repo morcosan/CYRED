@@ -1,0 +1,4 @@
+
+
+> 2 clear lines between code blocks
+> in *.h, every type of declaration has its own public/private identifier

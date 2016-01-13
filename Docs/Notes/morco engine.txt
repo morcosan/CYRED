@@ -1,0 +1,21 @@
+stl
+boost
+loki
+
+hash id for strings
+
+buffered/unbuffered i/o
+low-level api instead of native c
+
+use zip for resources
+
+add init () to all objects instead of constructor
+
+use while ( true) for main loop
+
+add game timeline anf time speeds
+
+maje dt global, not parameter
+
+use governed frame rate
+

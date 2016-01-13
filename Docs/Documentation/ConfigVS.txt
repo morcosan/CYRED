@@ -1,0 +1,30 @@
+> sln outside src to make path auto-complete work
+
+> vs projects inside the src folders, use "show all files"
+
+> for DLL projects:
+	* general
+		- out dir: 			$(SolutionDir)DeployLIB\
+		- int dir: 			$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\
+		- target name:		CYRED_...
+		- config type: 		DLL
+	* c / c++
+		- preprocesor
+			- prep def: 	CREATE_DLL
+	* build events
+		- post-build: 		xcopy "$(SolutionDir)DeployLIB\CYRED_.dll" "$(SolutionDir)Deploy" /y
+
+> for EXE projects:
+	* general
+		- out dir: 			$(SolutionDir)Deploy\
+		- int dir: 			$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\
+		- target name:		$(ProjectName)
+		- config type: 		EXE
+	* linker
+		- general
+			- add ib dir:	..\..\DeployLIB
+		- input
+			- add depend:	CYRED_Standalone.lib
+
+> set project dependencies before build
+

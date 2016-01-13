@@ -1,0 +1,12 @@
+/DeployLIB/*.exp
+/DeployLIB/*.ilk
+/DeployLIB/*.dll
+/DeployLIB/*.pdb
+/__vsBin
+/*.dropbox
+/Deploy/*.pdb
+/Deploy/*.ilk
+desktop.ini
+/.vs
+/*.opensdf
+/*.sdf

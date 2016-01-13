@@ -1,0 +1,119 @@
+{
+    "uid": "649r75cKPycmxNP3htWxhyCDJ5lCJKh2",
+    "GameObjects": [
+        {
+            "Name": "Fire",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": 0.0,
+                        "y": -2.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 90.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "ParticleEmitter": {
+                    "Enabled": true,
+                    "MaxParticles": 1000,
+                    "ParticleLifetime": 5.0,
+                    "ParticleVelocity": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -3.0
+                    },
+                    "ParticleAcceleration": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.5
+                    },
+                    "ShapeDrivenSpeed": 0.0,
+                    "ShapeDrivenAccel": 0.200,
+                    "WavesPerSec": 20.0,
+                    "ParticlesPerWave": 10,
+                    "Looping": true,
+                    "SpawnDuration": 5.0,
+                    "EmitterShape": "CIRCLE",
+                    "ShapeRadius": 1.0,
+                    "SpawnFromEdge": true,
+                    "Material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
+                    "Particle_Size_Start": {
+                        "x": 0.300,
+                        "y": 0.300
+                    },
+                    "Particle_Size_End": {
+                        "x": 0.200,
+                        "y": 0.200
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Emitter",
+            "Enabled": false,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 90.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "ParticleEmitter": {
+                    "Enabled": true,
+                    "MaxParticles": 1000,
+                    "ParticleLifetime": 5.0,
+                    "ParticleVelocity": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -5.0
+                    },
+                    "ParticleAcceleration": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 1.0
+                    },
+                    "ShapeDrivenSpeed": 0.0,
+                    "ShapeDrivenAccel": 1.0,
+                    "WavesPerSec": 1.0,
+                    "ParticlesPerWave": 20,
+                    "Looping": true,
+                    "SpawnDuration": 5.0,
+                    "EmitterShape": "CIRCLE",
+                    "ShapeRadius": 2.0,
+                    "SpawnFromEdge": true,
+                    "Material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
+                    "Particle_Size_Start": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "Particle_Size_End": {
+                        "x": 0.5,
+                        "y": 0.5
+                    }
+                }
+            }
+        }
+    ]
+}

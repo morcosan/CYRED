@@ -1,0 +1,13 @@
+> rank 1
+	- most important functions that define the class
+	- mostly called under specific conditions
+
+
+> rank 2
+	- common functions which can be called from anywhere
+	- getter and setters are here
+
+
+> rank 3
+	- additional and helper role
+

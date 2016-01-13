@@ -1,0 +1,60 @@
+3 project:
+- editor
+- engine
+	> DebugManager
+		> Console			// impl deferred to Initialize( ConsoleImpl )
+	> FileManager
+		> FileSystem		// impl deferred to Initialize( FileSystemImpl )
+- standalone
+	> GameController
+		> Start() 		// called once
+		> Update() 		// called every update
+	> Application
+
+
+
+test project from standalone
+
+
+
+2 ways to start application
+- Run( GameController ) 			// when u want full project in C++
+- Run( string configFilePath )  	// when u used scene file
+ 
+
+
+GameController::Start() must build the scene
+
+
+
+Resources:
+- images, sounds, models will have .meta files with same name that contains details
+
+- editor
+	- editor configFile
+		- path to assets folder
+	- project file
+		- path to assets folder
+	- the assets folder will be fully parsed
+
+- standalone 
+	1) full c++, no external files
+		- started with GameController
+		- no config file needed
+		- the assets can be anywhere
+		- the FileSystem will be able to load on demand by path
+	2) with external files
+		- started with config file
+		- config files contains paths to other resource files
+		- game starts by loading a *.scene file
+
+
+
+
+
+
+
+
+
+
+

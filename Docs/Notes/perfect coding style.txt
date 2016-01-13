@@ -1,0 +1,21 @@
+General rules:
+- the code must be easily to read by anyone
+- a data structure must be self-contained (one must be able to understand it without needing to read the others)
+- each function needs a comment describing why the function exists and where should be used
+- add wrapper for every external code
+
+
+
+C++ Only:
+- pre-declare classes needed in *.h, but include the files only in *.cpp
+- keep comments for function's importance in *.h
+- in *.h, first declare the inherited functions, then the standalone ones
+- use a namespace instead of copying the same thing in each class name
+- keep as mush as possible away from *.h
+
+
+C++ Macros:
+#define OUT
+
+
+

@@ -1,0 +1,383 @@
+/** Copyright (c) 2015 Morco (www.morco.ro)
+  * MIT License
+  */
+
+
+/* layout customization not working a.t.m. */
+
+
+/*** general main window ***/
+QMainWindow
+{
+	background-color: #222;
+}
+/*** general main window ***/
+
+
+/*** general status bar ***/
+QStatusBar
+{
+    background-color: #0bb;
+    color: #000;
+}
+/*** general status bar ***/
+
+
+/*** general toolbar ***/
+QToolBar
+{
+	border: 0;
+	spacing: 5px;
+}
+QToolButton
+{
+	color: #ddd;
+	background-color: #444;
+}
+QToolButton:checked
+{
+	background-color: #c33;
+}
+/*** general toolbar ***/
+
+
+/*** general panel ***/
+QDockWidget
+{
+	color: #d9d9d9;
+	font: bold;
+}
+QDockWidget:title
+{
+	padding: 5px;
+	background-color: #555;
+}
+QTabBar::tab
+{
+	background-color: transparent;
+	color: #ddd;
+}
+QTabBar::tab:selected
+{
+	background-color: #0bb;
+    color: #000;
+}
+#PanelLayout
+{
+	background-color: #333;
+}
+/*** general panel ***/
+
+
+/*** general top menu ***/
+QMenu
+{
+	background-color: #444;
+	color: #d9d9d9;
+}
+QMenu::item:selected
+{
+	background-color: #0cc;
+	color: #fff;
+}
+QMenuBar, QMenuBar::item
+{
+	background-color: #444;
+	color: #d9d9d9;
+}
+/*** general top menu ***/
+
+
+/*** attribute panel ***/
+#AttrGroup
+{
+	border: 1px solid #555;
+	border-radius: 1px;
+	margin-top: 7px;		/* only for the frame, not title, but it aligns title */
+	margin-right: 8px;
+	padding: 10px 7px 5px -10px;
+	font: italic 11px;
+}
+#AttrGroup::title
+{
+	subcontrol-origin: margin;		/*FIXED*/
+	subcontrol-position: top left;	/*FIXED*/
+	left: 10px;
+	padding: 0 7px;
+	color: #aaa;
+}
+#AttrGroupTree
+{
+	background-color: transparent;
+	border: 0;
+	outline: 0;
+}
+#AttrGroupTree::item
+{
+	color: #ddd;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+#AttrGroupTree::item:hover
+{
+	background-color: transparent;	/*FIXED*/
+}
+#AttrButton
+{
+	color: #ddd;
+	background-color: #444;
+}
+#AttrCompTree
+{
+	background-color: #333;
+	border: 0;
+	outline: 0;
+}
+#AttrCompTree::item:hover
+{
+	background-color: transparent;	/*FIXED*/
+}
+#AttrCompTitle
+{
+	font: bold 13px;
+	color: #d9d9d9;
+}
+#AttrSelectorButton
+{
+	color: #ddd;
+	background-color: #444;
+	min-width: 20px;
+	min-height: 20px;
+	max-width: 20px;
+	max-height: 20px;
+}
+/*** attribute panel ***/
+
+
+/*** selector popup ***/
+#SelectorPopup
+{
+	background-color: #191919;
+}
+#SelectorPopup QListWidget
+{
+	background-color: #292929;
+	border: 1px solid #444;
+	outline: 0px;
+	color: #ddd;
+}
+#SelectorPopup QListWidget::item:hover
+{
+	background-color: #0cc;
+	color: #fff;
+}
+#SelectorPopup QListWidget::item:selected
+{
+	background-color: #191919;
+	color: #ddd;
+}
+/*** selector popup ***/
+
+
+/*** general label ***/
+QLabel
+{
+	color: #ddd;
+}
+/*** general label ***/
+
+
+/*** attribute label ***/
+*[Disabled=true] QLabel, *[Disabled=true] #AttrCompTitle
+{
+	color: #666;
+}
+#AttrCompTree[Disabled=true] QLabel
+{
+	color: #666;
+}
+/*** attribute label ***/
+
+
+/*** general edit field ***/
+QLineEdit
+{
+	background-color: #444;
+	color: #ddd;
+	border: 1px solid #222;
+}
+/*** general edit field ***/
+
+
+/*** general checkbox ***/
+QCheckBox::indicator:unchecked
+{
+	background-color: #555;
+	border: 1px solid #090909;
+}
+QCheckBox::indicator:checked
+{
+	background-color: #0dd;
+	border: 1px solid #090909;
+}
+/*** general checkbox ***/
+
+
+/*** general dropdown ***/
+QComboBox
+{
+	background-color: #444;
+	border: 1px solid #222;
+	color: #ddd;
+	min-width: 80px;
+	min-height: 20px;
+}
+QComboBox QListView
+{
+	background-color: #444;
+	border: 1px solid #222;
+	color: #ddd;
+}
+QComboBox QAbstractItemView
+{
+	outline: 0px;
+	selection-background-color: #0cc;
+	color: #fff;
+}
+/*** general dropdown ***/
+
+
+/*** viewport panel ***/
+#ViewportButton
+{
+	color: #ddd;
+	background-color: #444;
+}
+#ViewportButton:checked
+{
+	background-color: #c33;
+}
+/*** viewport panel ***/
+
+
+/*** general scrollbar ***/
+QScrollBar
+{
+	background: #090909;
+}
+QScrollBar:vertical
+{
+	margin: 16px 0 16px 0;
+	width: 15px;
+}
+QScrollBar:horizontal
+{
+	margin: 0 16px 0 16px;
+	height: 15px;
+}
+QScrollBar::add-page, QScrollBar::sub-page
+{
+	background: none;		/*FIXED*/
+}
+QScrollBar::handle
+{
+	border: 1px solid #555;
+	background: #222;
+}
+QScrollBar::handle:vertical
+{
+	min-height: 20px;
+}
+QScrollBar::handle:horizontal
+{
+	min-width: 20px;
+}
+QScrollBar::handle:pressed,
+QScrollBar::add-line:pressed,
+QScrollBar::sub-line:pressed
+{
+	border: 1px solid #0dd;
+}
+QScrollBar::add-line, QScrollBar::sub-line
+{
+	border: 1px solid #555;
+	background: #222;
+	subcontrol-origin: margin;		/*FIXED*/
+}
+QScrollBar::add-line:vertical
+{
+	height: 16px;
+	subcontrol-position: bottom;	/*FIXED*/
+}
+QScrollBar::add-line:horizontal
+{
+	width: 16px;
+	subcontrol-position: right;		/*FIXED*/
+}
+QScrollBar::sub-line:vertical
+{
+	height: 16px;
+	subcontrol-position: top;		/*FIXED*/
+}
+QScrollBar::sub-line:horizontal
+{
+	width: 16px;
+	subcontrol-position: left;		/*FIXED*/
+}
+QScrollBar::up-arrow,
+QScrollBar::down-arrow,
+QScrollBar::left-arrow,
+QScrollBar::right-arrow
+{
+	width: 3px;
+	height: 3px;
+	background-color: #ddd;
+}
+/*** general scrollbar ***/
+
+
+/*** hierarchy panel ***/
+#HierarchyTree
+{
+	background-color: #333;
+	color: #ddd;
+	outline: 0;
+	border: 0;
+}
+#HierarchyTree::item:hover
+{
+	background-color: #0cc;
+	color: #fff;
+}
+#HierarchyTree::item:selected
+{
+	background-color: #191919;
+	color: #ddd;
+}
+/*** hierarchy panel ***/
+
+
+/*** asset panel ***/
+#AssetTree
+{
+	background-color: #333;
+	color: #ddd;
+	outline: 0;
+	border: 0;
+}
+#AssetTree::item:hover
+{
+	background-color: #0cc;
+	color: #fff;
+}
+#AssetTree::item:selected
+{
+	background-color: #191919;
+	color: #ddd;
+}
+#UnknownAsset
+{
+	font: italic;
+	color: #aaa;
+}
+/*** asset panel ***/

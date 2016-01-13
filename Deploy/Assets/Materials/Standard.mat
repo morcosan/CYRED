@@ -1,0 +1,22 @@
+{
+    "uid": "chFbRmqXjq19ONmNQSKe4XA09mpXgnmn",
+    "shader": null,
+    "wireframe": false,
+    "lineWidth": 1.0,
+    "cullFace": "CULL_BACK",
+    "properties": [
+        {
+            "name": "diffuseTexture"
+        },
+        {
+            "name": "diffuseColor",
+            "type": "VEC4",
+            "value": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0,
+                "w": 1.0
+            }
+        }
+    ]
+}
