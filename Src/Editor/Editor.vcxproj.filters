@@ -31,6 +31,7 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Scene.cpp" />
     <ClCompile Include="Utils\CustomTreeWidget.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -63,5 +64,6 @@
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Texture.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Scene.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Texture.h" />
   </ItemGroup>
 </Project>

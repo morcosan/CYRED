@@ -60,7 +60,7 @@
         },
         {
             "Name": "Emitter",
-            "Enabled": false,
+            "Enabled": true,
             "Components": {
                 "Transform": {
                     "Enabled": true,

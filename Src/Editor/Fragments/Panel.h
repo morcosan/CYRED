@@ -37,8 +37,11 @@ namespace CYRED
 
 	public:
 		/* initializes the panel; must be called once before all else */
-		virtual void Initialize() PURE_VIRTUAL;
+		virtual void Initialize	() PURE_VIRTUAL;
+		virtual void Update		() {};
 
+
+	public:
 		/* method from QDockWidget for receiving resize event */
 		void resizeEvent	( QResizeEvent* e ) override;
 		

@@ -141,7 +141,7 @@ void Material::SetProperty( const Char* name, Float value )
 }
 
 
-void Material::SetProperty( const Char* name, Vector2& value )
+void Material::SetProperty( const Char* name, const Vector2& value )
 {
 	for ( UInt i = 0; i < _properties.Size(); ++i )
 	{
@@ -159,7 +159,7 @@ void Material::SetProperty( const Char* name, Vector2& value )
 }
 
 
-void Material::SetProperty( const Char* name, Vector3& value )
+void Material::SetProperty( const Char* name, const Vector3& value )
 {
 	for ( UInt i = 0; i < _properties.Size(); ++i )
 	{
@@ -177,7 +177,7 @@ void Material::SetProperty( const Char* name, Vector3& value )
 }
 
 
-void Material::SetProperty( const Char* name, Vector4& value )
+void Material::SetProperty( const Char* name, const Vector4& value )
 {
 	for ( UInt i = 0; i < _properties.Size(); ++i )
 	{
@@ -232,6 +232,12 @@ const Char* Material::GetPropertyNameAt( UInt index )
 	ASSERT( index < _properties.Size() );
 
 	return _properties[index].name.GetChar();
+}
+
+
+void Material::ClearProperties()
+{
+	_properties.Clear();
 }
 
 

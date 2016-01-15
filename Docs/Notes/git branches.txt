@@ -1,0 +1,10 @@
+* master = main development branch
+* temp_save = partial work, to be merged into master
+
+
+Merging into master with TortoiseGit:
+* witch to master and merge branch
+* delete branch
+* show log, select old master and reset (keep files, delete index)
+* new commit to master
+* recreate branch based on new master

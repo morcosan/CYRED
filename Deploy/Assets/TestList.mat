@@ -1,7 +1,7 @@
 {
     "uid": "11xRXKm81TpPl1T1OlF0J4KsqZMm20F6",
     "shader": "LPaTVfT0Q8ByEIVcIgn5a3metEOD8KyS",
-    "wireframe": false,
+    "wireframe": true,
     "lineWidth": 1.0,
     "cullFace": "CULL_NONE",
     "properties": [
@@ -10,7 +10,7 @@
             "type": "VEC4",
             "value": {
                 "x": 1.0,
-                "y": 1.0,
+                "y": 0.0,
                 "z": 1.0,
                 "w": 1.0
             }
@@ -28,7 +28,7 @@
         {
             "name": "particleTexture",
             "type": "TEXTURE",
-            "value": "vusq0hqBc9Sgo8UB01a3kWE8cGvVFMPU"
+            "value": "JI5PoOBMjXlsEhtKzpzFlKPYerIYWY5k"
         }
     ]
 }

@@ -29,12 +29,12 @@ namespace CYRED
 
 
 	public:
-		void Initialize() override;
+		void Initialize	() override;
+		void Update		() override;
 
 
 	public:
 		void		Initialize		( Bool isPrimary );
-		void		Update			();
 		GLContext*	GetGLContext	();
 
 

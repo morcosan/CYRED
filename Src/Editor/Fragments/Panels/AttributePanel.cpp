@@ -26,6 +26,7 @@ using namespace CYRED;
 
 
 AttributePanel::AttributePanel()
+	: _needsRefresh( FALSE )
 {
 	this->setWindowTitle( PANEL_TITLE );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -84,6 +85,20 @@ void AttributePanel::Initialize()
 	SetAttrViewer( ATTR_SHADER,				Memory::Alloc<AttrViewer_Shader>() );
 	SetAttrViewer( ATTR_TEXTURE,			Memory::Alloc<AttrViewer_Texture>() );
 	SetAttrViewer( ATTR_SCENE,				Memory::Alloc<AttrViewer_Scene>() );
+
+	_Clear();
+}
+
+
+void AttributePanel::Update()
+{
+	if ( _needsRefresh )
+	{
+		_needsRefresh = FALSE;
+
+		// WARNING: this will cause huge lag in editor
+		_qtTree->setStyleSheet( _qtTree->styleSheet() );
+	}
 }
 
 
@@ -102,14 +117,6 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					// clear panel
 					_Clear();
 
-					// clear all viewers
-					Iterator<String, AttrViewer*> iter = _attrViewers.GetIterator();
-					while ( iter.HasNext() )
-					{
-						iter.GetValue()->Clear();
-						iter.Next();
-					}
-
 					// prepare to add new 
 					Node* node = CAST_S( Node*, eSource );
 					GameObject* selectedGO = CAST_D( GameObject*, node );
@@ -118,7 +125,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					{
 						ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 						AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
-						gameObjectViewer->OnSelect_Target( selectedGO );
+						gameObjectViewer->ChangeTarget( selectedGO );
 						gameObjectViewer->UpdateGUI();
 
 						{
@@ -127,7 +134,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							{
 								ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
 								AttrViewer* transformViewer = _attrViewers.Get( ATTR_TRANSFORM );
-								transformViewer->OnSelect_Target( comp );
+								transformViewer->ChangeTarget( comp );
 								transformViewer->UpdateGUI();
 							}
 						}
@@ -137,7 +144,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							{
 								ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 								AttrViewer* transformViewer = _attrViewers.Get( ATTR_CAMERA );
-								transformViewer->OnSelect_Target( comp );
+								transformViewer->ChangeTarget( comp );
 								transformViewer->UpdateGUI();
 							}
 						}
@@ -147,7 +154,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							{
 								ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
 								AttrViewer* transformViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
-								transformViewer->OnSelect_Target( comp );
+								transformViewer->ChangeTarget( comp );
 								transformViewer->UpdateGUI();
 							}
 						}
@@ -285,7 +292,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 
 					ASSERT( _attrViewers.Has( attrViewerType ) );
 					AttrViewer* attrViewer = _attrViewers.Get( attrViewerType );
-					attrViewer->OnSelect_Target( asset );
+					attrViewer->ChangeTarget( asset );
 					attrViewer->UpdateGUI();
 
 					break;
@@ -300,16 +307,22 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 {
 	_attrViewers.Set( typeName, viewer ); 
-	viewer->UsePanel( _qtTree );
+	viewer->Initialize( this, _qtTree );
+}
+
+
+void AttributePanel::RefreshPanel()
+{
+	_needsRefresh = TRUE;
 }
 
 
 void AttributePanel::_Clear()
 {
-	// remove all
-	while ( _qtTree->topLevelItemCount() > 0 )
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i )
 	{
-		_qtTree->takeTopLevelItem( 0 );
+		QTreeWidgetItem* item = _qtTree->topLevelItem( i );
+		item->setHidden( TRUE );
 	}
 
 	_qtCompButton->hide();

@@ -105,6 +105,7 @@
     <ClCompile Include="Fragments\SelectorPopup.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Material.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Shader.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Texture.cpp" />
     <ClCompile Include="Fragments\Viewports\SceneViewport.cpp" />
     <ClCompile Include="InternalAssets\FreeCameraScript.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Fragments\Selectors\Selector.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Material.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Shader.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Texture.h" />
     <ClInclude Include="Fragments\Viewports\SceneViewport.h" />
     <ClInclude Include="Fragments\MenuBar.h" />
     <ClInclude Include="Fragments\Panel.h" />

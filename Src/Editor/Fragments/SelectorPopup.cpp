@@ -8,6 +8,7 @@
 
 #include "Selectors\Selector_Material.h"
 #include "Selectors\Selector_Shader.h"
+#include "Selectors\Selector_Texture.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlistwidget.h"
@@ -76,6 +77,7 @@ void SelectorPopup::Initialize()
 {
 	AddSelector( Selector_Material::TYPE,	Memory::Alloc<Selector_Material>( this ) );
 	AddSelector( Selector_Shader::TYPE,		Memory::Alloc<Selector_Shader>( this ) );
+	AddSelector( Selector_Texture::TYPE,	Memory::Alloc<Selector_Texture>( this ) );
 }
 
 

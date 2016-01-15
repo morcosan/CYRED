@@ -94,7 +94,7 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	// create some panels
 	NewPanel( PanelType::ASSETS );
 	NewPanel( PanelType::HIERARCHY );
-	NewPanel( PanelType::SCENE_VIEWPORT );
+	_mainViewport = CAST_S( ViewportPanel*, NewPanel( PanelType::SCENE_VIEWPORT ) );
 	NewPanel( PanelType::ATTRIBUTES );
 
 	// the window is first displayed after processing events
@@ -104,13 +104,14 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	_shouldExit = FALSE;
 
 	// it requires to be initialized after viewport is shown
-	RenderManager::Singleton()->Initialize( _viewports[0]->GetGLContext(), 
+	ASSERT( _mainViewport != NULL );
+	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), 
 											   Memory::Alloc<NotAPI::GLImpl_3_0>() );
 
 	// load assets
-	for ( UInt i = 0; i < _normalPanels.Size(); ++i )
+	for ( UInt i = 0; i < _panels.Size(); ++i )
 	{
-		AssetsPanel* assetsPanel = CAST_D( AssetsPanel*, _normalPanels[i] );
+		AssetsPanel* assetsPanel = CAST_D( AssetsPanel*, _panels[i] );
 		if ( assetsPanel != NULL )
 		{
 			assetsPanel->ReloadAllAssets();
@@ -181,11 +182,12 @@ void EditorApp::_UpdateLoop()
 		}
 	}
 
-	//! render frame
-	for ( UInt i = 0; i < _viewports.Size(); ++i )
+	//! update panels
+	for ( UInt i = 0; i < _panels.Size(); ++i )
 	{
-		_viewports[ i ]->Update();
+		_panels[i]->Update();
 	}
+
 
 	//! get and process events
 	_qtApp->processEvents();
@@ -330,7 +332,7 @@ void EditorApp::_UpdateCameras()
 }
 
 
-void EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
+Panel* EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 {
 	Panel* panel = NULL;
 	
@@ -340,7 +342,7 @@ void EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 			{
 				panel = Memory::Alloc<HierarchyPanel>();
 				panel->Initialize();
-				_normalPanels.Add( panel );
+				_panels.Add( panel );
 			}
 			break;
 
@@ -349,7 +351,7 @@ void EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 				AttributePanel* attrPanel = Memory::Alloc<AttributePanel>();
 				panel = attrPanel;
 				panel->Initialize();
-				_normalPanels.Add( panel );
+				_panels.Add( panel );
 			}
 			break;
 
@@ -359,7 +361,7 @@ void EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 				viewportPanel->Initialize( isPrimary );
 				viewportPanel->SetCamera( _cameras[ 0 ] );
 
-				_viewports.Add( viewportPanel );
+				_panels.Add( viewportPanel );
 				panel = viewportPanel;
 			}
 			break;
@@ -368,12 +370,14 @@ void EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 			{
 				panel = Memory::Alloc<AssetsPanel>();
 				panel->Initialize();
-				_normalPanels.Add( panel );
+				_panels.Add( panel );
 			}
 			break;
 	}
 
 	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel, Qt::Orientation::Horizontal );
+
+	return panel;
 }
 
 

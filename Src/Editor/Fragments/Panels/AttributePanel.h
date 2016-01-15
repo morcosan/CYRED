@@ -42,21 +42,23 @@ namespace CYRED
 
 	public:
 		void Initialize	()	override;
-
+		void Update		()	override;
 		void OnEvent	( EventType eType, EventName eName, void* eSource )	override;
 
 
 	public:
 		//! it will take ownership of the viewers
-		void SetAttrViewer( const Char* typeName, AttrViewer* viewer );
+		void SetAttrViewer	( const Char* typeName, AttrViewer* viewer );
+		void RefreshPanel	();
 
 
 	protected:
 		DataMap<String, AttrViewer*>	_attrViewers;
 
-		QTreeWidget*		_qtTree;
-		QPushButton*		_qtCompButton;
-		void*				_target;
+		QTreeWidget*	_qtTree;
+		QPushButton*	_qtCompButton;
+		void*			_target;
+		Bool			_needsRefresh;
 
 		void _Clear();
 	};

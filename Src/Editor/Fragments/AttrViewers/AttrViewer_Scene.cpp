@@ -10,32 +10,35 @@ using namespace CYRED;
 
 
 
-void AttrViewer_Scene::OnSelect_Target( void* target )
+void AttrViewer_Scene::_OnInitialize()
 {
-	_target = CAST_S( Scene*, target );
-	
 	_CreateAttrString( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	_AddToPanel( TITLE );
 }
 
 
-void AttrViewer_Scene::_OnUpdate_GUI()
+void AttrViewer_Scene::_OnChangeTarget( void* target )
 {
-	DataUnion attr;
-
-	_WriteAttribute( ATTR_NAME,			attr.SetString( _target->GetName() ) );
+	_target = CAST_S( Scene*, target );
 }
 
 
-void AttrViewer_Scene::_OnUpdate_Target()
+void AttrViewer_Scene::_OnUpdateGUI()
+{
+	_WriteAttrString( ATTR_NAME, _target->GetName() );
+}
+
+
+void AttrViewer_Scene::_OnUpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
-	_target->SetName( _ReadAttribute( ATTR_NAME ).GetString() );
+	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
 	_target->SetEmitEvents( TRUE );
 
+	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, _target );
 }
 

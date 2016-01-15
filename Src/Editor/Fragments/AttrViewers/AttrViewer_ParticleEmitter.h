@@ -55,13 +55,11 @@ namespace CYRED
 		virtual ~AttrViewer_ParticleEmitter() {}
 
 
-	public:
-		void OnSelect_Target	( void* target )	override;
-	
-
 	protected:
-		void _OnUpdate_GUI		()	override;
-		void _OnUpdate_Target	()	override;
+		void _OnInitialize		()					override;
+		void _OnChangeTarget	( void* target )	override;
+		void _OnUpdateGUI		()					override;
+		void _OnUpdateTarget	()					override;
 
 
 	protected:

@@ -10,10 +10,8 @@ using namespace CYRED;
 
 
 
-void AttrViewer_Transform::OnSelect_Target( void* target )
+void AttrViewer_Transform::_OnInitialize()
 {
-	_target = CAST_S( COMP::Transform*, target );
-	
 	_OpenGroup( GROUP_LOCAL );
 	_CreateAttrVector3	( ATTR_LOCAL_POS,	AttrFlag::NONE, CallbackGroup::GROUP_1 );
 	_CreateAttrVector3	( ATTR_LOCAL_ROT,	AttrFlag::NONE, CallbackGroup::GROUP_1 );
@@ -32,49 +30,46 @@ void AttrViewer_Transform::OnSelect_Target( void* target )
 }
 
 
-void AttrViewer_Transform::_OnUpdate_GUI()
+void AttrViewer_Transform::_OnChangeTarget( void* target )
 {
-	DataUnion attr;
-	
-	_WriteAttribute( ATTR_LOCAL_POS,	attr.SetVector3( _target->GetPositionLocal() ) );
-	_WriteAttribute( ATTR_LOCAL_ROT,	attr.SetVector3( _target->GetEulerRotationLocal() ) );
-	_WriteAttribute( ATTR_LOCAL_SCALE,	attr.SetVector3( _target->GetScaleLocal() ) );
+	_target = CAST_S( COMP::Transform*, target );
+}
+
+
+void AttrViewer_Transform::_OnUpdateGUI()
+{
+	_WriteAttrVector3( ATTR_LOCAL_POS,		_target->GetPositionLocal() );
+	_WriteAttrVector3( ATTR_LOCAL_ROT,		_target->GetEulerRotationLocal() );
+	_WriteAttrVector3( ATTR_LOCAL_SCALE,	_target->GetScaleLocal() );
 		
-	_WriteAttribute( ATTR_WORLD_POS,	attr.SetVector3( _target->GetPositionWorld() ) );
-	_WriteAttribute( ATTR_WORLD_ROT,	attr.SetVector3( _target->GetEulerRotationWorld() ) );
-	_WriteAttribute( ATTR_WORLD_SCALE,	attr.SetVector3( _target->GetScaleWorld() ) );
+	_WriteAttrVector3( ATTR_WORLD_POS,		_target->GetPositionWorld() );
+	_WriteAttrVector3( ATTR_WORLD_ROT,		_target->GetEulerRotationWorld() );
+	_WriteAttrVector3( ATTR_WORLD_SCALE,	_target->GetScaleWorld() );
 	
+	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
 	_Colorize( _target->IsEnabled() );
 }
 
 
-void AttrViewer_Transform::_OnUpdate_Target()
+void AttrViewer_Transform::_OnUpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
 	{
 		if ( _activatedGroup == CallbackGroup::GROUP_1 )
 		{
-			Vector3 newPosLocal		= _ReadAttribute( ATTR_LOCAL_POS ).GetVector3();
-			Vector3 newRotLocal		= _ReadAttribute( ATTR_LOCAL_ROT ).GetVector3();
-			Vector3 newScaleLocal	= _ReadAttribute( ATTR_LOCAL_SCALE ).GetVector3();
-
-			_target->SetPositionLocal		( newPosLocal );
-			_target->SetEulerRotationLocal	( newRotLocal );
-			_target->SetScaleLocal			( newScaleLocal );
+			_target->SetPositionLocal		( _ReadAttrVector3( ATTR_LOCAL_POS ) );
+			_target->SetEulerRotationLocal	( _ReadAttrVector3( ATTR_LOCAL_ROT ) );
+			_target->SetScaleLocal			( _ReadAttrVector3( ATTR_LOCAL_SCALE ) );
 		}
 
 		if ( _activatedGroup == CallbackGroup::GROUP_2 )
 		{
-			Vector3 newPosWorld		= _ReadAttribute( ATTR_WORLD_POS ).GetVector3();
-			Vector3 newRotWorld		= _ReadAttribute( ATTR_WORLD_ROT ).GetVector3();
-			Vector3 newScaleWorld	= _ReadAttribute( ATTR_WORLD_SCALE ).GetVector3();
-
-			_target->SetPositionWorld		( newPosWorld );
-			_target->SetEulerRotationWorld	( newRotWorld );
-			_target->SetScaleWorld			( newScaleWorld );
+			_target->SetPositionWorld		( _ReadAttrVector3( ATTR_WORLD_POS ) );
+			_target->SetEulerRotationWorld	( _ReadAttrVector3( ATTR_WORLD_ROT ) );
+			_target->SetScaleWorld			( _ReadAttrVector3( ATTR_WORLD_SCALE ) );
 		}
 	}
 	{
@@ -85,6 +80,7 @@ void AttrViewer_Transform::_OnUpdate_Target()
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually
+	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
 										  EventName::TRANSFORM_CHANGED, _target );
 

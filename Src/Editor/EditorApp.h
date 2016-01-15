@@ -38,16 +38,16 @@ namespace CYRED
 	public:
 		/* main function for starting the editor		*/
 		/* must be called only once from main()			*/
-		void Run				( Int& argc, Char* argv[], Char* configFilePath );
+		void	Run			( Int& argc, Char* argv[], Char* configFilePath );
 				
 		/* create a new panel for editor				*/
-		void NewPanel			( PanelType type, UInt panelIndex = 0, Bool isPrimary = TRUE );
+		Panel*	NewPanel	( PanelType type, UInt panelIndex = 0, Bool isPrimary = TRUE );
 		/* show a message in status bar					*/
-		void ShowStatus			( const Char* message );
+		void	ShowStatus	( const Char* message );
 		/* changes the skin of editor */
-		void ApplySkin			( const Char* skinName );
+		void	ApplySkin	( const Char* skinName );
 
-		void ShowSelectorPopup	( const Char* type, void* qtSelectorPtr );
+		void	ShowSelectorPopup( const Char* type, void* qtSelectorPtr );
 
 		/* returns the input receiver instance			*/
 		InputReceiverWindows* GetInputReceiver();
@@ -69,9 +69,9 @@ namespace CYRED
 
 		Char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	
 
-		DataArray<Panel*>			_normalPanels;	/* list with panel without rendering	*/
-		DataArray<ViewportPanel*>	_viewports;		/* list with viewport panels			*/
-		DataArray<GameObject*>		_cameras;		/* list with default camera GOs			*/
+		DataArray<Panel*>			_panels;	/* list with panel without rendering	*/
+		DataArray<GameObject*>		_cameras;	/* list with default camera GOs			*/
+		ViewportPanel*				_mainViewport;
 
 		InputReceiverWindows*		_inputReceiver;	/* object for receiving input events	*/
 

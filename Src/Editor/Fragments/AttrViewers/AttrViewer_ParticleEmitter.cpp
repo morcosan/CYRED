@@ -19,10 +19,8 @@ AttrViewer_ParticleEmitter::AttrViewer_ParticleEmitter()
 }
 
 
-void AttrViewer_ParticleEmitter::OnSelect_Target( void* target )
+void AttrViewer_ParticleEmitter::_OnInitialize()
 {
-	_target = CAST_S( COMP::ParticleEmitter*, target );
-	
 	_OpenGroup( GROUP_PARTICLES );
 	_CreateAttrInt		( ATTR_MAX_PARTICLES );
 	_CreateAttrFloat	( ATTR_PARTICLE_LIFETIME );
@@ -57,63 +55,67 @@ void AttrViewer_ParticleEmitter::OnSelect_Target( void* target )
 }
 
 
-void AttrViewer_ParticleEmitter::_OnUpdate_GUI()
+void AttrViewer_ParticleEmitter::_OnChangeTarget( void* target )
 {
-	DataUnion attr;
-	
-	_WriteAttribute( ATTR_MAX_PARTICLES,		attr.SetInt( _target->GetMaxParticles() ) );
-	_WriteAttribute( ATTR_PARTICLE_LIFETIME,	attr.SetFloat( _target->GetParticleLifetime() ) );
-	_WriteAttribute( ATTR_PARTICLE_VELOCITY,	attr.SetVector3( _target->GetParticleVelocity() ) );
-	_WriteAttribute( ATTR_PARTICLE_ACCEL,		attr.SetVector3( _target->GetParticleAccel() ) );
-	_WriteAttribute( ATTR_SHAPE_DRIVEN_SPEED,	attr.SetFloat( _target->GetShapeDrivenSpeed() ) );
-	_WriteAttribute( ATTR_SHAPE_DRIVEN_ACCEL,	attr.SetFloat( _target->GetShapeDrivenAccel() ) );
+	_target = CAST_S( COMP::ParticleEmitter*, target );
+}
 
-	_WriteAttribute( ATTR_WAVES_PER_SEC,		attr.SetFloat( _target->GetWavesPerSec() ) );
-	_WriteAttribute( ATTR_PARTICLES_PER_WAVE,	attr.SetInt( _target->GetParticlesPerWave() ) );
-	_WriteAttribute( ATTR_IS_LOOPING,			attr.SetBool( _target->IsLooping() ) );
-	_WriteAttribute( ATTR_SPAWN_DURATION,		attr.SetFloat( _target->GetSpawnDuration() ) );
 
-	_WriteAttribute( ATTR_EMITTER_SHAPE,		attr.SetInt( _GetIndexForType( _target->GetEmitterShape() ) ) );
-	_WriteAttribute( ATTR_SHAPE_RADIUS,			attr.SetFloat( _target->GetShapeRadius() ) );
-	_WriteAttribute( ATTR_SPAWN_FROM_EDGE,		attr.SetBool( _target->DoesSpawnFromEdge() ) );
+void AttrViewer_ParticleEmitter::_OnUpdateGUI()
+{
+	_WriteAttrInt		( ATTR_MAX_PARTICLES,		_target->GetMaxParticles() );
+	_WriteAttrFloat		( ATTR_PARTICLE_LIFETIME,	_target->GetParticleLifetime() );
+	_WriteAttrVector3	( ATTR_PARTICLE_VELOCITY,	_target->GetParticleVelocity() );
+	_WriteAttrVector3	( ATTR_PARTICLE_ACCEL,		_target->GetParticleAccel() );
+	_WriteAttrFloat		( ATTR_SHAPE_DRIVEN_SPEED,	_target->GetShapeDrivenSpeed() );
+	_WriteAttrFloat		( ATTR_SHAPE_DRIVEN_ACCEL,	_target->GetShapeDrivenAccel() );
+
+	_WriteAttrFloat		( ATTR_WAVES_PER_SEC,		_target->GetWavesPerSec() );
+	_WriteAttrInt		( ATTR_PARTICLES_PER_WAVE,	_target->GetParticlesPerWave() );
+	_WriteAttrBool		( ATTR_IS_LOOPING,			_target->IsLooping() );
+	_WriteAttrFloat		( ATTR_SPAWN_DURATION,		_target->GetSpawnDuration() );
+
+	_WriteAttrDropdown	( ATTR_EMITTER_SHAPE,		_GetIndexForType( _target->GetEmitterShape() ) );
+	_WriteAttrFloat		( ATTR_SHAPE_RADIUS,		_target->GetShapeRadius() );
+	_WriteAttrBool		( ATTR_SPAWN_FROM_EDGE,		_target->DoesSpawnFromEdge() );
 	
-	_WriteAttribute( ATTR_SIZE_START,			attr.SetVector2( _target->GetParticleSizeStart() ) );
-	_WriteAttribute( ATTR_SIZE_END,				attr.SetVector2( _target->GetParticleSizeEnd() ) );
+	_WriteAttrVector2	( ATTR_SIZE_START,			_target->GetParticleSizeStart() );
+	_WriteAttrVector2	( ATTR_SIZE_END,			_target->GetParticleSizeEnd() );
 
 	Material* material = _target->GetMaterial();
 	const Char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
-	_WriteAttribute( ATTR_MATERIAL,				attr.SetReference( material ), matName );
+	_WriteAttrSelector	( ATTR_MATERIAL,			material, matName );
 
-
+	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::ENABLED,	attr.SetBool( _target->IsEnabled() ) );
 
 	_Colorize( _target->IsEnabled() );
 }
 
 
-void AttrViewer_ParticleEmitter::_OnUpdate_Target()
+void AttrViewer_ParticleEmitter::_OnUpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
-	_target->SetMaxParticles		( _ReadAttribute( ATTR_MAX_PARTICLES ).GetInt() );
-	_target->SetParticleLifetime	( _ReadAttribute( ATTR_PARTICLE_LIFETIME ).GetFloat() );
-	_target->SetParticleVelocity	( _ReadAttribute( ATTR_PARTICLE_VELOCITY ).GetVector3() );
-	_target->SetParticleAccel		( _ReadAttribute( ATTR_PARTICLE_ACCEL ).GetVector3() );
-	_target->SetShapeDrivenSpeed	( _ReadAttribute( ATTR_SHAPE_DRIVEN_SPEED ).GetFloat() );
-	_target->SetShapeDrivenAccel	( _ReadAttribute( ATTR_SHAPE_DRIVEN_ACCEL ).GetFloat() );
+	_target->SetMaxParticles		( _ReadAttrInt( ATTR_MAX_PARTICLES ) );
+	_target->SetParticleLifetime	( _ReadAttrFloat( ATTR_PARTICLE_LIFETIME ) );
+	_target->SetParticleVelocity	( _ReadAttrVector3( ATTR_PARTICLE_VELOCITY ) );
+	_target->SetParticleAccel		( _ReadAttrVector3( ATTR_PARTICLE_ACCEL ) );
+	_target->SetShapeDrivenSpeed	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_SPEED ) );
+	_target->SetShapeDrivenAccel	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_ACCEL ) );
 
-	_target->SetWavesPerSec			( _ReadAttribute( ATTR_WAVES_PER_SEC ).GetFloat() );
-	_target->SetParticlesPerWave	( _ReadAttribute( ATTR_PARTICLES_PER_WAVE ).GetInt() );
-	_target->SetIsLooping			( _ReadAttribute( ATTR_IS_LOOPING ).GetBool() );
-	_target->SetSpawnDuration		( _ReadAttribute( ATTR_SPAWN_DURATION ).GetFloat() );
+	_target->SetWavesPerSec			( _ReadAttrFloat( ATTR_WAVES_PER_SEC ) );
+	_target->SetParticlesPerWave	( _ReadAttrInt( ATTR_PARTICLES_PER_WAVE ) );
+	_target->SetIsLooping			( _ReadAttrBool( ATTR_IS_LOOPING ) );
+	_target->SetSpawnDuration		( _ReadAttrFloat( ATTR_SPAWN_DURATION ) );
 
-	_target->SetEmitterShape		( _GetTypeForIndex( _ReadAttribute( ATTR_EMITTER_SHAPE ).GetInt() ) );
-	_target->SetShapeRadius			( _ReadAttribute( ATTR_SHAPE_RADIUS ).GetFloat() );
-	_target->SetSpawnFromEndge		( _ReadAttribute( ATTR_SPAWN_FROM_EDGE ).GetBool() );
+	_target->SetEmitterShape		( _GetTypeForIndex( _ReadAttrDropdown( ATTR_EMITTER_SHAPE ) ) );
+	_target->SetShapeRadius			( _ReadAttrFloat( ATTR_SHAPE_RADIUS ) );
+	_target->SetSpawnFromEndge		( _ReadAttrBool( ATTR_SPAWN_FROM_EDGE ) );
 			
-	_target->SetParticleSizeStart	( _ReadAttribute( ATTR_SIZE_START ).GetVector2() );
-	_target->SetParticleSizeEnd		( _ReadAttribute( ATTR_SIZE_END ).GetVector2() );
-	_target->SetMaterial			( CAST_S( Material*, _ReadAttribute( ATTR_MATERIAL ).GetReference() ) );
+	_target->SetParticleSizeStart	( _ReadAttrVector2( ATTR_SIZE_START ) );
+	_target->SetParticleSizeEnd		( _ReadAttrVector2( ATTR_SIZE_END ) );
+	_target->SetMaterial			( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
 
 	_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 
@@ -122,6 +124,7 @@ void AttrViewer_ParticleEmitter::_OnUpdate_Target()
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually
+	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
 										  EventName::PARTICLE_EMITTER_CHANGED, 
 										  _target );

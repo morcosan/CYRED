@@ -14,6 +14,7 @@ using namespace CYRED;
 
 DataUnion::DataUnion() 
 	: _value( NULL ) 
+	, _type( NONE )
 {
 }
 

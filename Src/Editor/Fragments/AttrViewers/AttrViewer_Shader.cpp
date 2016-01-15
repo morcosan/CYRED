@@ -10,10 +10,8 @@ using namespace CYRED;
 
 
 
-void AttrViewer_Shader::OnSelect_Target( void* target )
+void AttrViewer_Shader::_OnInitialize()
 {
-	_target = CAST_S( Shader*, target );
-	
 	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> renderers;
@@ -28,33 +26,37 @@ void AttrViewer_Shader::OnSelect_Target( void* target )
 }
 
 
-void AttrViewer_Shader::_OnUpdate_GUI()
+void AttrViewer_Shader::_OnChangeTarget( void* target )
 {
-	DataUnion attr;
+	_target = CAST_S( Shader*, target );
+}
 
-	_WriteAttribute( ATTR_NAME,			attr.SetString( _target->GetName() ) );
+
+void AttrViewer_Shader::_OnUpdateGUI()
+{
+	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	Int rendererIndex = 0;
-	_WriteAttribute( ATTR_RENDERER,		attr.SetInt( rendererIndex ) );
+	_WriteAttrDropdown( ATTR_RENDERER, rendererIndex );
 
 	const Char* vertexPath = NULL;
 	const Char* geometryPath = NULL;
 	const Char* fragmentPath = NULL;
 	_target->GetShaderFiles( RENDERER_FORWARD, &vertexPath, &geometryPath, &fragmentPath );
-	_WriteAttribute( ATTR_VERTEX,		attr.SetString( vertexPath ) );
-	_WriteAttribute( ATTR_GEOMETRY,		attr.SetString( geometryPath ) );
-	_WriteAttribute( ATTR_FRAGMENT,		attr.SetString( fragmentPath ) );
+	_WriteAttrString( ATTR_VERTEX, vertexPath );
+	_WriteAttrString( ATTR_GEOMETRY, geometryPath );
+	_WriteAttrString( ATTR_FRAGMENT, fragmentPath );
 }
 
 
-void AttrViewer_Shader::_OnUpdate_Target()
+void AttrViewer_Shader::_OnUpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
-	_target->SetName( _ReadAttribute( ATTR_NAME ).GetString() );
+	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
 	const Char* renderer = NULL;
-	Int rendererIndex = _ReadAttribute( ATTR_RENDERER ).GetInt();
+	Int rendererIndex = _ReadAttrDropdown( ATTR_RENDERER );
 	switch ( rendererIndex )
 	{
 		case 0:
@@ -62,14 +64,15 @@ void AttrViewer_Shader::_OnUpdate_Target()
 			break;
 	}
 
-	const Char*	vertexPath = _ReadAttribute( ATTR_VERTEX ).GetString();
-	const Char*	geometryPath = _ReadAttribute( ATTR_GEOMETRY ).GetString();
-	const Char*	fragmentPath = _ReadAttribute( ATTR_FRAGMENT ).GetString();
+	const Char*	vertexPath = _ReadAttrString( ATTR_VERTEX ).GetChar();
+	const Char*	geometryPath = _ReadAttrString( ATTR_GEOMETRY ).GetChar();
+	const Char*	fragmentPath = _ReadAttrString( ATTR_FRAGMENT ).GetChar();
 
 	_target->SetShaderFiles( renderer, vertexPath, geometryPath, fragmentPath );
 
 	_target->SetEmitEvents( TRUE );
 
+	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, _target );
 }
 

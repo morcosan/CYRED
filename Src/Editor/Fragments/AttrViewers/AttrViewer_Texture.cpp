@@ -10,10 +10,8 @@ using namespace CYRED;
 
 
 
-void AttrViewer_Texture::OnSelect_Target( void* target )
+void AttrViewer_Texture::_OnInitialize()
 {
-	_target = CAST_S( Texture*, target );
-	
 	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> types;
@@ -35,11 +33,15 @@ void AttrViewer_Texture::OnSelect_Target( void* target )
 }
 
 
-void AttrViewer_Texture::_OnUpdate_GUI()
+void AttrViewer_Texture::_OnChangeTarget( void* target )
 {
-	DataUnion attr;
+	_target = CAST_S( Texture*, target );
+}
 
-	_WriteAttribute( ATTR_NAME,			attr.SetString( _target->GetName() ) );
+
+void AttrViewer_Texture::_OnUpdateGUI()
+{
+	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	Int typeIndex = 0;
 	switch ( _target->GetType() )
@@ -52,24 +54,24 @@ void AttrViewer_Texture::_OnUpdate_GUI()
 			typeIndex = 1;
 			break;
 	}
-	_WriteAttribute( ATTR_TYPE,			attr.SetInt( typeIndex ) );
+	_WriteAttrDropdown( ATTR_TYPE, typeIndex );
 
-	_WriteAttribute( ATTR_HAS_MIPMAP,	attr.SetBool( _target->HasMipmap() ) );
-	_WriteAttribute( ATTR_CLEAR_BUFFER,	attr.SetBool( _target->DoesClearBufferOnBind() ) );
+	_WriteAttrBool( ATTR_HAS_MIPMAP, _target->HasMipmap() );
+	_WriteAttrBool( ATTR_CLEAR_BUFFER, _target->DoesClearBufferOnBind() );
 
 	switch ( _target->GetType() )
 	{
 		case TextureType::TEXTURE_2D:
-			_WriteAttribute( ATTR_FILE_PATH,	attr.SetString( _target->GetImagePath(0) ) );
+			_WriteAttrString( ATTR_FILE_PATH, _target->GetImagePath(0) );
 			break;
 
 		case TextureType::CUBE_MAP:
-			_WriteAttribute( ATTR_FILE_PATH_POSX,	attr.SetString( _target->GetImagePath(0) ) );
-			_WriteAttribute( ATTR_FILE_PATH_NEGX,	attr.SetString( _target->GetImagePath(1) ) );
-			_WriteAttribute( ATTR_FILE_PATH_POSY,	attr.SetString( _target->GetImagePath(2) ) );
-			_WriteAttribute( ATTR_FILE_PATH_NEGY,	attr.SetString( _target->GetImagePath(3) ) );
-			_WriteAttribute( ATTR_FILE_PATH_POSZ,	attr.SetString( _target->GetImagePath(4) ) );
-			_WriteAttribute( ATTR_FILE_PATH_NEGZ,	attr.SetString( _target->GetImagePath(5) ) );
+			_WriteAttrString( ATTR_FILE_PATH_POSX, _target->GetImagePath(0) );
+			_WriteAttrString( ATTR_FILE_PATH_NEGX, _target->GetImagePath(1) );
+			_WriteAttrString( ATTR_FILE_PATH_POSY, _target->GetImagePath(2) );
+			_WriteAttrString( ATTR_FILE_PATH_NEGY, _target->GetImagePath(3) );
+			_WriteAttrString( ATTR_FILE_PATH_POSZ, _target->GetImagePath(4) );
+			_WriteAttrString( ATTR_FILE_PATH_NEGZ, _target->GetImagePath(5) );
 			break;
 	}
 
@@ -77,16 +79,16 @@ void AttrViewer_Texture::_OnUpdate_GUI()
 }
 
 
-void AttrViewer_Texture::_OnUpdate_Target()
+void AttrViewer_Texture::_OnUpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
-	_target->SetName( _ReadAttribute( ATTR_NAME ).GetString() );
+	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
 	if ( _activatedGroup == CallbackGroup::GROUP_2 )
 	{
 		TextureType type;
-		Int typeIndex = _ReadAttribute( ATTR_TYPE ).GetInt();
+		Int typeIndex = _ReadAttrDropdown( ATTR_TYPE );
 		switch ( typeIndex )
 		{
 			case 0:
@@ -104,28 +106,29 @@ void AttrViewer_Texture::_OnUpdate_Target()
 	}
 	else
 	{
-		_target->SetHasMipmap( _ReadAttribute( ATTR_HAS_MIPMAP ).GetBool() );
-		_target->SetClearBufferOnBind( _ReadAttribute( ATTR_CLEAR_BUFFER ).GetBool() );
+		_target->SetHasMipmap( _ReadAttrBool( ATTR_HAS_MIPMAP ) );
+		_target->SetClearBufferOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
 
 		switch ( _target->GetType() )
 		{
 			case TextureType::TEXTURE_2D:
-				_target->SetImagePath( 0, _ReadAttribute( ATTR_FILE_PATH ).GetString() );
+				_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
 				break;
 
 			case TextureType::CUBE_MAP:
-				_target->SetImagePath( 0, _ReadAttribute( ATTR_FILE_PATH_POSX ).GetString() );
-				_target->SetImagePath( 1, _ReadAttribute( ATTR_FILE_PATH_NEGX ).GetString() );
-				_target->SetImagePath( 2, _ReadAttribute( ATTR_FILE_PATH_POSY ).GetString() );
-				_target->SetImagePath( 3, _ReadAttribute( ATTR_FILE_PATH_NEGY ).GetString() );
-				_target->SetImagePath( 4, _ReadAttribute( ATTR_FILE_PATH_POSZ ).GetString() );
-				_target->SetImagePath( 5, _ReadAttribute( ATTR_FILE_PATH_NEGZ ).GetString() );
+				_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH_POSX ).GetChar() );
+				_target->SetImagePath( 1, _ReadAttrString( ATTR_FILE_PATH_NEGX ).GetChar() );
+				_target->SetImagePath( 2, _ReadAttrString( ATTR_FILE_PATH_POSY ).GetChar() );
+				_target->SetImagePath( 3, _ReadAttrString( ATTR_FILE_PATH_NEGY ).GetChar() );
+				_target->SetImagePath( 4, _ReadAttrString( ATTR_FILE_PATH_POSZ ).GetChar() );
+				_target->SetImagePath( 5, _ReadAttrString( ATTR_FILE_PATH_NEGZ ).GetChar() );
 				break;
 		}
 	}
 
 	_target->SetEmitEvents( TRUE );
 
+	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, _target );
 }
 
