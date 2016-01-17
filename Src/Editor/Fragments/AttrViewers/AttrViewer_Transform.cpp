@@ -46,10 +46,13 @@ void AttrViewer_Transform::_OnUpdateGUI()
 	_WriteAttrVector3( ATTR_WORLD_ROT,		_target->GetEulerRotationWorld() );
 	_WriteAttrVector3( ATTR_WORLD_SCALE,	_target->GetScaleWorld() );
 	
-	DataUnion attr;
-	_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
+	{
+		DataUnion attr;
+		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
-	_Colorize( _target->IsEnabled() );
+		_Colorize( _target->IsEnabled() );
+	}
 }
 
 

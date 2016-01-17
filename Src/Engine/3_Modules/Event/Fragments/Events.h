@@ -39,7 +39,6 @@ namespace CYRED
 			// asset
 			, ASSET_SELECTED
 			, ASSET_CHANGED
-			, UNKNOWN_SELECTED
 		};
 	}
 

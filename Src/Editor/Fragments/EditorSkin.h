@@ -23,6 +23,7 @@ namespace CYRED
 		static const Char* const HIERARCHY_TREE;	/* the QTree of hierarchy panel			*/
 		
 		static const Char* const ASSET_TREE;
+		static const Char* const ASSET_BUTTON;
 		static const Char* const ASSET_UNKNOWN;	
 
 		static const Char* const VIEWPORT_BUTTON;	/* a button of viewport panel			*/

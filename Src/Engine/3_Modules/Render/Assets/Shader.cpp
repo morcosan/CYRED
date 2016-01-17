@@ -21,6 +21,7 @@ Shader::Shader()
 Shader::~Shader()
 {
 	NotAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
+	_programID = INVALID_SHADER;
 }
 
 
@@ -56,6 +57,23 @@ void Shader::LoadFullFile()
 	Memory::FreeArray( fileData );
 
 	_emitEvents = oldEmitEvents;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
+}
+
+
+void Shader::ClearAsset()
+{
+	NotAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
+	_programID = INVALID_SHADER;
+
+	_isTemporary = TRUE;
+
+	_shaderFiles.Clear();
+	_uniforms.Clear();
 
 	if ( _emitEvents )
 	{

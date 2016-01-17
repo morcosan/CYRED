@@ -35,6 +35,10 @@ void Mesh::LoadFullFile()
 {
 }
 
+void CYRED::Mesh::ClearAsset()
+{
+}
+
 
 void Mesh::BindToGPU()
 {

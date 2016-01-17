@@ -30,10 +30,13 @@ void AttrViewer_GameObject::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 	_WriteAttrInt( ATTR_UID, _target->GetUID() );
 	
-	DataUnion attr;
-	_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
+	{
+		DataUnion attr;
+		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
-	_Colorize( _target->IsEnabled(), TRUE );
+		_Colorize( _target->IsEnabled(), TRUE );
+	}
 }
 
 

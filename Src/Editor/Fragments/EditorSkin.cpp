@@ -20,6 +20,7 @@ const Char* const EditorSkin::SELECTOR_POPUP		= "SelectorPopup";
 const Char* const EditorSkin::HIERARCHY_TREE		= "HierarchyTree";
 
 const Char* const EditorSkin::ASSET_TREE			= "AssetTree";
+const Char* const EditorSkin::ASSET_BUTTON			= "AssetButton";
 const Char* const EditorSkin::ASSET_UNKNOWN			= "UnknownAsset";
 
 const Char* const EditorSkin::VIEWPORT_BUTTON		= "ViewportButton";

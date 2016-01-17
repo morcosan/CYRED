@@ -23,7 +23,7 @@ namespace CYRED
 			void Initialize	()	override;
 			void Finalize	()	override;
 
-			void ClearAll	()	override {};
+			void ClearAll	()	override;
 
 			StatusAssetAdd	AddMesh		( Mesh* mesh )				override;
 			StatusAssetAdd	AddMaterial	( Material* material )		override;

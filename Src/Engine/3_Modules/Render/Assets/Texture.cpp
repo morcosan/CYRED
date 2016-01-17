@@ -113,6 +113,41 @@ void Texture::LoadFullFile()
 }
 
 
+void Texture::ClearAsset()
+{
+	NotAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
+	_textureID = INVALID_TEXTURE;
+
+	_hasMipmap = TRUE;
+	_clearBufferOnBind = TRUE;
+	_width = 0;
+	_height = 0;
+	_channels = 0;
+	_type = TextureType::TEXTURE_2D;
+	_loadFromFile = FALSE;
+	_isTemporary = TRUE;
+
+	Memory::FreeArray( _imageBuffers[0] );
+	Memory::FreeArray( _imageBuffers[1] );
+	Memory::FreeArray( _imageBuffers[2] );
+	Memory::FreeArray( _imageBuffers[3] );
+	Memory::FreeArray( _imageBuffers[4] );
+	Memory::FreeArray( _imageBuffers[5] );
+
+	_imageBuffers[0] = NULL;
+	_imageBuffers[1] = NULL;
+	_imageBuffers[2] = NULL;
+	_imageBuffers[3] = NULL;
+	_imageBuffers[4] = NULL;
+	_imageBuffers[5] = NULL;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
+}
+
+
 void Texture::BindToGPU()
 {
 	NotAPI::RenderManagerImpl* renderManager = NotAPI::RenderManagerImpl::Singleton();

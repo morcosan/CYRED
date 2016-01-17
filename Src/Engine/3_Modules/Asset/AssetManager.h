@@ -39,7 +39,7 @@ namespace CYRED
 	public:
 		virtual void Initialize	()	PURE_VIRTUAL;
 		virtual void Finalize	()	PURE_VIRTUAL;
-
+		/* it will not delete the assets, just reset them to defualt values */
 		virtual void ClearAll	()	PURE_VIRTUAL;
 
 		virtual StatusAssetAdd	AddMesh		( Mesh* mesh )				PURE_VIRTUAL;

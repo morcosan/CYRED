@@ -12,7 +12,8 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			MATERIAL
+			UNKNOWN
+			, MATERIAL
 			, MESH
 			, TEXTURE
 			, SHADER
@@ -36,6 +37,7 @@ namespace CYRED
 	public:
 		virtual void LoadUniqueID	() PURE_VIRTUAL;
 		virtual void LoadFullFile	() PURE_VIRTUAL;
+		virtual void ClearAsset		() PURE_VIRTUAL;
 
 
 	public:

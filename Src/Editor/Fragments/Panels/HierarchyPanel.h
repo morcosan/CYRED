@@ -23,6 +23,7 @@ namespace CYRED
 		const Char* const	FILE_FILTER_SCENE	= "Scene (*%s)";
 
 		const Char* const	MENU_SAVE_SCENE		= "Save Scene";
+		const Char* const	MENU_SAVE_SCENE_AS	= "Save Scene As..";
 		const Char* const	MENU_CLOSE_SCENE	= "Close Scene";
 		const Char* const	MENU_RENAME			= "Rename";
 
@@ -54,6 +55,7 @@ namespace CYRED
 		void A_RightClickMenu		( const QPoint& pos );
 
 		void A_SaveScene			();
+		void A_SaveSceneAs			();
 		void A_CloseScene			();
 		void A_Rename				();
 
@@ -72,6 +74,7 @@ namespace CYRED
 
 		void			_RecResetHierarchy	( GameObject* gameObject, QTreeWidgetItem* parent );
 		_QtTreeItem*	_FindGameObjectItem	( UInt uid );
+		_QtTreeItem*	_FindSceneItem		( const Char* uid );
 
 		void _CreateRightClickMenu	();
 		void _AddRightClickActions	( QTreeWidgetItem* item );

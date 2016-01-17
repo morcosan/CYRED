@@ -32,15 +32,15 @@ rapidjson::Value JsonSerializer_Shader::ToJson( void* object )
 	shader->GetShaderFiles( RENDERER_FORWARD, &vertexPath, &geometryPath, &fragmentPath );
 
 	json.AddMember( rapidjson::StringRef( VERTEX_FILE_PATH ),
-					rapidjson::StringRef( vertexPath ),
+					( vertexPath != NULL ) ? rapidjson::StringRef( vertexPath ) : "",
 					_al );
 	json.AddMember( rapidjson::StringRef( GEOMETRY_FILE_PATH ),
-					rapidjson::StringRef( geometryPath ),
+					( geometryPath != NULL ) ? rapidjson::StringRef( geometryPath ) : "",
 					_al );
 	json.AddMember( rapidjson::StringRef( FRAGMENT_FILE_PATH ),
-					rapidjson::StringRef( fragmentPath ),
+					( fragmentPath != NULL ) ? rapidjson::StringRef( fragmentPath ) : "",
 					_al );
-
+	
 	return json;
 }
 

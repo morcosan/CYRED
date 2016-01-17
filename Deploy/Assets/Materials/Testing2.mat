@@ -2,18 +2,7 @@
     "uid": "BvNJ8wPGJIITz4ECFSvTAaF6sYp3TQk0",
     "shader": null,
     "wireframe": false,
-    "lineWidth": 2.0,
+    "lineWidth": 1.0,
     "cullFace": "CULL_BACK",
-    "properties": [
-        {
-            "name": "diffuseColor",
-            "type": "VEC4",
-            "value": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0,
-                "w": 1.0
-            }
-        }
-    ]
+    "properties": []
 }

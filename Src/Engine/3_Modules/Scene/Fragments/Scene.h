@@ -25,8 +25,9 @@ namespace CYRED
 
 
 	public:
-		void LoadUniqueID		() override;
-		void LoadFullFile		() override;
+		void LoadUniqueID	() override;
+		void LoadFullFile	() override;
+		void ClearAsset		() override;
 
 
 	public:
@@ -34,7 +35,6 @@ namespace CYRED
 		void OnUpdate		( Bool isRuntime = TRUE );
 
 		void	SetMainCamera	( const Char* objectName );
-		void	ClearRoot		();
 		Node*	GetRoot			();
 
 

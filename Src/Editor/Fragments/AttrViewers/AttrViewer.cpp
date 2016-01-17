@@ -380,6 +380,7 @@ void AttrViewer::_AddToPanel( const Char* title )
 				item->setFlags( Qt::ItemIsEnabled );
 
 				treeWidget->addTopLevelItem( item );
+				item->setExpanded( TRUE );
 
 				// set the attr name
 				item->setText( 0, _attributes[attrIndex].name.GetChar() );
@@ -1394,6 +1395,7 @@ QWidget* AttrViewer::CreateFloat( UInt flagMask, CallbackGroup group )
 	QLineEdit* widget = Memory::Alloc<QLineEdit>();
 	widget->setValidator( Memory::Alloc<QDoubleValidator>( widget ) );
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
+	widget->setText( "0" );
 
 	switch ( group )
 	{
@@ -1415,6 +1417,7 @@ QWidget* AttrViewer::CreateInt( UInt flagMask, CallbackGroup group )
 	QLineEdit* widget = Memory::Alloc<QLineEdit>();
 	widget->setValidator( Memory::Alloc<QIntValidator>( widget ) );
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
+	widget->setText( "0" );
 
 	switch ( group )
 	{
@@ -1612,17 +1615,6 @@ QWidget* AttrViewer::_CreateList( AttrType elementType, UInt flagMask, CallbackG
 	lineEdit->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	lineEdit->setText( "0" );
 
-	switch ( group )
-	{
-		case CallbackGroup::GROUP_1:
-			QObject::connect( lineEdit, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group1 );
-			break;
-
-		case CallbackGroup::GROUP_2:
-			QObject::connect( lineEdit, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group2 );
-			break;
-	}
-
 	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
@@ -1638,6 +1630,17 @@ QWidget* AttrViewer::_CreateList( AttrType elementType, UInt flagMask, CallbackG
 	widget->flagMask = flagMask;
 
 	QObject::connect( lineEdit, &QLineEdit::textEdited, widget, &_ListWidget::A_OnSizeChanged );
+
+	switch ( group )
+	{
+		case CallbackGroup::GROUP_1:
+			QObject::connect( lineEdit, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group1 );
+			break;
+
+		case CallbackGroup::GROUP_2:
+			QObject::connect( lineEdit, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group2 );
+			break;
+	}
 
 	return widget;
 }

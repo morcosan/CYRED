@@ -179,6 +179,8 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	Bool emitEvents = material->DoesEmitEvents();
 	material->SetEmitEvents( FALSE );
 
+	material->ClearProperties();
+
 	if ( json.HasMember( UNIQUE_ID ) )
 	{
 		material->SetUniqueID( json[UNIQUE_ID].GetString() );

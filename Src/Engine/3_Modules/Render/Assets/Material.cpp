@@ -13,6 +13,10 @@ using namespace CYRED;
 
 Material::Material()
 	: Asset( AssetType::MATERIAL )
+	, _shader( NULL )
+	, _isWireframe( FALSE )
+	, _lineWidth( 1.0f )
+	, _faceCulling( FaceCulling::CULL_BACK )
 {
 }
 
@@ -49,6 +53,22 @@ void Material::LoadFullFile()
 	Memory::FreeArray( fileData );
 
 	_emitEvents = oldEmitEvents;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
+}
+
+
+void Material::ClearAsset()
+{
+	_shader = NULL;
+	_isWireframe = FALSE;
+	_lineWidth = 1.0f;
+	_faceCulling = FaceCulling::CULL_BACK;
+	_isTemporary = TRUE;
+	ClearProperties();
 
 	if ( _emitEvents )
 	{

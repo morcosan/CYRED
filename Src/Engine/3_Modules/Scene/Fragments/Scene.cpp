@@ -47,7 +47,7 @@ void Scene::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	ClearRoot();
+	ClearAsset();
 
 	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
 	CUSTOM_STRING( filePath, "%s%s%s", 
@@ -66,6 +66,13 @@ void Scene::LoadFullFile()
 }
 
 
+void Scene::ClearAsset()
+{
+	Memory::Free( _root );
+	_root = Memory::Alloc<Node>();
+}
+
+
 void Scene::OnStart( Bool isRuntime )
 {
 }
@@ -78,13 +85,6 @@ void Scene::OnUpdate( Bool isRuntime )
 
 void Scene::SetMainCamera( const Char* objectName )
 {
-}
-
-
-void Scene::ClearRoot()
-{
-	Memory::Free( _root );
-	_root = Memory::Alloc<Node>();
 }
 
 

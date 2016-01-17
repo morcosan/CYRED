@@ -97,6 +97,11 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	_mainViewport = CAST_S( ViewportPanel*, NewPanel( PanelType::SCENE_VIEWPORT ) );
 	NewPanel( PanelType::ATTRIBUTES );
 
+	_skinStylesheet = NULL;
+	// change skin after everything is created
+	ApplySkin( EditorSettings::SKIN_DEFAULT_BLACK );
+
+
 	// the window is first displayed after processing events
 	// it is required for rendering to have displayed context
 	// must be called after creating the main viewport
@@ -119,10 +124,6 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	}
 
 	_isPlayMode = FALSE;
-
-	_skinStylesheet = NULL;
-	// change skin after everything is created
-	ApplySkin( EditorSettings::SKIN_DEFAULT_BLACK );
 
 
 	//! start the main loop

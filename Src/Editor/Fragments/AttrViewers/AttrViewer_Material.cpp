@@ -125,6 +125,13 @@ void AttrViewer_Material::_OnUpdateGUI()
 		UInt totalVec4s		= 0;
 		UInt totalTexs		= 0;
 
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 0 );
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 0 );
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 0 );
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 0 );
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 0 );
+		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 0 );
+
 		for ( UInt i = 0; i < totalProperties; ++i )
 		{
 			const Char* name = _target->GetPropertyNameAt( i );
@@ -199,9 +206,13 @@ void AttrViewer_Material::_OnUpdateGUI()
 					
 					_WriteAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, totalTexs - 1, 
 											ATTR_PROP_NAME, attrValue.SetString( name ) );
+					
 					Texture* texture = CAST_S( Texture*, data.GetReference() );
+					const Char* textureName = (texture == NULL) ? 
+												Selector_Texture::OPTION_NULL : 
+												texture->GetName();
 					_WriteAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE,
-											totalTexs - 1, ATTR_PROP_VALUE, data, texture->GetName() );
+											totalTexs - 1, ATTR_PROP_VALUE, data, textureName );
 					break;
 				}
 			}

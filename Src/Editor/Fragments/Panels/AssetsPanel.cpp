@@ -10,6 +10,7 @@
 #include "../EditorSkin.h"
 #include "../EditorSettings.h"
 
+#include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
 #include "QtCore\qdiriterator.h"
 #include "QtCore\qfileinfo.h"
@@ -17,18 +18,26 @@
 #include "QtGui\QDesktopServices"
 #include "QtCore\qurl.h"
 #include "QtWidgets\qlabel.h"
+#include "QtCore\qfilesystemwatcher.h"
+#include "QtWidgets\qpushbutton.h"
 
 
 using namespace CYRED;
 
-
-QTreeWidget* AssetsPanel::_firstTreeInstance = NULL;
 
 
 class AssetsPanel::_QtTreeItem : public QTreeWidgetItem
 {
 public:
 	Asset* asset;
+
+	~_QtTreeItem()
+	{
+		while ( childCount() > 0 )
+		{
+			Memory::Free( takeChild(0) );
+		}
+	}
 };
 
 
@@ -39,25 +48,44 @@ AssetsPanel::AssetsPanel()
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	if ( _firstTreeInstance == NULL )
-	{
-		_qtTree = Memory::Alloc<QTreeWidget>();
-		_qtTree->setHeaderHidden( true );
-		_qtTree->setObjectName( EditorSkin::ASSET_TREE );
-		_qtTree->setEditTriggers( QAbstractItemView::NoEditTriggers );
+	QPushButton* reloadBtn = Memory::Alloc<QPushButton>( this );
+	reloadBtn->setText( BUTTON_RELOAD );
+	reloadBtn->setObjectName( EditorSkin::ASSET_BUTTON );
+	QObject::connect( reloadBtn, &QPushButton::clicked,	this, &AssetsPanel::A_ReloadAll );
 
-		_firstTreeInstance = _qtTree;
-	}
-	else
-	{
-		_qtTree = Memory::Alloc<QTreeWidget>( _firstTreeInstance );
-	}
+	QHBoxLayout* topBarLayout = Memory::Alloc<QHBoxLayout>();
+	topBarLayout->setSpacing( 0 );
+	topBarLayout->setContentsMargins( 0, 2, 0, 1 );
+	topBarLayout->addWidget( reloadBtn );
 
-	this->setWidget( _qtTree );
+	QWidget* topBarWidget = Memory::Alloc<QWidget>();
+	topBarWidget->setLayout( topBarLayout );
+
+	_qtTree = Memory::Alloc<QTreeWidget>();
+	_qtTree->setHeaderHidden( true );
+	_qtTree->setObjectName( EditorSkin::ASSET_TREE );
+	_qtTree->setEditTriggers( QAbstractItemView::NoEditTriggers );
+
+	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
+	vLayout->setSpacing( 0 );
+	vLayout->setContentsMargins( 0, 0, 0, 0 );
+	vLayout->addWidget( topBarWidget );
+	vLayout->addWidget( _qtTree );
+
+	QWidget* layoutWidget = Memory::Alloc<QWidget>();
+	layoutWidget->setLayout( vLayout );
+
+	this->setWidget( layoutWidget );
 
 	QObject::connect( _qtTree, &QTreeWidget::itemPressed,		this, &AssetsPanel::A_ItemClicked );
 	QObject::connect( _qtTree, &QTreeWidget::itemDoubleClicked, this, &AssetsPanel::A_Item2xClicked );
 	QObject::connect( _qtTree, &QTreeWidget::itemChanged,		this, &AssetsPanel::A_ItemRenamed );
+
+	_qtFileWatcher = Memory::Alloc<QFileSystemWatcher>();
+	_qtFileWatcher->addPath( EditorSettings::DIR_PATH_ASSETS );
+
+	QObject::connect( _qtFileWatcher, &QFileSystemWatcher::directoryChanged,	
+					  this, &AssetsPanel::A_DirChanged );
 }
 
 
@@ -81,41 +109,49 @@ void AssetsPanel::OnEvent( EventType eType, EventName eName, void* eSource )
 	switch ( eType )
 	{
 		case EventType::SCENE:
+		{
 			_qtTree->setCurrentItem( NULL );
 			break;
+		}
 
 		case EventType::ASSET:
+		{
 			switch ( eName )
 			{
 				case EventName::ASSET_CHANGED:
+				{
+					Asset* asset = CAST_S( Asset*, eSource );
+
+					_QtTreeItem* treeItem = _FindTreeItem( asset );
+
+					Bool isDuplicate = _IsFilePathDuplicate( asset );
+					if ( isDuplicate )
 					{
-						Asset* asset = CAST_S( Asset*, eSource );
+						DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
 
-						_QtTreeItem* treeItem = _FindTreeItem( asset );
-
-						Bool isDuplicate = _IsFilePathDuplicate( asset );
-						if ( isDuplicate )
+						// change the name back
+						if ( treeItem->text(0).compare( asset->GetName() ) != 0 )
 						{
-							DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
-
-							// change the name back
 							asset->SetName( treeItem->text(0).toUtf8().constData() );
 						}
-						else
+					}
+					else
+					{
+						_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
+
+						if ( treeItem != NULL )
 						{
-							_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
-						
-							if ( treeItem != NULL )
-							{
-								_qtTree->blockSignals( true );
-								treeItem->setText( 0, asset->GetName() );
-								_qtTree->blockSignals( false );
-							}
+							_qtTree->blockSignals( true );
+							treeItem->setText( 0, asset->GetName() );
+							_qtTree->blockSignals( false );
 						}
 					}
+
 					break;
+				}
 			}
 			break;
+		}
 	}
 }
 
@@ -124,18 +160,9 @@ void AssetsPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
-	if ( asset != NULL )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::ASSET,	
-											  EventName::ASSET_SELECTED,
-											  asset );
-	}
-	else
-	{
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, 
-											  EventName::UNKNOWN_SELECTED,
-											  NULL );
-	}
+	EventManager::Singleton()->EmitEvent( EventType::ASSET,	
+											EventName::ASSET_SELECTED,
+											asset );
 }
 
 
@@ -152,17 +179,36 @@ void AssetsPanel::A_Item2xClicked( QTreeWidgetItem* item, int column )
 
 void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
-	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
+
+	Asset* asset = treeItem->asset;
 
 	if ( asset != NULL )
 	{
-		String newName( item->text( 0 ).toUtf8().constData() );
+		String newName( item->text(0).toUtf8().constData() );
 
 		_qtTree->blockSignals( true );
 		item->setText( 0, asset->GetName() );
 		_qtTree->blockSignals( false );
 
 		asset->SetName( newName.GetChar() );
+	}
+	else
+	{
+		QFileInfo fileInfo( item->whatsThis(1) );
+
+		if ( fileInfo.exists() )
+		{
+			QDir dir;
+			QString newFolder = dir.relativeFilePath( fileInfo.absolutePath() );
+			newFolder.append( "/" ).append( item->text(0) );
+			
+			Bool success = dir.rename( item->whatsThis(1), newFolder );
+			if ( success )
+			{
+				treeItem->setWhatsThis( 1, newFolder );
+			}
+		}
 	}
 }
 
@@ -171,12 +217,11 @@ void AssetsPanel::A_RightClickMenu( const QPoint& pos )
 {
 	QTreeWidgetItem* item = _qtTree->itemAt( pos );
 
-	if ( item != NULL )
-	{
-		_AddRightClickActions( item );
+	_qtTree->setCurrentItem( item );
 
-		_qtRightClickMenu->popup( _qtTree->mapToGlobal(pos) );
-	}
+	_AddRightClickActions( item );
+
+	_qtRightClickMenu->popup( _qtTree->mapToGlobal(pos) );
 }
 
 
@@ -245,6 +290,34 @@ void AssetsPanel::A_Rename()
 }
 
 
+void AssetsPanel::A_Delete()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
+
+	if ( asset != NULL )
+	{
+		asset->ClearAsset();
+	}
+
+	QFileInfo fileInfo( item->whatsThis(1) );
+	if ( fileInfo.isDir() )
+	{
+		QDir( item->whatsThis(1) ).removeRecursively();
+	}
+	else
+	{
+		QDir().remove( item->whatsThis(1) );
+	}
+
+	_qtTree->setCurrentItem( NULL );
+	Memory::Free( item );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_SELECTED, NULL );
+}
+
+
 void AssetsPanel::A_OpenScene()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
@@ -265,11 +338,113 @@ void AssetsPanel::A_LoadScene()
 }
 
 
+void AssetsPanel::A_Create_Folder()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	_AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::UNKNOWN );
+}
+
+
+void AssetsPanel::A_Create_Mat_Empty()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Mat_PS()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
+
+	Material* material = CAST_S( Material*, asset );
+	material->SetEmitEvents( FALSE );
+	material->SetProperty( "particleTexture", NULL );
+	material->SetProperty( "colorStart", Vector4(1, 1, 1, 1) );
+	material->SetProperty( "colorEnd", Vector4(1, 1, 1, 1) );
+	material->SetEmitEvents( TRUE );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Tex_2D()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Tex_CM()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
+
+	Texture* texture = CAST_S( Texture*, asset );
+	texture->SetEmitEvents( FALSE );
+	texture->SetTextureType( TextureType::CUBE_MAP );
+	texture->SetEmitEvents( TRUE );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Shader()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+										EditorSettings::DIR_PATH_ASSETS;
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_DirChanged( const QString& path )
+{
+	// TODO
+}
+
+
+void AssetsPanel::A_ReloadAll()
+{
+	ReloadAllAssets();
+}
+
+
 void AssetsPanel::ReloadAllAssets()
 {
 	ASSERT( _isInitialized );
 
-	// TODO
+	AssetManager::Singleton()->ClearAll();
+
+	// clear tree
+	while ( _qtTree->topLevelItemCount() > 0 )
+	{
+		Memory::Free( _qtTree->takeTopLevelItem(0) );
+	}
+
+	// add again all
 	_ParseDirectory( EditorSettings::DIR_PATH_ASSETS, _qtTree->invisibleRootItem() );
 }
 
@@ -476,7 +651,6 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 
 			_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
 			treeItem->asset = asset;
-			treeItem->setWhatsThis( 0, fileFormat );
 			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
 			treeItem->setFlags( Qt::ItemIsSelectable | 
 								Qt::ItemIsEnabled | 
@@ -500,17 +674,161 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 			treeItem->setText( 0, fileInfo.completeBaseName() );
 			treeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
 			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
-			treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+			treeItem->setFlags( Qt::ItemIsSelectable | 
+								Qt::ItemIsEnabled |
+								Qt::ItemIsEditable );
 			treeItem->setIcon( 0, _icons.Get( ICON_FOLDER ) );
 
 			parentItem->addChild( treeItem );
 
-			QString newDirPath = fileInfo.filePath();
-			newDirPath.append( "/" );
-
+			QString newDirPath = fileInfo.filePath().append( "/" );
 			_ParseDirectory( newDirPath.toUtf8().constData(), treeItem );
 		}
 	}
+}
+
+
+Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentItem,
+								  AssetType assetType )
+{
+	UInt assetIndex = -1;
+	QString filePath;
+	QString fileName;
+	QIcon icon;
+	Asset* asset = NULL;
+
+	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+
+	switch ( assetType )
+	{
+		case AssetType::MATERIAL:
+		{
+			Material* material = Memory::Alloc<Material>();
+			material->SetEmitEvents( FALSE );
+			material->SetDirPath( dirPath );
+			material->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			material->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_MATERIAL ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_MATERIAL );
+
+				material->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( material ) );
+
+			icon = _icons.Get( ICON_MATERIAL );
+
+			material->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddMaterial( material );
+			asset = material;
+			break;
+		}
+
+		case AssetType::MESH:
+			break;
+
+		case AssetType::SHADER:
+		{
+			Shader* shader = Memory::Alloc<Shader>();
+			shader->SetEmitEvents( FALSE );
+			shader->SetDirPath( dirPath );
+			shader->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			shader->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_SHADER ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_SHADER );
+
+				shader->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( shader ) );
+
+			icon = _icons.Get( ICON_SHADER );
+
+			shader->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddShader( shader );
+			asset = shader;
+			break;
+		}
+
+		case AssetType::TEXTURE:
+		{
+			Texture* texture = Memory::Alloc<Texture>();
+			texture->SetEmitEvents( FALSE );
+			texture->SetDirPath( dirPath );
+			texture->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			texture->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_TEXTURE ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_TEXTURE );
+
+				texture->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( texture ) );
+
+			icon = _icons.Get( ICON_TEXTURE );
+
+			texture->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddTexture( texture );
+			asset = texture;
+			break;
+		}
+
+		case AssetType::UNKNOWN:
+		{
+			do
+			{
+				++assetIndex;
+				fileName = QString("%1%2").arg( MENU_C_FOLDER ).arg( assetIndex );
+				filePath = QString( dirPath ).append( fileName );
+			} 
+			while ( QDir( filePath ).exists() );
+
+			icon = _icons.Get( ICON_FOLDER );
+			treeItem->setWhatsThis( 0, TYPE_FOLDER );
+
+			QDir().mkdir( filePath );
+
+			break;
+		}
+	}
+
+	treeItem->asset = asset;
+	treeItem->setWhatsThis( 1, filePath ); 
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled | 
+						Qt::ItemIsEditable );
+	treeItem->setText( 0, fileName );
+	treeItem->setIcon( 0, icon );
+
+	if ( parentItem != NULL )
+	{
+		parentItem->addChild( treeItem );
+		parentItem->setExpanded( TRUE );
+	}
+	else
+	{
+		_qtTree->addTopLevelItem( treeItem );
+	}
+
+	return asset;
 }
 
 
@@ -532,31 +850,66 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 
 	_qtRightClickMenu->clear();
 
-	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
-
-	if ( asset != NULL )
+	if ( item != NULL )
 	{
-		if ( asset->GetAssetType() == AssetType::SCENE )
-		{
-			QAction* actionOpenScene	= _qtRightClickMenu->addAction( MENU_OPEN_SCENE );
-			QAction* actionLoadScene	= _qtRightClickMenu->addAction( MENU_LOAD_SCENE );
+		Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
-			QObject::connect( actionOpenScene,	&QAction::triggered, this, &AssetsPanel::A_OpenScene );
-			QObject::connect( actionLoadScene,	&QAction::triggered, this, &AssetsPanel::A_LoadScene );
+		if ( asset != NULL )
+		{
+			if ( asset->GetAssetType() == AssetType::SCENE )
+			{
+				QAction* actionOpenScene = _qtRightClickMenu->addAction( MENU_OPEN_SCENE );
+				QAction* actionLoadScene = _qtRightClickMenu->addAction( MENU_LOAD_SCENE );
+				_qtRightClickMenu->addSeparator();
+
+				QObject::connect( actionOpenScene, &QAction::triggered, this, &AssetsPanel::A_OpenScene );
+				QObject::connect( actionLoadScene, &QAction::triggered, this, &AssetsPanel::A_LoadScene );
+			}
+
+			QAction* actionReload = _qtRightClickMenu->addAction( MENU_RELOAD );
+
+			QObject::connect( actionReload, &QAction::triggered, this, &AssetsPanel::A_ReloadAsset );
 		}
 
-		QAction* actionReload = _qtRightClickMenu->addAction( MENU_RELOAD );
+		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
+		_qtRightClickMenu->addSeparator();
+		QAction* actionOpenOnDisk = _qtRightClickMenu->addAction( MENU_OPEN_DISK );
+		QAction* actionShowOnDisk = _qtRightClickMenu->addAction( MENU_SHOW_DISK );
+		_qtRightClickMenu->addSeparator();
+		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
+		_qtRightClickMenu->addSeparator();
 
-		QObject::connect( actionReload,	&QAction::triggered, this, &AssetsPanel::A_ReloadAsset );
+		QObject::connect( actionRename, &QAction::triggered, this, &AssetsPanel::A_Rename );
+		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &AssetsPanel::A_OpenOnDisk );
+		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &AssetsPanel::A_ShowOnDisk );
+		QObject::connect( actionDelete, &QAction::triggered, this, &AssetsPanel::A_Delete );
 	}
 
-	QAction* actionOpenOnDisk	= _qtRightClickMenu->addAction( MENU_OPEN_DISK );
-	QAction* actionShowOnDisk	= _qtRightClickMenu->addAction( MENU_SHOW_DISK );
-	QAction* actionRename		= _qtRightClickMenu->addAction( MENU_RENAME );
+	if ( item == NULL || item->whatsThis(0).compare( TYPE_FOLDER ) == 0 )
+	{
+		QMenu* menuCreate = _qtRightClickMenu->addMenu( MENU_CREATE );
 
-	QObject::connect( actionOpenOnDisk,	&QAction::triggered, this, &AssetsPanel::A_OpenOnDisk );
-	QObject::connect( actionShowOnDisk,	&QAction::triggered, this, &AssetsPanel::A_ShowOnDisk );
-	QObject::connect( actionRename,		&QAction::triggered, this, &AssetsPanel::A_Rename );
+		QAction* actionFolder = menuCreate->addAction( MENU_C_FOLDER );
+		menuCreate->addSeparator();
+
+		QMenu* menuMaterial = menuCreate->addMenu( MENU_C_MATERIAL );
+
+		QAction* actionMatEmpty = menuMaterial->addAction( MENU_C_MAT_EMPTY );
+		QAction* actionMatPS = menuMaterial->addAction( MENU_C_MAT_PS );
+
+		QMenu* menuTexture = menuCreate->addMenu( MENU_C_TEXTURE );
+		QAction* actionTex2D = menuTexture->addAction( MENU_C_TEX_2D );
+		QAction* actionTexCM = menuTexture->addAction( MENU_C_TEX_CM );
+
+		QAction* actionShader = menuCreate->addAction( MENU_C_SHADER );
+
+		QObject::connect( actionFolder,		&QAction::triggered, this, &AssetsPanel::A_Create_Folder );
+		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &AssetsPanel::A_Create_Mat_Empty );
+		QObject::connect( actionMatPS,		&QAction::triggered, this, &AssetsPanel::A_Create_Mat_PS );
+		QObject::connect( actionTex2D,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_2D );
+		QObject::connect( actionTexCM,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_CM );
+		QObject::connect( actionShader,		&QAction::triggered, this, &AssetsPanel::A_Create_Shader );
+	}
 }
 
 
@@ -595,6 +948,22 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 			Material* material = CAST_S( Material*, asset );
 			data = FileManager::Singleton()->Serialize<Material>( material );
 			break;
+		}
+
+		case AssetType::SCENE:
+		{
+			fileFormat = FileManager::FILE_FORMAT_SCENE;
+			CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
+
+			QFile file( filePath );
+			Bool exists = file.exists();
+			if ( exists )
+			{
+				CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
+				Bool success = file.rename( filePath );
+			}
+
+			return;
 		}
 		
 		default:

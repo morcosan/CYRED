@@ -86,10 +86,13 @@ void AttrViewer_ParticleEmitter::_OnUpdateGUI()
 	const Char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector	( ATTR_MATERIAL,			material, matName );
 
-	DataUnion attr;
-	_WriteInnerAttribute( InnerAttrType::ENABLED,	attr.SetBool( _target->IsEnabled() ) );
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
+	{
+		DataUnion attr;
+		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
-	_Colorize( _target->IsEnabled() );
+		_Colorize( _target->IsEnabled() );
+	}
 }
 
 

@@ -31,7 +31,7 @@ namespace CYRED
 		virtual Scene*	LoadScene		( const Char* sceneUID )	PURE_VIRTUAL;
 		virtual Scene*	LoadNewScene	()							PURE_VIRTUAL;
 		virtual void	SaveScene		( const Char* sceneUID )	PURE_VIRTUAL;
-		virtual void	SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
+		virtual Scene*	SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
 										  const Char* dirPath )		PURE_VIRTUAL;
 		virtual void	SaveAllScenes	()							PURE_VIRTUAL;
 		virtual void	CloseScene		( const Char* sceneUID )	PURE_VIRTUAL;

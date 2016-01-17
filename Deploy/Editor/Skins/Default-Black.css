@@ -188,7 +188,9 @@ QLabel
 
 
 /*** attribute label ***/
-*[Disabled=true] QLabel, *[Disabled=true] #AttrCompTitle
+*[Disabled=true] QLabel, 
+*[Disabled=true] #AttrCompTitle,
+*[Disabled=true] #AttrGroupTree::item
 {
 	color: #666;
 }
@@ -364,6 +366,7 @@ QScrollBar::right-arrow
 	color: #ddd;
 	outline: 0;
 	border: 0;
+	padding-top: 5px;
 }
 #AssetTree::item:hover
 {
@@ -379,5 +382,14 @@ QScrollBar::right-arrow
 {
 	font: italic;
 	color: #aaa;
+}
+#AssetButton
+{
+	color: #ddd;
+	background-color: #444;
+	min-width: 80px;
+	max-width: 80px;
+	min-height: 20px;
+	max-height: 20px;
 }
 /*** asset panel ***/

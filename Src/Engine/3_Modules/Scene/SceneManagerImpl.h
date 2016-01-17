@@ -34,7 +34,7 @@ namespace CYRED
 			Scene*		LoadScene		( const Char* sceneUID )		override;
 			Scene*		LoadNewScene	()								override;
 			void		SaveScene		( const Char* sceneUID )		override;
-			void		SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
+			Scene*		SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
 										  const Char* dirPath )			override;
 			void		SaveAllScenes	()								override;
 			void		CloseScene		( const Char* sceneUID )		override;

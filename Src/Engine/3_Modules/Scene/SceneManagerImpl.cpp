@@ -129,14 +129,32 @@ void SceneManagerImpl::SaveScene( const Char* sceneUID )
 }
 
 
-void SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newSceneName, 
-									const Char* dirPath )
+Scene* SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newSceneName, 
+									  const Char* dirPath )
 {
 	ASSERT( _isInitialized );
 
 	// create new asset scene
 	Scene* scene = GetScene( sceneUID );
 	ASSERT( scene != NULL );
+
+	if ( !scene->IsTemporary() )
+	{
+		UInt sceneIndex = GetSceneIndex( sceneUID );
+		_currScenes.Erase( sceneIndex );
+
+		Scene* newScene = Memory::Alloc<Scene>();
+		_currScenes.Add( newScene );
+
+		// move all game objects to new scene
+		for ( UInt i = 0; i < scene->GetRoot()->GetChildNodeCount(); ++i )
+		{
+			newScene->GetRoot()->AddChildNode( scene->GetRoot()->GetChildNodeAt( i ) );
+		}
+
+		scene = newScene;
+	}
+
 	scene->SetEmitEvents( FALSE );
 	scene->SetName( newSceneName );
 	scene->SetDirPath( dirPath );
@@ -145,8 +163,8 @@ void SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newSceneNa
 	scene->SetEmitEvents( TRUE );
 
 	AssetManager::Singleton()->AddScene( scene );
-
-	// save new scene to file
+	
+		// save new scene to file
 	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
 	CUSTOM_STRING( filePath, "%s%s%s", 
 				   dirPath,
@@ -156,10 +174,7 @@ void SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newSceneNa
 	FileManager* fileManager = FileManager::Singleton();
 	fileManager->WriteFile( filePath, fileManager->Serialize<Scene>( scene ).GetChar() );
 
-	// announce application
-	EventManager::Singleton()->EmitEvent( EventType::SCENE, 
-										  EventName::HIERARCHY_CHANGED, 
-										  NULL );
+	return scene;
 }
 
 
@@ -192,7 +207,7 @@ void SceneManagerImpl::CloseScene( const Char* sceneUID )
 	{
 		if ( temp == _currScenes[i]->GetUniqueID() )
 		{
-			 _currScenes[i]->ClearRoot();
+			 _currScenes[i]->ClearAsset();
 			_currScenes.Erase( i );
 
 			EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::HIERARCHY_CHANGED, NULL );
@@ -209,7 +224,7 @@ void SceneManagerImpl::CloseAllScenes()
 
 	for ( UInt i = 0; i < _currScenes.Size(); ++i )
 	{
-		_currScenes[i]->ClearRoot();
+		_currScenes[i]->ClearAsset();
 	}
 	_currScenes.Clear();
 

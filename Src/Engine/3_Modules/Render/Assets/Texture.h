@@ -35,6 +35,7 @@ namespace CYRED
 	public:
 		void LoadUniqueID	() override;
 		void LoadFullFile	() override;
+		void ClearAsset		() override;
 
 
 	public:

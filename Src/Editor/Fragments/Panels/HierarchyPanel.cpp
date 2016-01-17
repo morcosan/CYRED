@@ -123,6 +123,26 @@ void HierarchyPanel::OnEvent( EventType eType, EventName eName, void* eSource )
 		case EventType::ASSET:
 		{
 			_qtTree->setCurrentItem( NULL );
+
+			switch ( eName )
+			{
+				case EventName::ASSET_CHANGED:
+				{
+					Asset* asset = CAST_S( Asset*, eSource );
+
+					if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE )
+					{
+						_QtTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
+
+						if ( treeItem != NULL )
+						{
+							_qtTree->blockSignals( true );
+							treeItem->setText( 0, asset->GetName() );
+							_qtTree->blockSignals( false );
+						}
+					}
+				}
+			}
 			break;
 		}
 	}
@@ -148,6 +168,26 @@ HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindGameObjectItem( UInt uid )
 	return NULL;
 }
 
+
+HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindSceneItem( const Char* uid )
+{
+	String temp( uid );
+
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i )
+	{
+		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->topLevelItem(i) );
+		Scene* scene = treeItem->scene;
+
+		if ( scene != NULL && temp == scene->GetUniqueID() )
+		{
+			return treeItem;
+		}
+	}
+
+	return NULL;
+}
+
+
 void HierarchyPanel::_CreateRightClickMenu()
 {
 	ASSERT( _isInitialized );
@@ -170,11 +210,13 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 
 	if ( treeItem->scene != NULL )
 	{
-		QAction* actionSaveScene = _qtRightClickMenu->addAction( MENU_SAVE_SCENE );
-		QAction* actionCloseScene = _qtRightClickMenu->addAction( MENU_CLOSE_SCENE );
+		QAction* actionSaveScene	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE );
+		QAction* actionSaveSceneAs	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE_AS );
+		QAction* actionCloseScene	= _qtRightClickMenu->addAction( MENU_CLOSE_SCENE );
 
-		QObject::connect( actionSaveScene,  &QAction::triggered, this, &HierarchyPanel::A_SaveScene );
-		QObject::connect( actionCloseScene, &QAction::triggered, this, &HierarchyPanel::A_CloseScene );
+		QObject::connect( actionSaveScene,		&QAction::triggered, this, &HierarchyPanel::A_SaveScene );
+		QObject::connect( actionSaveSceneAs,	&QAction::triggered, this, &HierarchyPanel::A_SaveSceneAs );
+		QObject::connect( actionCloseScene,		&QAction::triggered, this, &HierarchyPanel::A_CloseScene );
 
 		{
 			QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
@@ -310,28 +352,47 @@ void HierarchyPanel::A_SaveScene()
 
 	if ( scene->IsTemporary() )		// a new scene
 	{
-		Char fileFilter[MAX_SIZE_CUSTOM_STRING];
-		CUSTOM_STRING( fileFilter, FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
-
-		QString newPath = QFileDialog::getSaveFileName( this, 
-														MSG_SAVE_SCENE, 
-														EditorSettings::DIR_PATH_ASSETS, 
-														fileFilter );
-	
-		QFileInfo filePath( newPath );
-
-		QDir dir;
-		QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
-		dirPath.append( "/" );
-
-		SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
-												filePath.completeBaseName().toUtf8().constData(),
-												dirPath.toUtf8().constData() );
+		A_SaveSceneAs();
 	}
 	else
 	{
 		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
 	}
+}
+
+
+void HierarchyPanel::A_SaveSceneAs()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+
+	Scene* scene = treeItem->scene;
+	ASSERT( scene != NULL );
+
+	Char fileFilter[MAX_SIZE_CUSTOM_STRING];
+	CUSTOM_STRING( fileFilter, FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
+
+	QString newPath = QFileDialog::getSaveFileName( this, 
+													MSG_SAVE_SCENE, 
+													EditorSettings::DIR_PATH_ASSETS, 
+													fileFilter );
+	
+	const char* paths = newPath.toUtf8().constData();
+	QFileInfo filePath( newPath );
+
+	QDir dir;
+	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
+	dirPath.append( "/" );
+
+	const Char* newName = filePath.completeBaseName().toUtf8().constData();
+	Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
+															  newName,
+															  dirPath.toUtf8().constData() );
+
+	treeItem->scene = newScene;
+	
+	_qtTree->blockSignals( true );
+	treeItem->setText( 0, newScene->GetName() );
+	_qtTree->blockSignals( false );
 }
 
 

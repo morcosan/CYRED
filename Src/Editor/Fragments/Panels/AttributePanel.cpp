@@ -169,6 +169,8 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					// clear panel
 					_Clear();
 
+					_target = NULL;
+
 					break;
 				}
 
@@ -217,50 +219,52 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 			{
 				case EventName::ASSET_CHANGED:
 				{
-					Asset* asset = CAST_S( Asset*, eSource );
-					ASSERT( asset != NULL );
-
-					const Char* attrViewerType = NULL;
-
-					switch ( asset->GetAssetType() )
+					if ( _target == eSource )
 					{
-						case AssetType::MATERIAL:
-							attrViewerType = ATTR_MATERIAL;
-							break;
+						Asset* asset = CAST_S( Asset*, eSource );
+						ASSERT( asset != NULL );
 
-						case AssetType::MESH:
-							attrViewerType = ATTR_MESH;
-							break;
+						const Char* attrViewerType = NULL;
 
-						case AssetType::TEXTURE:
-							attrViewerType = ATTR_TEXTURE;
-							break;
+						switch ( asset->GetAssetType() )
+						{
+							case AssetType::MATERIAL:
+								attrViewerType = ATTR_MATERIAL;
+								break;
 
-						case AssetType::SHADER:
-							attrViewerType = ATTR_SHADER;
-							break;
+							case AssetType::MESH:
+								attrViewerType = ATTR_MESH;
+								break;
 
-						case AssetType::SCENE:
-							attrViewerType = ATTR_SCENE;
-							break;
+							case AssetType::TEXTURE:
+								attrViewerType = ATTR_TEXTURE;
+								break;
+
+							case AssetType::SHADER:
+								attrViewerType = ATTR_SHADER;
+								break;
+
+							case AssetType::SCENE:
+								attrViewerType = ATTR_SCENE;
+								break;
+						}
+
+						ASSERT( _attrViewers.Has( attrViewerType ) );
+						AttrViewer* attrViewer = _attrViewers.Get( attrViewerType );
+						attrViewer->UpdateGUI();
 					}
-
-					ASSERT( _attrViewers.Has( attrViewerType ) );
-					AttrViewer* attrViewer = _attrViewers.Get( attrViewerType );
-					attrViewer->UpdateGUI();
-
-					break;
-				}
-
-				case EventName::UNKNOWN_SELECTED:
-				{
-					_Clear();
 					break;
 				}
 
 				case EventName::ASSET_SELECTED:
 				{
+					_target = eSource;
 					_Clear();
+
+					if ( eSource == NULL )
+					{
+						break;
+					}
 
 					Asset* asset = CAST_S( Asset*, eSource );
 					ASSERT( asset != NULL );
