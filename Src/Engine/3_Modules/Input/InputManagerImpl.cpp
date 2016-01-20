@@ -35,7 +35,10 @@ void InputManagerImpl::Initialize( InputReceiver* receiver )
 
 void InputManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
+	if ( !_isInitialized )
+	{
+		return;
+	}
 }
 
 

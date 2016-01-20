@@ -30,7 +30,10 @@ void AssetManagerImpl::Initialize()
 
 void AssetManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
+	if ( !_isInitialized )
+	{
+		return;
+	}
 }
 
 

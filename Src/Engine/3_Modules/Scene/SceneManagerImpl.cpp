@@ -27,13 +27,16 @@ void SceneManagerImpl::Initialize()
 	_isInitialized = true;
 
 	_generatedUID = 0;
+	_mainCameraGO = NULL;
 }
 
 
 void SceneManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
-	CloseAllScenes();
+	if ( !_isInitialized )
+	{
+		return;
+	}
 }
 
 
@@ -362,7 +365,40 @@ UInt SceneManagerImpl::CountLoadedScenes()
 
 UInt SceneManagerImpl::NextGameObjectUID()
 {
+	ASSERT( _isInitialized );
 	++_generatedUID;
 	return _generatedUID;
+}
+
+
+void SceneManagerImpl::SetMainCamera( GameObject* cameraGO )
+{
+	ASSERT( _isInitialized );
+	_mainCameraGO = cameraGO;
+}
+
+// TODO
+#include "../../2_BuildingBlocks/Components/Transform.h" 
+#include "../Render/Components/Camera.h" 
+
+GameObject* SceneManagerImpl::GetMainCamera()
+{
+	ASSERT( _isInitialized );
+
+	if ( _mainCameraGO == NULL )
+	{
+		// TODO
+		GameObject* cameraGO1 = Memory::Alloc<GameObject>();
+		cameraGO1->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+
+		COMP::Camera* cameraComp1 = cameraGO1->AddComponent<COMP::Camera>();
+		cameraComp1->SetFovYAngle( 60 );
+		cameraComp1->SetNearClipping( 0.1f );
+		cameraComp1->SetFarClipping( 1000.0f );
+
+		_mainCameraGO = cameraGO1;
+	}
+
+	return _mainCameraGO;
 }
 

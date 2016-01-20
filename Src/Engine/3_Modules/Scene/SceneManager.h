@@ -52,5 +52,8 @@ namespace CYRED
 		virtual UInt		CountLoadedScenes	()							PURE_VIRTUAL;
 
 		virtual	UInt		NextGameObjectUID	()							PURE_VIRTUAL;
+	
+		virtual void		SetMainCamera	( GameObject* cameraGO )		PURE_VIRTUAL;
+		virtual GameObject*	GetMainCamera	()								PURE_VIRTUAL;
 	};
 }

@@ -1,24 +1,20 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-
 #include "GLContextImpl.h"
-
 
 #include "QtGui\QOpenGLContext"
 #include "QtGui\qwindow.h"
 
 
 using namespace CYRED;
-using namespace NotAPI;
 
 
 
 GLContextImpl::GLContextImpl( QWindow* qtWindow )
+	: _qtWindow( qtWindow )
+	, _qtContext( Memory::Alloc<QOpenGLContext>() ) 
 {
-	_qtWindow = qtWindow;
-
-	_qtContext = new QOpenGLContext();
 	_qtContext->create();
 }
 

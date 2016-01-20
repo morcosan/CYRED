@@ -38,7 +38,7 @@ namespace CYRED
 	public:
 		/* main function for starting the editor		*/
 		/* must be called only once from main()			*/
-		void	Run			( Int& argc, Char* argv[], Char* configFilePath );
+		void	Run			( Int& argc, Char* argv[] );
 				
 		/* create a new panel for editor				*/
 		Panel*	NewPanel	( PanelType type, UInt panelIndex = 0, Bool isPrimary = TRUE );
@@ -77,8 +77,6 @@ namespace CYRED
 
 
 	protected:
-		/* main function to be called once at start			*/
-		void _Run					( Int &argc, Char *argv[] );
 		/* prepares the application for exit				*/
 		/* called once before closing the editor			*/
 		void _CleanUp				();

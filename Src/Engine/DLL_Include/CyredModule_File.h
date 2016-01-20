@@ -7,6 +7,7 @@
 #include "../3_Modules/File/Fragments/FileSystem.h"
 
 #include "../3_Modules/File/Serialize/SerializeSystem.h"
+#include "../3_Modules/File/Serialize/JSON/JsonSerializer.h"
 #include "../3_Modules/File/Serialize/JSON/JsonSerializeSystem.h"
 
 

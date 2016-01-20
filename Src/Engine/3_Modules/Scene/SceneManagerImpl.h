@@ -56,11 +56,15 @@ namespace CYRED
 
 			UInt		NextGameObjectUID	()							override;
 
+			void		SetMainCamera		( GameObject* cameraGO )	override;
+			GameObject*	GetMainCamera		()							override;
+
 
 		protected:
 			DataArray<Scene*>	_currScenes;
 
 			UInt				_generatedUID;
+			GameObject*			_mainCameraGO;
 		};
 	}
 }

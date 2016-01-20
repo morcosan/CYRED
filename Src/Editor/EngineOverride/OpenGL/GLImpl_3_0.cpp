@@ -1,14 +1,12 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-
 #include "GLImpl_3_0.h"
 
 #include <QtGui/QOpenGLFunctions_3_0>
 
 
 using namespace CYRED;
-using namespace NotAPI;
 
 
 void GLImpl_3_0::Initialize()

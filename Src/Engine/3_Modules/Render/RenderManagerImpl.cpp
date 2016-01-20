@@ -42,7 +42,10 @@ void RenderManagerImpl::Initialize( GLContext* glContext, GL* gl )
 
 void RenderManagerImpl::Finalize()
 {
-
+	if ( !_isInitialized )
+	{
+		return;
+	}
 }
 
 

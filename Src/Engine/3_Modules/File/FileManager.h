@@ -22,6 +22,7 @@ namespace CYRED
 		static const Char* const FILE_FORMAT_SHADER;
 		static const Char* const FILE_FORMAT_TEXTURE;
 		static const Char* const FILE_FORMAT_SCENE;		
+		static const Char* const FILE_FORMAT_ASSETDB;		
 		
 
 
@@ -63,7 +64,11 @@ namespace CYRED
 	String FileManager::Serialize( T* object )
 	{
 		ASSERT( _serializeSystem != NULL );
-		ASSERT( object != NULL );
+
+		if ( object == NULL )
+		{
+			return "";
+		}
 
 		return _serializeSystem->Serialize<T>( object );
 	}
@@ -74,8 +79,11 @@ namespace CYRED
 								   DeserFlag flag )
 	{
 		ASSERT( _serializeSystem != NULL );
-		ASSERT( data != NULL );
-		ASSERT( object != NULL );
+
+		if ( data == NULL )
+		{
+			return;
+		}
 
 		_serializeSystem->Deserialize<T>( data, object, flag );
 	}

@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{57B409C4-8725-48BD-84D3-CC9CDF944792}</ProjectGuid>
     <RootNamespace>Editor</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,12 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Deploy\</OutDir>
+    <OutDir>$(SolutionDir)Deploy\CYRED_Editor\</OutDir>
     <IntDir>$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\</IntDir>
     <TargetName>CYRED_Editor</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Deploy\</OutDir>
+    <OutDir>$(SolutionDir)Deploy\CYRED_Editor\</OutDir>
     <IntDir>$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\</IntDir>
     <TargetName>CYRED_Editor</TargetName>
   </PropertyGroup>

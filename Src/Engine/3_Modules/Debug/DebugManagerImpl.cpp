@@ -30,7 +30,10 @@ void DebugManagerImpl::Initialize( Console* console )
 
 void DebugManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
+	if ( !_isInitialized )
+	{
+		return;
+	}
 
 	Memory::Free( _console );
 	_console = NULL;

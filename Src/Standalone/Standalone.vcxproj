@@ -13,16 +13,17 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{740E2DD9-DD8F-48C5-98C4-AB60E78913EC}</ProjectGuid>
     <RootNamespace>Standalone</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -39,12 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)DeployLIB\</OutDir>
+    <OutDir>$(SolutionDir)Deploy\CYRED_Standalone\</OutDir>
     <IntDir>$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\</IntDir>
     <TargetName>CYRED_Standalone</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)DeployLIB\</OutDir>
+    <OutDir>$(SolutionDir)Deploy\CYRED_Standalone\</OutDir>
     <IntDir>$(SolutionDir)__vsBin\$(ProjectName)_$(Configuration)\</IntDir>
     <TargetName>CYRED_Standalone</TargetName>
   </PropertyGroup>
@@ -53,20 +54,21 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;..\Engine\DLL_Include;C:\Qt\5.4\msvc2012_opengl\include;C:\Qt\Qt5.4.1\5.4\msvc2013_64_opengl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../Libs;..\Engine\DLL_Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\DeployLIB;../../Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CYRED_Engine.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CYRED_Engine.lib;GLEW/glew32.lib;GLEW/opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)DeployLIB\CYRED_Standalone.dll" "$(SolutionDir)Deploy" /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,39 +78,48 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;..\Engine\DLL_Include;C:\Qt\5.4\msvc2012_opengl\include;C:\Qt\Qt5.4.1\5.4\msvc2013_64_opengl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../Libs;..\Engine\DLL_Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\DeployLIB;../../Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CYRED_Engine.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CYRED_Engine.lib;GLEW/glew32.lib;GLEW/opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)DeployLIB\CYRED_Standalone.dll" "$(SolutionDir)Deploy" /y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App\StandaloneApp.cpp" />
-    <ClCompile Include="dll_main.cpp" />
-    <ClCompile Include="OpenGL\GLContextImpl.cpp" />
-    <ClCompile Include="OpenGL\GLImpl_3_0.cpp" />
-    <ClCompile Include="Standalone.cpp" />
+    <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
+    <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
+    <ClCompile Include="Fragments\AppSettings.cpp" />
+    <ClCompile Include="Fragments\GameInitScript.cpp" />
+    <ClCompile Include="Fragments\Serialize\JSON\JsonSerializer_AssetDB.cpp" />
+    <ClCompile Include="Fragments\Serialize\JSON\JsonSerializer_GameConfig.cpp" />
+    <ClCompile Include="StandaloneApp.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
+    <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App\StandaloneApp.h" />
-    <ClInclude Include="GameController.h" />
-    <ClInclude Include="DLL_Include\CyredStandalone.h" />
-    <ClInclude Include="OpenGL\GLContextImpl.h" />
-    <ClInclude Include="OpenGL\GLImpl_3_0.h" />
+    <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
+    <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
+    <ClInclude Include="Fragments\AppSettings.h" />
+    <ClInclude Include="Fragments\GameInitScript.h" />
+    <ClInclude Include="Fragments\Serialize\JSON\JsonSerializer_AssetDB.h" />
+    <ClInclude Include="Fragments\Serialize\JSON\JsonSerializer_GameConfig.h" />
+    <ClInclude Include="StandaloneApp.h" />
+    <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
+    <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="SampleTest\SampleController.h" />
-    <ClInclude Include="Standalone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

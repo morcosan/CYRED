@@ -39,8 +39,8 @@ namespace CYRED
 			Bool	_runInEditor;
 			Bool	_needStart;
 
-			virtual void _OnStart	() PURE_VIRTUAL;
-			virtual void _OnUpdate() PURE_VIRTUAL;
+			virtual void _OnStart	() {}
+			virtual void _OnUpdate	() {}
 		};
 	}
 }

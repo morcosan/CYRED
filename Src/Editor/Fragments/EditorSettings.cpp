@@ -12,7 +12,7 @@ const Char* const EditorSettings::EDITOR_NAME			= "CYRED-SceneEditor";
 const Char* const EditorSettings::DIR_PATH_SKINS		= "Editor/Skins/";
 const Char* const EditorSettings::DIR_PATH_ICONS_ASSETS	= "Editor/Icons/Assets/";
 
-const Char* const EditorSettings::DIR_PATH_ASSETS		= "Assets/";
+const Char* const EditorSettings::DIR_PATH_ASSETS		= "../CYRED_Standalone/Assets/";
 
 const Char* const EditorSettings::MSG_EDITOR_STARTED	= "Editor started.";
 
@@ -28,4 +28,4 @@ Int		EditorSettings::posX	= 0;
 Int		EditorSettings::posY	= 0;
 UInt	EditorSettings::fps		= 60;
 
-String EditorSettings::dirPathProject;
+String EditorSettings::dirPathProject = "../CYRED_Standalone/";

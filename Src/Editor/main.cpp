@@ -11,7 +11,7 @@ using namespace CYRED;
 int main( int argc, char *argv[] )
 {
 	Application::CreateSingleton( EditorApp::CreateSingleton() );
-	CAST_S( EditorApp*, Application::Singleton() )->Run( argc, argv, "" );
+	CAST_S( EditorApp*, Application::Singleton() )->Run( argc, argv );
 	Application::DestroySingleton();
 
 	return 0;

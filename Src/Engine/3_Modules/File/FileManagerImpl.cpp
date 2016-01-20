@@ -19,6 +19,7 @@ const Char* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
 const Char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 const Char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
 const Char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
+const Char* const FileManager::FILE_FORMAT_ASSETDB	= ".assetdb";
 
 
 void FileManagerImpl::Initialize( FileSystem* fileSystem )
@@ -34,7 +35,10 @@ void FileManagerImpl::Initialize( FileSystem* fileSystem )
 
 void FileManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
+	if ( !_isInitialized )
+	{
+		return;
+	}
 
 	Memory::Free( _fileSystem );
 	_fileSystem = NULL;

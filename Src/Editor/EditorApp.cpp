@@ -73,13 +73,7 @@ public:
 DEFINE_REMOTE_SINGLETON_IMPL( EditorApp )
 
 
-void EditorApp::Run( Int& argc, Char* argv[], Char* configFilePath )
-{
-	_Run( argc, argv );
-}
-
-
-void EditorApp::_Run( Int& argc, Char* argv[] )
+void EditorApp::Run( Int& argc, Char* argv[] )
 {
 	_qtApp = Memory::Alloc<QApplication>( argc, argv );
 
@@ -106,12 +100,11 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	// it is required for rendering to have displayed context
 	// must be called after creating the main viewport
 	_qtApp->processEvents();
-	_shouldExit = FALSE;
 
 	// it requires to be initialized after viewport is shown
 	ASSERT( _mainViewport != NULL );
 	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), 
-											   Memory::Alloc<NotAPI::GLImpl_3_0>() );
+											   Memory::Alloc<GLImpl_3_0>() );
 
 	// load assets
 	for ( UInt i = 0; i < _panels.Size(); ++i )
@@ -129,6 +122,8 @@ void EditorApp::_Run( Int& argc, Char* argv[] )
 	//! start the main loop
 	_qtTime = Memory::Alloc<QTime>();
 	_qtTime->start();
+
+	_shouldExit = FALSE;
 
 	while ( !_shouldExit ) //! _shouldExit will be changed from other thread
 	{

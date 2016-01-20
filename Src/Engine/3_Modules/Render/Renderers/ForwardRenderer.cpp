@@ -20,6 +20,7 @@ using namespace CYRED;
 using namespace NotAPI;
 
 
+
 ForwardRenderer::~ForwardRenderer()
 {
 	_gl->DeleteFramebuffers	( 1, &_mainFramebufferID );
@@ -28,6 +29,7 @@ ForwardRenderer::~ForwardRenderer()
 
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
 }
+
 
 void ForwardRenderer::Render( Scene* scene, GameObject* cameraGO )
 {

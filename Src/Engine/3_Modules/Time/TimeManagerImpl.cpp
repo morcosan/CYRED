@@ -28,7 +28,10 @@ void TimeManagerImpl::Initialize( UInt desiredFPS )
 
 void TimeManagerImpl::Finalize()
 {
-	ASSERT( _isInitialized );
+	if ( !_isInitialized )
+	{
+		return;
+	}
 }
 
 

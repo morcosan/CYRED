@@ -90,7 +90,7 @@ void ViewportPanel::Initialize( Bool isPrimary )
 
 	this->setWidget( newWidget );
 
-	_glContext = Memory::Alloc<NotAPI::GLContextImpl>( _qtWindow );
+	_glContext = Memory::Alloc<GLContextImpl>( _qtWindow );
 
 	if ( isPrimary )
 	{

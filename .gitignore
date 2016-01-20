@@ -1,11 +1,12 @@
 /DeployLIB/*.exp
 /DeployLIB/*.ilk
-/DeployLIB/*.dll
 /DeployLIB/*.pdb
 /__vsBin
 /*.dropbox
-/Deploy/*.pdb
-/Deploy/*.ilk
+/Deploy/CYRED_Editor/*.pdb
+/Deploy/CYRED_Editor/*.ilk
+/Deploy/CYRED_Standalone/*.pdb
+/Deploy/CYRED_Standalone/*.ilk
 desktop.ini
 /.vs
 /*.opensdf

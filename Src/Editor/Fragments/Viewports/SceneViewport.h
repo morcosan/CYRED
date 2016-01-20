@@ -49,7 +49,7 @@ namespace CYRED
 
 		virtual const Char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
-		virtual void			_OnInitialize	() override;
-		virtual void			_OnUpdate		() override;
+		virtual void		_OnInitialize	() override;
+		virtual void		_OnUpdate		() override;
 	};
 }

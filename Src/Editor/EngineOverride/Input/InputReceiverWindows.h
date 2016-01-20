@@ -22,11 +22,11 @@ namespace CYRED
 
 	public:
 		void OnKeyPress		( QKeyEvent* e );
-		void OnKeyRelease		( QKeyEvent* e );
-		void OnMouseMove		( QMouseEvent* e, Int windowIndex );
-		void OnMousePress		( QMouseEvent* e, Int windowIndex );
+		void OnKeyRelease	( QKeyEvent* e );
+		void OnMouseMove	( QMouseEvent* e, Int windowIndex );
+		void OnMousePress	( QMouseEvent* e, Int windowIndex );
 		void OnMouseRelease	( QMouseEvent* e, Int windowIndex );
-		void OnWheelMove		( QWheelEvent* e, Int windowIndex );
+		void OnWheelMove	( QWheelEvent* e, Int windowIndex );
 		void OnFocusOut		( Int windowIndex );
 
 

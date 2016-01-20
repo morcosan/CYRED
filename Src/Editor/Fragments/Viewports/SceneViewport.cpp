@@ -78,7 +78,7 @@ void SceneViewport::_OnUpdate()
 	if ( _mustResize ) 
 	{
 		renderMngr->OnResize( _canvasSlot );
-		_mustResize = false;
+		_mustResize = FALSE;
 	}
 
 	if ( _isFirstUpdate )
@@ -95,8 +95,8 @@ void SceneViewport::_OnUpdate()
 
 	//! update camera size
 	COMP::Camera* cam = _cameraGO->GetComponent<COMP::Camera>();
-	float aspectRatio = (float) _qtWindow->width() / _qtWindow->height();
-	float height = cam->GetOrthoSize().y;
+	Float aspectRatio = CAST_S( Float, _qtWindow->width() ) / _qtWindow->height();
+	Float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoSize( Vector2( aspectRatio * height, height ) );
 	
