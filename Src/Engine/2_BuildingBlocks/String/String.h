@@ -1,11 +1,8 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../1_Required/Required.h"
-
-#include <string>
 
 
 namespace CYRED
@@ -14,28 +11,26 @@ namespace CYRED
 	{
 	public:
 		String();
-		String( const Char* value );
-		String( const String& value );
+		String( const Char* other );
+		String( const String& other );
 		virtual ~String();
 
-		Bool	operator==	( const String& other )	const;
-		Bool	operator!=	( const String& other )	const;
 		void	operator=	( const String& other );
+		void	operator=	( const Char* other );
+		Bool	operator==	( const String& other )	const;
+		Bool	operator==	( const Char* other )	const;
+		Bool	operator!=	( const String& other )	const;
+		Bool	operator!=	( const Char* other )	const;
 		Bool	operator<	( const String& other )	const;
+		Bool	operator<	( const Char* other )	const;
 
 
 	public:
-		UInt		GetHash() const;
-		const Char*	GetChar() const;
+		const Char*	GetChar		() const;
+		UInt		GetLength	() const;
 
 
 	protected:
-		UInt			_hashValue;
-		std::string*	_string;
-
+		Char*	_data;
 	};
 }
-
-
-#define CUSTOM_STRING( buffer, pattern, ... )	sprintf( buffer, pattern, ##__VA_ARGS__ )
-#define MAX_SIZE_CUSTOM_STRING	512

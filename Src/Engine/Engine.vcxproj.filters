@@ -17,7 +17,6 @@
     <ClInclude Include="3_Modules\Script\Components\Script.h" />
     <ClInclude Include="3_Modules\Script\ScriptManager.h" />
     <ClInclude Include="3_Modules\Render\RenderManagerImpl.h" />
-    <ClInclude Include="4_Application\EngineSettings.h" />
     <ClInclude Include="4_Application\Application.h" />
     <ClInclude Include="DLL_Include\CyredRequired.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\GLContext.h" />
@@ -49,7 +48,6 @@
     <ClInclude Include="3_Modules\Asset\AssetManagerImpl.h" />
     <ClInclude Include="3_Modules\File\FileManagerImpl.h" />
     <ClInclude Include="3_Modules\File\Fragments\FileSystem.h" />
-    <ClInclude Include="3_Modules\Asset\InternalAssets\InternalMeshes.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\Vertex.h" />
     <ClInclude Include="3_Modules\Render\Assets\Material.h" />
     <ClInclude Include="3_Modules\Render\Assets\Mesh.h" />
@@ -95,6 +93,20 @@
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Shader.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Texture.h" />
     <ClInclude Include="2_BuildingBlocks\String\String.h" />
+    <ClInclude Include="2_BuildingBlocks\String\FiniteString.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.h" />
+    <ClInclude Include="4_Application\AppConfig.h" />
+    <ClInclude Include="3_Modules\Asset\Generators\MeshGenerator.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Mesh.h" />
+    <ClInclude Include="3_Modules\File\Fragments\MeshLoader.h" />
+    <ClInclude Include="3_Modules\Render\Assets\Morph.h" />
+    <ClInclude Include="3_Modules\Render\OpenGL\MorphVertex.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Morph.h" />
+    <ClInclude Include="3_Modules\Render\Components\MorphRendering.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -121,7 +133,6 @@
     <ClCompile Include="3_Modules\Render\Renderers\Renderer.cpp" />
     <ClCompile Include="3_Modules\Render\Techniques\Technique.cpp" />
     <ClCompile Include="3_Modules\File\FileManagerImpl.cpp" />
-    <ClCompile Include="3_Modules\Asset\InternalAssets\InternalMeshes.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Material.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Mesh.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Shader.cpp" />
@@ -147,5 +158,18 @@
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Shader.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Texture.cpp" />
     <ClCompile Include="2_BuildingBlocks\String\String.cpp" />
+    <ClCompile Include="2_BuildingBlocks\String\FiniteString.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.cpp" />
+    <ClCompile Include="4_Application\AppConfig.cpp" />
+    <ClCompile Include="3_Modules\Asset\Generators\MeshGenerator.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Mesh.cpp" />
+    <ClCompile Include="3_Modules\File\Fragments\MeshLoader.cpp" />
+    <ClCompile Include="3_Modules\Render\Assets\Morph.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Morph.cpp" />
+    <ClCompile Include="3_Modules\Render\Components\MorphRendering.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
   </ItemGroup>
 </Project>

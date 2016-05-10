@@ -3,6 +3,7 @@
 
 #include "JsonSerializer_Texture.h"
 #include "../../../Render/Assets/Texture.h"
+#include "../../../../2_BuildingBlocks/String/FiniteString.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -22,7 +23,8 @@ rapidjson::Value JsonSerializer_Texture::ToJson( void* object )
 	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
 					rapidjson::StringRef( texture->GetUniqueID() ),
 					_al );
-	switch ( texture->GetType() )
+
+	switch ( texture->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
 			json.AddMember( rapidjson::StringRef( TYPE ),
@@ -36,13 +38,15 @@ rapidjson::Value JsonSerializer_Texture::ToJson( void* object )
 							_al );
 			break;
 	}
+
 	json.AddMember( rapidjson::StringRef( HAS_MIPMAP ),
 					texture->HasMipmap(),
 					_al );
 	json.AddMember( rapidjson::StringRef( CLEAR_BUFFER ),
 					texture->DoesClearBufferOnBind(),
 					_al );
-	switch ( texture->GetType() )
+
+	switch ( texture->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
 			json.AddMember( rapidjson::StringRef( FILE_PATH ),
@@ -87,15 +91,16 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 	if ( json.HasMember( UNIQUE_ID ) )
 	{
 		texture->SetUniqueID( json[UNIQUE_ID].GetString() );
-
-		if ( flag == DeserFlag::UID_ONLY )
-		{
-			return;
-		}
 	}
+
+	if ( flag == DeserFlag::UID_ONLY )
+	{
+		return;
+	}
+
 	if ( json.HasMember( TYPE ) )
 	{
-		String type( json[TYPE].GetString() );
+		FiniteString type( json[TYPE].GetString() );
 
 		if ( type == TYPE_TEXTURE_2D )
 		{
@@ -115,17 +120,20 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 		texture->SetClearBufferOnBind( json[CLEAR_BUFFER].GetBool() );
 	}
 
-	switch ( texture->GetType() )
+	switch ( texture->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
+		{
 			if ( json.HasMember( FILE_PATH ) )
 			{
 				texture->SetImagePath( 0, json[FILE_PATH].GetString() );
 				texture->SetLoadFromFile( TRUE );
 			}
 			break;
+		}
 
 		case TextureType::CUBE_MAP:
+		{
 			if ( json.HasMember( FILE_PATH_POSX ) )
 			{
 				texture->SetImagePath( 0, json[FILE_PATH_POSX].GetString() );
@@ -157,6 +165,7 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 				texture->SetLoadFromFile( TRUE );
 			}
 			break;
+		}
 	}
 
 	texture->SetEmitEvents( emitEvents );

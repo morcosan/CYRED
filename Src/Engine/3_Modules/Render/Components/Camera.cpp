@@ -1,3 +1,5 @@
+#include "Camera.h"
+#include "Camera.h"
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
@@ -13,7 +15,7 @@ using namespace COMP;
 Camera::Camera( GameObject * gameObject )
 	: Component( gameObject )
 	, _projectionChanged( true )
-	, _type( CameraType::PERSPECTIVE )
+	, _cameraType( CameraType::PERSPECTIVE )
 	, _fovYAngle( 0 )
 	, _nearClipping( 0 )
 	, _farClipping( 0 )
@@ -27,7 +29,7 @@ Matrix4 Camera::GetProjectionMatrix()
 {
 	if (_projectionChanged)
 	{
-		switch (_type)
+		switch (_cameraType)
 		{
 		case CameraType::PERSPECTIVE:
 			_projectionMatrix = Matrix4::CreatePerspective( _fovYAngle, _aspectRatio, _nearClipping, _farClipping );
@@ -74,9 +76,9 @@ Vector2 Camera::GetOrthoSize() const
 }
 
 
-CameraType Camera::GetType() const
+CameraType Camera::GetCameraType() const
 {
-	return _type;
+	return _cameraType;
 }
 
 
@@ -128,9 +130,10 @@ void Camera::SetAspectRatio( float value )
 }
 
 
-void Camera::SetOrthoSize( Vector2 & value )
+void CYRED::COMP::Camera::SetOrthoHeight( Float value )
 {
-	_orthoSize = value;
+	_orthoSize.y = value;
+
 	_projectionChanged = true;
 
 	if ( _emitEvents )
@@ -140,9 +143,22 @@ void Camera::SetOrthoSize( Vector2 & value )
 }
 
 
-void Camera::SetType( CameraType type )
+void CYRED::COMP::Camera::SetOrthoWidth( Float value )
 {
-	_type = type;
+	_orthoSize.x = value;
+
+	_projectionChanged = true;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+	}
+}
+
+
+void Camera::SetCameraType( CameraType type )
+{
+	_cameraType = type;
 	_projectionChanged = true;
 
 	if ( _emitEvents )

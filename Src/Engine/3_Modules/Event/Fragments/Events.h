@@ -17,6 +17,7 @@ namespace CYRED
 			, COMPONENT				// source: Component derived
 			, ASSET					// source: unknown
 			, SCENE					// source: unknown
+			, CUSTOM				// source: unknown
 			, _COUNT_
 		};
 	}
@@ -35,10 +36,15 @@ namespace CYRED
 			, TRANSFORM_CHANGED
 			, CAMERA_CHANGED
 			, PARTICLE_EMITTER_CHANGED
+			, MESH_RENDERING_CHANGED
+			, MORPH_RENDERING_CHANGED
 
 			// asset
 			, ASSET_SELECTED
 			, ASSET_CHANGED
+
+			// custom
+			, EDITOR_PROJ_SETTINGS
 		};
 	}
 

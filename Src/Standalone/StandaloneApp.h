@@ -10,6 +10,7 @@ struct GLFWwindow;
 namespace CYRED
 {
 	class GLContext;
+	class GameObject;
 }
 
 
@@ -35,7 +36,10 @@ namespace CYRED
 		GLFWwindow* _glfwWindow;
 		GLContext*	_glContext;
 
-		Bool	_shouldExit;
+		Bool		_shouldExit;
+		GameObject* _missingCamera;
+
+		AppConfig	_appConfig;
 
 
 	protected:

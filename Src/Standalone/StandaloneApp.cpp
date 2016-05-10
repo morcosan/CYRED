@@ -2,6 +2,7 @@
 // MIT License
 
 #include "StandaloneApp.h"
+#include "CyredBuildingBlocks.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Debug.h"
 #include "CyredModule_Event.h"
@@ -16,11 +17,6 @@
 #include "EngineOverride\OpenGL\GLContextImpl.h"
 #include "EngineOverride\Debug\ConsoleWindows.h"
 #include "EngineOverride\File\FileSystemWindows.h"
-
-#include "Fragments\AppSettings.h"
-
-#include "Fragments\Serialize\JSON\JsonSerializer_GameConfig.h"
-#include "Fragments\Serialize\JSON\JsonSerializer_AssetDB.h"
 
 #include "Fragments\GameInitScript.h"
 
@@ -138,14 +134,13 @@ void StandaloneApp::_InitializeManagers()
 	AssetManager::Singleton()->Initialize();
 
 	SerializeSystem* serializeSystem = Memory::Alloc<JsonSerializeSystem>();
-	serializeSystem->AddSerializer<AppSettings>( Memory::Alloc<JsonSerializer_GameConfig>() );
-	serializeSystem->AddSerializer<AppSettings::SceneData>( Memory::Alloc<JsonSerializer_AssetDB>() );
+	
 	
 	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>() );
 	FileManager::Singleton()->SetSerializeSystem( serializeSystem );
 
 	//InputManager::Singleton()->Initialize( _inputReceiver );
-	TimeManager::Singleton()->Initialize( AppSettings::fps );
+	TimeManager::Singleton()->Initialize( _appConfig.fps );
 	DebugManager::Singleton()->Initialize( Memory::Alloc<ConsoleWindows>() );
 }
 
@@ -188,8 +183,8 @@ void StandaloneApp::_InitializeGLFW()
 
 void StandaloneApp::_ReadConfigFile()
 {
-	Char* fileData = FileManager::Singleton()->ReadFile( AppSettings::FILE_PATH_CONFIG );
-	FileManager::Singleton()->Deserialize<AppSettings>( fileData, NULL );
+	Char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
+	FileManager::Singleton()->Deserialize<AppConfig>( fileData, &_appConfig );
 }
 
 
@@ -197,21 +192,21 @@ void StandaloneApp::_CreateMainWindow()
 {
 	glfwDestroyWindow( _glfwWindow );
 
-	if ( AppSettings::fullscreen )
+	if ( _appConfig.fullscreen )
 	{
-		const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		AppSettings::width = mode->width;
-		AppSettings::height = mode->height;
+		const GLFWvidmode* mode = glfwGetVideoMode( glfwGetPrimaryMonitor() );
+		_appConfig.width = mode->width;
+		_appConfig.height = mode->height;
 
-		_glfwWindow = glfwCreateWindow( AppSettings::width, AppSettings::height,
-										AppSettings::appName.GetChar(),
+		_glfwWindow = glfwCreateWindow( _appConfig.width, _appConfig.height,
+										_appConfig.appName.GetChar(),
 										glfwGetPrimaryMonitor(), NULL );
 	}
 	else
 	{
 		glfwWindowHint( GLFW_RESIZABLE, 0 ); // no resize
-		_glfwWindow = glfwCreateWindow( AppSettings::width, AppSettings::height,
-										AppSettings::appName.GetChar(),
+		_glfwWindow = glfwCreateWindow( _appConfig.width, _appConfig.height,
+										_appConfig.appName.GetChar(),
 										NULL, NULL );
 	}
 	if ( _glfwWindow == NULL )
@@ -222,7 +217,7 @@ void StandaloneApp::_CreateMainWindow()
     }
 
 	glfwWindowHint( GLFW_RESIZABLE, GL_FALSE ); 
-	glfwSetWindowPos( _glfwWindow, AppSettings::posX, AppSettings::posY );
+	glfwSetWindowPos( _glfwWindow, _appConfig.posX, _appConfig.posY );
 
 	glfwMakeContextCurrent( _glfwWindow );
 
@@ -241,12 +236,16 @@ void StandaloneApp::_InitializeRenderer()
 	UInt techSlot = renderMngr->NewTechnique( TechniqueType::FORWARD_BASIC );
 	renderMngr->ChangeRenderer( 0, RendererType::GL_FORWARD );
 	renderMngr->ChangeTechnique( 0, techSlot );
+
+	_missingCamera = Memory::Alloc<GameObject>();
+	_missingCamera->AddComponent<COMP::Transform>();
+	_missingCamera->AddComponent<COMP::Camera>();
 }
 
 
 void StandaloneApp::_StartGame()
 {
-	GameInitScript* gameInit = Memory::Alloc<GameInitScript>();
+	GameInitScript* gameInit = Memory::Alloc<GameInitScript>( &_appConfig );
 	gameInit->Start();
 
 	RenderManager::Singleton()->OnResize( 0 );
@@ -256,35 +255,38 @@ void StandaloneApp::_StartGame()
 void StandaloneApp::_RenderScene()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
-
-	GameObject* cameraGO = SceneManager::Singleton()->GetMainCamera();
-	if ( cameraGO == NULL )
-	{
-		return;
-	}
-
-	//! update camera size
-	COMP::Camera* cam = cameraGO->GetComponent<COMP::Camera>();
-	Float aspectRatio = CAST_S( Float, AppSettings::width ) / AppSettings::height;
-	Float height = cam->GetOrthoSize().y;
-	cam->SetAspectRatio( aspectRatio );
-	cam->SetOrthoSize( Vector2( aspectRatio * height, height ) );
-	
-
 	SceneManager* sceneMngr = SceneManager::Singleton();
 
-	if ( sceneMngr->CountLoadedScenes() > 0 )
+	GameObject* cameraGO = sceneMngr->GetMainCamera();
+	if ( cameraGO != NULL )
 	{
-		//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
+		COMP::Camera* camera = cameraGO->GetComponent<COMP::Camera>();
+		COMP::Transform* transform = cameraGO->GetComponent<COMP::Transform>();
+
+		if ( camera != NULL && camera->IsEnabled() &&
+			 transform != NULL && transform->IsEnabled() )
 		{
-			Scene* scene = sceneMngr->GetScene();
-			renderMngr->RenderScene( 0, scene, cameraGO );
+			//! update camera size
+			COMP::Camera* cam = cameraGO->GetComponent<COMP::Camera>();
+			Float aspectRatio = CAST_S( Float, _appConfig.width ) / _appConfig.height;
+			Float height = cam->GetOrthoSize().y;
+			cam->SetAspectRatio( aspectRatio );
+			cam->SetOrthoWidth( aspectRatio * height );
+
+			if ( sceneMngr->CountLoadedScenes() > 0 )
+			{
+				//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
+				{
+					Scene* scene = sceneMngr->GetScene();
+					renderMngr->RenderScene( 0, scene, cameraGO );
+				}
+
+				return;
+			}
 		}
 	}
-	else
-	{
-		renderMngr->RenderScene( 0, NULL, cameraGO );
-	}
+	
+	renderMngr->RenderScene( 0, NULL, _missingCamera );
 }
 
 

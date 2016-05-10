@@ -43,7 +43,7 @@ namespace CYRED
 		void		BindToGPU				();
 
 		UInt		GetTextureID			()				const;
-		TextureType	GetType					()				const;
+		TextureType	GetTextureType			()				const;
 		Bool		HasMipmap				()				const;
 		Bool		DoesClearBufferOnBind	()				const;
 		UInt		GetWidth				()				const;
@@ -63,7 +63,7 @@ namespace CYRED
 
 	protected:
 		UInt 		_textureID;
-		TextureType	_type;
+		TextureType	_textureType;
 		Bool		_hasMipmap;
 		Bool		_clearBufferOnBind;		//! when binding to GPU, clear image buffer
 

@@ -5,6 +5,7 @@
 #include "../RenderManagerImpl.h"
 #include "../../File/FileManager.h"
 #include "../../Event/EventManager.h"
+#include "../../../2_BuildingBlocks/String/FiniteString.h"
 
 
 using namespace CYRED;
@@ -27,12 +28,11 @@ Shader::~Shader()
 
 void Shader::LoadUniqueID()
 {
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_SHADER );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_SHADER );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Shader>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -45,12 +45,11 @@ void Shader::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_SHADER );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_SHADER );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Shader>( fileData, this );
 
 	// free memory for file
@@ -123,18 +122,15 @@ void Shader::ChangeRenderer( const Char * rendererType )
 	{
 		_FilesPaths* paths = _shaderFiles.Get( rendererType );
 
-		Char vertexPath[MAX_SIZE_CUSTOM_STRING];
-		CUSTOM_STRING( vertexPath, "%s%s", _dirPath.GetChar(), paths->vertex.GetChar() );
+		FiniteString vertexPath( "%s%s", _dirPath.GetChar(), paths->vertex.GetChar() );
 
-		Char geometryPath[MAX_SIZE_CUSTOM_STRING];
-		CUSTOM_STRING( geometryPath, "%s%s", _dirPath.GetChar(), paths->geometry.GetChar() );
+		FiniteString geometryPath( "%s%s", _dirPath.GetChar(), paths->geometry.GetChar() );
 
-		Char fragmentPath[MAX_SIZE_CUSTOM_STRING];
-		CUSTOM_STRING( fragmentPath, "%s%s", _dirPath.GetChar(), paths->fragment.GetChar() );
+		FiniteString fragmentPath( "%s%s", _dirPath.GetChar(), paths->fragment.GetChar() );
 
-		Char* vertexCode	= FileManager::Singleton()->ReadFile( vertexPath );
-		Char* geometryCode	= FileManager::Singleton()->ReadFile( geometryPath );
-		Char* fragmentCode	= FileManager::Singleton()->ReadFile( fragmentPath );
+		Char* vertexCode	= FileManager::Singleton()->ReadFile( vertexPath.GetChar() );
+		Char* geometryCode	= FileManager::Singleton()->ReadFile( geometryPath.GetChar() );
+		Char* fragmentCode	= FileManager::Singleton()->ReadFile( fragmentPath.GetChar() );
 
 		ChangeRenderer( vertexCode,	geometryCode, fragmentCode );
 

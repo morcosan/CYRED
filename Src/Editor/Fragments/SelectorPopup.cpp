@@ -3,12 +3,15 @@
 
 #include "SelectorPopup.h"
 #include "Selectors\Selector.h"
-#include "EditorSkin.h"
+#include "Settings/EditorSkin.h"
 #include "AttrViewers\AttrViewer.h"
 
 #include "Selectors\Selector_Material.h"
+#include "Selectors\Selector_Mesh.h"
+#include "Selectors\Selector_Morph.h"
 #include "Selectors\Selector_Shader.h"
 #include "Selectors\Selector_Texture.h"
+#include "Selectors\Selector_Scene.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlistwidget.h"
@@ -76,8 +79,11 @@ void SelectorPopup::DisplayPopup( const Char* type, void* qtSelectorPtr )
 void SelectorPopup::Initialize()
 {
 	AddSelector( Selector_Material::TYPE,	Memory::Alloc<Selector_Material>( this ) );
+	AddSelector( Selector_Mesh::TYPE,		Memory::Alloc<Selector_Mesh>( this ) );
+	AddSelector( Selector_Morph::TYPE,		Memory::Alloc<Selector_Morph>( this ) );
 	AddSelector( Selector_Shader::TYPE,		Memory::Alloc<Selector_Shader>( this ) );
 	AddSelector( Selector_Texture::TYPE,	Memory::Alloc<Selector_Texture>( this ) );
+	AddSelector( Selector_Scene::TYPE,		Memory::Alloc<Selector_Scene>( this ) );
 }
 
 

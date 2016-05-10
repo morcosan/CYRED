@@ -2,7 +2,7 @@
 // MIT License
 
 #pragma once
-#include "../DLL_Include/CyredRequired.h"
+#include "../1_Required/Required.h"
 
 
 namespace CYRED

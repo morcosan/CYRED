@@ -7,8 +7,9 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_Debug.h"
 #include "CyredModule_Scene.h"
-#include "../EditorSkin.h"
-#include "../EditorSettings.h"
+#include "../Settings/EditorSkin.h"
+#include "../Settings/ProjectSettings.h"
+#include "../Settings/EditorSettings.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -82,7 +83,7 @@ AssetsPanel::AssetsPanel()
 	QObject::connect( _qtTree, &QTreeWidget::itemChanged,		this, &AssetsPanel::A_ItemRenamed );
 
 	_qtFileWatcher = Memory::Alloc<QFileSystemWatcher>();
-	_qtFileWatcher->addPath( EditorSettings::DIR_PATH_ASSETS );
+	_qtFileWatcher->addPath( ProjectSettings::dirPathAssets.GetChar() );
 
 	QObject::connect( _qtFileWatcher, &QFileSystemWatcher::directoryChanged,	
 					  this, &AssetsPanel::A_DirChanged );
@@ -161,8 +162,8 @@ void AssetsPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
 	EventManager::Singleton()->EmitEvent( EventType::ASSET,	
-											EventName::ASSET_SELECTED,
-											asset );
+										  EventName::ASSET_SELECTED,
+										  asset );
 }
 
 
@@ -185,7 +186,7 @@ void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 
 	if ( asset != NULL )
 	{
-		String newName( item->text(0).toUtf8().constData() );
+		FiniteString newName( item->text(0).toUtf8().constData() );
 
 		_qtTree->blockSignals( true );
 		item->setText( 0, asset->GetName() );
@@ -244,6 +245,13 @@ void AssetsPanel::A_ReloadAsset()
 			{
 				Mesh* mesh = CAST_S( Mesh*, asset );
 				mesh->LoadFullFile();
+			}
+			break;
+
+		case AssetType::MORPH:
+			{
+				Morph* morph = CAST_S( Morph*, asset );
+				morph->LoadFullFile();
 			}
 			break;
 
@@ -343,7 +351,7 @@ void AssetsPanel::A_Create_Folder()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	_AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::UNKNOWN );
 }
 
@@ -353,7 +361,7 @@ void AssetsPanel::A_Create_Mat_Empty()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
@@ -365,7 +373,7 @@ void AssetsPanel::A_Create_Mat_PS()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
 	Material* material = CAST_S( Material*, asset );
@@ -384,7 +392,7 @@ void AssetsPanel::A_Create_Tex_2D()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
@@ -396,7 +404,7 @@ void AssetsPanel::A_Create_Tex_CM()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
 	Texture* texture = CAST_S( Texture*, asset );
@@ -413,8 +421,32 @@ void AssetsPanel::A_Create_Shader()
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
 	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-										EditorSettings::DIR_PATH_ASSETS;
+									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Mesh()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+									   ProjectSettings::dirPathAssets.GetChar();
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
+void AssetsPanel::A_Create_Morph()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+									   ProjectSettings::dirPathAssets.GetChar();
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
 
 	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
 }
@@ -445,7 +477,7 @@ void AssetsPanel::ReloadAllAssets()
 	}
 
 	// add again all
-	_ParseDirectory( EditorSettings::DIR_PATH_ASSETS, _qtTree->invisibleRootItem() );
+	_ParseDirectory( ProjectSettings::dirPathAssets.GetChar(), _qtTree->invisibleRootItem() );
 }
 
 
@@ -530,6 +562,20 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddMesh( mesh );
 				asset = mesh; // will be checked later
 			}
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MORPH ) == 0 )
+			{
+				icon = _icons.Get( ICON_MORPH );
+				
+				Morph* morph = Memory::Alloc<Morph>();
+				morph->SetEmitEvents( FALSE );
+				morph->SetName( fileName.toUtf8().constData() );
+				morph->SetDirPath( dirPath );
+				morph->LoadUniqueID();
+				morph->SetEmitEvents( TRUE );
+
+				statusAdd = AssetManager::Singleton()->AddMorph( morph );
+				asset = morph; // will be checked later
+			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SHADER ) == 0 )
 			{
 				icon = _icons.Get( ICON_SHADER );
@@ -578,10 +624,8 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 
 					case StatusAssetAdd::FAIL_INVALID_ID:
 					{
-						Char warning[ MAX_SIZE_CUSTOM_STRING ];
-						CUSTOM_STRING( warning, DEBUG_INVALID_UID,
-										fileName.toUtf8().constData() );
-						DebugManager::Singleton()->Log( warning );
+						FiniteString warning( DEBUG_INVALID_UID, fileName.toUtf8().constData() );
+						DebugManager::Singleton()->Log( warning.GetChar() );
 
 						asset->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 						break;
@@ -601,6 +645,10 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 
 							case AssetType::MESH:
 								other = AssetManager::Singleton()->GetMesh( uid );
+								break;
+
+							case AssetType::MORPH:
+								other = AssetManager::Singleton()->GetMorph( uid );
 								break;
 
 							case AssetType::SHADER:
@@ -629,10 +677,9 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 						}
 						else
 						{
-							Char warning[MAX_SIZE_CUSTOM_STRING];
-							CUSTOM_STRING( warning, DEBUG_EXISTING_ASSET,
-										   fileName.toUtf8().constData() );
-							DebugManager::Singleton()->Log( warning );
+							FiniteString warning( DEBUG_EXISTING_ASSET,   
+												  fileName.toUtf8().constData() );
+							DebugManager::Singleton()->Log( warning.GetChar() );
 
 							Memory::Free( asset );
 							asset = NULL;
@@ -731,7 +778,62 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 		}
 
 		case AssetType::MESH:
+		{
+			Mesh* mesh = Memory::Alloc<Mesh>();
+			mesh->SetEmitEvents( FALSE );
+			mesh->SetDirPath( dirPath );
+			mesh->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			mesh->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_MESH ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_MESH );
+
+				mesh->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( mesh ) );
+
+			icon = _icons.Get( ICON_MESH );
+
+			mesh->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddMesh( mesh );
+			asset = mesh;
 			break;
+		}
+
+		case AssetType::MORPH:
+		{
+			Morph* morph = Memory::Alloc<Morph>();
+			morph->SetEmitEvents( FALSE );
+			morph->SetDirPath( dirPath );
+			morph->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			morph->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_MORPH ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_MORPH );
+
+				morph->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( morph ) );
+
+			icon = _icons.Get( ICON_MORPH );
+
+			morph->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddMorph( morph );
+			asset = morph;
+			break;
+		}
 
 		case AssetType::SHADER:
 		{
@@ -902,6 +1004,8 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionTexCM = menuTexture->addAction( MENU_C_TEX_CM );
 
 		QAction* actionShader = menuCreate->addAction( MENU_C_SHADER );
+		QAction* actionMesh = menuCreate->addAction( MENU_C_MESH );
+		QAction* actionMorph = menuCreate->addAction( MENU_C_MORPH );
 
 		QObject::connect( actionFolder,		&QAction::triggered, this, &AssetsPanel::A_Create_Folder );
 		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &AssetsPanel::A_Create_Mat_Empty );
@@ -909,6 +1013,8 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionTex2D,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_2D );
 		QObject::connect( actionTexCM,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_CM );
 		QObject::connect( actionShader,		&QAction::triggered, this, &AssetsPanel::A_Create_Shader );
+		QObject::connect( actionMesh,		&QAction::triggered, this, &AssetsPanel::A_Create_Mesh );
+		QObject::connect( actionMorph,		&QAction::triggered, this, &AssetsPanel::A_Create_Morph );
 	}
 }
 
@@ -920,7 +1026,7 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 	// first try to write new file, then delete old one
 	// this way, if writing fails, you still got old file
 
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
+	FiniteString filePath;
 	const Char* fileFormat = NULL;
 	String data;
 
@@ -950,17 +1056,33 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 			break;
 		}
 
+		case AssetType::MESH:
+		{
+			fileFormat = FileManager::FILE_FORMAT_MESH;
+			Mesh* mesh = CAST_S( Mesh*, asset );
+			data = FileManager::Singleton()->Serialize<Mesh>( mesh );
+			break;
+		}
+
+		case AssetType::MORPH:
+		{
+			fileFormat = FileManager::FILE_FORMAT_MORPH;
+			Morph* morph = CAST_S( Morph*, asset );
+			data = FileManager::Singleton()->Serialize<Morph>( morph );
+			break;
+		}
+
 		case AssetType::SCENE:
 		{
 			fileFormat = FileManager::FILE_FORMAT_SCENE;
-			CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
+			filePath.Set( "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
 
-			QFile file( filePath );
+			QFile file( filePath.GetChar() );
 			Bool exists = file.exists();
 			if ( exists )
 			{
-				CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
-				Bool success = file.rename( filePath );
+				filePath.Set( "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
+				Bool success = file.rename( filePath.GetChar() );
 			}
 
 			return;
@@ -970,15 +1092,16 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 			return;
 	}
 
-	CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
+	filePath.Set( "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
 
-	Bool success = FileManager::Singleton()->WriteFile( filePath, data.GetChar() );
+	Bool success = FileManager::Singleton()->WriteFile( filePath.GetChar(), 
+														data.GetChar() );
 
 	// now delete old file
 	if ( success && String(oldName) != asset->GetName() )
 	{
-		CUSTOM_STRING( filePath, "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
-		FileManager::Singleton()->DeleteFile( filePath );
+		filePath.Set( "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
+		FileManager::Singleton()->DeleteFile( filePath.GetChar() );
 	}
 }
 

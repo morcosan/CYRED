@@ -6,8 +6,11 @@
 #include "../File/FileManager.h"
 #include "../Asset/AssetManager.h"
 #include "../../2_BuildingBlocks/GameObject.h"
+#include "../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../2_BuildingBlocks/Random/Random.h"
+#include "../../2_BuildingBlocks/Components/Transform.h"
 #include "Fragments/Scene.h"
+#include "../Render/Components/Camera.h" 
 
 
 using namespace CYRED;
@@ -122,13 +125,11 @@ void SceneManagerImpl::SaveScene( const Char* sceneUID )
 	Scene* scene = GetScene( sceneUID );
 
 	// get the path
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", 
-				   scene->GetDirPath(),
-				   scene->GetName(),
-				   FileManager::FILE_FORMAT_SCENE );
+	FiniteString filePath( "%s%s%s", scene->GetDirPath(),
+									 scene->GetName(),
+									 FileManager::FILE_FORMAT_SCENE );
 
-	fileManager->WriteFile( filePath, fileManager->Serialize<Scene>( scene ).GetChar() );
+	fileManager->WriteFile( filePath.GetChar(), fileManager->Serialize<Scene>( scene ).GetChar() );
 }
 
 
@@ -141,23 +142,6 @@ Scene* SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newScene
 	Scene* scene = GetScene( sceneUID );
 	ASSERT( scene != NULL );
 
-	if ( !scene->IsTemporary() )
-	{
-		UInt sceneIndex = GetSceneIndex( sceneUID );
-		_currScenes.Erase( sceneIndex );
-
-		Scene* newScene = Memory::Alloc<Scene>();
-		_currScenes.Add( newScene );
-
-		// move all game objects to new scene
-		for ( UInt i = 0; i < scene->GetRoot()->GetChildNodeCount(); ++i )
-		{
-			newScene->GetRoot()->AddChildNode( scene->GetRoot()->GetChildNodeAt( i ) );
-		}
-
-		scene = newScene;
-	}
-
 	scene->SetEmitEvents( FALSE );
 	scene->SetName( newSceneName );
 	scene->SetDirPath( dirPath );
@@ -168,14 +152,12 @@ Scene* SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newScene
 	AssetManager::Singleton()->AddScene( scene );
 	
 		// save new scene to file
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", 
-				   dirPath,
-				   newSceneName,
-				   FileManager::FILE_FORMAT_SCENE );
+	FiniteString filePath( "%s%s%s", dirPath,
+								     newSceneName,
+								     FileManager::FILE_FORMAT_SCENE );
 
 	FileManager* fileManager = FileManager::Singleton();
-	fileManager->WriteFile( filePath, fileManager->Serialize<Scene>( scene ).GetChar() );
+	fileManager->WriteFile( filePath.GetChar(), fileManager->Serialize<Scene>( scene ).GetChar() );
 
 	return scene;
 }
@@ -189,13 +171,12 @@ void SceneManagerImpl::SaveAllScenes()
 
 	for ( UInt i = 0; i < _currScenes.Size(); ++i )
 	{
-		Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-		CUSTOM_STRING( filePath, "%s%s%s", 
-					   _currScenes[i]->GetDirPath(),
-					   _currScenes[i]->GetName(),
-					   FileManager::FILE_FORMAT_SCENE );
+		FiniteString filePath( "%s%s%s", _currScenes[i]->GetDirPath(),
+									     _currScenes[i]->GetName(),
+									     FileManager::FILE_FORMAT_SCENE );
 
-		fileManager->WriteFile( filePath, fileManager->Serialize<Scene>( _currScenes[i] ).GetChar() );
+		fileManager->WriteFile( filePath.GetChar(), 
+								fileManager->Serialize<Scene>( _currScenes[i] ).GetChar() );
 	}
 }
 
@@ -301,6 +282,15 @@ void SceneManagerImpl::Destroy( GameObject* object )
 {
 	ASSERT( _isInitialized );
 
+	if ( object == NULL )
+	{
+		return;
+	}
+
+	object->SetParentNode( NULL );
+	Memory::Free( object );
+
+	EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::HIERARCHY_CHANGED, NULL );
 }
 
 
@@ -377,9 +367,6 @@ void SceneManagerImpl::SetMainCamera( GameObject* cameraGO )
 	_mainCameraGO = cameraGO;
 }
 
-// TODO
-#include "../../2_BuildingBlocks/Components/Transform.h" 
-#include "../Render/Components/Camera.h" 
 
 GameObject* SceneManagerImpl::GetMainCamera()
 {
@@ -387,18 +374,51 @@ GameObject* SceneManagerImpl::GetMainCamera()
 
 	if ( _mainCameraGO == NULL )
 	{
-		// TODO
-		GameObject* cameraGO1 = Memory::Alloc<GameObject>();
-		cameraGO1->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+		// search for first active camera
+		for ( UInt i = 0; i < _currScenes.Size(); ++i )
+		{
+			Node* root = _currScenes[i]->GetRoot();
 
-		COMP::Camera* cameraComp1 = cameraGO1->AddComponent<COMP::Camera>();
-		cameraComp1->SetFovYAngle( 60 );
-		cameraComp1->SetNearClipping( 0.1f );
-		cameraComp1->SetFarClipping( 1000.0f );
+			_mainCameraGO = _RecFindActiveCamera( root );
 
-		_mainCameraGO = cameraGO1;
+			if ( _mainCameraGO != NULL )
+			{
+				break;
+			}
+		}
 	}
 
 	return _mainCameraGO;
 }
 
+
+GameObject* SceneManagerImpl::_RecFindActiveCamera( Node* parent )
+{
+	for ( UInt i = 0; i < parent->GetChildNodeCount(); ++i )
+	{
+		GameObject* gameObject = CAST_S( GameObject*, parent->GetChildNodeAt( i ) );
+
+		if ( gameObject->IsEnabled() )
+		{
+			COMP::Camera* camera = gameObject->GetComponent<COMP::Camera>();
+			COMP::Transform* transform = gameObject->GetComponent<COMP::Transform>();
+
+			if ( camera != NULL && camera->IsEnabled() && 
+				 transform != NULL && transform->IsEnabled() )
+			{
+				return gameObject;
+			}
+			else
+			{
+				GameObject* found = _RecFindActiveCamera( gameObject );
+
+				if ( found != NULL )
+				{
+					return found;
+				}
+			}
+		}
+	}
+
+	return NULL;
+}

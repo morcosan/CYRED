@@ -13,5 +13,6 @@ namespace CYRED
 		static const Char* WORLD;
 		static const Char* VIEW;
 		static const Char* PROJECTION;
+		static const Char* CAMERA_POS_WORLD;
 	};
 }

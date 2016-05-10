@@ -26,12 +26,14 @@ namespace CYRED
 			void ClearAll	()	override;
 
 			StatusAssetAdd	AddMesh		( Mesh* mesh )				override;
+			StatusAssetAdd	AddMorph	( Morph* morph )			override;
 			StatusAssetAdd	AddMaterial	( Material* material )		override;
 			StatusAssetAdd	AddShader	( Shader* shader )			override;
 			StatusAssetAdd	AddTexture	( Texture* texture )		override;
 			StatusAssetAdd	AddScene	( Scene* scene )			override;
 
 			Mesh*		GetMesh			( const Char* uniqueID )	override;
+			Morph*		GetMorph		( const Char* uniqueID )	override;
 			Material*	GetMaterial		( const Char* uniqueID )	override;
 			Shader*		GetShader		( const Char* uniqueID )	override;
 			Texture*	GetTexture		( const Char* uniqueID )	override;
@@ -40,17 +42,27 @@ namespace CYRED
 			UInt		GetMaterialCount()							override;
 			Material*	GetMaterialAt	( UInt index )				override;
 
+			UInt		GetMeshCount	()							override;
+			Mesh*		GetMeshAt		( UInt index )				override;
+
+			UInt		GetMorphCount	()							override;
+			Morph*		GetMorphAt		( UInt index )				override;
+
 			UInt		GetShaderCount	()							override;
 			Shader*		GetShaderAt		( UInt index )				override;
 
 			UInt		GetTextureCount	()							override;
 			Texture*	GetTextureAt	( UInt index )				override;
 
+			UInt		GetSceneCount	()							override;
+			Scene*		GetSceneAt		( UInt index )				override;
+
 
 		protected:
 			DataArray<Material*>	_materials;
 			DataArray<Shader*>		_shaders;
 			DataArray<Mesh*>		_meshes;
+			DataArray<Morph*>		_morphs;
 			DataArray<Texture*>		_textures;
 			DataArray<Scene*>		_scenes;
 		};

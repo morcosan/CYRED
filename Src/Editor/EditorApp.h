@@ -106,5 +106,8 @@ namespace CYRED
 		void _CreateCameras			();
 		/* update for the scripts on each camera			*/
 		void _UpdateCameras			();
+
+		void _ReadConfigFile		();
+		void _ReadProjectFile		();
 	};
 }

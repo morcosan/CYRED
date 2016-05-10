@@ -2,7 +2,6 @@
 // MIT License
 
 #include "GLContextImpl.h"
-#include "../../Fragments/AppSettings.h"
 
 #include "GLFW\Include\glfw3.h"
 
@@ -30,8 +29,12 @@ void GLContextImpl::SwapBuffers()
 
 void GLContextImpl::OnResize()
 {
-	_width = AppSettings::width;
-	_height = AppSettings::height;
+	Int width;
+	Int height;
+	glfwGetWindowSize( _glfwWindow, &width, &height );
+
+	_width = width;
+	_height = height;
 }
 
 

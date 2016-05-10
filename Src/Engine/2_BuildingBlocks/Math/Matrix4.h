@@ -49,7 +49,7 @@ namespace CYRED
 
 
 	public:
-		const Float* GetValuePtr();
+		const Float* Ptr();
 
 
 	protected:

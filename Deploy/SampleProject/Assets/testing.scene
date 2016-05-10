@@ -1,0 +1,123 @@
+{
+    "uid": "OpG9RI1FtJ7Khu4opRKMbcB8xDN9QMMX",
+    "GameObjects": [
+        {
+            "Name": "Mesh",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": 5.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "MeshRendering": {
+                    "enabled": true,
+                    "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
+                    "material": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS"
+                }
+            }
+        },
+        {
+            "Name": "Morph",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": -5.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "MorphRendering": {
+                    "enabled": true,
+                    "morph": "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN",
+                    "material": "WCzQBXGkivO7vBxgN7GAmwOfmOdEjAjS",
+                    "duration_state": 1.0,
+                    "duration_state_change": 0.5,
+                    "is_playing": true
+                }
+            }
+        },
+        {
+            "Name": "Emitter",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 90.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "ParticleEmitter": {
+                    "Enabled": true,
+                    "MaxParticles": 1000,
+                    "ParticleLifetime": 5.0,
+                    "ParticleVelocity": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -1.0
+                    },
+                    "ParticleAcceleration": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "ShapeDrivenSpeed": 0.0,
+                    "ShapeDrivenAccel": 0.0,
+                    "WavesPerSec": 10.0,
+                    "ParticlesPerWave": 1,
+                    "Looping": true,
+                    "SpawnDuration": 5.0,
+                    "EmitterShape": "CIRCLE",
+                    "ShapeRadius": 1.0,
+                    "SpawnFromEdge": false,
+                    "Material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
+                    "Particle_Size_Start": {
+                        "x": 0.5,
+                        "y": 0.5
+                    },
+                    "Particle_Size_End": {
+                        "x": 0.5,
+                        "y": 0.5
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -74,10 +74,14 @@ void AttrViewer_Transform::_OnUpdateTarget()
 			_target->SetEulerRotationWorld	( _ReadAttrVector3( ATTR_WORLD_ROT ) );
 			_target->SetScaleWorld			( _ReadAttrVector3( ATTR_WORLD_SCALE ) );
 		}
-	}
-	{
+
 		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
-		_target->SetEnabled( newValue );
+		if ( _target->IsEnabled() != newValue )
+		{
+			_target->SetEnabled( newValue );
+
+			_Colorize( _target->IsEnabled() );
+		}
 	}
 
 	_target->SetEmitEvents( TRUE );
@@ -86,8 +90,6 @@ void AttrViewer_Transform::_OnUpdateTarget()
 	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
 										  EventName::TRANSFORM_CHANGED, _target );
-
-	_Colorize( _target->IsEnabled() );
 }
 
 

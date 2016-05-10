@@ -61,12 +61,13 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 	if ( json.HasMember( UNIQUE_ID ) )
 	{
 		scene->SetUniqueID( json[UNIQUE_ID].GetString() );
-
-		if ( flag == DeserFlag::UID_ONLY )
-		{
-			return;
-		}
 	}
+
+	if ( flag == DeserFlag::UID_ONLY )
+	{
+		return;
+	}
+
 	if ( json.HasMember( GAMEOBJECTS ) )
 	{
 		rapidjson::Value& gameObjects = json[GAMEOBJECTS];

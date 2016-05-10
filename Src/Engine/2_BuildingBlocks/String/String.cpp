@@ -1,102 +1,130 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-
 #include "String.h"
+
+#include <cstring>
 
 
 using namespace CYRED;
 
 
 
-UInt HashFunction_Primes( const Char* s )
-{
-	const UInt a = 54059; /* a prime */
-	const UInt b = 76963; /* another prime */
-	const UInt c = 86969; /* yet another prime */
-
-	UInt h = 31 /* also prime */;
-	while ( *s ) 
-	{
-		h = (h * a) ^ (s[0] * b);
-		s++;
-	}
-	return h % c; // return h or return h % C;
-}
-
-
-
-#define MAKE_HASH(s)	HashFunction_Primes(s)
-
-
-
 String::String()
+	: _data( Memory::AllocArray<Char>(1) )
 {
-	_string = Memory::Alloc<std::string>( "" );
-	_hashValue = MAKE_HASH( "" );
+	_data[0] = '\0';
 }
 
 
-String::String( const Char* value )
+String::String( const Char* other )
 {
-	if ( value != NULL )
+	if ( other == NULL )
 	{
-		_string = Memory::Alloc<std::string>( value );
-		_hashValue = MAKE_HASH( value );
+		_data = Memory::AllocArray<Char>( 1 );
+		_data[0] = '\0';
+		return;
 	}
-	else
-	{
-		_string = Memory::Alloc<std::string>( "" );
-		_hashValue = MAKE_HASH( "" );
-	}
+
+	_data = Memory::AllocArray<Char>( strlen( other ) + 1 );
+	strcpy( _data, other );
 }
 
 
-String::String( const String& value )
+String::String( const String& other )
+	: _data( Memory::AllocArray<Char>( other.GetLength() + 1 ) )
 {
-	_string = Memory::Alloc<std::string>( *value._string );
-	_hashValue = value._hashValue;
+	strcpy( _data, other.GetChar() );
 }
 
 
 String::~String()
 {
-	Memory::Free( _string );
-}
-
-
-Bool String::operator==( const String& other ) const
-{
-	return (_hashValue == other.GetHash());
-}
-
-
-Bool String::operator!=( const String& other ) const
-{
-	return (_hashValue != other.GetHash());
+	Memory::FreeArray( _data );
 }
 
 
 void String::operator=( const String& other )
 {
-	_string = Memory::Alloc<std::string>( *other._string );
-	_hashValue = other._hashValue;
+	if ( this == &other )
+	{
+		return;
+	}
+
+	Memory::FreeArray( _data );
+	_data = Memory::AllocArray<Char>( other.GetLength() + 1 );
+	strcpy( _data, other.GetChar() );
+}
+
+
+void String::operator=( const Char* other )
+{
+	if ( other == NULL )
+	{
+		_data = Memory::AllocArray<Char>( 1 );
+		_data[0] = '\0';
+		return;
+	}
+
+	Memory::FreeArray( _data );
+	_data = Memory::AllocArray<Char>( strlen( other ) + 1 );
+	strcpy( _data, other );
+}
+
+
+Bool String::operator==( const String& other ) const
+{
+	return ( strcmp( _data, other.GetChar() ) == 0 );
+}
+
+
+Bool String::operator==( const Char* other ) const
+{
+	if ( other == NULL )
+	{
+		return ( GetLength() == 0 );
+	}
+
+	return ( strcmp( _data, other ) == 0 );
+}
+
+
+Bool String::operator!=( const String& other ) const
+{
+	return !operator==( other );
+}
+
+
+Bool String::operator!=( const Char* other ) const
+{
+	return !operator==( other );
 }
 
 
 Bool String::operator<( const String& other ) const
 {
-	return *_string < *other._string;
+	return ( strcmp( _data, other.GetChar() ) < 0 );
 }
 
 
-UInt String::GetHash() const
+Bool String::operator<( const Char* other ) const
 {
-	return _hashValue;
+	if ( other == NULL )
+	{
+		return FALSE;
+	}
+
+	return ( strcmp( _data, other ) < 0 );
 }
 
 
 const Char* String::GetChar() const
 {
-	return _string->c_str();
+	return _data;
+}
+
+
+UInt String::GetLength() const
+{
+	return strlen( _data );
 }

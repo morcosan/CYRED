@@ -123,7 +123,7 @@ Matrix4 Matrix4::CreateOrthogonal( const Vector2& size, Float nearClipping, Floa
 }
 
 
-const Float* Matrix4::GetValuePtr()
+const Float* Matrix4::Ptr()
 {
 	return glm::value_ptr( *_self );
 }

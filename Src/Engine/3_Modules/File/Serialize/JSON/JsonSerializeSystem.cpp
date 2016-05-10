@@ -6,17 +6,30 @@
 #include "JsonSerializer_Scene.h"
 #include "JsonSerializer_Transform.h"
 #include "JsonSerializer_ParticleEmitter.h"
+#include "JsonSerializer_MeshRendering.h"
+#include "JsonSerializer_MorphRendering.h"
 #include "JsonSerializer_Material.h"
 #include "JsonSerializer_Shader.h"
 #include "JsonSerializer_Texture.h"
+#include "JsonSerializer_Mesh.h"
+#include "JsonSerializer_Morph.h"
+#include "JsonSerializer_Camera.h"
+#include "JsonSerializer_AppConfig.h"
+#include "JsonSerializer_AssetDB.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../Scene/Fragments/Scene.h"
+#include "../../../Render/Components/Camera.h"
 #include "../../../Render/Components/ParticleEmitter.h"
+#include "../../../Render/Components/MeshRendering.h"
+#include "../../../Render/Components/MorphRendering.h"
 #include "../../../Render/Assets/Material.h"
 #include "../../../Render/Assets/Shader.h"
 #include "../../../Render/Assets/Texture.h"
+#include "../../../Render/Assets/Mesh.h"
+#include "../../../Render/Assets/Morph.h"
+#include "../../../../4_Application/AppConfig.h"
 
 #include "rapidjson\Include\document.h"
 #include "rapidjson\Include\stringbuffer.h"
@@ -33,13 +46,20 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Scene>				( Memory::Alloc<JsonSerializer_Scene>() );
 
 	AddSerializer<COMP::Transform>		( Memory::Alloc<JsonSerializer_Transform>() );
+	AddSerializer<COMP::Camera>			( Memory::Alloc<JsonSerializer_Camera>() );
 	AddSerializer<COMP::ParticleEmitter>( Memory::Alloc<JsonSerializer_ParticleEmitter>() );
+	AddSerializer<COMP::MeshRendering>	( Memory::Alloc<JsonSerializer_MeshRendering>() );
+	AddSerializer<COMP::MorphRendering>	( Memory::Alloc<JsonSerializer_MorphRendering>() );
 
 	AddSerializer<Material>				( Memory::Alloc<JsonSerializer_Material>() );
 	AddSerializer<Shader>				( Memory::Alloc<JsonSerializer_Shader>() );
 	AddSerializer<Texture>				( Memory::Alloc<JsonSerializer_Texture>() );
-}
+	AddSerializer<Mesh>					( Memory::Alloc<JsonSerializer_Mesh>() );
+	AddSerializer<Morph>				( Memory::Alloc<JsonSerializer_Morph>() );
 
+	AddSerializer<AppConfig>			( Memory::Alloc<JsonSerializer_AppConfig>() );
+	AddSerializer<AssetDB>				( Memory::Alloc<JsonSerializer_AssetDB>() );
+}
 
 
 String JsonSerializeSystem::SerializeVec2( Vector2 value )

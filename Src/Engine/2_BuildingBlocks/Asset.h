@@ -18,6 +18,7 @@ namespace CYRED
 			, TEXTURE
 			, SHADER
 			, SCENE
+			, MORPH
 		};
 	}
 

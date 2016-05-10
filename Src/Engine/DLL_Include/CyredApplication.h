@@ -4,4 +4,5 @@
 #pragma once
 
 #include "../4_Application/Application.h"
+#include "../4_Application/AppConfig.h"
 

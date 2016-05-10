@@ -212,11 +212,6 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );
 				}
-				else
-				{
-					Memory::Free( material );
-					material = NULL;
-				}
 			}
 			emitter->SetMaterial( material );
 		}

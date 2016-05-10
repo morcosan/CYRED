@@ -31,11 +31,10 @@ namespace CYRED
 
 
 	public:
-		void OnStart		( Bool isRuntime = TRUE );
-		void OnUpdate		( Bool isRuntime = TRUE );
+		void	OnStart	( Bool isRuntime = TRUE );
+		void	OnUpdate( Bool isRuntime = TRUE );
 
-		void	SetMainCamera	( const Char* objectName );
-		Node*	GetRoot			();
+		Node*	GetRoot	();
 
 
 	protected:

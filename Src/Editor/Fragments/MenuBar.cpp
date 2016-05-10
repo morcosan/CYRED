@@ -8,6 +8,10 @@
 #include "QtWidgets/qactiongroup.h"
 
 
+#include "CyredModule_Render.h"
+#include "CyredModule_Asset.h"
+
+
 using namespace CYRED;
 
 
@@ -17,7 +21,7 @@ void MenuBar::Initialize()
 	this->setNativeMenuBar( true );
 
 	_AddMenu_Scene();
-
+	_AddMenu_Project();
 
 	// TODO
 	QMenu* menu = this->addMenu( "MAGIC" );
@@ -60,19 +64,28 @@ void MenuBar::_AddMenu_Scene()
 {
 	QMenu* menu = this->addMenu( SCENE_MENU );
 
-	_menuActions.Set( MenuAction::SCENE_OPEN_NEW,	menu->addAction( SCENE_OPEN_NEW ) );
-	_menuActions.Set( MenuAction::SCENE_LOAD_NEW,	menu->addAction( SCENE_LOAD_NEW ) );
-	_menuActions.Set( MenuAction::SCENE_SAVE_ALL,	menu->addAction( SCENE_SAVE_ALL ) );
-	_menuActions.Set( MenuAction::SCENE_CLOSE_ALL,	menu->addAction( SCENE_CLOSE_ALL ) );
+	QAction* actionOpenNew = menu->addAction( SCENE_OPEN_NEW );
+	QAction* actionLoadNew = menu->addAction( SCENE_LOAD_NEW );
+	QAction* actionSaveAll = menu->addAction( SCENE_SAVE_ALL );
+	QAction* actionCloseAll = menu->addAction( SCENE_CLOSE_ALL );
 
-	QObject::connect( _menuActions.Get( MenuAction::SCENE_OPEN_NEW ),		
-					  &QAction::triggered, this, &MenuBar::A_Scene_OpenNew );
-	QObject::connect( _menuActions.Get( MenuAction::SCENE_LOAD_NEW ),		
-					  &QAction::triggered, this, &MenuBar::A_Scene_LoadNew );
-	QObject::connect( _menuActions.Get( MenuAction::SCENE_SAVE_ALL ),	
-					  &QAction::triggered, this, &MenuBar::A_Scene_SaveAll );
-	QObject::connect( _menuActions.Get( MenuAction::SCENE_CLOSE_ALL ),	
-					  &QAction::triggered, this, &MenuBar::A_Scene_CloseAll );
+	QObject::connect( actionOpenNew, &QAction::triggered, this, &MenuBar::A_Scene_OpenNew );
+	QObject::connect( actionLoadNew, &QAction::triggered, this, &MenuBar::A_Scene_LoadNew );
+	QObject::connect( actionSaveAll, &QAction::triggered, this, &MenuBar::A_Scene_SaveAll );
+	QObject::connect( actionCloseAll, &QAction::triggered, this, &MenuBar::A_Scene_CloseAll );
+}
+
+
+void MenuBar::_AddMenu_Project()
+{
+	QMenu* menu = this->addMenu( PROJECT_MENU );
+
+	QAction* actionSettings = menu->addAction( PROJECT_SETTINGS );
+	menu->addSeparator();
+	QAction* actionBuildWin = menu->addAction( PROJECT_BUILD_WIN );
+
+	QObject::connect( actionSettings, &QAction::triggered, this, &MenuBar::A_Project_Settings );
+	QObject::connect( actionBuildWin, &QAction::triggered, this, &MenuBar::A_Project_BuildWin );
 }
 
 
@@ -103,6 +116,19 @@ void MenuBar::A_Scene_CloseAll()
 }
 
 
+void MenuBar::A_Project_Settings()
+{
+	EventManager::Singleton()->EmitEvent( EventType::CUSTOM,
+										  EventName::EDITOR_PROJ_SETTINGS,
+										  NULL );
+}
+
+
+void MenuBar::A_Project_BuildWin()
+{
+}
+
+
 void MenuBar::A_Skins( QAction* action )
 {
 	EditorApp::Singleton()->ApplySkin( action->text().toUtf8().constData() );
@@ -114,28 +140,15 @@ void CYRED::MenuBar::A_Magic()
 	//Char filePath[MAX_SIZE_CUSTOM_STRING];
 	//CUSTOM_STRING( filePath, "%s%s", FileManager::DIR_ASSETS, "magic.scene" );
 
-	//Scene* scene = SceneManager::Singleton()->OpenNewScene();
+	Scene* scene = SceneManager::Singleton()->OpenNewScene();
 	//scene->SetFilePath( filePath );
 	//scene->SetName( "magic" );
 
-	//EditorApp::Singleton()->ShowStatus( STATUS_OPEN_NEW_SCENE );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	newObject->SetName( "magic" );
 
-	//GameObject* newObject = SceneManager::Singleton()->NewGameObject( _selectedSceneIndex );
-	//newObject->SetName( "magic" );
-
-	//COMP::Transform* tran = newObject->AddComponent<COMP::Transform>();
-	//tran->RotateByWorld( Vector3( 90, 0, 0 ) );
-	///*COMP::MeshRendering* meshR = newObject->AddComponent<COMP::MeshRendering>();
-	//meshR->SetMaterial( AssetManager::Singleton()->GetMaterial( "Standard" ) );
-	//meshR->SetMesh( AssetManager::Singleton()->GetMesh( "Cube" ) );*/
-
-
-	//COMP::ParticleEmitter* emitter = newObject->AddComponent<COMP::ParticleEmitter>();
-	//emitter->SetMaterial( AssetManager::Singleton()->GetMaterial( "Particles" ) );
-	//emitter->BindToGPU();
-
-	//A_Scene_SaveAll();
-
-
-	//SceneManager::Singleton()->OpenScene( "magic" );
+	COMP::Transform* tran = newObject->AddComponent<COMP::Transform>();
+	COMP::MorphRendering* morphR = newObject->AddComponent<COMP::MorphRendering>();
+	morphR->SetMaterial( AssetManager::Singleton()->GetMaterial( "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE" ) );
+	morphR->SetMorph( AssetManager::Singleton()->GetMorph( "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN" ) );
 }

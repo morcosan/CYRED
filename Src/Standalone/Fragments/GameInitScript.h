@@ -3,8 +3,8 @@
 
 #pragma once
 #include "CyredRequired.h"
+#include "CyredApplication.h"
 #include "CyredModule_Script.h"
-#include "AppSettings.h"
 
 
 namespace CYRED
@@ -12,7 +12,7 @@ namespace CYRED
 	class GameInitScript : public COMP::Script
 	{
 	public:
-		GameInitScript() {}
+		GameInitScript( AppConfig* appConfig );
 		virtual ~GameInitScript() {}
 
 
@@ -21,7 +21,9 @@ namespace CYRED
 
 
 	protected:
-		void _LoadScene			( AppSettings::SceneData& sceneData );
-		void _LoadSceneAssets	( AppSettings::SceneData& sceneData );
+		AppConfig* _appConfig;
+
+		void _LoadScene			( AssetDB& sceneData );
+		void _LoadSceneAssets	( AssetDB& sceneData );
 	};
 }

@@ -1,0 +1,66 @@
+{
+    "uid": "1r1ZzPke8tVLSIVt2XDDBH5bNbTnkoqe",
+    "GameObjects": [
+        {
+            "Name": "Mesh",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": 5.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "MeshRendering": {
+                    "enabled": true,
+                    "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
+                    "material": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS"
+                }
+            }
+        },
+        {
+            "Name": "Morph",
+            "Enabled": true,
+            "Components": {
+                "Transform": {
+                    "Enabled": true,
+                    "Position_World": {
+                        "x": -5.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Rotation_World": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Scale_World": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "MorphRendering": {
+                    "enabled": true,
+                    "morph": "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN",
+                    "material": "WCzQBXGkivO7vBxgN7GAmwOfmOdEjAjS",
+                    "duration_state": 1.0,
+                    "duration_state_change": 0.5,
+                    "is_playing": true
+                }
+            }
+        }
+    ]
+}

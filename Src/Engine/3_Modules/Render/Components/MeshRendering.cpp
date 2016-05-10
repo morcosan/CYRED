@@ -6,6 +6,8 @@
 #include "../Assets/Material.h"
 #include "../Assets/Mesh.h"
 
+#include "../../Event/EventManager.h"
+
 
 using namespace CYRED;
 using namespace COMP;
@@ -14,6 +16,8 @@ using namespace COMP;
 
 MeshRendering::MeshRendering( GameObject* gameObject )
 	: Component( gameObject )
+	, _material( NULL )
+	, _mesh( NULL )
 {
 	_componentType = ComponentType::MESH_RENDERING;
 }
@@ -34,10 +38,20 @@ Mesh* MeshRendering::GetMesh() const
 void MeshRendering::SetMaterial( Material* value )
 {
 	_material = value;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::MESH_RENDERING_CHANGED, this );
+	}
 }
 
 
 void MeshRendering::SetMesh( Mesh* value )
 {
 	_mesh = value;
+
+	if ( _emitEvents )
+	{
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::MESH_RENDERING_CHANGED, this );
+	}
 }

@@ -6,6 +6,13 @@
 using namespace CYRED;
 
 
-const Char* Uniform::WORLD		= "DEFAULT_world";
-const Char* Uniform::VIEW		= "DEFAULT_view";
-const Char* Uniform::PROJECTION	= "DEFAULT_projection";
+const Char* Uniform::WORLD				= "DEFAULT_world";
+const Char* Uniform::VIEW				= "DEFAULT_view";
+const Char* Uniform::PROJECTION			= "DEFAULT_projection";
+const Char* Uniform::CAMERA_POS_WORLD	= "DEFAULT_cameraPosWorld";
+
+
+
+
+
+

@@ -6,9 +6,6 @@
 
 #define OUT		// used for parameters that are passed in order to be returned with a value
 
-#define __1__	// the most important functions
-#define __2__	// aditional functions
-
 #define ABSTRACT	// defines the pure virtual class
 
 

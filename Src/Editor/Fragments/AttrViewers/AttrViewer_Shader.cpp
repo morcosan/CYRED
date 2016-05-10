@@ -64,11 +64,11 @@ void AttrViewer_Shader::_OnUpdateTarget()
 			break;
 	}
 
-	const Char*	vertexPath = _ReadAttrString( ATTR_VERTEX ).GetChar();
-	const Char*	geometryPath = _ReadAttrString( ATTR_GEOMETRY ).GetChar();
-	const Char*	fragmentPath = _ReadAttrString( ATTR_FRAGMENT ).GetChar();
+	String&	vertexPath = _ReadAttrString( ATTR_VERTEX );
+	String&	geometryPath = _ReadAttrString( ATTR_GEOMETRY );
+	String&	fragmentPath = _ReadAttrString( ATTR_FRAGMENT );
 
-	_target->SetShaderFiles( renderer, vertexPath, geometryPath, fragmentPath );
+	_target->SetShaderFiles( renderer, vertexPath.GetChar(), geometryPath.GetChar(), fragmentPath.GetChar() );
 
 	_target->SetEmitEvents( TRUE );
 

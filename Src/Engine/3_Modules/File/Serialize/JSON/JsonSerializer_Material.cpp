@@ -184,12 +184,13 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	if ( json.HasMember( UNIQUE_ID ) )
 	{
 		material->SetUniqueID( json[UNIQUE_ID].GetString() );
-
-		if ( flag == DeserFlag::UID_ONLY )
-		{
-			return;
-		}
 	}
+
+	if ( flag == DeserFlag::UID_ONLY )
+	{
+		return;
+	}
+
 	if ( json.HasMember( SHADER ) )
 	{
 		if ( json[SHADER].IsNull() )

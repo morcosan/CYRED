@@ -7,6 +7,7 @@
 #include "../Render/Assets/Material.h"
 #include "../Render/Assets/Texture.h"
 #include "../Render/Assets/Mesh.h"
+#include "../Render/Assets/Morph.h"
 #include "../Render/Assets/Shader.h"
 #include "../Scene/Fragments/Scene.h"
 
@@ -96,6 +97,27 @@ StatusAssetAdd AssetManagerImpl::AddMesh( Mesh* mesh )
 	}
 
 	_meshes.Add( mesh );
+
+	return StatusAssetAdd::SUCCESS;
+}
+
+StatusAssetAdd AssetManagerImpl::AddMorph( Morph* morph )
+{
+	ASSERT( _isInitialized );
+
+	Bool isOk = Random::ValidateUniqueID( morph->GetUniqueID() );
+	if ( !isOk )
+	{
+		return StatusAssetAdd::FAIL_INVALID_ID;
+	}
+
+	Mesh* found = GetMesh( morph->GetUniqueID() );
+	if ( found != NULL )
+	{
+		return StatusAssetAdd::FAIL_EXISTING;
+	}
+
+	_morphs.Add( morph );
 
 	return StatusAssetAdd::SUCCESS;
 }
@@ -206,6 +228,23 @@ Mesh* AssetManagerImpl::GetMesh( const Char* uniqueID )
 	return NULL;
 }
 
+Morph* AssetManagerImpl::GetMorph( const Char* uniqueID )
+{
+	ASSERT( _isInitialized );
+
+	String temp( uniqueID );
+
+	for ( UInt i = 0; i < _morphs.Size(); ++i )
+	{
+		if ( temp == _morphs[i]->GetUniqueID() )
+		{
+			return _morphs[i];
+		}
+	}
+	
+	return NULL;
+}
+
 
 Material* AssetManagerImpl::GetMaterial( const Char* uniqueID )
 {
@@ -296,6 +335,40 @@ Material* AssetManagerImpl::GetMaterialAt( UInt index )
 }
 
 
+UInt AssetManagerImpl::GetMeshCount()
+{
+	ASSERT( _isInitialized );
+
+	return _meshes.Size();
+}
+
+
+Mesh* AssetManagerImpl::GetMeshAt( UInt index )
+{
+	ASSERT( _isInitialized );
+	ASSERT( index < _meshes.Size() );
+
+	return _meshes[index];
+}
+
+
+UInt AssetManagerImpl::GetMorphCount()
+{
+	ASSERT( _isInitialized );
+
+	return _morphs.Size();
+}
+
+
+Morph* AssetManagerImpl::GetMorphAt( UInt index )
+{
+	ASSERT( _isInitialized );
+	ASSERT( index < _morphs.Size() );
+
+	return _morphs[index];
+}
+
+
 UInt AssetManagerImpl::GetShaderCount()
 {
 	ASSERT( _isInitialized );
@@ -327,4 +400,21 @@ Texture* AssetManagerImpl::GetTextureAt( UInt index )
 	ASSERT( index < _textures.Size() );
 
 	return _textures[index];
+}
+
+
+UInt AssetManagerImpl::GetSceneCount()
+{
+	ASSERT( _isInitialized );
+
+	return _scenes.Size();
+}
+
+
+Scene* AssetManagerImpl::GetSceneAt( UInt index )
+{
+	ASSERT( _isInitialized );
+	ASSERT( index < _scenes.Size() );
+
+	return _scenes[index];
 }

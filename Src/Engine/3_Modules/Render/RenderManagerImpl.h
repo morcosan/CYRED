@@ -8,6 +8,7 @@
 #include "../../2_BuildingBlocks/Data/DataMap.h"
 #include "../../2_BuildingBlocks/Data/DataArray.h"
 #include "OpenGL\Vertex.h"
+#include "OpenGL\MorphVertex.h"
 #include "OpenGL\ParticleVertex.h"
 
 
@@ -43,6 +44,8 @@ namespace CYRED
 		public:
 			void CreateMeshBuffers		( OUT UInt& vbo, OUT UInt& ibo,
 										  DataArray<Vertex>& vertices, DataArray<UInt>& indices );
+			void CreateMorphBuffers		( OUT UInt& vbo, OUT UInt& ibo,
+										  DataArray<MorphVertex>& vertices, DataArray<UInt>& indices );
 			void CreateParticleBuffers	( OUT UInt& vbo, OUT UInt& ibo,
 										  DataArray<ParticleVertex>& vertices, DataArray<UInt>& indices );
 			void DeleteBuffers			( UInt vbo, UInt ibo );

@@ -19,6 +19,7 @@ namespace CYRED
 			, CAMERA
 			, LIGHT
 			, MESH_RENDERING
+			, MORPH_RENDERING
 			, PARTICLE_EMITTER
 			, SCRIPT
 		};
@@ -41,6 +42,7 @@ namespace CYRED
 
 		public:
 			virtual void			OnHierarchyChange	() {};
+			virtual void			OnUpdate			() {};
 			virtual ComponentType	GetComponentType	() const;
 			virtual const Char*		GetComponentSubtype	() const;
 

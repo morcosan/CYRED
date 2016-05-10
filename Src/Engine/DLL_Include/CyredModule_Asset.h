@@ -4,5 +4,6 @@
 #pragma once
 
 #include "../3_Modules/Asset/AssetManager.h"
+#include "../3_Modules/Asset/Generators/MeshGenerator.h"
 
 

@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "../../File/FileManager.h"
 #include "../../../2_BuildingBlocks/Composite/Node.h"
+#include "../../../2_BuildingBlocks/String/FiniteString.h"
 
 
 using namespace CYRED;
@@ -27,14 +28,12 @@ Scene::~Scene()
 
 void Scene::LoadUniqueID()
 {
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", 
-				   _dirPath.GetChar(),
-				   _name.GetChar(),
-				   FileManager::FILE_FORMAT_SCENE );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(),
+									 _name.GetChar(),
+									 FileManager::FILE_FORMAT_SCENE );
 
 	// read the file
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -49,14 +48,12 @@ void Scene::LoadFullFile()
 
 	ClearAsset();
 
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", 
-				   _dirPath.GetChar(),
-				   _name.GetChar(),
-				   FileManager::FILE_FORMAT_SCENE );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(),
+									 _name.GetChar(),
+									 FileManager::FILE_FORMAT_SCENE );
 
 	// read the file
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this );
 
 	// free memory for file
@@ -80,11 +77,10 @@ void Scene::OnStart( Bool isRuntime )
 
 void Scene::OnUpdate( Bool isRuntime )
 {
-}
-
-
-void Scene::SetMainCamera( const Char* objectName )
-{
+	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i )
+	{
+		_root->GetChildNodeAt( i )->OnUpdate();
+	}
 }
 
 

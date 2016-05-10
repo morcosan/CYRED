@@ -14,7 +14,10 @@ namespace CYRED
 		const Char* const ENABLED			= "Enabled";
 		const Char* const COMPONENTS		= "Components";
 		const Char* const TRANSFORM			= "Transform";
+		const Char* const CAMERA			= "Camera";
 		const Char* const PARTICLE_EMITTER	= "ParticleEmitter";
+		const Char* const MESH_RENDERING	= "MeshRendering";
+		const Char* const MORPH_RENDERING	= "MorphRendering";
 
 
 	public:

@@ -2,6 +2,7 @@
 // MIT License
 
 #include "JsonSerializer.h"
+#include "../../../Debug/DebugManager.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -34,6 +35,10 @@ void JsonSerializer::Deserialize( const Char* data, OUT void* object, DeserFlag 
 	if ( json.IsObject() )
 	{
 		FromJson( json, object, flag );
+	}
+	else
+	{
+		DebugManager::Singleton()->Log( MSG_WARNING_LOADING );
 	}
 }
 

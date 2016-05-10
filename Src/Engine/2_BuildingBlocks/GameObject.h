@@ -35,7 +35,8 @@ namespace CYRED
 
 
 	public:
-		void OnHierarchyChange() override;
+		void OnHierarchyChange	() override;
+		void OnUpdate			() override;
 
 
 	public:
@@ -50,6 +51,7 @@ namespace CYRED
 		void				SetEnabled			( Bool value );
 		void				SetName				( const Char* name );
 		void				SetEmitEvents		( Bool value );
+
 
 	public:
 		template <class T> T*	GetComponent	();

@@ -38,10 +38,6 @@ namespace CYRED
 
 
 		public:
-			void OnHierarchyChange()	override {}
-
-
-		public:
 			void BindToGPU();
 
 			UInt			GetVBO				() const;		

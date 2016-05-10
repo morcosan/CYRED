@@ -27,10 +27,6 @@ namespace CYRED
 
 
 		public:
-			void OnHierarchyChange()	override {}
-
-
-		public:
 			Material*	GetMaterial	() const;
 			Mesh*		GetMesh		() const;
 

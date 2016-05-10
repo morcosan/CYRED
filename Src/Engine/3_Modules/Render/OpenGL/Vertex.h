@@ -57,7 +57,5 @@ namespace CYRED
 			, tangent( _tan )
 			, bitangent( _bitan )
 		{}
-
-
 	};
 }

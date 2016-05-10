@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "../../File/FileManager.h"
 #include "../../Event/EventManager.h"
+#include "../../../2_BuildingBlocks/String/FiniteString.h"
 
 
 using namespace CYRED;
@@ -23,12 +24,11 @@ Material::Material()
 
 void Material::LoadUniqueID()
 {
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_MATERIAL );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_MATERIAL );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Material>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -41,12 +41,11 @@ void Material::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_MATERIAL );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_MATERIAL );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Material>( fileData, this );
 
 	// free memory for file

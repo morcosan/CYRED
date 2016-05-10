@@ -135,7 +135,7 @@ void ForwardRenderer::_RenderScreenQuad( Texture* texture, Shader* shader )
     _gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, uv)) );
 
 	//int screenSizeLoc = shader->GetUniformLocation( "ME3D_screenSize" );
-	//_gl->Uniform2fv( screenSizeLoc, 1, _contextSize.GetValuePtr() );
+	//_gl->Uniform2fv( screenSizeLoc, 1, _contextSize.Ptr() );
 
 
 	_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );

@@ -67,7 +67,7 @@ namespace CYRED
 
 		DataArray<const Char*>	_emitterShapes;
 
-		Int			_GetIndexForType( EmitterShape type );
+		Int				_GetIndexForType( EmitterShape type );
 		EmitterShape	_GetTypeForIndex( Int index );
 	};
 }

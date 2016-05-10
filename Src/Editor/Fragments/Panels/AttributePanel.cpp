@@ -5,16 +5,21 @@
 #include "../AttrViewers/AttrViewer.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
-#include "../EditorSkin.h"
+#include "../Settings/EditorSkin.h"
 
 #include "..\AttrViewers\AttrViewer_GameObject.h"
 #include "..\AttrViewers\AttrViewer_Transform.h"
 #include "..\AttrViewers\AttrViewer_Camera.h"
 #include "..\AttrViewers\AttrViewer_ParticleEmitter.h"
+#include "..\AttrViewers\AttrViewer_MeshRendering.h"
+#include "..\AttrViewers\AttrViewer_MorphRendering.h"
 #include "..\AttrViewers\AttrViewer_Material.h"
+#include "..\AttrViewers\AttrViewer_Mesh.h"
+#include "..\AttrViewers\AttrViewer_Morph.h"
 #include "..\AttrViewers\AttrViewer_Shader.h"
 #include "..\AttrViewers\AttrViewer_Texture.h"
 #include "..\AttrViewers\AttrViewer_Scene.h"
+#include "..\AttrViewers\AttrViewer_CyredProj.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -59,7 +64,7 @@ AttributePanel::AttributePanel()
 
 	this->setWidget( layoutWidget );
 
-	EventManager::Singleton()->RegisterListener( EventType::ALL,		this );
+	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }
 
 
@@ -81,10 +86,15 @@ void AttributePanel::Initialize()
 	SetAttrViewer( ATTR_TRANSFORM,			Memory::Alloc<AttrViewer_Transform>() );
 	SetAttrViewer( ATTR_CAMERA,				Memory::Alloc<AttrViewer_Camera>() );
 	SetAttrViewer( ATTR_PARTICLES_EMITTER,	Memory::Alloc<AttrViewer_ParticleEmitter>() );
+	SetAttrViewer( ATTR_MESH_RENDERING,		Memory::Alloc<AttrViewer_MeshRendering>() );
+	SetAttrViewer( ATTR_MORPH_RENDERING,	Memory::Alloc<AttrViewer_MorphRendering>() );
 	SetAttrViewer( ATTR_MATERIAL,			Memory::Alloc<AttrViewer_Material>() );
+	SetAttrViewer( ATTR_MESH,				Memory::Alloc<AttrViewer_Mesh>() );
+	SetAttrViewer( ATTR_MORPH,				Memory::Alloc<AttrViewer_Morph>() );
 	SetAttrViewer( ATTR_SHADER,				Memory::Alloc<AttrViewer_Shader>() );
 	SetAttrViewer( ATTR_TEXTURE,			Memory::Alloc<AttrViewer_Texture>() );
 	SetAttrViewer( ATTR_SCENE,				Memory::Alloc<AttrViewer_Scene>() );
+	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
 
 	_Clear();
 }
@@ -133,9 +143,9 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							if ( comp != NULL )
 							{
 								ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-								AttrViewer* transformViewer = _attrViewers.Get( ATTR_TRANSFORM );
-								transformViewer->ChangeTarget( comp );
-								transformViewer->UpdateGUI();
+								AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
+								viewer->ChangeTarget( comp );
+								viewer->UpdateGUI();
 							}
 						}
 						{
@@ -143,9 +153,9 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							if ( comp != NULL )
 							{
 								ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-								AttrViewer* transformViewer = _attrViewers.Get( ATTR_CAMERA );
-								transformViewer->ChangeTarget( comp );
-								transformViewer->UpdateGUI();
+								AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
+								viewer->ChangeTarget( comp );
+								viewer->UpdateGUI();
 							}
 						}
 						{
@@ -153,9 +163,29 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							if ( comp != NULL )
 							{
 								ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-								AttrViewer* transformViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
-								transformViewer->ChangeTarget( comp );
-								transformViewer->UpdateGUI();
+								AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+								viewer->ChangeTarget( comp );
+								viewer->UpdateGUI();
+							}
+						}
+						{
+							COMP::Component* comp = selectedGO->GetComponent<COMP::MeshRendering>();
+							if ( comp != NULL )
+							{
+								ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
+								AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+								viewer->ChangeTarget( comp );
+								viewer->UpdateGUI();
+							}
+						}
+						{
+							COMP::Component* comp = selectedGO->GetComponent<COMP::MorphRendering>();
+							if ( comp != NULL )
+							{
+								ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
+								AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+								viewer->ChangeTarget( comp );
+								viewer->UpdateGUI();
 							}
 						}
 
@@ -205,8 +235,32 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					if ( eName == EventName::TRANSFORM_CHANGED )
 					{
 						ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-						AttrViewer* transformViewer = _attrViewers.Get( ATTR_TRANSFORM );
-						transformViewer->UpdateGUI();
+						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
+						viewer->UpdateGUI();
+					}
+					if ( eName == EventName::CAMERA_CHANGED )
+					{
+						ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
+						viewer->UpdateGUI();
+					}
+					if ( eName == EventName::MESH_RENDERING_CHANGED )
+					{
+						ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+						viewer->UpdateGUI();
+					}
+					if ( eName == EventName::MORPH_RENDERING_CHANGED )
+					{
+						ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+						viewer->UpdateGUI();
+					}
+					if ( eName == EventName::PARTICLE_EMITTER_CHANGED )
+					{
+						ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+						viewer->UpdateGUI();
 					}
 				}
 			}
@@ -234,6 +288,10 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 
 							case AssetType::MESH:
 								attrViewerType = ATTR_MESH;
+								break;
+
+							case AssetType::MORPH:
+								attrViewerType = ATTR_MORPH;
 								break;
 
 							case AssetType::TEXTURE:
@@ -281,6 +339,10 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 							attrViewerType = ATTR_MESH;
 							break;
 
+						case AssetType::MORPH:
+							attrViewerType = ATTR_MORPH;
+							break;
+
 						case AssetType::TEXTURE:
 							attrViewerType = ATTR_TEXTURE;
 							break;
@@ -301,6 +363,18 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 
 					break;
 				}
+			}
+			break;
+		}
+
+		case EventType::CUSTOM:
+		{
+			if ( eName == EventName::EDITOR_PROJ_SETTINGS )
+			{
+				ASSERT( _attrViewers.Has( ATTR_CYRED_PROJ ) );
+				AttrViewer* attrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
+				attrViewer->ChangeTarget( NULL );
+				attrViewer->UpdateGUI();
 			}
 			break;
 		}

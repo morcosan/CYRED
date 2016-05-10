@@ -5,6 +5,7 @@
 #include "../RenderManagerImpl.h"
 #include "../../File/FileManager.h"
 #include "../../Event/EventManager.h"
+#include "../../../2_BuildingBlocks/String/FiniteString.h"
 
 
 using namespace CYRED;
@@ -19,7 +20,7 @@ Texture::Texture()
 	, _width( 0 )
 	, _height( 0 )
 	, _channels( 0 )
-	, _type( TextureType::TEXTURE_2D )
+	, _textureType( TextureType::TEXTURE_2D )
 	, _loadFromFile( FALSE )
 {
 	_imageBuffers[0] = NULL;
@@ -39,7 +40,7 @@ Texture::Texture( UInt textureID )
 	, _width( 0 )
 	, _height( 0 )
 	, _channels( 0 )
-	, _type( TextureType::TEXTURE_2D )
+	, _textureType( TextureType::TEXTURE_2D )
 	, _loadFromFile( FALSE )
 {
 	_imageBuffers[0] = NULL;
@@ -73,12 +74,11 @@ Texture::~Texture()
 
 void Texture::LoadUniqueID()
 {
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_TEXTURE );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_TEXTURE );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -91,12 +91,11 @@ void Texture::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	Char filePath[ MAX_SIZE_CUSTOM_STRING ];
-	CUSTOM_STRING( filePath, "%s%s%s", _dirPath.GetChar(), 
-										_name.GetChar(), 
-										FileManager::FILE_FORMAT_TEXTURE );
+	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
+									 _name.GetChar(), 
+									 FileManager::FILE_FORMAT_TEXTURE );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this );
 
 	// free memory for file
@@ -123,7 +122,7 @@ void Texture::ClearAsset()
 	_width = 0;
 	_height = 0;
 	_channels = 0;
-	_type = TextureType::TEXTURE_2D;
+	_textureType = TextureType::TEXTURE_2D;
 	_loadFromFile = FALSE;
 	_isTemporary = TRUE;
 
@@ -154,13 +153,12 @@ void Texture::BindToGPU()
 
 	if ( _loadFromFile )
 	{
-		if ( _type == TextureType::TEXTURE_2D )
+		if ( _textureType == TextureType::TEXTURE_2D )
 		{
-			Char imagePath[MAX_SIZE_CUSTOM_STRING];
-			CUSTOM_STRING( imagePath, "%s%s", _dirPath.GetChar(), _imagePaths[0].GetChar() );
+			FiniteString imagePath( "%s%s", _dirPath.GetChar(), _imagePaths[0].GetChar() );
 
 			Int width, height, channels;
-			_imageBuffers[0] = FileManager::Singleton()->ReadImage( imagePath, 
+			_imageBuffers[0] = FileManager::Singleton()->ReadImage( imagePath.GetChar(), 
 																	&width, 
 																	&height, 
 																	&channels );
@@ -168,15 +166,14 @@ void Texture::BindToGPU()
 			_height = height;
 			_channels = channels;
 		}
-		else if ( _type == TextureType::CUBE_MAP )
+		else if ( _textureType == TextureType::CUBE_MAP )
 		{
 			for ( UInt i = 0; i < 6; ++i )
 			{
-				Char imagePath[MAX_SIZE_CUSTOM_STRING];
-				CUSTOM_STRING( imagePath, "%s%s", _dirPath.GetChar(), _imagePaths[i].GetChar() );
+				FiniteString imagePath( "%s%s", _dirPath.GetChar(), _imagePaths[i].GetChar() );
 
 				Int width, height, channels;
-				_imageBuffers[i] = FileManager::Singleton()->ReadImage( imagePath, 
+				_imageBuffers[i] = FileManager::Singleton()->ReadImage( imagePath.GetChar(), 
 																		&width, 
 																		&height, 
 																		&channels );
@@ -187,7 +184,7 @@ void Texture::BindToGPU()
 		}
 	}
 
-	if ( _type == TextureType::TEXTURE_2D )
+	if ( _textureType == TextureType::TEXTURE_2D )
 	{
 		renderManager->CreateTexture2D( _textureID, _width, _height, _channels, _hasMipmap, _imageBuffers[0] );
 
@@ -198,7 +195,7 @@ void Texture::BindToGPU()
 		}
 	}
 
-	if ( _type == TextureType::CUBE_MAP )
+	if ( _textureType == TextureType::CUBE_MAP )
 	{
 		renderManager->CreateCubeMapTexture( _textureID, _width, _height, _channels, _hasMipmap, 
 											 _imageBuffers[0], _imageBuffers[1],
@@ -231,9 +228,9 @@ UInt Texture::GetTextureID() const
 }
 
 
-TextureType Texture::GetType() const
+TextureType Texture::GetTextureType() const
 {
-	return _type;
+	return _textureType;
 }
 
 
@@ -285,7 +282,7 @@ const Char* Texture::GetImagePath( UInt index ) const
 
 void Texture::SetTextureType( TextureType type )
 {
-	_type = type;
+	_textureType = type;
 }
 
 

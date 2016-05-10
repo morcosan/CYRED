@@ -260,6 +260,37 @@ void RenderManagerImpl::CreateMeshBuffers( OUT UInt& vbo, OUT UInt& ibo,
 }
 
 
+void RenderManagerImpl::CreateMorphBuffers( OUT UInt& vbo, OUT UInt& ibo, 
+										    DataArray<MorphVertex>& vertices, DataArray<UInt>& indices )
+{
+	ASSERT( _isInitialized );
+
+	if ( vertices.Size() == 0 || indices.Size() == 0 )
+	{
+		return;
+	}
+
+	if ( vbo == EMPTY_BUFFER )
+	{
+		_gl->GenBuffers( 1, &vbo );
+	}
+  	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, vbo );
+	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(MorphVertex) * vertices.Size(), vertices.Data(), 
+					 GLDrawType::STATIC_DRAW );
+
+	if ( ibo == EMPTY_BUFFER )
+	{
+		_gl->GenBuffers( 1, &ibo );
+	}
+    _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
+	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(UInt) * indices.Size(), indices.Data(), 
+					 GLDrawType::STATIC_DRAW );
+
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
+}
+
+
 void RenderManagerImpl::DeleteBuffers( UInt vbo, UInt ibo )
 {
 	_gl->DeleteBuffers( 1, &vbo );

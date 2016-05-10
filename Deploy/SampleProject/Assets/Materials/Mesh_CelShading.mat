@@ -1,0 +1,35 @@
+{
+    "uid": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS",
+    "shader": "3F70qXZBhFEq3XiIBie6IwVdpnqjJwx1",
+    "wireframe": false,
+    "lineWidth": 1.0,
+    "cullFace": "CULL_BACK",
+    "properties": [
+        {
+            "name": "intensityLimits",
+            "type": "VEC2",
+            "value": {
+                "x": 0.300,
+                "y": 0.898
+            }
+        },
+        {
+            "name": "colorLimits",
+            "type": "VEC2",
+            "value": {
+                "x": 0.200,
+                "y": 1.0
+            }
+        },
+        {
+            "name": "diffuseColor",
+            "type": "VEC4",
+            "value": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 1.0,
+                "w": 1.0
+            }
+        }
+    ]
+}

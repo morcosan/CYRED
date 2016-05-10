@@ -1,0 +1,113 @@
+// Copyright (c) 2015 Morco (www.morco.ro)
+// MIT License
+
+#include "JsonSerializer_Camera.h"
+#include "../../../Render/Components/Camera.h"
+#include "../../../../2_BuildingBlocks/String/FiniteString.h"
+
+#include "rapidjson\Include\stringbuffer.h"
+#include "rapidjson\Include\prettywriter.h"
+
+
+using namespace CYRED;
+
+
+
+rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
+{
+	COMP::Camera* camera = CAST_S( COMP::Camera*, object );
+
+	rapidjson::Value json;
+	json.SetObject();
+
+	json.AddMember( rapidjson::StringRef( ENABLED ),	
+					camera->IsEnabled(),	
+					_al );
+	
+	switch ( camera->GetCameraType() )
+	{
+		case CameraType::PERSPECTIVE:
+			json.AddMember( rapidjson::StringRef( CAMERA_TYPE ),
+							rapidjson::StringRef( TYPE_PERSPECTIVE ),
+							_al );
+			json.AddMember( rapidjson::StringRef( FOVY_ANGLE ), 
+					camera->GetFovYAngle(), 
+					_al );
+			break;
+
+		case CameraType::ORTHOGRAPHIC:
+			json.AddMember( rapidjson::StringRef( CAMERA_TYPE ),
+							rapidjson::StringRef( TYPE_ORTHOGRAPHIC ),
+							_al );
+			json.AddMember( rapidjson::StringRef( ORTHO_HEIGHT ), 
+					camera->GetOrthoSize().y, 
+					_al );
+			break;
+	}
+	json.AddMember( rapidjson::StringRef( NEAR_CLIP ), 
+					camera->GetNearClipping(), 
+					_al );
+	json.AddMember( rapidjson::StringRef( FAR_CLIP ), 
+					camera->GetFarClipping(), 
+					_al );
+
+	return json;
+}
+
+
+void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
+										 DeserFlag flag )
+{
+	COMP::Camera* camera = CAST_S( COMP::Camera*, object );
+
+	Bool emitEvents = camera->DoesEmitEvents();
+	camera->SetEmitEvents( FALSE );
+
+	if ( json.HasMember( ENABLED ) )
+	{
+		camera->SetEnabled( json[ENABLED].GetBool() );
+	}
+	if ( json.HasMember( CAMERA_TYPE ) )
+	{
+		FiniteString type( json[CAMERA_TYPE].GetString() );
+
+		if ( type == TYPE_PERSPECTIVE )
+		{
+			camera->SetCameraType( CameraType::PERSPECTIVE );
+		}
+		if ( type == TYPE_ORTHOGRAPHIC )
+		{
+			camera->SetCameraType( CameraType::ORTHOGRAPHIC );
+		}
+	}
+	switch ( camera->GetCameraType() )
+	{
+		case CameraType::PERSPECTIVE:
+		{
+			if ( json.HasMember( FOVY_ANGLE ) )
+			{
+				camera->SetFovYAngle( CAST_S( Float, json[FOVY_ANGLE].GetDouble() ) );
+			}
+			break;
+		}
+
+		case CameraType::ORTHOGRAPHIC:
+		{
+			if ( json.HasMember( ORTHO_HEIGHT ) )
+			{
+				camera->SetOrthoHeight( CAST_S( Float, json[ORTHO_HEIGHT].GetDouble() ) );
+			}
+			break;
+		}
+	}
+	if ( json.HasMember( NEAR_CLIP ) )
+	{
+		camera->SetNearClipping( CAST_S( Float, json[NEAR_CLIP].GetDouble() ) );
+	}
+	if ( json.HasMember( FAR_CLIP ) )
+	{
+		camera->SetFarClipping( CAST_S( Float, json[FAR_CLIP].GetDouble() ) );
+	}
+
+	camera->SetEmitEvents( emitEvents );
+}

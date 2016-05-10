@@ -4,7 +4,7 @@
 #include "SceneViewport.h"
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
-#include "../EditorSkin.h"
+#include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
 #include "QtWidgets\QHBoxLayout"
@@ -98,7 +98,7 @@ void SceneViewport::_OnUpdate()
 	Float aspectRatio = CAST_S( Float, _qtWindow->width() ) / _qtWindow->height();
 	Float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
-	cam->SetOrthoSize( Vector2( aspectRatio * height, height ) );
+	cam->SetOrthoWidth( aspectRatio * height );
 	
 
 	SceneManager* sceneMngr = SceneManager::Singleton();

@@ -12,6 +12,9 @@ namespace CYRED
 {
 	class DLL JsonSerializer : public Serializer
 	{
+		const Char* const MSG_WARNING_LOADING = "Warning: Could not load json file.";
+
+
 	public:
 		JsonSerializer() {}
 		virtual ~JsonSerializer() {};

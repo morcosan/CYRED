@@ -5,6 +5,7 @@
 #include "Fragments\Console.h"
 #include "../../2_BuildingBlocks/Math/Math.h"
 #include "../../2_BuildingBlocks/String/String.h"
+#include "../../2_BuildingBlocks/String/FiniteString.h"
 
 
 using namespace CYRED;
@@ -68,10 +69,9 @@ void DebugManagerImpl::Log( Int value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "%d", value );
+	FiniteString text( "%d", value );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -83,10 +83,9 @@ void DebugManagerImpl::Log( Float value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "%f", value );
+	FiniteString text( "%f", value );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -98,10 +97,9 @@ void DebugManagerImpl::Log( Double value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "%lf", value );
+	FiniteString text( "%lf", value );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -113,10 +111,9 @@ void DebugManagerImpl::Log( const Vector2& value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "(%f, %f)", value.x, value.y );
+	FiniteString text( "(%f, %f)", value.x, value.y );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -128,10 +125,9 @@ void DebugManagerImpl::Log( const Vector3& value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "(%f, %f, %f)", value.x, value.y, value.z );
+	FiniteString text( "(%f, %f, %f)", value.x, value.y, value.z );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -143,10 +139,9 @@ void DebugManagerImpl::Log( const Vector4& value )
 		return;
 	}
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "(%f, %f, %f, %f)", value.x, value.y, value.z, value.w );
+	FiniteString text( "(%f, %f, %f, %f)", value.x, value.y, value.z, value.w );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 
 
@@ -160,9 +155,8 @@ void DebugManagerImpl::Log( const Quaternion& value )
 
 	Vector3 euler = value.ToEulerAngles();
 
-	Char text[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( text, "(%f, %f, %f)", euler.x, euler.y, euler.z );
+	FiniteString text( "(%f, %f, %f)", euler.x, euler.y, euler.z );
 
-	_console->Log( text );
+	_console->Log( text.GetChar() );
 }
 

@@ -64,26 +64,26 @@ namespace CYRED
 			Vector3		GetLocalForward			() const;
 
 			// setters
-			void SetPositionWorld			( const Vector3& value );
-			void SetPositionLocal			( const Vector3& value );
+			void SetPositionWorld		( const Vector3& value );
+			void SetPositionLocal		( const Vector3& value );
 
-			void SetRotationWorld			( const Quaternion& value );
-			void SetRotationLocal			( const Quaternion& value );
+			void SetRotationWorld		( const Quaternion& value );
+			void SetRotationLocal		( const Quaternion& value );
 			void SetEulerRotationWorld	( const Vector3& value );
 			void SetEulerRotationLocal	( const Vector3& value );
 
 			void SetScaleWorld			( const Vector3& value );
 			void SetScaleLocal			( const Vector3& value );
 
-			void TranslateByWorld			( const Vector3& value );
-			void TranslateByLocal			( const Vector3& value );
+			void TranslateByWorld		( const Vector3& value );
+			void TranslateByLocal		( const Vector3& value );
 			void Translate				( const Vector3& value, SpaceSystem spaceSystem );
 
 			void RotateByWorld			( const Vector3& value );
 			void RotateByLocal			( const Vector3& value );
 			void Rotate					( const Vector3& value, SpaceSystem spaceSystem );
 
-			void ScaleByConstant			( const Vector3& value );
+			void ScaleByConstant		( const Vector3& value );
 
 
 		protected:

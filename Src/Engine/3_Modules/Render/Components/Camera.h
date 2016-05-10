@@ -35,27 +35,22 @@ namespace CYRED
 
 
 		public:
-			void OnHierarchyChange()	override {}
-
-
-		public:
 			Matrix4 GetProjectionMatrix();
 
-			// getters
-			float			GetFovYAngle	()	const;
-			float			GetNearClipping	()	const;
-			float			GetFarClipping	()	const;
-			float			GetAspectRatio	()	const;
+			Float		GetFovYAngle	()	const;
+			Float		GetNearClipping	()	const;
+			Float		GetFarClipping	()	const;
+			Float		GetAspectRatio	()	const;
 			Vector2		GetOrthoSize	()	const;
-			CameraType	GetType			()	const;
+			CameraType	GetCameraType	()	const;
 
-			// setters
-			void SetFovYAngle		( float value );
-			void SetNearClipping	( float value );
-			void SetFarClipping	( float value );
-			void SetAspectRatio	( float value );
-			void SetOrthoSize		( Vector2& value );
-			void SetType			( CameraType type );
+			void SetFovYAngle	( Float value );
+			void SetNearClipping( Float value );
+			void SetFarClipping	( Float value );
+			void SetAspectRatio	( Float value );
+			void SetOrthoHeight	( Float value );
+			void SetOrthoWidth	( Float value );
+			void SetCameraType	( CameraType type );
 
 
 		protected:
@@ -63,15 +58,15 @@ namespace CYRED
 
 
 		protected:
-			CameraType	_type;
-			float		_fovYAngle;
-			float		_nearClipping;
-			float		_farClipping;
-			float		_aspectRatio;
+			CameraType	_cameraType;
+			Float		_fovYAngle;
+			Float		_nearClipping;
+			Float		_farClipping;
+			Float		_aspectRatio;
 			Vector2		_orthoSize;
 
 			Matrix4		_projectionMatrix;
-			bool		_projectionChanged;
+			Bool		_projectionChanged;
 		};
 	}
 }

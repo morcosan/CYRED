@@ -19,11 +19,9 @@
     <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
     <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.cpp" />
-    <ClCompile Include="Fragments\EditorSkin.cpp" />
     <ClCompile Include="Fragments\Panels\AttributePanel.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Material.cpp" />
     <ClCompile Include="Fragments\SelectorPopup.cpp" />
-    <ClCompile Include="Fragments\EditorSettings.cpp" />
     <ClCompile Include="Fragments\Panels\AssetsPanel.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Material.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Shader.cpp" />
@@ -32,6 +30,19 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Scene.cpp" />
     <ClCompile Include="Utils\CustomTreeWidget.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Texture.cpp" />
+    <ClCompile Include="Fragments\Serialize\JSON\JsonSerializer_EditorConfig.cpp" />
+    <ClCompile Include="Fragments\Settings\EditorSettings.cpp" />
+    <ClCompile Include="Fragments\Settings\EditorSkin.cpp" />
+    <ClCompile Include="Fragments\Settings\ProjectSettings.cpp" />
+    <ClCompile Include="Fragments\Serialize\JSON\JsonSerializer_CyredProj.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_CyredProj.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Scene.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_MeshRendering.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Mesh.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Mesh.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Morph.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_MorphRendering.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Morph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -51,12 +62,10 @@
     <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
     <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.h" />
-    <ClInclude Include="Fragments\EditorSkin.h" />
     <ClInclude Include="Fragments\Panels\AttributePanel.h" />
     <ClInclude Include="Fragments\Selectors\Selector.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Material.h" />
     <ClInclude Include="Fragments\SelectorPopup.h" />
-    <ClInclude Include="Fragments\EditorSettings.h" />
     <ClInclude Include="Fragments\Panels\AssetsPanel.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Material.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Shader.h" />
@@ -65,5 +74,18 @@
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Scene.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Texture.h" />
+    <ClInclude Include="Fragments\Serialize\JSON\JsonSerializer_EditorConfig.h" />
+    <ClInclude Include="Fragments\Serialize\JSON\JsonSerializer_CyredProj.h" />
+    <ClInclude Include="Fragments\Settings\EditorSettings.h" />
+    <ClInclude Include="Fragments\Settings\EditorSkin.h" />
+    <ClInclude Include="Fragments\Settings\ProjectSettings.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_CyredProj.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Scene.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_MeshRendering.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Mesh.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Mesh.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Morph.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_MorphRendering.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Morph.h" />
   </ItemGroup>
 </Project>

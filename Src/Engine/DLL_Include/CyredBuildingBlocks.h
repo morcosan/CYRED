@@ -20,5 +20,6 @@
 #include "../2_BuildingBlocks/Random/Random.h"
 
 #include "../2_BuildingBlocks/String/String.h"
+#include "../2_BuildingBlocks/String/FiniteString.h"
 
 #include "../2_BuildingBlocks/Components/Transform.h"

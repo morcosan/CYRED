@@ -2,7 +2,7 @@
 // MIT License
 
 #include "AttrViewer.h"
-#include "../EditorSkin.h"
+#include "../Settings/EditorSkin.h"
 #include "../../EditorApp.h"
 #include "../Panels/AttributePanel.h"
 
@@ -72,12 +72,11 @@ struct AttrViewer::_ListWidget : public QWidget
 
 		for ( Int i = 0; i < size - childrenLeft; ++i )
 		{
-			Char elementName[MAX_SIZE_CUSTOM_STRING];
-			CUSTOM_STRING( elementName, "[ %d ]", i );
+			FiniteString elementName( "[ %d ]", i );
 
 			QTreeWidgetItem* childItem = Memory::Alloc<QTreeWidgetItem>();
 			childItem->setFlags( Qt::ItemIsEnabled );
-			childItem->setText( 0, elementName );
+			childItem->setText( 0, elementName.GetChar() );
 
 			QWidget* valueWidget = NULL;
 
@@ -1593,10 +1592,9 @@ QWidget* AttrViewer::CreateStruct( DataArray<AttrStruct>& structScheme,
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	Char structDisplay[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( structDisplay, "{ %d }", structScheme.Size() );
+	FiniteString structDisplay( "{ %d }", structScheme.Size() );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( structDisplay ) );
+	boxLayout->addWidget( Memory::Alloc<QLabel>( structDisplay.GetChar() ) );
 
 	_StructWidget* widget = Memory::Alloc<_StructWidget>();
 	widget->setLayout( boxLayout );

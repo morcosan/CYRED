@@ -5,8 +5,9 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
-#include "../EditorSkin.h"
-#include "../EditorSettings.h"
+#include "../Settings/EditorSkin.h"
+#include "../Settings/EditorSettings.h"
+#include "../Settings/ProjectSettings.h"
 #include "../../EditorApp.h"
 
 #include "QtWidgets\qtreewidget.h"
@@ -217,29 +218,45 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionSaveScene,		&QAction::triggered, this, &HierarchyPanel::A_SaveScene );
 		QObject::connect( actionSaveSceneAs,	&QAction::triggered, this, &HierarchyPanel::A_SaveSceneAs );
 		QObject::connect( actionCloseScene,		&QAction::triggered, this, &HierarchyPanel::A_CloseScene );
-
-		{
-			QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
-
-			QAction* actionGO_Empty = menuGO->addAction( MENU_GO_EMPTY );
-
-			QMenu* menuGO_3D = menuGO->addMenu( MENU_GO_3D );
-			QAction* actionGO_3D_Pivot = menuGO_3D->addAction( MENU_GO_3D_PIVOT );
-
-			QMenu* menuGO_PS = menuGO->addMenu( MENU_GO_PS );
-			QAction* actionGO_PS_Emitter = menuGO_PS->addAction( MENU_GO_PS_EMITTER );
-
-			QObject::connect( actionGO_Empty,		&QAction::triggered, this, &HierarchyPanel::A_GO_CreateEmpty );
-			QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Pivot );
-			QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &HierarchyPanel::A_GO_Particles_Emitter );
-		}
 	}
 
-	if ( treeItem->gameObject != NULL )
+	if ( treeItem->gameObject != NULL || treeItem->scene != NULL )
 	{
+		_qtRightClickMenu->addSeparator();
 		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
 
 		QObject::connect( actionRename,	&QAction::triggered, this, &HierarchyPanel::A_Rename );
+	}
+	if ( treeItem->gameObject != NULL )
+	{
+		_qtRightClickMenu->addSeparator();
+		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
+
+		QObject::connect( actionDelete,	&QAction::triggered, this, &HierarchyPanel::A_Delete );
+	}
+
+	if ( treeItem->gameObject == NULL )
+	{
+		_qtRightClickMenu->addSeparator();
+		QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
+
+		QAction* actionGO_Empty = menuGO->addAction( MENU_GO_EMPTY );
+
+		QMenu* menuGO_3D = menuGO->addMenu( MENU_GO_3D );
+		QAction* actionGO_3D_Pivot = menuGO_3D->addAction( MENU_GO_3D_PIVOT );
+		QAction* actionGO_3D_Camera = menuGO_3D->addAction( MENU_GO_3D_CAMERA );
+		QAction* actionGO_3D_Mesh = menuGO_3D->addAction( MENU_GO_3D_MESH );
+		QAction* actionGO_3D_Morph = menuGO_3D->addAction( MENU_GO_3D_MORPH );
+
+		QMenu* menuGO_PS = menuGO->addMenu( MENU_GO_PS );
+		QAction* actionGO_PS_Emitter = menuGO_PS->addAction( MENU_GO_PS_EMITTER );
+
+		QObject::connect( actionGO_Empty,		&QAction::triggered, this, &HierarchyPanel::A_GO_CreateEmpty );
+		QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Pivot );
+		QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Camera );
+		QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Mesh );
+		QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Morph );
+		QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &HierarchyPanel::A_GO_Particles_Emitter );
 	}
 }
 
@@ -287,6 +304,7 @@ void HierarchyPanel::_ResetHierarchy()
 
 		treeItem->setText( 0, scene->GetName() );
 		treeItem->setFlags( Qt::ItemIsSelectable | 
+							Qt::ItemIsEditable |
 							Qt::ItemIsDropEnabled | 
 							Qt::ItemIsEnabled );
 		rootItem->addChild( treeItem );
@@ -329,6 +347,16 @@ void HierarchyPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 	{
 		treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
 	}
+	if ( treeItem->scene != NULL )
+	{
+		FiniteString newName( item->text(0).toUtf8().constData() );
+
+		_qtTree->blockSignals( true );
+		item->setText( 0, treeItem->scene->GetName() );
+		_qtTree->blockSignals( false );
+
+		treeItem->scene->SetName( newName.GetChar() );
+	}
 }
 
 
@@ -368,13 +396,12 @@ void HierarchyPanel::A_SaveSceneAs()
 	Scene* scene = treeItem->scene;
 	ASSERT( scene != NULL );
 
-	Char fileFilter[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( fileFilter, FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
+	FiniteString fileFilter( FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
 
 	QString newPath = QFileDialog::getSaveFileName( this, 
 													MSG_SAVE_SCENE, 
-													EditorSettings::DIR_PATH_ASSETS, 
-													fileFilter );
+													ProjectSettings::dirPathAssets.GetChar(), 
+													fileFilter.GetChar() );
 	
 	const char* paths = newPath.toUtf8().constData();
 	QFileInfo filePath( newPath );
@@ -412,6 +439,15 @@ void HierarchyPanel::A_Rename()
 }
 
 
+void HierarchyPanel::A_Delete()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	SceneManager::Singleton()->Destroy( treeItem->gameObject );
+}
+
+
 void HierarchyPanel::A_GO_CreateEmpty()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
@@ -437,12 +473,49 @@ void HierarchyPanel::A_GO_Create3D_Pivot()
 
 void HierarchyPanel::A_GO_Create3D_Camera()
 {
-	//GameObject* newObject = SceneManager::Singleton()->NewGameObject( _selectedSceneIndex );
-	//newObject->AddComponent<COMP::Transform>();
-	//newObject->AddComponent<COMP::Camera>();
-	//newObject->SetName( GAMEOBJECT_CREATE3D_CAMERA );
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->scene != NULL );
 
-	//EditorApp::Singleton()->ShowStatus( STATUS_NEW_GAMEOBJECT );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+	newObject->SetName( MENU_GO_3D_CAMERA );
+
+	COMP::Camera* camera = newObject->AddComponent<COMP::Camera>();
+	camera->SetFovYAngle( 60 );
+	camera->SetNearClipping( 0.1f );
+	camera->SetFarClipping( 200.0f );
+
+	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
+}
+
+
+void HierarchyPanel::A_GO_Create3D_Mesh()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->scene != NULL );
+
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
+	newObject->SetName( MENU_GO_3D_MESH );
+
+	COMP::MeshRendering* meshRender = newObject->AddComponent<COMP::MeshRendering>();
+
+	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
+}
+
+
+void HierarchyPanel::A_GO_Create3D_Morph()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->scene != NULL );
+
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
+	newObject->SetName( MENU_GO_3D_MORPH );
+
+	COMP::MorphRendering* morphRender = newObject->AddComponent<COMP::MorphRendering>();
+
+	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
 }
 
 

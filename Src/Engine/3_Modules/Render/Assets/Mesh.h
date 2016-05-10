@@ -22,7 +22,17 @@ namespace CYRED
 		};
 	}
 
+	namespace Enum_LoadType
+	{
+		enum Enum
+		{
+			EXTERNAL
+			, GENERATED
+		};
+	}
+
 	typedef Enum_MeshType::Enum	MeshType;
+	typedef Enum_LoadType::Enum	LoadType;
 }
 
 
@@ -46,15 +56,19 @@ namespace CYRED
 		void BindToGPU		();
 
 		MeshType		GetMeshType				() const;		
+		LoadType		GetLoadType				() const;		
 		UInt			GetVBO					() const;		
 		UInt			GetIBO					() const;			
 		UInt			GetNumIndices			() const;	
 		Bool			DoesClearBuffersOnBind	() const;
+		const Char*		GetExternalPath			() const;
 
 		void SetMeshType			( MeshType type );
+		void SetLoadType			( LoadType type );
 		void SetVertices			( DataArray<Vertex>& vertices );
 		void SetIndices				( DataArray<UInt>& indices );
 		void SetClearBuffersOnBind	( Bool value );
+		void SetExternalPath		( const Char* filePath );
 
 
 	protected:
@@ -63,6 +77,9 @@ namespace CYRED
 		UInt				_numIndices;
 		MeshType			_meshType;
 		Bool				_clearBuffersOnBind;	//! when binding to GPU, clear image buffer
+		
+		LoadType			_loadType;
+		String				_externalPath;
 
 		DataArray<Vertex>	_vertices;
 		DataArray<UInt>		_indices;

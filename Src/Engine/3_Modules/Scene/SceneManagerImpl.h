@@ -11,8 +11,12 @@
 
 namespace CYRED
 {
-	class Scene;
+	class Node;
+}
 
+
+namespace CYRED
+{
 	namespace NotAPI
 	{
 		class SceneManagerImpl : public SceneManager
@@ -65,6 +69,8 @@ namespace CYRED
 
 			UInt				_generatedUID;
 			GameObject*			_mainCameraGO;
+
+			GameObject* _RecFindActiveCamera( Node* parent );
 		};
 	}
 }

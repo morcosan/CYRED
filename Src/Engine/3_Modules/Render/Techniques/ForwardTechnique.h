@@ -31,6 +31,9 @@ namespace CYRED
 			const Char* UNIFORM_LIFETIME	= "lifetime";
 			const Char* UNIFORM_DELTA_TIME	= "deltaTime";
 
+			const Char* UNIFORM_STATE_RATIO	= "stateRatio";
+
+
 		public:
 			ForwardTechnique() {}
 			virtual ~ForwardTechnique() {}
@@ -51,6 +54,7 @@ namespace CYRED
 			COMP::Camera*		_cameraComp;
 
 			void _RenderMesh		( GameObject* gameObject );
+			void _RenderMorph		( GameObject* gameObject );
 			void _RenderParticles	( GameObject* gameObject );
 
 			void _BindMaterial	( Material* material );

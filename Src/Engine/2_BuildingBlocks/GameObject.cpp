@@ -54,6 +54,20 @@ void GameObject::OnHierarchyChange()
 }
 
 
+void GameObject::OnUpdate()
+{
+	for ( UInt i = 0; i < _components.Size(); ++i )
+	{
+		_components[i]->OnUpdate();
+	}
+
+	for ( UInt i = 0; i < _childNodes.Size(); ++i )
+	{
+		_childNodes[i]->OnUpdate();
+	}
+}
+
+
 Bool GameObject::IsEnabled() const
 {
 	return _enabled;
@@ -115,3 +129,4 @@ void GameObject::SetEmitEvents( Bool value )
 {
 	_emitEvents = value;
 }
+

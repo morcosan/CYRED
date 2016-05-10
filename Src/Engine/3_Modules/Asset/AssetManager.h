@@ -10,6 +10,7 @@
 namespace CYRED
 {
 	class Mesh;
+	class Morph;
 	class Material;
 	class Shader;
 	class Texture;
@@ -43,12 +44,14 @@ namespace CYRED
 		virtual void ClearAll	()	PURE_VIRTUAL;
 
 		virtual StatusAssetAdd	AddMesh		( Mesh* mesh )				PURE_VIRTUAL;
+		virtual StatusAssetAdd	AddMorph	( Morph* morph )			PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddMaterial	( Material* material )		PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddShader	( Shader* shader )			PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddTexture	( Texture* texture )		PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddScene	( Scene* scene )			PURE_VIRTUAL;
 
 		virtual Mesh*		GetMesh			( const Char* uniqueID )	PURE_VIRTUAL;
+		virtual Morph*		GetMorph		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Material*	GetMaterial		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Shader*		GetShader		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Texture*	GetTexture		( const Char* uniqueID )	PURE_VIRTUAL;
@@ -57,10 +60,19 @@ namespace CYRED
 		virtual UInt		GetMaterialCount()				PURE_VIRTUAL;
 		virtual Material*	GetMaterialAt	( UInt index )	PURE_VIRTUAL;
 
+		virtual UInt		GetMeshCount	()				PURE_VIRTUAL;
+		virtual Mesh*		GetMeshAt		( UInt index )	PURE_VIRTUAL;
+
+		virtual UInt		GetMorphCount	()				PURE_VIRTUAL;
+		virtual Morph*		GetMorphAt		( UInt index )	PURE_VIRTUAL;
+
 		virtual UInt		GetShaderCount	()				PURE_VIRTUAL;
 		virtual Shader*		GetShaderAt		( UInt index )	PURE_VIRTUAL;
 
 		virtual UInt		GetTextureCount	()				PURE_VIRTUAL;
 		virtual Texture*	GetTextureAt	( UInt index )	PURE_VIRTUAL;
+
+		virtual UInt		GetSceneCount	()				PURE_VIRTUAL;
+		virtual Scene*		GetSceneAt		( UInt index )	PURE_VIRTUAL;
 	};
 }

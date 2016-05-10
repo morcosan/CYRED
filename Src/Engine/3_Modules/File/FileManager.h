@@ -18,12 +18,14 @@ namespace CYRED
 
 	public:
 		static const Char* const FILE_FORMAT_MESH;
+		static const Char* const FILE_FORMAT_MORPH;
 		static const Char* const FILE_FORMAT_MATERIAL;
 		static const Char* const FILE_FORMAT_SHADER;
 		static const Char* const FILE_FORMAT_TEXTURE;
 		static const Char* const FILE_FORMAT_SCENE;		
 		static const Char* const FILE_FORMAT_ASSETDB;		
 		
+		static const Char* const DIR_ASSETS;		
 
 
 	public:
@@ -64,11 +66,6 @@ namespace CYRED
 	String FileManager::Serialize( T* object )
 	{
 		ASSERT( _serializeSystem != NULL );
-
-		if ( object == NULL )
-		{
-			return "";
-		}
 
 		return _serializeSystem->Serialize<T>( object );
 	}

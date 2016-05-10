@@ -44,7 +44,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	Int typeIndex = 0;
-	switch ( _target->GetType() )
+	switch ( _target->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
 			typeIndex = 0;
@@ -59,7 +59,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 	_WriteAttrBool( ATTR_HAS_MIPMAP, _target->HasMipmap() );
 	_WriteAttrBool( ATTR_CLEAR_BUFFER, _target->DoesClearBufferOnBind() );
 
-	switch ( _target->GetType() )
+	switch ( _target->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetImagePath(0) );
@@ -109,7 +109,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 		_target->SetHasMipmap( _ReadAttrBool( ATTR_HAS_MIPMAP ) );
 		_target->SetClearBufferOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
 
-		switch ( _target->GetType() )
+		switch ( _target->GetTextureType() )
 		{
 			case TextureType::TEXTURE_2D:
 				_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
@@ -135,7 +135,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 
 void AttrViewer_Texture::_ChangeVisibility()
 {
-	switch ( _target->GetType() )
+	switch ( _target->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
 			_SetAttrVisibility( ATTR_FILE_PATH, TRUE );

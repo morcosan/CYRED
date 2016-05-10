@@ -19,17 +19,14 @@ AttrViewer_Camera::AttrViewer_Camera()
 
 void AttrViewer_Camera::_OnInitialize()
 {
-	{
-		_CreateAttrDropdown	( ATTR_TYPE, _cameraTypes );
-		_CreateAttrFloat	( ATTR_FOVY_ANGLE );
-		_CreateAttrFloat	( ATTR_NEAR_CLIPPING );
-		_CreateAttrFloat	( ATTR_FAR_CLIPPING );
-		_CreateAttrFloat	( ATTR_ASPECT_RATIO );
-		_CreateAttrVector2	( ATTR_ORTH_SIZE );
-	}
-	{
-		_CreateInnerAttribute( InnerAttrType::ENABLED );
-	}
+	_CreateAttrDropdown	( ATTR_TYPE, _cameraTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrFloat	( ATTR_FOVY_ANGLE );
+	_CreateAttrFloat	( ATTR_ORTH_SIZE );
+	_CreateAttrFloat	( ATTR_NEAR_CLIPPING );
+	_CreateAttrFloat	( ATTR_FAR_CLIPPING );
+	
+	_CreateInnerAttribute( InnerAttrType::ENABLED );
+
 	_AddToPanel( TITLE );
 }
 
@@ -42,52 +39,56 @@ void AttrViewer_Camera::_OnChangeTarget( void* target )
 
 void AttrViewer_Camera::_OnUpdateGUI()
 {
-	/*DataUnion attr;
+	_WriteAttrDropdown( ATTR_TYPE, _GetIndexForType( _target->GetCameraType() ) );
+	_WriteAttrFloat( ATTR_FOVY_ANGLE, _target->GetFovYAngle() );
+	_WriteAttrFloat( ATTR_NEAR_CLIPPING, _target->GetNearClipping() );
+	_WriteAttrFloat( ATTR_FAR_CLIPPING, _target->GetFarClipping() );
+	_WriteAttrFloat( ATTR_ORTH_SIZE, _target->GetOrthoSize().y );
 	
-	_WriteAttribute( ATTR_TYPE,				attr.SetInt( _GetIndexForType( _target->GetType() ) ) );
-	_WriteAttribute( ATTR_FOVY_ANGLE,		attr.SetFloat( _target->GetFovYAngle() ) );
-	_WriteAttribute( ATTR_NEAR_CLIPPING,	attr.SetFloat( _target->GetNearClipping() ) );
-	_WriteAttribute( ATTR_FAR_CLIPPING,		attr.SetFloat( _target->GetFarClipping() ) );
-	_WriteAttribute( ATTR_ASPECT_RATIO,		attr.SetFloat( _target->GetAspectRatio() ) );
-	_WriteAttribute( ATTR_ORTH_SIZE,		attr.SetVector2( _target->GetOrthoSize() ) );
-	
-	_WriteInnerAttribute( InnerAttrType::ENABLED,		attr.SetBool( _target->IsEnabled() ) );
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
+	{
+		DataUnion attr;
+		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
-	_Colorize( _target->IsEnabled() );*/
+		_Colorize( _target->IsEnabled() );
+	}
+
+	_ChangeVisibility();
 }
 
 
 void AttrViewer_Camera::_OnUpdateTarget()
 {
-	//_target->SetEmitEvents( FALSE );
+	_target->SetEmitEvents( FALSE );
 
-	//{
-	//	CameraType	newType			= _GetTypeForIndex( _ReadAttribute( ATTR_TYPE ).GetInt() );
-	//	Float		newFovYAngle	= _ReadAttribute( ATTR_FOVY_ANGLE ).GetFloat();
-	//	Float		newNearClipping	= _ReadAttribute( ATTR_NEAR_CLIPPING ).GetFloat();
-	//	Float		newFarClipping	= _ReadAttribute( ATTR_FAR_CLIPPING ).GetFloat();
-	//	Float		newAspectRatio	= _ReadAttribute( ATTR_ASPECT_RATIO ).GetFloat();
-	//	Vector2		newOrthoSize	= _ReadAttribute( ATTR_ORTH_SIZE ).GetVector2();
-	//		
-	//	_target->SetType		( newType );
-	//	_target->SetFovYAngle	( newFovYAngle );
-	//	_target->SetNearClipping( newNearClipping );
-	//	_target->SetFarClipping	( newFarClipping );
-	//	_target->SetAspectRatio	( newAspectRatio );
-	//	_target->SetOrthoSize	( newOrthoSize );
-	//}
-	//{
-	//	Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
-	//	_target->SetEnabled( newValue );
-	//}
+	if ( _activatedGroup == CallbackGroup::GROUP_2 )
+	{
+		_target->SetCameraType( _GetTypeForIndex( _ReadAttrDropdown( ATTR_TYPE ) ) );
 
-	//_target->SetEmitEvents( TRUE );
+		_ChangeVisibility();
+	}
+	else
+	{
+		_target->SetFovYAngle( _ReadAttrFloat( ATTR_FOVY_ANGLE ) );
+		_target->SetNearClipping( _ReadAttrFloat( ATTR_NEAR_CLIPPING ) );
+		_target->SetFarClipping( _ReadAttrFloat( ATTR_FAR_CLIPPING ) );
+		_target->SetOrthoHeight( _ReadAttrFloat( ATTR_ORTH_SIZE ) );
+		
+		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		if ( _target->IsEnabled() != newValue )
+		{
+			_target->SetEnabled( newValue );
 
-	//// emit event manually
-	//EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
-	//									  EventName::CAMERA_CHANGED, _target );
+			_Colorize( _target->IsEnabled() );
+		}
+	}
 
-	//_Colorize( _target->IsEnabled() );
+	_target->SetEmitEvents( TRUE );
+
+	// emit event manually
+	++_ignoreUpdateGUI;
+	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
+										  EventName::CAMERA_CHANGED, _target );
 }
 
 
@@ -118,6 +119,25 @@ CameraType AttrViewer_Camera::_GetTypeForIndex( Int index )
 	}
 
 	return CameraType::PERSPECTIVE;
+}
+
+
+void AttrViewer_Camera::_ChangeVisibility()
+{
+	switch ( _target->GetCameraType() )
+	{
+		case CameraType::ORTHOGRAPHIC:
+			_SetAttrVisibility( ATTR_ORTH_SIZE, TRUE );
+			_SetAttrVisibility( ATTR_FOVY_ANGLE, FALSE );
+			break;
+
+		case CameraType::PERSPECTIVE:
+			_SetAttrVisibility( ATTR_ORTH_SIZE, FALSE );
+			_SetAttrVisibility( ATTR_FOVY_ANGLE, TRUE );
+			break;
+	}
+
+	_UpdateVisibility();
 }
 
 

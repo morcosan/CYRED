@@ -2,6 +2,7 @@
 // MIT License
 
 #include "GameInitScript.h"
+#include "CyredBuildingBlocks.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_File.h"
@@ -11,22 +12,29 @@
 using namespace CYRED;
 
 
+
+GameInitScript::GameInitScript( AppConfig* appConfig )
+	: _appConfig( appConfig )
+{
+}
+
+
 void GameInitScript::_OnStart()
 {
-	if ( AppSettings::scenesData.Size() > 0 )
+	if ( _appConfig->assetDB.Size() > 0 )
 	{
-		_LoadSceneAssets( AppSettings::scenesData[0] );
-		_LoadScene( AppSettings::scenesData[0] );
+		_LoadSceneAssets( _appConfig->assetDB[0] );
+		_LoadScene( _appConfig->assetDB[0] );
 	}
 }
 
 
-void GameInitScript::_LoadScene( AppSettings::SceneData& sceneData )
+void GameInitScript::_LoadScene( AssetDB& sceneData )
 {
 	Scene* scene = Memory::Alloc<Scene>();
 	scene->SetEmitEvents( FALSE );
-	scene->SetName( sceneData.sceneName.GetChar() );
-	scene->SetDirPath( sceneData.sceneDir.GetChar() );
+	scene->SetName( sceneData.name.GetChar() );
+	scene->SetDirPath( sceneData.dir.GetChar() );
 	scene->LoadUniqueID();
 	scene->SetEmitEvents( TRUE );
 
@@ -36,19 +44,18 @@ void GameInitScript::_LoadScene( AppSettings::SceneData& sceneData )
 }
 
 
-void GameInitScript::_LoadSceneAssets( AppSettings::SceneData& sceneData )
+void GameInitScript::_LoadSceneAssets( AssetDB& sceneData )
 {
 	AssetManager* assetMgr = AssetManager::Singleton();
 
 	assetMgr->ClearAll();
 
-	Char filePath[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( filePath, "%s%s%s", sceneData.assetdbDir.GetChar(), 
-									   sceneData.sceneName.GetChar(),
-									   FileManager::FILE_FORMAT_ASSETDB );
+	FiniteString filePath( "%s%s%s", sceneData.dir.GetChar(), 
+									 sceneData.name.GetChar(),
+									 FileManager::FILE_FORMAT_ASSETDB );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath );
-	FileManager::Singleton()->Deserialize<AppSettings::SceneData>( fileData, NULL );
+	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	FileManager::Singleton()->Deserialize<AssetDB>( fileData, NULL );
 
 	// load assets full
 	{

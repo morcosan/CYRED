@@ -56,12 +56,13 @@ void JsonSerializer_Shader::FromJson( rapidjson::Value& json, OUT void* object,
 	if ( json.HasMember( UNIQUE_ID ) )
 	{
 		shader->SetUniqueID( json[UNIQUE_ID].GetString() );
-
-		if ( flag == DeserFlag::UID_ONLY )
-		{
-			return;
-		}
 	}
+
+	if ( flag == DeserFlag::UID_ONLY )
+	{
+		return;
+	}
+
 	if ( json.HasMember( RENDERER ) &&
 		 json.HasMember( VERTEX_FILE_PATH ) &&
 		 json.HasMember( GEOMETRY_FILE_PATH ) &&

@@ -14,12 +14,12 @@ namespace CYRED
 	{
 	public:
 		const Char* TITLE				= "Camera";
-		const Char* ATTR_TYPE			= "Type";
+
+		const Char* ATTR_TYPE			= "Camera Type";
 		const Char* ATTR_FOVY_ANGLE		= "FovY Angle";
 		const Char* ATTR_NEAR_CLIPPING	= "Near Clipping";
 		const Char* ATTR_FAR_CLIPPING	= "Far Clipping";
-		const Char* ATTR_ASPECT_RATIO	= "Aspect Ratio";
-		const Char* ATTR_ORTH_SIZE		= "Ortho Size";
+		const Char* ATTR_ORTH_SIZE		= "Ortho Height";
 
 
 	public:
@@ -39,7 +39,9 @@ namespace CYRED
 
 		DataArray<const Char*>	_cameraTypes;
 
-		Int			_GetIndexForType( CameraType type );
-		CameraType	_GetTypeForIndex( Int index );
+		Int			_GetIndexForType	( CameraType type );
+		CameraType	_GetTypeForIndex	( Int index );
+
+		void		_ChangeVisibility	();
 	};
 }

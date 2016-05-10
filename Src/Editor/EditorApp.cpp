@@ -21,8 +21,11 @@
 #include "Fragments\Panels\AssetsPanel.h"
 
 #include "Fragments\Viewports\SceneViewport.h"
-
 #include "Fragments\SelectorPopup.h"
+#include "Fragments\Settings\EditorSettings.h"
+#include "Fragments\Settings\ProjectSettings.h"
+#include "Fragments\Serialize\JSON\JsonSerializer_EditorConfig.h"
+#include "Fragments\Serialize\JSON\JsonSerializer_CyredProj.h"
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
@@ -32,13 +35,13 @@
 
 #include "InternalAssets\FreeCameraScript.h"
 
-#include "Fragments\EditorSettings.h"
-
 #include <QtWidgets/QApplication>
 #include <QtGui\qwindow.h>
 #include "QtWidgets\qstatusbar.h"
 #include <QtCore\qtime>
 #include "QtWidgets\qtabbar.h"
+#include "QtCore\qfileinfo.h"
+#include "QtCore\qdir.h"
 
 
 using namespace CYRED;
@@ -77,9 +80,12 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 {
 	_qtApp = Memory::Alloc<QApplication>( argc, argv );
 
-	_CreateMainWindow();
 	_CreateManagers();
 	_InitializeManagers();
+
+	_ReadConfigFile();
+
+	_CreateMainWindow();
 	_CreateMenuBar();
 	_CreateStatusBar();
 	_CreateCameras();
@@ -116,8 +122,11 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 		}
 	}
 
-	_isPlayMode = FALSE;
+	// must be called after all scenes assets are loaded
+	_ReadProjectFile();
 
+
+	_isPlayMode = FALSE;
 
 	//! start the main loop
 	_qtTime = Memory::Alloc<QTime>();
@@ -214,8 +223,12 @@ void EditorApp::_InitializeManagers()
 	SceneManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
 
+	JsonSerializeSystem* jsonSystem = Memory::Alloc<JsonSerializeSystem>();
+	jsonSystem->AddSerializer<EditorSettings>( Memory::Alloc<JsonSerializer_EditorConfig>() );
+	jsonSystem->AddSerializer<ProjectSettings>( Memory::Alloc<JsonSerializer_CyredProj>() );
+
 	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>() );
-	FileManager::Singleton()->SetSerializeSystem( Memory::Alloc<JsonSerializeSystem>() );
+	FileManager::Singleton()->SetSerializeSystem( jsonSystem );
 
 	InputManager::Singleton()->Initialize( _inputReceiver );
 	TimeManager::Singleton()->Initialize( EditorSettings::fps );
@@ -328,6 +341,28 @@ void EditorApp::_UpdateCameras()
 }
 
 
+void EditorApp::_ReadConfigFile()
+{
+	Char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::FILE_PATH_CONFIG );
+	FileManager::Singleton()->Deserialize<EditorSettings>( fileData, NULL );
+
+	QDir dir;
+	QFileInfo fileInfo( EditorSettings::projectPath.GetChar() );
+
+	QString projDir = dir.relativeFilePath( fileInfo.absolutePath() );
+	projDir.append( "/" ).append( FileManager::DIR_ASSETS );
+
+	ProjectSettings::dirPathAssets = projDir.toUtf8().constData();
+}
+
+
+void EditorApp::_ReadProjectFile()
+{
+	Char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::projectPath.GetChar() );
+	FileManager::Singleton()->Deserialize<ProjectSettings>( fileData, NULL );
+}
+
+
 Panel* EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
 {
 	Panel* panel = NULL;
@@ -386,12 +421,11 @@ void EditorApp::ShowStatus( const Char* message )
 // the skin must exist in skins directory
 void EditorApp::ApplySkin( const Char* skinName )
 {
-	Char filePath[MAX_SIZE_CUSTOM_STRING];
-	CUSTOM_STRING( filePath, "%s%s%s", EditorSettings::DIR_PATH_SKINS, 
-									   skinName, 
-									   EditorSettings::FILE_FORMAT_SKINS );
+	FiniteString filePath( "%s%s%s", EditorSettings::DIR_PATH_SKINS,
+									 skinName,
+									 EditorSettings::FILE_FORMAT_SKINS );
 
-	Char* stylesheet = FileManager::Singleton()->ReadFile( filePath );
+	Char* stylesheet = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 
 	// apply skin to all elements
 	if ( stylesheet != NULL )
