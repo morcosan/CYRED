@@ -1,0 +1,51 @@
+------------
+--- v0.4 ---
+------------
+FEATURE:
+- added mesh and morph rendering
+- added mesh and morph assets
+- added cel-shading
+- added attribute viewers for mesh and morph
+- added selectors for mesh and morph
+- added json serializer for mesh and morph
+- added 3d mesh importing with assimp
+GENERAL:
+- project refactoring
+- icons for mesh updated
+BUGFIX:
+- rendering particles
+- save scene as...
+WIP:
+- build system for windows standalone
+
+
+------------
+--- v0.3 ---
+------------
+FEATURE:
+- standalone app for windows
+- basic asset db per scene
+GENERAL:
+- moved assets to standalone
+
+
+------------
+--- v0.2 ---
+------------
+FEATURE:
+- asset creation right click
+- asset delete
+- asset rename
+- reload all assets button
+BUGFIX:
+- AttributePanel lag reduced only
+
+
+------------
+--- v0.1 ---
+------------
+FEATURE:
+- added struct and list to AttrViewer
+
+
+
