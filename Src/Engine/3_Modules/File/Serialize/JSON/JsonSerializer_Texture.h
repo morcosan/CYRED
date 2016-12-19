@@ -14,15 +14,15 @@ namespace CYRED
 		const Char* const TYPE				= "type";
 		const Char* const TYPE_TEXTURE_2D	= "TEXTURE_2D";
 		const Char* const TYPE_CUBE_MAP		= "CUBE_MAP";
-		const Char* const HAS_MIPMAP		= "hasMipmap";
-		const Char* const CLEAR_BUFFER		= "clearBufferOnBind";
-		const Char* const FILE_PATH			= "filePath";
-		const Char* const FILE_PATH_POSX	= "filePathPosX";
-		const Char* const FILE_PATH_NEGX	= "filePathNegX";
-		const Char* const FILE_PATH_POSY	= "filePathPosY";
-		const Char* const FILE_PATH_NEGY	= "filePathNegY";
-		const Char* const FILE_PATH_POSZ	= "filePathPosZ";
-		const Char* const FILE_PATH_NEGZ	= "filePathNegZ";
+		const Char* const HAS_MIPMAP		= "has_mipmap";
+		const Char* const CLEAR_BUFFER		= "clear_buffer_on_bind";
+		const Char* const FILE_PATH			= "file_path";
+		const Char* const FILE_PATH_POSX	= "file_path_pos_x";
+		const Char* const FILE_PATH_NEGX	= "file_path_neg_x";
+		const Char* const FILE_PATH_POSY	= "file_path_pos_y";
+		const Char* const FILE_PATH_NEGY	= "file_path_neg_y";
+		const Char* const FILE_PATH_POSZ	= "file_path_pos_z";
+		const Char* const FILE_PATH_NEGZ	= "file_path_neg_z";
 
 
 	public:

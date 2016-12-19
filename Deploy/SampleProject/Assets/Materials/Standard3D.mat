@@ -2,8 +2,8 @@
     "uid": "chFbRmqXjq19ONmNQSKe4XA09mpXgnmn",
     "shader": "wVjCISzUz4f6ebIBanqcyKjCsZRuLgwq",
     "wireframe": false,
-    "lineWidth": 1.0,
-    "cullFace": "CULL_BACK",
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
     "properties": [
         {
             "name": "diffuseColor",

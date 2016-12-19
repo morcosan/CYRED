@@ -1,7 +1,7 @@
 {
     "uid": "3F70qXZBhFEq3XiIBieeIwV7pnqjJwx1",
     "renderer": "FORWARD",
-    "vertexFilePath": "Default3D.vert",
-    "geometryFilePath": "Default3D.geom",
-    "fragmentFilePath": "Default3D.frag"
+    "vertex_file_path": "Default3D.vert",
+    "geometry_file_path": "Default3D.geom",
+    "fragment_file_path": "Default3D.frag"
 }

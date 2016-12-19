@@ -43,15 +43,15 @@
                     "particles_per_wave": 10,
                     "looping": true,
                     "spawn_duration": 5.0,
-                    "EmitterShape": "CIRCLE",
-                    "ShapeRadius": 1.0,
-                    "SpawnFromEdge": true,
-                    "Material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
-                    "Particle_Size_Start": {
+                    "emitter_shape": "CIRCLE",
+                    "shape_radius": 1.0,
+                    "spawn_from_edge": true,
+                    "material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
+                    "particle_size_start": {
                         "x": 0.300,
                         "y": 0.300
                     },
-                    "Particle_Size_End": {
+                    "particle_size_end": {
                         "x": 0.200,
                         "y": 0.200
                     }
@@ -100,15 +100,15 @@
                     "particles_per_wave": 20,
                     "looping": true,
                     "spawn_duration": 5.0,
-                    "EmitterShape": "CIRCLE",
-                    "ShapeRadius": 2.0,
-                    "SpawnFromEdge": true,
-                    "Material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
-                    "Particle_Size_Start": {
+                    "emitter_shape": "CIRCLE",
+                    "shape_radius": 2.0,
+                    "spawn_from_edge": true,
+                    "material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
+                    "particle_size_start": {
                         "x": 0.5,
                         "y": 0.5
                     },
-                    "Particle_Size_End": {
+                    "particle_size_end": {
                         "x": 0.5,
                         "y": 0.5
                     }

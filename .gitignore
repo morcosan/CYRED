@@ -11,3 +11,5 @@ desktop.ini
 /.vs
 /*.opensdf
 /*.sdf
+/*.VC.db
+/*.VC.opendb

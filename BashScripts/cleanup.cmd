@@ -2,6 +2,7 @@
 
 DEL 	/Q 		"..\cyred_vs2015.sdf"
 DEL 	/Q 		"..\cyred_vs2015.VC.db"
+DEL 	/Q 		"..\cyred_vs2015.VC.VC.opendb"
 
 DEL 	/Q 		"..\DeployLIB\CYRED_Engine.exp"
 DEL 	/Q 		"..\DeployLIB\CYRED_Engine.pdb"

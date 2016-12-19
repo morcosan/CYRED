@@ -13,8 +13,8 @@ namespace CYRED
 		const Char* const UNIQUE_ID			= "uid";
 		const Char* const SHADER			= "shader";
 		const Char* const WIREFRAME			= "wireframe";
-		const Char* const LINE_WIDTH		= "lineWidth";
-		const Char* const CULL_FACE			= "cullFace";
+		const Char* const LINE_WIDTH		= "line_width";
+		const Char* const CULL_FACE			= "cull_face";
 		const Char* const CULL_FACE_BACK	= "CULL_BACK";
 		const Char* const CULL_FACE_FRONT	= "CULL_FRONT";
 		const Char* const CULL_FACE_NONE	= "CULL_NONE";

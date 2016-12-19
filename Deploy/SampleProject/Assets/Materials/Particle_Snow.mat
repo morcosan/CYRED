@@ -2,8 +2,8 @@
     "uid": "LTBnPBi3LXWQGACIAoHXu1l0VmBnOIUy",
     "shader": "LPaTVfT0Q8ByEIVcIgn5a3metEOD8KyS",
     "wireframe": false,
-    "lineWidth": 1.0,
-    "cullFace": "CULL_BACK",
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
     "properties": [
         {
             "name": "colorStart",

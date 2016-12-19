@@ -2,8 +2,8 @@
     "uid": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS",
     "shader": "3F70qXZBhFEq3XiIBie6IwVdpnqjJwx1",
     "wireframe": false,
-    "lineWidth": 1.0,
-    "cullFace": "CULL_BACK",
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
     "properties": [
         {
             "name": "intensityLimits",
