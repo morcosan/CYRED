@@ -100,6 +100,7 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Shader.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Transform.cpp" />
+    <ClCompile Include="Fragments\Builders\ProjectBuilderImpl.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Mesh.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Morph.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Scene.cpp" />
@@ -144,6 +145,8 @@
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Shader.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Texture.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Transform.h" />
+    <ClInclude Include="Fragments\Builders\ProjectBuilder.h" />
+    <ClInclude Include="Fragments\Builders\ProjectBuilderImpl.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Mesh.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Morph.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Scene.h" />

@@ -11,7 +11,6 @@
 
 namespace CYRED
 {
-
 	namespace NotAPI
 	{
 		class EventManagerImpl : public EventManager

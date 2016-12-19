@@ -27,7 +27,8 @@ void AttrViewer_CyredProj::_OnInitialize()
 
 	_CreateAttrStruct( ATTR_APP_CONFIG, propertiesScheme );
 	_CreateAttrListSelector( ATTR_SCENES, Selector_Scene::TYPE );
-	_CreateAttrString( ATTR_BUILD_DIR );
+	_CreateAttrString( ATTR_BUILD_WINDOWS );
+	_CreateAttrString( ATTR_BUILD_ANDROID );
 
 	_AddToPanel( TITLE );
 }
@@ -66,7 +67,8 @@ void AttrViewer_CyredProj::_OnUpdateGUI()
 		}
 	}
 
-	_WriteAttrString( ATTR_BUILD_DIR, ProjectSettings::dirPathBuild.GetChar() );
+	_WriteAttrString( ATTR_BUILD_WINDOWS, ProjectSettings::dirPathBuildWindows.GetChar() );
+	_WriteAttrString( ATTR_BUILD_ANDROID, ProjectSettings::dirPathBuildAndroid.GetChar() );
 }
 
 
@@ -84,15 +86,22 @@ void AttrViewer_CyredProj::_OnUpdateTarget()
 	{
 		UInt total = _ReadAttrListSize( ATTR_SCENES );
 
+		// clear list
 		ProjectSettings::scenes.Clear();
+		// clear scenes in app config
+		ProjectSettings::appConfig.scenes.Clear();
 
 		for ( UInt i = 0; i < total; ++i )
 		{
 			Scene* scene = CAST_S( Scene*, _ReadAttrListIndex( ATTR_SCENES, i ).GetReference() );
 			ProjectSettings::scenes.Add( scene );
+
+			// also add uid as name to app config
+			ProjectSettings::appConfig.scenes.Add( scene->GetUniqueID() );
 		}
 	}
-	ProjectSettings::dirPathBuild = _ReadAttrString( ATTR_BUILD_DIR );
+	ProjectSettings::dirPathBuildWindows = _ReadAttrString( ATTR_BUILD_WINDOWS );
+	ProjectSettings::dirPathBuildAndroid = _ReadAttrString( ATTR_BUILD_ANDROID );
 
 	_WriteToFile();
 }

@@ -43,6 +43,7 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Morph.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_MorphRendering.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Morph.cpp" />
+    <ClCompile Include="Fragments\Builders\ProjectBuilderImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -87,5 +88,7 @@
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Morph.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_MorphRendering.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Morph.h" />
+    <ClInclude Include="Fragments\Builders\ProjectBuilder.h" />
+    <ClInclude Include="Fragments\Builders\ProjectBuilderImpl.h" />
   </ItemGroup>
 </Project>

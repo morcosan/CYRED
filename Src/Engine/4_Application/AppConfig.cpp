@@ -8,3 +8,4 @@ using namespace CYRED;
 
 
 const Char* const AppConfig::FILE_PATH_CONFIG	= "app.config";
+const Char* const AppConfig::DIR_PATH_DATA		= "Data/";

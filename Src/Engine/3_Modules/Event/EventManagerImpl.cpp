@@ -31,10 +31,7 @@ void EventManagerImpl::Initialize()
 
 void EventManagerImpl::Finalize()
 {
-	if ( !_isInitialized )
-	{
-		return;
-	}
+	ASSERT( _isInitialized );
 }
 
 

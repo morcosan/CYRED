@@ -15,6 +15,8 @@
 
 #include "Fragments\MenuBar.h"
 
+#include "Fragments\Builders\ProjectBuilder.h"
+
 #include "Fragments\Panels\HierarchyPanel.h"
 #include "Fragments\Panels\AttributePanel.h"
 #include "Fragments\Panels\ViewportPanel.h"
@@ -210,6 +212,7 @@ void EditorApp::_CreateManagers()
 	InputManager::CreateSingleton();
 	TimeManager::CreateSingleton();
 	DebugManager::CreateSingleton();
+	ProjectBuilder::CreateSingleton();
 
 	Random::Initialize();
 }
@@ -233,6 +236,8 @@ void EditorApp::_InitializeManagers()
 	InputManager::Singleton()->Initialize( _inputReceiver );
 	TimeManager::Singleton()->Initialize( EditorSettings::fps );
 	DebugManager::Singleton()->Initialize( Memory::Alloc<ConsoleWindows>() );
+
+	ProjectBuilder::Singleton()->Initialize();
 }
 
 
@@ -246,6 +251,8 @@ void EditorApp::_FinalizeManagers()
 	InputManager::Singleton()->Finalize();
 	TimeManager::Singleton()->Finalize();
 	DebugManager::Singleton()->Finalize();
+
+	ProjectBuilder::Singleton()->Finalize();
 }
 
 
@@ -259,6 +266,8 @@ void EditorApp::_DestroyManagers()
 	InputManager::DestroySingleton();
 	TimeManager::DestroySingleton();
 	DebugManager::DestroySingleton();
+
+	ProjectBuilder::DestroySingleton();
 }
 
 

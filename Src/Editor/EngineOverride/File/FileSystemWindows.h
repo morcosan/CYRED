@@ -20,6 +20,7 @@ namespace CYRED
 		Char*	ReadFile	( const Char* filePath, OUT Int& fileSize )		override;
 		Bool	WriteFile	( const Char* filePath, const Char* buffer )	override;
 		Bool	DeleteFile	( const Char* filePath )						override;
+		Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	override;
 
 		UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
 							  OUT Int *height, OUT Int *channels )			override;

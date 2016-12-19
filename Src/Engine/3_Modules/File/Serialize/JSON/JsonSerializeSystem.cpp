@@ -58,7 +58,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Morph>				( Memory::Alloc<JsonSerializer_Morph>() );
 
 	AddSerializer<AppConfig>			( Memory::Alloc<JsonSerializer_AppConfig>() );
-	AddSerializer<AssetDB>				( Memory::Alloc<JsonSerializer_AssetDB>() );
+	//AddSerializer<AssetDB>				( Memory::Alloc<JsonSerializer_AssetDB>() );
 }
 
 

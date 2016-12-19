@@ -33,6 +33,6 @@ namespace CYRED
 		static Int	posY;		/* y position on desktop						*/
 		static UInt	fps;		/* desired FPS when rendering					*/
 
-		static String projectPath;	/* path to project .cyredproj file */	
+		static String projectPath;	/* path to project .cyredproj file	*/	
 	};
 }

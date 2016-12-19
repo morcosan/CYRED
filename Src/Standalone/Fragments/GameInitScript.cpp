@@ -21,17 +21,17 @@ GameInitScript::GameInitScript( AppConfig* appConfig )
 
 void GameInitScript::_OnStart()
 {
-	if ( _appConfig->assetDB.Size() > 0 )
+	if ( _appConfig->scenes.Size() > 0 )
 	{
-		_LoadSceneAssets( _appConfig->assetDB[0] );
-		_LoadScene( _appConfig->assetDB[0] );
+		_LoadSceneAssets( _appConfig->scenes[0].GetChar() );
+		_LoadScene( _appConfig->scenes[0].GetChar() );
 	}
 }
 
 
-void GameInitScript::_LoadScene( AssetDB& sceneData )
+void GameInitScript::_LoadScene( const Char* sceneName )
 {
-	Scene* scene = Memory::Alloc<Scene>();
+	/*Scene* scene = Memory::Alloc<Scene>();
 	scene->SetEmitEvents( FALSE );
 	scene->SetName( sceneData.name.GetChar() );
 	scene->SetDirPath( sceneData.dir.GetChar() );
@@ -40,36 +40,36 @@ void GameInitScript::_LoadScene( AssetDB& sceneData )
 
 	AssetManager::Singleton()->AddScene( scene );
 
-	SceneManager::Singleton()->OpenScene( scene->GetUniqueID() );
+	SceneManager::Singleton()->OpenScene( scene->GetUniqueID() );*/
 }
 
 
-void GameInitScript::_LoadSceneAssets( AssetDB& sceneData )
+void GameInitScript::_LoadSceneAssets( const Char* sceneName )
 {
-	AssetManager* assetMgr = AssetManager::Singleton();
+	//AssetManager* assetMgr = AssetManager::Singleton();
 
-	assetMgr->ClearAll();
+	//assetMgr->ClearAll();
 
-	FiniteString filePath( "%s%s%s", sceneData.dir.GetChar(), 
-									 sceneData.name.GetChar(),
-									 FileManager::FILE_FORMAT_ASSETDB );
+	//FiniteString filePath( "%s%s%s", sceneData.dir.GetChar(), 
+	//								 sceneData.name.GetChar(),
+	//								 FileManager::FILE_FORMAT_ASSETDB );
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
-	FileManager::Singleton()->Deserialize<AssetDB>( fileData, NULL );
+	//Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	//FileManager::Singleton()->Deserialize<AssetDB>( fileData, NULL );
 
-	// load assets full
-	{
-		for ( UInt i = 0; i < assetMgr->GetMaterialCount(); ++i )
-		{
-			assetMgr->GetMaterialAt( i )->LoadFullFile();
-		}
-		for ( UInt i = 0; i < assetMgr->GetShaderCount(); ++i )
-		{
-			assetMgr->GetShaderAt( i )->LoadFullFile();
-		}
-		for ( UInt i = 0; i < assetMgr->GetTextureCount(); ++i )
-		{
-			assetMgr->GetTextureAt( i )->LoadFullFile();
-		}
-	}
+	//// load assets full
+	//{
+	//	for ( UInt i = 0; i < assetMgr->GetMaterialCount(); ++i )
+	//	{
+	//		assetMgr->GetMaterialAt( i )->LoadFullFile();
+	//	}
+	//	for ( UInt i = 0; i < assetMgr->GetShaderCount(); ++i )
+	//	{
+	//		assetMgr->GetShaderAt( i )->LoadFullFile();
+	//	}
+	//	for ( UInt i = 0; i < assetMgr->GetTextureCount(); ++i )
+	//	{
+	//		assetMgr->GetTextureAt( i )->LoadFullFile();
+	//	}
+	//}
 }

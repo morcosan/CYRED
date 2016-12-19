@@ -1,6 +1,6 @@
 {
     "app_config": {
-        "app_name": "My Game",
+        "app_name": "My Game2",
         "fullscreen": false,
         "width": 800,
         "height": 600,
@@ -11,5 +11,6 @@
     "scenes": [
         "649r75cKPycmxNP3htWxhyCDJ5lCJKh2"
     ],
-    "build_dir": "../CYRED_Standalone/"
+    "build_dir_windows": "../CYRED_Standalone/",
+    "build_dir_android": ""
 }

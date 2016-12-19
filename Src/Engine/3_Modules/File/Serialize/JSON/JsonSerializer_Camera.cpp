@@ -31,8 +31,8 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 							rapidjson::StringRef( TYPE_PERSPECTIVE ),
 							_al );
 			json.AddMember( rapidjson::StringRef( FOVY_ANGLE ), 
-					camera->GetFovYAngle(), 
-					_al );
+							camera->GetFovYAngle(), 
+							_al );
 			break;
 
 		case CameraType::ORTHOGRAPHIC:
@@ -40,8 +40,8 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 							rapidjson::StringRef( TYPE_ORTHOGRAPHIC ),
 							_al );
 			json.AddMember( rapidjson::StringRef( ORTHO_HEIGHT ), 
-					camera->GetOrthoSize().y, 
-					_al );
+							camera->GetOrthoSize().y, 
+							_al );
 			break;
 	}
 	json.AddMember( rapidjson::StringRef( NEAR_CLIP ), 

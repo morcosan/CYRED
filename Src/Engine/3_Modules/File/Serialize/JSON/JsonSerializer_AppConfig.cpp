@@ -19,19 +19,49 @@ rapidjson::Value JsonSerializer_AppConfig::ToJson( void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	//json.AddMember( rapidjson::StringRef( ENABLED ),	
-	//				transform->IsEnabled(),	
-	//				_al );
-	//
-	//json.AddMember( rapidjson::StringRef( POSITION_WORLD ), 
-	//				_ToJsonVec3( transform->GetPositionWorld() ), 
-	//				_al );
-	//json.AddMember( rapidjson::StringRef( ROTATIO_WORLD ), 
-	//				_ToJsonVec3( transform->GetEulerRotationWorld() ), 
-	//				_al );
-	//json.AddMember( rapidjson::StringRef( SCALE_WORLD ), 
-	//				_ToJsonVec3( transform->GetScaleWorld() ), 
-	//				_al );
+	// add app name
+	json.AddMember( rapidjson::StringRef( APP_NAME ),	
+					rapidjson::StringRef( appConfig->appName.GetChar() ),
+					_al );
+	// add fullscreen flag
+	json.AddMember( rapidjson::StringRef( FULLSCREEN ),	
+					appConfig->fullscreen,	
+					_al );
+	// add width
+	json.AddMember( rapidjson::StringRef( WIDTH ),	
+					appConfig->width,	
+					_al );
+	// add height
+	json.AddMember( rapidjson::StringRef( HEIGHT ),	
+					appConfig->height,	
+					_al );
+	// add window pos x
+	json.AddMember( rapidjson::StringRef( POS_X ),	
+					appConfig->posX,	
+					_al );
+	// add window pos y
+	json.AddMember( rapidjson::StringRef( POS_Y ),	
+					appConfig->posY,	
+					_al );
+	// add fps limit
+	json.AddMember( rapidjson::StringRef( FPS ),	
+					appConfig->fps,	
+					_al );
+	// add scenes
+	{
+		// create list
+		rapidjson::Value arrayNode;
+		arrayNode.SetArray();
+		// add each scene
+		for ( UInt i = 0; i < appConfig->scenes.Size(); i++ ) {
+			arrayNode.PushBack( rapidjson::StringRef( appConfig->scenes[i].GetChar() ), _al );
+		}
+		// add to json
+		json.AddMember( rapidjson::StringRef( SCENES ),	
+						arrayNode,	
+						_al );
+	}
+	
 
 	return json;
 }
@@ -79,17 +109,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 
 		for ( UInt i = 0; i < scenes.Size(); ++i )
 		{
-			if ( scenes[i].HasMember( SCENE_NAME ) &&
-				 scenes[i].HasMember( SCENE_DIR ) )
-			{
-				AssetDB assetDB
-				{
-					scenes[i][SCENE_NAME].GetString(),
-					scenes[i][SCENE_DIR].GetString()
-				};
-
-				appConfig->assetDB.Add( assetDB );
-			}
+			appConfig->scenes.Add( scenes[i].GetString() );
 		}
 	}
 }

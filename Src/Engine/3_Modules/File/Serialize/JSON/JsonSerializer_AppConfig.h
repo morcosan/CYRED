@@ -18,8 +18,6 @@ namespace CYRED
 		const Char* const POS_Y			= "pos_y";
 		const Char* const FPS			= "fps";
 		const Char* const SCENES		= "scenes";
-		const Char* const SCENE_NAME	= "name";
-		const Char* const SCENE_DIR		= "dir";
 
 
 	public:

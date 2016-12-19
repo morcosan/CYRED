@@ -21,6 +21,7 @@ namespace CYRED
 		static DataArray<Scene*> scenes;
 
 		static String dirPathAssets;
-		static String dirPathBuild;
+		static String dirPathBuildWindows;
+		static String dirPathBuildAndroid;
 	};
 }

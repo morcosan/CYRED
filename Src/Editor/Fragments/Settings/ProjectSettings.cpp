@@ -14,4 +14,5 @@ AppConfig ProjectSettings::appConfig;
 DataArray<Scene*> ProjectSettings::scenes;
 
 String	ProjectSettings::dirPathAssets;
-String	ProjectSettings::dirPathBuild;
+String	ProjectSettings::dirPathBuildWindows;
+String	ProjectSettings::dirPathBuildAndroid;

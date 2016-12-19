@@ -8,7 +8,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write\Include\std_image_write.h"
 
-#include <string.h>
+#include <cstring>
+#include <fstream>
 
 
 using namespace CYRED;
@@ -63,6 +64,30 @@ Bool FileSystemWindows::DeleteFile( const Char* filePath )
 {
 	Int fail = std::remove( filePath );
 	return (fail == 0);
+}
+
+
+Bool FileSystemWindows::CopyFile( const Char* srcPath, const Char* dstPath )
+{
+	// try to open src
+	std::ifstream ifs( srcPath, std::ios::binary );
+	// check if src exists
+	if ( !ifs.good() ) {
+		return FALSE;
+	}
+
+	// try to open dst
+	std::ofstream ofs( dstPath, std::ios::binary );
+	// check if dest can be opened
+	if ( !ofs.good() ) {
+		return FALSE;
+	}
+
+	// copy content
+	ofs << ifs.rdbuf();
+
+	// all good
+	return TRUE;
 }
 
 

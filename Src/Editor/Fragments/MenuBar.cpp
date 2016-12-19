@@ -4,6 +4,8 @@
 #include "MenuBar.h"
 #include "CyredModule_Scene.h"
 #include "../EditorApp.h"
+#include "Builders\ProjectBuilder.h"
+#include "Settings\ProjectSettings.h"
 
 #include "QtWidgets/qactiongroup.h"
 
@@ -126,6 +128,7 @@ void MenuBar::A_Project_Settings()
 
 void MenuBar::A_Project_BuildWin()
 {
+	ProjectBuilder::Singleton()->BuildWindows( ProjectSettings::dirPathBuildWindows.GetChar() );
 }
 
 

@@ -7,15 +7,6 @@
 #include "../2_BuildingBlocks/Data/DataArray.h"
 
 
-namespace CYRED
-{
-	struct AssetDB
-	{
-		String name;
-		String dir;
-	};
-}
-
 
 namespace CYRED
 {
@@ -23,6 +14,7 @@ namespace CYRED
 	{
 	public:
 		static const Char* const FILE_PATH_CONFIG;	
+		static const Char* const DIR_PATH_DATA;	
 
 
 	public:
@@ -35,6 +27,6 @@ namespace CYRED
 
 		String	appName;
 
-		DataArray<AssetDB> assetDB;
+		DataArray<String> scenes;
 	};
 }

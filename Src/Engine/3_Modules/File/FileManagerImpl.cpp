@@ -88,6 +88,14 @@ Bool FileManagerImpl::DeleteFile( const Char* filePath )
 }
 
 
+Bool FileManagerImpl::CopyFile( const Char* srcPath, const Char* dstPath )
+{
+	ASSERT( _isInitialized );
+
+	return _fileSystem->CopyFile( srcPath, dstPath );
+}
+
+
 UChar* FileManagerImpl::ReadImage( const Char* filePath, OUT Int* width, OUT Int* height, 
 								   OUT Int* channels )
 {

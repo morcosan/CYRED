@@ -35,6 +35,8 @@ namespace CYRED
 		virtual Bool	WriteFile	( const Char* filePath, const Char* buffer )	PURE_VIRTUAL;
 		/* returns TRUE on success */
 		virtual Bool	DeleteFile	( const Char* filePath )						PURE_VIRTUAL;
+		/* returns TRUE on success */
+		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	PURE_VIRTUAL;
 
 		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
 									  OUT Int *height, OUT Int *channels )			PURE_VIRTUAL;

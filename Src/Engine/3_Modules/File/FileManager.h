@@ -38,16 +38,18 @@ namespace CYRED
 		virtual Bool	WriteFile	( const Char* filePath, const Char* buffer )	PURE_VIRTUAL;
 		/* returns TRUE on success */
 		virtual Bool	DeleteFile	( const Char* filePath )						PURE_VIRTUAL;
+		/* returns TRUE on success */
+		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	PURE_VIRTUAL;
 
 		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
-									  OUT Int *height, OUT Int *channels )		PURE_VIRTUAL;
+									  OUT Int *height, OUT Int *channels )			PURE_VIRTUAL;
 		/* returns TRUE on success */
 		virtual Bool	WriteImage	( const Char* filePath, const UChar* imageBuffer, 
 									  Int width, Int height, Int channels,
-									  ImageType type )							PURE_VIRTUAL;
-
+									  ImageType type )								PURE_VIRTUAL;
+		
 		/* it takes ownership of the new object */
-		virtual void SetSerializeSystem( SerializeSystem* serializeSystem )		PURE_VIRTUAL;
+		virtual void SetSerializeSystem( SerializeSystem* serializeSystem )			PURE_VIRTUAL;
 
 		/* requires a SerializeSystem assigned */
 		template <class T> String	Serialize	( T* object );

@@ -77,8 +77,12 @@ rapidjson::Value JsonSerializer_CyredProj::ToJson( void* object )
 
 		json.AddMember( rapidjson::StringRef( SCENES ), arrayNode, _al );
 	}
-	json.AddMember( rapidjson::StringRef( DIR_BUILD ), 
-					rapidjson::StringRef( ProjectSettings::dirPathBuild.GetChar() ), 
+	json.AddMember( rapidjson::StringRef( BUILD_WINDOWS ), 
+					rapidjson::StringRef( ProjectSettings::dirPathBuildWindows.GetChar() ), 
+					_al );
+
+	json.AddMember( rapidjson::StringRef( BUILD_ANDROID ), 
+					rapidjson::StringRef( ProjectSettings::dirPathBuildAndroid.GetChar() ), 
 					_al );
 
 	return json;
@@ -140,10 +144,17 @@ void JsonSerializer_CyredProj::FromJson( rapidjson::Value& json, OUT void* objec
 			}
 
 			ProjectSettings::scenes.Add( scene );
+
+			// add scene uid to app config
+			ProjectSettings::appConfig.scenes.Add( scene->GetUniqueID() );
 		}
 	}
-	if ( json.HasMember( DIR_BUILD ) )
+	if ( json.HasMember( BUILD_WINDOWS ) )
 	{
-		ProjectSettings::dirPathBuild = json[DIR_BUILD].GetString();
+		ProjectSettings::dirPathBuildWindows = json[BUILD_WINDOWS].GetString();
+	}
+	if ( json.HasMember( BUILD_ANDROID ) )
+	{
+		ProjectSettings::dirPathBuildAndroid = json[BUILD_ANDROID].GetString();
 	}
 }
