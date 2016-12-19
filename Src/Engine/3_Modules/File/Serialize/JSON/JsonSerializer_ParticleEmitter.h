@@ -12,7 +12,7 @@ namespace CYRED
 {
 	class DLL JsonSerializer_ParticleEmitter : public JsonSerializer
 	{
-		const Char* const ENABLED				= "Enabled";
+		const Char* const ENABLED				= "enabled";
 
 		const Char* const MAX_PARTICLES			= "MaxParticles";
 		const Char* const PARTICLE_LIFETIME		= "ParticleLifetime";

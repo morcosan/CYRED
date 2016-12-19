@@ -5,6 +5,7 @@
 
 #include <cstdio>
 #include <cstdarg>
+#include <cstring>
 
 
 using namespace CYRED;

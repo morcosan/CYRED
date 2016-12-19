@@ -10,10 +10,10 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Transform : public JsonSerializer
 	{
-		const Char* const ENABLED			= "Enabled";
-		const Char* const POSITION_WORLD	= "Position_World";
-		const Char* const ROTATIO_WORLD		= "Rotation_World";
-		const Char* const SCALE_WORLD		= "Scale_World";
+		const Char* const ENABLED			= "enabled";
+		const Char* const POSITION_WORLD	= "position_world";
+		const Char* const ROTATIO_WORLD		= "rotation_world";
+		const Char* const SCALE_WORLD		= "scale_world";
 
 
 	public:

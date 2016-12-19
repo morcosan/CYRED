@@ -1,29 +1,29 @@
 {
     "uid": "1r1ZzPke8tVLSIVt2XDDBH5bNbTnkoqe",
-    "GameObjects": [
+    "game_objects": [
         {
-            "Name": "Mesh",
-            "Enabled": true,
-            "Components": {
-                "Transform": {
-                    "Enabled": true,
-                    "Position_World": {
+            "name": "Mesh",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
                         "x": 5.0,
                         "y": 0.0,
                         "z": 0.0
                     },
-                    "Rotation_World": {
+                    "rotation_world": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
                     },
-                    "Scale_World": {
+                    "scale_world": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
                     }
                 },
-                "MeshRendering": {
+                "mesh_rendering": {
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
                     "material": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS"
@@ -31,28 +31,28 @@
             }
         },
         {
-            "Name": "Morph",
-            "Enabled": true,
-            "Components": {
-                "Transform": {
-                    "Enabled": true,
-                    "Position_World": {
+            "name": "Morph",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
                         "x": -5.0,
                         "y": 0.0,
                         "z": 0.0
                     },
-                    "Rotation_World": {
+                    "rotation_world": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
                     },
-                    "Scale_World": {
+                    "scale_world": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
                     }
                 },
-                "MorphRendering": {
+                "morph_rendering": {
                     "enabled": true,
                     "morph": "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN",
                     "material": "WCzQBXGkivO7vBxgN7GAmwOfmOdEjAjS",
