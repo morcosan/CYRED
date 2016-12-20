@@ -8,20 +8,20 @@
 
 namespace CYRED
 {
-	class JsonSerializer_AssetDB : public JsonSerializer
+	class JsonSerializer_SceneDB : public JsonSerializer
 	{
+		const Char* const SCENE			= "scene";
 		const Char* const ASSETS		= "assets";
-		const Char* const ASSET_NAME	= "name";
 		const Char* const ASSET_TYPE	= "type";
-		const Char* const ASSET_DIR		= "dir";
+		const Char* const ASSET_PATH	= "path";
 		const Char* const TYPE_MATERIAL	= "MATERIAL";
 		const Char* const TYPE_TEXTURE	= "TEXTURE";
 		const Char* const TYPE_SHADER	= "SHADER";
 
 
 	public:
-		JsonSerializer_AssetDB() {}
-		virtual ~JsonSerializer_AssetDB() {};
+		JsonSerializer_SceneDB() {}
+		virtual ~JsonSerializer_SceneDB() {};
 
 
 	public:

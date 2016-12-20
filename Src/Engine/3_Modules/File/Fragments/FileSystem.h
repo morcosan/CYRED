@@ -38,6 +38,11 @@ namespace CYRED
 		/* returns TRUE on success */
 		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	PURE_VIRTUAL;
 
+		/* returns TRUE on success */
+		virtual Bool	DeleteDir	( const Char* dirPath )							PURE_VIRTUAL;
+		/* returns TRUE on success */
+		virtual Bool	CreateDir	( const Char* parentPath, const Char* dirName )	PURE_VIRTUAL;
+
 		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
 									  OUT Int *height, OUT Int *channels )			PURE_VIRTUAL;
 		/* returns TRUE on success */

@@ -10,6 +10,7 @@
 
 #include <cstring>
 #include <fstream>
+#include "QtCore\qdir.h"
 
 
 using namespace CYRED;
@@ -88,6 +89,20 @@ Bool FileSystemWindows::CopyFile( const Char* srcPath, const Char* dstPath )
 
 	// all good
 	return TRUE;
+}
+
+
+Bool FileSystemWindows::DeleteDir( const Char* dirPath )
+{
+	QDir directory( dirPath );
+	return directory.removeRecursively();
+}
+
+
+Bool FileSystemWindows::CreateDir( const Char* parentPath, const Char* dirName )
+{
+	QDir directory( parentPath );
+	return directory.mkdir( dirName );
 }
 
 

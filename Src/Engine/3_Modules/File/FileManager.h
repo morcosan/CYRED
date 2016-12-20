@@ -23,7 +23,7 @@ namespace CYRED
 		static const Char* const FILE_FORMAT_SHADER;
 		static const Char* const FILE_FORMAT_TEXTURE;
 		static const Char* const FILE_FORMAT_SCENE;		
-		static const Char* const FILE_FORMAT_ASSETDB;		
+		static const Char* const FILE_FORMAT_SCENEDB;		
 		
 		static const Char* const DIR_ASSETS;		
 
@@ -40,6 +40,13 @@ namespace CYRED
 		virtual Bool	DeleteFile	( const Char* filePath )						PURE_VIRTUAL;
 		/* returns TRUE on success */
 		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	PURE_VIRTUAL;
+
+
+		/* returns TRUE on success */
+		virtual Bool	DeleteDir	( const Char* dirPath )							PURE_VIRTUAL;
+		/* returns TRUE on success */
+		virtual Bool	CreateDir	( const Char* parentPath, const Char* dirName )	PURE_VIRTUAL;
+
 
 		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
 									  OUT Int *height, OUT Int *channels )			PURE_VIRTUAL;

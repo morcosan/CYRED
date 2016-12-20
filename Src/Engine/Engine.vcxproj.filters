@@ -95,7 +95,6 @@
     <ClInclude Include="2_BuildingBlocks\String\String.h" />
     <ClInclude Include="2_BuildingBlocks\String\FiniteString.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.h" />
-    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.h" />
     <ClInclude Include="4_Application\AppConfig.h" />
     <ClInclude Include="3_Modules\Asset\Generators\MeshGenerator.h" />
@@ -107,6 +106,8 @@
     <ClInclude Include="3_Modules\Render\Components\MorphRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.h" />
+    <ClInclude Include="3_Modules\Scene\Fragments\SceneDB.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="2_BuildingBlocks\String\String.cpp" />
     <ClCompile Include="2_BuildingBlocks\String\FiniteString.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.cpp" />
-    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.cpp" />
     <ClCompile Include="4_Application\AppConfig.cpp" />
     <ClCompile Include="3_Modules\Asset\Generators\MeshGenerator.cpp" />
@@ -171,5 +171,6 @@
     <ClCompile Include="3_Modules\Render\Components\MorphRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.cpp" />
   </ItemGroup>
 </Project>

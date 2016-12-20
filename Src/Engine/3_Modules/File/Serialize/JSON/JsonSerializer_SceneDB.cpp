@@ -1,11 +1,16 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "JsonSerializer_AssetDB.h"
+#include "JsonSerializer_SceneDB.h"
+
 #include "../../../Render/Assets/Material.h"
 #include "../../../Render/Assets/Shader.h"
 #include "../../../Render/Assets/Texture.h"
+#include "../../../Scene/Fragments/SceneDB.h"
+#include "../../../Scene/Fragments/Scene.h"
 #include "../../../Asset/AssetManager.h"
+#include "../../../File/FileManager.h"
+#include "../../../../2_BuildingBlocks/String/FiniteString.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -15,37 +20,39 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_AssetDB::ToJson( void* object )
+rapidjson::Value JsonSerializer_SceneDB::ToJson( void* object )
 {
-	ASSERT( object == NULL );
+	SceneDB* sceneDB = CAST_S( SceneDB*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
 
-	//json.AddMember( rapidjson::StringRef( ENABLED ),	
-	//				transform->IsEnabled(),	
-	//				_al );
-	//
-	//json.AddMember( rapidjson::StringRef( POSITION_WORLD ), 
-	//				_ToJsonVec3( transform->GetPositionWorld() ), 
-	//				_al );
-	//json.AddMember( rapidjson::StringRef( ROTATIO_WORLD ), 
-	//				_ToJsonVec3( transform->GetEulerRotationWorld() ), 
-	//				_al );
-	//json.AddMember( rapidjson::StringRef( SCALE_WORLD ), 
-	//				_ToJsonVec3( transform->GetScaleWorld() ), 
-	//				_al );
+
+	// load scene data as json
+	FiniteString filePath( "%s%s%s", sceneDB->scene->GetDirPath(),
+									 sceneDB->scene->GetName(),
+									 FileManager::FILE_FORMAT_SCENE );
+	rapidjson::Document sceneJson( &_al );
+	sceneJson.Parse<0>( FileManager::Singleton()->ReadFile( filePath.GetChar() ) );
+
+	// serialize fulls scene
+	json.AddMember( rapidjson::StringRef( SCENE ), 
+					sceneJson, 
+					_al );
+
+	// add assets from scene
+	json.AddMember( rapidjson::StringRef( ASSETS ), 
+					"", 
+					_al );
 
 	return json;
 }
 
 
-void JsonSerializer_AssetDB::FromJson( rapidjson::Value& json, OUT void* object, 
+void JsonSerializer_SceneDB::FromJson( rapidjson::Value& json, OUT void* object, 
 									   DeserFlag flag )
 {
-	ASSERT( object == NULL );
-
-	if ( json.HasMember( ASSETS ) )
+	/*if ( json.HasMember( ASSETS ) )
 	{
 		rapidjson::Value& assets = json[ASSETS];
 
@@ -105,5 +112,5 @@ void JsonSerializer_AssetDB::FromJson( rapidjson::Value& json, OUT void* object,
 				}
 			}
 		}
-	}
+	}*/
 }

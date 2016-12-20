@@ -127,7 +127,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Debug\DebugManagerImpl.cpp" />
     <ClCompile Include="3_Modules\File\Fragments\MeshLoader.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer.cpp" />
-    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_GameObject.cpp" />
@@ -196,7 +196,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Debug\Fragments\Console.h" />
     <ClInclude Include="3_Modules\File\Fragments\MeshLoader.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer.h" />
-    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AssetDB.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_GameObject.h" />
@@ -237,6 +237,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Render\Techniques\ForwardBundle.h" />
     <ClInclude Include="3_Modules\Render\Techniques\ForwardTechnique.h" />
     <ClInclude Include="3_Modules\Render\Techniques\Technique.h" />
+    <ClInclude Include="3_Modules\Scene\Fragments\SceneDB.h" />
     <ClInclude Include="3_Modules\Scene\SceneManagerImpl.h" />
     <ClInclude Include="3_Modules\Time\TimeManager.h" />
     <ClInclude Include="3_Modules\Time\TimeManagerImpl.h" />

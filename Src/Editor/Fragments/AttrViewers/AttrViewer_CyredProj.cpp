@@ -96,8 +96,8 @@ void AttrViewer_CyredProj::_OnUpdateTarget()
 			Scene* scene = CAST_S( Scene*, _ReadAttrListIndex( ATTR_SCENES, i ).GetReference() );
 			ProjectSettings::scenes.Add( scene );
 
-			// also add uid as name to app config
-			ProjectSettings::appConfig.scenes.Add( scene->GetUniqueID() );
+			// also add scene name to app config
+			ProjectSettings::appConfig.scenes.Add( scene->GetName() );
 		}
 	}
 	ProjectSettings::dirPathBuildWindows = _ReadAttrString( ATTR_BUILD_WINDOWS );

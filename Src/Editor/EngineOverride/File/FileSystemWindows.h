@@ -22,6 +22,9 @@ namespace CYRED
 		Bool	DeleteFile	( const Char* filePath )						override;
 		Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	override;
 
+		Bool	DeleteDir	( const Char* dirPath )							override;
+		Bool	CreateDir	( const Char* parentPath, const Char* dirName )	override;
+
 		UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
 							  OUT Int *height, OUT Int *channels )			override;
 		Bool	WriteImage	( const Char* filePath, const UChar* imageBuffer, 

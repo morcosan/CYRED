@@ -15,11 +15,12 @@
 #include "JsonSerializer_Morph.h"
 #include "JsonSerializer_Camera.h"
 #include "JsonSerializer_AppConfig.h"
-#include "JsonSerializer_AssetDB.h"
+#include "JsonSerializer_SceneDB.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../Scene/Fragments/Scene.h"
+#include "../../../Scene/Fragments/SceneDB.h"
 #include "../../../Render/Components/Camera.h"
 #include "../../../Render/Components/ParticleEmitter.h"
 #include "../../../Render/Components/MeshRendering.h"
@@ -44,6 +45,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 {
 	AddSerializer<GameObject>			( Memory::Alloc<JsonSerializer_GameObject>() );
 	AddSerializer<Scene>				( Memory::Alloc<JsonSerializer_Scene>() );
+	AddSerializer<SceneDB>				( Memory::Alloc<JsonSerializer_SceneDB>() );
 
 	AddSerializer<COMP::Transform>		( Memory::Alloc<JsonSerializer_Transform>() );
 	AddSerializer<COMP::Camera>			( Memory::Alloc<JsonSerializer_Camera>() );
@@ -58,7 +60,6 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Morph>				( Memory::Alloc<JsonSerializer_Morph>() );
 
 	AddSerializer<AppConfig>			( Memory::Alloc<JsonSerializer_AppConfig>() );
-	//AddSerializer<AssetDB>				( Memory::Alloc<JsonSerializer_AssetDB>() );
 }
 
 

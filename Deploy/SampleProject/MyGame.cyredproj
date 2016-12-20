@@ -1,6 +1,6 @@
 {
     "app_config": {
-        "app_name": "My Game2",
+        "app_name": "My Game",
         "fullscreen": false,
         "width": 800,
         "height": 600,

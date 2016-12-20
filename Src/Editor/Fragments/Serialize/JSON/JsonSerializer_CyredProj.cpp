@@ -145,8 +145,8 @@ void JsonSerializer_CyredProj::FromJson( rapidjson::Value& json, OUT void* objec
 
 			ProjectSettings::scenes.Add( scene );
 
-			// add scene uid to app config
-			ProjectSettings::appConfig.scenes.Add( scene->GetUniqueID() );
+			// add scene to app config
+			ProjectSettings::appConfig.scenes.Add( scene->GetName() );
 		}
 	}
 	if ( json.HasMember( BUILD_WINDOWS ) )

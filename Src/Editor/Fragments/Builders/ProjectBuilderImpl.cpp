@@ -46,23 +46,32 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 	fileManager->WriteFile( filePath.GetChar(), 
 							fileManager->Serialize<AppConfig>( &ProjectSettings::appConfig ).GetChar() );
 
-	// copy files to build dir, renaming them by uid
+	// recreate build dir
+	{
+		// delete dir
+		FiniteString dirPath( "%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+									  AppConfig::DIR_PATH_DATA );
+		fileManager->DeleteDir( dirPath.GetChar() );
+
+		// create dir
+		fileManager->CreateDir( ProjectSettings::dirPathBuildWindows.GetChar(), AppConfig::DIR_PATH_DATA );
+	}
+
+	// copy files to build dir
 	{
 		// copy scenes
 		for ( UInt i = 0; i < ProjectSettings::appConfig.scenes.Size(); i++ ) {
-			// scene uid
-			const Char* uid = ProjectSettings::appConfig.scenes[i].GetChar();
 			// get scene
-			Scene* scene = AssetManager::Singleton()->GetScene( uid );
-			// get scene path
-			FiniteString srcPath( "%s%s%s", scene->GetDirPath(), scene->GetName(),
-											FileManager::FILE_FORMAT_SCENE );
-			// get dest path
-			FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(), 
-											AppConfig::DIR_PATH_DATA,
-											ProjectSettings::appConfig.scenes[i].GetChar() );
-			// copy file
-			fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+			Scene* scene = ProjectSettings::scenes[i];
+			// get path
+			FiniteString filePath( "%s%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(), 
+											   AppConfig::DIR_PATH_DATA,
+											   ProjectSettings::appConfig.scenes[i].GetChar(),
+											   FileManager::FILE_FORMAT_SCENEDB );
+			// write scene db file
+			SceneDB sceneDB { scene };
+			fileManager->WriteFile( filePath.GetChar(), 
+									fileManager->Serialize<SceneDB>( &sceneDB ).GetChar() );
 		}
 	}
 
