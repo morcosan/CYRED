@@ -18,7 +18,7 @@ namespace CYRED
 	{
 		static AppConfig appConfig;
 
-		static DataArray<Scene*> scenes;
+		static Scene* startScene;
 
 		static String dirPathAssets;
 		static String dirPathBuildWindows;

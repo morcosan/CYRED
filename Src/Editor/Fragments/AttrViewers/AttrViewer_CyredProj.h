@@ -21,7 +21,7 @@ namespace CYRED
 		const Char* ATTR_POS_X			= "Pos X";
 		const Char* ATTR_POS_Y			= "Pos Y";
 		const Char* ATTR_FPS			= "FPS";
-		const Char* ATTR_SCENES			= "Scenes";
+		const Char* ATTR_START_SCENE	= "Start Scene";
 		const Char* ATTR_BUILD_WINDOWS	= "Build Windows";
 		const Char* ATTR_BUILD_ANDROID	= "Build Android";
 

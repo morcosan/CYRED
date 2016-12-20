@@ -106,8 +106,6 @@
     <ClInclude Include="3_Modules\Render\Components\MorphRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.h" />
-    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.h" />
-    <ClInclude Include="3_Modules\Scene\Fragments\SceneDB.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -171,6 +169,5 @@
     <ClCompile Include="3_Modules\Render\Components\MorphRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
-    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_SceneDB.cpp" />
   </ItemGroup>
 </Project>

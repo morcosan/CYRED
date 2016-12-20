@@ -8,11 +8,8 @@
 using namespace CYRED;
 
 
-
-AppConfig ProjectSettings::appConfig;
-
-DataArray<Scene*> ProjectSettings::scenes;
-
-String	ProjectSettings::dirPathAssets;
-String	ProjectSettings::dirPathBuildWindows;
-String	ProjectSettings::dirPathBuildAndroid;
+AppConfig	ProjectSettings::appConfig;
+Scene*		ProjectSettings::startScene;
+String		ProjectSettings::dirPathAssets;
+String		ProjectSettings::dirPathBuildWindows;
+String		ProjectSettings::dirPathBuildAndroid;

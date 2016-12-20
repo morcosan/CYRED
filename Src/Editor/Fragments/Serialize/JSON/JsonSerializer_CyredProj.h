@@ -17,7 +17,7 @@ namespace CYRED
 		const Char* const POS_X			= "pos_x";
 		const Char* const POS_Y			= "pos_y";
 		const Char* const FPS			= "fps";
-		const Char* const SCENES		= "scenes";
+		const Char* const START_SCENE	= "start_scene";
 		const Char* const BUILD_WINDOWS	= "build_dir_windows";
 		const Char* const BUILD_ANDROID	= "build_dir_android";
 

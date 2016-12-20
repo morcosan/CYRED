@@ -20,7 +20,6 @@ const Char* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
 const Char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 const Char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
 const Char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
-const Char* const FileManager::FILE_FORMAT_SCENEDB	= ".scenedb";
 const Char* const FileManager::DIR_ASSETS			= "Assets/";
 
 

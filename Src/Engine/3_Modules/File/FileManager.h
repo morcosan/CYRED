@@ -23,7 +23,6 @@ namespace CYRED
 		static const Char* const FILE_FORMAT_SHADER;
 		static const Char* const FILE_FORMAT_TEXTURE;
 		static const Char* const FILE_FORMAT_SCENE;		
-		static const Char* const FILE_FORMAT_SCENEDB;		
 		
 		static const Char* const DIR_ASSETS;		
 

@@ -21,11 +21,11 @@ GameInitScript::GameInitScript( AppConfig* appConfig )
 
 void GameInitScript::_OnStart()
 {
-	if ( _appConfig->scenes.Size() > 0 )
+	/*if ( _appConfig->scenes.Size() > 0 )
 	{
 		_LoadSceneAssets( _appConfig->scenes[0].GetChar() );
 		_LoadScene( _appConfig->scenes[0].GetChar() );
-	}
+	}*/
 }
 
 

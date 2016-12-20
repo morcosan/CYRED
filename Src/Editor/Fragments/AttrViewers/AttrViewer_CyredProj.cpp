@@ -26,7 +26,7 @@ void AttrViewer_CyredProj::_OnInitialize()
 	propertiesScheme.Add( AttrStruct{ ATTR_FPS,			AttrType::INT } );
 
 	_CreateAttrStruct( ATTR_APP_CONFIG, propertiesScheme );
-	_CreateAttrListSelector( ATTR_SCENES, Selector_Scene::TYPE );
+	_CreateAttrSelector( ATTR_START_SCENE, Selector_Scene::TYPE );
 	_CreateAttrString( ATTR_BUILD_WINDOWS );
 	_CreateAttrString( ATTR_BUILD_ANDROID );
 
@@ -52,19 +52,11 @@ void AttrViewer_CyredProj::_OnUpdateGUI()
 	_WriteAttrStruct( ATTR_APP_CONFIG, ATTR_POS_Y,		data.SetInt( appConfig.posY ) );
 	_WriteAttrStruct( ATTR_APP_CONFIG, ATTR_FPS,		data.SetInt( appConfig.fps ) );
 	
-	_WriteAttrListSize( ATTR_SCENES, ProjectSettings::scenes.Size() );
-	for ( UInt i = 0; i < ProjectSettings::scenes.Size(); ++i )
-	{
-		Scene* scene = ProjectSettings::scenes[i];
-
-		if ( scene != NULL )
-		{
-			_WriteAttrListIndex( ATTR_SCENES, i, data.SetReference( scene ), scene->GetName() );
-		}
-		else
-		{
-			_WriteAttrListIndex( ATTR_SCENES, i, data.SetReference( NULL ), Selector_Scene::OPTION_NULL );
-		}
+	if ( ProjectSettings::startScene != NULL ) {
+		_WriteAttrSelector( ATTR_START_SCENE, ProjectSettings::startScene, ProjectSettings::startScene->GetName() );
+	}
+	else {
+		_WriteAttrSelector( ATTR_START_SCENE, NULL, Selector_Scene::OPTION_NULL );
 	}
 
 	_WriteAttrString( ATTR_BUILD_WINDOWS, ProjectSettings::dirPathBuildWindows.GetChar() );
@@ -83,23 +75,14 @@ void AttrViewer_CyredProj::_OnUpdateTarget()
 	appConfig.posX			= _ReadAttrStruct( ATTR_APP_CONFIG, ATTR_POS_X ).GetInt();
 	appConfig.posY			= _ReadAttrStruct( ATTR_APP_CONFIG, ATTR_POS_Y ).GetInt();
 	appConfig.fps			= _ReadAttrStruct( ATTR_APP_CONFIG, ATTR_FPS ).GetInt();
-	{
-		UInt total = _ReadAttrListSize( ATTR_SCENES );
+		
+	ProjectSettings::startScene = CAST_S( Scene*, _ReadAttrSelector( ATTR_START_SCENE ) );
+	// also add scene name to app config
+	ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
+		ProjectSettings::startScene->GetName(),
+		ProjectSettings::startScene->GetUniqueID()
+	};
 
-		// clear list
-		ProjectSettings::scenes.Clear();
-		// clear scenes in app config
-		ProjectSettings::appConfig.scenes.Clear();
-
-		for ( UInt i = 0; i < total; ++i )
-		{
-			Scene* scene = CAST_S( Scene*, _ReadAttrListIndex( ATTR_SCENES, i ).GetReference() );
-			ProjectSettings::scenes.Add( scene );
-
-			// also add scene name to app config
-			ProjectSettings::appConfig.scenes.Add( scene->GetName() );
-		}
-	}
 	ProjectSettings::dirPathBuildWindows = _ReadAttrString( ATTR_BUILD_WINDOWS );
 	ProjectSettings::dirPathBuildAndroid = _ReadAttrString( ATTR_BUILD_ANDROID );
 

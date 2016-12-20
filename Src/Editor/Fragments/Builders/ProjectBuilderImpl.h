@@ -18,5 +18,9 @@ namespace CYRED
 
 		virtual void BuildWindows( const Char* buildPath )	override;
 		virtual void BuildAndroid( const Char* buildPath )	override;
+
+
+	protected:
+		void _BuildAssetFiles( Asset* asset );
 	};
 }

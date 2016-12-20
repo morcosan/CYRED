@@ -55,27 +55,16 @@ rapidjson::Value JsonSerializer_CyredProj::ToJson( void* object )
 
 		json.AddMember( rapidjson::StringRef( APP_CONFIG ),	objectNode,	_al );
 	}
-	{
-		rapidjson::Value arrayNode;
-		arrayNode.SetArray();
-
-		for ( UInt i = 0; i < ProjectSettings::scenes.Size(); ++i )
-		{
-			Scene* scene = ProjectSettings::scenes[i];
-			if ( scene != NULL )
-			{
-				arrayNode.PushBack( rapidjson::StringRef( scene->GetUniqueID() ), _al );
-			}
-			else
-			{
-				rapidjson::Value nullNode;
-				nullNode.SetNull();
-
-				arrayNode.PushBack( nullNode, _al );
-			}
-		}
-
-		json.AddMember( rapidjson::StringRef( SCENES ), arrayNode, _al );
+	// add start scene
+	if ( ProjectSettings::startScene != NULL ) {
+		json.AddMember( rapidjson::StringRef( START_SCENE ), 
+						rapidjson::StringRef( ProjectSettings::startScene->GetUniqueID() ), 
+						_al );
+	}
+	else {
+		json.AddMember( rapidjson::StringRef( START_SCENE ), 
+						"", 
+						_al );
 	}
 	json.AddMember( rapidjson::StringRef( BUILD_WINDOWS ), 
 					rapidjson::StringRef( ProjectSettings::dirPathBuildWindows.GetChar() ), 
@@ -130,24 +119,15 @@ void JsonSerializer_CyredProj::FromJson( rapidjson::Value& json, OUT void* objec
 			ProjectSettings::appConfig.fps = config[FPS].GetInt();
 		}
 	}
-	if ( json.HasMember( SCENES ) )
+	if ( json.HasMember( START_SCENE ) )
 	{
-		rapidjson::Value& sceneJson = json[SCENES];
+		ProjectSettings::startScene = AssetManager::Singleton()->GetScene( json[START_SCENE].GetString() );
 
-		for ( UInt i = 0; i < sceneJson.Size(); ++i )
-		{
-			Scene* scene = NULL;
-
-			if ( !sceneJson[i].IsNull() )
-			{
-				scene = AssetManager::Singleton()->GetScene( sceneJson[i].GetString() );
-			}
-
-			ProjectSettings::scenes.Add( scene );
-
-			// add scene to app config
-			ProjectSettings::appConfig.scenes.Add( scene->GetName() );
-		}
+		// add scene to app config
+		ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
+			ProjectSettings::startScene->GetName(),
+			ProjectSettings::startScene->GetUniqueID()
+		};
 	}
 	if ( json.HasMember( BUILD_WINDOWS ) )
 	{
