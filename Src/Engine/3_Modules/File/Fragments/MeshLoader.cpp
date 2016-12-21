@@ -2,72 +2,90 @@
 // MIT License
 
 #include "MeshLoader.h"
+#include "../FileManager.h"
+#include "../../../2_BuildingBlocks/String/FiniteString.h"
 
-#include "Assimp\Include\scene.h"
-#include "Assimp\Include\Importer.hpp"
-#include "Assimp\Include\postprocess.h"
+#include <string>
+#include <sstream>
 
 
 using namespace CYRED;
 
 
-Bool MeshLoader::LoadSingleMesh( const Char* buffer, UInt bufferSize, 
-								 DataArray<Vertex>& vertices, DataArray<UInt>& indices )
+Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
+						   OUT DataArray<UInt>& indices )
 {
-	Assimp::Importer assimpImporter;
-
-	const aiScene* assimpScene = assimpImporter.ReadFileFromMemory( buffer, bufferSize, aiProcess_Triangulate );
-	if ( assimpScene == NULL )
-	{
+	int headerIndex = strncmp( data, HEADER, strlen( HEADER ) );
+	if ( headerIndex != 0 ) {
 		return FALSE;
 	}
 
-	for ( UInt i = 0; i < assimpScene->mNumMeshes; ++i )
-	{
-		aiMesh* assimpMesh = assimpScene->mMeshes[i];
+	Char* dataPtr = NO_CONST( Char*, data );
 
-		Bool needTanBitan = FALSE;
-
-		aiVector3D zero3D(0, 0, 0);
-		aiColor4D zero4D(0, 0, 0, 0);
-
-		for ( UInt j = 0; j < assimpMesh->mNumVertices; ++j ) 
-		{
-			aiVector3D* assimpPos = assimpMesh->HasPositions() ? &(assimpMesh->mVertices[j]) : &zero3D;
-			aiColor4D* assimpColor = assimpMesh->HasVertexColors(0) ? &(assimpMesh->mColors[0][j]) : &zero4D;
-			aiVector3D* assimpNormal = assimpMesh->HasNormals() ? &(assimpMesh->mNormals[j]) : &zero3D;
-			aiVector3D* assimpUV = assimpMesh->HasTextureCoords(0) ? &(assimpMesh->mTextureCoords[0][j]) : &zero3D;
-			aiVector3D* assimpTan = assimpMesh->HasTangentsAndBitangents() ? &(assimpMesh->mTangents[j]) : &zero3D;
-			aiVector3D* assimpBitan = assimpMesh->HasTangentsAndBitangents() ? &(assimpMesh->mBitangents[j]) : &zero3D;
-			
-			if ( assimpTan->Length() < 0.001f || assimpBitan->Length() < 0.001f )
-			{
-				needTanBitan = true;
-			}
-
-			vertices.Add( 
-				Vertex(
-					Vector3( assimpPos->x, assimpPos->y, assimpPos->z ),
-					Vector4( assimpColor->r, assimpColor->g, assimpColor->b, assimpColor->a ),
-					Vector3( assimpNormal->x, assimpNormal->y, assimpNormal->z ),
-					Vector2( assimpUV->x, assimpUV->y ),
-					Vector3( assimpTan->x, assimpTan->y, assimpTan->z ),
-					Vector3( assimpBitan->x, assimpBitan->y, assimpBitan->z )
-				)
-			);
-		}
-
-		if ( assimpMesh->HasFaces() )
-		{
-			for ( UInt j = 0; j < assimpMesh->mNumFaces; ++j ) 
-			{
-				aiFace& assimpFace = assimpMesh->mFaces[j];
-				indices.Add( assimpFace.mIndices[0] );
-				indices.Add( assimpFace.mIndices[1] );
-				indices.Add( assimpFace.mIndices[2] );
-			}
-		}
+	// read vertices
+	UInt countVertices;
+	countVertices = strtol( dataPtr, &dataPtr, 10 );
+	for ( UInt i = 0; i < countVertices; i++ ) {
 	}
+
+	// read indeces
+	int countIndeces;
+	sscanf( data, VERTICES_FORMAT, &countIndeces );
+
+
 
 	return TRUE;
 }
+
+
+String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices )
+{
+	// create string
+	std::ostringstream dataStream;
+	// use custom format
+	FiniteString format;
+
+	// add header
+	dataStream << HEADER;
+
+	// add vertices
+	format.Set( VERTICES_FORMAT, vertices.Size() );
+	dataStream << format.GetChar();
+	// populate array
+	for ( UInt i = 0; i < vertices.Size(); i++ ) {
+		format.Set( VERTEX_FORMAT, 
+					vertices[i].position.x,
+					vertices[i].position.y,
+					vertices[i].position.z,
+					vertices[i].normal.x,
+					vertices[i].normal.y,
+					vertices[i].normal.z,
+					vertices[i].uv.x,
+					vertices[i].uv.y,
+					vertices[i].color.x,
+					vertices[i].color.y,
+					vertices[i].color.z,
+					vertices[i].color.w
+		);
+		// write to file
+		dataStream << format.GetChar();
+	}
+
+	// add indices
+	format.Set( INDICES_FORMAT, indices.Size() / 3 );
+	dataStream << format.GetChar();
+	// populate array
+	for ( UInt i = 0; i < indices.Size() / 3; i += 3 ) {
+		format.Set( INDEX_FORMAT, 
+					indices[i + 0],
+					indices[i + 1],
+					indices[i + 2]
+		);
+		// write to file
+		dataStream << format.GetChar();
+	}
+
+	// write file
+	return String( dataStream.str().c_str() );
+}
+

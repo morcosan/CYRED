@@ -44,6 +44,7 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_MorphRendering.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Morph.cpp" />
     <ClCompile Include="Fragments\Builders\ProjectBuilderImpl.cpp" />
+    <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -90,5 +91,6 @@
     <ClInclude Include="Fragments\Selectors\Selector_Morph.h" />
     <ClInclude Include="Fragments\Builders\ProjectBuilder.h" />
     <ClInclude Include="Fragments\Builders\ProjectBuilderImpl.h" />
+    <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
   </ItemGroup>
 </Project>

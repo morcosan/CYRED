@@ -136,7 +136,8 @@ void StandaloneApp::_InitializeManagers()
 	SerializeSystem* serializeSystem = Memory::Alloc<JsonSerializeSystem>();
 	
 	
-	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>() );
+	//FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>(),
+	//									  Memory::Alloc<Mel);
 	FileManager::Singleton()->SetSerializeSystem( serializeSystem );
 
 	//InputManager::Singleton()->Initialize( _inputReceiver );

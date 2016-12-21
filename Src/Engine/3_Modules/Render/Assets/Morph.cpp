@@ -109,7 +109,11 @@ void Morph::BindToGPU()
 		DataArray<Vertex>	meshVertices;
 		indices.Clear();
 
-		MeshLoader::LoadSingleMesh( fileData, fileSize, meshVertices, indices );
+		// try custom format first, then try import
+		Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, meshVertices, indices );
+		if ( !isLoaded ) {
+			FileManager::Singleton()->ImportMesh( fileData, fileSize, meshVertices, indices );
+		}
 
 		Memory::FreeArray( fileData );
 

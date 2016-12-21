@@ -22,7 +22,8 @@ namespace CYRED
 
 	public:
 		String		Serialize	( void* object )			override;
-		void		Deserialize	( const Char* data, OUT void* object,
+		void		Deserialize	( const Char* data, 
+								  OUT void* object,
 								  DeserFlag flag )			override;
 
 		String		SerializeVec2	( Vector2 value )		override;

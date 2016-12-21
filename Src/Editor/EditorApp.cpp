@@ -32,6 +32,7 @@
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
 #include "EngineOverride\File\FileSystemWindows.h"
+#include "EngineOverride\File\MeshLoaderWindows.h"
 #include "EngineOverride\Input\InputReceiverWindows.h"
 #include "EngineOverride\Debug\ConsoleWindows.h"
 
@@ -230,7 +231,8 @@ void EditorApp::_InitializeManagers()
 	jsonSystem->AddSerializer<EditorSettings>( Memory::Alloc<JsonSerializer_EditorConfig>() );
 	jsonSystem->AddSerializer<ProjectSettings>( Memory::Alloc<JsonSerializer_CyredProj>() );
 
-	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>() );
+	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>(),
+										  Memory::Alloc<MeshLoaderWindows>() );
 	FileManager::Singleton()->SetSerializeSystem( jsonSystem );
 
 	InputManager::Singleton()->Initialize( _inputReceiver );

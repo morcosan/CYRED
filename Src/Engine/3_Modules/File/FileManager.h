@@ -6,7 +6,14 @@
 #include "../../1_Required/Required.h"
 #include "Fragments/FileSystem.h"
 #include "Serialize/SerializeSystem.h"
+#include "../../2_BuildingBlocks/Data/DataArray.h"
+#include "../Render/OpenGL/Vertex.h"
 
+
+namespace CYRED
+{
+	class MeshLoader;
+}
 
 
 namespace CYRED
@@ -22,14 +29,15 @@ namespace CYRED
 		static const Char* const FILE_FORMAT_MATERIAL;
 		static const Char* const FILE_FORMAT_SHADER;
 		static const Char* const FILE_FORMAT_TEXTURE;
-		static const Char* const FILE_FORMAT_SCENE;		
+		static const Char* const FILE_FORMAT_SCENE;
+		static const Char* const FILE_FORMAT_MESHDATA;
 		
 		static const Char* const DIR_ASSETS;		
 
 
 	public:
-		virtual void	Initialize	( FileSystem* fileSystem )	PURE_VIRTUAL;
-		virtual void	Finalize	()							PURE_VIRTUAL;
+		virtual void	Initialize	( FileSystem* fileSystem, MeshLoader* meshLoader )	PURE_VIRTUAL;
+		virtual void	Finalize	() PURE_VIRTUAL;
 
 		virtual Char*	ReadFile	( const Char* filePath, OUT Int& fileSize )		PURE_VIRTUAL;
 		virtual Char*	ReadFile	( const Char* filePath )						PURE_VIRTUAL;
@@ -54,6 +62,16 @@ namespace CYRED
 									  Int width, Int height, Int channels,
 									  ImageType type )								PURE_VIRTUAL;
 		
+		/* returns TRUE on success */
+		virtual Bool	ImportMesh	( const Char* data, UInt dataSize, 
+									  OUT DataArray<Vertex>& vertices, 
+									  OUT DataArray<UInt>& indices )				PURE_VIRTUAL;
+		/* returns TRUE on success */
+		virtual Bool	LoadMesh	( const Char* data, OUT DataArray<Vertex>& vertices, 
+									  OUT DataArray<UInt>& indices )				PURE_VIRTUAL;
+		virtual String	SaveMesh	( DataArray<Vertex>& vertices, 
+									  DataArray<UInt>& indices )					PURE_VIRTUAL;
+
 		/* it takes ownership of the new object */
 		virtual void SetSerializeSystem( SerializeSystem* serializeSystem )			PURE_VIRTUAL;
 

@@ -2,6 +2,7 @@
 // MIT License
 
 #include "FileManagerImpl.h"
+#include "Fragments\MeshLoader.h"
 
 
 using namespace CYRED;
@@ -10,7 +11,6 @@ using namespace NotAPI;
 
 //! deferred definition of SceneManager
 DEFINE_LOCAL_SINGLETON( FileManager, FileManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( FileManagerImpl )
 
 
@@ -20,17 +20,20 @@ const Char* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
 const Char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 const Char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
 const Char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
+const Char* const FileManager::FILE_FORMAT_MESHDATA	= ".meshdata";
 const Char* const FileManager::DIR_ASSETS			= "Assets/";
 
 
-void FileManagerImpl::Initialize( FileSystem* fileSystem )
+void FileManagerImpl::Initialize( FileSystem* fileSystem, MeshLoader* meshLoader )
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
 
 	ASSERT( fileSystem != NULL );
-
 	_fileSystem = fileSystem;
+
+	ASSERT( meshLoader != NULL );
+	_meshLoader = meshLoader;
 }
 
 
@@ -57,7 +60,6 @@ void FileManagerImpl::SetSerializeSystem( SerializeSystem* serializeSystem )
 Char* FileManagerImpl::ReadFile( const Char* filePath, OUT Int& fileSize )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->ReadFile( filePath, fileSize );
 }
 
@@ -65,7 +67,6 @@ Char* FileManagerImpl::ReadFile( const Char* filePath, OUT Int& fileSize )
 Char* FileManagerImpl::ReadFile( const Char* filePath )
 {
 	ASSERT( _isInitialized );
-
 	Int fileSize;
 	return _fileSystem->ReadFile( filePath, fileSize );
 }
@@ -74,7 +75,6 @@ Char* FileManagerImpl::ReadFile( const Char* filePath )
 Bool FileManagerImpl::WriteFile( const Char* filePath, const Char* buffer )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->WriteFile( filePath, buffer );
 }
 
@@ -82,7 +82,6 @@ Bool FileManagerImpl::WriteFile( const Char* filePath, const Char* buffer )
 Bool FileManagerImpl::DeleteFile( const Char* filePath )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->DeleteFile( filePath );
 }
 
@@ -90,7 +89,6 @@ Bool FileManagerImpl::DeleteFile( const Char* filePath )
 Bool FileManagerImpl::CopyFile( const Char* srcPath, const Char* dstPath )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->CopyFile( srcPath, dstPath );
 }
 
@@ -98,7 +96,6 @@ Bool FileManagerImpl::CopyFile( const Char* srcPath, const Char* dstPath )
 Bool FileManagerImpl::DeleteDir( const Char* dirPath )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->DeleteDir( dirPath );
 }
 
@@ -106,7 +103,6 @@ Bool FileManagerImpl::DeleteDir( const Char* dirPath )
 Bool FileManagerImpl::CreateDir( const Char* parentPath, const Char* dirName )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->CreateDir( parentPath, dirName );
 }
 
@@ -115,7 +111,6 @@ UChar* FileManagerImpl::ReadImage( const Char* filePath, OUT Int* width, OUT Int
 								   OUT Int* channels )
 {
 	ASSERT( _isInitialized );
-
 	return _fileSystem->ReadImage( filePath, width, height, channels );
 }
 
@@ -124,7 +119,31 @@ Bool FileManagerImpl::WriteImage( const Char* filePath, const UChar* imageBuffer
 								  Int width, Int height, Int channels, ImageType type )
 {
 	ASSERT( _isInitialized );
-	
 	return _fileSystem->WriteImage( filePath, imageBuffer, width, height, channels, type );
 }
+
+
+Bool FileManagerImpl::ImportMesh( const Char* data, UInt dataSize, 
+								  OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<UInt>& indices )
+{
+	ASSERT( _isInitialized );
+	return _meshLoader->ImportMesh( data, dataSize, vertices, indices );
+}
+
+
+Bool FileManagerImpl::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
+								OUT DataArray<UInt>& indices )
+{
+	ASSERT( _isInitialized );
+	return _meshLoader->LoadMesh( data, vertices, indices );
+}
+
+
+String FileManagerImpl::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices )
+{
+	ASSERT( _isInitialized );
+	return _meshLoader->SaveMesh( vertices, indices );
+}
+
 

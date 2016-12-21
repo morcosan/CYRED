@@ -7,7 +7,6 @@
 #include "FileManager.h"
 
 
-
 namespace CYRED
 {
 	namespace NotAPI
@@ -18,8 +17,8 @@ namespace CYRED
 
 
 		public:
-			void Initialize	( FileSystem* fileSystem )	override;
-			void Finalize		()							override;
+			void Initialize		( FileSystem* fileSystem, MeshLoader* meshLoader )	override;
+			void Finalize		() override;
 
 			Char*	ReadFile	( const Char* filePath, OUT Int& fileSize )		override;
 			Char*	ReadFile	( const Char* filePath )						override;
@@ -36,11 +35,20 @@ namespace CYRED
 								  Int width, Int height, Int channels,
 								  ImageType type )								override;
 			
+			Bool	ImportMesh	( const Char* data, UInt dataSize, 
+								  OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<UInt>& indices )					override;
+			Bool	LoadMesh	( const Char* data, OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<UInt>& indices )					override;
+			String	SaveMesh	( DataArray<Vertex>& vertices, 
+								  DataArray<UInt>& indices )						override;
+
 			void SetSerializeSystem( SerializeSystem* serializeSystem )			override;
 
 
 		protected:
-			FileSystem*			_fileSystem;
+			FileSystem*	_fileSystem;
+			MeshLoader*	_meshLoader;
 		};
 	}
 }

@@ -1,7 +1,0 @@
-{
-    "uid": "LtcEbu2vkxSmmBQza7LIkJi6yhMkYmS9",
-    "mesh_type": "POLYGON",
-    "load_type": "EXTERNAL",
-    "file_path": "sphere_1.obj",
-    "clear_buffers_on_bind": true
-}

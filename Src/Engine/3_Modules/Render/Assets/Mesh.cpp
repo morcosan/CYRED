@@ -96,7 +96,11 @@ void Mesh::BindToGPU()
 		Int fileSize;
 		Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 		
-		MeshLoader::LoadSingleMesh( fileData, fileSize, _vertices, _indices );
+		// try custom format first, then try import
+		Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, _vertices, _indices );
+		if ( !isLoaded ) {
+			FileManager::Singleton()->ImportMesh( fileData, fileSize, _vertices, _indices );
+		}
 
 		Memory::FreeArray( fileData );
 

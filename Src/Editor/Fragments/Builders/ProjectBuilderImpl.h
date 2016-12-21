@@ -7,6 +7,12 @@
 
 namespace CYRED
 {
+	class Asset;
+}
+
+
+namespace CYRED
+{
 	class ProjectBuilderImpl : public ProjectBuilder
 	{
 		DECLARE_LOCAL_SINGLETON_IMPL( ProjectBuilderImpl )

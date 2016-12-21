@@ -60,7 +60,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\DeployLIB;../../Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CYRED_Engine.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CYRED_Engine.lib;Assimp/assimp.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,13 +78,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\DeployLIB;../../Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CYRED_Engine.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CYRED_Engine.lib;Assimp/assimp.lib;Qt/Qt5Core.lib;Qt/Qt5Gui.lib;Qt/Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
     <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
+    <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
     <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Camera.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
     <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
+    <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
     <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Camera.h" />
