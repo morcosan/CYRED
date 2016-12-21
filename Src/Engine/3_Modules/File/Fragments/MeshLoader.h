@@ -14,11 +14,6 @@ namespace CYRED
 	class DLL MeshLoader
 	{
 		const Char* const HEADER			= "#CYRED Meshdata\n";
-		const Char* const VERTICES_FORMAT	= "vertices %d\n";
-		const Char* const INDICES_FORMAT	= "indices %d\n";
-		const Char* const VERTEX_FORMAT		= "{pos:(%f,%f,%f) normal:(%f,%f,%f), uv:(%.2f,%.2f), color:(%.2f,%.2f,%.2f,%.2f)}\n";
-		const Char* const INDEX_FORMAT		= "[%d,%d,%d]\n";
-
 
 
 	public:

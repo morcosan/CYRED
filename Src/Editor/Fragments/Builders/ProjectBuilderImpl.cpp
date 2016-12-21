@@ -117,7 +117,7 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 	// copy assets to build dir
 	// copy materials
 	for ( UInt i = 0; i < assetManager->GetMaterialCount(); i++ ) {
-		//_BuildAssetFiles( assetManager->GetMaterialAt( i ) );
+		_BuildAssetFiles( assetManager->GetMaterialAt( i ) );
 	}
 	// copy meshes
 	for ( UInt i = 0; i < assetManager->GetMeshCount(); i++ ) {
@@ -125,19 +125,19 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 	}
 	// copy scenes
 	for ( UInt i = 0; i < assetManager->GetSceneCount(); i++ ) {
-		//_BuildAssetFiles( assetManager->GetSceneAt( i ) );
+		_BuildAssetFiles( assetManager->GetSceneAt( i ) );
 	}
 	// copy morphs
 	for ( UInt i = 0; i < assetManager->GetMorphCount(); i++ ) {
-		//_BuildAssetFiles( assetManager->GetMorphAt( i ) );
+		_BuildAssetFiles( assetManager->GetMorphAt( i ) );
 	}
 	// copy textures
 	for ( UInt i = 0; i < assetManager->GetTextureCount(); i++ ) {
-		//_BuildAssetFiles( assetManager->GetTextureAt( i ) );
+		_BuildAssetFiles( assetManager->GetTextureAt( i ) );
 	}
 	// copy shaders
 	for ( UInt i = 0; i < assetManager->GetShaderCount(); i++ ) {
-		//_BuildAssetFiles( assetManager->GetShaderAt( i ) );
+		_BuildAssetFiles( assetManager->GetShaderAt( i ) );
 	}
 }
 
@@ -152,6 +152,9 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 {
 	ASSERT( _isInitialized );
 	ASSERT( asset != NULL );
+
+	// use shortcut
+	FileManager* fileManager = FileManager::Singleton();
 
 	// create paths
 	FiniteString srcPathAsset( "%s%s", asset->GetDirPath(), asset->GetName() );
@@ -190,10 +193,8 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 				}
 
 				// write data
-				String data( FileManager::Singleton()->SaveMesh( vertices, indices ) );
-				FileManager::Singleton()->WriteFile( dstPath.GetChar(), data.GetChar() );
-
-				FileManager::Singleton()->LoadMesh( data.GetChar(), vertices, indices );
+				fileManager->WriteFile( dstPath.GetChar(), 
+										fileManager->SaveMesh( vertices, indices ).GetChar() );
 			}
 
 			break;
@@ -202,6 +203,34 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 		case AssetType::MORPH:
 		{
 			srcPathAsset.Set( "%s%s", srcPathAsset.GetChar(), FileManager::FILE_FORMAT_MORPH );
+			
+			// copy additional files
+			Morph* morph = CAST_S( Morph*, asset );
+			for ( UInt i = 0; i < morph->GetTotalStates(); i++ ) {
+				// get paths
+				FiniteString srcPath( "%s%s", asset->GetDirPath(), morph->GetFilePath(i) );
+				FiniteString dstPath( "%s%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+												  AppConfig::DIR_PATH_DATA, 
+												  morph->GetFilePath(i),
+												  FileManager::FILE_FORMAT_MESHDATA );
+				// load data
+				DataArray<Vertex>	vertices;
+				DataArray<UInt>		indices;
+				Int fileSize;
+				Char* fileData = FileManager::Singleton()->ReadFile( srcPath.GetChar(), fileSize );
+				if ( fileData != NULL ) {
+					// try custom format first, then try import
+					Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
+					if ( !isLoaded ) {
+						FileManager::Singleton()->ImportMesh( fileData, fileSize, vertices, indices );
+					}
+
+					// write data
+					fileManager->WriteFile( dstPath.GetChar(), 
+											fileManager->SaveMesh( vertices, indices ).GetChar() );
+				}
+			}
+
 			break;
 		}
 
@@ -228,17 +257,17 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 			srcPath.Set( "%s%s", asset->GetDirPath(), vertexFile );
 			dstPath.Set( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 								   AppConfig::DIR_PATH_DATA, vertexFile );
-			FileManager::Singleton()->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+			fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
 			// copy geometry file
 			srcPath.Set( "%s%s", asset->GetDirPath(), geometryFile );
 			dstPath.Set( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 								   AppConfig::DIR_PATH_DATA, geometryFile );
-			FileManager::Singleton()->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+			fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
 			// copy fragment file
 			srcPath.Set( "%s%s", asset->GetDirPath(), fragmentFile );
 			dstPath.Set( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 								   AppConfig::DIR_PATH_DATA, fragmentFile );
-			FileManager::Singleton()->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+			fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
 
 			break;
 		}
@@ -255,7 +284,7 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 				FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 												AppConfig::DIR_PATH_DATA, 
 												texture->GetImagePath(0) );
-				FileManager::Singleton()->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+				fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
 			}
 			else {
 				// cube texture
@@ -264,7 +293,7 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 					FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 													AppConfig::DIR_PATH_DATA, 
 													texture->GetImagePath(i) );
-					FileManager::Singleton()->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+					fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
 				}
 			}
 
@@ -273,5 +302,5 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 	}
 
 	// copy file
-	FileManager::Singleton()->CopyFile( srcPathAsset.GetChar(), dstPathAsset.GetChar() );
+	fileManager->CopyFile( srcPathAsset.GetChar(), dstPathAsset.GetChar() );
 }

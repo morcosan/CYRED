@@ -20,19 +20,47 @@ Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices,
 		return FALSE;
 	}
 
+	// parse data and get values
 	Char* dataPtr = NO_CONST( Char*, data );
+	// jump over header
+	dataPtr += strlen( HEADER );
 
 	// read vertices
-	UInt countVertices;
-	countVertices = strtol( dataPtr, &dataPtr, 10 );
+	UInt countVertices = strtol( dataPtr, &dataPtr, 10 );
 	for ( UInt i = 0; i < countVertices; i++ ) {
+		// read position
+		Vector3 pos( strtof( dataPtr, &dataPtr ), 
+					 strtof( dataPtr, &dataPtr ), 
+					 strtof( dataPtr, &dataPtr ));
+		// read normal
+		Vector3 normal( strtof( dataPtr, &dataPtr ), 
+						strtof( dataPtr, &dataPtr ), 
+						strtof( dataPtr, &dataPtr ));
+		// read uv
+		Vector2 uv( strtof( dataPtr, &dataPtr ), 
+					strtof( dataPtr, &dataPtr ));
+		// read color
+		Vector4 color( strtof( dataPtr, &dataPtr ), 
+					   strtof( dataPtr, &dataPtr ), 
+					   strtof( dataPtr, &dataPtr ), 
+					   strtof( dataPtr, &dataPtr ));
+
+		// create vertex
+		vertices.Add( 
+			Vertex(
+				Vector3( pos.x, pos.y, pos.z ),
+				Vector4( color.x, color.y, color.z, color.w ),
+				Vector3( normal.x, normal.y, normal.z ),
+				Vector2( uv.x, uv.y )
+			)
+		);
 	}
 
 	// read indeces
-	int countIndeces;
-	sscanf( data, VERTICES_FORMAT, &countIndeces );
-
-
+	UInt countIndices = strtol( dataPtr, &dataPtr, 10 );
+	for ( UInt i = 0; i < countIndices; i++ ) {
+		indices.Add( strtol( dataPtr, &dataPtr, 10 ) );
+	}
 
 	return TRUE;
 }
@@ -42,47 +70,35 @@ String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indic
 {
 	// create string
 	std::ostringstream dataStream;
-	// use custom format
-	FiniteString format;
 
 	// add header
 	dataStream << HEADER;
 
 	// add vertices
-	format.Set( VERTICES_FORMAT, vertices.Size() );
-	dataStream << format.GetChar();
+	dataStream << '\n' << vertices.Size() << '\n';
 	// populate array
 	for ( UInt i = 0; i < vertices.Size(); i++ ) {
-		format.Set( VERTEX_FORMAT, 
-					vertices[i].position.x,
-					vertices[i].position.y,
-					vertices[i].position.z,
-					vertices[i].normal.x,
-					vertices[i].normal.y,
-					vertices[i].normal.z,
-					vertices[i].uv.x,
-					vertices[i].uv.y,
-					vertices[i].color.x,
-					vertices[i].color.y,
-					vertices[i].color.z,
-					vertices[i].color.w
-		);
-		// write to file
-		dataStream << format.GetChar();
+		dataStream << vertices[i].position.x << ' '
+					<< vertices[i].position.y << ' '
+					<< vertices[i].position.z << ' '
+					<< vertices[i].normal.x << ' '
+					<< vertices[i].normal.y << ' '
+					<< vertices[i].normal.z << ' '
+					<< vertices[i].uv.x << ' '
+					<< vertices[i].uv.y << ' '
+					<< vertices[i].color.x << ' '
+					<< vertices[i].color.y << ' '
+					<< vertices[i].color.z << ' '
+					<< vertices[i].color.w << '\n';
 	}
 
 	// add indices
-	format.Set( INDICES_FORMAT, indices.Size() / 3 );
-	dataStream << format.GetChar();
+	dataStream << '\n' << indices.Size() << '\n';
 	// populate array
 	for ( UInt i = 0; i < indices.Size() / 3; i += 3 ) {
-		format.Set( INDEX_FORMAT, 
-					indices[i + 0],
-					indices[i + 1],
-					indices[i + 2]
-		);
-		// write to file
-		dataStream << format.GetChar();
+		dataStream << indices[i + 0] << ' '
+					<< indices[i + 1] << ' '
+					<< indices[i + 2] << '\n';
 	}
 
 	// write file

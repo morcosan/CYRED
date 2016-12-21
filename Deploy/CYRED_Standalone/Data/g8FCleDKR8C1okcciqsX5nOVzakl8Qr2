@@ -1,0 +1,12 @@
+{
+    "uid": "g8FCleDKR8C1okcciqsX5nOVzakl8Qr2",
+    "type": "CUBE_MAP",
+    "has_mipmap": true,
+    "clear_buffer_on_bind": true,
+    "file_path_pos_x": "particle_fire.bmp",
+    "file_path_neg_x": "",
+    "file_path_pos_y": "",
+    "file_path_neg_y": "",
+    "file_path_pos_z": "",
+    "file_path_neg_z": ""
+}
