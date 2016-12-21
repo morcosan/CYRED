@@ -22,7 +22,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	ABSTRACT class DLL FileSystem
+	class DLL FileSystem
 	{
 	public:
 		FileSystem() {}
@@ -30,24 +30,24 @@ namespace CYRED
 
 
 	public:
-		virtual Char*	ReadFile	( const Char* filePath, OUT Int& fileSize )		PURE_VIRTUAL;
+		virtual Char*	ReadFile	( const Char* filePath, OUT Int& fileSize );
 		/* returns TRUE on success */
-		virtual Bool	WriteFile	( const Char* filePath, const Char* buffer )	PURE_VIRTUAL;
+		virtual Bool	WriteFile	( const Char* filePath, const Char* buffer );
 		/* returns TRUE on success */
-		virtual Bool	DeleteFile	( const Char* filePath )						PURE_VIRTUAL;
+		virtual Bool	DeleteFile	( const Char* filePath );
 		/* returns TRUE on success */
-		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	PURE_VIRTUAL;
+		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath );
 
 		/* returns TRUE on success */
-		virtual Bool	DeleteDir	( const Char* dirPath )							PURE_VIRTUAL;
+		virtual Bool	DeleteDir	( const Char* dirPath );
 		/* returns TRUE on success */
-		virtual Bool	CreateDir	( const Char* parentPath, const Char* dirName )	PURE_VIRTUAL;
+		virtual Bool	CreateDir	( const Char* parentPath, const Char* dirName );
 
 		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
-									  OUT Int *height, OUT Int *channels )			PURE_VIRTUAL;
+									  OUT Int *height, OUT Int *channels );
 		/* returns TRUE on success */
 		virtual Bool	WriteImage	( const Char* filePath, const UChar* imageBuffer, 
 									  Int width, Int height, Int channels,
-									  ImageType type )								PURE_VIRTUAL;
+									  ImageType type );
 	};
 }

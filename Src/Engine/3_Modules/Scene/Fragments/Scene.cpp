@@ -28,9 +28,12 @@ Scene::~Scene()
 
 void Scene::LoadUniqueID()
 {
-	FiniteString filePath( "%s%s%s", _dirPath.GetChar(),
-									 _name.GetChar(),
-									 FileManager::FILE_FORMAT_SCENE );
+	// create path
+	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
+	// add extension of needed
+	if ( _useExtension ) {
+		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_SCENE );
+	}
 
 	// read the file
 	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
@@ -48,9 +51,12 @@ void Scene::LoadFullFile()
 
 	ClearAsset();
 
-	FiniteString filePath( "%s%s%s", _dirPath.GetChar(),
-									 _name.GetChar(),
-									 FileManager::FILE_FORMAT_SCENE );
+	// create path
+	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
+	// add extension of needed
+	if ( _useExtension ) {
+		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_SCENE );
+	}
 
 	// read the file
 	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );

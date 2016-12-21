@@ -16,7 +16,6 @@
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
 #include "EngineOverride\Debug\ConsoleWindows.h"
-#include "EngineOverride\File\FileSystemWindows.h"
 
 #include "Fragments\GameInitScript.h"
 
@@ -136,12 +135,12 @@ void StandaloneApp::_InitializeManagers()
 	SerializeSystem* serializeSystem = Memory::Alloc<JsonSerializeSystem>();
 	
 	
-	//FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>(),
-	//									  Memory::Alloc<Mel);
+	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystem>(),
+										  Memory::Alloc<MeshLoader>() );
 	FileManager::Singleton()->SetSerializeSystem( serializeSystem );
 
 	//InputManager::Singleton()->Initialize( _inputReceiver );
-	TimeManager::Singleton()->Initialize( _appConfig.fps );
+	TimeManager::Singleton()->Initialize( 0 );
 	DebugManager::Singleton()->Initialize( Memory::Alloc<ConsoleWindows>() );
 }
 
@@ -186,6 +185,9 @@ void StandaloneApp::_ReadConfigFile()
 {
 	Char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
 	FileManager::Singleton()->Deserialize<AppConfig>( fileData, &_appConfig );
+
+	// update managers
+	TimeManager::Singleton()->SetDesiredFPS( _appConfig.fps );
 }
 
 

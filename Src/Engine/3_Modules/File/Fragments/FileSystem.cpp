@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "FileSystemWindows.h"
+#include "FileSystem.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image\Include\stb_image.h"
@@ -16,7 +16,7 @@ using namespace CYRED;
 
 
 
-Char* FileSystemWindows::ReadFile( const Char* filePath, OUT Int& fileSize )
+Char* FileSystem::ReadFile( const Char* filePath, OUT Int& fileSize )
 {
 	// open file
 	FILE* file;
@@ -42,7 +42,7 @@ Char* FileSystemWindows::ReadFile( const Char* filePath, OUT Int& fileSize )
 }
 
 
-Bool FileSystemWindows::WriteFile( const Char* filePath, const Char* buffer )
+Bool FileSystem::WriteFile( const Char* filePath, const Char* buffer )
 {
 	// open file
 	FILE* file;
@@ -60,14 +60,14 @@ Bool FileSystemWindows::WriteFile( const Char* filePath, const Char* buffer )
 }
 
 
-Bool FileSystemWindows::DeleteFile( const Char* filePath )
+Bool FileSystem::DeleteFile( const Char* filePath )
 {
 	Int fail = std::remove( filePath );
 	return (fail == 0);
 }
 
 
-Bool FileSystemWindows::CopyFile( const Char* srcPath, const Char* dstPath )
+Bool FileSystem::CopyFile( const Char* srcPath, const Char* dstPath )
 {
 	// try to open src
 	std::ifstream ifs( srcPath, std::ios::binary );
@@ -91,26 +91,26 @@ Bool FileSystemWindows::CopyFile( const Char* srcPath, const Char* dstPath )
 }
 
 
-Bool FileSystemWindows::DeleteDir( const Char* dirPath )
+Bool FileSystem::DeleteDir( const Char* dirPath )
 {
 	return FALSE;
 }
 
 
-Bool FileSystemWindows::CreateDir( const Char* parentPath, const Char* dirName )
+Bool FileSystem::CreateDir( const Char* parentPath, const Char* dirName )
 {
 	return FALSE;
 }
 
 
-UChar* FileSystemWindows::ReadImage( const Char* filePath, OUT Int* width, OUT Int* height, 
+UChar* FileSystem::ReadImage( const Char* filePath, OUT Int* width, OUT Int* height, 
 									 OUT Int* channels )
 {
 	return stbi_load( filePath, width, height, channels, 0 );
 }
 
 
-Bool FileSystemWindows::WriteImage( const Char* filePath, const UChar* imageBuffer, 
+Bool FileSystem::WriteImage( const Char* filePath, const UChar* imageBuffer, 
 								    Int width, Int height, Int channels, ImageType type )
 {
 	Int success = 0; // 0 = fail

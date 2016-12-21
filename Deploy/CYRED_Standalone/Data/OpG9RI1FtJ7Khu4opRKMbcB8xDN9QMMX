@@ -106,7 +106,7 @@
                     "spawn_duration": 5.0,
                     "emitter_shape": "CIRCLE",
                     "shape_radius": 1.0,
-                    "spawn_from_edge": false,
+                    "epawn_from_edge": false,
                     "material": "11xRXKm81TpPl1T1OlF0J4KsqZMm20FP",
                     "particle_size_start": {
                         "x": 0.5,
@@ -116,6 +116,37 @@
                         "x": 0.5,
                         "y": 0.5
                     }
+                }
+            }
+        },
+        {
+            "name": "Camera",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 10.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "camera": {
+                    "enabled": true,
+                    "camera_type": "PERSPECTIVE",
+                    "fovy_angle": 60.0,
+                    "near_clipping": 0.100,
+                    "far_clipping": 200.0
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace CYRED
 	{
 	public:
 		MeshLoaderWindows() {}
-		~MeshLoaderWindows() {}
+		virtual ~MeshLoaderWindows() {}
 
 
 	public:

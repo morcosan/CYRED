@@ -169,5 +169,6 @@
     <ClCompile Include="3_Modules\Render\Components\MorphRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MeshRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
+    <ClCompile Include="3_Modules\File\Fragments\FileSystem.cpp" />
   </ItemGroup>
 </Project>

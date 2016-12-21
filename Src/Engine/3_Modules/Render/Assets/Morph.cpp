@@ -33,9 +33,12 @@ Morph::~Morph()
 
 void Morph::LoadUniqueID()
 {
-	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
-									 _name.GetChar(), 
-									 FileManager::FILE_FORMAT_MORPH );
+	// create path
+	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
+	// add extension of needed
+	if ( _useExtension ) {
+		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MORPH );
+	}
 
 	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this, DeserFlag::UID_ONLY );
@@ -50,9 +53,12 @@ void Morph::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	FiniteString filePath( "%s%s%s", _dirPath.GetChar(), 
-									 _name.GetChar(), 
-									 FileManager::FILE_FORMAT_MORPH );
+	// create path
+	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
+	// add extension of needed
+	if ( _useExtension ) {
+		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MORPH );
+	}
 
 	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this );

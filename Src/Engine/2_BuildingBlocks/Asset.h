@@ -49,7 +49,7 @@ namespace CYRED
 		Bool		IsTemporary		()	const;
 		Bool		DoesEmitEvents	()	const;
 
-		void		SetName			( const Char* name );
+		void		SetName			( const Char* name, Bool useExtension = TRUE );
 		void		SetDirPath		( const Char* dirPath );
 		void		SetEmitEvents	( Bool value );
 		void		SetUniqueID		( const Char* uniqueID );
@@ -60,6 +60,7 @@ namespace CYRED
 		AssetType	_assetType;
 		String		_name;
 		String		_dirPath;
+		Bool		_useExtension;
 		Bool		_emitEvents;
 		String		_uniqueID;
 		Bool		_isTemporary;

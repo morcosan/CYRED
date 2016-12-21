@@ -176,10 +176,9 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 			// copy additional files
 			Mesh* mesh = CAST_S( Mesh*, asset );
 			FiniteString srcPath( "%s%s", asset->GetDirPath(), mesh->GetExternalPath() );
-			FiniteString dstPath( "%s%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+			FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 											  AppConfig::DIR_PATH_DATA, 
-											  mesh->GetExternalPath(),
-											  FileManager::FILE_FORMAT_MESHDATA );
+											  mesh->GetExternalPath() );
 			// load data
 			DataArray<Vertex>	vertices;
 			DataArray<UInt>		indices;
@@ -209,10 +208,9 @@ void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
 			for ( UInt i = 0; i < morph->GetTotalStates(); i++ ) {
 				// get paths
 				FiniteString srcPath( "%s%s", asset->GetDirPath(), morph->GetFilePath(i) );
-				FiniteString dstPath( "%s%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+				FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 												  AppConfig::DIR_PATH_DATA, 
-												  morph->GetFilePath(i),
-												  FileManager::FILE_FORMAT_MESHDATA );
+												  morph->GetFilePath(i) );
 				// load data
 				DataArray<Vertex>	vertices;
 				DataArray<UInt>		indices;

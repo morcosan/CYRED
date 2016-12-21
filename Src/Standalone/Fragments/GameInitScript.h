@@ -23,7 +23,6 @@ namespace CYRED
 	protected:
 		AppConfig* _appConfig;
 
-		void _LoadScene			( const Char* sceneName );
-		void _LoadSceneAssets	( const Char* sceneName );
+		void _LoadAllAssets();
 	};
 }

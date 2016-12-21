@@ -13,6 +13,7 @@ Asset::Asset( AssetType type )
 	: _emitEvents( TRUE )
 	, _assetType( type )
 	, _isTemporary( TRUE )
+	, _useExtension( TRUE )
 {
 }
 
@@ -53,9 +54,10 @@ Bool Asset::DoesEmitEvents() const
 }
 
 
-void Asset::SetName( const Char* name )
+void Asset::SetName( const Char* name, Bool useExtension )
 {
 	_name = name;
+	_useExtension = useExtension;
 
 	if ( _emitEvents )
 	{

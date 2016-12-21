@@ -18,7 +18,7 @@ namespace CYRED
 
 	public:
 		MeshLoader() {}
-		~MeshLoader() {}
+		virtual ~MeshLoader() {}
 
 
 	public:
