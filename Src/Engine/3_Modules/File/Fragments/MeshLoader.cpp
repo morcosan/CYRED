@@ -29,31 +29,44 @@ Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices,
 	UInt countVertices = strtol( dataPtr, &dataPtr, 10 );
 	for ( UInt i = 0; i < countVertices; i++ ) {
 		// read position
-		Vector3 pos( strtof( dataPtr, &dataPtr ), 
-					 strtof( dataPtr, &dataPtr ), 
-					 strtof( dataPtr, &dataPtr ));
-		// read normal
-		Vector3 normal( strtof( dataPtr, &dataPtr ), 
-						strtof( dataPtr, &dataPtr ), 
-						strtof( dataPtr, &dataPtr ));
-		// read uv
-		Vector2 uv( strtof( dataPtr, &dataPtr ), 
-					strtof( dataPtr, &dataPtr ));
+		Vector3 pos;
+		pos.x = strtof( dataPtr, &dataPtr );
+		pos.y = strtof( dataPtr, &dataPtr );
+		pos.z = strtof( dataPtr, &dataPtr );
+
 		// read color
-		Vector4 color( strtof( dataPtr, &dataPtr ), 
-					   strtof( dataPtr, &dataPtr ), 
-					   strtof( dataPtr, &dataPtr ), 
-					   strtof( dataPtr, &dataPtr ));
+		Vector4 color;
+		color.x = strtof( dataPtr, &dataPtr );
+		color.y = strtof( dataPtr, &dataPtr );
+		color.z = strtof( dataPtr, &dataPtr );
+		color.w = strtof( dataPtr, &dataPtr );
+
+		// read normal
+		Vector3 normal;
+		normal.x = strtof( dataPtr, &dataPtr );
+		normal.y = strtof( dataPtr, &dataPtr );
+		normal.z = strtof( dataPtr, &dataPtr );
+
+		// read uv
+		Vector2 uv;
+		uv.x = strtof( dataPtr, &dataPtr );
+		uv.y = strtof( dataPtr, &dataPtr );
+
+		// read tangent
+		Vector3 tan;
+		tan.x = strtof( dataPtr, &dataPtr );
+		tan.y = strtof( dataPtr, &dataPtr );
+		tan.z = strtof( dataPtr, &dataPtr );
+
+		// read bitangent
+		Vector3 bitan;
+		bitan.x = strtof( dataPtr, &dataPtr );
+		bitan.y = strtof( dataPtr, &dataPtr );
+		bitan.z = strtof( dataPtr, &dataPtr );
+		
 
 		// create vertex
-		vertices.Add( 
-			Vertex(
-				Vector3( pos.x, pos.y, pos.z ),
-				Vector4( color.x, color.y, color.z, color.w ),
-				Vector3( normal.x, normal.y, normal.z ),
-				Vector2( uv.x, uv.y )
-			)
-		);
+		vertices.Add( Vertex( pos, color, normal, uv, tan, bitan ) );
 	}
 
 	// read indeces
@@ -78,24 +91,30 @@ String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indic
 	dataStream << '\n' << vertices.Size() << '\n';
 	// populate array
 	for ( UInt i = 0; i < vertices.Size(); i++ ) {
-		dataStream << vertices[i].position.x << ' '
+		dataStream  << vertices[i].position.x << ' '
 					<< vertices[i].position.y << ' '
 					<< vertices[i].position.z << ' '
+					<< vertices[i].color.x << ' '
+					<< vertices[i].color.y << ' '
+					<< vertices[i].color.z << ' '
+					<< vertices[i].color.w << ' '
 					<< vertices[i].normal.x << ' '
 					<< vertices[i].normal.y << ' '
 					<< vertices[i].normal.z << ' '
 					<< vertices[i].uv.x << ' '
 					<< vertices[i].uv.y << ' '
-					<< vertices[i].color.x << ' '
-					<< vertices[i].color.y << ' '
-					<< vertices[i].color.z << ' '
-					<< vertices[i].color.w << '\n';
+					<< vertices[i].tangent.x << ' '
+					<< vertices[i].tangent.y << ' '
+					<< vertices[i].tangent.z << ' '
+					<< vertices[i].bitangent.x << ' '
+					<< vertices[i].bitangent.y << ' '
+					<< vertices[i].bitangent.z << '\n';
 	}
 
 	// add indices
 	dataStream << '\n' << indices.Size() << '\n';
 	// populate array
-	for ( UInt i = 0; i < indices.Size() / 3; i += 3 ) {
+	for ( UInt i = 0; i < indices.Size(); i += 3 ) {
 		dataStream << indices[i + 0] << ' '
 					<< indices[i + 1] << ' '
 					<< indices[i + 2] << '\n';
