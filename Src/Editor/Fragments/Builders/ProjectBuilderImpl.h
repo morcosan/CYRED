@@ -8,6 +8,12 @@
 namespace CYRED
 {
 	class Asset;
+	class Texture;
+	class Scene;
+	class Material;
+	class Mesh;
+	class Morph;
+	class Shader;
 }
 
 
@@ -27,6 +33,11 @@ namespace CYRED
 
 
 	protected:
-		void _BuildAssetFiles( Asset* asset );
+		void _BuildTextureFile	( Texture* asset );
+		void _BuildSceneFile	( Scene* asset );
+		void _BuildMaterialFile	( Material* asset );
+		void _BuildMeshFile		( Mesh* asset );
+		void _BuildMorphFile	( Morph* asset );
+		void _BuildShaderFile	( Shader* asset );
 	};
 }

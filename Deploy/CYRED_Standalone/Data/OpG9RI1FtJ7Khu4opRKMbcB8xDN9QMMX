@@ -26,7 +26,7 @@
                 "mesh_rendering": {
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
-                    "material": "WCzQBXGkivO7vBxZN7GAmwOfmOdEjAjS"
+                    "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
                 }
             }
         },
@@ -55,7 +55,7 @@
                 "morph_rendering": {
                     "enabled": true,
                     "morph": "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN",
-                    "material": "WCzQBXGkivO7vBxgN7GAmwOfmOdEjAjS",
+                    "material": "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE",
                     "duration_state": 1.0,
                     "duration_state_change": 0.5,
                     "is_playing": true

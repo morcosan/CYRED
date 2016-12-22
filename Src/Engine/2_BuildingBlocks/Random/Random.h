@@ -35,5 +35,8 @@ namespace CYRED
 
 		static String	GenerateUniqueID();
 		static Bool		ValidateUniqueID( const Char* uniqueID );
+
+		// generate a new id similar to the uid, but constant giving same text
+		static String	GenerateConstantID( const Char* text );
 	};
 }

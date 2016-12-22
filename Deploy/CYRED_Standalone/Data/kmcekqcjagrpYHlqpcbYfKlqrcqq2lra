@@ -1,4 +1,5 @@
 #version 430
+// Particles.geom
 
 layout(points) in;
 layout(triangle_strip, max_vertices = 6) out;

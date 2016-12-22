@@ -3,10 +3,10 @@
     "type": "CUBE_MAP",
     "has_mipmap": true,
     "clear_buffer_on_bind": true,
-    "file_path_pos_x": "particle_fire.bmp",
-    "file_path_neg_x": "",
-    "file_path_pos_y": "",
-    "file_path_neg_y": "",
-    "file_path_pos_z": "",
-    "file_path_neg_z": ""
+    "file_path_pos_x": "nkZkcpgdWcjagrpYnlqcpsrvcLlqrcqq",
+    "file_path_neg_x": "ooapojDatpqnaojlQnpeYhaObenaiRil",
+    "file_path_pos_y": "ooapojDatpqnaojlQnpeYhaObenaiRil",
+    "file_path_neg_y": "ooapojDatpqnaojlQnpeYhaObenaiRil",
+    "file_path_pos_z": "ooapojDatpqnaojlQnpeYhaObenaiRil",
+    "file_path_neg_z": "ooapojDatpqnaojlQnpeYhaObenaiRil"
 }

@@ -151,3 +151,31 @@ Bool Random::ValidateUniqueID( const Char* uniqueID )
 
 	return TRUE;
 }
+
+
+String Random::GenerateConstantID( const Char* text )
+{
+	// get available chars
+	UInt totalAlphanum = sizeof( ALPHA_NUM );
+
+	// create id string
+	Char id[ UNIQUE_ID_SIZE + 1 ];
+
+	// start from end of text
+	UInt textSize = strlen( text );
+
+	// replace each char with an alphanum
+	for ( UInt i = 0; i < UNIQUE_ID_SIZE; ++i )
+	{
+		UInt textIndex = textSize - i - 1;
+		if ( textIndex < 0 ) {
+			textIndex += textSize;
+		}
+		UInt alphanumIndex = CAST_S( UInt, text[textIndex] ) % totalAlphanum;
+		id[i] = ALPHA_NUM[alphanumIndex];
+    }
+
+    id[UNIQUE_ID_SIZE] = 0;
+
+	return String( id );
+}
