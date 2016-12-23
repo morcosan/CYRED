@@ -149,6 +149,16 @@
                     "far_clipping": 200.0
                 }
             }
+        },
+        {
+            "name": "EmptyGameObject",
+            "enabled": true,
+            "components": {
+                "scripter": {
+                    "enabled": true,
+                    "script": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS"
+                }
+            }
         }
     ]
 }

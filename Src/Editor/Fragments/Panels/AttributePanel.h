@@ -26,12 +26,12 @@ namespace CYRED
 		const Char* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
 		const Char* const	ATTR_MESH_RENDERING		= "MeshRendering";
 		const Char* const	ATTR_MORPH_RENDERING	= "MorphRendering";
+		const Char* const	ATTR_SCRIPTER			= "Scripter";
 		const Char* const	ATTR_MATERIAL			= "Material";
 		const Char* const	ATTR_MESH				= "Mesh";
 		const Char* const	ATTR_MORPH				= "Morph";
 		const Char* const	ATTR_TEXTURE			= "Texture";
 		const Char* const	ATTR_SCRIPT				= "Script";
-		const Char* const	ATTR_SCRIPTER			= "Scripter";
 		const Char* const	ATTR_SHADER				= "Shader";
 		const Char* const	ATTR_SCENE				= "Scene";
 		const Char* const	ATTR_CYRED_PROJ			= "CyredProj";
@@ -62,10 +62,10 @@ namespace CYRED
 		DataMap<String, AttrViewer*>	_attrViewers;
 
 		QTreeWidget*	_qtTree;
-		QPushButton*	_qtCompButton;
 		void*			_target;
 		Bool			_needsRefresh;
 
-		void _Clear();
+		void _ClearPanel		();
+		void _DisplayGameObject	();
 	};
 }

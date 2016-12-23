@@ -66,6 +66,8 @@ namespace CYRED
 		Bool	_emitEvents;
 
 		DataArray<COMP::Component*>	_components;
+
+		void _SentChangeEvent();
 	};
 
 
@@ -116,6 +118,9 @@ namespace CYRED
 		COMP::Component* comp = CAST_S( COMP::Component*, onlyOneAllowed );
 		comp->SetEnabled( TRUE );
 
+		// emit change event
+		_SentChangeEvent();
+
 		return onlyOneAllowed;
 	}
 
@@ -135,6 +140,10 @@ namespace CYRED
 			{
 				_components.Erase( i );
 				Memory::Free( onlyOneAllowed );
+
+				// emit change event
+				_SentChangeEvent();
+
 				return;
 			}
 		}

@@ -11,11 +11,12 @@ using namespace CYRED;
 using namespace COMP;
 
 
-Scripter::Scripter( GameObject * gameObject )
+Scripter::Scripter( GameObject* gameObject )
 	: Component( gameObject )
 	, _needStart( TRUE )
 	, _script( NULL )
 {
+	_componentType = ComponentType::SCRIPTER;
 }
 
 

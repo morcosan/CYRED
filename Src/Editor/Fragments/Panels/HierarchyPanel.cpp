@@ -5,6 +5,7 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
+#include "CyredModule_Script.h"
 #include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
 #include "../Settings/ProjectSettings.h"
@@ -227,15 +228,29 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 
 		QObject::connect( actionRename,	&QAction::triggered, this, &HierarchyPanel::A_Rename );
 	}
-	if ( treeItem->gameObject != NULL )
+
+	if ( treeItem->gameObject != NULL && treeItem->scene == NULL)
 	{
+		_qtRightClickMenu->addSeparator();
+		QMenu* menu_AddComp = _qtRightClickMenu->addMenu( MENU_ADD_COMPONENT );
+		QAction* actionComp_Camera		= menu_AddComp->addAction( MENU_COMP_CAMERA );
+		QAction* actionComp_MeshRen		= menu_AddComp->addAction( MENU_COMP_MESH_REN );
+		QAction* actionComp_MorphRen	= menu_AddComp->addAction( MENU_COMP_MORPH_REN );
+		QAction* actionComp_PsEmitter	= menu_AddComp->addAction( MENU_COMP_PS_EMITTER );
+		QAction* actionComp_Scripter	= menu_AddComp->addAction( MENU_COMP_SCRIPTER );
+
 		_qtRightClickMenu->addSeparator();
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 
-		QObject::connect( actionDelete,	&QAction::triggered, this, &HierarchyPanel::A_Delete );
+		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Camera );
+		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MeshRendering );
+		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MorphRendering );
+		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_ParticlesEmitter );
+		QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Scripter );
+		QObject::connect( actionDelete,			&QAction::triggered, this, &HierarchyPanel::A_Delete );
 	}
 
-	if ( treeItem->gameObject == NULL )
+	if ( treeItem->gameObject == NULL && treeItem->scene != NULL )
 	{
 		_qtRightClickMenu->addSeparator();
 		QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
@@ -534,3 +549,54 @@ void HierarchyPanel::A_GO_Particles_Emitter()
 
 	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
 }
+
+
+void HierarchyPanel::A_AddComp_Camera()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add camera component
+	treeItem->gameObject->AddComponent<COMP::Camera>();
+}
+
+
+void HierarchyPanel::A_AddComp_MeshRendering()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add mesh rendering component
+	treeItem->gameObject->AddComponent<COMP::MeshRendering>();
+}
+
+
+void HierarchyPanel::A_AddComp_MorphRendering()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add morph rendering component
+	treeItem->gameObject->AddComponent<COMP::MorphRendering>();
+}
+
+
+void HierarchyPanel::A_AddComp_ParticlesEmitter()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add particles emitter component
+	treeItem->gameObject->AddComponent<COMP::ParticleEmitter>();
+}
+
+
+void HierarchyPanel::A_AddComp_Scripter()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add scripter component
+	treeItem->gameObject->AddComponent<COMP::Scripter>();
+}
+

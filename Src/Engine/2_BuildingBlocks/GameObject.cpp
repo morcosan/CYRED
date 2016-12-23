@@ -102,6 +102,10 @@ COMP::Component* GameObject::GetComponentAt( UInt index ) const
 void GameObject::SetEnabled( Bool value )
 {
 	_enabled = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_CHANGED, this );
+	}
 }
 
 
@@ -115,12 +119,8 @@ void GameObject::SetName( const Char* name )
 {
 	_name = name;
 
-	//! announce the whole application
-	if ( _emitEvents )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, 
-											  EventName::GAMEOBJECT_RENAMED, 
-											  this );
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_RENAMED, this );
 	}
 }
 
@@ -128,5 +128,13 @@ void GameObject::SetName( const Char* name )
 void GameObject::SetEmitEvents( Bool value )
 {
 	_emitEvents = value;
+}
+
+
+void GameObject::_SentChangeEvent()
+{
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_CHANGED, this );
+	}
 }
 

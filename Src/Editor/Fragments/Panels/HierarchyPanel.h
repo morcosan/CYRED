@@ -38,6 +38,13 @@ namespace CYRED
 		const Char*	const	MENU_GO_PS			= "Particles";
 		const Char*	const	MENU_GO_PS_EMITTER	= "Emitter";
 
+		const Char* const	MENU_ADD_COMPONENT		= "Add Component";
+		const Char* const	MENU_COMP_CAMERA		= "Camera";
+		const Char* const	MENU_COMP_MESH_REN		= "Mesh Rendering";
+		const Char* const	MENU_COMP_MORPH_REN		= "Morph Rendering";
+		const Char* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
+		const Char* const	MENU_COMP_SCRIPTER		= "Scripter";
+
 		const Char* const	STATUS_NEW_GO		= "New GameObject created.";
 
 
@@ -69,6 +76,12 @@ namespace CYRED
 		void A_GO_Create3D_Mesh		();
 		void A_GO_Create3D_Morph	();
 		void A_GO_Particles_Emitter	();
+
+		void A_AddComp_Camera			();
+		void A_AddComp_MeshRendering	();
+		void A_AddComp_MorphRendering	();
+		void A_AddComp_ParticlesEmitter	();
+		void A_AddComp_Scripter			();
 
 
 	protected:

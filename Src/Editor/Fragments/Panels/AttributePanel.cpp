@@ -5,6 +5,7 @@
 #include "../AttrViewers/AttrViewer.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
+#include "CyredModule_Script.h"
 #include "../Settings/EditorSkin.h"
 
 #include "..\AttrViewers\AttrViewer_GameObject.h"
@@ -45,20 +46,10 @@ AttributePanel::AttributePanel()
 	_qtTree->setDragEnabled( false );
 	_qtTree->setObjectName( EditorSkin::ATTR_COMP_TREE );
 
-	// TODO
-	_qtCompButton = Memory::Alloc<QPushButton>( this );
-	_qtCompButton->setMinimumSize( 160, 25 );
-	_qtCompButton->setMaximumSize( 160, 25 );
-	_qtCompButton->setText( ADD_COMPONENT_BUTTON );
-	_qtCompButton->hide();
-	_qtCompButton->setObjectName( EditorSkin::ATTR_BUTTON );
-	//QObject::connect( _qtCompButton, &QPushButton::clicked, this, &AttributePanel::A_AddComponent );
-
 	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
 	vLayout->setSpacing( 15 );
 	vLayout->setContentsMargins( 0, 0, 0, 10 );
 	vLayout->addWidget( _qtTree );
-	vLayout->addWidget( _qtCompButton, 0, Qt::AlignHCenter );
 
 	QWidget* layoutWidget = Memory::Alloc<QWidget>();
 	layoutWidget->setLayout( vLayout );
@@ -103,7 +94,7 @@ void AttributePanel::Initialize()
 
 	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
 
-	_Clear();
+	_ClearPanel();
 }
 
 
@@ -132,71 +123,22 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					_target = eSource;
 
 					// clear panel
-					_Clear();
+					_ClearPanel();
 
-					// prepare to add new 
-					Node* node = CAST_S( Node*, eSource );
-					GameObject* selectedGO = CAST_D( GameObject*, node );
+					// display game object
+					_DisplayGameObject();
 
-					if ( selectedGO != NULL )
-					{
-						ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
-						AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
-						gameObjectViewer->ChangeTarget( selectedGO );
-						gameObjectViewer->UpdateGUI();
+					break;
+				}
 
-						{
-							COMP::Component* comp = selectedGO->GetComponent<COMP::Transform>();
-							if ( comp != NULL )
-							{
-								ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-								AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
-								viewer->ChangeTarget( comp );
-								viewer->UpdateGUI();
-							}
-						}
-						{
-							COMP::Component* comp = selectedGO->GetComponent<COMP::Camera>();
-							if ( comp != NULL )
-							{
-								ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-								AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
-								viewer->ChangeTarget( comp );
-								viewer->UpdateGUI();
-							}
-						}
-						{
-							COMP::Component* comp = selectedGO->GetComponent<COMP::ParticleEmitter>();
-							if ( comp != NULL )
-							{
-								ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-								AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
-								viewer->ChangeTarget( comp );
-								viewer->UpdateGUI();
-							}
-						}
-						{
-							COMP::Component* comp = selectedGO->GetComponent<COMP::MeshRendering>();
-							if ( comp != NULL )
-							{
-								ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
-								AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
-								viewer->ChangeTarget( comp );
-								viewer->UpdateGUI();
-							}
-						}
-						{
-							COMP::Component* comp = selectedGO->GetComponent<COMP::MorphRendering>();
-							if ( comp != NULL )
-							{
-								ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
-								AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
-								viewer->ChangeTarget( comp );
-								viewer->UpdateGUI();
-							}
-						}
+				case EventName::GAMEOBJECT_CHANGED:
+				{
+					if ( _target != NULL && _target == eSource ) {
+						// clear panel
+						_ClearPanel();
 
-						//_qtCompButton->show();
+						// display game object
+						_DisplayGameObject();
 					}
 					break;
 				}
@@ -204,7 +146,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 				case EventName::SCENE_SELECTED:
 				{
 					// clear panel
-					_Clear();
+					_ClearPanel();
 
 					_target = NULL;
 
@@ -328,7 +270,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 				case EventName::ASSET_SELECTED:
 				{
 					_target = eSource;
-					_Clear();
+					_ClearPanel();
 
 					if ( eSource == NULL )
 					{
@@ -410,14 +352,87 @@ void AttributePanel::RefreshPanel()
 }
 
 
-void AttributePanel::_Clear()
+void AttributePanel::_ClearPanel()
 {
 	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i )
 	{
 		QTreeWidgetItem* item = _qtTree->topLevelItem( i );
 		item->setHidden( TRUE );
 	}
-
-	_qtCompButton->hide();
 }
 
+
+void AttributePanel::_DisplayGameObject()
+{
+	Node* node = CAST_S( Node*, _target );
+	GameObject* selectedGO = CAST_D( GameObject*, node );
+
+	if ( selectedGO != NULL )
+	{
+		ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
+		AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
+		gameObjectViewer->ChangeTarget( selectedGO );
+		gameObjectViewer->UpdateGUI();
+
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::Transform>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::Camera>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::ParticleEmitter>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::MeshRendering>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::MorphRendering>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			COMP::Component* comp = selectedGO->GetComponent<COMP::Scripter>();
+			if ( comp != NULL )
+			{
+				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER );
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+	}
+}
