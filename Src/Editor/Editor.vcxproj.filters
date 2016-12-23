@@ -45,6 +45,9 @@
     <ClCompile Include="Fragments\Builders\ProjectBuilderImpl.cpp" />
     <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
     <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Script.cpp" />
+    <ClCompile Include="Fragments\AttrViewers\AttrViewer_Scripter.cpp" />
+    <ClCompile Include="Fragments\Selectors\Selector_Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -92,5 +95,8 @@
     <ClInclude Include="Fragments\Builders\ProjectBuilderImpl.h" />
     <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Script.h" />
+    <ClInclude Include="Fragments\AttrViewers\AttrViewer_Scripter.h" />
+    <ClInclude Include="Fragments\Selectors\Selector_Script.h" />
   </ItemGroup>
 </Project>

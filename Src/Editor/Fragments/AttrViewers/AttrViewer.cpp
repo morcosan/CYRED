@@ -70,9 +70,9 @@ struct AttrViewer::_ListWidget : public QWidget
 		// add if not enough
 		Int childrenLeft = rootItem->childCount();
 
-		for ( Int i = 0; i < size - childrenLeft; ++i )
+		for ( Int index = childrenLeft; index < size; index++ )
 		{
-			FiniteString elementName( "[ %d ]", i );
+			FiniteString elementName( "[ %d ]", index );
 
 			QTreeWidgetItem* childItem = Memory::Alloc<QTreeWidgetItem>();
 			childItem->setFlags( Qt::ItemIsEnabled );

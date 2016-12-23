@@ -63,8 +63,7 @@ void Shader::LoadFullFile()
 
 	_emitEvents = oldEmitEvents;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -80,8 +79,7 @@ void Shader::ClearAsset()
 	_shaderFiles.Clear();
 	_uniforms.Clear();
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -106,6 +104,10 @@ void Shader::SetShaderFiles( const Char* rendererType, const Char* vertexPath,
 
 		_shaderFiles.Set( rendererType, paths );
 	}
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -122,7 +124,7 @@ void Shader::GetShaderFiles( const Char* rendererType, OUT const Char** vertexPa
 }
 
 
-void Shader::ChangeRenderer( const Char * rendererType )
+void Shader::ChangeRenderer( const Char* rendererType )
 {
 	if ( _shaderFiles.Has( rendererType ) )
 	{

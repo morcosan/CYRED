@@ -21,7 +21,7 @@ namespace CYRED
 			, MESH_RENDERING
 			, MORPH_RENDERING
 			, PARTICLE_EMITTER
-			, SCRIPT
+			, SCRIPTER
 		};
 	}
 

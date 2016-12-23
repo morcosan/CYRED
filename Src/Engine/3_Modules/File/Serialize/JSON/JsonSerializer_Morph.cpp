@@ -24,6 +24,7 @@ rapidjson::Value JsonSerializer_Morph::ToJson( void* object )
 					rapidjson::StringRef( morph->GetUniqueID() ),
 					_al );
 
+	// add file paths
 	{
 		rapidjson::Value arrayNode;
 		arrayNode.SetArray();

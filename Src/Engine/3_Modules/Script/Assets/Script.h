@@ -35,11 +35,12 @@ namespace CYRED
 
 		Bool		RunsInEditor	()				const;
 		UInt		GetPathsCount	()				const;
-		const Char*	GetExternalPath	( UInt index )	const;
+		const Char*	GetFilePath		( UInt index )	const;
 
 		void SetRunInEditor	( Bool value );
 		void SetLuaData		( const Char* varName, luabridge::LuaRef* varData );
-		void SetExternalPath( UInt index, const Char* filePath );
+		void SetFilePath	( UInt index, const Char* filePath );
+		void ClearFilePaths	();
 
 
 	protected:

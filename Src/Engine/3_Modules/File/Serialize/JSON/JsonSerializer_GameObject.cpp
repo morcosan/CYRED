@@ -9,11 +9,13 @@
 #include "../../../Render/Components/ParticleEmitter.h"
 #include "../../../Render/Components/MeshRendering.h"
 #include "../../../Render/Components/MorphRendering.h"
+#include "../../../Script/Components/Scripter.h"
 #include "JsonSerializer_Transform.h"
 #include "JsonSerializer_Camera.h"
 #include "JsonSerializer_ParticleEmitter.h"
 #include "JsonSerializer_MeshRendering.h"
 #include "JsonSerializer_MorphRendering.h"
+#include "JsonSerializer_Scripter.h"
 #include "../../../../2_BuildingBlocks/String/FiniteString.h"
 
 #include "rapidjson\Include\stringbuffer.h"
@@ -42,42 +44,42 @@ rapidjson::Value JsonSerializer_GameObject::ToJson( void* object )
 		rapidjson::Value objectNode;
 		objectNode.SetObject();
 
-		for ( UInt i = 0; i < gameObject->GetComponentCount(); ++i )
-		{
+		for ( UInt i = 0; i < gameObject->GetComponentCount(); ++i ) {
 			COMP::Component* comp = gameObject->GetComponentAt( i );
 
-			if ( comp->GetComponentType() == ComponentType::TRANSFORM )
-			{
+			if ( comp->GetComponentType() == ComponentType::TRANSFORM ) {
 				JsonSerializer_Transform serializer;
 				objectNode.AddMember( rapidjson::StringRef( TRANSFORM ), 
 									  serializer.ToJson( comp ), 
 									  _al );
 			}
-			else if ( comp->GetComponentType() == ComponentType::CAMERA )
-			{
+			else if ( comp->GetComponentType() == ComponentType::CAMERA ) {
 				JsonSerializer_Camera serializer;
 				objectNode.AddMember( rapidjson::StringRef( CAMERA ), 
 									  serializer.ToJson( comp ),
 									  _al );
 			}
-			else if ( comp->GetComponentType() == ComponentType::PARTICLE_EMITTER )
-			{
+			else if ( comp->GetComponentType() == ComponentType::PARTICLE_EMITTER ) {
 				JsonSerializer_ParticleEmitter serializer;
 				objectNode.AddMember( rapidjson::StringRef( PARTICLE_EMITTER ), 
 									  serializer.ToJson( comp ),
 									  _al );
 			}
-			else if ( comp->GetComponentType() == ComponentType::MESH_RENDERING )
-			{
+			else if ( comp->GetComponentType() == ComponentType::MESH_RENDERING ) {
 				JsonSerializer_MeshRendering serializer;
 				objectNode.AddMember( rapidjson::StringRef( MESH_RENDERING ), 
 									  serializer.ToJson( comp ),
 									  _al );
 			}
-			else if ( comp->GetComponentType() == ComponentType::MORPH_RENDERING )
-			{
+			else if ( comp->GetComponentType() == ComponentType::MORPH_RENDERING ) {
 				JsonSerializer_MorphRendering serializer;
 				objectNode.AddMember( rapidjson::StringRef( MORPH_RENDERING ), 
+									  serializer.ToJson( comp ),
+									  _al );
+			}
+			else if ( comp->GetComponentType() == ComponentType::SCRIPTER ) {
+				JsonSerializer_Scripter serializer;
+				objectNode.AddMember( rapidjson::StringRef( SCRIPTER ), 
 									  serializer.ToJson( comp ),
 									  _al );
 			}
@@ -129,40 +131,41 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 		{
 			FiniteString comp( iter->name.GetString() );
 
-			if ( comp == TRANSFORM )
-			{
+			if ( comp == TRANSFORM ) {
 				COMP::Transform* transform = gameObject->AddComponent<COMP::Transform>();
 
 				JsonSerializer_Transform serializer;
 				serializer.FromJson( iter->value, transform, DeserFlag::FULL );
 			}
-			if ( comp == CAMERA )
-			{
+			else if ( comp == CAMERA ) {
 				COMP::Camera* camera = gameObject->AddComponent<COMP::Camera>();
 
 				JsonSerializer_Camera serializer;
 				serializer.FromJson( iter->value, camera, DeserFlag::FULL );
 			}
-			if ( comp == PARTICLE_EMITTER )
-			{
+			else if ( comp == PARTICLE_EMITTER ) {
 				COMP::ParticleEmitter* emitter = gameObject->AddComponent<COMP::ParticleEmitter>();
 
 				JsonSerializer_ParticleEmitter serializer;
 				serializer.FromJson( iter->value, emitter, DeserFlag::FULL );
 			}
-			if ( comp == MESH_RENDERING )
-			{
+			if ( comp == MESH_RENDERING ) {
 				COMP::MeshRendering* meshRender = gameObject->AddComponent<COMP::MeshRendering>();
 
 				JsonSerializer_MeshRendering serializer;
 				serializer.FromJson( iter->value, meshRender, DeserFlag::FULL );
 			}
-			if ( comp == MORPH_RENDERING )
-			{
+			if ( comp == MORPH_RENDERING ) {
 				COMP::MorphRendering* morphRender = gameObject->AddComponent<COMP::MorphRendering>();
 
 				JsonSerializer_MorphRendering serializer;
 				serializer.FromJson( iter->value, morphRender, DeserFlag::FULL );
+			}
+			if ( comp == SCRIPTER ) {
+				COMP::Scripter* scripter = gameObject->AddComponent<COMP::Scripter>();
+
+				JsonSerializer_Scripter serializer;
+				serializer.FromJson( iter->value, scripter, DeserFlag::FULL );
 			}
 		}
 	}

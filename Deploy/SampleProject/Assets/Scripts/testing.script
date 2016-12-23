@@ -1,6 +1,7 @@
 {
-	"uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
-	"file_paths": [
-		"testing.lua"
-	]
+    "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
+    "run_in_editor": true,
+    "file_paths": [
+        "testing.lua"
+    ]
 }

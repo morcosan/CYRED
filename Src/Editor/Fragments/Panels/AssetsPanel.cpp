@@ -1130,6 +1130,14 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 			break;
 		}
 
+		case AssetType::SCRIPT:
+		{
+			fileFormat = FileManager::FILE_FORMAT_SCRIPT;
+			Script* script = CAST_S( Script*, asset );
+			data = FileManager::Singleton()->Serialize<Script>( script );
+			break;
+		}
+
 		case AssetType::SCENE:
 		{
 			fileFormat = FileManager::FILE_FORMAT_SCENE;
@@ -1207,6 +1215,66 @@ Bool AssetsPanel::_IsFilePathDuplicate( Asset* asset )
 			for ( UInt i = 0; i < assetMgr->GetMaterialCount(); ++i )
 			{
 				Material* other = assetMgr->GetMaterialAt( i );
+				if ( asset != other && 
+					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
+					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )
+				{
+					return TRUE;
+				}
+			}
+			break;
+		}
+
+		case AssetType::MESH:
+		{
+			for ( UInt i = 0; i < assetMgr->GetMeshCount(); ++i )
+			{
+				Mesh* other = assetMgr->GetMeshAt( i );
+				if ( asset != other && 
+					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
+					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )
+				{
+					return TRUE;
+				}
+			}
+			break;
+		}
+
+		case AssetType::MORPH:
+		{
+			for ( UInt i = 0; i < assetMgr->GetMorphCount(); ++i )
+			{
+				Morph* other = assetMgr->GetMorphAt( i );
+				if ( asset != other && 
+					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
+					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )
+				{
+					return TRUE;
+				}
+			}
+			break;
+		}
+
+		case AssetType::SCRIPT:
+		{
+			for ( UInt i = 0; i < assetMgr->GetScriptCount(); ++i )
+			{
+				Script* other = assetMgr->GetScriptAt( i );
+				if ( asset != other && 
+					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
+					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )
+				{
+					return TRUE;
+				}
+			}
+			break;
+		}
+
+		case AssetType::SCENE:
+		{
+			for ( UInt i = 0; i < assetMgr->GetSceneCount(); ++i )
+			{
+				Scene* other = assetMgr->GetSceneAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
 					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )

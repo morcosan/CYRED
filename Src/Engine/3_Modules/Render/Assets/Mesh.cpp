@@ -70,8 +70,7 @@ void Mesh::LoadFullFile()
 
 	_emitEvents = oldEmitEvents;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -86,8 +85,7 @@ void Mesh::ClearAsset()
 
 	_isTemporary = TRUE;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -167,12 +165,20 @@ const Char* Mesh::GetExternalPath() const
 void Mesh::SetMeshType( MeshType type )
 {
 	_meshType = type;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Mesh::SetLoadType( LoadType type )
 {
 	_loadType = type;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -182,6 +188,10 @@ void Mesh::SetVertices( DataArray<Vertex>& vertices )
 	for ( UInt i = 0; i < vertices.Size(); ++i )
 	{
 		_vertices.Add( vertices[i] );
+	}
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
 
@@ -195,17 +205,29 @@ void Mesh::SetIndices( DataArray<UInt>& indices )
 	}
 
 	_numIndices = indices.Size();
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Mesh::SetClearBuffersOnBind( Bool value )
 {
 	_clearBuffersOnBind = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Mesh::SetExternalPath( const Char* filePath )
 {
 	_externalPath = filePath;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 

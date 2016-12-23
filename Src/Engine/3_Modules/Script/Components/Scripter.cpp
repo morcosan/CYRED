@@ -2,7 +2,9 @@
 // MIT License
 
 #include "Scripter.h"
+
 #include "../Assets/Script.h"
+#include "../../../3_Modules/Event/EventManager.h"
 
 
 using namespace CYRED;
@@ -58,4 +60,8 @@ Script* Scripter::GetScript() const
 void Scripter::SetScript( Script* script )
 {
 	_script = script;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::SCRIPTER_CHANGED, this );
+	}
 }

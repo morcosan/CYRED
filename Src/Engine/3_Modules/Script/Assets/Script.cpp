@@ -110,7 +110,7 @@ UInt Script::GetPathsCount() const
 }
 
 
-const Char* Script::GetExternalPath( UInt index ) const
+const Char* Script::GetFilePath( UInt index ) const
 {
 	ASSERT( index < _filePaths.Size() );
 	return _filePaths[index].GetChar();
@@ -120,6 +120,10 @@ const Char* Script::GetExternalPath( UInt index ) const
 void Script::SetRunInEditor( Bool value )
 {
 	_runsInEditor = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -129,7 +133,7 @@ void Script::SetLuaData( const Char* varName, luabridge::LuaRef* varData )
 }
 
 
-void Script::SetExternalPath( UInt index, const Char* filePath )
+void Script::SetFilePath( UInt index, const Char* filePath )
 {
 	// fill array
 	while ( index >= _filePaths.Size() ) {
@@ -138,4 +142,19 @@ void Script::SetExternalPath( UInt index, const Char* filePath )
 
 	// set filepath
 	_filePaths[index] = filePath;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
+}
+
+
+void Script::ClearFilePaths()
+{
+	// empty list
+	_filePaths.Clear();
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }

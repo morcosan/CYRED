@@ -111,8 +111,7 @@ void Texture::LoadFullFile()
 
 	_emitEvents = oldEmitEvents;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -146,8 +145,7 @@ void Texture::ClearAsset()
 	_imageBuffers[4] = NULL;
 	_imageBuffers[5] = NULL;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
 }
@@ -289,18 +287,30 @@ const Char* Texture::GetImagePath( UInt index ) const
 void Texture::SetTextureType( TextureType type )
 {
 	_textureType = type;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Texture::SetHasMipmap( Bool value )
 {
 	_hasMipmap = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Texture::SetClearBufferOnBind( Bool value )
 {
 	_clearBufferOnBind = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -309,6 +319,10 @@ void Texture::SetImageBuffer( UInt index, UChar* buffer )
 	ASSERT( index < 6 );
 
 	_imageBuffers[index] = buffer;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -317,6 +331,10 @@ void Texture::SetImageInfo( UInt width, UInt height, UInt channels )
 	_width = width;
 	_height = height;
 	_channels = channels;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
@@ -325,10 +343,18 @@ void Texture::SetImagePath( UInt index, const Char* path )
 	ASSERT( index < 6 );
 
 	_imagePaths[index] = path;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }
 
 
 void Texture::SetLoadFromFile( Bool value )
 {
 	_loadFromFile = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+	}
 }

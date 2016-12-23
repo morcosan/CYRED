@@ -18,6 +18,7 @@ namespace CYRED
 		const Char* const PARTICLE_EMITTER	= "particle_emitter";
 		const Char* const MESH_RENDERING	= "mesh_rendering";
 		const Char* const MORPH_RENDERING	= "morph_rendering";
+		const Char* const SCRIPTER			= "scripter";
 
 
 	public:

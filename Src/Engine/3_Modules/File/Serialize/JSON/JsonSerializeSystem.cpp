@@ -53,6 +53,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<COMP::ParticleEmitter>( Memory::Alloc<JsonSerializer_ParticleEmitter>() );
 	AddSerializer<COMP::MeshRendering>	( Memory::Alloc<JsonSerializer_MeshRendering>() );
 	AddSerializer<COMP::MorphRendering>	( Memory::Alloc<JsonSerializer_MorphRendering>() );
+	AddSerializer<COMP::Scripter>		( Memory::Alloc<JsonSerializer_Scripter>() );
 
 	AddSerializer<Material>				( Memory::Alloc<JsonSerializer_Material>() );
 	AddSerializer<Shader>				( Memory::Alloc<JsonSerializer_Shader>() );
