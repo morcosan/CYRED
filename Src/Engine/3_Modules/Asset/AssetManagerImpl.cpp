@@ -10,6 +10,7 @@
 #include "../Render/Assets/Morph.h"
 #include "../Render/Assets/Shader.h"
 #include "../Scene/Fragments/Scene.h"
+#include "../Script/Assets/Script.h"
 
 
 using namespace CYRED;
@@ -211,6 +212,28 @@ StatusAssetAdd AssetManagerImpl::AddScene( Scene* scene )
 }
 
 
+StatusAssetAdd AssetManagerImpl::AddScript( Script* script )
+{
+	ASSERT( _isInitialized );
+
+	Bool isOk = Random::ValidateUniqueID( script->GetUniqueID() );
+	if ( !isOk )
+	{
+		return StatusAssetAdd::FAIL_INVALID_ID;
+	}
+
+	Script* found = GetScript( script->GetUniqueID() );
+	if ( found != NULL )
+	{
+		return StatusAssetAdd::FAIL_EXISTING;
+	}
+
+	_scripts.Add( script );
+
+	return StatusAssetAdd::SUCCESS;
+}
+
+
 Mesh* AssetManagerImpl::GetMesh( const Char* uniqueID )
 {
 	ASSERT( _isInitialized );
@@ -318,6 +341,24 @@ Scene* AssetManagerImpl::GetScene( const Char* uniqueID )
 }
 
 
+Script* AssetManagerImpl::GetScript( const Char * uniqueID )
+{
+	ASSERT( _isInitialized );
+
+	String temp( uniqueID );
+
+	for ( UInt i = 0; i < _scripts.Size(); ++i )
+	{
+		if ( temp == _scripts[i]->GetUniqueID() )
+		{
+			return _scripts[i];
+		}
+	}
+
+	return NULL;
+}
+
+
 UInt AssetManagerImpl::GetMaterialCount()
 {
 	ASSERT( _isInitialized );
@@ -406,7 +447,6 @@ Texture* AssetManagerImpl::GetTextureAt( UInt index )
 UInt AssetManagerImpl::GetSceneCount()
 {
 	ASSERT( _isInitialized );
-
 	return _scenes.Size();
 }
 
@@ -415,6 +455,20 @@ Scene* AssetManagerImpl::GetSceneAt( UInt index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _scenes.Size() );
-
 	return _scenes[index];
+}
+
+
+UInt AssetManagerImpl::GetScriptCount()
+{
+	ASSERT( _isInitialized );
+	return _scripts.Size();
+}
+
+
+Script* AssetManagerImpl::GetScriptAt( UInt index )
+{
+	ASSERT( _isInitialized );
+	ASSERT( index < _scripts.Size() );
+	return _scripts[index];
 }

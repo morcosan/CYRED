@@ -15,6 +15,8 @@
 #include "JsonSerializer_Morph.h"
 #include "JsonSerializer_Camera.h"
 #include "JsonSerializer_AppConfig.h"
+#include "JsonSerializer_Script.h"
+#include "JsonSerializer_Scripter.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
@@ -29,6 +31,8 @@
 #include "../../../Render/Assets/Mesh.h"
 #include "../../../Render/Assets/Morph.h"
 #include "../../../../4_Application/AppConfig.h"
+#include "../../../Script/Assets/Script.h"
+#include "../../../Script/Components/Scripter.h"
 
 #include "rapidjson\Include\document.h"
 #include "rapidjson\Include\stringbuffer.h"
@@ -55,6 +59,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Texture>				( Memory::Alloc<JsonSerializer_Texture>() );
 	AddSerializer<Mesh>					( Memory::Alloc<JsonSerializer_Mesh>() );
 	AddSerializer<Morph>				( Memory::Alloc<JsonSerializer_Morph>() );
+	AddSerializer<Script>				( Memory::Alloc<JsonSerializer_Script>() );
 
 	AddSerializer<AppConfig>			( Memory::Alloc<JsonSerializer_AppConfig>() );
 }

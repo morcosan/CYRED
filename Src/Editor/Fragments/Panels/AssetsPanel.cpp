@@ -7,6 +7,7 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_Debug.h"
 #include "CyredModule_Scene.h"
+#include "CyredModule_Script.h"
 #include "../Settings/EditorSkin.h"
 #include "../Settings/ProjectSettings.h"
 #include "../Settings/EditorSettings.h"
@@ -452,6 +453,18 @@ void AssetsPanel::A_Create_Morph()
 }
 
 
+void AssetsPanel::A_Create_Script()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
+									   ProjectSettings::dirPathAssets.GetChar();
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
+
+	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+}
+
+
 void AssetsPanel::A_DirChanged( const QString& path )
 {
 	// TODO
@@ -603,6 +616,20 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 
 				statusAdd = AssetManager::Singleton()->AddTexture( texture );
 				asset = texture; // will be checked later
+			}
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SCRIPT ) == 0 )
+			{
+				icon = _icons.Get( ICON_SCRIPT );
+				
+				Script* script = Memory::Alloc<Script>();
+				script->SetEmitEvents( FALSE );
+				script->SetName( fileName.toUtf8().constData() );
+				script->SetDirPath( dirPath );
+				script->LoadUniqueID();
+				script->SetEmitEvents( TRUE );
+
+				statusAdd = AssetManager::Singleton()->AddScript( script );
+				asset = script; // will be checked later
 			}
 			else /*unknown file*/
 			{
@@ -835,6 +862,35 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			break;
 		}
 
+		case AssetType::SCRIPT:
+		{
+			Script* script = Memory::Alloc<Script>();
+			script->SetEmitEvents( FALSE );
+			script->SetDirPath( dirPath );
+			script->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			script->SetIsTemporary( FALSE );
+
+			do
+			{
+				++assetIndex;
+				fileName = QString( "%1%2" ).arg( MENU_C_SCRIPT ).arg( assetIndex );
+				filePath = QString( dirPath )
+							.append( fileName )
+							.append( FileManager::FILE_FORMAT_SCRIPT );
+
+				script->SetName( fileName.toUtf8().constData() );
+			} 
+			while ( _IsFilePathDuplicate( script ) );
+
+			icon = _icons.Get( ICON_SCRIPT );
+
+			script->SetEmitEvents( TRUE );
+
+			AssetManager::Singleton()->AddScript( script );
+			asset = script;
+			break;
+		}
+
 		case AssetType::SHADER:
 		{
 			Shader* shader = Memory::Alloc<Shader>();
@@ -981,10 +1037,10 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 		_qtRightClickMenu->addSeparator();
 
-		QObject::connect( actionRename, &QAction::triggered, this, &AssetsPanel::A_Rename );
+		QObject::connect( actionRename,		&QAction::triggered, this, &AssetsPanel::A_Rename );
 		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &AssetsPanel::A_OpenOnDisk );
 		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &AssetsPanel::A_ShowOnDisk );
-		QObject::connect( actionDelete, &QAction::triggered, this, &AssetsPanel::A_Delete );
+		QObject::connect( actionDelete,		&QAction::triggered, this, &AssetsPanel::A_Delete );
 	}
 
 	if ( item == NULL || item->whatsThis(0).compare( TYPE_FOLDER ) == 0 )
@@ -1003,9 +1059,10 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionTex2D = menuTexture->addAction( MENU_C_TEX_2D );
 		QAction* actionTexCM = menuTexture->addAction( MENU_C_TEX_CM );
 
-		QAction* actionShader = menuCreate->addAction( MENU_C_SHADER );
-		QAction* actionMesh = menuCreate->addAction( MENU_C_MESH );
-		QAction* actionMorph = menuCreate->addAction( MENU_C_MORPH );
+		QAction* actionShader	= menuCreate->addAction( MENU_C_SHADER );
+		QAction* actionMesh		= menuCreate->addAction( MENU_C_MESH );
+		QAction* actionMorph	= menuCreate->addAction( MENU_C_MORPH );
+		QAction* actionScript	= menuCreate->addAction( MENU_C_SCRIPT );
 
 		QObject::connect( actionFolder,		&QAction::triggered, this, &AssetsPanel::A_Create_Folder );
 		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &AssetsPanel::A_Create_Mat_Empty );
@@ -1015,6 +1072,7 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionShader,		&QAction::triggered, this, &AssetsPanel::A_Create_Shader );
 		QObject::connect( actionMesh,		&QAction::triggered, this, &AssetsPanel::A_Create_Mesh );
 		QObject::connect( actionMorph,		&QAction::triggered, this, &AssetsPanel::A_Create_Morph );
+		QObject::connect( actionScript,		&QAction::triggered, this, &AssetsPanel::A_Create_Script );
 	}
 }
 

@@ -15,6 +15,7 @@ namespace CYRED
 	class Shader;
 	class Texture;
 	class Scene;
+	class Script;
 
 	namespace Enum_StatusAssetAdd
 	{
@@ -49,6 +50,7 @@ namespace CYRED
 		virtual StatusAssetAdd	AddShader	( Shader* shader )			PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddTexture	( Texture* texture )		PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddScene	( Scene* scene )			PURE_VIRTUAL;
+		virtual StatusAssetAdd	AddScript	( Script* script )			PURE_VIRTUAL;
 
 		virtual Mesh*		GetMesh			( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Morph*		GetMorph		( const Char* uniqueID )	PURE_VIRTUAL;
@@ -56,6 +58,7 @@ namespace CYRED
 		virtual Shader*		GetShader		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Texture*	GetTexture		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Scene*		GetScene		( const Char* uniqueID )	PURE_VIRTUAL;
+		virtual Script*		GetScript		( const Char* uniqueID )	PURE_VIRTUAL;
 
 		virtual UInt		GetMaterialCount()				PURE_VIRTUAL;
 		virtual Material*	GetMaterialAt	( UInt index )	PURE_VIRTUAL;
@@ -74,5 +77,8 @@ namespace CYRED
 
 		virtual UInt		GetSceneCount	()				PURE_VIRTUAL;
 		virtual Scene*		GetSceneAt		( UInt index )	PURE_VIRTUAL;
+
+		virtual UInt		GetScriptCount	()				PURE_VIRTUAL;
+		virtual Script*		GetScriptAt		( UInt index )	PURE_VIRTUAL;
 	};
 }

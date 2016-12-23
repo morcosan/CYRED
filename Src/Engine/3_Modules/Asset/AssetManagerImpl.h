@@ -31,6 +31,7 @@ namespace CYRED
 			StatusAssetAdd	AddShader	( Shader* shader )			override;
 			StatusAssetAdd	AddTexture	( Texture* texture )		override;
 			StatusAssetAdd	AddScene	( Scene* scene )			override;
+			StatusAssetAdd	AddScript	( Script* script )			override;
 
 			Mesh*		GetMesh			( const Char* uniqueID )	override;
 			Morph*		GetMorph		( const Char* uniqueID )	override;
@@ -38,6 +39,7 @@ namespace CYRED
 			Shader*		GetShader		( const Char* uniqueID )	override;
 			Texture*	GetTexture		( const Char* uniqueID )	override;
 			Scene*		GetScene		( const Char* uniqueID )	override;
+			Script*		GetScript		( const Char* uniqueID )	override;
 
 			UInt		GetMaterialCount()							override;
 			Material*	GetMaterialAt	( UInt index )				override;
@@ -57,6 +59,9 @@ namespace CYRED
 			UInt		GetSceneCount	()							override;
 			Scene*		GetSceneAt		( UInt index )				override;
 
+			UInt		GetScriptCount	()							override;
+			Script*		GetScriptAt		( UInt index )				override;
+
 
 		protected:
 			DataArray<Material*>	_materials;
@@ -65,6 +70,7 @@ namespace CYRED
 			DataArray<Morph*>		_morphs;
 			DataArray<Texture*>		_textures;
 			DataArray<Scene*>		_scenes;
+			DataArray<Script*>		_scripts;
 		};
 	}
 }

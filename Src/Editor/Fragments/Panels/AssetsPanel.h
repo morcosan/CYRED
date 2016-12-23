@@ -29,6 +29,7 @@ namespace CYRED
 		const Char* const	ICON_MORPH		= "morph_icon";
 		const Char* const	ICON_TEXTURE	= "texture_icon";
 		const Char* const	ICON_SHADER		= "shader_icon";
+		const Char* const	ICON_SCRIPT		= "script_icon";
 		const Char* const	ICON_UNKNOWN	= "unknown_icon";
 
 		const Char* const	BUTTON_RELOAD	= "Reload";
@@ -54,6 +55,7 @@ namespace CYRED
 		const Char* const	MENU_C_SHADER		= "Shader";
 		const Char* const	MENU_C_MESH			= "Mesh";
 		const Char* const	MENU_C_MORPH		= "Morph";
+		const Char* const	MENU_C_SCRIPT		= "Script";
 
 		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s not loaded. Already existing.";
 		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s has invalid UID. New UID generated.";
@@ -95,6 +97,7 @@ namespace CYRED
 		void A_Create_Shader	();
 		void A_Create_Mesh		();
 		void A_Create_Morph		();
+		void A_Create_Script	();
 
 		void A_DirChanged		( const QString& path );
 
