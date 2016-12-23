@@ -9,7 +9,7 @@
 
 namespace CYRED
 {
-	class GameInitScript : public COMP::Script
+	class GameInitScript : public COMP::Scripter
 	{
 	public:
 		GameInitScript( AppConfig* appConfig );

@@ -9,16 +9,16 @@
 
 namespace CYRED
 {
-	class FreeCameraScript : public COMP::Script
+	class FreeCameraControl : public COMP::Scripter
 	{
 	public:
-		FreeCameraScript( GameObject* gameObject = NULL );
-		virtual ~FreeCameraScript() {}
+		FreeCameraControl( GameObject* gameObject = NULL );
+		virtual ~FreeCameraControl() {}
 
 
 	protected:
 		void _OnStart	() override;
-		void _OnUpdate() override;
+		void _OnUpdate	() override;
 
 
 	public:

@@ -249,7 +249,7 @@ void StandaloneApp::_InitializeRenderer()
 void StandaloneApp::_StartGame()
 {
 	GameInitScript* gameInit = Memory::Alloc<GameInitScript>( &_appConfig );
-	gameInit->Start();
+	gameInit->OnStart();
 
 	RenderManager::Singleton()->OnResize( 0 );
 }

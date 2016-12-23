@@ -9,7 +9,7 @@ using namespace CYRED;
 using namespace NotAPI;
 
 
-//! deferred definition of SceneManager
+//! deferred definition
 DEFINE_LOCAL_SINGLETON( FileManager, FileManagerImpl )
 DEFINE_LOCAL_SINGLETON_IMPL( FileManagerImpl )
 
@@ -20,7 +20,7 @@ const Char* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
 const Char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 const Char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
 const Char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
-const Char* const FileManager::FILE_FORMAT_MESHDATA	= ".meshdata";
+const Char* const FileManager::FILE_FORMAT_SCRIPT	= ".script";
 const Char* const FileManager::DIR_ASSETS			= "Assets/";
 
 

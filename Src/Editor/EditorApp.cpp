@@ -36,7 +36,7 @@
 #include "EngineOverride\Input\InputReceiverWindows.h"
 #include "EngineOverride\Debug\ConsoleWindows.h"
 
-#include "InternalAssets\FreeCameraScript.h"
+#include "InternalAssets\FreeCameraControl.h"
 
 #include <QtWidgets/QApplication>
 #include <QtGui\qwindow.h>
@@ -213,6 +213,7 @@ void EditorApp::_CreateManagers()
 	InputManager::CreateSingleton();
 	TimeManager::CreateSingleton();
 	DebugManager::CreateSingleton();
+	ScriptManager::CreateSingleton();
 	ProjectBuilder::CreateSingleton();
 
 	Random::Initialize();
@@ -225,6 +226,7 @@ void EditorApp::_InitializeManagers()
 
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
+	ScriptManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
 
 	JsonSerializeSystem* jsonSystem = Memory::Alloc<JsonSerializeSystem>();
@@ -253,6 +255,7 @@ void EditorApp::_FinalizeManagers()
 	InputManager::Singleton()->Finalize();
 	TimeManager::Singleton()->Finalize();
 	DebugManager::Singleton()->Finalize();
+	ScriptManager::Singleton()->Finalize();
 
 	ProjectBuilder::Singleton()->Finalize();
 }
@@ -268,6 +271,7 @@ void EditorApp::_DestroyManagers()
 	InputManager::DestroySingleton();
 	TimeManager::DestroySingleton();
 	DebugManager::DestroySingleton();
+	ScriptManager::DestroySingleton();
 
 	ProjectBuilder::DestroySingleton();
 }
@@ -329,11 +333,11 @@ void EditorApp::_CreateCameras()
 	cameraComp1->SetNearClipping( 0.1f );
 	cameraComp1->SetFarClipping( 200.0f );
 
-	FreeCameraScript* script = cameraGO1->AddComponent<FreeCameraScript>();
-	script->panSpeed	= 1.5f;
-	script->rotateSpeed = 8.0f;
-	script->zoomSpeed	= 80.0f;
-	script->myWindows.Set( 0, TRUE );
+	FreeCameraControl* freeCamera = cameraGO1->AddComponent<FreeCameraControl>();
+	freeCamera->panSpeed	= 1.5f;
+	freeCamera->rotateSpeed = 8.0f;
+	freeCamera->zoomSpeed	= 80.0f;
+	freeCamera->myWindows.Set( 0, TRUE );
 
 	_cameras.Add( cameraGO1 );
 }
@@ -341,14 +345,14 @@ void EditorApp::_CreateCameras()
 
 void EditorApp::_UpdateCameras()
 {
-	FreeCameraScript* script = _cameras[ 0 ]->GetComponent<FreeCameraScript>();
+	FreeCameraControl* freeCamera = _cameras[ 0 ]->GetComponent<FreeCameraControl>();
 
-	if ( script->DoesNeedStart() )
+	if ( freeCamera->NeedStart() )
 	{
-		script->Start();
+		freeCamera->OnStart();
 	}
 
-	script->Update();
+	freeCamera->OnUpdate();
 }
 
 

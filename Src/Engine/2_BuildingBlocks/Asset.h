@@ -19,6 +19,7 @@ namespace CYRED
 			, SHADER
 			, SCENE
 			, MORPH
+			, SCRIPT
 		};
 	}
 

@@ -63,7 +63,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -92,7 +92,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -138,6 +138,8 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_ParticleEmitter.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scene.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Script.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scripter.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Shader.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Texture.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Transform.cpp" />
@@ -164,7 +166,9 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Scene\Fragments\Scene.cpp" />
     <ClCompile Include="3_Modules\Render\Techniques\Technique.cpp" />
     <ClCompile Include="3_Modules\Scene\SceneManagerImpl.cpp" />
-    <ClCompile Include="3_Modules\Script\Components\Script.cpp" />
+    <ClCompile Include="3_Modules\Script\Assets\Script.cpp" />
+    <ClCompile Include="3_Modules\Script\Components\Scripter.cpp" />
+    <ClCompile Include="3_Modules\Script\ScriptManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Time\TimeManagerImpl.cpp" />
     <ClCompile Include="4_Application\Application.cpp" />
     <ClCompile Include="4_Application\AppConfig.cpp" />
@@ -206,6 +210,8 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_ParticleEmitter.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scene.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Script.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scripter.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Shader.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Texture.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Transform.h" />
@@ -237,6 +243,8 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Render\Techniques\ForwardTechnique.h" />
     <ClInclude Include="3_Modules\Render\Techniques\Technique.h" />
     <ClInclude Include="3_Modules\Scene\SceneManagerImpl.h" />
+    <ClInclude Include="3_Modules\Script\Assets\Script.h" />
+    <ClInclude Include="3_Modules\Script\ScriptManagerImpl.h" />
     <ClInclude Include="3_Modules\Time\TimeManager.h" />
     <ClInclude Include="3_Modules\Time\TimeManagerImpl.h" />
     <ClInclude Include="4_Application\Application.h" />
@@ -273,7 +281,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Render\RenderManager.h" />
     <ClInclude Include="3_Modules\Scene\Fragments\Scene.h" />
     <ClInclude Include="3_Modules\Scene\SceneManager.h" />
-    <ClInclude Include="3_Modules\Script\Components\Script.h" />
+    <ClInclude Include="3_Modules\Script\Components\Scripter.h" />
     <ClInclude Include="3_Modules\Script\ScriptManager.h" />
     <ClInclude Include="2_BuildingBlocks\Components\Transform.h" />
   </ItemGroup>

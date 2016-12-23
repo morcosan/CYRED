@@ -9,8 +9,11 @@
 namespace CYRED
 {
 	class EventListener;
+}
 
 
+namespace CYRED
+{
 	ABSTRACT class DLL EventManager
 	{
 		DECLARE_LOCAL_SINGLETON( EventManager )

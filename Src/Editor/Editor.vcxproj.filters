@@ -14,7 +14,6 @@
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
     <ClCompile Include="Fragments\Panel.cpp" />
-    <ClCompile Include="InternalAssets\FreeCameraScript.cpp" />
     <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
     <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
     <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
@@ -45,6 +44,7 @@
     <ClCompile Include="Fragments\Selectors\Selector_Morph.cpp" />
     <ClCompile Include="Fragments\Builders\ProjectBuilderImpl.cpp" />
     <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
+    <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -59,7 +59,6 @@
     <ClInclude Include="Fragments\Viewports\SceneViewport.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
-    <ClInclude Include="InternalAssets\FreeCameraScript.h" />
     <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
     <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
     <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
@@ -92,5 +91,6 @@
     <ClInclude Include="Fragments\Builders\ProjectBuilder.h" />
     <ClInclude Include="Fragments\Builders\ProjectBuilderImpl.h" />
     <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
+    <ClInclude Include="InternalAssets\FreeCameraControl.h" />
   </ItemGroup>
 </Project>

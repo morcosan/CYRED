@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "FreeCameraScript.h"
+#include "FreeCameraControl.h"
 #include "CyredModule_Input.h"
 #include "CyredModule_Time.h"
 
@@ -10,19 +10,19 @@ using namespace CYRED;
 
 
 
-FreeCameraScript::FreeCameraScript( GameObject * gameObject )
-	: Script( gameObject )
+FreeCameraControl::FreeCameraControl( GameObject * gameObject )
+	: Scripter( gameObject )
 {
 }
 
 
-void FreeCameraScript::_OnStart()
+void FreeCameraControl::_OnStart()
 {
 	_transform = _gameObject->GetComponent<COMP::Transform>();
 }
 
 
-void FreeCameraScript::_OnUpdate()
+void FreeCameraControl::_OnUpdate()
 {
 	InputManager* inputManager = InputManager::Singleton();
 

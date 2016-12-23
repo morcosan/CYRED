@@ -121,7 +121,7 @@
     <ClCompile Include="Fragments\Serialize\JSON\JsonSerializer_EditorConfig.cpp" />
     <ClCompile Include="Fragments\Settings\ProjectSettings.cpp" />
     <ClCompile Include="Fragments\Viewports\SceneViewport.cpp" />
-    <ClCompile Include="InternalAssets\FreeCameraScript.cpp" />
+    <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="Fragments\Panels\HierarchyPanel.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
-    <ClInclude Include="InternalAssets\FreeCameraScript.h" />
+    <ClInclude Include="InternalAssets\FreeCameraControl.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

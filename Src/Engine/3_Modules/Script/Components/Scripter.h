@@ -9,13 +9,19 @@
 
 namespace CYRED
 {
+	class Script;
+}
+
+
+namespace CYRED
+{
 	namespace COMP
 	{
-		ABSTRACT class DLL Script : public Component
+		class DLL Scripter : public Component
 		{
 		public:
-			Script( GameObject* gameObject = NULL );
-			virtual ~Script() {}
+			Scripter( GameObject* gameObject = NULL );
+			virtual ~Scripter() {}
 
 
 		public:
@@ -23,12 +29,13 @@ namespace CYRED
 
 
 		public:
-			void Start	();
-			void Update	();
+			void	OnStart	();
+			void	OnUpdate();
 
-			Bool DoesRunInEditor();
-			void SetRunInEditor( Bool value );
-			Bool DoesNeedStart();
+			Bool	NeedStart() const;
+			Script* GetScript() const;
+
+			void	SetScript( Script* script );
 			
 
 		protected:
@@ -36,8 +43,8 @@ namespace CYRED
 
 
 		protected:
-			Bool	_runInEditor;
 			Bool	_needStart;
+			Script*	_script;
 
 			virtual void _OnStart	() {}
 			virtual void _OnUpdate	() {}
