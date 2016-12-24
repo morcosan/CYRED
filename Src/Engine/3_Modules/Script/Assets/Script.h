@@ -7,6 +7,7 @@
 #include "../../../2_BuildingBlocks/Asset.h"
 #include "../../../2_BuildingBlocks/Data/DataMap.h"
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
+#include "../../../2_BuildingBlocks/Data/DataUnion.h"
 
 
 namespace luabridge
@@ -19,6 +20,28 @@ namespace CYRED
 {
 	class DLL Script : public Asset
 	{
+		const Char* VARS			= "_vars";
+		const Char* FUNC_ONSTART	= "OnStart";
+		const Char* FUNC_ONUPDATE	= "OnUpdate";
+		const Char* TYPE_INT		= "Int";
+		const Char* TYPE_FLOAT		= "Float";
+		const Char* TYPE_BOOL		= "Bool";
+		const Char* TYPE_VECTOR2	= "Vector2";
+		const Char* TYPE_VECTOR3	= "Vector3";
+		const Char* TYPE_VECTOR4	= "Vector4";
+		const Char* TYPE_STRING		= "String";
+		const Char* TYPE_REFERENCE	= "Reference";
+
+
+	public:
+		struct LuaVar
+		{
+			String					name;
+			DataUnion::ValueType	type;
+			DataUnion				value;
+		};
+
+
 	public:
 		Script();
 		virtual ~Script();
@@ -40,7 +63,6 @@ namespace CYRED
 
 		void SetRunInEditor	( Bool value );
 		void SetFirstUpdate	( Bool value );
-		void SetLuaData		( const Char* varName, luabridge::LuaRef* varData );
 		void SetFilePath	( UInt index, const Char* filePath );
 		void ClearFilePaths	();
 
@@ -53,6 +75,14 @@ namespace CYRED
 		DataArray<String>	_filePaths;
 
 		// a list with all lua objects associated with this Scripter
-		DataMap<String, luabridge::LuaRef*> _luaData;
+		DataMap<String, DataArray<luabridge::LuaRef*>>	_luaFunc;
+		DataArray<LuaVar>								_luaVarsList;
+		luabridge::LuaRef*								_luaVarsRef;
+
+
+	protected:
+		void _LoadLuaData	( const Char* luaData );
+		void _AddLuaFunc	( const Char* funcName );
+		void _LoadLuaVar	();
 	};
 }

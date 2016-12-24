@@ -1,10 +1,13 @@
--- testing script 
 
-
+_vars = {
+	speed = "Vector3",
+	size = "Float"
+}
 
 
 function OnStart()
 	print( "OnStart")
+	print( _vars.size )
 end
 
 

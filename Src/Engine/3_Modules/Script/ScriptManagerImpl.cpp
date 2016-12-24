@@ -3,7 +3,6 @@
 
 #include "ScriptManagerImpl.h"
 #include "Assets\Script.h"
-#include "../Debug/DebugManager.h"
 
 extern "C" 
 {
@@ -72,60 +71,9 @@ void ScriptManagerImpl::Finalize()
 }
 
 
-void ScriptManagerImpl::LoadLuaScript( Script* script, const Char* data )
+lua_State* ScriptManagerImpl::GetLuaState() const
 {
-	// load script data
-	switch ( luaL_loadstring( _Lua, data ) )
-	{
-		case LUA_ERRSYNTAX:
-		{
-			// syntax error
-			DebugManager::Singleton()->Log( lua_tostring( _Lua, -1 ) );
-			break;
-		}
-			
-		case LUA_OK:
-		{
-			// script loaded
-			// run lua
-			switch ( lua_pcall( _Lua, 0, 0, 0 ) ) {
-				case LUA_ERRRUN:
-				{
-					// run error
-					DebugManager::Singleton()->Log( lua_tostring( _Lua, -1 ) );
-					break;
-				}
-
-				case 0:
-				{
-					// run lua: success
-					// load default functions
-					
-					// OnStart
-					{
-						// load from data
-						luabridge::LuaRef luaFunc = luabridge::getGlobal( _Lua, "OnStart" );
-						if ( !luaFunc.isNil() ) {
-							// add to script
-							script->SetLuaData( "OnStart", Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
-						}
-					}
-					
-					// OnUpdate
-					{
-						// load from data
-						luabridge::LuaRef luaFunc = luabridge::getGlobal( _Lua, "OnUpdate" );
-						if ( !luaFunc.isNil() ) {
-							// add to script
-							script->SetLuaData( "OnUpdate", Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
-						}
-					}
-
-					break;
-				}
-			}
-		}
-	}
+	return _Lua;
 }
 
 

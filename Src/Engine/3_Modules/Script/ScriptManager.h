@@ -6,6 +6,9 @@
 #include "../../1_Required/Required.h"
 
 
+struct lua_State;
+
+
 namespace CYRED
 {
 	class Script;
@@ -23,7 +26,6 @@ namespace CYRED
 		virtual void Initialize	()	PURE_VIRTUAL;
 		virtual void Finalize	()	PURE_VIRTUAL;
 
-		virtual void LoadLuaScript( Script* script, const Char* data )	PURE_VIRTUAL;
-
+		virtual lua_State* GetLuaState() const PURE_VIRTUAL;
 	};
 }

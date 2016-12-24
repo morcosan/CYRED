@@ -7,8 +7,6 @@
 #include "ScriptManager.h"
 
 
-struct lua_State;
-
 
 namespace CYRED
 {
@@ -23,7 +21,7 @@ namespace CYRED
 			void Initialize	()	override;
 			void Finalize	()	override;
 
-			void LoadLuaScript( Script* script, const Char* data ) override;
+			lua_State* GetLuaState() const override;
 
 
 		protected:
