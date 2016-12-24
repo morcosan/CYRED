@@ -9,7 +9,7 @@
 
 namespace CYRED
 {
-	class FreeCameraControl : public COMP::Scripter
+	class FreeCameraControl : public COMP::Component
 	{
 	public:
 		FreeCameraControl( GameObject* gameObject = NULL );
@@ -17,8 +17,9 @@ namespace CYRED
 
 
 	protected:
-		void _OnStart	() override;
-		void _OnUpdate	() override;
+		void _OnEnable	()					override {}
+		void _OnStart	( Bool isRuntime )	override;
+		void _OnUpdate	( Bool isRuntime )	override;
 
 
 	public:

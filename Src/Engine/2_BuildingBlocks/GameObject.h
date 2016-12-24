@@ -35,8 +35,8 @@ namespace CYRED
 
 
 	public:
-		void OnHierarchyChange	() override;
-		void OnUpdate			() override;
+		void OnHierarchyChange	()					override;
+		void OnUpdate			( Bool isRuntime )	override;
 
 
 	public:

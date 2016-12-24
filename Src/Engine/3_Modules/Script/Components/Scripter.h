@@ -25,29 +25,23 @@ namespace CYRED
 
 
 		public:
-			void OnHierarchyChange()	override {}
+			void OnHierarchyChange	()	override {}
 
 
 		public:
-			void	OnStart	();
-			void	OnUpdate();
-
-			Bool	NeedStart() const;
 			Script* GetScript() const;
 
 			void	SetScript( Script* script );
 			
 
 		protected:
-			void _OnEnable() override {}
+			void _OnEnable	() override {}
+			void _OnStart	( Bool isRuntime ) override;
+			void _OnUpdate	( Bool isRuntime ) override;
 
 
 		protected:
-			Bool	_needStart;
 			Script*	_script;
-
-			virtual void _OnStart	() {}
-			virtual void _OnUpdate	() {}
 		};
 	}
 }

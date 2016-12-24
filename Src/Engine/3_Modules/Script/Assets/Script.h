@@ -34,17 +34,22 @@ namespace CYRED
 		void CallFunction( const Char* funcName );
 
 		Bool		RunsInEditor	()				const;
+		Bool		IsFirstUpdate	()				const;
 		UInt		GetPathsCount	()				const;
 		const Char*	GetFilePath		( UInt index )	const;
 
 		void SetRunInEditor	( Bool value );
+		void SetFirstUpdate	( Bool value );
 		void SetLuaData		( const Char* varName, luabridge::LuaRef* varData );
 		void SetFilePath	( UInt index, const Char* filePath );
 		void ClearFilePaths	();
 
+		void LoadLuaFiles	();
+
 
 	protected:
 		Bool				_runsInEditor;
+		Bool				_isFirstUpdate;
 		DataArray<String>	_filePaths;
 
 		// a list with all lua objects associated with this Scripter

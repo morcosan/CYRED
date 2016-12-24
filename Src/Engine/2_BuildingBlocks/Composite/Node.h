@@ -22,7 +22,7 @@ namespace CYRED
 	public:
 		//! callback for when the parent/ children links change
 		virtual void OnHierarchyChange	() {};
-		virtual void OnUpdate			() {};
+		virtual void OnUpdate			( Bool isRuntime ) {};
 
 
 	public:

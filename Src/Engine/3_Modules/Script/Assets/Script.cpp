@@ -23,6 +23,7 @@ using namespace CYRED;
 Script::Script()
 	: Asset( AssetType::SCRIPT )
 	, _runsInEditor( FALSE )
+	, _isFirstUpdate( TRUE )
 {
 }
 
@@ -104,6 +105,12 @@ Bool Script::RunsInEditor() const
 }
 
 
+Bool Script::IsFirstUpdate() const
+{
+	return _isFirstUpdate;
+}
+
+
 UInt Script::GetPathsCount() const
 {
 	return _filePaths.Size();
@@ -124,6 +131,13 @@ void Script::SetRunInEditor( Bool value )
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
+}
+
+
+void Script::SetFirstUpdate( Bool value )
+{
+	_isFirstUpdate = value;
+	// does not emit event
 }
 
 
@@ -157,4 +171,24 @@ void Script::ClearFilePaths()
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
 	}
+}
+
+
+void Script::LoadLuaFiles()
+{
+	// reset flag
+	_isFirstUpdate = TRUE;
+
+	// load all lua files
+	for ( UInt i = 0; i < _filePaths.Size(); i++ ) {
+		// create path
+		FiniteString filePath( "%s%s", _dirPath.GetChar(), _filePaths[i].GetChar() );
+		// read file
+		Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+		// load lua
+		ScriptManager::Singleton()->LoadLuaScript( this, fileData );
+		// free memory for file
+		Memory::FreeArray( fileData );
+	}
+
 }

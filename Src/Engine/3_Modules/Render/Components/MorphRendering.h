@@ -27,10 +27,6 @@ namespace CYRED
 
 
 		public:
-			void OnUpdate() override;
-
-
-		public:
 			Material*	GetMaterial				() const;
 			Morph*		GetMorph				() const;
 			Float		GetDurationState		() const;
@@ -49,7 +45,8 @@ namespace CYRED
 
 
 		protected:
-			void _OnEnable() override {}
+			void _OnEnable()				 override {}
+			void _OnUpdate( Bool isRuntime ) override;
 
 
 		protected:

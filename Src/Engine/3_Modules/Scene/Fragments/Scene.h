@@ -31,7 +31,6 @@ namespace CYRED
 
 
 	public:
-		void	OnStart	( Bool isRuntime = TRUE );
 		void	OnUpdate( Bool isRuntime = TRUE );
 
 		Node*	GetRoot	();

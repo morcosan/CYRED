@@ -15,7 +15,25 @@ Component::Component( GameObject* gameObject )
 	, _emitEvents( TRUE )
 	, _componentType( ComponentType::COMPONENT )
 	, _componentSubtype( NULL )
+	, _isFirstUpdate( TRUE )
 {
+}
+
+
+void Component::OnUpdate( Bool isRuntime )
+{
+	// first update is considered OnStart
+	if ( _isFirstUpdate ) {
+		// mark flag
+		_isFirstUpdate = FALSE;
+		
+		// call OnStart
+		_OnStart( isRuntime );
+	}
+	else {
+		// call OnUpdate
+		_OnUpdate( isRuntime );
+	}
 }
 
 

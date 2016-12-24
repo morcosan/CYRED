@@ -76,16 +76,11 @@ void Scene::ClearAsset()
 }
 
 
-void Scene::OnStart( Bool isRuntime )
-{
-}
-
-
 void Scene::OnUpdate( Bool isRuntime )
 {
 	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i )
 	{
-		_root->GetChildNodeAt( i )->OnUpdate();
+		_root->GetChildNodeAt( i )->OnUpdate( isRuntime );
 	}
 }
 

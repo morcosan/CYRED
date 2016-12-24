@@ -32,36 +32,6 @@ MorphRendering::MorphRendering( GameObject* gameObject )
 }
 
 
-void MorphRendering::OnUpdate()
-{
-	if ( _morph != NULL && _isPlaying )
-	{
-		_currTime += TimeManager::Singleton()->GetDeltaTime();
-
-		if ( _currTime >= _currDuration ) // change state
-		{
-			_isInState = !_isInState;
-			_currTime = 0.0f;
-			_currDuration = _isInState ? _durationState : _durationStateChange;
-
-			UInt numStates = _morph->GetActiveStates();
-
-			if ( !_isInState )
-			{
-				if ( numStates > 1 )
-				{
-					_secondState = (_firstState + 1) % numStates;
-				}
-			}
-			else
-			{
-				_firstState = _secondState;
-			}
-		}
-	}
-}
-
-
 Material* MorphRendering::GetMaterial() const
 {
 	return _material;
@@ -168,6 +138,36 @@ void MorphRendering::SetIsPlaying( Bool value )
 	if ( _emitEvents )
 	{
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::MORPH_RENDERING_CHANGED, this );
+	}
+}
+
+
+void MorphRendering::_OnUpdate( Bool isRuntime )
+{
+	if ( _morph != NULL && _isPlaying )
+	{
+		_currTime += TimeManager::Singleton()->GetDeltaTime();
+
+		if ( _currTime >= _currDuration ) // change state
+		{
+			_isInState = !_isInState;
+			_currTime = 0.0f;
+			_currDuration = _isInState ? _durationState : _durationStateChange;
+
+			UInt numStates = _morph->GetActiveStates();
+
+			if ( !_isInState )
+			{
+				if ( numStates > 1 )
+				{
+					_secondState = (_firstState + 1) % numStates;
+				}
+			}
+			else
+			{
+				_firstState = _secondState;
+			}
+		}
 	}
 }
 

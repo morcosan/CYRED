@@ -93,7 +93,6 @@ void StandaloneApp::_UpdateLoop()
 			UInt totalScenes = sceneManager->CountLoadedScenes();
 			for ( UInt i = 0; i < totalScenes; ++i )
 			{
-				sceneManager->GetScene( i )->OnStart();
 				sceneManager->GetScene( i )->OnUpdate();
 			}
 		}
@@ -249,7 +248,7 @@ void StandaloneApp::_InitializeRenderer()
 void StandaloneApp::_StartGame()
 {
 	GameInitScript* gameInit = Memory::Alloc<GameInitScript>( &_appConfig );
-	gameInit->OnStart();
+	gameInit->OnUpdate( TRUE );
 
 	RenderManager::Singleton()->OnResize( 0 );
 }

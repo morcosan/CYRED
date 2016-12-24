@@ -27,6 +27,10 @@
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
                     "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
+                },
+                "scripter": {
+                    "enabled": true,
+                    "script": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS"
                 }
             }
         },
@@ -147,16 +151,6 @@
                     "fovy_angle": 60.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
-                }
-            }
-        },
-        {
-            "name": "EmptyGameObject",
-            "enabled": true,
-            "components": {
-                "scripter": {
-                    "enabled": true,
-                    "script": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS"
                 }
             }
         }

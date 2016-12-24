@@ -19,7 +19,7 @@ GameInitScript::GameInitScript( AppConfig* appConfig )
 }
 
 
-void GameInitScript::_OnStart()
+void GameInitScript::_OnStart( Bool isRuntime )
 {
 	// load all assets
 	_LoadAllAssets();

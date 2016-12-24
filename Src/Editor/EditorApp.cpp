@@ -184,7 +184,6 @@ void EditorApp::_UpdateLoop()
 			UInt totalScenes = sceneManager->CountLoadedScenes();
 			for ( UInt i = 0; i < totalScenes; ++i )
 			{
-				sceneManager->GetScene( i )->OnStart( _isPlayMode );
 				sceneManager->GetScene( i )->OnUpdate( _isPlayMode );
 			}
 		}
@@ -346,13 +345,7 @@ void EditorApp::_CreateCameras()
 void EditorApp::_UpdateCameras()
 {
 	FreeCameraControl* freeCamera = _cameras[ 0 ]->GetComponent<FreeCameraControl>();
-
-	if ( freeCamera->NeedStart() )
-	{
-		freeCamera->OnStart();
-	}
-
-	freeCamera->OnUpdate();
+	freeCamera->OnUpdate( _isPlayMode );
 }
 
 

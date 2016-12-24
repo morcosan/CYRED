@@ -76,6 +76,9 @@ void JsonSerializer_Script::FromJson( rapidjson::Value& json, OUT void* object,
 		{
 			script->SetFilePath( i, paths[i].GetString() );
 		}
+
+		// load script data
+		script->LoadLuaFiles();
 	}
 
 	script->SetEmitEvents( emitEvents );

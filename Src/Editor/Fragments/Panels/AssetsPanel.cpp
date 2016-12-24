@@ -269,6 +269,13 @@ void AssetsPanel::A_ReloadAsset()
 				shader->LoadFullFile();
 			}
 			break;
+
+		case AssetType::SCRIPT:
+		{
+			Script* script = CAST_S( Script*, asset );
+			script->LoadFullFile();
+		}
+		break;
 	}
 }
 

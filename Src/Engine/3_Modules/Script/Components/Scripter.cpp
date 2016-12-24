@@ -13,42 +13,9 @@ using namespace COMP;
 
 Scripter::Scripter( GameObject* gameObject )
 	: Component( gameObject )
-	, _needStart( TRUE )
 	, _script( NULL )
 {
 	_componentType = ComponentType::SCRIPTER;
-}
-
-
-void Scripter::OnStart()
-{
-	_needStart = FALSE;
-
-	// call custom function
-	_OnStart();
-
-	// call script function
-	if ( _script != NULL ) {
-		_script->CallFunction( "OnStart" );
-	}
-}
-
-
-void Scripter::OnUpdate()
-{
-	// call custom function
-	_OnUpdate();
-
-	// call script function
-	if ( _script != NULL ) {
-		_script->CallFunction( "OnUpdate" );
-	}
-}
-
-
-Bool Scripter::NeedStart() const
-{
-	return _needStart;
 }
 
 
@@ -64,5 +31,35 @@ void Scripter::SetScript( Script* script )
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::SCRIPTER_CHANGED, this );
+	}
+}
+
+
+void Scripter::_OnStart( Bool isRuntime )
+{
+	if ( _script != NULL ) {
+		// call script function
+		if ( isRuntime || _script->RunsInEditor() ) {
+			_script->CallFunction( "OnStart" );
+			_script->SetFirstUpdate( FALSE );
+		}
+	}
+}
+
+
+void Scripter::_OnUpdate( Bool isRuntime )
+{
+	if ( _script != NULL ) {
+		// call script function
+		if ( isRuntime || _script->RunsInEditor() ) {
+			// check if first update used
+			if ( _script->IsFirstUpdate() ) {
+				_script->CallFunction( "OnStart" );
+				_script->SetFirstUpdate( FALSE );
+			}
+			else {
+				_script->CallFunction( "OnUpdate" );
+			}
+		}
 	}
 }

@@ -17,7 +17,7 @@ namespace CYRED
 
 
 	protected:
-		void _OnStart	() override;
+		void _OnStart( Bool isRuntime ) override;
 
 
 	protected:

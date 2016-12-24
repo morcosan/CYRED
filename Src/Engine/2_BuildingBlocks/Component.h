@@ -42,12 +42,13 @@ namespace CYRED
 
 		public:
 			virtual void			OnHierarchyChange	() {};
-			virtual void			OnUpdate			() {};
 			virtual ComponentType	GetComponentType	() const;
 			virtual const Char*		GetComponentSubtype	() const;
 
 
 		public:
+			void		OnUpdate		( Bool isRuntime );
+
 			GameObject*	GetGameObject	()				const;
 			Bool		IsEnabled		()				const;
 			Bool		DoesEmitEvents	()				const;
@@ -57,7 +58,9 @@ namespace CYRED
 
 
 		protected:
-			virtual void _OnEnable() PURE_VIRTUAL;
+			virtual void _OnEnable	() PURE_VIRTUAL;
+			virtual void _OnStart	( Bool isRuntime ) {}
+			virtual void _OnUpdate	( Bool isRuntime ) {}
 
 
 		protected:
@@ -66,6 +69,7 @@ namespace CYRED
 			Bool			_emitEvents;
 			ComponentType	_componentType;
 			const Char*		_componentSubtype;
+			Bool			_isFirstUpdate;
 		};
 	}
 }
