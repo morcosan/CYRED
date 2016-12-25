@@ -111,6 +111,7 @@ namespace CYRED
 		void UpdateGUI		();
 		void Clear			();		
 		void RefreshPanel	();
+		void ShowViewer		();
 
 		void A_OnChange_Group1		();
 		void A_OnChange_Group2		();
@@ -142,7 +143,11 @@ namespace CYRED
 		UInt			_ignoreUpdateGUI;
 
 		void		_AddToPanel				( const Char* title );
+		void		_UpdatePanel			();
 		void		_UpdateVisibility		();
+
+		// delete all attributes and groups
+		void		_ResetViewer			();
 
 		void		_OpenGroup				( const Char* name );
 		void		_CloseGroup				();

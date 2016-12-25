@@ -49,6 +49,18 @@ void DebugManagerImpl::SetEnabled( Bool value )
 }
 
 
+void DebugManagerImpl::Error( const Char* value )
+{
+	ASSERT( _isInitialized );
+	if ( !_enabled ) 
+	{
+		return;
+	}
+
+	_console->Log( value );
+}
+
+
 void DebugManagerImpl::Log( const Char* value )
 {
 	ASSERT( _isInitialized );

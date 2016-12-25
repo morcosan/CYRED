@@ -18,18 +18,21 @@ namespace CYRED
 
 
 		public:
-			void Initialize	( Console* console )	override;
-			void Finalize		()						override;
+			void Initialize	( Console* console )			override;
+			void Finalize	()								override;
 				  
 			void SetEnabled	( Bool value )					override;
-			void Log			( const Char* value )			override;
-			void Log			( Int value )					override;
-			void Log			( Float value )					override;
-			void Log			( Double value )				override;
-			void Log			( const Vector2& value )		override;
-			void Log			( const Vector3& value )		override;
-			void Log			( const Vector4& value )		override;
-			void Log			( const Quaternion& value )		override;
+
+			void Error		( const Char* value )			override;
+
+			void Log		( const Char* value )			override;
+			void Log		( Int value )					override;
+			void Log		( Float value )					override;
+			void Log		( Double value )				override;
+			void Log		( const Vector2& value )		override;
+			void Log		( const Vector3& value )		override;
+			void Log		( const Vector4& value )		override;
+			void Log		( const Quaternion& value )		override;
 
 
 		protected:

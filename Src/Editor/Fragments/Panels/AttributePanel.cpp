@@ -63,11 +63,9 @@ AttributePanel::AttributePanel()
 
 AttributePanel::~AttributePanel()
 {
-	Iterator<String, AttrViewer*> iter = _attrViewers.GetIterator();
-
-	while ( iter.HasNext() )
-	{
-		Memory::Free( iter.GetValue() );
+	Iterator<String, _AttrViewer*> iter = _attrViewers.GetIterator();
+	while ( iter.HasNext() ) {
+		Memory::Free( iter.GetValue()->viewer );
 		iter.Next();
 	}
 }
@@ -103,6 +101,16 @@ void AttributePanel::Update()
 	if ( _needsRefresh )
 	{
 		_needsRefresh = FALSE;
+
+		// show active viewers
+		Iterator<String, _AttrViewer*> iter = _attrViewers.GetIterator();
+		while ( iter.HasNext() ) {
+			if ( iter.GetValue()->needsRefresh ) {
+				iter.GetValue()->viewer->ShowViewer();
+				iter.GetValue()->needsRefresh = FALSE;
+			}
+			iter.Next();
+		}
 
 		// WARNING: this will cause huge lag in editor
 		_qtTree->setStyleSheet( _qtTree->styleSheet() );
@@ -163,7 +171,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 						if ( selectedGO != NULL )
 						{
 							ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
-							AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
+							AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
 							gameObjectViewer->UpdateGUI();
 						}
 					}
@@ -183,32 +191,32 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 				{
 					if ( eName == EventName::TRANSFORM_CHANGED ) {
 						ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( eName == EventName::CAMERA_CHANGED ) {
 						ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( eName == EventName::MESH_RENDERING_CHANGED ) {
 						ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( eName == EventName::MORPH_RENDERING_CHANGED ) {
 						ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( eName == EventName::PARTICLE_EMITTER_CHANGED )	{
 						ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( eName == EventName::SCRIPTER_CHANGED )	{
 						ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER );
+						AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
 						viewer->UpdateGUI();
 					}
 				}
@@ -261,7 +269,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 						}
 
 						ASSERT( _attrViewers.Has( attrViewerType ) );
-						AttrViewer* attrViewer = _attrViewers.Get( attrViewerType );
+						AttrViewer* attrViewer = _attrViewers.Get( attrViewerType )->viewer;
 						attrViewer->UpdateGUI();
 					}
 					break;
@@ -314,9 +322,11 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 					}
 
 					ASSERT( _attrViewers.Has( attrViewerType ) );
-					AttrViewer* attrViewer = _attrViewers.Get( attrViewerType );
-					attrViewer->ChangeTarget( asset );
-					attrViewer->UpdateGUI();
+					_AttrViewer* atttrViewer = _attrViewers.Get( attrViewerType );
+					atttrViewer->needsRefresh = TRUE;
+					AttrViewer* viewer = atttrViewer->viewer;
+					viewer->ChangeTarget( asset );
+					viewer->UpdateGUI();
 
 					break;
 				}
@@ -329,9 +339,11 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 			if ( eName == EventName::EDITOR_PROJ_SETTINGS )
 			{
 				ASSERT( _attrViewers.Has( ATTR_CYRED_PROJ ) );
-				AttrViewer* attrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
-				attrViewer->ChangeTarget( NULL );
-				attrViewer->UpdateGUI();
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
+				viewer->ChangeTarget( NULL );
+				viewer->UpdateGUI();
 			}
 			break;
 		}
@@ -341,7 +353,14 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 
 void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 {
-	_attrViewers.Set( typeName, viewer ); 
+	_AttrViewer* attrViewer = Memory::Alloc<_AttrViewer>();
+	attrViewer->viewer = viewer;
+	attrViewer->needsRefresh = FALSE;
+
+	// add to list
+	_attrViewers.Set( typeName, attrViewer );
+
+	// initialize viewer
 	viewer->Initialize( this, _qtTree );
 }
 
@@ -354,10 +373,17 @@ void AttributePanel::RefreshPanel()
 
 void AttributePanel::_ClearPanel()
 {
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i )
-	{
+	// hide widgets
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		QTreeWidgetItem* item = _qtTree->topLevelItem( i );
 		item->setHidden( TRUE );
+	}
+
+	// disable viewers
+	Iterator<String, _AttrViewer*> iter = _attrViewers.GetIterator();
+	while ( iter.HasNext() ) {
+		iter.GetValue()->needsRefresh = FALSE;
+		iter.Next();
 	}
 }
 
@@ -369,17 +395,22 @@ void AttributePanel::_DisplayGameObject()
 
 	if ( selectedGO != NULL )
 	{
-		ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
-		AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
-		gameObjectViewer->ChangeTarget( selectedGO );
-		gameObjectViewer->UpdateGUI();
-
+		{
+			ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
+			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
+			atttrViewer->needsRefresh = TRUE;
+			AttrViewer* viewer = atttrViewer->viewer;
+			viewer->ChangeTarget( selectedGO );
+			viewer->UpdateGUI();
+		}
 		{
 			COMP::Component* comp = selectedGO->GetComponent<COMP::Transform>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_TRANSFORM );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}
@@ -389,7 +420,9 @@ void AttributePanel::_DisplayGameObject()
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CAMERA );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}
@@ -399,7 +432,9 @@ void AttributePanel::_DisplayGameObject()
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}
@@ -409,7 +444,9 @@ void AttributePanel::_DisplayGameObject()
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MESH_RENDERING );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}
@@ -419,7 +456,9 @@ void AttributePanel::_DisplayGameObject()
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}
@@ -429,7 +468,9 @@ void AttributePanel::_DisplayGameObject()
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_SCRIPTER );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );
 				viewer->UpdateGUI();
 			}

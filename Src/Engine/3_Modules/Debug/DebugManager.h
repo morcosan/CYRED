@@ -29,6 +29,9 @@ namespace CYRED
 		virtual void Finalize		()								PURE_VIRTUAL;
 
 		virtual void SetEnabled		( Bool value )					PURE_VIRTUAL;
+
+		virtual void Error			( const Char* value )			PURE_VIRTUAL;
+
 		virtual void Log			( const Char* value )			PURE_VIRTUAL;
 		virtual void Log			( Int value )					PURE_VIRTUAL;
 		virtual void Log			( Float value )					PURE_VIRTUAL;

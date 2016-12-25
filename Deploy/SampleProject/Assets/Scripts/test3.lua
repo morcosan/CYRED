@@ -1,0 +1,3 @@
+_vars = {
+	mega = "Bool"
+}

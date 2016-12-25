@@ -36,7 +36,6 @@ namespace CYRED
 	public:
 		struct LuaVar
 		{
-			String					name;
 			DataUnion::ValueType	type;
 			DataUnion				value;
 		};
@@ -61,6 +60,9 @@ namespace CYRED
 		UInt		GetPathsCount	()				const;
 		const Char*	GetFilePath		( UInt index )	const;
 
+		Iterator<String, DataArray<luabridge::LuaRef*>> GetFuncListIterator() const;
+		Iterator<String, LuaVar>						GetVarsListIterator() const;
+
 		void SetRunInEditor	( Bool value );
 		void SetFirstUpdate	( Bool value );
 		void SetFilePath	( UInt index, const Char* filePath );
@@ -75,8 +77,8 @@ namespace CYRED
 		DataArray<String>	_filePaths;
 
 		// a list with all lua objects associated with this Scripter
-		DataMap<String, DataArray<luabridge::LuaRef*>>	_luaFunc;
-		DataArray<LuaVar>								_luaVarsList;
+		DataMap<String, DataArray<luabridge::LuaRef*>>	_luaFuncList;
+		DataMap<String, LuaVar>							_luaVarsList;
 		luabridge::LuaRef*								_luaVarsRef;
 
 

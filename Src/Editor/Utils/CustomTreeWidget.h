@@ -6,6 +6,7 @@
 
 #include "QtWidgets\qtreewidget.h"
 
+
 namespace CYRED
 {
 	class AttrViewer;

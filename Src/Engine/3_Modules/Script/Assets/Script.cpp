@@ -90,18 +90,18 @@ void Script::ClearAsset()
 void Script::CallFunction( const Char* funcName )
 {
 	// call lua function if exists
-	if ( _luaFunc.Has( funcName ) ) {
-		DataArray<luabridge::LuaRef*>& funcList = _luaFunc.Get( funcName );
+	if ( _luaFuncList.Has( funcName ) ) {
+		DataArray<luabridge::LuaRef*>& funcList = _luaFuncList.Get( funcName );
 
 		// get lua state
 		lua_State* L = ScriptManager::Singleton()->GetLuaState();
 
 		// bind variables
-		luabridge::setGlobal( L, _luaVarsRef, VARS );
+		//luabridge::setGlobal( L, _luaVarsRef, VARS );
 
 		// call all functions
 		for ( UInt i = 0; i < funcList.Size(); i++ ) {
-			(*funcList[i])();
+			//(*funcList[i])();
 		}
 	}
 }
@@ -129,6 +129,18 @@ const Char* Script::GetFilePath( UInt index ) const
 {
 	ASSERT( index < _filePaths.Size() );
 	return _filePaths[index].GetChar();
+}
+
+
+Iterator<String, DataArray<luabridge::LuaRef*>> Script::GetFuncListIterator() const
+{
+	return _luaFuncList.GetIterator();
+}
+
+
+Iterator<String, Script::LuaVar> Script::GetVarsListIterator() const
+{
+	return _luaVarsList.GetIterator();
 }
 
 
@@ -182,7 +194,7 @@ void Script::LoadLuaFiles()
 	_isFirstUpdate = TRUE;
 
 	// clear function list
-	_luaFunc.Clear();
+	_luaFuncList.Clear();
 
 	// clear var list
 	_luaVarsList.Clear();
@@ -255,13 +267,13 @@ void Script::_AddLuaFunc( const Char* funcName )
 	// check if exists
 	if ( !luaFunc.isNil() && luaFunc.isFunction() ) {
 		// add func
-		if ( _luaFunc.Has(funcName) ) {
-			_luaFunc.Get(funcName).Add( Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
+		if ( _luaFuncList.Has(funcName) ) {
+			_luaFuncList.Get(funcName).Add( Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
 		}
 		else {
 			DataArray<luabridge::LuaRef*> funcList;
 			funcList.Add( Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
-			_luaFunc.Set( funcName, funcList );
+			_luaFuncList.Set( funcName, funcList );
 		}
 	}
 }
@@ -284,37 +296,60 @@ void Script::_LoadLuaVar()
 		while ( lua_next(L, -2) != 0 ) { // -2, because we have table at -1
 			if ( lua_isstring(L, -2) ) { // only store stuff with string keys
 				//result.emplace(lua_tostring(L, -2), LuaRef::fromStack(L, -1));
-				LuaVar luaVar;
-				luaVar.name = lua_tostring( L, -2 );
+				String					varName( lua_tostring( L, -2 ) );
+				DataUnion				varValue;
+				DataUnion::ValueType	varType;
 
 				String type = lua_tostring( L, -1 );
 				if ( type == TYPE_INT ) {
-					luaVar.type = DataUnion::ValueType::INT;
+					varType = DataUnion::ValueType::INT;
+					varValue.SetInt( 0 );
 				}
 				else if ( type == TYPE_FLOAT ) {
-					luaVar.type = DataUnion::ValueType::FLOAT;
+					varType = DataUnion::ValueType::FLOAT;
+					varValue.SetFloat( 0.0f );
 				}
 				else if ( type == TYPE_BOOL ) {
-					luaVar.type = DataUnion::ValueType::BOOL;
+					varType = DataUnion::ValueType::BOOL;
+					varValue.SetBool( FALSE );
 				}
 				else if ( type == TYPE_STRING ) {
-					luaVar.type = DataUnion::ValueType::STRING;
+					varType = DataUnion::ValueType::STRING;
+					varValue.SetString( "" );
 				}
 				else if ( type == TYPE_VECTOR2 ) {
-					luaVar.type = DataUnion::ValueType::VECTOR2;
+					varType = DataUnion::ValueType::VECTOR2;
+					varValue.SetVector2( Vector2() );
 				}
 				else if ( type == TYPE_VECTOR3 ) {
-					luaVar.type = DataUnion::ValueType::VECTOR3;
+					varType = DataUnion::ValueType::VECTOR3;
+					varValue.SetVector3( Vector3() );
 				}
 				else if ( type == TYPE_VECTOR4 ) {
-					luaVar.type = DataUnion::ValueType::VECTOR4;
+					varType = DataUnion::ValueType::VECTOR4;
+					varValue.SetVector4( Vector4() );
 				}
-				else if ( type == TYPE_REFERENCE ) {
-					luaVar.type = DataUnion::ValueType::REFERENCE;
+				else {
+					// unknown type error
+					DebugManager::Singleton()->Error( "Unknown type." );
+					return;
 				}
 
 				// add to vars list
-				_luaVarsList.Add( luaVar );
+				if ( _luaVarsList.Has( varName ) ) {
+					// check if same type
+					if ( _luaVarsList.Get( varName ).type == varType ) {
+						// ignore, already existing
+					}
+					else {
+						// show type error
+						DebugManager::Singleton()->Error( "Same variable, different type." );
+					}
+				}
+				else {
+					// new variable
+					_luaVarsList.Set( varName, LuaVar { varType, varValue } );
+				}
 			}
 			lua_pop(L, 1); // remove value, keep key for lua_next
 		}

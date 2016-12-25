@@ -23,6 +23,8 @@ namespace CYRED
 		const Char* ATTR_NAME				= "Name";
 		const Char* ATTR_RUN_EDITOR			= "Run in Editor";
 		const Char* ATTR_FILE_PATHS			= "File Paths";
+		const Char* GROUP_VARIABLES			= "Variables";
+		const Char* GROUP_FUNCTIONS			= "Functions";
 
 
 	public:

@@ -59,7 +59,13 @@ namespace CYRED
 
 
 	protected:
-		DataMap<String, AttrViewer*>	_attrViewers;
+		struct _AttrViewer
+		{
+			Bool		needsRefresh;
+			AttrViewer* viewer;
+		};
+
+		DataMap<String, _AttrViewer*>	_attrViewers;
 
 		QTreeWidget*	_qtTree;
 		void*			_target;

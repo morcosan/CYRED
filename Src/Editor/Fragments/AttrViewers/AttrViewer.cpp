@@ -7,6 +7,7 @@
 #include "../Panels/AttributePanel.h"
 
 #include "../../Utils/CustomTreeWidget.h"
+#include "../../Utils/QtUtils.h"
 
 #include "QtWidgets\qformlayout.h"
 #include "QtWidgets\qlineedit.h"
@@ -210,9 +211,9 @@ void AttrViewer::Initialize( AttributePanel* panel, QTreeWidget* panelTree )
 
 void AttrViewer::ChangeTarget( void* target )
 {
-	_titleItem->setHidden( FALSE );
-
 	_OnChangeTarget( target );
+
+	RefreshPanel();
 }
 
 
@@ -238,6 +239,18 @@ void AttrViewer::Clear()
 void AttrViewer::RefreshPanel()
 {
 	_panel->RefreshPanel();
+}
+
+
+void AttrViewer::ShowViewer()
+{
+	_titleItem->setHidden( FALSE );
+
+	// recalculate height
+	for ( UInt i = 0; i < _attributes.Size(); ++i )
+	{
+		_attributes[i].treeWidget->A_CalculateHeight();
+	}
 }
 
 
@@ -324,203 +337,204 @@ void AttrViewer::_AddToPanel( const Char* title )
 		_childWidget = Memory::Alloc<QWidget>( _panelTree );
 		_childWidget->setLayout( childLayout );
 
-		UInt attrIndex = 0;
-		UInt groupIndex = 0;
+		_panelTree->setItemWidget( childItem, 0, _childWidget );
+	}
 
-		// loop until all attributes are displayed
-		while ( attrIndex < _attributes.Size() )
-		{
-			CustomTreeWidget* treeWidget = Memory::Alloc<CustomTreeWidget>();
-			treeWidget->setHeaderHidden( TRUE );
-			treeWidget->setDragEnabled( FALSE );
-			treeWidget->setColumnCount( 2 );
-			treeWidget->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-			treeWidget->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-			treeWidget->setObjectName( EditorSkin::ATTR_GROUP_TREE );
-			treeWidget->header()->resizeSection( 0, 120 );
-			treeWidget->SetAttrViewer( this );
-
-			QVBoxLayout* groupLayout = Memory::Alloc<QVBoxLayout>();
-			groupLayout->setContentsMargins( 0, 0, 0, 0 );
-			groupLayout->addWidget( treeWidget );
-
-			QGroupBox* groupWidget = Memory::Alloc<QGroupBox>();
-			groupWidget->setObjectName( EditorSkin::ATTR_GROUP );
-			groupWidget->setLayout( groupLayout );
-
-			childLayout->addWidget( groupWidget );
+	_UpdatePanel();
+}
 
 
-			UInt first = attrIndex;
-			UInt last = _attributes.Size() - 1;
+void AttrViewer::_UpdatePanel()
+{
+	// add attributes
 
-			if ( groupIndex < _groups.Size() )
-			{
-				_Group currGroup = _groups[groupIndex];
-				UInt firstIndex = currGroup.firstIndex;
+	// get layout, used to display both attributes and groups
+	QLayout* childLayout = _childWidget->layout();
 
-				if ( firstIndex == attrIndex )
-				{
-					first = currGroup.firstIndex;
-					last = first + currGroup.count - 1;
-					++ groupIndex;
+	UInt attrIndex = 0;
+	UInt groupIndex = 0;
 
-					groupWidget->setTitle( currGroup.name.GetChar() );
-				}
-				else
-				{
-					last = firstIndex - 1;
-				}
+	// loop until all attributes are displayed
+	while ( attrIndex < _attributes.Size() ) {
+		CustomTreeWidget* treeWidget = Memory::Alloc<CustomTreeWidget>();
+		treeWidget->setHeaderHidden( TRUE );
+		treeWidget->setDragEnabled( FALSE );
+		treeWidget->setColumnCount( 2 );
+		treeWidget->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+		treeWidget->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+		treeWidget->setObjectName( EditorSkin::ATTR_GROUP_TREE );
+		treeWidget->header()->resizeSection( 0, 120 );
+		treeWidget->SetAttrViewer( this );
+
+		QVBoxLayout* groupLayout = Memory::Alloc<QVBoxLayout>();
+		groupLayout->setContentsMargins( 0, 0, 0, 0 );
+		groupLayout->addWidget( treeWidget );
+
+		QGroupBox* groupWidget = Memory::Alloc<QGroupBox>();
+		groupWidget->setObjectName( EditorSkin::ATTR_GROUP );
+		groupWidget->setLayout( groupLayout );
+
+		childLayout->addWidget( groupWidget );
+
+
+		UInt first = attrIndex;
+		UInt last = _attributes.Size() - 1;
+
+		if ( groupIndex < _groups.Size() ) {
+			_Group currGroup = _groups[groupIndex];
+			UInt firstIndex = currGroup.firstIndex;
+
+			if ( firstIndex == attrIndex ) {
+				first = currGroup.firstIndex;
+				last = first + currGroup.count - 1;
+				++groupIndex;
+
+				groupWidget->setTitle( currGroup.name.GetChar() );
 			}
-
-			while ( first <= attrIndex && attrIndex <= last )
-			{
-				QTreeWidgetItem* item = Memory::Alloc<QTreeWidgetItem>();
-				item->setFlags( Qt::ItemIsEnabled );
-
-				treeWidget->addTopLevelItem( item );
-				item->setExpanded( TRUE );
-
-				// set the attr name
-				item->setText( 0, _attributes[attrIndex].name.GetChar() );
-
-				// set the attr value
-				treeWidget->setItemWidget( item, 1, _attributes[attrIndex].valueWidget );
-
-				_attributes[attrIndex].treeItem = item;
-				_attributes[attrIndex].treeWidget = treeWidget;
-
-				if ( _attributes[attrIndex].type == AttrType::LIST )
-				{
-					_ListWidget* listWidget = CAST_S( _ListWidget*, _attributes[attrIndex].valueWidget );
-					listWidget->rootItem = item;
-					listWidget->treeWidget = treeWidget;
-					listWidget->attrViewer = this;
-				}
-
-				if ( _attributes[attrIndex].type == AttrType::STRUCT )
-				{
-					_StructWidget* structWidget = CAST_S( _StructWidget*, _attributes[attrIndex].valueWidget );
-					structWidget->rootItem = item;
-					structWidget->treeWidget = treeWidget;
-
-					DataArray<AttrStruct>& scheme = structWidget->structScheme;
-
-					for ( UInt i = 0; i < scheme.Size(); ++i )
-					{
-						QTreeWidgetItem* structItem = Memory::Alloc<QTreeWidgetItem>();
-						structItem->setFlags( Qt::ItemIsEnabled );
-						structItem->setText( 0, scheme[i].attrName.GetChar() );
-
-						item->addChild( structItem );
-
-						QWidget* valueWidget = NULL;
-						switch ( scheme[i].attrType )
-						{
-							case AttrType::STRING:
-								valueWidget = CreateString( structWidget->flagMask, 
-															structWidget->callbackGroup );
-								break;
-
-							case AttrType::BOOL:
-								valueWidget = CreateBool( structWidget->flagMask, 
-														  structWidget->callbackGroup );
-								break;
-
-							case AttrType::INT:
-								valueWidget = CreateInt( structWidget->flagMask, 
-														 structWidget->callbackGroup );
-								break;
-
-							case AttrType::FLOAT:
-								valueWidget = CreateFloat( structWidget->flagMask, 
-														   structWidget->callbackGroup );
-								break;
-
-							case AttrType::VECTOR2:
-								valueWidget = CreateVector2( structWidget->flagMask, 
-															 structWidget->callbackGroup );
-								break;
-
-							case AttrType::VECTOR3:
-								valueWidget = CreateVector3( structWidget->flagMask, 
-															 structWidget->callbackGroup );
-								break;
-
-							case AttrType::VECTOR4:
-								valueWidget = CreateVector4( structWidget->flagMask, 
-															 structWidget->callbackGroup );
-								break;
-
-							case AttrType::DROPDOWN:
-								valueWidget = CreateDropdown( scheme[i].dropdownValues, 
-															  structWidget->flagMask, 
-															  structWidget->callbackGroup );
-								break;
-
-							case AttrType::SELECTOR:
-								valueWidget = CreateSelector( scheme[i].selectorDataType.GetChar(), 
-															  structWidget->flagMask, 
-															  structWidget->callbackGroup );
-								break;
-
-							case AttrType::LIST:
-							{
-								switch ( scheme[i].listType )
-								{
-									case AttrType::STRING:
-									case AttrType::BOOL:
-									case AttrType::INT:
-									case AttrType::FLOAT:
-									case AttrType::VECTOR2:
-									case AttrType::VECTOR3:
-									case AttrType::VECTOR4:
-										valueWidget = _CreateList( scheme[i].listType,
-																   structWidget->flagMask,
-																   structWidget->callbackGroup );
-										break;
-
-									case AttrType::DROPDOWN:
-										valueWidget = _CreateListDropdown( scheme[i].dropdownValues,
-																		   structWidget->flagMask,
-																		   structWidget->callbackGroup );
-										break;
-
-									case AttrType::SELECTOR:
-										valueWidget = _CreateListSelector( scheme[i].selectorDataType.GetChar(),
-																		   structWidget->flagMask,
-																		   structWidget->callbackGroup );
-										break;
-
-									case AttrType::STRUCT:
-										valueWidget = _CreateListStruct( scheme[i].structScheme,
-																		 structWidget->flagMask,
-																		 structWidget->callbackGroup );
-										break;
-								}
-
-								_ListWidget* listWidget = CAST_S( _ListWidget*, valueWidget );
-
-								listWidget->rootItem = structItem;
-								listWidget->treeWidget = treeWidget;
-								listWidget->attrViewer = this;
-
-								break;
-							}
-								
-						}
-
-						treeWidget->setItemWidget( structItem, 1, valueWidget );
-					}
-				}
-
-				++ attrIndex;
+			else {
+				last = firstIndex - 1;
 			}
-
-			treeWidget->A_CalculateHeight();
 		}
 
-		_panelTree->setItemWidget( childItem, 0, _childWidget );
+		while ( first <= attrIndex && attrIndex <= last ) {
+			QTreeWidgetItem* item = Memory::Alloc<QTreeWidgetItem>();
+			item->setFlags( Qt::ItemIsEnabled );
+
+			treeWidget->addTopLevelItem( item );
+			item->setExpanded( TRUE );
+
+			// set the attr name
+			item->setText( 0, _attributes[attrIndex].name.GetChar() );
+
+			// set the attr value
+			treeWidget->setItemWidget( item, 1, _attributes[attrIndex].valueWidget );
+
+			_attributes[attrIndex].treeItem = item;
+			_attributes[attrIndex].treeWidget = treeWidget;
+
+			if ( _attributes[attrIndex].type == AttrType::LIST ) {
+				_ListWidget* listWidget = CAST_S( _ListWidget*, _attributes[attrIndex].valueWidget );
+				listWidget->rootItem = item;
+				listWidget->treeWidget = treeWidget;
+				listWidget->attrViewer = this;
+			}
+
+			if ( _attributes[attrIndex].type == AttrType::STRUCT ) {
+				_StructWidget* structWidget = CAST_S( _StructWidget*, _attributes[attrIndex].valueWidget );
+				structWidget->rootItem = item;
+				structWidget->treeWidget = treeWidget;
+
+				DataArray<AttrStruct>& scheme = structWidget->structScheme;
+
+				for ( UInt i = 0; i < scheme.Size(); ++i ) {
+					QTreeWidgetItem* structItem = Memory::Alloc<QTreeWidgetItem>();
+					structItem->setFlags( Qt::ItemIsEnabled );
+					structItem->setText( 0, scheme[i].attrName.GetChar() );
+
+					item->addChild( structItem );
+
+					QWidget* valueWidget = NULL;
+					switch ( scheme[i].attrType ) {
+						case AttrType::STRING:
+							valueWidget = CreateString( structWidget->flagMask,
+														structWidget->callbackGroup );
+							break;
+
+						case AttrType::BOOL:
+							valueWidget = CreateBool( structWidget->flagMask,
+														structWidget->callbackGroup );
+							break;
+
+						case AttrType::INT:
+							valueWidget = CreateInt( structWidget->flagMask,
+														structWidget->callbackGroup );
+							break;
+
+						case AttrType::FLOAT:
+							valueWidget = CreateFloat( structWidget->flagMask,
+														structWidget->callbackGroup );
+							break;
+
+						case AttrType::VECTOR2:
+							valueWidget = CreateVector2( structWidget->flagMask,
+															structWidget->callbackGroup );
+							break;
+
+						case AttrType::VECTOR3:
+							valueWidget = CreateVector3( structWidget->flagMask,
+															structWidget->callbackGroup );
+							break;
+
+						case AttrType::VECTOR4:
+							valueWidget = CreateVector4( structWidget->flagMask,
+															structWidget->callbackGroup );
+							break;
+
+						case AttrType::DROPDOWN:
+							valueWidget = CreateDropdown( scheme[i].dropdownValues,
+															structWidget->flagMask,
+															structWidget->callbackGroup );
+							break;
+
+						case AttrType::SELECTOR:
+							valueWidget = CreateSelector( scheme[i].selectorDataType.GetChar(),
+															structWidget->flagMask,
+															structWidget->callbackGroup );
+							break;
+
+						case AttrType::LIST:
+						{
+							switch ( scheme[i].listType ) {
+								case AttrType::STRING:
+								case AttrType::BOOL:
+								case AttrType::INT:
+								case AttrType::FLOAT:
+								case AttrType::VECTOR2:
+								case AttrType::VECTOR3:
+								case AttrType::VECTOR4:
+									valueWidget = _CreateList( scheme[i].listType,
+																structWidget->flagMask,
+																structWidget->callbackGroup );
+									break;
+
+								case AttrType::DROPDOWN:
+									valueWidget = _CreateListDropdown( scheme[i].dropdownValues,
+																		structWidget->flagMask,
+																		structWidget->callbackGroup );
+									break;
+
+								case AttrType::SELECTOR:
+									valueWidget = _CreateListSelector( scheme[i].selectorDataType.GetChar(),
+																		structWidget->flagMask,
+																		structWidget->callbackGroup );
+									break;
+
+								case AttrType::STRUCT:
+									valueWidget = _CreateListStruct( scheme[i].structScheme,
+																		structWidget->flagMask,
+																		structWidget->callbackGroup );
+									break;
+							}
+
+							_ListWidget* listWidget = CAST_S( _ListWidget*, valueWidget );
+
+							listWidget->rootItem = structItem;
+							listWidget->treeWidget = treeWidget;
+							listWidget->attrViewer = this;
+
+							break;
+						}
+
+					}
+
+					treeWidget->setItemWidget( structItem, 1, valueWidget );
+				}
+			}
+
+			++attrIndex;
+		}
+
+		treeWidget->A_CalculateHeight();
 	}
 }
 
@@ -534,6 +548,17 @@ void AttrViewer::_UpdateVisibility()
 	}
 
 	RefreshPanel();
+}
+
+
+void AttrViewer::_ResetViewer()
+{
+	_groups.Clear();
+	_attributes.Clear();
+	_innerAttributes.Clear();
+
+	// delete attribute widgets
+	QtUtils::ClearLayout( _childWidget->layout() );
 }
 
 

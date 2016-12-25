@@ -25,24 +25,24 @@ namespace CYRED
 
 	public:
 		//! add a value for the key; it creates the key if doesn't exist
-		void		Set		( TKey key, TValue value );
+		void	Set		( TKey key, TValue value );
 
 		//! it will fail with error if the key doesn't exist
 		//! use Has() before calling this
-		TValue	Get		( TKey key )				const;
+		TValue	Get		( TKey key )	const;
 
-		Bool		Has		( TKey key )				const;
+		Bool	Has		( TKey key )	const;
 
 		//! remove the entry from dictionary; the value is also lost
-		void		Erase	( TKey key );
+		void	Erase	( TKey key );
 
-		UInt		Size	()							const;
+		UInt	Size	()				const;
 
 		//! remove all entries
-		void		Clear	();
+		void	Clear	();
 
 		//! use the iterator for parsing the ictionary
-		Iterator<TKey, TValue>	GetIterator();
+		Iterator<TKey, TValue>	GetIterator() const;
 
 		
 	protected:
@@ -138,7 +138,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	Iterator<TKey, TValue> DataMap<TKey, TValue>::GetIterator()
+	Iterator<TKey, TValue> DataMap<TKey, TValue>::GetIterator() const
 	{
 		return Iterator<TKey, TValue>( *_map );
 	}
