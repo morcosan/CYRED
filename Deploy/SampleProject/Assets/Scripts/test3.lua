@@ -1,3 +1,3 @@
 _vars = {
-	mega = "Bool"
+	mega = "BOOL"
 }

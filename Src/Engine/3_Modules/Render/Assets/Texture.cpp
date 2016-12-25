@@ -151,6 +151,12 @@ void Texture::ClearAsset()
 }
 
 
+Asset* Texture::Clone()
+{
+	return _BuildClone( Memory::Alloc<Texture>() );
+}
+
+
 void Texture::BindToGPU()
 {
 	NotAPI::RenderManagerImpl* renderManager = NotAPI::RenderManagerImpl::Singleton();

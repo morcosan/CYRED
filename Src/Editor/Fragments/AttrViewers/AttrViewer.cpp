@@ -577,6 +577,12 @@ void AttrViewer::_CloseGroup()
 }
 
 
+void AttrViewer::_CreateAttrLabel( const Char* name )
+{
+	_SetAttribute( name, NULL, AttrType::NONE );
+}
+
+
 void AttrViewer::_CreateAttrString( const Char* name )
 {
 	_CreateAttrString( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );

@@ -91,6 +91,12 @@ void Mesh::ClearAsset()
 }
 
 
+Asset* Mesh::Clone()
+{
+	return _BuildClone( Memory::Alloc<Mesh>() );
+}
+
+
 void Mesh::BindToGPU()
 {
 	if ( _loadType == LoadType::EXTERNAL )

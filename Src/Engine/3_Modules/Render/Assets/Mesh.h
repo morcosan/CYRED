@@ -46,9 +46,10 @@ namespace CYRED
 
 
 	public:
-		void LoadUniqueID	() override;
-		void LoadFullFile	() override;
-		void ClearAsset		() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 
 
 	public:

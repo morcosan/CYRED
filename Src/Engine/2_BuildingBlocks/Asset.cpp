@@ -100,3 +100,14 @@ void Asset::SetIsTemporary( Bool value )
 	_isTemporary = value;
 }
 
+
+Asset* Asset::_BuildClone( Asset* clone ) const
+{
+	clone->SetEmitEvents( FALSE );
+	clone->SetName( _name.GetChar(), _useExtension );
+	clone->SetDirPath( _dirPath.GetChar() );
+	clone->SetEmitEvents( TRUE );
+
+	return clone;
+}
+

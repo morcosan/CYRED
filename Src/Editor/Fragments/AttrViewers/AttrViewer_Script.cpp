@@ -33,47 +33,56 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 
 	// add variables
 	_OpenGroup( GROUP_VARIABLES );
-	Iterator<String, Script::LuaVar> iter = _target->GetVarsListIterator();
-	while ( iter.HasNext() ) {
-		// add attribute name
-		DataUnion::ValueType varType = iter.GetValue().type;
+	{
+		Iterator<String, Script::LuaVar> iter = _target->GetVarsListIterator();
+		while ( iter.HasNext() ) {
+			// add attribute name
+			DataUnion::ValueType varType = iter.GetValue().type;
 
-		switch ( varType ) {
-			case DataUnion::ValueType::BOOL:
-				_CreateAttrBool( iter.GetKey().GetChar() );
-				break;
+			switch ( varType ) {
+				case DataUnion::ValueType::BOOL:
+					_CreateAttrBool( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::INT:
-				_CreateAttrInt( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::INT:
+					_CreateAttrInt( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::FLOAT:
-				_CreateAttrFloat( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::FLOAT:
+					_CreateAttrFloat( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::STRING:
-				_CreateAttrString( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::STRING:
+					_CreateAttrString( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::VECTOR2:
-				_CreateAttrVector2( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::VECTOR2:
+					_CreateAttrVector2( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::VECTOR3:
-				_CreateAttrVector3( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::VECTOR3:
+					_CreateAttrVector3( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
 
-			case DataUnion::ValueType::VECTOR4:
-				_CreateAttrVector4( iter.GetKey().GetChar() );
-				break;
+				case DataUnion::ValueType::VECTOR4:
+					_CreateAttrVector4( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
+			}
+
+			iter.Next();
 		}
-
-		iter.Next();
 	}
 	_CloseGroup();
 
 	// add functions
 	_OpenGroup( GROUP_FUNCTIONS );
+	{
+		Iterator<String, DataArray<luabridge::LuaRef*>> iter = _target->GetFuncListIterator();
+		while ( iter.HasNext() ) {
+			_CreateAttrLabel( iter.GetKey().GetChar() );
+			iter.Next();
+		}
+	}
 	_CloseGroup();
 
 	// update panel

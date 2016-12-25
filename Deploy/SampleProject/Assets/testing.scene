@@ -27,10 +27,6 @@
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
                     "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
-                },
-                "scripter": {
-                    "enabled": true,
-                    "script": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS"
                 }
             }
         },
@@ -151,6 +147,36 @@
                     "fovy_angle": 60.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
+                }
+            }
+        },
+        {
+            "name": "EmptyGameObject",
+            "enabled": true,
+            "components": {
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
+                            "variables": [
+                                {
+                                    "name": "нннн",
+                                    "type": "FLOAT",
+                                    "value": 1.401
+                                },
+                                {
+                                    "name": "ннннн",
+                                    "type": "VECTOR3",
+                                    "value": {
+                                        "x": 7.390,
+                                        "y": -4.220,
+                                        "z": -1998401553584619600.0
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 }
             }
         }

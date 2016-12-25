@@ -124,31 +124,32 @@ void AssetsPanel::OnEvent( EventType eType, EventName eName, void* eSource )
 				{
 					Asset* asset = CAST_S( Asset*, eSource );
 
-					_QtTreeItem* treeItem = _FindTreeItem( asset );
+					if ( asset != NULL && !asset->IsTemporary() ) {
+						_QtTreeItem* treeItem = _FindTreeItem( asset );
 
-					Bool isDuplicate = _IsFilePathDuplicate( asset );
-					if ( isDuplicate )
-					{
-						DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
-
-						// change the name back
-						if ( treeItem->text(0).compare( asset->GetName() ) != 0 )
+						Bool isDuplicate = _IsFilePathDuplicate( asset );
+						if ( isDuplicate )
 						{
-							asset->SetName( treeItem->text(0).toUtf8().constData() );
+							DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
+
+							// change the name back
+							if ( treeItem->text(0).compare( asset->GetName() ) != 0 )
+							{
+								asset->SetName( treeItem->text(0).toUtf8().constData() );
+							}
+						}
+						else
+						{
+							_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
+
+							if ( treeItem != NULL )
+							{
+								_qtTree->blockSignals( true );
+								treeItem->setText( 0, asset->GetName() );
+								_qtTree->blockSignals( false );
+							}
 						}
 					}
-					else
-					{
-						_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
-
-						if ( treeItem != NULL )
-						{
-							_qtTree->blockSignals( true );
-							treeItem->setText( 0, asset->GetName() );
-							_qtTree->blockSignals( false );
-						}
-					}
-
 					break;
 				}
 			}

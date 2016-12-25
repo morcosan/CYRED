@@ -1,7 +1,7 @@
 
 _vars = {
-	speed = "Vector3",
-	size = "Float"
+	speed = "VECTOR3",
+	size = "FLOAT"
 }
 
 

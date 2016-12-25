@@ -5,6 +5,7 @@
 #pragma once
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Component.h"
+#include "../../../2_BuildingBlocks/Data/DataArray.h"
 
 
 namespace CYRED
@@ -29,10 +30,12 @@ namespace CYRED
 
 
 		public:
-			Script* GetScript() const;
+			Script* GetScript		( UInt index )	const;
+			UInt	GetScriptsCount	()				const;
 
-			void	SetScript( Script* script );
-			
+			void	SetScript		( UInt index, const Char* scriptUID );
+			void	ClearScripts	();
+
 
 		protected:
 			void _OnEnable	() override {}
@@ -41,7 +44,7 @@ namespace CYRED
 
 
 		protected:
-			Script*	_script;
+			DataArray<Script*>	_scripts;
 		};
 	}
 }

@@ -1,7 +1,7 @@
 
 
 _vars = {
-	size = "Float"
+	size = "FLOAT"
 }
 
 function OnStart()

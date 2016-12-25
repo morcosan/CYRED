@@ -28,21 +28,145 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 					scripter->IsEnabled(),	
 					_al );
 	
-	// add script
+	// add scripts
 	{
-		Script* script = scripter->GetScript();
-		if ( script == NULL ) {
-			// add null value
-			rapidjson::Value nullNode;
-			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( SCRIPT ), nullNode, _al );
+		// create list
+		rapidjson::Value arrayNodeScripts;
+		arrayNodeScripts.SetArray();
+
+		for ( UInt i = 0; i < scripter->GetScriptsCount(); ++i ) {
+			Script* script = scripter->GetScript( i );
+
+			// create object
+			rapidjson::Value objectNode;
+			objectNode.SetObject();
+
+			if ( script == NULL ) {
+				objectNode.AddMember( rapidjson::StringRef( SCRIPT_UID ), "", _al );
+			}
+			else {
+				// add uid
+				objectNode.AddMember( rapidjson::StringRef( SCRIPT_UID ),
+									  rapidjson::StringRef( script->GetUniqueID() ),
+									  _al );
+
+				// add variables
+				{
+					// create list
+					rapidjson::Value arrayNodeVars;
+					arrayNodeVars.SetArray();
+
+					Iterator<String, Script::LuaVar> iter = script->GetVarsListIterator();
+					while ( iter.HasNext() ) {
+						// create object
+						rapidjson::Value objectNodeVar;
+						objectNodeVar.SetObject();
+
+						// add name
+						String var = iter.GetKey();
+						const Char* varName = var.GetChar();
+						objectNodeVar.AddMember( rapidjson::StringRef( VAR_NAME ),
+												 rapidjson::StringRef( varName ),
+												 _al );
+
+						switch ( iter.GetValue().type )
+						{
+							case DataUnion::INT:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_INT ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 iter.GetValue().value.GetInt(),
+														 _al );
+								break;
+							}
+
+							case DataUnion::FLOAT:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_FLOAT ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 iter.GetValue().value.GetFloat(),
+														 _al );
+								break;
+							}
+
+							case DataUnion::BOOL:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_BOOL ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 iter.GetValue().value.GetBool(),
+														 _al );
+								break;
+							}
+
+							case DataUnion::STRING:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_STRING ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 rapidjson::StringRef( iter.GetValue().value.GetString() ),
+														 _al );
+								break;
+							}
+
+							case DataUnion::VECTOR2:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_VEC2 ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 _ToJsonVec2( iter.GetValue().value.GetVector2() ),
+														 _al );
+								break;
+							}
+
+							case DataUnion::VECTOR3:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_VEC3 ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 _ToJsonVec3( iter.GetValue().value.GetVector3() ),
+														 _al );
+								break;
+							}
+
+							case DataUnion::VECTOR4:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_VEC4 ),
+														 _al );
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+														 _ToJsonVec4( iter.GetValue().value.GetVector4() ),
+														 _al );
+								break;
+							}
+						}
+
+						arrayNodeVars.PushBack( objectNodeVar, _al );
+
+						iter.Next();
+					}
+
+					objectNode.AddMember( rapidjson::StringRef( SCRIPT_VARS ),
+										  arrayNodeVars,
+										  _al );
+				}
+			}
+
+			arrayNodeScripts.PushBack( objectNode, _al );
 		}
-		else {
-			// add script uid
-			json.AddMember( rapidjson::StringRef( SCRIPT ),
-							rapidjson::StringRef( script->GetUniqueID() ),
-							_al );
-		}
+
+		// add to json
+		json.AddMember( rapidjson::StringRef( SCRIPTS ),
+						arrayNodeScripts,
+						_al );
 	}
 
 	return json;
@@ -58,27 +182,27 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 	scripter->SetEmitEvents( FALSE );
 
 	// load script
-	if ( json.HasMember( SCRIPT ) )
-	{
-		if ( json[SCRIPT].IsNull() )
-		{
-			scripter->SetScript( NULL );
-		}
-		else
-		{
-			const Char* uniqueID = json[SCRIPT].GetString();
-			Script* script = AssetManager::Singleton()->GetScript( uniqueID );
-			if ( script == NULL ) {
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )	{
-					script = Memory::Alloc<Script>();
-					script->SetUniqueID( uniqueID );
-					AssetManager::Singleton()->AddScript( script );
-				}
-			}
-			scripter->SetScript( script );
-		}
-	}
+	//if ( json.HasMember( SCRIPT ) )
+	//{
+	//	if ( json[SCRIPT].IsNull() )
+	//	{
+	//		scripter->SetScript( NULL );
+	//	}
+	//	else
+	//	{
+	//		const Char* uniqueID = json[SCRIPT].GetString();
+	//		Script* script = AssetManager::Singleton()->GetScript( uniqueID );
+	//		if ( script == NULL ) {
+	//			Bool isOk = Random::ValidateUniqueID( uniqueID );
+	//			if ( isOk )	{
+	//				script = Memory::Alloc<Script>();
+	//				script->SetUniqueID( uniqueID );
+	//				AssetManager::Singleton()->AddScript( script );
+	//			}
+	//		}
+	//		scripter->SetScript( script );
+	//	}
+	//}
 
 	scripter->SetEmitEvents( emitEvents );
 }

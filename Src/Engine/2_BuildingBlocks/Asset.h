@@ -37,9 +37,10 @@ namespace CYRED
 
 
 	public:
-		virtual void LoadUniqueID	() PURE_VIRTUAL;
-		virtual void LoadFullFile	() PURE_VIRTUAL;
-		virtual void ClearAsset		() PURE_VIRTUAL;
+		virtual void	LoadUniqueID	() PURE_VIRTUAL;
+		virtual void	LoadFullFile	() PURE_VIRTUAL;
+		virtual void	ClearAsset		() PURE_VIRTUAL;
+		virtual Asset*	Clone			() PURE_VIRTUAL;
 
 
 	public:
@@ -65,6 +66,10 @@ namespace CYRED
 		Bool		_emitEvents;
 		String		_uniqueID;
 		Bool		_isTemporary;
+
+
+	protected:
+		Asset*		_BuildClone( Asset* clone )	const;
 	};
 
 }

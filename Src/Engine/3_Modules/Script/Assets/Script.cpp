@@ -87,6 +87,12 @@ void Script::ClearAsset()
 }
 
 
+Asset* Script::Clone()
+{
+	return _BuildClone( Memory::Alloc<Script>() );
+}
+
+
 void Script::CallFunction( const Char* funcName )
 {
 	// call lua function if exists

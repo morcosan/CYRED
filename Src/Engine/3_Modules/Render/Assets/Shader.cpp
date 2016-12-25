@@ -85,6 +85,12 @@ void Shader::ClearAsset()
 }
 
 
+Asset* Shader::Clone()
+{
+	return _BuildClone( Memory::Alloc<Shader>() );
+}
+
+
 void Shader::SetShaderFiles( const Char* rendererType, const Char* vertexPath,
 							 const Char* geometryPath, const Char* fragmentPath )
 {

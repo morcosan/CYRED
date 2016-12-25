@@ -76,6 +76,12 @@ void Scene::ClearAsset()
 }
 
 
+Asset* Scene::Clone()
+{
+	return _BuildClone( Memory::Alloc<Scene>() );
+}
+
+
 void Scene::OnUpdate( Bool isRuntime )
 {
 	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i )

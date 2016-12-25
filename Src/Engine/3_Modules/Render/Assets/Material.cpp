@@ -80,6 +80,12 @@ void Material::ClearAsset()
 }
 
 
+Asset* Material::Clone()
+{
+	return _BuildClone( Memory::Alloc<Material>() );
+}
+
+
 Shader* Material::GetShader() const
 {
 	return _shader;

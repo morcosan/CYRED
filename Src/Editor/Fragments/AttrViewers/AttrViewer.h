@@ -26,7 +26,8 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			STRING
+			NONE
+			, STRING
 			, FLOAT
 			, INT
 			, BOOL
@@ -152,6 +153,7 @@ namespace CYRED
 		void		_OpenGroup				( const Char* name );
 		void		_CloseGroup				();
 
+		void		_CreateAttrLabel		( const Char* name );
 		void		_CreateAttrString		( const Char* name );
 		void		_CreateAttrBool			( const Char* name );
 		void		_CreateAttrInt			( const Char* name );

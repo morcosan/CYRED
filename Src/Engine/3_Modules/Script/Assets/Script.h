@@ -23,14 +23,13 @@ namespace CYRED
 		const Char* VARS			= "_vars";
 		const Char* FUNC_ONSTART	= "OnStart";
 		const Char* FUNC_ONUPDATE	= "OnUpdate";
-		const Char* TYPE_INT		= "Int";
-		const Char* TYPE_FLOAT		= "Float";
-		const Char* TYPE_BOOL		= "Bool";
-		const Char* TYPE_VECTOR2	= "Vector2";
-		const Char* TYPE_VECTOR3	= "Vector3";
-		const Char* TYPE_VECTOR4	= "Vector4";
-		const Char* TYPE_STRING		= "String";
-		const Char* TYPE_REFERENCE	= "Reference";
+		const Char* TYPE_INT		= "INT";
+		const Char* TYPE_FLOAT		= "FLOAT";
+		const Char* TYPE_BOOL		= "BOOL";
+		const Char* TYPE_VECTOR2	= "VECTOR2";
+		const Char* TYPE_VECTOR3	= "VECTOR3";
+		const Char* TYPE_VECTOR4	= "VECTOR4";
+		const Char* TYPE_STRING		= "STRING";
 
 
 	public:
@@ -47,9 +46,10 @@ namespace CYRED
 
 
 	public:
-		void LoadUniqueID	() override;
-		void LoadFullFile	() override;
-		void ClearAsset		() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 
 
 	public:

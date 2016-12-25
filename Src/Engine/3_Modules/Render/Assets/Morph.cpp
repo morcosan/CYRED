@@ -93,6 +93,12 @@ void Morph::ClearAsset()
 }
 
 
+Asset* Morph::Clone()
+{
+	return _BuildClone( Memory::Alloc<Morph>() );
+}
+
+
 void Morph::BindToGPU()
 {
 	DataArray<MorphVertex>	vertices;
