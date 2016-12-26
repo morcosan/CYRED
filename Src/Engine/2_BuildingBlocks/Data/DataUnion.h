@@ -38,6 +38,8 @@ namespace CYRED
 		DataUnion( const DataUnion& other );
 		virtual ~DataUnion();
 
+		void operator=( const DataUnion& other );
+
 		DataUnion& SetString	( const Char* value );
 		DataUnion& SetFloat		( Float value );
 		DataUnion& SetInt		( Int value );

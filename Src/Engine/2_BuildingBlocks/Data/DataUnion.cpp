@@ -70,6 +70,52 @@ DataUnion::~DataUnion()
 }
 
 
+void DataUnion::operator=( const DataUnion& other )
+{
+	if ( _type != REFERENCE )
+	{
+		Memory::Free( _value );
+	}
+
+	_type = other._type;
+
+	switch ( _type )
+	{
+		case STRING:
+			SetString( other.GetString() );
+			break;
+
+		case FLOAT:
+			SetFloat( other.GetFloat() );
+			break;
+
+		case INT:
+			SetInt( other.GetInt() );
+			break;
+
+		case BOOL:
+			SetBool( other.GetBool() );
+			break;
+
+		case VECTOR2:
+			SetVector2( other.GetVector2() );
+			break;
+
+		case VECTOR3:
+			SetVector3( other.GetVector3() );
+			break;
+
+		case VECTOR4:
+			SetVector4( other.GetVector4() );
+			break;
+
+		case REFERENCE:
+			SetReference( other.GetReference() );
+			break;
+	}
+}
+
+
 DataUnion& DataUnion::SetString( const Char* value )
 {
 	if ( _type != REFERENCE )

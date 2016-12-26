@@ -29,7 +29,7 @@ namespace CYRED
 
 		//! it will fail with error if the key doesn't exist
 		//! use Has() before calling this
-		TValue	Get		( TKey key )	const;
+		TValue&	Get		( TKey key )	const;
 
 		Bool	Has		( TKey key )	const;
 
@@ -97,7 +97,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	TValue DataMap<TKey, TValue>::Get( TKey key ) const
+	TValue& DataMap<TKey, TValue>::Get( TKey key ) const
 	{
 		auto it = _map->find( key );
 

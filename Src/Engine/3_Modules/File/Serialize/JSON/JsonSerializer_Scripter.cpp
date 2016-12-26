@@ -63,10 +63,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 						objectNodeVar.SetObject();
 
 						// add name
-						String var = iter.GetKey();
-						const Char* varName = var.GetChar();
 						objectNodeVar.AddMember( rapidjson::StringRef( VAR_NAME ),
-												 rapidjson::StringRef( varName ),
+												 rapidjson::StringRef( iter.GetKey().GetChar() ),
 												 _al );
 
 						switch ( iter.GetValue().type )

@@ -17,10 +17,10 @@ namespace CYRED
 		virtual ~Iterator() {}
 
 
-		Bool		HasNext();
-		TKey		GetKey();
-		TValue	GetValue();
-		void		Next();
+		Bool			HasNext()	const;
+		const TKey&		GetKey()	const;
+		const TValue&	GetValue()	const;
+		void			Next();
 
 
 	protected:
@@ -39,28 +39,28 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	Bool	Iterator<TKey, TValue>::HasNext()
+	Bool Iterator<TKey, TValue>::HasNext() const
 	{
 		return (_curr != _end);
 	}
 
 
 	template <typename TKey, typename TValue>
-	TKey	Iterator<TKey, TValue>::GetKey()
+	const TKey& Iterator<TKey, TValue>::GetKey() const
 	{
 		return _curr->first;
 	}
 
 
 	template <typename TKey, typename TValue>
-	TValue Iterator<TKey, TValue>::GetValue()
+	const TValue& Iterator<TKey, TValue>::GetValue() const
 	{
 		return _curr->second;
 	}
 
 
 	template <typename TKey, typename TValue>
-	void	Iterator<TKey, TValue>::Next()
+	void Iterator<TKey, TValue>::Next()
 	{
 		_curr++;
 	}
