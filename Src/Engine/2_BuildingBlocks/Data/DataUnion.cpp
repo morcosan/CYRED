@@ -21,10 +21,9 @@ DataUnion::DataUnion()
 
 DataUnion::DataUnion( const DataUnion& other )
 	: _value( NULL ) 
+	, _type( NONE )
 {
-	_type = other._type;
-
-	switch ( _type )
+	switch ( other._type )
 	{
 	case STRING:
 		SetString( other.GetString() );
@@ -72,14 +71,7 @@ DataUnion::~DataUnion()
 
 void DataUnion::operator=( const DataUnion& other )
 {
-	if ( _type != REFERENCE )
-	{
-		Memory::Free( _value );
-	}
-
-	_type = other._type;
-
-	switch ( _type )
+	switch ( other._type )
 	{
 		case STRING:
 			SetString( other.GetString() );

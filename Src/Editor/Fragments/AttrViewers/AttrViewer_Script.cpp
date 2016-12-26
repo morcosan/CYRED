@@ -26,46 +26,54 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 	_ResetViewer();
 
 	// add attributes
-	_CreateAttrString( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	_CreateAttrBool( ATTR_RUN_EDITOR );
-	_CreateAttrList( ATTR_FILE_PATHS, AttrType::STRING );
+	_CreateAttrBool( ATTR_RUN_EDITOR,	ATTR_RUN_EDITOR );
+	_CreateAttrList( ATTR_FILE_PATHS,	ATTR_FILE_PATHS, AttrType::STRING );
 
 	// add variables
 	_OpenGroup( GROUP_VARIABLES );
 	{
-		Iterator<String, Script::LuaVar> iter = _target->GetVarsListIterator();
+		Iterator<String, DataUnion> iter = _target->GetVarsListIterator();
 		while ( iter.HasNext() ) {
 			// add attribute name
-			DataUnion::ValueType varType = iter.GetValue().type;
+			DataUnion::ValueType varType = iter.GetValue().GetValueType();
+			FiniteString attrName( "%s%s", _target->GetUniqueID(), iter.GetKey().GetChar() );
 
 			switch ( varType ) {
-				case DataUnion::ValueType::BOOL:
-					_CreateAttrBool( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::BOOL:
+					_CreateAttrBool( attrName.GetChar(), iter.GetKey().GetChar(), 
+									 AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::INT:
-					_CreateAttrInt( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::INT:
+					_CreateAttrInt( attrName.GetChar(), iter.GetKey().GetChar(), 
+									AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::FLOAT:
-					_CreateAttrFloat( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::FLOAT:
+					_CreateAttrFloat( attrName.GetChar(), iter.GetKey().GetChar(), 
+									  AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::STRING:
-					_CreateAttrString( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::STRING:
+					_CreateAttrString( attrName.GetChar(), iter.GetKey().GetChar(), 
+									   AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::VECTOR2:
-					_CreateAttrVector2( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::VECTOR2:
+					_CreateAttrVector2( attrName.GetChar(), iter.GetKey().GetChar(), 
+										AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::VECTOR3:
-					_CreateAttrVector3( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::VECTOR3:
+					_CreateAttrVector3( attrName.GetChar(), iter.GetKey().GetChar(), 
+										AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 
-				case DataUnion::ValueType::VECTOR4:
-					_CreateAttrVector4( iter.GetKey().GetChar(), AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+				case DataUnion::VECTOR4:
+					_CreateAttrVector4( attrName.GetChar(), iter.GetKey().GetChar(), 
+										AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 			}
 
@@ -79,7 +87,9 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 	{
 		Iterator<String, DataArray<luabridge::LuaRef*>> iter = _target->GetFuncListIterator();
 		while ( iter.HasNext() ) {
-			_CreateAttrLabel( iter.GetKey().GetChar() );
+			FiniteString attrName( "%s%s", _target->GetUniqueID(), iter.GetKey().GetChar() );
+			_CreateAttrLabel( attrName.GetChar(), iter.GetKey().GetChar() );
+
 			iter.Next();
 		}
 	}

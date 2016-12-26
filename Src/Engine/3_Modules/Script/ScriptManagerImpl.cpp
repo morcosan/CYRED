@@ -3,6 +3,12 @@
 
 #include "ScriptManagerImpl.h"
 #include "Assets\Script.h"
+#include "../../2_BuildingBlocks/Math/Quaternion.h"
+#include "../../2_BuildingBlocks/Math/Math.h"
+#include "../../2_BuildingBlocks/Math/Vector2.h"
+#include "../../2_BuildingBlocks/Math/Vector3.h"
+#include "../../2_BuildingBlocks/Math/Vector4.h"
+#include "../../2_BuildingBlocks/Math/Matrix4.h"
 
 extern "C" 
 {
@@ -179,24 +185,53 @@ void ScriptManagerImpl::_RegisterMath()
 
 void ScriptManagerImpl::_RegisterVector2()
 {
+	luabridge::getGlobalNamespace( _Lua )
+	.beginClass <Vector2> ("Vector2")
+		.addConstructor <void (*) (float, float)> ()
+		.addProperty( "x",	&Vector2::S_GetX, &Vector2::S_SetX )
+		.addProperty( "y",	&Vector2::S_GetY, &Vector2::S_SetY )
+	.endClass();
 }
 
 
 void ScriptManagerImpl::_RegisterVector3()
 {
+	luabridge::getGlobalNamespace( _Lua )
+	.beginClass <Vector3> ("Vector3")
+		.addConstructor <void (*) (float, float, float)> ()
+		.addProperty( "x",	&Vector3::S_GetX, &Vector3::S_SetX )
+		.addProperty( "y",	&Vector3::S_GetY, &Vector3::S_SetY )
+		.addProperty( "z",	&Vector3::S_GetZ, &Vector3::S_SetZ )
+	.endClass();
 }
 
 
 void ScriptManagerImpl::_RegisterVector4()
 {
+	luabridge::getGlobalNamespace( _Lua )
+	.beginClass <Vector4> ("Vector4")
+		.addConstructor <void (*) (float, float, float, float)> ()
+		.addProperty( "x",	&Vector4::S_GetX, &Vector4::S_SetX )
+		.addProperty( "y",	&Vector4::S_GetY, &Vector4::S_SetY )
+		.addProperty( "z",	&Vector4::S_GetZ, &Vector4::S_SetZ )
+		.addProperty( "w",	&Vector4::S_GetW, &Vector4::S_SetW )
+	.endClass();
 }
 
 
 void ScriptManagerImpl::_RegisterMatrix4()
 {
+	luabridge::getGlobalNamespace( _Lua )
+	.beginClass <Matrix4> ("Matrix4")
+		.addConstructor <void (*) ()> ()
+	.endClass();
 }
 
 
 void ScriptManagerImpl::_RegisterQuaternion()
 {
+	luabridge::getGlobalNamespace( _Lua )
+	.beginClass <Quaternion> ("Quaternion")
+		.addConstructor <void (*) ()> ()
+	.endClass();
 }

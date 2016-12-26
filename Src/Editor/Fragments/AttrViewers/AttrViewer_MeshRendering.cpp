@@ -16,8 +16,8 @@ using namespace CYRED;
 
 void AttrViewer_MeshRendering::_OnInitialize()
 {
-	_CreateAttrSelector( ATTR_MESH,		Selector_Mesh::TYPE );
-	_CreateAttrSelector( ATTR_MATERIAL, Selector_Material::TYPE );
+	_CreateAttrSelector( ATTR_MESH,		ATTR_MESH,		Selector_Mesh::TYPE );
+	_CreateAttrSelector( ATTR_MATERIAL, ATTR_MATERIAL,	Selector_Material::TYPE );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	

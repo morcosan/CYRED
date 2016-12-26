@@ -158,17 +158,21 @@
                     "enabled": true,
                     "scripts": [
                         {
-                            "uid": "ft0k1rSGED4yuGTEgYSMn7GfAQEY1Sv9",
+                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
                             "variables": [
-                                {
-                                    "name": "mega",
-                                    "type": "BOOL",
-                                    "value": false
-                                },
                                 {
                                     "name": "size",
                                     "type": "FLOAT",
-                                    "value": 0.0
+                                    "value": 2.0
+                                },
+                                {
+                                    "name": "speed",
+                                    "type": "VECTOR3",
+                                    "value": {
+                                        "x": 4.0,
+                                        "y": 5.5,
+                                        "z": 0.0
+                                    }
                                 }
                             ]
                         }

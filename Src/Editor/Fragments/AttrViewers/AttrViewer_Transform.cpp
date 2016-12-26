@@ -13,15 +13,15 @@ using namespace CYRED;
 void AttrViewer_Transform::_OnInitialize()
 {
 	_OpenGroup( GROUP_LOCAL );
-	_CreateAttrVector3	( ATTR_LOCAL_POS,	AttrFlag::NONE, CallbackGroup::GROUP_1 );
-	_CreateAttrVector3	( ATTR_LOCAL_ROT,	AttrFlag::NONE, CallbackGroup::GROUP_1 );
-	_CreateAttrVector3	( ATTR_LOCAL_SCALE, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector3	( ATTR_LOCAL_POS,	ATTR_LOCAL_POS,		AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector3	( ATTR_LOCAL_ROT,	ATTR_LOCAL_ROT,		AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector3	( ATTR_LOCAL_SCALE, ATTR_LOCAL_SCALE,	AttrFlag::NONE, CallbackGroup::GROUP_1 );
 	_CloseGroup();
 
 	_OpenGroup( GROUP_WORLD );
-	_CreateAttrVector3	( ATTR_WORLD_POS,	AttrFlag::NONE, CallbackGroup::GROUP_2 );
-	_CreateAttrVector3	( ATTR_WORLD_ROT,	AttrFlag::NONE, CallbackGroup::GROUP_2 );
-	_CreateAttrVector3	( ATTR_WORLD_SCALE, AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrVector3	( ATTR_WORLD_POS,	ATTR_WORLD_POS,		AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrVector3	( ATTR_WORLD_ROT,	ATTR_WORLD_ROT,		AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrVector3	( ATTR_WORLD_SCALE, ATTR_WORLD_SCALE,	AttrFlag::NONE, CallbackGroup::GROUP_2 );
 	_CloseGroup();
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );

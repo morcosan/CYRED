@@ -14,16 +14,16 @@ using namespace CYRED;
 
 void AttrViewer_Material::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
-	_CreateAttrSelector	( ATTR_SHADER, Selector_Shader::TYPE );
-	_CreateAttrBool		( ATTR_WIREFRAME );
-	_CreateAttrFloat	( ATTR_LINE_WIDTH );
+	_CreateAttrString	( ATTR_NAME,		ATTR_NAME,		AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrSelector	( ATTR_SHADER,		ATTR_SHADER,	Selector_Shader::TYPE );
+	_CreateAttrBool		( ATTR_WIREFRAME,	ATTR_WIREFRAME );
+	_CreateAttrFloat	( ATTR_LINE_WIDTH,	ATTR_LINE_WIDTH );
 	
 	DataArray<const Char*> cullFaceTypes;
 	cullFaceTypes.Add( "CULL_BACK" );
 	cullFaceTypes.Add( "CULL_FRONT" );
 	cullFaceTypes.Add( "CULL_NONE" );
-	_CreateAttrDropdown	( ATTR_CULL_FACE, cullFaceTypes );
+	_CreateAttrDropdown	( ATTR_CULL_FACE, ATTR_CULL_FACE, cullFaceTypes );
 
 	{
 		DataArray<AttrStruct> propertiesScheme;
@@ -74,7 +74,7 @@ void AttrViewer_Material::_OnInitialize()
 			propertiesScheme.Add( propStruct );
 		}
 
-		_CreateAttrStruct( ATTR_PROPERTIES, propertiesScheme );
+		_CreateAttrStruct( ATTR_PROPERTIES, ATTR_PROPERTIES, propertiesScheme );
 	}
 	
 	_AddToPanel( TITLE );

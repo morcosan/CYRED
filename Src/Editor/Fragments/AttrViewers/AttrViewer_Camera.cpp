@@ -19,11 +19,12 @@ AttrViewer_Camera::AttrViewer_Camera()
 
 void AttrViewer_Camera::_OnInitialize()
 {
-	_CreateAttrDropdown	( ATTR_TYPE, _cameraTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
-	_CreateAttrFloat	( ATTR_FOVY_ANGLE );
-	_CreateAttrFloat	( ATTR_ORTH_SIZE );
-	_CreateAttrFloat	( ATTR_NEAR_CLIPPING );
-	_CreateAttrFloat	( ATTR_FAR_CLIPPING );
+	_CreateAttrDropdown	( ATTR_TYPE, ATTR_TYPE, _cameraTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	
+	_CreateAttrFloat	( ATTR_FOVY_ANGLE,		ATTR_FOVY_ANGLE );
+	_CreateAttrFloat	( ATTR_ORTH_SIZE,		ATTR_ORTH_SIZE );
+	_CreateAttrFloat	( ATTR_NEAR_CLIPPING,	ATTR_NEAR_CLIPPING );
+	_CreateAttrFloat	( ATTR_FAR_CLIPPING,	ATTR_FAR_CLIPPING );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 

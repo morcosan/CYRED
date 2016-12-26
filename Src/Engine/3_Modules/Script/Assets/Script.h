@@ -33,14 +33,6 @@ namespace CYRED
 
 
 	public:
-		struct LuaVar
-		{
-			DataUnion::ValueType	type;
-			DataUnion				value;
-		};
-
-
-	public:
 		Script();
 		virtual ~Script();
 
@@ -53,7 +45,8 @@ namespace CYRED
 
 
 	public:
-		void CallFunction( const Char* funcName );
+		void CallFunction	( const Char* funcName );
+		void SetVariable	( const Char* varName, DataUnion varValue );
 
 		Bool		RunsInEditor	()				const;
 		Bool		IsFirstUpdate	()				const;
@@ -61,7 +54,7 @@ namespace CYRED
 		const Char*	GetFilePath		( UInt index )	const;
 
 		Iterator<String, DataArray<luabridge::LuaRef*>> GetFuncListIterator() const;
-		Iterator<String, LuaVar>						GetVarsListIterator() const;
+		Iterator<String, DataUnion>						GetVarsListIterator() const;
 
 		void SetRunInEditor	( Bool value );
 		void SetFirstUpdate	( Bool value );
@@ -78,13 +71,13 @@ namespace CYRED
 
 		// a list with all lua objects associated with this Scripter
 		DataMap<String, DataArray<luabridge::LuaRef*>>	_luaFuncList;
-		DataMap<String, LuaVar>							_luaVarsList;
+		DataMap<String, DataUnion>						_luaVarsList;
 		luabridge::LuaRef*								_luaVarsRef;
 
 
 	protected:
 		void _LoadLuaData	( const Char* luaData );
 		void _AddLuaFunc	( const Char* funcName );
-		void _LoadLuaVar	();
+		void _LoadLuaVars	();
 	};
 }

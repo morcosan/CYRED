@@ -153,42 +153,63 @@ namespace CYRED
 		void		_OpenGroup				( const Char* name );
 		void		_CloseGroup				();
 
-		void		_CreateAttrLabel		( const Char* name );
-		void		_CreateAttrString		( const Char* name );
-		void		_CreateAttrBool			( const Char* name );
-		void		_CreateAttrInt			( const Char* name );
-		void		_CreateAttrFloat		( const Char* name );
-		void		_CreateAttrVector2		( const Char* name );
-		void		_CreateAttrVector3		( const Char* name );
-		void		_CreateAttrVector4		( const Char* name );
-		void		_CreateAttrDropdown		( const Char* name, DataArray<const Char*>& valueList );
-		void		_CreateAttrSelector		( const Char* name, const Char* dataType );
-		void		_CreateAttrStruct		( const Char* name, DataArray<AttrStruct>& structScheme );
-		void		_CreateAttrList			( const Char* name, AttrType elementType );
-		void		_CreateAttrListSelector	( const Char* name, const Char* dataType );
-		void		_CreateAttrListDropdown	( const Char* name, DataArray<const Char*>& valueList );
-		void		_CreateAttrListStruct	( const Char* name, DataArray<AttrStruct>& structScheme );
+		void		_CreateAttrLabel		( const Char* name, const Char* label );
+		void		_CreateAttrString		( const Char* name, const Char* label );
+		void		_CreateAttrBool			( const Char* name, const Char* label );
+		void		_CreateAttrInt			( const Char* name, const Char* label );
+		void		_CreateAttrFloat		( const Char* name, const Char* label );
+		void		_CreateAttrVector2		( const Char* name, const Char* label );
+		void		_CreateAttrVector3		( const Char* name, const Char* label );
+		void		_CreateAttrVector4		( const Char* name, const Char* label );
+		void		_CreateAttrDropdown		( const Char* name, const Char* label, 
+											  DataArray<const Char*>& valueList );
+		void		_CreateAttrSelector		( const Char* name, const Char* label, 
+											  const Char* dataType );
+		void		_CreateAttrStruct		( const Char* name, const Char* label, 
+											  DataArray<AttrStruct>& structScheme );
+		void		_CreateAttrList			( const Char* name, const Char* label, 
+											  AttrType elementType );
+		void		_CreateAttrListSelector	( const Char* name, const Char* label, 
+											  const Char* dataType );
+		void		_CreateAttrListDropdown	( const Char* name, const Char* label, 
+											  DataArray<const Char*>& valueList );
+		void		_CreateAttrListStruct	( const Char* name, const Char* label, 
+											  DataArray<AttrStruct>& structScheme );
 
-		void		_CreateAttrString		( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrBool			( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrInt			( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrFloat		( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector2		( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector3		( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector4		( const Char* name, UInt flagMask, CallbackGroup group );
-		void		_CreateAttrDropdown		( const Char* name, DataArray<const Char*>& valueList,
+		void		_CreateAttrString		( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrSelector		( const Char* name, const Char* dataType,
+		void		_CreateAttrBool			( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrStruct		( const Char* name, DataArray<AttrStruct>& structScheme,
+		void		_CreateAttrInt			( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrList			( const Char* name, AttrType elementType,
+		void		_CreateAttrFloat		( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListSelector	( const Char* name, const Char* dataType,
+		void		_CreateAttrVector2		( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListDropdown	( const Char* name, DataArray<const Char*>& valueList,
+		void		_CreateAttrVector3		( const Char* name, const Char* label,
 											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListStruct	( const Char* name, DataArray<AttrStruct>& structScheme,
+		void		_CreateAttrVector4		( const Char* name, const Char* label,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrDropdown		( const Char* name, const Char* label,
+											  DataArray<const Char*>& valueList,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrSelector		( const Char* name, const Char* label,
+											  const Char* dataType,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrStruct		( const Char* name, const Char* label,
+											  DataArray<AttrStruct>& structScheme,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrList			( const Char* name, const Char* label,
+											  AttrType elementType,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrListSelector	( const Char* name, const Char* label,
+											  const Char* dataType,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrListDropdown	( const Char* name, const Char* label,
+											  DataArray<const Char*>& valueList,
+											  UInt flagMask, CallbackGroup group );
+		void		_CreateAttrListStruct	( const Char* name, const Char* label,
+											  DataArray<AttrStruct>& structScheme,
 											  UInt flagMask, CallbackGroup group );
 		
 		void		_WriteAttrString		( const Char* name, const Char* value );
@@ -250,6 +271,7 @@ namespace CYRED
 		struct _Attribute
 		{
 			String				name;
+			String				label;
 			QTreeWidgetItem*	treeItem;
 			CustomTreeWidget*	treeWidget;
 			QWidget*			valueWidget;
@@ -282,7 +304,8 @@ namespace CYRED
 		QWidget*			_titleWidget;
 		QWidget*			_childWidget;
 
-		void		_SetAttribute	( const Char* name, QWidget* widget, AttrType type );
+		void		_SetAttribute	( const Char* name, const Char* label, 
+									  QWidget* widget, AttrType type );
 		Bool		_GetAttribute	( const Char* name, OUT _Attribute& attribute );
 		
 		void		_WriteString		( QWidget* widget, const Char* value );

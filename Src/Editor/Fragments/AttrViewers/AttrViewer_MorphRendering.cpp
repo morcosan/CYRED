@@ -16,13 +16,13 @@ using namespace CYRED;
 
 void AttrViewer_MorphRendering::_OnInitialize()
 {
-	_CreateAttrSelector( ATTR_MORPH,	Selector_Morph::TYPE,	
+	_CreateAttrSelector( ATTR_MORPH, ATTR_MORPH,	Selector_Morph::TYPE,	
 						 AttrFlag::NONE, CallbackGroup::GROUP_2 );
-	_CreateAttrSelector( ATTR_MATERIAL, Selector_Material::TYPE );
+	_CreateAttrSelector( ATTR_MATERIAL, ATTR_MATERIAL, Selector_Material::TYPE );
 
-	_CreateAttrFloat( ATTR_DUR_STATE );
-	_CreateAttrFloat( ATTR_DUR_STATE_CHANGE );
-	_CreateAttrBool	( ATTR_IS_PLAYING );
+	_CreateAttrFloat( ATTR_DUR_STATE,			ATTR_DUR_STATE );
+	_CreateAttrFloat( ATTR_DUR_STATE_CHANGE,	ATTR_DUR_STATE_CHANGE );
+	_CreateAttrBool	( ATTR_IS_PLAYING,			ATTR_IS_PLAYING );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	

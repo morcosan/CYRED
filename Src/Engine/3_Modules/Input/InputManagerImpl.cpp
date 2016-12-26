@@ -74,30 +74,30 @@ void InputManagerImpl::ProcessEvents()
 
 		for ( UInt i = 0; i < totalEvents; ++i )
 		{
-			InputEvent e = _receiver->GetEventAt( i );
+			InputEvent event = _receiver->GetEventAt( i );
 
-			switch ( e.type )
+			switch ( event.type )
 			{
 				case InputEventType::KEY_DOWN:
-					_keyState.Set( e.data.GetInt(), INPUT_FIRST_TIME_DOWN );
+					_keyState.Set( event.data.GetInt(), INPUT_FIRST_TIME_DOWN );
 					break;
 
 				case InputEventType::KEY_UP:
-					_keyState.Set( e.data.GetInt(), INPUT_FIRST_TIME_UP );
+					_keyState.Set( event.data.GetInt(), INPUT_FIRST_TIME_UP );
 					break;
 
 				case InputEventType::MOUSE_MOVE:
-					_cursorPosition = e.data.GetVector2();
+					_cursorPosition = event.data.GetVector2();
 					break;
 
 				case InputEventType::WHEEL_MOVE:
-					_wheelRotation = e.data.GetInt();
+					_wheelRotation = event.data.GetInt();
 					break;
 			}
 
-			if ( e.window != INPUT_INVALID_WINDOW )
+			if ( event.window != INPUT_INVALID_WINDOW )
 			{
-				_windowForCursor = e.window;
+				_windowForCursor = event.window;
 			}
 		}
 

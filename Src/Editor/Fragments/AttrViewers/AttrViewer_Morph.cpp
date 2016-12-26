@@ -12,9 +12,9 @@ using namespace CYRED;
 
 void AttrViewer_Morph::_OnInitialize()
 {
-	_CreateAttrString( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	_CreateAttrList( ATTR_FILE_PATHS, AttrType::STRING );
+	_CreateAttrList( ATTR_FILE_PATHS, ATTR_FILE_PATHS, AttrType::STRING );
 	
 	_AddToPanel( TITLE );
 }

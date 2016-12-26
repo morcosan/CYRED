@@ -12,21 +12,21 @@ using namespace CYRED;
 
 void AttrViewer_Mesh::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> meshTypes;
 	meshTypes.Add( MESH_TYPE_LINE );
 	meshTypes.Add( MESH_TYPE_POLYGON );
-	_CreateAttrDropdown	( ATTR_MESH_TYPE, meshTypes, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrDropdown	( ATTR_MESH_TYPE, ATTR_MESH_TYPE, meshTypes, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
 	loadTypes.Add( LOAD_TYPE_GENERATED );
-	_CreateAttrDropdown	( ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
-	_CreateAttrString	( ATTR_FILE_PATH );
+	_CreateAttrString	( ATTR_FILE_PATH, ATTR_FILE_PATH );
 
-	_CreateAttrBool		( ATTR_CLEAR_BUFFER );
+	_CreateAttrBool		( ATTR_CLEAR_BUFFER, ATTR_CLEAR_BUFFER );
 	
 	_AddToPanel( TITLE );
 }

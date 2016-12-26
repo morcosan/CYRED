@@ -45,6 +45,7 @@ void Scripter::SetScript( UInt index, const Char* scriptUID )
 		_scripts[index] = CAST_S( Script*, asset->Clone() );
 		// load script data
 		_scripts[index]->LoadFullFile();
+		_scripts[index]->LoadLuaFiles();
 	}
 
 	if ( _emitEvents ) {

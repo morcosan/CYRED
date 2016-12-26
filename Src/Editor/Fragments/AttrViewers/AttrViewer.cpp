@@ -404,7 +404,7 @@ void AttrViewer::_UpdatePanel()
 			item->setExpanded( TRUE );
 
 			// set the attr name
-			item->setText( 0, _attributes[attrIndex].name.GetChar() );
+			item->setText( 0, _attributes[attrIndex].label.GetChar() );
 
 			// set the attr value
 			treeWidget->setItemWidget( item, 1, _attributes[attrIndex].valueWidget );
@@ -555,7 +555,6 @@ void AttrViewer::_ResetViewer()
 {
 	_groups.Clear();
 	_attributes.Clear();
-	_innerAttributes.Clear();
 
 	// delete attribute widgets
 	QtUtils::ClearLayout( _childWidget->layout() );
@@ -577,162 +576,178 @@ void AttrViewer::_CloseGroup()
 }
 
 
-void AttrViewer::_CreateAttrLabel( const Char* name )
+void AttrViewer::_CreateAttrLabel( const Char* name, const Char* label )
 {
-	_SetAttribute( name, NULL, AttrType::NONE );
+	_SetAttribute( name, label, NULL, AttrType::NONE );
 }
 
 
-void AttrViewer::_CreateAttrString( const Char* name )
+void AttrViewer::_CreateAttrString( const Char* name, const Char* label )
 {
-	_CreateAttrString( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrString( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrBool( const Char* name )
+void AttrViewer::_CreateAttrBool( const Char* name, const Char* label )
 {
-	_CreateAttrBool( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrBool( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrInt( const Char* name )
+void AttrViewer::_CreateAttrInt( const Char* name, const Char* label )
 {
-	_CreateAttrInt( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrInt( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrFloat( const Char* name )
+void AttrViewer::_CreateAttrFloat( const Char* name, const Char* label )
 {
-	_CreateAttrFloat( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrFloat( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector2( const Char* name )
+void AttrViewer::_CreateAttrVector2( const Char* name, const Char* label )
 {
-	_CreateAttrVector2( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector2( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector3( const Char* name )
+void AttrViewer::_CreateAttrVector3( const Char* name, const Char* label )
 {
-	_CreateAttrVector3( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector3( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector4( const Char* name )
+void AttrViewer::_CreateAttrVector4( const Char* name, const Char* label )
 {
-	_CreateAttrVector4( name, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrVector4( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrDropdown( const Char* name, DataArray<const Char*>& valueList )
+void AttrViewer::_CreateAttrDropdown( const Char* name, const Char* label, 
+									  DataArray<const Char*>& valueList )
 {
-	_CreateAttrDropdown( name, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrDropdown( name, label, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrSelector( const Char* name, const Char* dataType )
+void AttrViewer::_CreateAttrSelector( const Char* name, const Char* label, 
+									  const Char* dataType )
 {
-	_CreateAttrSelector( name, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrSelector( name, label, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrStruct( const Char* name, DataArray<AttrStruct>& structScheme )
+void AttrViewer::_CreateAttrStruct( const Char* name, const Char* label, 
+									DataArray<AttrStruct>& structScheme )
 {
-	_CreateAttrStruct( name, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrStruct( name, label, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrList( const Char* name, AttrType elementType )
+void AttrViewer::_CreateAttrList( const Char* name, const Char* label, 
+								  AttrType elementType )
 {
-	_CreateAttrList( name, elementType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrList( name, label, elementType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListSelector( const Char* name, const Char* dataType )
+void AttrViewer::_CreateAttrListSelector( const Char* name, const Char* label, 
+										  const Char* dataType )
 {
-	_CreateAttrListSelector( name, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrListSelector( name, label, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListDropdown( const Char* name, DataArray<const Char*>& valueList )
+void AttrViewer::_CreateAttrListDropdown( const Char* name, const Char* label, 
+										  DataArray<const Char*>& valueList )
 {
-	_CreateAttrListDropdown( name, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrListDropdown( name, label, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListStruct( const Char* name, DataArray<AttrStruct>& structScheme )
+void AttrViewer::_CreateAttrListStruct( const Char* name, const Char* label, 
+										DataArray<AttrStruct>& structScheme )
 {
-	_CreateAttrListStruct( name, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
+	_CreateAttrListStruct( name, label, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrString( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrString( const Char* name, const Char* label, 
+									UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateString( flagMask, group );
-	_SetAttribute( name, widget, AttrType::STRING );
+	_SetAttribute( name, label, widget, AttrType::STRING );
 }
 
 
-void AttrViewer::_CreateAttrBool( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrBool( const Char* name, const Char* label, 
+								  UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateBool( flagMask, group );
-	_SetAttribute( name, widget, AttrType::BOOL );
+	_SetAttribute( name, label, widget, AttrType::BOOL );
 }
 
 
-void AttrViewer::_CreateAttrInt( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrInt( const Char* name, const Char* label, 
+								 UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateInt( flagMask, group );
-	_SetAttribute( name, widget, AttrType::INT );
+	_SetAttribute( name, label, widget, AttrType::INT );
 }
 
 
-void AttrViewer::_CreateAttrFloat( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrFloat( const Char* name, const Char* label, 
+								   UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateFloat( flagMask, group );
-	_SetAttribute( name, widget, AttrType::FLOAT );
+	_SetAttribute( name, label, widget, AttrType::FLOAT );
 }
 
 
-void AttrViewer::_CreateAttrVector2( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrVector2( const Char* name, const Char* label, 
+									 UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector2( flagMask, group );
-	_SetAttribute( name, widget, AttrType::VECTOR2 );
+	_SetAttribute( name, label, widget, AttrType::VECTOR2 );
 }
 
 
-void AttrViewer::_CreateAttrVector3( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrVector3( const Char* name, const Char* label, 
+									 UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector3( flagMask, group );
-	_SetAttribute( name, widget, AttrType::VECTOR3 );
+	_SetAttribute( name, label, widget, AttrType::VECTOR3 );
 }
 
 
-void AttrViewer::_CreateAttrVector4( const Char* name, UInt flagMask, CallbackGroup group )
+void AttrViewer::_CreateAttrVector4( const Char* name, const Char* label, 
+									 UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector4( flagMask, group );
-	_SetAttribute( name, widget, AttrType::VECTOR4 );
+	_SetAttribute( name, label, widget, AttrType::VECTOR4 );
 }
 
 
-void AttrViewer::_CreateAttrDropdown( const Char* name, DataArray<const Char*>& valueList, 
+void AttrViewer::_CreateAttrDropdown( const Char* name, const Char* label, 
+									  DataArray<const Char*>& valueList, 
 									  UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateDropdown( valueList, flagMask, group );
-	_SetAttribute( name, widget, AttrType::DROPDOWN );
+	_SetAttribute( name, label, widget, AttrType::DROPDOWN );
 }
 
 
-void AttrViewer::_CreateAttrSelector( const Char* name, const Char* dataType, 
+void AttrViewer::_CreateAttrSelector( const Char* name, const Char* label, const Char* dataType, 
 									  UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateSelector( dataType, flagMask, group );
-	_SetAttribute( name, widget, AttrType::SELECTOR );
+	_SetAttribute( name, label, widget, AttrType::SELECTOR );
 }
 
 
-void AttrViewer::_CreateAttrStruct( const Char* name, DataArray<AttrStruct>& structScheme, 
+void AttrViewer::_CreateAttrStruct( const Char* name, const Char* label, 
+									DataArray<AttrStruct>& structScheme, 
 									UInt flagMask, CallbackGroup group )
 {
 	for ( UInt i = 0; i < structScheme.Size(); ++i )
@@ -742,11 +757,11 @@ void AttrViewer::_CreateAttrStruct( const Char* name, DataArray<AttrStruct>& str
 	}
 
 	QWidget* widget = CreateStruct( structScheme, flagMask, group );
-	_SetAttribute( name, widget, AttrType::STRUCT );
+	_SetAttribute( name, label, widget, AttrType::STRUCT );
 }
 
 
-void AttrViewer::_CreateAttrList( const Char* name, AttrType elementType, 
+void AttrViewer::_CreateAttrList( const Char* name, const Char* label, AttrType elementType, 
 								  UInt flagMask, CallbackGroup group )
 {
 	ASSERT( elementType != AttrType::SELECTOR );
@@ -755,31 +770,34 @@ void AttrViewer::_CreateAttrList( const Char* name, AttrType elementType,
 	ASSERT( elementType != AttrType::STRUCT );
 
 	QWidget* widget = _CreateList( elementType, flagMask, group );
-	_SetAttribute( name, widget, AttrType::LIST );
+	_SetAttribute( name, label, widget, AttrType::LIST );
 }
 
 
-void AttrViewer::_CreateAttrListSelector( const Char* name, const Char* dataType, 
+void AttrViewer::_CreateAttrListSelector( const Char* name, const Char* label, 
+										  const Char* dataType, 
 										  UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = _CreateListSelector( dataType, flagMask, group );
-	_SetAttribute( name, widget, AttrType::LIST );
+	_SetAttribute( name, label, widget, AttrType::LIST );
 }
 
 
-void AttrViewer::_CreateAttrListDropdown( const Char* name, DataArray<const Char*>& valueList, 
+void AttrViewer::_CreateAttrListDropdown( const Char* name, const Char* label, 
+										  DataArray<const Char*>& valueList, 
 										  UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = _CreateListDropdown( valueList, flagMask, group );
-	_SetAttribute( name, widget, AttrType::LIST );
+	_SetAttribute( name, label, widget, AttrType::LIST );
 }
 
 
-void AttrViewer::_CreateAttrListStruct( const Char* name, DataArray<AttrStruct>& structScheme, 
+void AttrViewer::_CreateAttrListStruct( const Char* name, const Char* label, 
+										DataArray<AttrStruct>& structScheme, 
 										UInt flagMask, CallbackGroup group )
 {
 	QWidget* widget = _CreateListStruct( structScheme, flagMask, group );
-	_SetAttribute( name, widget, AttrType::LIST );
+	_SetAttribute( name, label, widget, AttrType::LIST );
 }
 
 
@@ -1350,7 +1368,7 @@ void AttrViewer::_Colorize( Bool enabled, Bool colorizeAll )
 }
 
 
-void AttrViewer::_SetAttribute( const Char* name, QWidget* widget, AttrType type )
+void AttrViewer::_SetAttribute( const Char* name, const Char* label, QWidget* widget, AttrType type )
 {
 	for ( UInt i = 0; i < _attributes.Size(); ++i )
 	{
@@ -1358,12 +1376,13 @@ void AttrViewer::_SetAttribute( const Char* name, QWidget* widget, AttrType type
 		{
 			_attributes[i].valueWidget = widget;
 			_attributes[i].type = type;
+			_attributes[i].label = label;
 			return;
 		}
 	}
 
 	//! is a new element
-	_attributes.Add( _Attribute{ name, NULL, NULL, widget, type, TRUE } );
+	_attributes.Add( _Attribute { name, label, NULL, NULL, widget, type, TRUE } );
 }
 
 

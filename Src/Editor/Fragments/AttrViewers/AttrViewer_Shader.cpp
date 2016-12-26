@@ -12,15 +12,15 @@ using namespace CYRED;
 
 void AttrViewer_Shader::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> renderers;
 	renderers.Add( RENDERER_FORWARD );
-	_CreateAttrDropdown	( ATTR_RENDERER, renderers );
+	_CreateAttrDropdown	( ATTR_RENDERER,	ATTR_RENDERER, renderers );
 
-	_CreateAttrString	( ATTR_VERTEX );
-	_CreateAttrString	( ATTR_GEOMETRY );
-	_CreateAttrString	( ATTR_FRAGMENT );
+	_CreateAttrString	( ATTR_VERTEX,		ATTR_VERTEX );
+	_CreateAttrString	( ATTR_GEOMETRY,	ATTR_GEOMETRY );
+	_CreateAttrString	( ATTR_FRAGMENT,	ATTR_FRAGMENT );
 	
 	_AddToPanel( TITLE );
 }

@@ -22,31 +22,31 @@ AttrViewer_ParticleEmitter::AttrViewer_ParticleEmitter()
 void AttrViewer_ParticleEmitter::_OnInitialize()
 {
 	_OpenGroup( GROUP_PARTICLES );
-	_CreateAttrInt		( ATTR_MAX_PARTICLES );
-	_CreateAttrFloat	( ATTR_PARTICLE_LIFETIME );
-	_CreateAttrVector3	( ATTR_PARTICLE_VELOCITY );
-	_CreateAttrVector3	( ATTR_PARTICLE_ACCEL );
-	_CreateAttrFloat	( ATTR_SHAPE_DRIVEN_SPEED );
-	_CreateAttrFloat	( ATTR_SHAPE_DRIVEN_ACCEL );
+	_CreateAttrInt		( ATTR_MAX_PARTICLES,		ATTR_MAX_PARTICLES );
+	_CreateAttrFloat	( ATTR_PARTICLE_LIFETIME,	ATTR_PARTICLE_LIFETIME );
+	_CreateAttrVector3	( ATTR_PARTICLE_VELOCITY,	ATTR_PARTICLE_VELOCITY );
+	_CreateAttrVector3	( ATTR_PARTICLE_ACCEL,		ATTR_PARTICLE_ACCEL );
+	_CreateAttrFloat	( ATTR_SHAPE_DRIVEN_SPEED,	ATTR_SHAPE_DRIVEN_SPEED );
+	_CreateAttrFloat	( ATTR_SHAPE_DRIVEN_ACCEL,	ATTR_SHAPE_DRIVEN_ACCEL );
 	_CloseGroup();
 
 	_OpenGroup( GROUP_SPAWNING );
-	_CreateAttrFloat	( ATTR_WAVES_PER_SEC );
-	_CreateAttrInt		( ATTR_PARTICLES_PER_WAVE );
-	_CreateAttrBool		( ATTR_IS_LOOPING );
-	_CreateAttrFloat	( ATTR_SPAWN_DURATION );
+	_CreateAttrFloat	( ATTR_WAVES_PER_SEC,		ATTR_WAVES_PER_SEC );
+	_CreateAttrInt		( ATTR_PARTICLES_PER_WAVE,	ATTR_PARTICLES_PER_WAVE );
+	_CreateAttrBool		( ATTR_IS_LOOPING,			ATTR_IS_LOOPING );
+	_CreateAttrFloat	( ATTR_SPAWN_DURATION,		ATTR_SPAWN_DURATION );
 	_CloseGroup();
 
 	_OpenGroup( GROUP_EMISSION );
-	_CreateAttrDropdown	( ATTR_EMITTER_SHAPE, _emitterShapes );
-	_CreateAttrFloat	( ATTR_SHAPE_RADIUS );
-	_CreateAttrBool		( ATTR_SPAWN_FROM_EDGE );
+	_CreateAttrDropdown	( ATTR_EMITTER_SHAPE,	ATTR_EMITTER_SHAPE, _emitterShapes );
+	_CreateAttrFloat	( ATTR_SHAPE_RADIUS,	ATTR_SHAPE_RADIUS );
+	_CreateAttrBool		( ATTR_SPAWN_FROM_EDGE,	ATTR_SPAWN_FROM_EDGE );
 	_CloseGroup();
 
 	_OpenGroup( GROUP_RENDERING );
-	_CreateAttrVector2	( ATTR_SIZE_START );
-	_CreateAttrVector2	( ATTR_SIZE_END );
-	_CreateAttrSelector	( ATTR_MATERIAL, Selector_Material::TYPE );
+	_CreateAttrVector2	( ATTR_SIZE_START,	ATTR_SIZE_START );
+	_CreateAttrVector2	( ATTR_SIZE_END,	ATTR_SIZE_END );
+	_CreateAttrSelector	( ATTR_MATERIAL,	ATTR_MATERIAL, Selector_Material::TYPE );
 	_CloseGroup();
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );

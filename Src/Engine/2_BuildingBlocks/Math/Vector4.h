@@ -41,5 +41,17 @@ namespace CYRED
 		Vector4 operator*( Int other )				const;
 
 		const Float* Ptr();
+
+
+	// scripting
+	public:
+		Float	S_GetX() const;
+		Float	S_GetY() const;
+		Float	S_GetZ() const;
+		Float	S_GetW() const;
+		void	S_SetX( float value );
+		void	S_SetY( float value );
+		void	S_SetZ( float value );
+		void	S_SetW( float value );
 	};
 }

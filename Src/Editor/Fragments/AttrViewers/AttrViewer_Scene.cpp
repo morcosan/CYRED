@@ -12,7 +12,7 @@ using namespace CYRED;
 
 void AttrViewer_Scene::_OnInitialize()
 {
-	_CreateAttrString( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	_AddToPanel( TITLE );
 }

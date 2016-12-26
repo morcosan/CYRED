@@ -25,10 +25,10 @@ void AttrViewer_CyredProj::_OnInitialize()
 	propertiesScheme.Add( AttrStruct{ ATTR_POS_Y,		AttrType::INT } );
 	propertiesScheme.Add( AttrStruct{ ATTR_FPS,			AttrType::INT } );
 
-	_CreateAttrStruct( ATTR_APP_CONFIG, propertiesScheme );
-	_CreateAttrSelector( ATTR_START_SCENE, Selector_Scene::TYPE );
-	_CreateAttrString( ATTR_BUILD_WINDOWS );
-	_CreateAttrString( ATTR_BUILD_ANDROID );
+	_CreateAttrStruct	( ATTR_APP_CONFIG,		ATTR_APP_CONFIG,	propertiesScheme );
+	_CreateAttrSelector	( ATTR_START_SCENE,		ATTR_START_SCENE,	Selector_Scene::TYPE );
+	_CreateAttrString	( ATTR_BUILD_WINDOWS,	ATTR_BUILD_WINDOWS );
+	_CreateAttrString	( ATTR_BUILD_ANDROID,	ATTR_BUILD_ANDROID );
 
 	_AddToPanel( TITLE );
 }

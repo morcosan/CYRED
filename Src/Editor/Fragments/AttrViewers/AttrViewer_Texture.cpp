@@ -12,22 +12,22 @@ using namespace CYRED;
 
 void AttrViewer_Texture::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	DataArray<const Char*> types;
 	types.Add( TYPE_TEXTURE_2D );
 	types.Add( TYPE_CUBE_MAP );
-	_CreateAttrDropdown	( ATTR_TYPE, types, AttrFlag::NONE, CallbackGroup::GROUP_2 );
+	_CreateAttrDropdown	( ATTR_TYPE, ATTR_TYPE, types, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
-	_CreateAttrBool		( ATTR_HAS_MIPMAP );
-	_CreateAttrBool		( ATTR_CLEAR_BUFFER );
-	_CreateAttrString	( ATTR_FILE_PATH );
-	_CreateAttrString	( ATTR_FILE_PATH_POSX );
-	_CreateAttrString	( ATTR_FILE_PATH_NEGX );
-	_CreateAttrString	( ATTR_FILE_PATH_POSY );
-	_CreateAttrString	( ATTR_FILE_PATH_NEGY );
-	_CreateAttrString	( ATTR_FILE_PATH_POSZ );
-	_CreateAttrString	( ATTR_FILE_PATH_NEGZ );
+	_CreateAttrBool		( ATTR_HAS_MIPMAP,		ATTR_HAS_MIPMAP );
+	_CreateAttrBool		( ATTR_CLEAR_BUFFER,	ATTR_CLEAR_BUFFER );
+	_CreateAttrString	( ATTR_FILE_PATH,		ATTR_FILE_PATH );
+	_CreateAttrString	( ATTR_FILE_PATH_POSX,	ATTR_FILE_PATH_POSX );
+	_CreateAttrString	( ATTR_FILE_PATH_NEGX,	ATTR_FILE_PATH_NEGX );
+	_CreateAttrString	( ATTR_FILE_PATH_POSY,	ATTR_FILE_PATH_POSY );
+	_CreateAttrString	( ATTR_FILE_PATH_NEGY,	ATTR_FILE_PATH_NEGY );
+	_CreateAttrString	( ATTR_FILE_PATH_POSZ,	ATTR_FILE_PATH_POSZ );
+	_CreateAttrString	( ATTR_FILE_PATH_NEGZ,	ATTR_FILE_PATH_NEGZ );
 	
 	_AddToPanel( TITLE );
 }

@@ -10,8 +10,8 @@ using namespace CYRED;
 
 void AttrViewer_GameObject::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME,	AttrFlag::EDIT_FINISH,	CallbackGroup::GROUP_1 );
-	_CreateAttrInt		( ATTR_UID,		AttrFlag::READONLY,		CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_NAME,	ATTR_NAME,	AttrFlag::EDIT_FINISH,	CallbackGroup::GROUP_1 );
+	_CreateAttrInt		( ATTR_UID,		ATTR_UID,	AttrFlag::READONLY,		CallbackGroup::GROUP_1 );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	

@@ -56,7 +56,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 					rapidjson::Value arrayNodeVars;
 					arrayNodeVars.SetArray();
 
-					Iterator<String, Script::LuaVar> iter = script->GetVarsListIterator();
+					Iterator<String, DataUnion> iter = script->GetVarsListIterator();
 					while ( iter.HasNext() ) {
 						// create object
 						rapidjson::Value objectNodeVar;
@@ -67,7 +67,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 												 rapidjson::StringRef( iter.GetKey().GetChar() ),
 												 _al );
 
-						switch ( iter.GetValue().type )
+						switch ( iter.GetValue().GetValueType() )
 						{
 							case DataUnion::INT:
 							{
@@ -75,7 +75,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_INT ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 iter.GetValue().value.GetInt(),
+														 iter.GetValue().GetInt(),
 														 _al );
 								break;
 							}
@@ -86,7 +86,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_FLOAT ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 iter.GetValue().value.GetFloat(),
+														 iter.GetValue().GetFloat(),
 														 _al );
 								break;
 							}
@@ -97,7 +97,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_BOOL ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 iter.GetValue().value.GetBool(),
+														 iter.GetValue().GetBool(),
 														 _al );
 								break;
 							}
@@ -108,7 +108,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_STRING ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 rapidjson::StringRef( iter.GetValue().value.GetString() ),
+														 rapidjson::StringRef( iter.GetValue().GetString() ),
 														 _al );
 								break;
 							}
@@ -119,7 +119,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_VEC2 ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 _ToJsonVec2( iter.GetValue().value.GetVector2() ),
+														 _ToJsonVec2( iter.GetValue().GetVector2() ),
 														 _al );
 								break;
 							}
@@ -130,7 +130,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_VEC3 ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 _ToJsonVec3( iter.GetValue().value.GetVector3() ),
+														 _ToJsonVec3( iter.GetValue().GetVector3() ),
 														 _al );
 								break;
 							}
@@ -141,7 +141,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 														 rapidjson::StringRef( VAR_TYPE_VEC4 ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
-														 _ToJsonVec4( iter.GetValue().value.GetVector4() ),
+														 _ToJsonVec4( iter.GetValue().GetVector4() ),
 														 _al );
 								break;
 							}
@@ -180,27 +180,77 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 	scripter->SetEmitEvents( FALSE );
 
 	// load script
-	//if ( json.HasMember( SCRIPT ) )
-	//{
-	//	if ( json[SCRIPT].IsNull() )
-	//	{
-	//		scripter->SetScript( NULL );
-	//	}
-	//	else
-	//	{
-	//		const Char* uniqueID = json[SCRIPT].GetString();
-	//		Script* script = AssetManager::Singleton()->GetScript( uniqueID );
-	//		if ( script == NULL ) {
-	//			Bool isOk = Random::ValidateUniqueID( uniqueID );
-	//			if ( isOk )	{
-	//				script = Memory::Alloc<Script>();
-	//				script->SetUniqueID( uniqueID );
-	//				AssetManager::Singleton()->AddScript( script );
-	//			}
-	//		}
-	//		scripter->SetScript( script );
-	//	}
-	//}
+	if ( json.HasMember( SCRIPTS ) )
+	{
+		rapidjson::Value& scripts = json[SCRIPTS];
+
+		for ( UInt i = 0; i < scripts.Size(); ++i ) {
+			// load script uid
+			if ( scripts[i].HasMember( SCRIPT_UID ) ) {
+				scripter->SetScript( i, scripts[i][SCRIPT_UID].GetString() );
+			}
+			else {
+				scripter->SetScript( i, "" );
+			}
+	
+			// load vars
+			if ( scripts[i].HasMember( SCRIPT_VARS ) ) {
+				rapidjson::Value& vars = scripts[i][SCRIPT_VARS];
+				Script* script = scripter->GetScript(i);
+
+				for ( UInt j = 0; j < vars.Size(); j++ ) {
+					if ( vars[j].HasMember( VAR_NAME ) 
+						 && vars[j].HasMember( VAR_TYPE )
+						 && vars[j].HasMember( VAR_VALUE ) ) 
+					{
+						const Char* varName = vars[j][VAR_NAME].GetString();
+
+						// find loaded variable
+						Iterator<String, DataUnion> iter = script->GetVarsListIterator();
+						while ( iter.HasNext() ) {
+							// if found, set value
+							if ( iter.GetKey() == varName ) {
+								DataUnion varValue;
+
+								if ( vars[j][VAR_TYPE] == VAR_TYPE_INT ) {
+									varValue.SetInt( vars[j][VAR_VALUE].GetInt() );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_FLOAT ) {
+									varValue.SetFloat( vars[j][VAR_VALUE].GetDouble() );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_BOOL ) {
+									varValue.SetBool( vars[j][VAR_VALUE].GetBool() );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_STRING ) {
+									varValue.SetString( vars[j][VAR_VALUE].GetString() );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC2 ) {
+									varValue.SetVector2( _FromJsonVec2( vars[j][VAR_VALUE] ) );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC3 ) {
+									varValue.SetVector3( _FromJsonVec3( vars[j][VAR_VALUE] ) );
+									script->SetVariable( varName, varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC4 ) {
+									varValue.SetVector4( _FromJsonVec4( vars[j][VAR_VALUE] ) );
+									script->SetVariable( varName, varValue );
+								}
+								
+								break;
+							}
+
+							iter.Next();
+						}
+					}
+				}
+			}
+		}
+	}
 
 	scripter->SetEmitEvents( emitEvents );
 }

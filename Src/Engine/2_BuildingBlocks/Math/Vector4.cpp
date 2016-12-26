@@ -121,3 +121,55 @@ const Float* Vector4::Ptr()
 	return &x;
 }
 
+
+
+/*-----------------*/
+/*--- SCRIPTING ---*/
+/*-----------------*/
+
+Float Vector4::S_GetX() const
+{
+	return x;
+}
+
+
+Float Vector4::S_GetY() const
+{
+	return y;
+}
+
+
+Float Vector4::S_GetZ() const
+{
+	return z;
+}
+
+
+Float Vector4::S_GetW() const
+{
+	return w;
+}
+
+
+void Vector4::S_SetX( float value )
+{
+	x = value;
+}
+
+
+void Vector4::S_SetY( float value )
+{
+	y = value;
+}
+
+
+void Vector4::S_SetZ( float value )
+{
+	z = value;
+}
+
+
+void Vector4::S_SetW( float value )
+{
+	w = value;
+}
