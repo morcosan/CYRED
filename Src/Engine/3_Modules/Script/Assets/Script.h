@@ -15,21 +15,27 @@ namespace luabridge
 	class LuaRef;
 }
 
+namespace CYRED
+{
+	class GameObject;
+}
+
 
 namespace CYRED
 {
 	class DLL Script : public Asset
 	{
-		const Char* VARS			= "_vars";
-		const Char* FUNC_ONSTART	= "OnStart";
-		const Char* FUNC_ONUPDATE	= "OnUpdate";
-		const Char* TYPE_INT		= "INT";
-		const Char* TYPE_FLOAT		= "FLOAT";
-		const Char* TYPE_BOOL		= "BOOL";
-		const Char* TYPE_VECTOR2	= "VECTOR2";
-		const Char* TYPE_VECTOR3	= "VECTOR3";
-		const Char* TYPE_VECTOR4	= "VECTOR4";
-		const Char* TYPE_STRING		= "STRING";
+		const Char* GLOBAL_VARS			= "VARS";
+		const Char* GLOBAL_GAMEOBJECT	= "GAMEOBJECT";
+		const Char* FUNC_ONSTART		= "OnStart";
+		const Char* FUNC_ONUPDATE		= "OnUpdate";
+		const Char* TYPE_INT			= "INT";
+		const Char* TYPE_FLOAT			= "FLOAT";
+		const Char* TYPE_BOOL			= "BOOL";
+		const Char* TYPE_VECTOR2		= "VECTOR2";
+		const Char* TYPE_VECTOR3		= "VECTOR3";
+		const Char* TYPE_VECTOR4		= "VECTOR4";
+		const Char* TYPE_STRING			= "STRING";
 
 
 	public:
@@ -45,7 +51,7 @@ namespace CYRED
 
 
 	public:
-		void CallFunction	( const Char* funcName );
+		void CallFunction	( const Char* funcName, GameObject* gameObject );
 		void SetVariable	( const Char* varName, DataUnion varValue );
 
 		Bool		RunsInEditor	()				const;

@@ -186,7 +186,7 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 		{
 			if ( _target != NULL )
 			{
-				COMP::Component* comp = CAST_S( COMP::Component*, eSource );
+				Component* comp = CAST_S( Component*, eSource );
 				if ( _target == comp->GetGameObject() )
 				{
 					if ( eName == EventName::TRANSFORM_CHANGED ) {
@@ -404,7 +404,7 @@ void AttributePanel::_DisplayGameObject()
 			viewer->UpdateGUI();
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::Transform>();
+			Component* comp = selectedGO->GetComponent<Transform>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
@@ -416,7 +416,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::Camera>();
+			Component* comp = selectedGO->GetComponent<Camera>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
@@ -428,7 +428,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::ParticleEmitter>();
+			Component* comp = selectedGO->GetComponent<ParticleEmitter>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
@@ -440,7 +440,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::MeshRendering>();
+			Component* comp = selectedGO->GetComponent<MeshRendering>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
@@ -452,7 +452,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::MorphRendering>();
+			Component* comp = selectedGO->GetComponent<MorphRendering>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
@@ -464,7 +464,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			COMP::Component* comp = selectedGO->GetComponent<COMP::Scripter>();
+			Component* comp = selectedGO->GetComponent<Scripter>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );

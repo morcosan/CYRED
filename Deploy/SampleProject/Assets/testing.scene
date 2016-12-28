@@ -27,6 +27,21 @@
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
                     "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
+                },
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "ft0k1rSGED4yuGTEgYSMn7GfAQEY1Sv9",
+                            "variables": [
+                                {
+                                    "name": "speed",
+                                    "type": "FLOAT",
+                                    "value": 5.0
+                                }
+                            ]
+                        }
+                    ]
                 }
             }
         },
@@ -147,36 +162,6 @@
                     "fovy_angle": 60.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
-                }
-            }
-        },
-        {
-            "name": "EmptyGameObject",
-            "enabled": true,
-            "components": {
-                "scripter": {
-                    "enabled": true,
-                    "scripts": [
-                        {
-                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
-                            "variables": [
-                                {
-                                    "name": "size",
-                                    "type": "FLOAT",
-                                    "value": 2.0
-                                },
-                                {
-                                    "name": "speed",
-                                    "type": "VECTOR3",
-                                    "value": {
-                                        "x": 4.0,
-                                        "y": 5.5,
-                                        "z": 0.0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
                 }
             }
         }

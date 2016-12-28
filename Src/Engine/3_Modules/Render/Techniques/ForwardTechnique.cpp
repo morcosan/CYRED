@@ -43,8 +43,8 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 		return;
 	}
 
-	_cameraTran = cameraGO->GetComponent<COMP::Transform>();
-	_cameraComp = cameraGO->GetComponent<COMP::Camera>();
+	_cameraTran = cameraGO->GetComponent<Transform>();
+	_cameraComp = cameraGO->GetComponent<Camera>();
 
 	Node* sceneRoot = scene->GetRoot();
 
@@ -99,8 +99,8 @@ void ForwardTechnique::_RenderMesh( GameObject* gameObject )
 		return;
 	}
 
-	COMP::MeshRendering*	meshRender	= gameObject->GetComponent<COMP::MeshRendering>();
-	COMP::Transform*		objTran		= gameObject->GetComponent<COMP::Transform>();
+	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
+	Transform*		objTran		= gameObject->GetComponent<Transform>();
 	if ( meshRender == NULL || objTran == NULL ||
 		!meshRender->IsEnabled() || !objTran->IsEnabled() )
 	{
@@ -193,8 +193,8 @@ void ForwardTechnique::_RenderMorph( GameObject* gameObject )
 		return;
 	}
 
-	COMP::MorphRendering*	morphRender	= gameObject->GetComponent<COMP::MorphRendering>();
-	COMP::Transform*		objTran		= gameObject->GetComponent<COMP::Transform>();
+	MorphRendering*	morphRender	= gameObject->GetComponent<MorphRendering>();
+	Transform*		objTran		= gameObject->GetComponent<Transform>();
 	if ( morphRender == NULL || objTran == NULL ||
 		!morphRender->IsEnabled() || !objTran->IsEnabled() )
 	{
@@ -291,8 +291,8 @@ void ForwardTechnique::_RenderParticles( GameObject* gameObject )
 		return;
 	}
 
-	COMP::ParticleEmitter*	emitter	= gameObject->GetComponent<COMP::ParticleEmitter>();
-	COMP::Transform*		objTran	= gameObject->GetComponent<COMP::Transform>();
+	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
+	Transform*		objTran	= gameObject->GetComponent<Transform>();
 	if ( emitter == NULL || objTran == NULL || 
 		!emitter->IsEnabled() || !objTran->IsEnabled() )
 	{

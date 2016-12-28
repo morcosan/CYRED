@@ -9,10 +9,7 @@
 
 namespace CYRED
 {
-	namespace COMP
-	{
-		class Scripter;
-	}
+	class Scripter;
 }
 
 
@@ -40,6 +37,6 @@ namespace CYRED
 
 
 	protected:
-		COMP::Scripter*	_target;
+		Scripter*	_target;
 	};
 }

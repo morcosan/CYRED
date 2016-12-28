@@ -14,7 +14,7 @@ using namespace CYRED;
 
 rapidjson::Value JsonSerializer_Transform::ToJson( void* object )
 {
-	COMP::Transform* transform = CAST_S( COMP::Transform*, object );
+	Transform* transform = CAST_S( Transform*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -40,7 +40,7 @@ rapidjson::Value JsonSerializer_Transform::ToJson( void* object )
 void JsonSerializer_Transform::FromJson( rapidjson::Value& json, OUT void* object, 
 										 DeserFlag flag )
 {
-	COMP::Transform* transform = CAST_S( COMP::Transform*, object );
+	Transform* transform = CAST_S( Transform*, object );
 
 	Bool emitEvents = transform->DoesEmitEvents();
 	transform->SetEmitEvents( FALSE );

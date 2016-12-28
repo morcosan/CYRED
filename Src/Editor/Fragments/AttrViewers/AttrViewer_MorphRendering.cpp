@@ -32,7 +32,7 @@ void AttrViewer_MorphRendering::_OnInitialize()
 
 void AttrViewer_MorphRendering::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::MorphRendering*, target );
+	_target = CAST_S( MorphRendering*, target );
 }
 
 

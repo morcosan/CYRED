@@ -150,8 +150,8 @@ void CYRED::MenuBar::A_Magic()
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
 	newObject->SetName( "magic" );
 
-	COMP::Transform* tran = newObject->AddComponent<COMP::Transform>();
-	COMP::MorphRendering* morphR = newObject->AddComponent<COMP::MorphRendering>();
+	Transform* tran = newObject->AddComponent<Transform>();
+	MorphRendering* morphR = newObject->AddComponent<MorphRendering>();
 	morphR->SetMaterial( AssetManager::Singleton()->GetMaterial( "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE" ) );
 	morphR->SetMorph( AssetManager::Singleton()->GetMorph( "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN" ) );
 }

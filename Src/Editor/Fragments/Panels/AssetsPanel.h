@@ -17,7 +17,7 @@ class QFileSystemWatcher;
 
 namespace CYRED
 {
-	class AssetsPanel : public Panel, public EventListener
+	class AssetsPanel : public Panel, public IEventListener
 	{
 		const Char* const	PANEL_TITLE = "Assets Panel";
 		const Vector2		MIN_SIZE	= Vector2( 200, 250 );

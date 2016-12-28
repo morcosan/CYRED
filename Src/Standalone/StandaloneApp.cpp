@@ -240,8 +240,8 @@ void StandaloneApp::_InitializeRenderer()
 	renderMngr->ChangeTechnique( 0, techSlot );
 
 	_missingCamera = Memory::Alloc<GameObject>();
-	_missingCamera->AddComponent<COMP::Transform>();
-	_missingCamera->AddComponent<COMP::Camera>();
+	_missingCamera->AddComponent<Transform>();
+	_missingCamera->AddComponent<Camera>();
 }
 
 
@@ -262,14 +262,14 @@ void StandaloneApp::_RenderScene()
 	GameObject* cameraGO = sceneMngr->GetMainCamera();
 	if ( cameraGO != NULL )
 	{
-		COMP::Camera* camera = cameraGO->GetComponent<COMP::Camera>();
-		COMP::Transform* transform = cameraGO->GetComponent<COMP::Transform>();
+		Camera* camera = cameraGO->GetComponent<Camera>();
+		Transform* transform = cameraGO->GetComponent<Transform>();
 
 		if ( camera != NULL && camera->IsEnabled() &&
 			 transform != NULL && transform->IsEnabled() )
 		{
 			//! update camera size
-			COMP::Camera* cam = cameraGO->GetComponent<COMP::Camera>();
+			Camera* cam = cameraGO->GetComponent<Camera>();
 			Float aspectRatio = CAST_S( Float, _appConfig.width ) / _appConfig.height;
 			Float height = cam->GetOrthoSize().y;
 			cam->SetAspectRatio( aspectRatio );

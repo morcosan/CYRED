@@ -27,7 +27,7 @@ void AttrViewer_MeshRendering::_OnInitialize()
 
 void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::MeshRendering*, target );
+	_target = CAST_S( MeshRendering*, target );
 }
 
 

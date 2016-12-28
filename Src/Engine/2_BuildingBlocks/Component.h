@@ -31,45 +31,42 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace COMP
+	ABSTRACT class DLL Component
 	{
-		ABSTRACT class DLL Component
-		{
-		public:
-			Component( GameObject* gameObject );
-			virtual ~Component() {};
+	public:
+		Component( GameObject* gameObject );
+		virtual ~Component() {};
 
 
-		public:
-			virtual void			OnHierarchyChange	() {};
-			virtual ComponentType	GetComponentType	() const;
-			virtual const Char*		GetComponentSubtype	() const;
+	public:
+		virtual void			OnHierarchyChange	() {};
+		virtual ComponentType	GetComponentType	() const;
+		virtual const Char*		GetComponentSubtype	() const;
 
 
-		public:
-			void		OnUpdate		( Bool isRuntime );
+	public:
+		void		OnUpdate		( Bool isRuntime );
 
-			GameObject*	GetGameObject	()				const;
-			Bool		IsEnabled		()				const;
-			Bool		DoesEmitEvents	()				const;
+		GameObject*	GetGameObject	()				const;
+		Bool		IsEnabled		()				const;
+		Bool		DoesEmitEvents	()				const;
 
-			void		SetEnabled		( Bool value );
-			void		SetEmitEvents	( Bool value );
-
-
-		protected:
-			virtual void _OnEnable	() PURE_VIRTUAL;
-			virtual void _OnStart	( Bool isRuntime ) {}
-			virtual void _OnUpdate	( Bool isRuntime ) {}
+		void		SetEnabled		( Bool value );
+		void		SetEmitEvents	( Bool value );
 
 
-		protected:
-			GameObject*		_gameObject;
-			Bool			_enabled;
-			Bool			_emitEvents;
-			ComponentType	_componentType;
-			const Char*		_componentSubtype;
-			Bool			_isFirstUpdate;
-		};
-	}
+	protected:
+		virtual void _OnEnable	() PURE_VIRTUAL;
+		virtual void _OnStart	( Bool isRuntime ) {}
+		virtual void _OnUpdate	( Bool isRuntime ) {}
+
+
+	protected:
+		GameObject*		_gameObject;
+		Bool			_enabled;
+		Bool			_emitEvents;
+		ComponentType	_componentType;
+		const Char*		_componentSubtype;
+		Bool			_isFirstUpdate;
+	};
 }

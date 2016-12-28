@@ -275,6 +275,7 @@ void AssetsPanel::A_ReloadAsset()
 		{
 			Script* script = CAST_S( Script*, asset );
 			script->LoadFullFile();
+			script->LoadLuaFiles();
 		}
 		break;
 	}
@@ -727,6 +728,12 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				{
 					asset->SetEmitEvents( FALSE );
 					asset->LoadFullFile();
+
+					// for script, also load data
+					if ( asset->GetAssetType() == AssetType::SCRIPT ) {
+						CAST_S( Script*, asset )->LoadLuaFiles();
+					}
+
 					asset->SetEmitEvents( TRUE );
 				}
 			}

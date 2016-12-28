@@ -9,7 +9,6 @@
 
 
 using namespace CYRED;
-using namespace COMP;
 
 
 Transform::Transform( GameObject* gameObject ) 

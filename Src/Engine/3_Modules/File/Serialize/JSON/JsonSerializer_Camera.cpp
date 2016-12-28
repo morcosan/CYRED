@@ -15,7 +15,7 @@ using namespace CYRED;
 
 rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 {
-	COMP::Camera* camera = CAST_S( COMP::Camera*, object );
+	Camera* camera = CAST_S( Camera*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -28,7 +28,7 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 	{
 		case CameraType::PERSPECTIVE:
 			json.AddMember( rapidjson::StringRef( CAMERA_TYPE ),
-							rapidjson::StringRef( TYPE_PERSPECTIVE ),
+							rapidjson::StringRef( Camera::TYPE_PERSPECTIVE ),
 							_al );
 			json.AddMember( rapidjson::StringRef( FOVY_ANGLE ), 
 							camera->GetFovYAngle(), 
@@ -37,7 +37,7 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 
 		case CameraType::ORTHOGRAPHIC:
 			json.AddMember( rapidjson::StringRef( CAMERA_TYPE ),
-							rapidjson::StringRef( TYPE_ORTHOGRAPHIC ),
+							rapidjson::StringRef( Camera::TYPE_ORTHOGRAPHIC ),
 							_al );
 			json.AddMember( rapidjson::StringRef( ORTHO_HEIGHT ), 
 							camera->GetOrthoSize().y, 
@@ -58,7 +58,7 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
 										 DeserFlag flag )
 {
-	COMP::Camera* camera = CAST_S( COMP::Camera*, object );
+	Camera* camera = CAST_S( Camera*, object );
 
 	Bool emitEvents = camera->DoesEmitEvents();
 	camera->SetEmitEvents( FALSE );
@@ -71,11 +71,11 @@ void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object,
 	{
 		FiniteString type( json[CAMERA_TYPE].GetString() );
 
-		if ( type == TYPE_PERSPECTIVE )
+		if ( type == Camera::TYPE_PERSPECTIVE )
 		{
 			camera->SetCameraType( CameraType::PERSPECTIVE );
 		}
-		if ( type == TYPE_ORTHOGRAPHIC )
+		if ( type == Camera::TYPE_ORTHOGRAPHIC )
 		{
 			camera->SetCameraType( CameraType::ORTHOGRAPHIC );
 		}

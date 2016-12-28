@@ -26,7 +26,7 @@ JsonSerializer_ParticleEmitter::JsonSerializer_ParticleEmitter()
 
 rapidjson::Value JsonSerializer_ParticleEmitter::ToJson( void* object )
 {
-	COMP::ParticleEmitter* emitter = CAST_S( COMP::ParticleEmitter*, object );
+	ParticleEmitter* emitter = CAST_S( ParticleEmitter*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -120,7 +120,7 @@ rapidjson::Value JsonSerializer_ParticleEmitter::ToJson( void* object )
 void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void* object,
 											   DeserFlag flag )
 {
-	COMP::ParticleEmitter* emitter = CAST_S( COMP::ParticleEmitter*, object );
+	ParticleEmitter* emitter = CAST_S( ParticleEmitter*, object );
 
 	Bool emitEvents = emitter->DoesEmitEvents();
 	emitter->SetEmitEvents( FALSE );

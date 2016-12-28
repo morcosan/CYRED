@@ -325,9 +325,9 @@ void EditorApp::_CreateSelectorPopup()
 void EditorApp::_CreateCameras()
 {
 	GameObject* cameraGO1 = Memory::Alloc<GameObject>();
-	cameraGO1->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+	cameraGO1->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 
-	COMP::Camera* cameraComp1 = cameraGO1->AddComponent<COMP::Camera>();
+	Camera* cameraComp1 = cameraGO1->AddComponent<Camera>();
 	cameraComp1->SetFovYAngle( 60 );
 	cameraComp1->SetNearClipping( 0.1f );
 	cameraComp1->SetFarClipping( 200.0f );

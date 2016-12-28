@@ -17,30 +17,27 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace COMP
+	class DLL MeshRendering : public Component
 	{
-		class DLL MeshRendering : public Component
-		{
-		public:
-			MeshRendering( GameObject* gameObject = NULL );
-			virtual ~MeshRendering() {}
+	public:
+		MeshRendering( GameObject* gameObject = NULL );
+		virtual ~MeshRendering() {}
 
 
-		public:
-			Material*	GetMaterial	() const;
-			Mesh*		GetMesh		() const;
+	public:
+		Material*	GetMaterial	() const;
+		Mesh*		GetMesh		() const;
 
-			void		SetMaterial	( Material* value );
-			void		SetMesh		( Mesh* value );
-
-
-		protected:
-			void _OnEnable() override {}
+		void		SetMaterial	( Material* value );
+		void		SetMesh		( Mesh* value );
 
 
-		protected:
-			Material*	_material;
-			Mesh*		_mesh;
-		};
-	}
+	protected:
+		void _OnEnable() override {}
+
+
+	protected:
+		Material*	_material;
+		Mesh*		_mesh;
+	};
 }

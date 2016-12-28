@@ -19,7 +19,7 @@ using namespace CYRED;
 
 rapidjson::Value JsonSerializer_MorphRendering::ToJson( void* object )
 {
-	COMP::MorphRendering* morphRender = CAST_S( COMP::MorphRendering*, object );
+	MorphRendering* morphRender = CAST_S( MorphRendering*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -76,7 +76,7 @@ rapidjson::Value JsonSerializer_MorphRendering::ToJson( void* object )
 void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* object, 
 										 DeserFlag flag )
 {
-	COMP::MorphRendering* morphRender = CAST_S( COMP::MorphRendering*, object );
+	MorphRendering* morphRender = CAST_S( MorphRendering*, object );
 
 	Bool emitEvents = morphRender->DoesEmitEvents();
 	morphRender->SetEmitEvents( FALSE );

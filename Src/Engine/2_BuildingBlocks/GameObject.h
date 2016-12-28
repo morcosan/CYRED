@@ -13,10 +13,7 @@
 
 namespace CYRED
 {
-	namespace COMP
-	{
-		class Component;
-	}
+	class Component;
 }
 
 
@@ -40,21 +37,22 @@ namespace CYRED
 
 
 	public:
-		const Char*			GetName				()				const;
-		Bool				IsEnabled			()				const;
-		UInt				GetUID				()				const;
-		Bool				DoesEmitEvents		()				const;
+		const Char*	GetName				()							const;
+		Bool		IsEnabled			()							const;
+		UInt		GetUniqueID			()							const;
+		Bool		DoesEmitEvents		()							const;
+		Component*	GetComponentByName	( const Char* compName )	const;
 
-		UInt				GetComponentCount	()				const;
-		COMP::Component*	GetComponentAt		( UInt index )	const;
+		UInt		GetComponentCount	()				const;
+		Component*	GetComponentAt		( UInt index )	const;
 
-		void				SetEnabled			( Bool value );
-		void				SetName				( const Char* name );
-		void				SetEmitEvents		( Bool value );
+		void		SetEnabled			( Bool value );
+		void		SetName				( const Char* name );
+		void		SetEmitEvents		( Bool value );
 
 
 	public:
-		template <class T> T*	GetComponent	();
+		template <class T> T*	GetComponent	()	const;
 		template <class T> T*	AddComponent	();
 		template <class T> void	RemoveComponent	();
 
@@ -65,18 +63,17 @@ namespace CYRED
 		UInt	_uid;	// unique index
 		Bool	_emitEvents;
 
-		DataArray<COMP::Component*>	_components;
+		DataArray<Component*>	_components;
 
 		void _SentChangeEvent();
 	};
 
 
 
-
 	template <class T>
-	T* GameObject::GetComponent()
+	T* GameObject::GetComponent() const
 	{
-		STATIC_ASSERT( IS_BASE_OF( COMP::Component, T ), "Class must derive Component" );
+		STATIC_ASSERT( IS_BASE_OF( Component, T ), "Class must derive Component" );
 
 		T*	requested;
 
@@ -97,7 +94,7 @@ namespace CYRED
 	template <class T>
 	T* GameObject::AddComponent()
 	{
-		STATIC_ASSERT( IS_BASE_OF( COMP::Component, T ), "Class must derive Component" );
+		STATIC_ASSERT( IS_BASE_OF( Component, T ), "Class must derive Component" );
 
 		T*	onlyOneAllowed;
 
@@ -115,7 +112,7 @@ namespace CYRED
 		onlyOneAllowed =  Memory::Alloc<T>( this );
 		_components.Add( onlyOneAllowed );
 
-		COMP::Component* comp = CAST_S( COMP::Component*, onlyOneAllowed );
+		Component* comp = CAST_S( Component*, onlyOneAllowed );
 		comp->SetEnabled( TRUE );
 
 		// emit change event
@@ -128,7 +125,7 @@ namespace CYRED
 	template <class T>
 	void GameObject::RemoveComponent()
 	{
-		STATIC_ASSERT( IS_BASE_OF( COMP::Component, T ), "Class must derive Component" );
+		STATIC_ASSERT( IS_BASE_OF( Component, T ), "Class must derive Component" );
 
 		T*	onlyOneAllowed;
 

@@ -1,15 +1,17 @@
-#include "Camera.h"
-#include "Camera.h"
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
 #include "Camera.h"
 
 #include "../../Event/EventManager.h"
+#include "../../../2_BuildingBlocks/String/String.h"
 
 
 using namespace CYRED;
-using namespace COMP;
+
+
+const Char* const Camera::TYPE_PERSPECTIVE	= "PERSPECTIVE";
+const Char* const Camera::TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
 
 
 Camera::Camera( GameObject * gameObject )
@@ -82,7 +84,20 @@ CameraType Camera::GetCameraType() const
 }
 
 
-void Camera::SetFovYAngle( float value )
+const Char* Camera::GetCameraTypeString() const
+{
+	if ( _cameraType == CameraType::ORTHOGRAPHIC ) {
+		return TYPE_ORTHOGRAPHIC;
+	}
+	else if ( _cameraType == CameraType::PERSPECTIVE ) {
+		return TYPE_PERSPECTIVE;
+	}
+
+	return NULL;
+}
+
+
+void Camera::SetFovYAngle( Float value )
 {
 	_fovYAngle = value;
 	_projectionChanged = true;
@@ -94,7 +109,7 @@ void Camera::SetFovYAngle( float value )
 }
 
 
-void Camera::SetNearClipping( float value )
+void Camera::SetNearClipping( Float value )
 {
 	_nearClipping = value;
 	_projectionChanged = true;
@@ -106,7 +121,7 @@ void Camera::SetNearClipping( float value )
 }
 
 
-void Camera::SetFarClipping( float value )
+void Camera::SetFarClipping( Float value )
 {
 	_farClipping = value;
 	_projectionChanged = true;
@@ -118,7 +133,7 @@ void Camera::SetFarClipping( float value )
 }
 
 
-void Camera::SetAspectRatio( float value )
+void Camera::SetAspectRatio( Float value )
 {
 	_aspectRatio = value;
 	_projectionChanged = true;
@@ -130,7 +145,7 @@ void Camera::SetAspectRatio( float value )
 }
 
 
-void CYRED::COMP::Camera::SetOrthoHeight( Float value )
+void CYRED::Camera::SetOrthoHeight( Float value )
 {
 	_orthoSize.y = value;
 
@@ -143,7 +158,7 @@ void CYRED::COMP::Camera::SetOrthoHeight( Float value )
 }
 
 
-void CYRED::COMP::Camera::SetOrthoWidth( Float value )
+void CYRED::Camera::SetOrthoWidth( Float value )
 {
 	_orthoSize.x = value;
 
@@ -156,6 +171,12 @@ void CYRED::COMP::Camera::SetOrthoWidth( Float value )
 }
 
 
+void Camera::SetOrthoSize( const Vector2& value )
+{
+	_orthoSize = value;
+}
+
+
 void Camera::SetCameraType( CameraType type )
 {
 	_cameraType = type;
@@ -164,5 +185,18 @@ void Camera::SetCameraType( CameraType type )
 	if ( _emitEvents )
 	{
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+	}
+}
+
+
+void Camera::SetCameraTypeString( const Char* type )
+{
+	String sType( type );
+
+	if ( sType == TYPE_PERSPECTIVE ) {
+		SetCameraType( CameraType::PERSPECTIVE );
+	}
+	else if ( sType == TYPE_ORTHOGRAPHIC ) {
+		SetCameraType( CameraType::ORTHOGRAPHIC );
 	}
 }

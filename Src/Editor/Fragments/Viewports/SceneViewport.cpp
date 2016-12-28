@@ -94,7 +94,7 @@ void SceneViewport::_OnUpdate()
 	}
 
 	//! update camera size
-	COMP::Camera* cam = _cameraGO->GetComponent<COMP::Camera>();
+	Camera* cam = _cameraGO->GetComponent<Camera>();
 	Float aspectRatio = CAST_S( Float, _qtWindow->width() ) / _qtWindow->height();
 	Float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );

@@ -38,7 +38,6 @@
     <ClInclude Include="2_BuildingBlocks\Math\Matrix4.h" />
     <ClInclude Include="2_BuildingBlocks\Math\Math.h" />
     <ClInclude Include="3_Modules\Event\EventManager.h" />
-    <ClInclude Include="3_Modules\Event\Fragments\EventListener.h" />
     <ClInclude Include="3_Modules\Event\Fragments\Events.h" />
     <ClInclude Include="3_Modules\Event\EventManagerImpl.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataUnion.h" />
@@ -110,6 +109,7 @@
     <ClInclude Include="3_Modules\Script\Assets\Script.h" />
     <ClInclude Include="3_Modules\Script\Components\Scripter.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scripter.h" />
+    <ClInclude Include="3_Modules\Event\Fragments\IEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />

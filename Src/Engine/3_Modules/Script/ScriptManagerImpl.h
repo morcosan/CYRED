@@ -27,22 +27,26 @@ namespace CYRED
 		protected:
 			lua_State*	_Lua;
 
+			void _RegisterGameObject();
+
 			void _RegisterComponent();
-			void _RegisterCamera();
 			void _RegisterTransform();
-			void _RegisterMeshRenderer();
-			void _RegisterMorphRenderer();
+			void _RegisterCamera();
+			void _RegisterMeshRendering();
+			void _RegisterMorphRendering();
 			void _RegisterParticleEmitter();
 
 			void _RegisterFileManager();
 			void _RegisterInputManager();
 			void _RegisterRenderManager();
 			void _RegisterAssetManager();
+			void _RegisterScriptManager();
 			void _RegisterSceneManager();
 			void _RegisterDebugManager();
 			void _RegisterTimeManager();
+			void _RegisterEventManager();
 
-			void _RegisterGameObject();
+			void _RegisterAsset();
 			void _RegisterMaterial();
 			void _RegisterMesh();
 			void _RegisterMorph();

@@ -25,48 +25,53 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace COMP
+	class DLL Camera : public Component
 	{
-		class DLL Camera : public Component
-		{
-		public:
-			Camera( GameObject* gameObject = NULL );
-			virtual ~Camera() {}
+	public:
+		static const Char* const TYPE_PERSPECTIVE;
+		static const Char* const TYPE_ORTHOGRAPHIC;
 
 
-		public:
-			Matrix4 GetProjectionMatrix();
-
-			Float		GetFovYAngle	()	const;
-			Float		GetNearClipping	()	const;
-			Float		GetFarClipping	()	const;
-			Float		GetAspectRatio	()	const;
-			Vector2		GetOrthoSize	()	const;
-			CameraType	GetCameraType	()	const;
-
-			void SetFovYAngle	( Float value );
-			void SetNearClipping( Float value );
-			void SetFarClipping	( Float value );
-			void SetAspectRatio	( Float value );
-			void SetOrthoHeight	( Float value );
-			void SetOrthoWidth	( Float value );
-			void SetCameraType	( CameraType type );
+	public:
+		Camera( GameObject* gameObject = NULL );
+		virtual ~Camera() {}
 
 
-		protected:
-			void _OnEnable() override {}
+	public:
+		Matrix4 GetProjectionMatrix();
+
+		Float		GetFovYAngle		()	const;
+		Float		GetNearClipping		()	const;
+		Float		GetFarClipping		()	const;
+		Float		GetAspectRatio		()	const;
+		Vector2		GetOrthoSize		()	const;
+		CameraType	GetCameraType		()	const;
+		const Char*	GetCameraTypeString	()	const;
+
+		void SetFovYAngle		( Float value );
+		void SetNearClipping	( Float value );
+		void SetFarClipping		( Float value );
+		void SetAspectRatio		( Float value );
+		void SetOrthoHeight		( Float value );
+		void SetOrthoWidth		( Float value );
+		void SetOrthoSize		( const Vector2& value );
+		void SetCameraType		( CameraType type );
+		void SetCameraTypeString( const Char* type );
 
 
-		protected:
-			CameraType	_cameraType;
-			Float		_fovYAngle;
-			Float		_nearClipping;
-			Float		_farClipping;
-			Float		_aspectRatio;
-			Vector2		_orthoSize;
+	protected:
+		void _OnEnable() override {}
 
-			Matrix4		_projectionMatrix;
-			Bool		_projectionChanged;
-		};
-	}
+
+	protected:
+		CameraType	_cameraType;
+		Float		_fovYAngle;
+		Float		_nearClipping;
+		Float		_farClipping;
+		Float		_aspectRatio;
+		Vector2		_orthoSize;
+
+		Matrix4		_projectionMatrix;
+		Bool		_projectionChanged;
+	};
 }

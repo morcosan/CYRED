@@ -8,7 +8,7 @@
 
 namespace CYRED
 {
-	class EventListener;
+	class IEventListener;
 }
 
 
@@ -23,8 +23,8 @@ namespace CYRED
 		virtual void Initialize	()	PURE_VIRTUAL;
 		virtual void Finalize	()	PURE_VIRTUAL;
 
-		virtual void RegisterListener	( EventType eType, EventListener* listener )	PURE_VIRTUAL;
-		virtual void UnregisterListener	( EventType eType, EventListener* listener )	PURE_VIRTUAL;
+		virtual void RegisterListener	( EventType eType, IEventListener* listener )	PURE_VIRTUAL;
+		virtual void UnregisterListener	( EventType eType, IEventListener* listener )	PURE_VIRTUAL;
 
 		virtual void EmitEvent			( EventType eType, EventName eName, 
 										  void* eSource )								PURE_VIRTUAL;

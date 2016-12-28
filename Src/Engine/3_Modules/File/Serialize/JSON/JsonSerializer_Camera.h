@@ -12,8 +12,6 @@ namespace CYRED
 	{
 		const Char* const ENABLED			= "enabled";
 		const Char* const CAMERA_TYPE		= "camera_type";
-		const Char* const TYPE_PERSPECTIVE	= "PERSPECTIVE";
-		const Char* const TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
 		const Char* const FOVY_ANGLE		= "fovy_angle";
 		const Char* const ORTHO_HEIGHT		= "ortho_height";
 		const Char* const NEAR_CLIP			= "near_clipping";

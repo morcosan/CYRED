@@ -10,8 +10,6 @@
 
 
 using namespace CYRED;
-using namespace COMP;
-
 
 
 ParticleEmitter::ParticleEmitter( GameObject* gameObject )

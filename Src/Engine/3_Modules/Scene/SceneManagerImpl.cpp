@@ -400,8 +400,8 @@ GameObject* SceneManagerImpl::_RecFindActiveCamera( Node* parent )
 
 		if ( gameObject->IsEnabled() )
 		{
-			COMP::Camera* camera = gameObject->GetComponent<COMP::Camera>();
-			COMP::Transform* transform = gameObject->GetComponent<COMP::Transform>();
+			Camera* camera = gameObject->GetComponent<Camera>();
+			Transform* transform = gameObject->GetComponent<Transform>();
 
 			if ( camera != NULL && camera->IsEnabled() && 
 				 transform != NULL && transform->IsEnabled() )

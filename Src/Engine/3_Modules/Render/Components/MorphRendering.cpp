@@ -11,8 +11,6 @@
 
 
 using namespace CYRED;
-using namespace COMP;
-
 
 
 MorphRendering::MorphRendering( GameObject* gameObject )

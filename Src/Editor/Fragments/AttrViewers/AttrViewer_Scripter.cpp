@@ -26,7 +26,7 @@ void AttrViewer_Scripter::_OnInitialize()
 
 void AttrViewer_Scripter::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::Scripter*, target );
+	_target = CAST_S( Scripter*, target );
 }
 
 
@@ -53,37 +53,37 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 
 					switch ( varType ) {
 						case DataUnion::BOOL:
-							_CreateAttrBool( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrBool( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrBool( attrName.GetChar(), iter.GetValue().GetBool() );
 							break;
 
 						case DataUnion::INT:
-							_CreateAttrInt( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrInt( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrInt( attrName.GetChar(), iter.GetValue().GetInt() );
 							break;
 
 						case DataUnion::FLOAT:
-							_CreateAttrFloat( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrFloat( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrFloat( attrName.GetChar(), iter.GetValue().GetFloat() );
 							break;
 
 						case DataUnion::STRING:
-							_CreateAttrString( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrString( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrString( attrName.GetChar(), iter.GetValue().GetString() );
 							break;
 
 						case DataUnion::VECTOR2:
-							_CreateAttrVector2( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrVector2( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrVector2( attrName.GetChar(), iter.GetValue().GetVector2() );
 							break;
 
 						case DataUnion::VECTOR3:
-							_CreateAttrVector3( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrVector3( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrVector3( attrName.GetChar(), iter.GetValue().GetVector3() );
 							break;
 
 						case DataUnion::VECTOR4:
-							_CreateAttrVector4( attrName.GetChar(), iter.GetKey().GetChar() );
+							_CreateAttrVector4( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrVector4( attrName.GetChar(), iter.GetValue().GetVector4() );
 							break;
 					}
@@ -124,63 +124,73 @@ void AttrViewer_Scripter::_OnUpdateTarget()
 
 	// update
 	{
-		UInt scriptsCount = _ReadAttrListSize( ATTR_SCRIPTS );
-		// clear list
-		_target->ClearScripts();
-		// add all again
-		for ( UInt i = 0; i < scriptsCount; ++i ) {
-			Script* scriptAsset = CAST_S( Script*, _ReadAttrListIndex( ATTR_SCRIPTS, i ).GetReference() );
-			_target->SetScript( i, (scriptAsset == NULL) ? "" : scriptAsset->GetUniqueID() );
-		
-			// get new script
-			Script* script = _target->GetScript( i );
+		if ( _activatedGroup == CallbackGroup::GROUP_1 ) {
+			UInt scriptsCount = _ReadAttrListSize( ATTR_SCRIPTS );
+			// clear list
+			_target->ClearScripts();
+			// add all again
+			for ( UInt i = 0; i < scriptsCount; ++i ) {
+				Script* scriptAsset = CAST_S( Script*, _ReadAttrListIndex( ATTR_SCRIPTS, i ).GetReference() );
+				_target->SetScript( i, (scriptAsset == NULL) ? "" : scriptAsset->GetUniqueID() );
+			}
 
-			// set variables
-			Iterator<String, DataUnion> iter = script->GetVarsListIterator();
-			while ( iter.HasNext() ) {
-				DataUnion::ValueType varType = iter.GetValue().GetValueType();
-				DataUnion varValue;
-				FiniteString attrName( "%s%s", script->GetUniqueID(), iter.GetKey().GetChar() );
+			// refresh selection
 
-				// set variable value
-				switch ( varType ) {
-					case DataUnion::BOOL:
-						varValue.SetBool( _ReadAttrBool( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+		}
+		else if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
+			for ( UInt i = 0; i < _target->GetScriptsCount(); i++ ) {
+				// get script
+				Script* script = _target->GetScript( i );
 
-					case DataUnion::INT:
-						varValue.SetInt( _ReadAttrInt( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+				if ( script != NULL ) {
+					// set variables
+					Iterator<String, DataUnion> iter = script->GetVarsListIterator();
+					while ( iter.HasNext() ) {
+						DataUnion::ValueType varType = iter.GetValue().GetValueType();
+						DataUnion varValue;
+						FiniteString attrName( "%s%s", script->GetUniqueID(), iter.GetKey().GetChar() );
 
-					case DataUnion::FLOAT:
-						varValue.SetFloat( _ReadAttrFloat( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+						// set variable value
+						switch ( varType ) {
+							case DataUnion::BOOL:
+								varValue.SetBool( _ReadAttrBool( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
 
-					case DataUnion::STRING:
-						varValue.SetString( _ReadAttrString( attrName.GetChar() ).GetChar() );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+							case DataUnion::INT:
+								varValue.SetInt( _ReadAttrInt( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
 
-					case DataUnion::VECTOR2:
-						varValue.SetVector2( _ReadAttrVector2( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+							case DataUnion::FLOAT:
+								varValue.SetFloat( _ReadAttrFloat( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
 
-					case DataUnion::VECTOR3:
-						varValue.SetVector3( _ReadAttrVector3( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+							case DataUnion::STRING:
+								varValue.SetString( _ReadAttrString( attrName.GetChar() ).GetChar() );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
 
-					case DataUnion::VECTOR4:
-						varValue.SetVector4( _ReadAttrVector4( attrName.GetChar() ) );
-						script->SetVariable( iter.GetKey().GetChar(), varValue );
-						break;
+							case DataUnion::VECTOR2:
+								varValue.SetVector2( _ReadAttrVector2( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
+
+							case DataUnion::VECTOR3:
+								varValue.SetVector3( _ReadAttrVector3( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
+
+							case DataUnion::VECTOR4:
+								varValue.SetVector4( _ReadAttrVector4( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
+						}
+
+						iter.Next();
+					}
 				}
-
-				iter.Next();
 			}
 		}
 

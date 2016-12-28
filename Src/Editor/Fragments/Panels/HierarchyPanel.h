@@ -14,7 +14,7 @@ class QMenu;
 
 namespace CYRED
 {
-	class HierarchyPanel : public Panel, public EventListener
+	class HierarchyPanel : public Panel, public IEventListener
 	{
 		const Char*	const	PANEL_TITLE			= "Hierarchy Panel";
 		const Vector2		MIN_SIZE			= Vector2( 200, 250 );

@@ -18,7 +18,7 @@ namespace CYRED
 	class AttrViewer;
 
 
-	class AttributePanel : public Panel, public EventListener
+	class AttributePanel : public Panel, public IEventListener
 	{
 		const Char* const	ATTR_GAMEOBJECT			= "GameObject";
 		const Char* const	ATTR_TRANSFORM			= "Transform";

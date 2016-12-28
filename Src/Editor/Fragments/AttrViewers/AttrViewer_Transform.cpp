@@ -32,7 +32,7 @@ void AttrViewer_Transform::_OnInitialize()
 
 void AttrViewer_Transform::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::Transform*, target );
+	_target = CAST_S( Transform*, target );
 }
 
 
@@ -67,8 +67,7 @@ void AttrViewer_Transform::_OnUpdateTarget()
 			_target->SetEulerRotationLocal	( _ReadAttrVector3( ATTR_LOCAL_ROT ) );
 			_target->SetScaleLocal			( _ReadAttrVector3( ATTR_LOCAL_SCALE ) );
 		}
-
-		if ( _activatedGroup == CallbackGroup::GROUP_2 )
+		else if ( _activatedGroup == CallbackGroup::GROUP_2 )
 		{
 			_target->SetPositionWorld		( _ReadAttrVector3( ATTR_WORLD_POS ) );
 			_target->SetEulerRotationWorld	( _ReadAttrVector3( ATTR_WORLD_ROT ) );

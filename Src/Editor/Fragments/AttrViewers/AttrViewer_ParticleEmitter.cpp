@@ -57,7 +57,7 @@ void AttrViewer_ParticleEmitter::_OnInitialize()
 
 void AttrViewer_ParticleEmitter::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::ParticleEmitter*, target );
+	_target = CAST_S( ParticleEmitter*, target );
 }
 
 

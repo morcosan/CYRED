@@ -4,6 +4,11 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "../3_Modules/Event/EventManager.h"
+#include "Components\Transform.h"
+#include "../3_Modules/Render/Components/Camera.h"
+#include "../3_Modules/Render/Components/MeshRendering.h"
+#include "../3_Modules/Render/Components/MorphRendering.h"
+#include "../3_Modules/Render/Components/ParticleEmitter.h"
 
 
 using namespace CYRED;
@@ -74,7 +79,7 @@ Bool GameObject::IsEnabled() const
 }
 
 
-UInt GameObject::GetUID() const
+UInt GameObject::GetUniqueID() const
 {
 	return _uid;
 }
@@ -86,13 +91,34 @@ Bool GameObject::DoesEmitEvents() const
 }
 
 
+Component* GameObject::GetComponentByName( const Char* compName ) const
+{
+	String sName(compName);
+
+	if ( sName == "Transform" ) {
+		return GetComponent<Transform>();
+	}
+	else if ( sName == "MeshRendering" ) {
+		return GetComponent<MeshRendering>();
+	}
+	else if ( sName == "MorphRendering" ) {
+		return GetComponent<MorphRendering>();
+	}
+	else if ( sName == "Camera" ) {
+		return GetComponent<Camera>();
+	}
+
+	return NULL;
+}
+
+
 UInt GameObject::GetComponentCount() const
 {
 	return _components.Size();
 }
 
 
-COMP::Component* GameObject::GetComponentAt( UInt index ) const
+Component* GameObject::GetComponentAt( UInt index ) const
 {
 	ASSERT( index < _components.Size() );
 	return _components[index];

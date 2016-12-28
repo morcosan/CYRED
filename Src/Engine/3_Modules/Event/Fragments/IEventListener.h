@@ -9,11 +9,11 @@
 
 namespace CYRED
 {
-	ABSTRACT class DLL EventListener
+	ABSTRACT class DLL IEventListener
 	{
 	public:
-		EventListener() {}
-		virtual ~EventListener() {}
+		IEventListener() {}
+		virtual ~IEventListener() {}
 
 		virtual void OnEvent( EventType eType, EventName eName, void* eSource ) PURE_VIRTUAL;
 	};

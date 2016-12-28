@@ -26,7 +26,6 @@ namespace CYRED
 		virtual Float	GetRenderDeltaTime	()					PURE_VIRTUAL; //! in sec
 		virtual void	SetDesiredFPS		( UInt desiredFPS )	PURE_VIRTUAL;
 		virtual UInt	GetDesiredFPS		()					PURE_VIRTUAL;
-		virtual Float	GetDesiredDelta		()					PURE_VIRTUAL;
 		virtual Double	GetGameTime			()					PURE_VIRTUAL; //! in sec
 	};
 }

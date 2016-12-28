@@ -17,51 +17,48 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace COMP
+	class DLL MorphRendering : public Component
 	{
-		class DLL MorphRendering : public Component
-		{
-		public:
-			MorphRendering( GameObject* gameObject = NULL );
-			virtual ~MorphRendering() {}
+	public:
+		MorphRendering( GameObject* gameObject = NULL );
+		virtual ~MorphRendering() {}
 
 
-		public:
-			Material*	GetMaterial				() const;
-			Morph*		GetMorph				() const;
-			Float		GetDurationState		() const;
-			Float		GetDurationStateChange	() const;
-			Bool		IsPlaying				() const;
+	public:
+		Material*	GetMaterial				() const;
+		Morph*		GetMorph				() const;
+		Float		GetDurationState		() const;
+		Float		GetDurationStateChange	() const;
+		Bool		IsPlaying				() const;
 
-			UInt		GetFirstState			() const;
-			UInt		GetSecondState			() const;
-			Float		GetStateRatio			() const;
+		UInt		GetFirstState			() const;
+		UInt		GetSecondState			() const;
+		Float		GetStateRatio			() const;
 
-			void		SetMaterial				( Material* value );
-			void		SetMorph				( Morph* value );
-			void		SetDurationState		( Float value );
-			void		SetDurationStateChange	( Float value );
-			void		SetIsPlaying			( Bool value );
-
-
-		protected:
-			void _OnEnable()				 override {}
-			void _OnUpdate( Bool isRuntime ) override;
+		void		SetMaterial				( Material* value );
+		void		SetMorph				( Morph* value );
+		void		SetDurationState		( Float value );
+		void		SetDurationStateChange	( Float value );
+		void		SetIsPlaying			( Bool value );
 
 
-		protected:
-			Material*	_material;
-			Morph*		_morph;
+	protected:
+		void _OnEnable()				 override {}
+		void _OnUpdate( Bool isRuntime ) override;
 
-			Float		_durationState;
-			Float		_durationStateChange;
-			Bool		_isPlaying;
 
-			UInt		_firstState;
-			UInt		_secondState;
-			Float		_currDuration;
-			Float		_currTime;
-			Bool		_isInState;
-		};
-	}
+	protected:
+		Material*	_material;
+		Morph*		_morph;
+
+		Float		_durationState;
+		Float		_durationStateChange;
+		Bool		_isPlaying;
+
+		UInt		_firstState;
+		UInt		_secondState;
+		Float		_currDuration;
+		Float		_currTime;
+		Bool		_isInState;
+	};
 }

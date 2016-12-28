@@ -6,45 +6,47 @@
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Component.h"
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
+#include "../../../3_Modules/Event/Fragments/IEventListener.h"
 
 
 namespace CYRED
 {
+	class Asset;
 	class Script;
 }
 
 
 namespace CYRED
 {
-	namespace COMP
+	class DLL Scripter : public Component, public IEventListener
 	{
-		class DLL Scripter : public Component
-		{
-		public:
-			Scripter( GameObject* gameObject = NULL );
-			virtual ~Scripter() {}
+	public:
+		Scripter( GameObject* gameObject = NULL );
+		virtual ~Scripter();
 
 
-		public:
-			void OnHierarchyChange	()	override {}
+	public:
+		void OnHierarchyChange	()	override {}
+
+		void OnEvent( EventType eType, EventName eName, void* eSource ) override;
 
 
-		public:
-			Script* GetScript		( UInt index )	const;
-			UInt	GetScriptsCount	()				const;
+	public:
+		Script* GetScript		( UInt index )	const;
+		UInt	GetScriptsCount	()				const;
 
-			void	SetScript		( UInt index, const Char* scriptUID );
-			void	ClearScripts	();
-
-
-		protected:
-			void _OnEnable	() override {}
-			void _OnStart	( Bool isRuntime ) override;
-			void _OnUpdate	( Bool isRuntime ) override;
+		void	SetScript		( UInt index, const Char* scriptUID );
+		void	ClearScripts	();
 
 
-		protected:
-			DataArray<Script*>	_scripts;
-		};
-	}
+	protected:
+		void _OnEnable	() override {}
+		void _OnStart	( Bool isRuntime ) override;
+		void _OnUpdate	( Bool isRuntime ) override;
+
+
+	protected:
+		DataArray<Script*>	_scripts;
+		DataArray<Asset*>	_scriptsAsset;
+	};
 }

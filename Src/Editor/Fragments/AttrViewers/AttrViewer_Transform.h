@@ -48,6 +48,6 @@ namespace CYRED
 
 
 	protected:
-		COMP::Transform* _target;
+		Transform* _target;
 	};
 }

@@ -119,31 +119,3 @@ const Float* Vector2::Ptr()
 	return &x;
 }
 
-
-
-/*-----------------*/
-/*--- SCRIPTING ---*/
-/*-----------------*/
-
-Float Vector2::S_GetX() const
-{
-	return x;
-}
-
-
-Float Vector2::S_GetY() const
-{
-	return y;
-}
-
-
-void Vector2::S_SetX( float value )
-{
-	x = value;
-}
-
-
-void Vector2::S_SetY( float value )
-{
-	y = value;
-}

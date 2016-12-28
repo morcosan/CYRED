@@ -39,7 +39,7 @@ void TimeManagerImpl::Update()
 {
 	ASSERT( _isInitialized );
 
-	_deltaTime = GetDesiredDelta();
+	_deltaTime = 1.0f / _desiredFPS;
 	_gameTime += _deltaTime;
 }
 
@@ -82,14 +82,6 @@ UInt TimeManagerImpl::GetDesiredFPS()
 	ASSERT( _isInitialized );
 
 	return _desiredFPS;
-}
-
-
-Float TimeManagerImpl::GetDesiredDelta()
-{
-	ASSERT( _isInitialized );
-
-	return (1.0f / _desiredFPS);
 }
 
 

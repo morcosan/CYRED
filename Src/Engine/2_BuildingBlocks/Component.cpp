@@ -6,7 +6,6 @@
 
 
 using namespace CYRED;
-using namespace COMP;
 
 
 Component::Component( GameObject* gameObject )

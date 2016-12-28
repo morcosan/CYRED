@@ -41,6 +41,6 @@ namespace CYRED
 
 
 	protected:
-		COMP::MeshRendering*	_target;
+		MeshRendering*	_target;
 	};
 }

@@ -93,15 +93,19 @@ Asset* Script::Clone()
 }
 
 
-void Script::CallFunction( const Char* funcName )
+void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 {
 	// call lua function if exists
 	if ( _luaFuncList.Has( funcName ) ) {
 		DataArray<luabridge::LuaRef*>& funcList = _luaFuncList.Get( funcName );
 
-		// bind variables
+		// bind globals
 		lua_State* L = ScriptManager::Singleton()->GetLuaState();
-		luabridge::setGlobal( L, *_luaVarsRef, VARS );
+		// bind varibles
+		luabridge::setGlobal( L, *_luaVarsRef, GLOBAL_VARS );
+		// bind gameobject
+		luabridge::LuaRef goRef( L, gameObject );
+		luabridge::setGlobal( L, goRef, GLOBAL_GAMEOBJECT );
 
 		// call all functions
 		for ( UInt i = 0; i < funcList.Size(); i++ ) {
@@ -256,7 +260,6 @@ void Script::LoadLuaFiles()
 		// free memory for file
 		Memory::FreeArray( fileData );
 	}
-
 }
 
 void Script::_LoadLuaData( const Char* luaData )
@@ -325,8 +328,8 @@ void Script::_LoadLuaVars()
 	lua_State* L = ScriptManager::Singleton()->GetLuaState();
 
 	// get ref
-	luabridge::LuaRef luaVars = luabridge::getGlobal( L, VARS );
-	luabridge::setGlobal( L, luabridge::Nil(), VARS );
+	luabridge::LuaRef luaVars = luabridge::getGlobal( L, GLOBAL_VARS );
+	luabridge::setGlobal( L, luabridge::Nil(), GLOBAL_VARS );
 
 	// check if exists
 	if ( !luaVars.isNil() && luaVars.isTable() ) {

@@ -270,13 +270,13 @@ void AttrViewer::A_OnChange_Group2()
 
 void AttrViewer::QtSelector::A_OnOpenSelector()
 {
-	EditorApp::Singleton()->ShowSelectorPopup( type.GetChar(), this );
+	EditorApp::Singleton()->ShowSelectorPopup( this->type.GetChar(), this );
 }
 
 
 void AttrViewer::QtSelector::OnChangeSelection( void* ref, const Char* name )
 {
-	selected = ref;
+	this->selected = ref;
 
 	QLineEdit* textWidget = CAST_S( QLineEdit*, this->layout()->itemAt( 0 )->widget() );
 	textWidget->setText( name );
@@ -284,11 +284,11 @@ void AttrViewer::QtSelector::OnChangeSelection( void* ref, const Char* name )
 	switch ( this->callbackGroup )
 	{
 		case CallbackGroup::GROUP_1:
-			attrViewer->A_OnChange_Group1();
+			this->attrViewer->A_OnChange_Group1();
 			break;
 
 		case CallbackGroup::GROUP_2:
-			attrViewer->A_OnChange_Group2();
+			this->attrViewer->A_OnChange_Group2();
 			break;
 	}
 }

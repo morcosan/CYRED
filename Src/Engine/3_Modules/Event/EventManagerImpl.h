@@ -22,19 +22,19 @@ namespace CYRED
 			void Initialize	()	override;
 			void Finalize	()	override;
 
-			void RegisterListener	( EventType eType, EventListener* listener )	override;
-			void UnregisterListener	( EventType eType, EventListener* listener )	override;
+			void RegisterListener	( EventType eType, IEventListener* listener )	override;
+			void UnregisterListener	( EventType eType, IEventListener* listener )	override;
 
 			void EmitEvent			( EventType eType, EventName eName, 
 									  void* eSource )								override;
 
 
 		protected:
-			DataArray< DataArray<EventListener*> > _listeners;
+			DataArray< DataArray<IEventListener*> > _listeners;
 
 			//! eType is required UInt for the ALL case
-			void _AddListener		( UInt eType, EventListener* listener );
-			void _RemoveListener	( UInt eType, EventListener* listener );
+			void _AddListener		( UInt eType, IEventListener* listener );
+			void _RemoveListener	( UInt eType, IEventListener* listener );
 		};
 	}
 }

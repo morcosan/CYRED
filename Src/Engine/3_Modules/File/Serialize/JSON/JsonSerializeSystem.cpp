@@ -48,12 +48,12 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<GameObject>			( Memory::Alloc<JsonSerializer_GameObject>() );
 	AddSerializer<Scene>				( Memory::Alloc<JsonSerializer_Scene>() );
 
-	AddSerializer<COMP::Transform>		( Memory::Alloc<JsonSerializer_Transform>() );
-	AddSerializer<COMP::Camera>			( Memory::Alloc<JsonSerializer_Camera>() );
-	AddSerializer<COMP::ParticleEmitter>( Memory::Alloc<JsonSerializer_ParticleEmitter>() );
-	AddSerializer<COMP::MeshRendering>	( Memory::Alloc<JsonSerializer_MeshRendering>() );
-	AddSerializer<COMP::MorphRendering>	( Memory::Alloc<JsonSerializer_MorphRendering>() );
-	AddSerializer<COMP::Scripter>		( Memory::Alloc<JsonSerializer_Scripter>() );
+	AddSerializer<Transform>		( Memory::Alloc<JsonSerializer_Transform>() );
+	AddSerializer<Camera>			( Memory::Alloc<JsonSerializer_Camera>() );
+	AddSerializer<ParticleEmitter>( Memory::Alloc<JsonSerializer_ParticleEmitter>() );
+	AddSerializer<MeshRendering>	( Memory::Alloc<JsonSerializer_MeshRendering>() );
+	AddSerializer<MorphRendering>	( Memory::Alloc<JsonSerializer_MorphRendering>() );
+	AddSerializer<Scripter>		( Memory::Alloc<JsonSerializer_Scripter>() );
 
 	AddSerializer<Material>				( Memory::Alloc<JsonSerializer_Material>() );
 	AddSerializer<Shader>				( Memory::Alloc<JsonSerializer_Shader>() );

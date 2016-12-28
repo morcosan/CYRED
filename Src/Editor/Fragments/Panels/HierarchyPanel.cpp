@@ -110,7 +110,7 @@ void HierarchyPanel::OnEvent( EventType eType, EventName eName, void* eSource )
 				case EventName::GAMEOBJECT_RENAMED:
 				{
 					GameObject* gameObject = CAST_S( GameObject*, eSource );
-					_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUID() );
+					_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 					if ( treeItem != NULL )
 					{
 						treeItem->setText( 0, gameObject->GetName() );
@@ -159,7 +159,7 @@ HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindGameObjectItem( UInt uid )
 		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
 		GameObject* gameObject = treeItem->gameObject;
 
-		if ( gameObject != NULL && gameObject->GetUID() == uid )
+		if ( gameObject != NULL && gameObject->GetUniqueID() == uid )
 		{
 			return treeItem;
 		}
@@ -479,7 +479,7 @@ void HierarchyPanel::A_GO_Create3D_Pivot()
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<COMP::Transform>();
+	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
 
 	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
@@ -492,10 +492,10 @@ void HierarchyPanel::A_GO_Create3D_Camera()
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 	newObject->SetName( MENU_GO_3D_CAMERA );
 
-	COMP::Camera* camera = newObject->AddComponent<COMP::Camera>();
+	Camera* camera = newObject->AddComponent<Camera>();
 	camera->SetFovYAngle( 60 );
 	camera->SetNearClipping( 0.1f );
 	camera->SetFarClipping( 200.0f );
@@ -510,10 +510,10 @@ void HierarchyPanel::A_GO_Create3D_Mesh()
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
+	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MESH );
 
-	COMP::MeshRendering* meshRender = newObject->AddComponent<COMP::MeshRendering>();
+	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
 
 	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
 }
@@ -525,10 +525,10 @@ void HierarchyPanel::A_GO_Create3D_Morph()
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<COMP::Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
+	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MORPH );
 
-	COMP::MorphRendering* morphRender = newObject->AddComponent<COMP::MorphRendering>();
+	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
 
 	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
 }
@@ -542,10 +542,10 @@ void HierarchyPanel::A_GO_Particles_Emitter()
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
 	newObject->SetName( MENU_GO_PS_EMITTER );
 	
-	COMP::Transform* tran = newObject->AddComponent<COMP::Transform>();
+	Transform* tran = newObject->AddComponent<Transform>();
 	tran->RotateByWorld( Vector3( 90, 0, 0 ) );
 
-	newObject->AddComponent<COMP::ParticleEmitter>();
+	newObject->AddComponent<ParticleEmitter>();
 
 	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
 }
@@ -557,7 +557,7 @@ void HierarchyPanel::A_AddComp_Camera()
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add camera component
-	treeItem->gameObject->AddComponent<COMP::Camera>();
+	treeItem->gameObject->AddComponent<Camera>();
 }
 
 
@@ -567,7 +567,7 @@ void HierarchyPanel::A_AddComp_MeshRendering()
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add mesh rendering component
-	treeItem->gameObject->AddComponent<COMP::MeshRendering>();
+	treeItem->gameObject->AddComponent<MeshRendering>();
 }
 
 
@@ -577,7 +577,7 @@ void HierarchyPanel::A_AddComp_MorphRendering()
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add morph rendering component
-	treeItem->gameObject->AddComponent<COMP::MorphRendering>();
+	treeItem->gameObject->AddComponent<MorphRendering>();
 }
 
 
@@ -587,7 +587,7 @@ void HierarchyPanel::A_AddComp_ParticlesEmitter()
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add particles emitter component
-	treeItem->gameObject->AddComponent<COMP::ParticleEmitter>();
+	treeItem->gameObject->AddComponent<ParticleEmitter>();
 }
 
 
@@ -597,6 +597,6 @@ void HierarchyPanel::A_AddComp_Scripter()
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add scripter component
-	treeItem->gameObject->AddComponent<COMP::Scripter>();
+	treeItem->gameObject->AddComponent<Scripter>();
 }
 

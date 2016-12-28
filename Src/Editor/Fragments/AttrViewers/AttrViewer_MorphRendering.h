@@ -44,6 +44,6 @@ namespace CYRED
 
 
 	protected:
-		COMP::MorphRendering*	_target;
+		MorphRendering*	_target;
 	};
 }

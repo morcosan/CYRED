@@ -11,12 +11,8 @@ namespace CYRED
 {
 	class GL_3_0;
 	class Material;
-
-	namespace COMP
-	{
-		class Transform;
-		class Camera;
-	}
+	class Transform;
+	class Camera;
 }
 
 
@@ -50,8 +46,8 @@ namespace CYRED
 		protected:
 			UInt	_mainFramebufferID;
 
-			COMP::Transform*	_cameraTran;
-			COMP::Camera*		_cameraComp;
+			Transform*	_cameraTran;
+			Camera*		_cameraComp;
 
 			void _RenderMesh		( GameObject* gameObject );
 			void _RenderMorph		( GameObject* gameObject );

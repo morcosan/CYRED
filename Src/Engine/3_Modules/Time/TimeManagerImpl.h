@@ -18,16 +18,15 @@ namespace CYRED
 
 
 		public:
-			void Initialize	( UInt desiredFPS )	override;
+			void Initialize		( UInt desiredFPS )	override;
 			void Finalize		()					override;
-			void Update		()					override;
+			void Update			()					override;
 			void RenderUpdate	( Double realTime )	override;
 
-			Float		GetDeltaTime		()					override;
-			Float		GetRenderDeltaTime	()					override;
-			void		SetDesiredFPS		( UInt desiredFPS )	override;
-			UInt		GetDesiredFPS		()					override;
-			Float		GetDesiredDelta		()					override;
+			Float	GetDeltaTime		()					override;
+			Float	GetRenderDeltaTime	()					override;
+			void	SetDesiredFPS		( UInt desiredFPS )	override;
+			UInt	GetDesiredFPS		()					override;
 			Double	GetGameTime			()					override;
 
 

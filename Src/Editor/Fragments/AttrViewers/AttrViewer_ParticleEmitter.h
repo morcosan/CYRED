@@ -63,7 +63,7 @@ namespace CYRED
 
 
 	protected:
-		COMP::ParticleEmitter*	_target;
+		ParticleEmitter*	_target;
 
 		DataArray<const Char*>	_emitterShapes;
 

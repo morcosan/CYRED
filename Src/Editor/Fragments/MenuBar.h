@@ -25,7 +25,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	class MenuBar : public QMenuBar, public EventListener
+	class MenuBar : public QMenuBar, public IEventListener
 	{
 	public:
 		const Char*	const SCENE_MENU				= "Scene";

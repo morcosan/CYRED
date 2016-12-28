@@ -3,7 +3,7 @@
 
 
 #include "EventManagerImpl.h"
-#include "Fragments\EventListener.h"
+#include "Fragments\IEventListener.h"
 
 
 using namespace CYRED;
@@ -24,7 +24,7 @@ void EventManagerImpl::Initialize()
 
 	for ( UInt i = 0; i < EventType::_COUNT_; ++i )
 	{
-		_listeners.Add( DataArray<EventListener*>() );
+		_listeners.Add( DataArray<IEventListener*>() );
 	}
 }
 
@@ -35,7 +35,7 @@ void EventManagerImpl::Finalize()
 }
 
 
-void EventManagerImpl::RegisterListener( EventType eType, EventListener* listener )
+void EventManagerImpl::RegisterListener( EventType eType, IEventListener* listener )
 {
 	ASSERT( _isInitialized );
 
@@ -53,7 +53,7 @@ void EventManagerImpl::RegisterListener( EventType eType, EventListener* listene
 }
 
 
-void EventManagerImpl::UnregisterListener( EventType eType, EventListener* listener )
+void EventManagerImpl::UnregisterListener( EventType eType, IEventListener* listener )
 {
 	ASSERT( _isInitialized );
 
@@ -89,7 +89,7 @@ void EventManagerImpl::EmitEvent( EventType eType, EventName eName, void* eSourc
 }
 
 
-void EventManagerImpl::_AddListener( UInt eType, EventListener* listener )
+void EventManagerImpl::_AddListener( UInt eType, IEventListener* listener )
 {
 	for ( UInt i = 0; i < _listeners[eType].Size(); ++i )
 	{
@@ -102,7 +102,7 @@ void EventManagerImpl::_AddListener( UInt eType, EventListener* listener )
 }
 
 
-void EventManagerImpl::_RemoveListener( UInt eType, EventListener* listener )
+void EventManagerImpl::_RemoveListener( UInt eType, IEventListener* listener )
 {
 	for ( UInt i = 0; i < _listeners[eType].Size(); ++i )
 	{

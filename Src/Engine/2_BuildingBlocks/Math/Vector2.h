@@ -39,13 +39,5 @@ namespace CYRED
 		Vector2 operator*( Int other )				const;
 
 		const Float* Ptr();
-
-
-	// scripting
-	public:
-		Float	S_GetX() const;
-		Float	S_GetY() const;
-		void	S_SetX( float value );
-		void	S_SetY( float value );
 	};
 }

@@ -19,7 +19,7 @@ namespace CYRED
 		const Char* ATTR_FOVY_ANGLE		= "FovY Angle";
 		const Char* ATTR_NEAR_CLIPPING	= "Near Clipping";
 		const Char* ATTR_FAR_CLIPPING	= "Far Clipping";
-		const Char* ATTR_ORTH_SIZE		= "Ortho Height";
+		const Char* ATTR_ORTH_HEIGHT	= "Ortho Height";
 
 
 	public:
@@ -35,7 +35,7 @@ namespace CYRED
 
 
 	protected:
-		COMP::Camera*		_target;
+		Camera*		_target;
 
 		DataArray<const Char*>	_cameraTypes;
 

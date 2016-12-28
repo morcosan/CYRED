@@ -22,7 +22,7 @@ void AttrViewer_Camera::_OnInitialize()
 	_CreateAttrDropdown	( ATTR_TYPE, ATTR_TYPE, _cameraTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 	
 	_CreateAttrFloat	( ATTR_FOVY_ANGLE,		ATTR_FOVY_ANGLE );
-	_CreateAttrFloat	( ATTR_ORTH_SIZE,		ATTR_ORTH_SIZE );
+	_CreateAttrFloat	( ATTR_ORTH_HEIGHT,		ATTR_ORTH_HEIGHT );
 	_CreateAttrFloat	( ATTR_NEAR_CLIPPING,	ATTR_NEAR_CLIPPING );
 	_CreateAttrFloat	( ATTR_FAR_CLIPPING,	ATTR_FAR_CLIPPING );
 	
@@ -34,7 +34,7 @@ void AttrViewer_Camera::_OnInitialize()
 
 void AttrViewer_Camera::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( COMP::Camera*, target );
+	_target = CAST_S( Camera*, target );
 }
 
 
@@ -44,7 +44,7 @@ void AttrViewer_Camera::_OnUpdateGUI()
 	_WriteAttrFloat( ATTR_FOVY_ANGLE, _target->GetFovYAngle() );
 	_WriteAttrFloat( ATTR_NEAR_CLIPPING, _target->GetNearClipping() );
 	_WriteAttrFloat( ATTR_FAR_CLIPPING, _target->GetFarClipping() );
-	_WriteAttrFloat( ATTR_ORTH_SIZE, _target->GetOrthoSize().y );
+	_WriteAttrFloat( ATTR_ORTH_HEIGHT, _target->GetOrthoSize().y );
 	
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
 	{
@@ -73,7 +73,7 @@ void AttrViewer_Camera::_OnUpdateTarget()
 		_target->SetFovYAngle( _ReadAttrFloat( ATTR_FOVY_ANGLE ) );
 		_target->SetNearClipping( _ReadAttrFloat( ATTR_NEAR_CLIPPING ) );
 		_target->SetFarClipping( _ReadAttrFloat( ATTR_FAR_CLIPPING ) );
-		_target->SetOrthoHeight( _ReadAttrFloat( ATTR_ORTH_SIZE ) );
+		_target->SetOrthoHeight( _ReadAttrFloat( ATTR_ORTH_HEIGHT ) );
 		
 		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
 		if ( _target->IsEnabled() != newValue )
@@ -128,12 +128,12 @@ void AttrViewer_Camera::_ChangeVisibility()
 	switch ( _target->GetCameraType() )
 	{
 		case CameraType::ORTHOGRAPHIC:
-			_SetAttrVisibility( ATTR_ORTH_SIZE, TRUE );
+			_SetAttrVisibility( ATTR_ORTH_HEIGHT, TRUE );
 			_SetAttrVisibility( ATTR_FOVY_ANGLE, FALSE );
 			break;
 
 		case CameraType::PERSPECTIVE:
-			_SetAttrVisibility( ATTR_ORTH_SIZE, FALSE );
+			_SetAttrVisibility( ATTR_ORTH_HEIGHT, FALSE );
 			_SetAttrVisibility( ATTR_FOVY_ANGLE, TRUE );
 			break;
 	}

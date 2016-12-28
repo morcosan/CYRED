@@ -18,7 +18,7 @@ FreeCameraControl::FreeCameraControl( GameObject * gameObject )
 
 void FreeCameraControl::_OnStart( Bool isRuntime )
 {
-	_transform = _gameObject->GetComponent<COMP::Transform>();
+	_transform = _gameObject->GetComponent<Transform>();
 }
 
 

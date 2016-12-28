@@ -9,7 +9,7 @@
 
 namespace CYRED
 {
-	class FreeCameraControl : public COMP::Component
+	class FreeCameraControl : public Component
 	{
 	public:
 		FreeCameraControl( GameObject* gameObject = NULL );
@@ -30,6 +30,6 @@ namespace CYRED
 
 
 	protected:
-		COMP::Transform*	_transform;
+		Transform*	_transform;
 	};
 }

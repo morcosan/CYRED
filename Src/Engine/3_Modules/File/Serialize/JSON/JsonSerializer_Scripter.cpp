@@ -18,7 +18,7 @@ using namespace CYRED;
 
 rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 {
-	COMP::Scripter* scripter = CAST_S( COMP::Scripter*, object );
+	Scripter* scripter = CAST_S( Scripter*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -174,7 +174,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( void* object )
 void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object, 
 										 DeserFlag flag )
 {
-	COMP::Scripter* scripter = CAST_S( COMP::Scripter*, object );
+	Scripter* scripter = CAST_S( Scripter*, object );
 
 	Bool emitEvents = scripter->DoesEmitEvents();
 	scripter->SetEmitEvents( FALSE );
