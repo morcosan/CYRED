@@ -91,27 +91,6 @@ Bool GameObject::DoesEmitEvents() const
 }
 
 
-Component* GameObject::GetComponentByName( const Char* compName ) const
-{
-	String sName(compName);
-
-	if ( sName == "Transform" ) {
-		return GetComponent<Transform>();
-	}
-	else if ( sName == "MeshRendering" ) {
-		return GetComponent<MeshRendering>();
-	}
-	else if ( sName == "MorphRendering" ) {
-		return GetComponent<MorphRendering>();
-	}
-	else if ( sName == "Camera" ) {
-		return GetComponent<Camera>();
-	}
-
-	return NULL;
-}
-
-
 UInt GameObject::GetComponentCount() const
 {
 	return _components.Size();

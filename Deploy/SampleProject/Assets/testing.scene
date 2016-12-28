@@ -36,8 +36,12 @@
                             "variables": [
                                 {
                                     "name": "speed",
-                                    "type": "FLOAT",
-                                    "value": 5.0
+                                    "type": "VECTOR3",
+                                    "value": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    }
                                 }
                             ]
                         }

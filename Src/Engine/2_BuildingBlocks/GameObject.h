@@ -41,7 +41,6 @@ namespace CYRED
 		Bool		IsEnabled			()							const;
 		UInt		GetUniqueID			()							const;
 		Bool		DoesEmitEvents		()							const;
-		Component*	GetComponentByName	( const Char* compName )	const;
 
 		UInt		GetComponentCount	()				const;
 		Component*	GetComponentAt		( UInt index )	const;

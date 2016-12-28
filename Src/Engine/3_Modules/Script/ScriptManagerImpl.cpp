@@ -113,10 +113,15 @@ void ScriptManagerImpl::_RegisterGameObject()
 {
 	luabridge::getGlobalNamespace( _Lua )
 	.beginClass<GameObject>( "GameObject" )
-		.addProperty( "name",				&GameObject::GetName,	&GameObject::SetName )
-		.addProperty( "enabled",			&GameObject::IsEnabled,	&GameObject::SetEnabled )
-		.addFunction( "GetUniqueID",		&GameObject::GetUniqueID )
-		.addFunction( "GetComponent",		&GameObject::GetComponentByName )
+		.addProperty( "name",			&GameObject::GetName,	&GameObject::SetName )
+		.addProperty( "enabled",		&GameObject::IsEnabled,	&GameObject::SetEnabled )
+		.addFunction( "GetUniqueID",	&GameObject::GetUniqueID )
+
+		.addFunction( "GetComponent_Transform",			&GameObject::GetComponent<Transform> )
+		.addFunction( "GetComponent_Camera",			&GameObject::GetComponent<Camera> )
+		.addFunction( "GetComponent_MeshRendering",		&GameObject::GetComponent<MeshRendering> )
+		.addFunction( "GetComponent_MorphRendering",	&GameObject::GetComponent<MorphRendering> )
+		.addFunction( "GetComponent_ParticleEmitter",	&GameObject::GetComponent<ParticleEmitter> )
 	.endClass();
 }
 

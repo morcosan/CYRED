@@ -1,19 +1,19 @@
 VARS = {
-	speed = "FLOAT"
+	speed = "VECTOR3"
 }
 
 
 local transform
 
 function OnStart()
-	transform = GAMEOBJECT:GetComponent("Transform")
+	transform = GAMEOBJECT:GetComponent_Transform()
 end
 
 
 function OnUpdate()
-	local vec = Vector3( 0, 0, VARS.speed * TIME:GetDeltaTime() )
-	print( vec.z )
-	print( transform.positionWorld )
-	-- print( Vector3( 0, 0, VARS.speed * TIME:GetDeltaTime() ) )
-	-- transform:RotateByLocal( Vector3( 0, 0, VARS.speed * TIME:GetDeltaTime() ) )
+	local rotation = Vector3( 0, 0, 0 )
+	rotation.x = VARS.speed.x * TIME:GetDeltaTime()
+	rotation.y = VARS.speed.y * TIME:GetDeltaTime()
+	rotation.z = VARS.speed.z * TIME:GetDeltaTime()
+	transform:RotateByLocal( rotation )
 end
