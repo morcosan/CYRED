@@ -30,6 +30,9 @@ namespace CYRED
 
 		static const Char* const PANEL_LAYOUT;		/* the layout inside a panel			*/
 		
+		static const Char* const CONSOLE_LAYOUT;	/* the layout of the console			*/
+		static const Char* const CONSOLE_LOG;		/* the log inside the console			*/
+
 		static const Char* const FLAG_DISABLED;		/* when an item is disabled				*/
 	};
 }

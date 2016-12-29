@@ -8,6 +8,9 @@
 #include "../Panel.h"
 
 
+class QVBoxLayout;
+
+
 namespace CYRED
 {
 	ABSTRACT class ConsolePanel : public Panel, public IEventListener
@@ -27,5 +30,11 @@ namespace CYRED
 		void OnEvent	( EventType eType, void* eData )	override;
 
 
+	protected:
+		QVBoxLayout* _logsLayout;
+
+
+	protected:
+		void _AddLine( const Char* messages, Bool isError );
 	};
 }

@@ -3,8 +3,11 @@
 
 #include "ConsolePanel.h"
 #include "../Settings/EditorSkin.h"
+#include "CyredModule_Debug.h"
 
 #include "QtWidgets\qboxlayout.h"
+#include "QtWidgets\qlabel.h"
+#include "QtWidgets\qscrollarea.h"
 
 
 using namespace CYRED;
@@ -17,15 +20,24 @@ ConsolePanel::ConsolePanel()
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
-	vLayout->setSpacing( 0 );
-	vLayout->setContentsMargins( 0, 0, 0, 0 );
+	_logsLayout = Memory::Alloc<QVBoxLayout>();
+	_logsLayout->setSpacing( 0 );
+	_logsLayout->setContentsMargins( 0, 0, 0, 0 );
+	_logsLayout->setAlignment( Qt::AlignmentFlag::AlignTop );
 
-	QWidget* layoutWidget = Memory::Alloc<QWidget>();
-	layoutWidget->setLayout( vLayout );
-	layoutWidget->setObjectName( EditorSkin::PANEL_LAYOUT );
+	QWidget* logsWidget = Memory::Alloc<QWidget>();
+	logsWidget->setLayout( _logsLayout );
 
-	this->setWidget( layoutWidget );
+	QScrollArea* scrollArea = Memory::Alloc<QScrollArea>();
+	scrollArea->setObjectName( EditorSkin::CONSOLE_LAYOUT );
+
+	_AddLine( "ceva", TRUE );
+	_AddLine( "cevajt", TRUE );
+	_AddLine( "ceva", TRUE );
+
+	scrollArea->setWidget( logsWidget );
+
+	this->setWidget( scrollArea );
 }
 
 
@@ -56,13 +68,34 @@ void ConsolePanel::OnEvent( EventType eType, void* eData )
 	switch ( eType ) {
 		case EventType::CONSOLE_LOG:
 		{
+			//_AddLine( CAST_S(DebugInfo*, eData)->message, FALSE );
 			break;
 		}
 
 		case EventType::CONSOLE_ERROR:
 		{
+			//_AddLine( CAST_S(DebugInfo*, eData)->message, TRUE );
 			break;
 		}
 	}
+}
+
+
+void ConsolePanel::_AddLine( const Char* message, Bool isError )
+{
+	// create layout
+	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();
+	// create widget for layout
+	QWidget* qtLineWidget = Memory::Alloc<QWidget>();
+	qtLineWidget->setLayout( qtLineLayout );
+	qtLineWidget->setObjectName( EditorSkin::CONSOLE_LOG );
+
+	// create label
+	QLabel* qtMessage = Memory::Alloc<QLabel>( message );
+	qtMessage->setTextInteractionFlags( Qt::TextSelectableByMouse );
+	qtLineLayout->addWidget( qtMessage );
+
+	// add line to console
+	_logsLayout->addWidget( qtLineWidget );
 }
 

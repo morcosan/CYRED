@@ -27,5 +27,8 @@ const Char* const EditorSkin::VIEWPORT_BUTTON		= "ViewportButton";
 
 const Char* const EditorSkin::PANEL_LAYOUT			= "PanelLayout";
 
+const Char* const EditorSkin::CONSOLE_LAYOUT		= "ConsoleLayout";
+const Char* const EditorSkin::CONSOLE_LOG			= "ConsoleLog";
+
 const Char* const EditorSkin::FLAG_DISABLED			= "Disabled";
 

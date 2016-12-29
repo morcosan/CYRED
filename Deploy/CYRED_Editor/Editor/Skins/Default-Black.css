@@ -393,3 +393,30 @@ QScrollBar::right-arrow
 	max-height: 20px;
 }
 /*** asset panel ***/
+
+
+
+
+/*---------------*/
+/*--- CONSOLE ---*/
+/*---------------*/
+
+#ConsoleLayout
+{
+	background-color: #333;
+	border: none;
+}
+
+#ConsoleLog
+{
+	min-height: 30px;
+	min-width: 300px;
+	padding: 2px 0;
+	background: #0ff;
+	border-bottom: 1px solid #222;
+}
+#ConsoleLog > QLabel
+{
+	min-width: 300px;
+}
+
