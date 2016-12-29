@@ -59,6 +59,12 @@ void ViewportPanel::Initialize()
 }
 
 
+void ViewportPanel::Finalize()
+{
+	ASSERT( _isInitialized );
+}
+
+
 void ViewportPanel::Initialize( Bool isPrimary )
 {
 	ASSERT( !_isInitialized );

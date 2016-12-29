@@ -26,7 +26,6 @@ namespace CYRED
 		virtual void RegisterListener	( EventType eType, IEventListener* listener )	PURE_VIRTUAL;
 		virtual void UnregisterListener	( EventType eType, IEventListener* listener )	PURE_VIRTUAL;
 
-		virtual void EmitEvent			( EventType eType, EventName eName, 
-										  void* eSource )								PURE_VIRTUAL;
+		virtual void EmitEvent			( EventType eType, void* eData )				PURE_VIRTUAL;
 	};
 }

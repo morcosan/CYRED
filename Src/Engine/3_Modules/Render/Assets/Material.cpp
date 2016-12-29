@@ -60,7 +60,7 @@ void Material::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -75,7 +75,7 @@ void Material::ClearAsset()
 	ClearProperties();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -115,7 +115,7 @@ void Material::SetShader( Shader* shader )
 	_shader = shader;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -125,7 +125,7 @@ void Material::SetWireframe( bool value )
 	_isWireframe = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -135,7 +135,7 @@ void Material::SetLineWidth( float value )
 	_lineWidth = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -145,7 +145,7 @@ void Material::SetFaceCulling( FaceCulling value )
 	_faceCulling = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -167,7 +167,7 @@ void Material::SetProperty( const Char* name, Int value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -189,7 +189,7 @@ void Material::SetProperty( const Char* name, Float value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -211,7 +211,7 @@ void Material::SetProperty( const Char* name, const Vector2& value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -233,7 +233,7 @@ void Material::SetProperty( const Char* name, const Vector3& value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -255,7 +255,7 @@ void Material::SetProperty( const Char* name, const Vector4& value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -277,7 +277,7 @@ void Material::SetProperty( const Char* name, Texture* value )
 	_properties.Add( property );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -309,7 +309,7 @@ void Material::ClearProperties()
 	_properties.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 

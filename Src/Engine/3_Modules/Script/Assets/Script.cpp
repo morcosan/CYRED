@@ -72,7 +72,7 @@ void Script::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -82,7 +82,7 @@ void Script::ClearAsset()
 	_isTemporary = TRUE;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -200,7 +200,7 @@ void Script::SetRunInEditor( Bool value )
 	_runsInEditor = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -223,7 +223,7 @@ void Script::SetFilePath( UInt index, const Char* filePath )
 	_filePaths[index] = filePath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -234,7 +234,7 @@ void Script::ClearFilePaths()
 	_filePaths.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 

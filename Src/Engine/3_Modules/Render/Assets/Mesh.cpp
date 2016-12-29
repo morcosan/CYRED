@@ -71,7 +71,7 @@ void Mesh::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -86,7 +86,7 @@ void Mesh::ClearAsset()
 	_isTemporary = TRUE;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -173,7 +173,7 @@ void Mesh::SetMeshType( MeshType type )
 	_meshType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -183,7 +183,7 @@ void Mesh::SetLoadType( LoadType type )
 	_loadType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -197,7 +197,7 @@ void Mesh::SetVertices( DataArray<Vertex>& vertices )
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -213,7 +213,7 @@ void Mesh::SetIndices( DataArray<UInt>& indices )
 	_numIndices = indices.Size();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -223,7 +223,7 @@ void Mesh::SetClearBuffersOnBind( Bool value )
 	_clearBuffersOnBind = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -233,7 +233,7 @@ void Mesh::SetExternalPath( const Char* filePath )
 	_externalPath = filePath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 

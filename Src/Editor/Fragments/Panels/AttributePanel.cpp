@@ -56,8 +56,6 @@ AttributePanel::AttributePanel()
 	layoutWidget->setObjectName( EditorSkin::PANEL_LAYOUT );
 
 	this->setWidget( layoutWidget );
-
-	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }
 
 
@@ -73,6 +71,9 @@ AttributePanel::~AttributePanel()
 
 void AttributePanel::Initialize()
 {
+	ASSERT( !_isInitialized );
+	_isInitialized = TRUE;
+
 	SetAttrViewer( ATTR_GAMEOBJECT,			Memory::Alloc<AttrViewer_GameObject>() );
 
 	SetAttrViewer( ATTR_TRANSFORM,			Memory::Alloc<AttrViewer_Transform>() );
@@ -93,11 +94,25 @@ void AttributePanel::Initialize()
 	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
 
 	_ClearPanel();
+
+	// register events
+	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
+}
+
+
+void AttributePanel::Finalize()
+{
+	ASSERT( _isInitialized );
+
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
 }
 
 
 void AttributePanel::Update()
 {
+	ASSERT( _isInitialized );
+
 	if ( _needsRefresh )
 	{
 		_needsRefresh = FALSE;
@@ -118,233 +133,239 @@ void AttributePanel::Update()
 }
 
 
-void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
+void AttributePanel::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType )
 	{
-		case EventType::SCENE:
+		case EventType::SELECT_GAMEOBJECT:
 		{
-			switch ( eName )
-			{
-				case EventName::GAMEOBJECT_SELECTED:
-				{
-					_target = eSource;
+			_target = eData;
 
-					// clear panel
-					_ClearPanel();
+			// clear panel
+			_ClearPanel();
 
-					// display game object
-					_DisplayGameObject();
-
-					break;
-				}
-
-				case EventName::GAMEOBJECT_CHANGED:
-				{
-					if ( _target != NULL && _target == eSource ) {
-						// clear panel
-						_ClearPanel();
-
-						// display game object
-						_DisplayGameObject();
-					}
-					break;
-				}
-
-				case EventName::SCENE_SELECTED:
-				{
-					// clear panel
-					_ClearPanel();
-
-					_target = NULL;
-
-					break;
-				}
-
-				case EventName::GAMEOBJECT_RENAMED:
-				{
-					if ( _target != NULL && _target == eSource )
-					{
-						Node* node = CAST_S( Node*, eSource );
-						GameObject* selectedGO = CAST_D( GameObject*, node );
-
-						if ( selectedGO != NULL )
-						{
-							ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
-							AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
-							gameObjectViewer->UpdateGUI();
-						}
-					}
-					break;
-				}
-			}
+			// display game object
+			_DisplayGameObject();
 
 			break;
 		}
 
-		case EventType::COMPONENT:
+		case EventType::CHANGE_GAMEOBJECT:
 		{
-			if ( _target != NULL )
+			if ( _target != NULL && _target == eData ) {
+				// clear panel
+				_ClearPanel();
+
+				// display game object
+				_DisplayGameObject();
+			}
+			break;
+		}
+
+		case EventType::SELECT_SCENE:
+		{
+			// clear panel
+			_ClearPanel();
+
+			_target = NULL;
+
+			break;
+		}
+
+		case EventType::RENAME_GAMEOBJECT:
+		{
+			if ( _target != NULL && _target == eData )
 			{
-				Component* comp = CAST_S( Component*, eSource );
-				if ( _target == comp->GetGameObject() )
+				Node* node = CAST_S( Node*, eData );
+				GameObject* selectedGO = CAST_D( GameObject*, node );
+
+				if ( selectedGO != NULL )
 				{
-					if ( eName == EventName::TRANSFORM_CHANGED ) {
-						ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( eName == EventName::CAMERA_CHANGED ) {
-						ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( eName == EventName::MESH_RENDERING_CHANGED ) {
-						ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( eName == EventName::MORPH_RENDERING_CHANGED ) {
-						ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( eName == EventName::PARTICLE_EMITTER_CHANGED )	{
-						ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( eName == EventName::SCRIPTER_CHANGED )	{
-						ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
-						AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
-						viewer->UpdateGUI();
-					}
+					ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
+					AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
+					gameObjectViewer->UpdateGUI();
 				}
 			}
 			break;
 		}
 
-		case EventType::ASSET:
+		case EventType::CHANGE_TRANSFORM:
 		{
-			switch ( eName )
-			{
-				case EventName::ASSET_CHANGED:
-				{
-					if ( _target == eSource )
-					{
-						Asset* asset = CAST_S( Asset*, eSource );
-						ASSERT( asset != NULL );
-
-						const Char* attrViewerType = NULL;
-
-						switch ( asset->GetAssetType() )
-						{
-							case AssetType::MATERIAL:
-								attrViewerType = ATTR_MATERIAL;
-								break;
-
-							case AssetType::MESH:
-								attrViewerType = ATTR_MESH;
-								break;
-
-							case AssetType::MORPH:
-								attrViewerType = ATTR_MORPH;
-								break;
-
-							case AssetType::TEXTURE:
-								attrViewerType = ATTR_TEXTURE;
-								break;
-
-							case AssetType::SHADER:
-								attrViewerType = ATTR_SHADER;
-								break;
-
-							case AssetType::SCENE:
-								attrViewerType = ATTR_SCENE;
-								break;
-
-							case AssetType::SCRIPT:
-								attrViewerType = ATTR_SCRIPT;
-								break;
-						}
-
-						ASSERT( _attrViewers.Has( attrViewerType ) );
-						AttrViewer* attrViewer = _attrViewers.Get( attrViewerType )->viewer;
-						attrViewer->UpdateGUI();
-					}
-					break;
-				}
-
-				case EventName::ASSET_SELECTED:
-				{
-					_target = eSource;
-					_ClearPanel();
-
-					if ( eSource == NULL )
-					{
-						break;
-					}
-
-					Asset* asset = CAST_S( Asset*, eSource );
-					ASSERT( asset != NULL );
-
-					const Char* attrViewerType = NULL;
-
-					switch ( asset->GetAssetType() )
-					{
-						case AssetType::MATERIAL:
-							attrViewerType = ATTR_MATERIAL;
-							break;
-
-						case AssetType::MESH:
-							attrViewerType = ATTR_MESH;
-							break;
-
-						case AssetType::MORPH:
-							attrViewerType = ATTR_MORPH;
-							break;
-
-						case AssetType::TEXTURE:
-							attrViewerType = ATTR_TEXTURE;
-							break;
-
-						case AssetType::SHADER:
-							attrViewerType = ATTR_SHADER;
-							break;
-
-						case AssetType::SCENE:
-							attrViewerType = ATTR_SCENE;
-							break;
-
-						case AssetType::SCRIPT:
-							attrViewerType = ATTR_SCRIPT;
-							break;
-					}
-
-					ASSERT( _attrViewers.Has( attrViewerType ) );
-					_AttrViewer* atttrViewer = _attrViewers.Get( attrViewerType );
-					atttrViewer->needsRefresh = TRUE;
-					AttrViewer* viewer = atttrViewer->viewer;
-					viewer->ChangeTarget( asset );
-					viewer->UpdateGUI();
-
-					break;
-				}
-			}
-			break;
-		}
-
-		case EventType::CUSTOM:
-		{
-			if ( eName == EventName::EDITOR_PROJ_SETTINGS )
-			{
-				ASSERT( _attrViewers.Has( ATTR_CYRED_PROJ ) );
-				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
-				atttrViewer->needsRefresh = TRUE;
-				AttrViewer* viewer = atttrViewer->viewer;
-				viewer->ChangeTarget( NULL );
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
 				viewer->UpdateGUI();
 			}
+			break;
+		}
+			
+		case EventType::CHANGE_CAMERA:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
+				viewer->UpdateGUI();
+			}
+			break;
+		}
+
+		case EventType::CHANGE_MESH_RENDERING:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
+				viewer->UpdateGUI();
+			}
+			break;
+		}
+
+		case EventType::CHANGE_MORPH_RENDERING:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
+				viewer->UpdateGUI();
+			}
+			break;
+		}
+
+		case EventType::CHANGE_PARTICLE_EMITTER:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
+				viewer->UpdateGUI();
+			}
+			break;
+		}
+
+		case EventType::CHANGE_SCRIPTER:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL  && _target == comp->GetGameObject() ) {
+				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
+				AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
+				viewer->UpdateGUI();
+			}
+			break;
+		}
+		
+		case EventType::CHANGE_ASSET:
+		{
+			if ( _target == eData )
+			{
+				Asset* asset = CAST_S( Asset*, eData );
+				ASSERT( asset != NULL );
+
+				const Char* attrViewerType = NULL;
+
+				switch ( asset->GetAssetType() )
+				{
+					case AssetType::MATERIAL:
+						attrViewerType = ATTR_MATERIAL;
+						break;
+
+					case AssetType::MESH:
+						attrViewerType = ATTR_MESH;
+						break;
+
+					case AssetType::MORPH:
+						attrViewerType = ATTR_MORPH;
+						break;
+
+					case AssetType::TEXTURE:
+						attrViewerType = ATTR_TEXTURE;
+						break;
+
+					case AssetType::SHADER:
+						attrViewerType = ATTR_SHADER;
+						break;
+
+					case AssetType::SCENE:
+						attrViewerType = ATTR_SCENE;
+						break;
+
+					case AssetType::SCRIPT:
+						attrViewerType = ATTR_SCRIPT;
+						break;
+				}
+
+				ASSERT( _attrViewers.Has( attrViewerType ) );
+				AttrViewer* attrViewer = _attrViewers.Get( attrViewerType )->viewer;
+				attrViewer->UpdateGUI();
+			}
+			break;
+		}
+
+		case EventType::SELECT_ASSET:
+		{
+			_target = eData;
+			_ClearPanel();
+
+			if ( eData == NULL )
+			{
+				break;
+			}
+
+			Asset* asset = CAST_S( Asset*, eData );
+			ASSERT( asset != NULL );
+
+			const Char* attrViewerType = NULL;
+
+			switch ( asset->GetAssetType() )
+			{
+				case AssetType::MATERIAL:
+					attrViewerType = ATTR_MATERIAL;
+					break;
+
+				case AssetType::MESH:
+					attrViewerType = ATTR_MESH;
+					break;
+
+				case AssetType::MORPH:
+					attrViewerType = ATTR_MORPH;
+					break;
+
+				case AssetType::TEXTURE:
+					attrViewerType = ATTR_TEXTURE;
+					break;
+
+				case AssetType::SHADER:
+					attrViewerType = ATTR_SHADER;
+					break;
+
+				case AssetType::SCENE:
+					attrViewerType = ATTR_SCENE;
+					break;
+
+				case AssetType::SCRIPT:
+					attrViewerType = ATTR_SCRIPT;
+					break;
+			}
+
+			ASSERT( _attrViewers.Has( attrViewerType ) );
+			_AttrViewer* atttrViewer = _attrViewers.Get( attrViewerType );
+			atttrViewer->needsRefresh = TRUE;
+			AttrViewer* viewer = atttrViewer->viewer;
+			viewer->ChangeTarget( asset );
+			viewer->UpdateGUI();
+
+			break;
+		}
+
+		case EventType::EDITOR_PROJ_SETTINGS:
+		{
+			ASSERT( _attrViewers.Has( ATTR_CYRED_PROJ ) );
+			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
+			atttrViewer->needsRefresh = TRUE;
+			AttrViewer* viewer = atttrViewer->viewer;
+			viewer->ChangeTarget( NULL );
+			viewer->UpdateGUI();
 			break;
 		}
 	}
@@ -353,6 +374,8 @@ void AttributePanel::OnEvent( EventType eType, EventName eName, void* eSource )
 
 void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 {
+	ASSERT( _isInitialized );
+
 	_AttrViewer* attrViewer = Memory::Alloc<_AttrViewer>();
 	attrViewer->viewer = viewer;
 	attrViewer->needsRefresh = FALSE;
@@ -367,12 +390,15 @@ void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 
 void AttributePanel::RefreshPanel()
 {
+	ASSERT( _isInitialized );
 	_needsRefresh = TRUE;
 }
 
 
 void AttributePanel::_ClearPanel()
 {
+	ASSERT( _isInitialized );
+
 	// hide widgets
 	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		QTreeWidgetItem* item = _qtTree->topLevelItem( i );

@@ -71,7 +71,7 @@ void EventManagerImpl::UnregisterListener( EventType eType, IEventListener* list
 }
 
 
-void EventManagerImpl::EmitEvent( EventType eType, EventName eName, void* eSource )
+void EventManagerImpl::EmitEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
@@ -81,7 +81,7 @@ void EventManagerImpl::EmitEvent( EventType eType, EventName eName, void* eSourc
 		{
 			for ( UInt j = 0; j < _listeners[i].Size(); ++j )
 			{
-				_listeners[i][j]->OnEvent( eType, eName, eSource );
+				_listeners[i][j]->OnEvent( eType, eData );
 			}
 			break;
 		}

@@ -8,12 +8,16 @@
 
 namespace CYRED
 {
-	class Console;
 	struct Vector2;
 	struct Vector3;
 	struct Vector4;
 	class Quaternion;
 	class String;
+
+	struct DebugInfo
+	{
+		const Char* message;
+	};
 }
 
 
@@ -25,7 +29,7 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize		( Console* console )			PURE_VIRTUAL;
+		virtual void Initialize		()								PURE_VIRTUAL;
 		virtual void Finalize		()								PURE_VIRTUAL;
 
 		virtual void SetEnabled		( Bool value )					PURE_VIRTUAL;

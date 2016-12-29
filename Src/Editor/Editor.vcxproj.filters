@@ -16,7 +16,6 @@
     <ClCompile Include="Fragments\Panel.cpp" />
     <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
     <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
-    <ClCompile Include="EngineOverride\Debug\ConsoleWindows.cpp" />
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.cpp" />
     <ClCompile Include="Fragments\Panels\AttributePanel.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Material.cpp" />
@@ -49,6 +48,7 @@
     <ClCompile Include="Fragments\AttrViewers\AttrViewer_Scripter.cpp" />
     <ClCompile Include="Fragments\Selectors\Selector_Script.cpp" />
     <ClCompile Include="Utils\QtUtils.cpp" />
+    <ClCompile Include="Fragments\Panels\ConsolePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -65,7 +65,6 @@
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
     <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
-    <ClInclude Include="EngineOverride\Debug\ConsoleWindows.h" />
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_ParticleEmitter.h" />
     <ClInclude Include="Fragments\Panels\AttributePanel.h" />
     <ClInclude Include="Fragments\Selectors\Selector.h" />
@@ -100,5 +99,6 @@
     <ClInclude Include="Fragments\AttrViewers\AttrViewer_Scripter.h" />
     <ClInclude Include="Fragments\Selectors\Selector_Script.h" />
     <ClInclude Include="Utils\QtUtils.h" />
+    <ClInclude Include="Fragments\Panels\ConsolePanel.h" />
   </ItemGroup>
 </Project>

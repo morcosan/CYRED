@@ -248,7 +248,7 @@ void Transform::SetPositionLocal( const Vector3& value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::TRANSFORM_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
 
@@ -294,7 +294,7 @@ void Transform::SetRotationLocal( const Quaternion& value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::TRANSFORM_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
 
@@ -356,7 +356,7 @@ void Transform::SetScaleLocal( const Vector3& value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::TRANSFORM_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
 

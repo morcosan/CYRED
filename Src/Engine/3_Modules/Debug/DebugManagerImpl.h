@@ -18,7 +18,7 @@ namespace CYRED
 
 
 		public:
-			void Initialize	( Console* console )			override;
+			void Initialize	()								override;
 			void Finalize	()								override;
 				  
 			void SetEnabled	( Bool value )					override;
@@ -36,7 +36,6 @@ namespace CYRED
 
 
 		protected:
-			Console*	_console;
 			Bool		_enabled;
 		};
 	}

@@ -41,7 +41,8 @@ namespace CYRED
 		void	Run			( Int& argc, Char* argv[] );
 				
 		/* create a new panel for editor				*/
-		Panel*	NewPanel	( PanelType type, UInt panelIndex = 0, Bool isPrimary = TRUE );
+		Panel*	NewPanel	( PanelType type, Qt::Orientation orietation,
+							  UInt panelIndex = 0, Bool isPrimary = TRUE );
 		/* show a message in status bar					*/
 		void	ShowStatus	( const Char* message );
 		/* changes the skin of editor */
@@ -92,6 +93,8 @@ namespace CYRED
 		void _FinalizeManagers		();
 		/* destroy the singletons							*/
 		void _DestroyManagers		();
+
+		void _FinalizePanels		();
 
 		/* creates the editor window						*/
 		void _CreateMainWindow		();

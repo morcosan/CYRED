@@ -80,9 +80,7 @@ void AttrViewer_MorphRendering::_OnUpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
-										  EventName::MORPH_RENDERING_CHANGED, 
-										  _target );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, _target );
 
 	_Colorize( _target->IsEnabled() );
 }

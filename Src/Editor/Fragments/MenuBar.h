@@ -25,7 +25,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	class MenuBar : public QMenuBar, public IEventListener
+	class MenuBar : public QMenuBar
 	{
 	public:
 		const Char*	const SCENE_MENU				= "Scene";
@@ -48,10 +48,6 @@ namespace CYRED
 	public:
 		MenuBar() {}
 		virtual ~MenuBar() {}
-
-
-	public:
-		void OnEvent( EventType eType, EventName eName, void* eSource ) override;
 
 
 	public:

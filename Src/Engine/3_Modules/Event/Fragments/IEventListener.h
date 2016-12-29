@@ -15,6 +15,6 @@ namespace CYRED
 		IEventListener() {}
 		virtual ~IEventListener() {}
 
-		virtual void OnEvent( EventType eType, EventName eName, void* eSource ) PURE_VIRTUAL;
+		virtual void OnEvent( EventType eType, void* eData ) PURE_VIRTUAL;
 	};
 }

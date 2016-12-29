@@ -64,9 +64,7 @@ void AttrViewer_MeshRendering::_OnUpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
-										  EventName::MESH_RENDERING_CHANGED, 
-										  _target );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_MESH_RENDERING, _target );
 
 	_Colorize( _target->IsEnabled() );
 }

@@ -109,7 +109,7 @@ void GameObject::SetEnabled( Bool value )
 	_enabled = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_GAMEOBJECT, this );
 	}
 }
 
@@ -125,7 +125,7 @@ void GameObject::SetName( const Char* name )
 	_name = name;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_RENAMED, this );
+		EventManager::Singleton()->EmitEvent( EventType::RENAME_GAMEOBJECT, this );
 	}
 }
 
@@ -139,7 +139,7 @@ void GameObject::SetEmitEvents( Bool value )
 void GameObject::_SentChangeEvent()
 {
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_GAMEOBJECT, this );
 	}
 }
 

@@ -21,6 +21,7 @@
 #include "Fragments\Panels\AttributePanel.h"
 #include "Fragments\Panels\ViewportPanel.h"
 #include "Fragments\Panels\AssetsPanel.h"
+#include "Fragments\Panels\ConsolePanel.h"
 
 #include "Fragments\Viewports\SceneViewport.h"
 #include "Fragments\SelectorPopup.h"
@@ -34,7 +35,6 @@
 #include "EngineOverride\File\FileSystemWindows.h"
 #include "EngineOverride\File\MeshLoaderWindows.h"
 #include "EngineOverride\Input\InputReceiverWindows.h"
-#include "EngineOverride\Debug\ConsoleWindows.h"
 
 #include "InternalAssets\FreeCameraControl.h"
 
@@ -95,10 +95,11 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	_CreateSelectorPopup();
 
 	// create some panels
-	NewPanel( PanelType::ASSETS );
-	NewPanel( PanelType::HIERARCHY );
-	_mainViewport = CAST_S( ViewportPanel*, NewPanel( PanelType::SCENE_VIEWPORT ) );
-	NewPanel( PanelType::ATTRIBUTES );
+	NewPanel( PanelType::ASSETS, Qt::Orientation::Horizontal );
+	NewPanel( PanelType::HIERARCHY, Qt::Orientation::Horizontal );
+	_mainViewport = CAST_S( ViewportPanel*, NewPanel( PanelType::SCENE_VIEWPORT, Qt::Orientation::Horizontal ) );
+	NewPanel( PanelType::CONSOLE, Qt::Orientation::Vertical );
+	NewPanel( PanelType::ATTRIBUTES, Qt::Orientation::Horizontal );
 
 	_skinStylesheet = NULL;
 	// change skin after everything is created
@@ -154,6 +155,7 @@ void EditorApp::Exit()
 
 void EditorApp::_CleanUp()
 {
+	_FinalizePanels();
 	_FinalizeManagers();
 	_DestroyManagers();
 
@@ -238,7 +240,7 @@ void EditorApp::_InitializeManagers()
 
 	InputManager::Singleton()->Initialize( _inputReceiver );
 	TimeManager::Singleton()->Initialize( EditorSettings::fps );
-	DebugManager::Singleton()->Initialize( Memory::Alloc<ConsoleWindows>() );
+	DebugManager::Singleton()->Initialize();
 
 	ProjectBuilder::Singleton()->Initialize();
 }
@@ -273,6 +275,14 @@ void EditorApp::_DestroyManagers()
 	ScriptManager::DestroySingleton();
 
 	ProjectBuilder::DestroySingleton();
+}
+
+
+void EditorApp::_FinalizePanels()
+{
+	for ( UInt i = 0; i < _panels.Size(); i++ ) {
+		_panels[i]->Finalize();
+	}
 }
 
 
@@ -371,50 +381,58 @@ void EditorApp::_ReadProjectFile()
 }
 
 
-Panel* EditorApp::NewPanel( PanelType type, UInt panelIndex, Bool isPrimary )
+Panel* EditorApp::NewPanel( PanelType type, Qt::Orientation orietation, 
+							UInt panelIndex, Bool isPrimary )
 {
 	Panel* panel = NULL;
 	
 	switch ( type )
 	{
 		case PanelType::HIERARCHY:
-			{
-				panel = Memory::Alloc<HierarchyPanel>();
-				panel->Initialize();
-				_panels.Add( panel );
-			}
+		{
+			panel = Memory::Alloc<HierarchyPanel>();
+			panel->Initialize();
+			_panels.Add( panel );
 			break;
+		}
 
 		case PanelType::ATTRIBUTES:
-			{
-				AttributePanel* attrPanel = Memory::Alloc<AttributePanel>();
-				panel = attrPanel;
-				panel->Initialize();
-				_panels.Add( panel );
-			}
+		{
+			panel = Memory::Alloc<AttributePanel>();
+			panel->Initialize();
+			_panels.Add( panel );
 			break;
+		}
 
 		case PanelType::SCENE_VIEWPORT:
-			{
-				SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( panelIndex );
-				viewportPanel->Initialize( isPrimary );
-				viewportPanel->SetCamera( _cameras[ 0 ] );
+		{
+			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( panelIndex );
+			viewportPanel->Initialize( isPrimary );
+			viewportPanel->SetCamera( _cameras[ 0 ] );
 
-				_panels.Add( viewportPanel );
-				panel = viewportPanel;
-			}
+			_panels.Add( viewportPanel );
+			panel = viewportPanel;
 			break;
+		}
 
 		case PanelType::ASSETS:
-			{
-				panel = Memory::Alloc<AssetsPanel>();
-				panel->Initialize();
-				_panels.Add( panel );
-			}
+		{
+			panel = Memory::Alloc<AssetsPanel>();
+			panel->Initialize();
+			_panels.Add( panel );
 			break;
+		}
+
+		case PanelType::CONSOLE:
+		{
+			panel = Memory::Alloc<ConsolePanel>();
+			panel->Initialize();
+			_panels.Add( panel );
+			break;
+		}
 	}
 
-	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel, Qt::Orientation::Horizontal );
+	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel, orietation );
 
 	return panel;
 }

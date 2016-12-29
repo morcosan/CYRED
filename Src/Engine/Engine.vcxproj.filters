@@ -58,7 +58,6 @@
     <ClInclude Include="3_Modules\Input\Fragments\InputEvent.h" />
     <ClInclude Include="3_Modules\Debug\DebugManager.h" />
     <ClInclude Include="3_Modules\Debug\DebugManagerImpl.h" />
-    <ClInclude Include="3_Modules\Debug\Fragments\Console.h" />
     <ClInclude Include="3_Modules\Time\TimeManagerImpl.h" />
     <ClInclude Include="3_Modules\Time\TimeManager.h" />
     <ClInclude Include="2_BuildingBlocks\Components\Transform.h" />

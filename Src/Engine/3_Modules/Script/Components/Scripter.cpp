@@ -17,24 +17,24 @@ Scripter::Scripter( GameObject* gameObject )
 	_componentType = ComponentType::SCRIPTER;
 
 	// register event
-	EventManager::Singleton()->RegisterListener( EventType::ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
 }
 
 
 Scripter::~Scripter()
 {
 	// unregister
-	EventManager::Singleton()->UnregisterListener( EventType::ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
 }
 
 
-void Scripter::OnEvent( EventType eType, EventName eName, void* eSource )
+void Scripter::OnEvent( EventType eType, void* eData )
 {
 	// check if any script asset was reloaded
-	if ( eType == EventType::ASSET && eName == EventName::ASSET_CHANGED ) {
+	if ( eType == EventType::CHANGE_ASSET ) {
 		// find script asset
 		for ( UInt i = 0; i < _scriptsAsset.Size(); i++ ) {
-			if ( eSource == _scriptsAsset[i] ) {
+			if ( eData == _scriptsAsset[i] ) {
 				// reload this script
 				_scripts[i]->LoadFullFile();
 				_scripts[i]->LoadLuaFiles();
@@ -78,7 +78,7 @@ void Scripter::SetScript( UInt index, const Char* scriptUID )
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::SCRIPTER_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCRIPTER, this );
 	}
 }
 
@@ -90,7 +90,7 @@ void Scripter::ClearScripts()
 	_scriptsAsset.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::SCRIPTER_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCRIPTER, this );
 	}
 }
 

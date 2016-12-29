@@ -25,8 +25,7 @@ namespace CYRED
 			void RegisterListener	( EventType eType, IEventListener* listener )	override;
 			void UnregisterListener	( EventType eType, IEventListener* listener )	override;
 
-			void EmitEvent			( EventType eType, EventName eName, 
-									  void* eSource )								override;
+			void EmitEvent			( EventType eType, void* eData )				override;
 
 
 		protected:

@@ -11,6 +11,7 @@ namespace CYRED
 {
 	class GLContext;
 	class GameObject;
+	class Console;
 }
 
 
@@ -38,6 +39,7 @@ namespace CYRED
 
 		Bool		_shouldExit;
 		GameObject* _missingCamera;
+		Console*	_console;
 
 		AppConfig	_appConfig;
 

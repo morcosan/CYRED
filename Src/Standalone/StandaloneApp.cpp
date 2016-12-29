@@ -15,9 +15,9 @@
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
-#include "EngineOverride\Debug\ConsoleWindows.h"
 
 #include "Fragments\GameInitScript.h"
+#include "Fragments\Console.h"
 
 #include "GLEW\Include\glew.h"
 #include "GLFW\Include\glfw3.h"
@@ -36,6 +36,9 @@ void StandaloneApp::Run( Int& argc, Char* argv[] )
 
 	_CreateManagers();
 	_InitializeManagers();
+
+	// init console
+	_console = Memory::Alloc<Console>();
 
 	_ReadConfigFile();
 	_CreateMainWindow();
@@ -140,7 +143,7 @@ void StandaloneApp::_InitializeManagers()
 
 	//InputManager::Singleton()->Initialize( _inputReceiver );
 	TimeManager::Singleton()->Initialize( 0 );
-	DebugManager::Singleton()->Initialize( Memory::Alloc<ConsoleWindows>() );
+	DebugManager::Singleton()->Initialize();
 }
 
 

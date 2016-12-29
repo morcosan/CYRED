@@ -26,7 +26,7 @@ SceneViewport::SceneViewport( UInt panelIndex )
 
 void SceneViewport::A_CameraButton()
 {
-	EventManager::Singleton()->EmitEvent( EventType::SCENE, EventName::GAMEOBJECT_SELECTED, _cameraGO );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, _cameraGO );
 }
 
 

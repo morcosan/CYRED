@@ -129,7 +129,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 	_target->SetEmitEvents( TRUE );
 
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, _target );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, _target );
 }
 
 

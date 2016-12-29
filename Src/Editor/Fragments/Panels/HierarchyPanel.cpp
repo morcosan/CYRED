@@ -88,63 +88,71 @@ void HierarchyPanel::Initialize()
 
 	_CreateRightClickMenu();
 
-	EventManager::Singleton()->RegisterListener( EventType::SCENE, this );
-	EventManager::Singleton()->RegisterListener( EventType::ASSET, this );
+	// register events
+	EventManager::Singleton()->RegisterListener( EventType::CHANGE_HIERARCHY, this );
+	EventManager::Singleton()->RegisterListener( EventType::RENAME_GAMEOBJECT, this );
+	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
 }
 
 
-void HierarchyPanel::OnEvent( EventType eType, EventName eName, void* eSource )
+void HierarchyPanel::Finalize()
+{
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_HIERARCHY, this );
+	EventManager::Singleton()->UnregisterListener( EventType::RENAME_GAMEOBJECT, this );
+	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
+}
+
+
+void HierarchyPanel::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType )
 	{
-		case EventType::SCENE:
+		case EventType::CHANGE_HIERARCHY:
 		{
-			switch ( eName )
-			{
-				case EventName::HIERARCHY_CHANGED:
-				{
-					_ResetHierarchy();
-					break;
-				}
-
-				case EventName::GAMEOBJECT_RENAMED:
-				{
-					GameObject* gameObject = CAST_S( GameObject*, eSource );
-					_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
-					if ( treeItem != NULL )
-					{
-						treeItem->setText( 0, gameObject->GetName() );
-					}
-
-					break;
-				}
-			}
+			_ResetHierarchy();
 			break;
 		}
 
-		case EventType::ASSET:
+		case EventType::RENAME_GAMEOBJECT:
+		{
+			GameObject* gameObject = CAST_S( GameObject*, eData );
+			_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			if ( treeItem != NULL )
+			{
+				treeItem->setText( 0, gameObject->GetName() );
+			}
+
+			break;
+		}
+		
+		case EventType::SELECT_ASSET:
 		{
 			_qtTree->setCurrentItem( NULL );
 
-			switch ( eName )
+			break;
+		}
+
+		case EventType::CHANGE_ASSET:
+		{
+			_qtTree->setCurrentItem( NULL );
+
+			Asset* asset = CAST_S( Asset*, eData );
+
+			if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE )
 			{
-				case EventName::ASSET_CHANGED:
+				_QtTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
+
+				if ( treeItem != NULL )
 				{
-					Asset* asset = CAST_S( Asset*, eSource );
-
-					if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE )
-					{
-						_QtTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
-
-						if ( treeItem != NULL )
-						{
-							_qtTree->blockSignals( true );
-							treeItem->setText( 0, asset->GetName() );
-							_qtTree->blockSignals( false );
-						}
-					}
+					_qtTree->blockSignals( true );
+					treeItem->setText( 0, asset->GetName() );
+					_qtTree->blockSignals( false );
 				}
 			}
+
 			break;
 		}
 	}
@@ -338,18 +346,11 @@ void HierarchyPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
 
-	if ( treeItem->gameObject != NULL )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, 
-											  EventName::GAMEOBJECT_SELECTED, 
-											  treeItem->gameObject );
+	if ( treeItem->gameObject != NULL ) {
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
 	}
-
-	if ( treeItem->scene != NULL )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::SCENE, 
-											  EventName::SCENE_SELECTED, 
-											  NULL );
+	if ( treeItem->scene != NULL ) {
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_SCENE, NULL );
 	}
 }
 

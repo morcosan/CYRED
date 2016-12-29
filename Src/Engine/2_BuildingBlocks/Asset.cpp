@@ -61,9 +61,7 @@ void Asset::SetName( const Char* name, Bool useExtension )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, 
-											  EventName::ASSET_CHANGED, 
-											  this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 
@@ -74,9 +72,7 @@ void Asset::SetDirPath( const Char* dirPath )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::ASSET, 
-											  EventName::ASSET_CHANGED, 
-											  this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
 

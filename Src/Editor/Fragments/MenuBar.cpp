@@ -57,11 +57,6 @@ void MenuBar::AddSkins( const DataArray<const Char*>& skinsName, UInt defaultInd
 }
 
 
-void MenuBar::OnEvent( EventType eType, EventName eName, void* eSource )
-{
-}
-
-
 void MenuBar::_AddMenu_Scene()
 {
 	QMenu* menu = this->addMenu( SCENE_MENU );
@@ -120,9 +115,7 @@ void MenuBar::A_Scene_CloseAll()
 
 void MenuBar::A_Project_Settings()
 {
-	EventManager::Singleton()->EmitEvent( EventType::CUSTOM,
-										  EventName::EDITOR_PROJ_SETTINGS,
-										  NULL );
+	EventManager::Singleton()->EmitEvent( EventType::EDITOR_PROJ_SETTINGS, NULL );
 }
 
 

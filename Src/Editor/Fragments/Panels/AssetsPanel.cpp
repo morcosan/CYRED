@@ -99,58 +99,61 @@ void AssetsPanel::Initialize()
 	_LoadIcons();
 	_CreateRightClickMenu();
 
-	EventManager::Singleton()->RegisterListener( EventType::SCENE, this );
-	EventManager::Singleton()->RegisterListener( EventType::ASSET, this );
+	// register events
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
-void AssetsPanel::OnEvent( EventType eType, EventName eName, void* eSource )
+void AssetsPanel::Finalize()
+{
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
+}
+
+
+void AssetsPanel::OnEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
 	switch ( eType )
 	{
-		case EventType::SCENE:
+		case EventType::SELECT_SCENE:
+		case EventType::SELECT_GAMEOBJECT:
 		{
 			_qtTree->setCurrentItem( NULL );
 			break;
 		}
 
-		case EventType::ASSET:
+		case EventType::CHANGE_ASSET:
 		{
-			switch ( eName )
-			{
-				case EventName::ASSET_CHANGED:
+			Asset* asset = CAST_S( Asset*, eData );
+
+			if ( asset != NULL && !asset->IsTemporary() ) {
+				_QtTreeItem* treeItem = _FindTreeItem( asset );
+
+				Bool isDuplicate = _IsFilePathDuplicate( asset );
+				if ( isDuplicate )
 				{
-					Asset* asset = CAST_S( Asset*, eSource );
+					DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
 
-					if ( asset != NULL && !asset->IsTemporary() ) {
-						_QtTreeItem* treeItem = _FindTreeItem( asset );
-
-						Bool isDuplicate = _IsFilePathDuplicate( asset );
-						if ( isDuplicate )
-						{
-							DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
-
-							// change the name back
-							if ( treeItem->text(0).compare( asset->GetName() ) != 0 )
-							{
-								asset->SetName( treeItem->text(0).toUtf8().constData() );
-							}
-						}
-						else
-						{
-							_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
-
-							if ( treeItem != NULL )
-							{
-								_qtTree->blockSignals( true );
-								treeItem->setText( 0, asset->GetName() );
-								_qtTree->blockSignals( false );
-							}
-						}
+					// change the name back
+					if ( treeItem->text(0).compare( asset->GetName() ) != 0 )
+					{
+						asset->SetName( treeItem->text(0).toUtf8().constData() );
 					}
-					break;
+				}
+				else
+				{
+					_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
+
+					if ( treeItem != NULL )
+					{
+						_qtTree->blockSignals( true );
+						treeItem->setText( 0, asset->GetName() );
+						_qtTree->blockSignals( false );
+					}
 				}
 			}
 			break;
@@ -163,9 +166,7 @@ void AssetsPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET,	
-										  EventName::ASSET_SELECTED,
-										  asset );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, asset );
 }
 
 
@@ -332,7 +333,7 @@ void AssetsPanel::A_Delete()
 	_qtTree->setCurrentItem( NULL );
 	Memory::Free( item );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_SELECTED, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
 }
 
 
@@ -374,7 +375,7 @@ void AssetsPanel::A_Create_Mat_Empty()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -393,7 +394,7 @@ void AssetsPanel::A_Create_Mat_PS()
 	material->SetProperty( "colorEnd", Vector4(1, 1, 1, 1) );
 	material->SetEmitEvents( TRUE );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -405,7 +406,7 @@ void AssetsPanel::A_Create_Tex_2D()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -422,7 +423,7 @@ void AssetsPanel::A_Create_Tex_CM()
 	texture->SetTextureType( TextureType::CUBE_MAP );
 	texture->SetEmitEvents( TRUE );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -434,7 +435,7 @@ void AssetsPanel::A_Create_Shader()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -446,7 +447,7 @@ void AssetsPanel::A_Create_Mesh()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -458,7 +459,7 @@ void AssetsPanel::A_Create_Morph()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -470,7 +471,7 @@ void AssetsPanel::A_Create_Script()
 									   ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET, EventName::ASSET_CHANGED, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 

@@ -2,10 +2,10 @@
 // MIT License
 
 #include "DebugManagerImpl.h"
-#include "Fragments\Console.h"
 #include "../../2_BuildingBlocks/Math/Math.h"
 #include "../../2_BuildingBlocks/String/String.h"
 #include "../../2_BuildingBlocks/String/FiniteString.h"
+#include "../Event/EventManager.h"
 
 
 using namespace CYRED;
@@ -14,17 +14,14 @@ using namespace NotAPI;
 
 //! deferred definition of SceneManager
 DEFINE_LOCAL_SINGLETON( DebugManager, DebugManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( DebugManagerImpl )
 
 
-
-void DebugManagerImpl::Initialize( Console* console )
+void DebugManagerImpl::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
 
-	_console = console;
 	_enabled = TRUE;
 }
 
@@ -35,9 +32,6 @@ void DebugManagerImpl::Finalize()
 	{
 		return;
 	}
-
-	Memory::Free( _console );
-	_console = NULL;
 }
 
 
@@ -57,7 +51,8 @@ void DebugManagerImpl::Error( const Char* value )
 		return;
 	}
 
-	_console->Log( value );
+	DebugInfo debugInfo { value };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_ERROR, &debugInfo );
 }
 
 
@@ -69,7 +64,8 @@ void DebugManagerImpl::Log( const Char* value )
 		return;
 	}
 
-	_console->Log( value );
+	DebugInfo debugInfo { value };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -82,8 +78,8 @@ void DebugManagerImpl::Log( Int value )
 	}
 
 	FiniteString text( "%d", value );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -96,8 +92,8 @@ void DebugManagerImpl::Log( Float value )
 	}
 
 	FiniteString text( "%f", value );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -110,8 +106,8 @@ void DebugManagerImpl::Log( Double value )
 	}
 
 	FiniteString text( "%lf", value );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -124,8 +120,8 @@ void DebugManagerImpl::Log( const Vector2& value )
 	}
 
 	FiniteString text( "(%f, %f)", value.x, value.y );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -138,8 +134,8 @@ void DebugManagerImpl::Log( const Vector3& value )
 	}
 
 	FiniteString text( "(%f, %f, %f)", value.x, value.y, value.z );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -152,8 +148,8 @@ void DebugManagerImpl::Log( const Vector4& value )
 	}
 
 	FiniteString text( "(%f, %f, %f, %f)", value.x, value.y, value.z, value.w );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 
 
@@ -168,7 +164,7 @@ void DebugManagerImpl::Log( const Quaternion& value )
 	Vector3 euler = value.ToEulerAngles();
 
 	FiniteString text( "(%f, %f, %f)", euler.x, euler.y, euler.z );
-
-	_console->Log( text.GetChar() );
+	DebugInfo debugInfo { text.GetChar() };
+	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }
 

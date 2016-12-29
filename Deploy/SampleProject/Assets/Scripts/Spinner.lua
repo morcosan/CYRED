@@ -11,7 +11,7 @@ end
 
 
 function OnUpdate()
-	local rotation = Vector2( 0, 0, 0 )
+	local rotation = Vector3( 0, 0, 0 )
 	rotation.x = VARS.speed.x * TIME:GetDeltaTime()
 	rotation.y = VARS.speed.y * TIME:GetDeltaTime()
 	rotation.z = VARS.speed.z * TIME:GetDeltaTime()

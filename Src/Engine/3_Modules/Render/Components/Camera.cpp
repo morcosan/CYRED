@@ -104,7 +104,7 @@ void Camera::SetFovYAngle( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -116,7 +116,7 @@ void Camera::SetNearClipping( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -128,7 +128,7 @@ void Camera::SetFarClipping( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -140,7 +140,7 @@ void Camera::SetAspectRatio( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -153,7 +153,7 @@ void CYRED::Camera::SetOrthoHeight( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -166,7 +166,7 @@ void CYRED::Camera::SetOrthoWidth( Float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 
@@ -184,7 +184,7 @@ void Camera::SetCameraType( CameraType type )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::CAMERA_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
 

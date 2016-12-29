@@ -197,7 +197,6 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Asset\AssetManagerImpl.h" />
     <ClInclude Include="3_Modules\Debug\DebugManager.h" />
     <ClInclude Include="3_Modules\Debug\DebugManagerImpl.h" />
-    <ClInclude Include="3_Modules\Debug\Fragments\Console.h" />
     <ClInclude Include="3_Modules\File\Fragments\MeshLoader.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.h" />

@@ -39,7 +39,7 @@ void MeshRendering::SetMaterial( Material* value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::MESH_RENDERING_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MESH_RENDERING, this );
 	}
 }
 
@@ -50,6 +50,6 @@ void MeshRendering::SetMesh( Mesh* value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT, EventName::MESH_RENDERING_CHANGED, this );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MESH_RENDERING, this );
 	}
 }

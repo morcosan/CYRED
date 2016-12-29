@@ -88,8 +88,7 @@ void AttrViewer_Camera::_OnUpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT, 
-										  EventName::CAMERA_CHANGED, _target );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, _target );
 }
 
 
