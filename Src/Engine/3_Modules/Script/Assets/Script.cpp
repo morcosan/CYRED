@@ -109,7 +109,14 @@ void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 
 		// call all functions
 		for ( UInt i = 0; i < funcList.Size(); i++ ) {
-			(*funcList[i])();
+			// try to call the function
+			try {
+				(*funcList[i])();
+			}
+			// handle error
+			catch ( luabridge::LuaException const& e ) {
+				DebugManager::Singleton()->Error( e.what () );
+			}
 		}
 	}
 }
@@ -338,9 +345,8 @@ void Script::_LoadLuaVars()
 		lua_pushnil(L);  // push nil, so lua_next removes it from stack and puts (k, v) on stack
 		while ( lua_next(L, -2) != 0 ) { // -2, because we have table at -1
 			if ( lua_isstring(L, -2) ) { // only store stuff with string keys
-				//result.emplace(lua_tostring(L, -2), LuaRef::fromStack(L, -1));
-				String					varName( lua_tostring( L, -2 ) );
-				DataUnion				varValue;
+				String varName( lua_tostring( L, -2 ) );
+				DataUnion varValue;
 
 				String type = lua_tostring( L, -1 );
 				if ( type == TYPE_INT ) {
