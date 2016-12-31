@@ -4,5 +4,5 @@
 #pragma once
 
 #include "../3_Modules/Input/InputManager.h"
-#include "../3_Modules/Input/Fragments/InputReceiver.h"
-#include "../3_Modules/Input/Fragments/KeyCode.h"
+#include "../3_Modules/Input/Sections/InputReceiver.h"
+#include "../3_Modules/Input/Sections/KeyCode.h"

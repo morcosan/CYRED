@@ -2,7 +2,7 @@ VARS = {
 	speed = "VECTOR3"
 }
 
-d
+
 local transform
 
 function OnStart()

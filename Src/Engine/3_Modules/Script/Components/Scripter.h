@@ -6,7 +6,7 @@
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Component.h"
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
-#include "../../../3_Modules/Event/Fragments/IEventListener.h"
+#include "../../../3_Modules/Event/Sections/IEventListener.h"
 
 
 namespace CYRED

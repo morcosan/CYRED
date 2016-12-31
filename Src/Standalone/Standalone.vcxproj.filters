@@ -5,15 +5,15 @@
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Fragments\GameInitScript.cpp" />
-    <ClCompile Include="Fragments\Console.cpp" />
+    <ClCompile Include="Sections\Console.cpp" />
+    <ClCompile Include="Sections\GameInitScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleTest\SampleController.h" />
     <ClInclude Include="StandaloneApp.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
-    <ClInclude Include="Fragments\GameInitScript.h" />
-    <ClInclude Include="Fragments\Console.h" />
+    <ClInclude Include="Sections\Console.h" />
+    <ClInclude Include="Sections\GameInitScript.h" />
   </ItemGroup>
 </Project>

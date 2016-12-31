@@ -16,8 +16,8 @@
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
 
-#include "Fragments\GameInitScript.h"
-#include "Fragments\Console.h"
+#include "Sections\GameInitScript.h"
+#include "Sections\Console.h"
 
 #include "GLEW\Include\glew.h"
 #include "GLFW\Include\glfw3.h"

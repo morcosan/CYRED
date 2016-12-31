@@ -13,22 +13,23 @@
 #include "CyredModule_Script.h"
 #include "CyredModule_Time.h"
 
-#include "Fragments\MenuBar.h"
+#include "Sections\MenuBar.h"
+#include "Sections\Toolbar.h"
 
-#include "Fragments\Builders\ProjectBuilder.h"
+#include "Sections\Builders\ProjectBuilder.h"
 
-#include "Fragments\Panels\HierarchyPanel.h"
-#include "Fragments\Panels\AttributePanel.h"
-#include "Fragments\Panels\ViewportPanel.h"
-#include "Fragments\Panels\AssetsPanel.h"
-#include "Fragments\Panels\ConsolePanel.h"
+#include "Sections\Panels\HierarchyPanel.h"
+#include "Sections\Panels\AttributePanel.h"
+#include "Sections\Panels\ViewportPanel.h"
+#include "Sections\Panels\AssetsPanel.h"
+#include "Sections\Panels\ConsolePanel.h"
 
-#include "Fragments\Viewports\SceneViewport.h"
-#include "Fragments\SelectorPopup.h"
-#include "Fragments\Settings\EditorSettings.h"
-#include "Fragments\Settings\ProjectSettings.h"
-#include "Fragments\Serialize\JSON\JsonSerializer_EditorConfig.h"
-#include "Fragments\Serialize\JSON\JsonSerializer_CyredProj.h"
+#include "Sections\Viewports\SceneViewport.h"
+#include "Sections\SelectorPopup.h"
+#include "Sections\Settings\EditorSettings.h"
+#include "Sections\Settings\ProjectSettings.h"
+#include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
+#include "Sections\Serialize\JSON\JsonSerializer_CyredProj.h"
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
@@ -90,6 +91,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 
 	_CreateMainWindow();
 	_CreateMenuBar();
+	_CreateToolbar();
 	_CreateStatusBar();
 	_CreateCameras();
 	_CreateSelectorPopup();
@@ -317,11 +319,21 @@ void EditorApp::_CreateMenuBar()
 
 void EditorApp::_CreateStatusBar()
 {
-	_qtStatusBar = new QStatusBar();
+	// create status bar
+	_qtStatusBar = Memory::Alloc<QStatusBar>();
 
+	// add to window
 	_qtMainWindow->setStatusBar( _qtStatusBar );
 
+	// show first status
 	ShowStatus( EditorSettings::MSG_EDITOR_STARTED );
+}
+
+
+void EditorApp::_CreateToolbar()
+{
+	_toolbar = Memory::Alloc<Toolbar>();
+	_qtMainWindow->addToolBar( Qt::TopToolBarArea, _toolbar );
 }
 
 
@@ -463,6 +475,43 @@ void EditorApp::ApplySkin( const Char* skinName )
 
 		_qtMainWindow->setStyleSheet( _skinStylesheet );
 	}
+}
+
+
+void EditorApp::StartPlayMode()
+{
+	// ignore if already in play mode
+	if ( _isPlayMode ) {
+		return;
+	}
+
+	// activate play mode
+	_isPlayMode = TRUE;
+
+	// store current scenes
+	SceneManager::Singleton()->StoreScenes();
+}
+
+
+void EditorApp::StopPlayMode()
+{
+	// ignore if not in play mode
+	if ( !_isPlayMode ) {
+		return;
+	}
+
+	// disable play mode
+	_isPlayMode = FALSE;
+
+	// restore scenes
+	SceneManager::Singleton()->RestoreScenes();
+}
+
+
+void EditorApp::SetPlayPaused( Bool value )
+{
+	// pause / unpause play mode
+	_isPlayPaused = value;
 }
 
 

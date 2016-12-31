@@ -38,11 +38,15 @@ namespace CYRED
 			Scene*		LoadScene		( const Char* sceneUID )		override;
 			Scene*		LoadNewScene	()								override;
 			void		SaveScene		( const Char* sceneUID )		override;
-			Scene*		SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
+			Scene*		SaveSceneAs		( const Char* sceneUID, 
+										  const Char* newSceneName,
 										  const Char* dirPath )			override;
 			void		SaveAllScenes	()								override;
 			void		CloseScene		( const Char* sceneUID )		override;
 			void		CloseAllScenes	()								override;
+
+			void		StoreScenes		()								override;
+			void		RestoreScenes	()								override;
 			
 			GameObject*	NewGameObject	( UInt sceneIndex = 0 )			override;
 			GameObject*	NewGameObject	( const Char* sceneUID )		override;
@@ -65,11 +69,20 @@ namespace CYRED
 
 
 		protected:
-			DataArray<Scene*>	_currScenes;
+			struct StoredScene
+			{
+				Scene* scene;
+				String data;
+			};
 
-			UInt				_generatedUID;
-			GameObject*			_mainCameraGO;
+			DataArray<Scene*>		_currScenes;
+			DataArray<StoredScene>	_storedScenes;
 
+			UInt					_generatedUID;
+			GameObject*				_mainCameraGO;
+
+
+		protected:
 			GameObject* _RecFindActiveCamera( Node* parent );
 		};
 	}

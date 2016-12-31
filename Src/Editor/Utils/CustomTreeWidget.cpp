@@ -2,7 +2,7 @@
 // MIT License
 
 #include "CustomTreeWidget.h"
-#include "../Fragments/AttrViewers/AttrViewer.h"
+#include "../Sections/AttrViewers/AttrViewer.h"
 
 #include "QtWidgets\qheaderview.h"
 

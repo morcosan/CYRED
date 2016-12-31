@@ -1,4 +1,3 @@
 VARS = {
 	mega = "BOOL"
 }
-d

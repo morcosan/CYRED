@@ -30,11 +30,7 @@ ConsolePanel::ConsolePanel()
 
 	QScrollArea* scrollArea = Memory::Alloc<QScrollArea>();
 	scrollArea->setObjectName( EditorSkin::CONSOLE_LAYOUT );
-
-	_AddLine( "ceva", TRUE );
-	_AddLine( "cevajt", TRUE );
-	_AddLine( "ceva", TRUE );
-
+	scrollArea->setWidgetResizable( TRUE );
 	scrollArea->setWidget( logsWidget );
 
 	this->setWidget( scrollArea );
@@ -68,13 +64,13 @@ void ConsolePanel::OnEvent( EventType eType, void* eData )
 	switch ( eType ) {
 		case EventType::CONSOLE_LOG:
 		{
-			//_AddLine( CAST_S(DebugInfo*, eData)->message, FALSE );
+			_AddLine( CAST_S(DebugInfo*, eData)->message, FALSE );
 			break;
 		}
 
 		case EventType::CONSOLE_ERROR:
 		{
-			//_AddLine( CAST_S(DebugInfo*, eData)->message, TRUE );
+			_AddLine( CAST_S(DebugInfo*, eData)->message, TRUE );
 			break;
 		}
 	}
@@ -93,6 +89,7 @@ void ConsolePanel::_AddLine( const Char* message, Bool isError )
 	// create label
 	QLabel* qtMessage = Memory::Alloc<QLabel>( message );
 	qtMessage->setTextInteractionFlags( Qt::TextSelectableByMouse );
+	qtMessage->setWordWrap( TRUE );
 	qtLineLayout->addWidget( qtMessage );
 
 	// add line to console

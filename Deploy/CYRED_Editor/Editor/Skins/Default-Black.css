@@ -409,14 +409,11 @@ QScrollBar::right-arrow
 
 #ConsoleLog
 {
-	min-height: 30px;
-	min-width: 300px;
+	min-height: 25px;
 	padding: 2px 0;
-	background: #0ff;
 	border-bottom: 1px solid #222;
+	background-color: #333;
 }
-#ConsoleLog > QLabel
+#ConsoleLog QLabel
 {
-	min-width: 300px;
 }
-

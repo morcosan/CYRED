@@ -9,7 +9,7 @@
 #include "../Render/Assets/Mesh.h"
 #include "../Render/Assets/Morph.h"
 #include "../Render/Assets/Shader.h"
-#include "../Scene/Fragments/Scene.h"
+#include "../Scene/Sections/Scene.h"
 #include "../Script/Assets/Script.h"
 
 

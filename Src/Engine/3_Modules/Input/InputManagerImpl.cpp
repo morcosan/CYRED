@@ -2,7 +2,7 @@
 // MIT License
 
 #include "InputManagerImpl.h"
-#include "Fragments\InputReceiver.h"
+#include "Sections\InputReceiver.h"
 
 
 using namespace CYRED;

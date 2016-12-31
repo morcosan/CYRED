@@ -3,7 +3,7 @@
 
 #include "ForwardTechnique.h"
 
-#include "../../Scene/Fragments/Scene.h"
+#include "../../Scene/Sections/Scene.h"
 
 #include "../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../2_BuildingBlocks/GameObject.h"

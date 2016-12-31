@@ -9,7 +9,7 @@
 #include "../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../2_BuildingBlocks/Random/Random.h"
 #include "../../2_BuildingBlocks/Components/Transform.h"
-#include "Fragments/Scene.h"
+#include "Sections/Scene.h"
 #include "../Render/Components/Camera.h" 
 
 
@@ -82,11 +82,8 @@ Scene* SceneManagerImpl::LoadScene( const Char* sceneUID )
 	ASSERT( _isInitialized );
 
 	String temp( sceneUID );
-
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
-	{
-		if ( temp == _currScenes[i]->GetUniqueID() )
-		{
+	for ( UInt i = 0; i < _currScenes.Size(); ++i ) {
+		if ( temp == _currScenes[i]->GetUniqueID() ) {
 			return NULL;
 		}
 	}
@@ -213,6 +210,41 @@ void SceneManagerImpl::CloseAllScenes()
 	_currScenes.Clear();
 
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+}
+
+
+void SceneManagerImpl::StoreScenes()
+{
+	ASSERT( _isInitialized );
+
+	// remove all stored scenes
+	_storedScenes.Clear();
+
+	// serialize each scene and store result
+	for ( UInt i = 0; i < _currScenes.Size(); i++ ) {
+		_storedScenes.Add( StoredScene {
+			_currScenes[i],
+			FileManager::Singleton()->Serialize<Scene>( _currScenes[i] )
+		} );
+	}
+}
+
+
+void SceneManagerImpl::RestoreScenes()
+{
+	ASSERT( _isInitialized );
+
+	// clear everything
+	CloseAllScenes();
+
+	// load stored scenes
+	for ( UInt i = 0; i < _storedScenes.Size(); i++ ) {
+		// deserialize scene data
+		FileManager::Singleton()->Deserialize<Scene>( _storedScenes[i].data.GetChar(),
+													  _storedScenes[i].scene );
+		// add scene
+		_currScenes.Add( _storedScenes[i].scene );
+	}
 }
 
 

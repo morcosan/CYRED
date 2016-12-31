@@ -6,7 +6,7 @@
 #include "CyredApplication.h"
 #include "CyredBuildingBlocks.h"
 
-#include "Fragments\Panel.h"
+#include "Sections\Panel.h"
 
 #include <QtWidgets/QMainWindow>
 
@@ -20,6 +20,7 @@ namespace CYRED
 	class ViewportPanel;
 	class InputReceiverWindows;
 	class SelectorPopup;
+	class Toolbar;
 }
 
 
@@ -48,6 +49,10 @@ namespace CYRED
 		/* changes the skin of editor */
 		void	ApplySkin	( const Char* skinName );
 
+		void	StartPlayMode	();				// called to start play mode
+		void	StopPlayMode	();				// called to exit play mode
+		void	SetPlayPaused	( Bool value );	// called to set the play mode flag
+
 		void	ShowSelectorPopup( const Char* type, void* qtSelectorPtr );
 
 		/* returns the input receiver instance			*/
@@ -64,9 +69,11 @@ namespace CYRED
 		QStatusBar*		_qtStatusBar;	/* the status bar of window					*/
 		QTime*			_qtTime;		/* object for measuring time passed			*/
 		SelectorPopup*	_selectorPopup;	/* popup window for selecting from a list	*/
+		Toolbar*		_toolbar;		// main toolbar for editor
 
 		Bool			_shouldExit;	/* flag that is used to exit the main loop	*/
 		Bool			_isPlayMode;	/* flag that indicates "play in editor"		*/
+		Bool			_isPlayPaused;	// flag for running the scripts in play mode
 
 		Char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	
 
@@ -102,6 +109,7 @@ namespace CYRED
 		void _CreateMenuBar			();
 		/* creates status bar and adds it to window			*/
 		void _CreateStatusBar		();
+		void _CreateToolbar			();
 
 		void _CreateSelectorPopup	();
 

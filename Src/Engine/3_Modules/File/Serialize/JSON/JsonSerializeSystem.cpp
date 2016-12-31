@@ -20,7 +20,7 @@
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
-#include "../../../Scene/Fragments/Scene.h"
+#include "../../../Scene/Sections/Scene.h"
 #include "../../../Render/Components/Camera.h"
 #include "../../../Render/Components/ParticleEmitter.h"
 #include "../../../Render/Components/MeshRendering.h"

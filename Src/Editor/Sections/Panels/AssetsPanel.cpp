@@ -102,6 +102,7 @@ void AssetsPanel::Initialize()
 	// register events
 	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
 	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
 }
 
 
@@ -110,6 +111,7 @@ void AssetsPanel::Finalize()
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
 }
 
 
@@ -698,6 +700,10 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 
 							case AssetType::SCENE:
 								other = AssetManager::Singleton()->GetScene( uid );
+								break;
+
+							case AssetType::SCRIPT:
+								other = AssetManager::Singleton()->GetScript( uid );
 								break;
 						}
 

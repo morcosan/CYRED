@@ -133,18 +133,18 @@ void MenuBar::A_Skins( QAction* action )
 
 void CYRED::MenuBar::A_Magic()
 {
-	//Char filePath[MAX_SIZE_CUSTOM_STRING];
-	//CUSTOM_STRING( filePath, "%s%s", FileManager::DIR_ASSETS, "magic.scene" );
+	////Char filePath[MAX_SIZE_CUSTOM_STRING];
+	////CUSTOM_STRING( filePath, "%s%s", FileManager::DIR_ASSETS, "magic.scene" );
 
-	Scene* scene = SceneManager::Singleton()->OpenNewScene();
-	//scene->SetFilePath( filePath );
-	//scene->SetName( "magic" );
+	//Scene* scene = SceneManager::Singleton()->OpenNewScene();
+	////scene->SetFilePath( filePath );
+	////scene->SetName( "magic" );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
-	newObject->SetName( "magic" );
+	//GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	//newObject->SetName( "magic" );
 
-	Transform* tran = newObject->AddComponent<Transform>();
-	MorphRendering* morphR = newObject->AddComponent<MorphRendering>();
-	morphR->SetMaterial( AssetManager::Singleton()->GetMaterial( "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE" ) );
-	morphR->SetMorph( AssetManager::Singleton()->GetMorph( "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN" ) );
+	//Transform* tran = newObject->AddComponent<Transform>();
+	//MorphRendering* morphR = newObject->AddComponent<MorphRendering>();
+	//morphR->SetMaterial( AssetManager::Singleton()->GetMaterial( "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE" ) );
+	//morphR->SetMorph( AssetManager::Singleton()->GetMorph( "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN" ) );
 }

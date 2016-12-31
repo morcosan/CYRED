@@ -4,7 +4,6 @@ VARS = {
 	size = "FLOAT"
 }
 
-a
 function OnStart()
 	print( "OnStart")
 

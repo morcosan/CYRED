@@ -31,11 +31,15 @@ namespace CYRED
 		virtual Scene*	LoadScene		( const Char* sceneUID )	PURE_VIRTUAL;
 		virtual Scene*	LoadNewScene	()							PURE_VIRTUAL;
 		virtual void	SaveScene		( const Char* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*	SaveSceneAs		( const Char* sceneUID, const Char* newSceneName,
+		virtual Scene*	SaveSceneAs		( const Char* sceneUID, 
+										  const Char* newSceneName,
 										  const Char* dirPath )		PURE_VIRTUAL;
 		virtual void	SaveAllScenes	()							PURE_VIRTUAL;
 		virtual void	CloseScene		( const Char* sceneUID )	PURE_VIRTUAL;
 		virtual void	CloseAllScenes	()							PURE_VIRTUAL;
+
+		virtual void	StoreScenes		()							PURE_VIRTUAL;
+		virtual void	RestoreScenes	()							PURE_VIRTUAL;
 
 		virtual GameObject*	NewGameObject	( UInt sceneIndex = 0 )			PURE_VIRTUAL;
 		virtual GameObject*	NewGameObject	( const Char* sceneUID )		PURE_VIRTUAL;

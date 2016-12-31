@@ -117,7 +117,7 @@ void ScriptManagerImpl::_RegisterGameObject()
 		.addProperty( "enabled",		&GameObject::IsEnabled,	&GameObject::SetEnabled )
 		.addFunction( "GetUniqueID",	&GameObject::GetUniqueID )
 
-		.addFunction( "GetComponent_Transform ",		&GameObject::GetComponent<Transform> )
+		.addFunction( "GetComponent_Transform",			&GameObject::GetComponent<Transform> )
 		.addFunction( "GetComponent_Camera",			&GameObject::GetComponent<Camera> )
 		.addFunction( "GetComponent_MeshRendering",		&GameObject::GetComponent<MeshRendering> )
 		.addFunction( "GetComponent_MorphRendering",	&GameObject::GetComponent<MorphRendering> )

@@ -2,7 +2,7 @@
 // MIT License
 
 #include "JsonSerializer_Scene.h"
-#include "../../../Scene/Fragments/Scene.h"
+#include "../../../Scene/Sections/Scene.h"
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "JsonSerializer_GameObject.h"
 #include "../../../Scene/SceneManager.h"

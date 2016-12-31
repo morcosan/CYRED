@@ -12,6 +12,9 @@ using namespace CYRED;
 using namespace NotAPI;
 
 
+#include <iostream>
+
+
 //! deferred definition of SceneManager
 DEFINE_LOCAL_SINGLETON( DebugManager, DebugManagerImpl )
 DEFINE_LOCAL_SINGLETON_IMPL( DebugManagerImpl )
@@ -51,8 +54,10 @@ void DebugManagerImpl::Error( const Char* value )
 		return;
 	}
 
+	std::cout << value;
+
 	DebugInfo debugInfo { value };
-	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_ERROR, &debugInfo );
+	//EventManager::Singleton()->EmitEvent( EventType::CONSOLE_ERROR, &debugInfo );
 }
 
 
