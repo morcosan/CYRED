@@ -35,7 +35,7 @@
 #include "EngineOverride\OpenGL\GLContextImpl.h"
 #include "EngineOverride\File\FileSystemWindows.h"
 #include "EngineOverride\File\MeshLoaderWindows.h"
-#include "EngineOverride\Input\InputReceiverWindows.h"
+#include "EngineOverride\Input\InputReceiverQT.h"
 
 #include "InternalAssets\FreeCameraControl.h"
 
@@ -162,6 +162,7 @@ void EditorApp::_CleanUp()
 	_FinalizeManagers();
 	_DestroyManagers();
 
+	Memory::Free( _inputReceiver );
 	Memory::Free( _selectorPopup );
 	Memory::Free( _qtTime );
 	Memory::Free( _qtMainWindow );
@@ -226,7 +227,7 @@ void EditorApp::_CreateManagers()
 
 void EditorApp::_InitializeManagers()
 {
-	_inputReceiver = Memory::Alloc<InputReceiverWindows>();
+	_inputReceiver = Memory::Alloc<InputReceiverQT>();
 
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
@@ -522,7 +523,7 @@ void EditorApp::ShowSelectorPopup( const Char* type, void* qtSelectorPtr )
 }
 
 
-InputReceiverWindows* EditorApp::GetInputReceiver()
+InputReceiverQT* EditorApp::GetInputReceiver()
 {
 	ASSERT( _inputReceiver != NULL );
 	return _inputReceiver;

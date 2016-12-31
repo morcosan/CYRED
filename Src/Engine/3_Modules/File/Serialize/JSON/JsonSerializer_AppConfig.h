@@ -25,6 +25,7 @@ namespace CYRED
 		const Char* const ASSETS_MESHES		= "meshes";
 		const Char* const ASSETS_MORPHS		= "morphs";
 		const Char* const ASSETS_SCENES		= "scenes";
+		const Char* const ASSETS_SCRIPTS	= "scripts";
 		const Char* const ASSET_NAME		= "name";
 		const Char* const ASSET_PATH		= "path";
 

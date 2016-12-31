@@ -18,7 +18,7 @@ namespace CYRED
 {
 	class MenuBar;
 	class ViewportPanel;
-	class InputReceiverWindows;
+	class InputReceiverQT;
 	class SelectorPopup;
 	class Toolbar;
 }
@@ -56,7 +56,7 @@ namespace CYRED
 		void	ShowSelectorPopup( const Char* type, void* qtSelectorPtr );
 
 		/* returns the input receiver instance			*/
-		InputReceiverWindows* GetInputReceiver();
+		InputReceiverQT* GetInputReceiver();
 
 
 	protected:
@@ -81,7 +81,7 @@ namespace CYRED
 		DataArray<GameObject*>		_cameras;	/* list with default camera GOs			*/
 		ViewportPanel*				_mainViewport;
 
-		InputReceiverWindows*		_inputReceiver;	/* object for receiving input events	*/
+		InputReceiverQT*		_inputReceiver;	/* object for receiving input events	*/
 
 
 	protected:

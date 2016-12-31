@@ -227,6 +227,32 @@ rapidjson::Value JsonSerializer_AppConfig::ToJson( void* object )
 								 _al );
 		}	
 
+		// add scripts
+		{
+			// create list
+			rapidjson::Value arrayNode;
+			arrayNode.SetArray();
+			// add all to list
+			for ( UInt i = 0; i < appConfig->assetScripts.Size(); i++ ) {
+				// create object
+				rapidjson::Value objectNode;
+				objectNode.SetObject();
+				// add to object
+				objectNode.AddMember( rapidjson::StringRef( ASSET_NAME ),	
+									  rapidjson::StringRef( appConfig->assetScripts[i].name.GetChar() ),	
+									  _al );
+				objectNode.AddMember( rapidjson::StringRef( ASSET_PATH ),	
+									  rapidjson::StringRef( appConfig->assetScripts[i].path.GetChar() ),	
+									  _al );
+				// add to list
+				arrayNode.PushBack( objectNode, _al );
+			}
+			// add to assets
+			assetNode.AddMember( rapidjson::StringRef( ASSETS_SCRIPTS ),	
+								 arrayNode,	
+								 _al );
+		}
+
 		// add to json
 		json.AddMember( rapidjson::StringRef( ASSETS ),	
 						assetNode,	
@@ -340,6 +366,16 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 			rapidjson::Value& assets = json[ASSETS][ASSETS_SHADERS];
 			for ( UInt i = 0; i < assets.Size(); i++ ) {
 				appConfig->assetShaders.Add( AppConfig::AssetConfig {
+					assets[i][ASSET_NAME].GetString(),
+					assets[i][ASSET_PATH].GetString()
+				});
+			}
+		}
+		// load scripts
+		if ( json[ASSETS].HasMember( ASSETS_SCRIPTS ) ) {
+			rapidjson::Value& assets = json[ASSETS][ASSETS_SCRIPTS];
+			for ( UInt i = 0; i < assets.Size(); i++ ) {
+				appConfig->assetScripts.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
 				});

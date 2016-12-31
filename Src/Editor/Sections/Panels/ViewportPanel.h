@@ -15,7 +15,7 @@ class QHBoxLayout;
 namespace CYRED
 {
 	class GLContext;
-	class InputReceiverWindows;
+	class InputReceiverQT;
 }
 
 
@@ -43,7 +43,7 @@ namespace CYRED
 		class _QtWindow : public QWindow
 		{
 		public:
-			_QtWindow( Int windowIndex, InputReceiverWindows* inputReceiver ) 
+			_QtWindow( Int windowIndex, InputReceiverQT* inputReceiver ) 
 				: _windowIndex( windowIndex )
 				, _inputReceiver( inputReceiver )
 			{
@@ -60,7 +60,7 @@ namespace CYRED
 
 		protected:
 			Int						_windowIndex;
-			InputReceiverWindows*	_inputReceiver;
+			InputReceiverQT*	_inputReceiver;
 		};
 
 

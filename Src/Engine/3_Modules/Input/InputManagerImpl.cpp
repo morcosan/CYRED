@@ -107,7 +107,7 @@ void InputManagerImpl::ProcessEvents()
 }
 
 
-Bool InputManagerImpl::KeyDown( KeyCode keyCode )
+Bool InputManagerImpl::KeyDown( Int keyCode )
 {
 	ASSERT( _isInitialized );
 	
@@ -116,7 +116,7 @@ Bool InputManagerImpl::KeyDown( KeyCode keyCode )
 }
 
 
-Bool InputManagerImpl::KeyDownFirstTime( KeyCode keyCode )
+Bool InputManagerImpl::KeyDownFirstTime( Int keyCode )
 {
 	ASSERT( _isInitialized );
 	
@@ -125,7 +125,7 @@ Bool InputManagerImpl::KeyDownFirstTime( KeyCode keyCode )
 }
 
 
-Bool InputManagerImpl::KeyUp( KeyCode keyCode )
+Bool InputManagerImpl::KeyUp( Int keyCode )
 {
 	ASSERT( _isInitialized );
 	
@@ -134,7 +134,7 @@ Bool InputManagerImpl::KeyUp( KeyCode keyCode )
 }
 
 
-Bool InputManagerImpl::KeyUpFirstTime( KeyCode keyCode )
+Bool InputManagerImpl::KeyUpFirstTime( Int keyCode )
 {
 	ASSERT( _isInitialized );
 	

@@ -17,9 +17,9 @@ namespace CYRED
 
 
 	public:
-		void			ClearQueue		();
+		void		ClearQueue		();
 
-		UInt			GetEventsCount	();
+		UInt		GetEventsCount	();
 		InputEvent&	GetEventAt		( UInt index );
 
 

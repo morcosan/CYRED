@@ -7,6 +7,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sections\Console.cpp" />
     <ClCompile Include="Sections\GameInitScript.cpp" />
+    <ClCompile Include="EngineOverride\Input\InputReceiverGLFW.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleTest\SampleController.h" />
@@ -15,5 +16,6 @@
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="Sections\Console.h" />
     <ClInclude Include="Sections\GameInitScript.h" />
+    <ClInclude Include="EngineOverride\Input\InputReceiverGLFW.h" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
+#include "EngineOverride\Input\InputReceiverGLFW.h"
 
 #include "Sections\GameInitScript.h"
 #include "Sections\Console.h"
@@ -73,6 +74,9 @@ void StandaloneApp::_CleanUp()
 
 	Memory::Free( _glContext );
 
+	// destroy input receiver
+	InputReceiverGLFW::DestroySingleton();
+
 	glfwDestroyWindow( _glfwWindow );
     glfwTerminate();
 }
@@ -107,7 +111,9 @@ void StandaloneApp::_UpdateLoop()
 	//! get and process events
 	glfwPollEvents();
 	_shouldExit = ( glfwWindowShouldClose( _glfwWindow ) == 1 );
-	//InputManager::Singleton()->ProcessEvents();
+
+	// process input
+	InputManager::Singleton()->ProcessEvents();
 }
 
 
@@ -121,6 +127,7 @@ void StandaloneApp::_CreateManagers()
 	InputManager::CreateSingleton();
 	TimeManager::CreateSingleton();
 	DebugManager::CreateSingleton();
+	ScriptManager::CreateSingleton();
 
 	Random::Initialize();
 }
@@ -128,8 +135,6 @@ void StandaloneApp::_CreateManagers()
 
 void StandaloneApp::_InitializeManagers()
 {
-	//_inputReceiver = Memory::Alloc<InputReceiverWindows>();
-
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
@@ -141,9 +146,13 @@ void StandaloneApp::_InitializeManagers()
 										  Memory::Alloc<MeshLoader>() );
 	FileManager::Singleton()->SetSerializeSystem( serializeSystem );
 
-	//InputManager::Singleton()->Initialize( _inputReceiver );
+	// also create input receiver
+	InputReceiverGLFW::CreateSingleton();
+	InputManager::Singleton()->Initialize( InputReceiverGLFW::Singleton() );
+
 	TimeManager::Singleton()->Initialize( 0 );
 	DebugManager::Singleton()->Initialize();
+	ScriptManager::Singleton()->Initialize();
 }
 
 
@@ -157,6 +166,7 @@ void StandaloneApp::_FinalizeManagers()
 	InputManager::Singleton()->Finalize();
 	TimeManager::Singleton()->Finalize();
 	DebugManager::Singleton()->Finalize();
+	ScriptManager::Singleton()->Finalize();
 }
 
 
@@ -170,6 +180,7 @@ void StandaloneApp::_DestroyManagers()
 	InputManager::DestroySingleton();
 	TimeManager::DestroySingleton();
 	DebugManager::DestroySingleton();
+	ScriptManager::DestroySingleton();
 }
 
 
@@ -227,6 +238,13 @@ void StandaloneApp::_CreateMainWindow()
 	glfwMakeContextCurrent( _glfwWindow );
 
 	glfwSwapInterval( 0 );
+
+	// add input listeners
+	glfwSetKeyCallback			( _glfwWindow, InputReceiverGLFW::GLFW_KeyCallback );
+	glfwSetMouseButtonCallback	( _glfwWindow, InputReceiverGLFW::GLFW_ButtonCallback );
+	glfwSetCursorPosCallback	( _glfwWindow, InputReceiverGLFW::GLFW_CursorCallback );
+	glfwSetScrollCallback		( _glfwWindow, InputReceiverGLFW::GLFW_ScrollCallback );
+	glfwSetCursorEnterCallback	( _glfwWindow, InputReceiverGLFW::GLFW_FocusCallback );
 }
 
 

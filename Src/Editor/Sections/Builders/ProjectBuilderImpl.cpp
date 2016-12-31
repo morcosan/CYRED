@@ -9,6 +9,7 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Render.h"
+#include "CyredModule_Script.h"
 
 #include "../Settings/ProjectSettings.h"
 
@@ -51,6 +52,7 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 		ProjectSettings::appConfig.assetScenes.Clear();
 		ProjectSettings::appConfig.assetShaders.Clear();
 		ProjectSettings::appConfig.assetTextures.Clear();
+		ProjectSettings::appConfig.assetScripts.Clear();
 
 		// fill lists
 		for ( UInt i = 0; i < assetManager->GetMaterialCount(); i++ ) {
@@ -91,6 +93,13 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 		for ( UInt i = 0; i < assetManager->GetShaderCount(); i++ ) {
 			Shader* asset = assetManager->GetShaderAt( i );
 			ProjectSettings::appConfig.assetShaders.Add( AppConfig::AssetConfig {
+				asset->GetName(),
+				asset->GetUniqueID()
+			} );
+		}
+		for ( UInt i = 0; i < assetManager->GetScriptCount(); i++ ) {
+			Script* asset = assetManager->GetScriptAt( i );
+			ProjectSettings::appConfig.assetScripts.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
@@ -138,6 +147,10 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 	// copy shaders
 	for ( UInt i = 0; i < assetManager->GetShaderCount(); i++ ) {
 		_BuildShaderFile( assetManager->GetShaderAt( i ) );
+	}
+	// copy scripts
+	for ( UInt i = 0; i < assetManager->GetScriptCount(); i++ ) {
+		_BuildScriptFile( assetManager->GetScriptAt( i ) );
 	}
 }
 
@@ -407,6 +420,46 @@ void ProjectBuilderImpl::_BuildShaderFile( Shader* asset )
 										 asset->GetUniqueID() );
 	fileManager->WriteFile( dstPathAsset.GetChar(), 
 							fileManager->Serialize<Shader>( &shader ).GetChar() );
+}
+
+
+void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
+{
+	ASSERT( asset != NULL );
+
+	// use shortcut
+	FileManager* fileManager = FileManager::Singleton();
+
+	// copy additional files, rename, replace in asset file
+
+	// read asset file
+	Script script;
+	script.SetEmitEvents( FALSE );
+	script.SetName( asset->GetName() );
+	script.SetDirPath( asset->GetDirPath() );
+	script.LoadFullFile();
+
+	for ( UInt i = 0; i < script.GetPathsCount(); i++ ) {
+		// generate constant ids
+		FiniteString srcPathFile( "%s%s", asset->GetDirPath(), script.GetFilePath(i) );
+		String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
+
+		// copy lua file
+		FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+										AppConfig::DIR_PATH_DATA, 
+										fileCID.GetChar() );
+		fileManager->CopyFile( srcPathFile.GetChar(), dstPath.GetChar() );
+
+		// replace data file in asset
+		script.SetFilePath( i, fileCID.GetChar() );
+	}
+
+	// write asset file
+	FiniteString dstPathAsset( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+							   AppConfig::DIR_PATH_DATA, 
+							   asset->GetUniqueID() );
+	fileManager->WriteFile( dstPathAsset.GetChar(), 
+							fileManager->Serialize<Script>( &script ).GetChar() );
 }
 
 

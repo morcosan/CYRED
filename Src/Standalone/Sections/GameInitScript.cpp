@@ -89,6 +89,18 @@ void GameInitScript::_LoadAllAssets()
 		AssetManager::Singleton()->AddShader( shader );
 	}
 
+	// load scripts
+	for ( UInt i = 0; i < _appConfig->assetScripts.Size(); i++ ) {
+		// create asset
+		Script* script = Memory::Alloc<Script>();
+		script->SetEmitEvents( FALSE );
+		script->SetName( _appConfig->assetScripts[i].path.GetChar(), FALSE );
+		script->SetDirPath( AppConfig::DIR_PATH_DATA );
+		script->LoadFullFile();
+		// manage asset
+		AssetManager::Singleton()->AddScript( script );
+	}
+
 	// load materials after shaders
 	for ( UInt i = 0; i < _appConfig->assetMaterials.Size(); i++ ) {
 		// create asset

@@ -14,6 +14,7 @@ namespace CYRED
 	class Mesh;
 	class Morph;
 	class Shader;
+	class Script;
 }
 
 
@@ -39,5 +40,6 @@ namespace CYRED
 		void _BuildMeshFile		( Mesh* asset );
 		void _BuildMorphFile	( Morph* asset );
 		void _BuildShaderFile	( Shader* asset );
+		void _BuildScriptFile	( Script* asset );
 	};
 }

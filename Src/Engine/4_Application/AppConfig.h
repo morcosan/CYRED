@@ -44,5 +44,6 @@ namespace CYRED
 		DataArray<AssetConfig>	assetScenes;
 		DataArray<AssetConfig>	assetShaders;
 		DataArray<AssetConfig>	assetMaterials;
+		DataArray<AssetConfig>	assetScripts;
 	};
 }

@@ -85,7 +85,7 @@
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
     <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
-    <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
+    <ClCompile Include="EngineOverride\Input\InputReceiverQT.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Camera.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_CyredProj.cpp" />
@@ -136,7 +136,7 @@
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
     <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
-    <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
+    <ClInclude Include="EngineOverride\Input\InputReceiverQT.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Camera.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_CyredProj.h" />

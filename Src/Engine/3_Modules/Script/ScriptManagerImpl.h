@@ -25,7 +25,7 @@ namespace CYRED
 
 
 		protected:
-			lua_State*	_Lua;
+			lua_State*	_L;
 
 			void _RegisterGameObject();
 

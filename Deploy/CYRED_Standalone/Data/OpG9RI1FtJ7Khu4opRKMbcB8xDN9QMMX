@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": 180.0,
+                        "y": -48.700,
+                        "z": 180.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -27,6 +27,35 @@
                     "enabled": true,
                     "mesh": "AKMPXdCG15fh3fVsYxOAREnyy6jncGIN",
                     "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
+                },
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "ft0k1rSGED4yuGTEgYSMn7GfAQEY1Sv9",
+                            "variables": [
+                                {
+                                    "name": "speed",
+                                    "type": "VECTOR3",
+                                    "value": {
+                                        "x": 0.0,
+                                        "y": 100.0,
+                                        "z": 0.0
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
+                            "variables": [
+                                {
+                                    "name": "speed",
+                                    "type": "FLOAT",
+                                    "value": 5.0
+                                }
+                            ]
+                        }
+                    ]
                 }
             }
         },

@@ -23,14 +23,14 @@ namespace CYRED
 			void		Finalize			()							override;
 			void		ProcessEvents		()							override;
 
-			Bool		KeyDown				( KeyCode keyCode )			override;
-			Bool		KeyDownFirstTime	( KeyCode keyCode )			override;
-			Bool		KeyUp				( KeyCode keyCode )			override;
-			Bool		KeyUpFirstTime		( KeyCode keyCode )			override;
-			Vector2	CursorPosition		()							override;
-			Vector2	CursorDeltaPosition	()							override;
-			Int		ScrollWheel			()							override;
-			Int		GetWindowForCursor	()							override;
+			Bool		KeyDown				( Int keyCode )				override;
+			Bool		KeyDownFirstTime	( Int keyCode )				override;
+			Bool		KeyUp				( Int keyCode )				override;
+			Bool		KeyUpFirstTime		( Int keyCode )				override;
+			Vector2		CursorPosition		()							override;
+			Vector2		CursorDeltaPosition	()							override;
+			Int			ScrollWheel			()							override;
+			Int			GetWindowForCursor	()							override;
 
 
 		protected:

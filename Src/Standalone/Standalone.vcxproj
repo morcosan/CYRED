@@ -98,6 +98,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EngineOverride\Input\InputReceiverGLFW.cpp" />
     <ClCompile Include="Sections\Console.cpp" />
     <ClCompile Include="Sections\GameInitScript.cpp" />
     <ClCompile Include="StandaloneApp.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EngineOverride\Input\InputReceiverGLFW.h" />
     <ClInclude Include="Sections\Console.h" />
     <ClInclude Include="Sections\GameInitScript.h" />
     <ClInclude Include="StandaloneApp.h" />

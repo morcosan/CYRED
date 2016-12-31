@@ -44,6 +44,16 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
+                            "variables": [
+                                {
+                                    "name": "speed",
+                                    "type": "FLOAT",
+                                    "value": 5.0
+                                }
+                            ]
                         }
                     ]
                 }

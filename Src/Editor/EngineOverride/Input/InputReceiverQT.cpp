@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "InputReceiverWindows.h"
+#include "InputReceiverQT.h"
 #include "CyredBuildingBlocks.h"
 
 #include "QtGui\QKeyEvent"
@@ -9,7 +9,7 @@
 using namespace CYRED;
 
 
-void InputReceiverWindows::OnKeyPress( QKeyEvent* e )
+void InputReceiverQT::OnKeyPress( QKeyEvent* e )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->key() ) );
@@ -17,7 +17,7 @@ void InputReceiverWindows::OnKeyPress( QKeyEvent* e )
 }
 
 
-void InputReceiverWindows::OnKeyRelease( QKeyEvent* e )
+void InputReceiverQT::OnKeyRelease( QKeyEvent* e )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->key() ) );
@@ -25,7 +25,7 @@ void InputReceiverWindows::OnKeyRelease( QKeyEvent* e )
 }
 
 
-void InputReceiverWindows::OnMouseMove( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMouseMove( QMouseEvent* e, Int windowIndex )
 {
 	DataUnion data;
 	data.SetVector2( Vector2( e->x(), e->y() ) );
@@ -33,7 +33,7 @@ void InputReceiverWindows::OnMouseMove( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverWindows::OnMousePress( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMousePress( QMouseEvent* e, Int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->button() ) );
@@ -41,7 +41,7 @@ void InputReceiverWindows::OnMousePress( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverWindows::OnMouseRelease( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMouseRelease( QMouseEvent* e, Int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->button() ) );
@@ -49,7 +49,7 @@ void InputReceiverWindows::OnMouseRelease( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverWindows::OnWheelMove( QWheelEvent* e, Int windowIndex )
+void InputReceiverQT::OnWheelMove( QWheelEvent* e, Int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( e->angleDelta().y() / 120 );
@@ -57,13 +57,13 @@ void InputReceiverWindows::OnWheelMove( QWheelEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverWindows::OnFocusOut( Int windowIndex )
+void InputReceiverQT::OnFocusOut( Int windowIndex )
 {
 	// TODO
 }
 
 
-KeyCode InputReceiverWindows::ToKeyCode( Int qtKey )
+KeyCode InputReceiverQT::ToKeyCode( Int qtKey )
 {
 	switch ( qtKey )
 	{

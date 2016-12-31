@@ -3,7 +3,7 @@
 
 #include "ViewportPanel.h"
 #include "../../EngineOverride/OpenGL/GLContextImpl.h"
-#include "../../EngineOverride/Input/InputReceiverWindows.h"
+#include "../../EngineOverride/Input/InputReceiverQT.h"
 #include "../../EditorApp.h"
 #include "CyredModule_Render.h"
 

@@ -13,11 +13,11 @@ class QWheelEvent;
 
 namespace CYRED
 {
-	class InputReceiverWindows : public InputReceiver
+	class InputReceiverQT : public InputReceiver
 	{
 	public:
-		InputReceiverWindows() {}
-		virtual ~InputReceiverWindows() {}
+		InputReceiverQT() {}
+		virtual ~InputReceiverQT() {}
 
 
 	public:

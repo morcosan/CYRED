@@ -6,7 +6,6 @@
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
     <ClCompile Include="EngineOverride\File\FileSystemWindows.cpp" />
-    <ClCompile Include="EngineOverride\Input\InputReceiverWindows.cpp" />
     <ClCompile Include="Utils\CustomTreeWidget.cpp" />
     <ClCompile Include="EngineOverride\File\MeshLoaderWindows.cpp" />
     <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
@@ -50,13 +49,13 @@
     <ClCompile Include="Sections\Panel.cpp" />
     <ClCompile Include="Sections\SelectorPopup.cpp" />
     <ClCompile Include="Sections\Toolbar.cpp" />
+    <ClCompile Include="EngineOverride\Input\InputReceiverQT.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="EngineOverride\File\FileSystemWindows.h" />
-    <ClInclude Include="EngineOverride\Input\InputReceiverWindows.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
     <ClInclude Include="EngineOverride\File\MeshLoaderWindows.h" />
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />
@@ -102,5 +101,6 @@
     <ClInclude Include="Sections\Panel.h" />
     <ClInclude Include="Sections\SelectorPopup.h" />
     <ClInclude Include="Sections\Toolbar.h" />
+    <ClInclude Include="EngineOverride\Input\InputReceiverQT.h" />
   </ItemGroup>
 </Project>
