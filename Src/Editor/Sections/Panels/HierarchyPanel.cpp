@@ -309,16 +309,14 @@ void HierarchyPanel::_RecResetHierarchy( GameObject* gameObject, QTreeWidgetItem
 void HierarchyPanel::_ResetHierarchy()
 {
 	// delete all items
-	while ( _qtTree->topLevelItemCount() > 0 )
-	{
+	while ( _qtTree->topLevelItemCount() > 0 ) {
 		_qtTree->takeTopLevelItem( 0 );
 	}
 
 	// re-add all scenes
 	QTreeWidgetItem* rootItem = _qtTree->invisibleRootItem();
 
-	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )
-	{
+	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
 		_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();

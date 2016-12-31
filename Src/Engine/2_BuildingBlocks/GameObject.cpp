@@ -61,13 +61,13 @@ void GameObject::OnHierarchyChange()
 
 void GameObject::OnUpdate( Bool isRuntime )
 {
-	for ( UInt i = 0; i < _components.Size(); ++i )
-	{
+	// update components
+	for ( UInt i = 0; i < _components.Size(); ++i )	{
 		_components[i]->OnUpdate( isRuntime );
 	}
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i )
-	{
+	// update child gameobjects
+	for ( UInt i = 0; i < _childNodes.Size(); ++i )	{
 		_childNodes[i]->OnUpdate( isRuntime );
 	}
 }

@@ -131,8 +131,9 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	// must be called after all scenes assets are loaded
 	_ReadProjectFile();
 
-
+	// mark flags
 	_isPlayMode = FALSE;
+	_isPlayPaused = FALSE;
 
 	//! start the main loop
 	_qtTime = Memory::Alloc<QTime>();
@@ -188,7 +189,7 @@ void EditorApp::_UpdateLoop()
 			UInt totalScenes = sceneManager->CountLoadedScenes();
 			for ( UInt i = 0; i < totalScenes; ++i )
 			{
-				sceneManager->GetScene( i )->OnUpdate( _isPlayMode );
+				sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
 			}
 		}
 	}

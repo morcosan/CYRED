@@ -84,8 +84,8 @@ Asset* Scene::Clone()
 
 void Scene::OnUpdate( Bool isRuntime )
 {
-	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i )
-	{
+	// ask gameobjects to update 
+	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i ) {
 		_root->GetChildNodeAt( i )->OnUpdate( isRuntime );
 	}
 }

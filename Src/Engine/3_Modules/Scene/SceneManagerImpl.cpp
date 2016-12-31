@@ -203,8 +203,7 @@ void SceneManagerImpl::CloseAllScenes()
 {
 	ASSERT( _isInitialized );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
 		_currScenes[i]->ClearAsset();
 	}
 	_currScenes.Clear();
@@ -235,7 +234,10 @@ void SceneManagerImpl::RestoreScenes()
 	ASSERT( _isInitialized );
 
 	// clear everything
-	CloseAllScenes();
+	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
+		_currScenes[i]->ClearAsset();
+	}
+	_currScenes.Clear();
 
 	// load stored scenes
 	for ( UInt i = 0; i < _storedScenes.Size(); i++ ) {
@@ -245,6 +247,8 @@ void SceneManagerImpl::RestoreScenes()
 		// add scene
 		_currScenes.Add( _storedScenes[i].scene );
 	}
+
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
 }
 
 
