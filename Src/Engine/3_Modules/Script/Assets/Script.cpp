@@ -239,7 +239,7 @@ void Script::ClearFilePaths()
 }
 
 
-void Script::LoadLuaFiles()
+void Script::LoadLuaFiles( Bool clearVars )
 {
 	// reset flag
 	_isFirstUpdate = TRUE;
@@ -248,13 +248,14 @@ void Script::LoadLuaFiles()
 	_luaFuncList.Clear();
 
 	// clear var list
-	_luaVarsList.Clear();
+	if ( clearVars ) {
+		_luaVarsList.Clear();
 
-	// recreate dictionary
-	// get lua state
-	lua_State* L = ScriptManager::Singleton()->GetLuaState();
-	_luaVarsRef = Memory::Alloc<luabridge::LuaRef>( L );
-	(*_luaVarsRef) = luabridge::newTable( L );
+		// recreate dictionary
+		lua_State* L = ScriptManager::Singleton()->GetLuaState();
+		_luaVarsRef = Memory::Alloc<luabridge::LuaRef>( L );
+		(*_luaVarsRef) = luabridge::newTable( L );
+	}
 
 	// load all lua files
 	for ( UInt i = 0; i < _filePaths.Size(); i++ ) {
@@ -347,35 +348,28 @@ void Script::_LoadLuaVars()
 			if ( lua_isstring(L, -2) ) { // only store stuff with string keys
 				String varName( lua_tostring( L, -2 ) );
 				DataUnion varValue;
-
 				String type = lua_tostring( L, -1 );
+
 				if ( type == TYPE_INT ) {
 					varValue.SetInt( 0 );
-					(*_luaVarsRef)[varName.GetChar()] = 0;
 				}
 				else if ( type == TYPE_FLOAT ) {
 					varValue.SetFloat( 0.0f );
-					(*_luaVarsRef)[varName.GetChar()] = 0.0f;
 				}
 				else if ( type == TYPE_BOOL ) {
 					varValue.SetBool( FALSE );
-					(*_luaVarsRef)[varName.GetChar()] = FALSE;
 				}
 				else if ( type == TYPE_STRING ) {
 					varValue.SetString( "" );
-					(*_luaVarsRef)[varName.GetChar()] = "";
 				}
 				else if ( type == TYPE_VECTOR2 ) {
 					varValue.SetVector2( Vector2() );
-					(*_luaVarsRef)[varName.GetChar()] = Vector2();
 				}
 				else if ( type == TYPE_VECTOR3 ) {
 					varValue.SetVector3( Vector3() );
-					(*_luaVarsRef)[varName.GetChar()] = Vector3();
 				}
 				else if ( type == TYPE_VECTOR4 ) {
 					varValue.SetVector4( Vector4() );
-					(*_luaVarsRef)[varName.GetChar()] = Vector4();
 				}
 				else {
 					// unknown type error
@@ -385,11 +379,18 @@ void Script::_LoadLuaVars()
 
 				// add to vars list
 				if ( _luaVarsList.Has( varName ) ) {
-					// ignore, already existing
+					// check if same type
+					if ( _luaVarsList.Get( varName ).GetValueType() == varValue.GetValueType() ) {
+						// ignore it
+					}
+					else {
+						// different type, overwrite var
+						SetVariable( varName.GetChar(), varValue );
+					}
 				}
 				else {
 					// new variable
-					_luaVarsList.Set( varName, varValue );
+					SetVariable( varName.GetChar(), varValue );
 				}
 			}
 			lua_pop(L, 1); // remove value, keep key for lua_next

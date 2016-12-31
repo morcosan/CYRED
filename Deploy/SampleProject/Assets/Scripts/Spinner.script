@@ -1,6 +1,6 @@
 {
     "uid": "ft0k1rSGED4yuGTEgYSMn7GfAQEY1Sv9",
-    "run_in_editor": false,
+    "run_in_editor": true,
     "file_paths": [
         "Spinner.lua"
     ]

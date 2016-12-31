@@ -37,7 +37,7 @@ void Scripter::OnEvent( EventType eType, void* eData )
 			if ( eData == _scriptsAsset[i] ) {
 				// reload this script
 				_scripts[i]->LoadFullFile();
-				_scripts[i]->LoadLuaFiles();
+				_scripts[i]->LoadLuaFiles( FALSE );
 				break;
 			}
 		}

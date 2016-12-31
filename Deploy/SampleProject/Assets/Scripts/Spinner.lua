@@ -16,4 +16,6 @@ function OnUpdate()
 	rotation.y = VARS.speed.y * TIME:GetDeltaTime()
 	rotation.z = VARS.speed.z * TIME:GetDeltaTime()
 	transform:RotateByLocal( rotation )
+
+	print( VARS.speed.y )
 end

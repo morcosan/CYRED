@@ -198,55 +198,66 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 				rapidjson::Value& vars = scripts[i][SCRIPT_VARS];
 				Script* script = scripter->GetScript(i);
 
-				for ( UInt j = 0; j < vars.Size(); j++ ) {
-					if ( vars[j].HasMember( VAR_NAME ) 
-						 && vars[j].HasMember( VAR_TYPE )
-						 && vars[j].HasMember( VAR_VALUE ) ) 
-					{
-						const Char* varName = vars[j][VAR_NAME].GetString();
+				// parse script variables
+				Iterator<String, DataUnion> iter = script->GetVarsListIterator();
+				while ( iter.HasNext() ) {
+					// set variable if exists
+					for ( UInt j = 0; j < vars.Size(); j++ ) {
+						if ( vars[j].HasMember( VAR_NAME ) 
+							 && vars[j].HasMember( VAR_TYPE )
+							 && vars[j].HasMember( VAR_VALUE )						
+							 && iter.GetKey() == vars[j][VAR_NAME].GetString() ) 
+						{
+							DataUnion varValue;
 
-						// find loaded variable
-						Iterator<String, DataUnion> iter = script->GetVarsListIterator();
-						while ( iter.HasNext() ) {
-							// if found, set value
-							if ( iter.GetKey() == varName ) {
-								DataUnion varValue;
-
-								if ( vars[j][VAR_TYPE] == VAR_TYPE_INT ) {
-									varValue.SetInt( vars[j][VAR_VALUE].GetInt() );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_FLOAT ) {
-									varValue.SetFloat( vars[j][VAR_VALUE].GetDouble() );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_BOOL ) {
-									varValue.SetBool( vars[j][VAR_VALUE].GetBool() );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_STRING ) {
-									varValue.SetString( vars[j][VAR_VALUE].GetString() );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC2 ) {
-									varValue.SetVector2( _FromJsonVec2( vars[j][VAR_VALUE] ) );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC3 ) {
-									varValue.SetVector3( _FromJsonVec3( vars[j][VAR_VALUE] ) );
-									script->SetVariable( varName, varValue );
-								}
-								else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC4 ) {
-									varValue.SetVector4( _FromJsonVec4( vars[j][VAR_VALUE] ) );
-									script->SetVariable( varName, varValue );
-								}
-								
-								break;
+							if ( vars[j][VAR_TYPE] == VAR_TYPE_INT 
+								 && iter.GetValue().GetValueType() == DataUnion::INT ) 
+							{
+								varValue.SetInt( vars[j][VAR_VALUE].GetInt() );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_FLOAT 
+									  && iter.GetValue().GetValueType() == DataUnion::FLOAT ) 
+							{
+								varValue.SetFloat( vars[j][VAR_VALUE].GetDouble() );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_BOOL 
+									  && iter.GetValue().GetValueType() == DataUnion::BOOL ) 
+							{
+								varValue.SetBool( vars[j][VAR_VALUE].GetBool() );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_STRING 
+									  && iter.GetValue().GetValueType() == DataUnion::STRING ) 
+							{
+								varValue.SetString( vars[j][VAR_VALUE].GetString() );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC2 
+									  && iter.GetValue().GetValueType() == DataUnion::VECTOR2 ) 
+							{
+								varValue.SetVector2( _FromJsonVec2( vars[j][VAR_VALUE] ) );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC3 
+									  && iter.GetValue().GetValueType() == DataUnion::VECTOR3 )
+							{
+								varValue.SetVector3( _FromJsonVec3( vars[j][VAR_VALUE] ) );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+							}
+							else if ( vars[j][VAR_TYPE] == VAR_TYPE_VEC4 
+									  && iter.GetValue().GetValueType() == DataUnion::VECTOR4 ) 
+							{
+								varValue.SetVector4( _FromJsonVec4( vars[j][VAR_VALUE] ) );
+								script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
 							}
 
-							iter.Next();
+							break;
 						}
 					}
+
+					iter.Next();
 				}
 			}
 		}

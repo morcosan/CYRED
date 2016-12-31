@@ -67,7 +67,7 @@ namespace CYRED
 		void SetFilePath	( UInt index, const Char* filePath );
 		void ClearFilePaths	();
 
-		void LoadLuaFiles	();
+		void LoadLuaFiles	( Bool clearVars = TRUE );
 
 
 	protected:
