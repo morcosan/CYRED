@@ -13,14 +13,18 @@ namespace CYRED
 
 namespace CYRED
 {
-	class DLL MeshGenerator
+	namespace NotAPI
 	{
-	private:
-		MeshGenerator() {}
-		~MeshGenerator() {}
+		class DLL MeshGenerator
+		{
+		public:
+			MeshGenerator() {}
+			virtual ~MeshGenerator() {}
 
 
-	public:
-		static void CreateCube( OUT Mesh* mesh );
-	};
+		public:
+			static void GenerateCube( OUT Mesh* mesh );
+			static void GenerateQuad( OUT Mesh* mesh );
+		};
+	}
 }

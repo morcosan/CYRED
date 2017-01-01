@@ -83,58 +83,48 @@ void JsonSerializer_CyredProj::FromJson( rapidjson::Value& json, OUT void* objec
 {
 	ASSERT( object == NULL );
 
-	if ( json.HasMember( APP_CONFIG ) )
-	{
+	if ( json.HasMember( APP_CONFIG ) ) {
 		rapidjson::Value& config = json[APP_CONFIG];
 
-		if ( config.HasMember( APP_NAME ) )
-		{
+		if ( config.HasMember( APP_NAME ) ) {
 			ProjectSettings::appConfig.appName = config[APP_NAME].GetString();
 		}
-		if ( config.HasMember( FULLSCREEN ) )
-		{
+		if ( config.HasMember( FULLSCREEN ) ) {
 			ProjectSettings::appConfig.fullscreen = config[FULLSCREEN].GetBool();
 		}
-		if ( !ProjectSettings::appConfig.fullscreen )
-		{
-			if ( config.HasMember( WIDTH ) )
-			{
+		if ( !ProjectSettings::appConfig.fullscreen ) {
+			if ( config.HasMember( WIDTH ) ) {
 				ProjectSettings::appConfig.width = config[WIDTH].GetInt();
 			}
-			if ( config.HasMember( HEIGHT ) )
-			{
+			if ( config.HasMember( HEIGHT ) ) {
 				ProjectSettings::appConfig.height = config[HEIGHT].GetInt();
 			}
-			if ( config.HasMember( POS_X ) )
-			{
+			if ( config.HasMember( POS_X ) ) {
 				ProjectSettings::appConfig.posX = config[POS_X].GetInt();
 			}
-			if ( config.HasMember( POS_Y ) )
-			{
+			if ( config.HasMember( POS_Y ) ) {
 				ProjectSettings::appConfig.posY = config[POS_Y].GetInt();
 			}
 		}
-		if ( config.HasMember( FPS ) )
-		{
+		if ( config.HasMember( FPS ) ) {
 			ProjectSettings::appConfig.fps = config[FPS].GetInt();
 		}
 	}
-	if ( json.HasMember( START_SCENE ) )
-	{
+	if ( json.HasMember( START_SCENE ) ) {
 		ProjectSettings::startScene = AssetManager::Singleton()->GetScene( json[START_SCENE].GetString() );
 
-		// add scene to app config
-		ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
-			ProjectSettings::startScene->GetName(),
-			ProjectSettings::startScene->GetUniqueID()
-		};
+		if ( ProjectSettings::startScene != NULL ) {
+			// add scene to app config
+			ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
+				ProjectSettings::startScene->GetName(),
+				ProjectSettings::startScene->GetUniqueID()
+			};
+		}
 	}
-	if ( json.HasMember( BUILD_WINDOWS ) )
-	{
+	if ( json.HasMember( BUILD_WINDOWS ) ) {
 		ProjectSettings::dirPathBuildWindows = json[BUILD_WINDOWS].GetString();
 	}
-	if ( json.HasMember( BUILD_ANDROID ) )
-	{
+	if ( json.HasMember( BUILD_ANDROID ) ) {
 		ProjectSettings::dirPathBuildAndroid = json[BUILD_ANDROID].GetString();
 	}
 }

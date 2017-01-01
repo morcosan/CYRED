@@ -16,7 +16,8 @@ namespace CYRED
 		const Char* const MESH_TYPE_POLY	= "POLYGON";
 		const Char* const LOAD_TYPE			= "load_type";
 		const Char* const LOAD_TYPE_EXT		= "EXTERNAL";
-		const Char* const LOAD_TYPE_GEN		= "GENERATED";
+		const Char* const LOAD_TYPE_CUBE	= "GEN_CUBE";
+		const Char* const LOAD_TYPE_QUAD	= "GEN_QUAD";
 		const Char* const EXT_FILE_PATH		= "file_path";
 		const Char* const CLEAR_BUFFER		= "clear_buffers_on_bind";
 

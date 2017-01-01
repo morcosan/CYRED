@@ -5,6 +5,7 @@
 #pragma once
 #include "../../1_Required/Required.h"
 #include "../../2_BuildingBlocks/String/String.h"
+#include "../Render/Assets/MeshEnum.h"
 
 
 namespace CYRED
@@ -27,7 +28,7 @@ namespace CYRED
 		};
 	}
 
-	typedef Enum_StatusAssetAdd::Enum StatusAssetAdd;
+	typedef Enum_StatusAssetAdd::Enum	StatusAssetAdd;
 }
 
 
@@ -80,5 +81,8 @@ namespace CYRED
 
 		virtual UInt		GetScriptCount	()				PURE_VIRTUAL;
 		virtual Script*		GetScriptAt		( UInt index )	PURE_VIRTUAL;
+
+		virtual void		GenerateMesh	( MeshLoadType loadType, OUT Mesh* mesh )	PURE_VIRTUAL;
+
 	};
 }

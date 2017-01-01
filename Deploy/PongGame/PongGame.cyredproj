@@ -1,0 +1,14 @@
+{
+    "app_config": {
+        "app_name": "My Game",
+        "fullscreen": false,
+        "width": 800,
+        "height": 600,
+        "pos_x": 30,
+        "pos_y": 50,
+        "fps": 60
+    },
+    "start_scene": "",
+    "build_dir_windows": "../CYRED_Standalone/",
+    "build_dir_android": ""
+}

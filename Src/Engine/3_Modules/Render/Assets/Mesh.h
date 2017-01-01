@@ -9,31 +9,7 @@
 
 #include "Shader.h"
 #include "../OpenGL/Vertex.h"
-
-
-namespace CYRED
-{
-	namespace Enum_MeshType
-	{
-		enum Enum
-		{
-			POLYGON
-			, LINE
-		};
-	}
-
-	namespace Enum_LoadType
-	{
-		enum Enum
-		{
-			EXTERNAL
-			, GENERATED
-		};
-	}
-
-	typedef Enum_MeshType::Enum	MeshType;
-	typedef Enum_LoadType::Enum	LoadType;
-}
+#include "MeshEnum.h"
 
 
 namespace CYRED
@@ -57,7 +33,7 @@ namespace CYRED
 		void BindToGPU		();
 
 		MeshType		GetMeshType				() const;		
-		LoadType		GetLoadType				() const;		
+		MeshLoadType	GetLoadType				() const;		
 		UInt			GetVBO					() const;		
 		UInt			GetIBO					() const;			
 		UInt			GetNumIndices			() const;	
@@ -65,7 +41,7 @@ namespace CYRED
 		const Char*		GetExternalPath			() const;
 
 		void SetMeshType			( MeshType type );
-		void SetLoadType			( LoadType type );
+		void SetLoadType			( MeshLoadType type );
 		void SetVertices			( DataArray<Vertex>& vertices );
 		void SetIndices				( DataArray<UInt>& indices );
 		void SetClearBuffersOnBind	( Bool value );
@@ -79,7 +55,7 @@ namespace CYRED
 		MeshType			_meshType;
 		Bool				_clearBuffersOnBind;	//! when binding to GPU, clear image buffer
 		
-		LoadType			_loadType;
+		MeshLoadType		_loadType;
 		String				_externalPath;
 
 		DataArray<Vertex>	_vertices;

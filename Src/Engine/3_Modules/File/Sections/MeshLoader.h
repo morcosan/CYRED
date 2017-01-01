@@ -28,9 +28,9 @@ namespace CYRED
 									OUT DataArray<UInt>& indices )	{ return FALSE; };
 
 		// load mesh from custom mesh file
-		Bool	LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
-						  OUT DataArray<UInt>& indices );
+		virtual Bool	LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<UInt>& indices );
 		// save mesh using custom format
-		String	SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices );
+		virtual String	SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices );
 	};
 }

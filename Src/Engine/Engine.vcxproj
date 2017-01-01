@@ -283,6 +283,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Script\Components\Scripter.h" />
     <ClInclude Include="3_Modules\Script\ScriptManager.h" />
     <ClInclude Include="2_BuildingBlocks\Components\Transform.h" />
+    <ClInclude Include="3_Modules\Render\Assets\MeshEnum.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

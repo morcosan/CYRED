@@ -5,6 +5,7 @@
 #include "../RenderManagerImpl.h"
 #include "../../Event/EventManager.h"
 #include "../../File/FileManager.h"
+#include "../../Asset/AssetManager.h"
 #include "../../File/Sections/MeshLoader.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
 
@@ -20,7 +21,7 @@ Mesh::Mesh()
 	, _numIndices( 0 )
 	, _clearBuffersOnBind( TRUE )
 	, _meshType( MeshType::POLYGON )
-	, _loadType( LoadType::EXTERNAL )
+	, _loadType( MeshLoadType::EXTERNAL )
 {
 }
 
@@ -99,22 +100,26 @@ Asset* Mesh::Clone()
 
 void Mesh::BindToGPU()
 {
-	if ( _loadType == LoadType::EXTERNAL )
-	{
-		FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
+	if ( _loadType == MeshLoadType::EXTERNAL ) {
+		if ( _externalPath.GetLength() > 0 ) {
+			FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
 
-		Int fileSize;
-		Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
-		
-		// try custom format first, then try import
-		Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, _vertices, _indices );
-		if ( !isLoaded ) {
-			FileManager::Singleton()->ImportMesh( fileData, fileSize, _vertices, _indices );
+			Int fileSize;
+			Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+
+			// try custom format first, then try import
+			Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, _vertices, _indices );
+			if ( !isLoaded ) {
+				FileManager::Singleton()->ImportMesh( fileData, fileSize, _vertices, _indices );
+			}
+
+			Memory::FreeArray( fileData );
+
+			_numIndices = _indices.Size();
 		}
-
-		Memory::FreeArray( fileData );
-
-		_numIndices = _indices.Size();
+	}
+	else {
+		AssetManager::Singleton()->GenerateMesh( _loadType, this );
 	}
 
 	NotAPI::RenderManagerImpl::Singleton()->CreateMeshBuffers( _vbo, _ibo, _vertices, _indices );
@@ -132,7 +137,7 @@ MeshType Mesh::GetMeshType() const
 	return _meshType;
 }
 
-LoadType Mesh::GetLoadType() const
+MeshLoadType Mesh::GetLoadType() const
 {
 	return _loadType;
 }
@@ -178,7 +183,7 @@ void Mesh::SetMeshType( MeshType type )
 }
 
 
-void Mesh::SetLoadType( LoadType type )
+void Mesh::SetLoadType( MeshLoadType type )
 {
 	_loadType = type;
 

@@ -21,7 +21,8 @@ void AttrViewer_Mesh::_OnInitialize()
 
 	DataArray<const Char*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
-	loadTypes.Add( LOAD_TYPE_GENERATED );
+	loadTypes.Add( LOAD_TYPE_GEN_CUBE );
+	loadTypes.Add( LOAD_TYPE_GEN_QUAD );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
 	_CreateAttrString	( ATTR_FILE_PATH, ATTR_FILE_PATH );
@@ -60,12 +61,16 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 		Int typeIndex = 0;
 		switch ( _target->GetLoadType() )
 		{
-			case LoadType::EXTERNAL:
+			case MeshLoadType::EXTERNAL:
 				typeIndex = 0;
 				break;
 
-			case LoadType::GENERATED:
+			case MeshLoadType::GEN_CUBE:
 				typeIndex = 1;
+				break;
+
+			case MeshLoadType::GEN_QUAD:
+				typeIndex = 2;
 				break;
 		}
 		_WriteAttrDropdown( ATTR_LOAD_TYPE, typeIndex );
@@ -75,11 +80,12 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 
 	switch ( _target->GetLoadType() )
 	{
-		case LoadType::EXTERNAL:
+		case MeshLoadType::EXTERNAL:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetExternalPath() );
 			break;
 
-		case LoadType::GENERATED:
+		case MeshLoadType::GEN_CUBE:
+		case MeshLoadType::GEN_QUAD:
 			break;
 	}
 
@@ -99,16 +105,16 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 		switch ( typeIndex )
 		{
 			case 0:
-			{
-				_target->SetLoadType( LoadType::EXTERNAL );
+				_target->SetLoadType( MeshLoadType::EXTERNAL );
 				break;
-			}
 
 			case 1:
-			{
-				_target->SetLoadType( LoadType::GENERATED );
+				_target->SetLoadType( MeshLoadType::GEN_CUBE );
 				break;
-			}
+
+			case 2:
+				_target->SetLoadType( MeshLoadType::GEN_QUAD );
+				break;
 		}
 
 		_ChangeVisibility();
@@ -135,11 +141,12 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 
 		switch ( _target->GetLoadType() )
 		{
-			case LoadType::EXTERNAL:
+			case MeshLoadType::EXTERNAL:
 				_target->SetExternalPath( _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
 				break;
 
-			case LoadType::GENERATED:
+			case MeshLoadType::GEN_CUBE:
+			case MeshLoadType::GEN_QUAD:
 				break;
 		}
 	}
@@ -155,11 +162,12 @@ void AttrViewer_Mesh::_ChangeVisibility()
 {
 	switch ( _target->GetLoadType() )
 	{
-		case LoadType::EXTERNAL:
+		case MeshLoadType::EXTERNAL:
 			_SetAttrVisibility( ATTR_FILE_PATH, TRUE );
 			break;
 
-		case LoadType::GENERATED:
+		case MeshLoadType::GEN_CUBE:
+		case MeshLoadType::GEN_QUAD:
 			_SetAttrVisibility( ATTR_FILE_PATH, FALSE );
 			break;
 	}

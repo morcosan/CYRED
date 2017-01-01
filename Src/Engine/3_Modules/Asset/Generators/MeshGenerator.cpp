@@ -7,9 +7,10 @@
 
 
 using namespace CYRED;
+using namespace NotAPI;
 
 
-void MeshGenerator::CreateCube( OUT Mesh* mesh )
+void MeshGenerator::GenerateCube( OUT Mesh* mesh )
 {
 	DataArray<Vertex>	vertices;
 	DataArray<UInt>		indices;
@@ -74,5 +75,25 @@ void MeshGenerator::CreateCube( OUT Mesh* mesh )
 	mesh->SetMeshType( MeshType::POLYGON );
 	mesh->SetVertices( vertices );
 	mesh->SetIndices( indices );
-	mesh->BindToGPU();
+}
+
+
+void MeshGenerator::GenerateQuad( OUT Mesh* mesh )
+{
+	DataArray<Vertex>	vertices;
+	DataArray<UInt>		indices;
+
+	// front
+	vertices.Add( Vertex( Vector3(-0.5f, -0.5f, 0.5f), Vector4(1,0,0,1), Vector3(0,0,1), Vector2(0, 1) ) );             
+	vertices.Add( Vertex( Vector3(0.5f,	-0.5f,  0.5f), Vector4(0,1,0,1), Vector3(0,0,1), Vector2(1, 1) ) ); 
+	vertices.Add( Vertex( Vector3(0.5f,  0.5f,  0.5f), Vector4(0,0,1,1), Vector3(0,0,1), Vector2(1, 0) ) ); 
+	vertices.Add( Vertex( Vector3(-0.5f, 0.5f,  0.5f), Vector4(1,0,0,1), Vector3(0,0,1), Vector2(0, 0) ) );
+
+	// front
+	indices.Add(0); indices.Add(1); indices.Add(2);
+	indices.Add(0); indices.Add(2); indices.Add(3);
+
+	mesh->SetMeshType( MeshType::POLYGON );
+	mesh->SetVertices( vertices );
+	mesh->SetIndices( indices );
 }
