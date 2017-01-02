@@ -16,7 +16,7 @@ namespace CYRED
 	ABSTRACT class ConsolePanel : public Panel, public IEventListener
 	{
 		const Char* const	PANEL_TITLE = "Console Panel";
-		const Vector2		MIN_SIZE	= Vector2( 200, 100 );
+		const Vector2		MIN_SIZE	= Vector2( 100, 100 );
 
 
 	public:

@@ -37,7 +37,7 @@ namespace CYRED
 
 		const Char*	const	PANEL_TITLE				= "Attributes Panel";
 		const Char*	const	ADD_COMPONENT_BUTTON	= "Add Component";
-		const Vector2 		MIN_SIZE				= Vector2( 300, 250 );
+		const Vector2 		MIN_SIZE				= Vector2( 300, 100 );
 
 
 	public:

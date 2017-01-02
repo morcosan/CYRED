@@ -77,11 +77,13 @@ void AttrViewer_CyredProj::_OnUpdateTarget()
 	appConfig.fps			= _ReadAttrStruct( ATTR_APP_CONFIG, ATTR_FPS ).GetInt();
 		
 	ProjectSettings::startScene = CAST_S( Scene*, _ReadAttrSelector( ATTR_START_SCENE ) );
-	// also add scene name to app config
-	ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
-		ProjectSettings::startScene->GetName(),
-		ProjectSettings::startScene->GetUniqueID()
-	};
+	if ( ProjectSettings::startScene != NULL ) {
+		// also add scene name to app config
+		ProjectSettings::appConfig.startScene = AppConfig::AssetConfig {
+			ProjectSettings::startScene->GetName(),
+			ProjectSettings::startScene->GetUniqueID()
+		};
+	}
 
 	ProjectSettings::dirPathBuildWindows = _ReadAttrString( ATTR_BUILD_WINDOWS );
 	ProjectSettings::dirPathBuildAndroid = _ReadAttrString( ATTR_BUILD_ANDROID );

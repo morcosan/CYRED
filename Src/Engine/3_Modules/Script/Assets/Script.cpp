@@ -272,6 +272,11 @@ void Script::LoadLuaFiles( Bool clearVars )
 
 void Script::_LoadLuaData( const Char* luaData )
 {
+	// nothing to load
+	if ( luaData == NULL ) {
+		return;
+	}
+
 	// get lua state
 	lua_State* L = ScriptManager::Singleton()->GetLuaState();
 

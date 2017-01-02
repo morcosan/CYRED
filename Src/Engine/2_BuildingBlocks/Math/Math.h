@@ -32,12 +32,12 @@ namespace CYRED
 		Float		Dot			( const Vector3& firstVec, const Vector3& secondVec );
 		
 		static	//! transforms each value of vector from radians to degrees
-		Vector3	ToDegrees	( const Vector3& vec );
+		Vector3		ToDegrees	( const Vector3& vec );
 		static	//! transforms from radians to degrees
 		Float		ToDegrees	( Float value );
 
 		static	//! transforms each value of vector from degrees to radians
-		Vector3	ToRadians	( const Vector3& vec );
+		Vector3		ToRadians	( const Vector3& vec );
 		static	//! transforms from degrees to radians
 		Float		ToRadians	( Float value );
 

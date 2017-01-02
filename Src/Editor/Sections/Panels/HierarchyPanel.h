@@ -17,7 +17,7 @@ namespace CYRED
 	class HierarchyPanel : public Panel, public IEventListener
 	{
 		const Char*	const	PANEL_TITLE			= "Hierarchy Panel";
-		const Vector2		MIN_SIZE			= Vector2( 200, 250 );
+		const Vector2		MIN_SIZE			= Vector2( 200, 100 );
 
 		const Char* const	MSG_SAVE_SCENE		= "Save Scene";
 		const Char* const	FILE_FILTER_SCENE	= "Scene (*%s)";

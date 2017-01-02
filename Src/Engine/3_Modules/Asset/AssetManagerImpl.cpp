@@ -47,36 +47,40 @@ void AssetManagerImpl::Finalize()
 
 void AssetManagerImpl::ClearAll()
 {
-	for ( UInt i = 0; i < _meshes.Size(); ++i )
-	{
+	// clear meshes
+	for ( UInt i = 0; i < _meshes.Size(); ++i ) {
 		Bool emitEvents = _meshes[i]->DoesEmitEvents();
 		_meshes[i]->SetEmitEvents( FALSE );
 		_meshes[i]->ClearAsset();
 		_meshes[i]->SetEmitEvents( emitEvents );
 	}
-
-	for ( UInt i = 0; i < _materials.Size(); ++i )
-	{
+	// clear materials
+	for ( UInt i = 0; i < _materials.Size(); ++i ) {
 		Bool emitEvents = _materials[i]->DoesEmitEvents();
 		_materials[i]->SetEmitEvents( FALSE );
 		_materials[i]->ClearAsset();
 		_materials[i]->SetEmitEvents( emitEvents );
 	}
-
-	for ( UInt i = 0; i < _textures.Size(); ++i )
-	{
+	// clear textures
+	for ( UInt i = 0; i < _textures.Size(); ++i ) {
 		Bool emitEvents = _textures[i]->DoesEmitEvents();
 		_textures[i]->SetEmitEvents( FALSE );
 		_textures[i]->ClearAsset();
 		_textures[i]->SetEmitEvents( emitEvents );
 	}
-
-	for ( UInt i = 0; i < _shaders.Size(); ++i )
-	{
+	// clear shaders
+	for ( UInt i = 0; i < _shaders.Size(); ++i ) {
 		Bool emitEvents = _shaders[i]->DoesEmitEvents();
 		_shaders[i]->SetEmitEvents( FALSE );
 		_shaders[i]->ClearAsset();
 		_shaders[i]->SetEmitEvents( emitEvents );
+	}
+	// clear scripts
+	for ( UInt i = 0; i < _scripts.Size(); ++i ) {
+		Bool emitEvents = _scripts[i]->DoesEmitEvents();
+		_scripts[i]->SetEmitEvents( FALSE );
+		_scripts[i]->ClearAsset();
+		_scripts[i]->SetEmitEvents( emitEvents );
 	}
 
 	// do not clear scenes

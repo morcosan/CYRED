@@ -1,14 +1,14 @@
 {
     "app_config": {
-        "app_name": "My Game",
+        "app_name": "Pong Test Game",
         "fullscreen": false,
-        "width": 800,
+        "width": 1200,
         "height": 600,
-        "pos_x": 30,
+        "pos_x": 50,
         "pos_y": 50,
         "fps": 60
     },
-    "start_scene": "",
+    "start_scene": "MS4lMlLMgGsxtREZjvObXcUnN0DIxSRG",
     "build_dir_windows": "../CYRED_Standalone/",
     "build_dir_android": ""
 }

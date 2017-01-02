@@ -86,7 +86,6 @@ void AttrViewer_Transform::_OnUpdateTarget()
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually
-	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, _target );
 }
 
