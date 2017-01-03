@@ -48,12 +48,21 @@ public:
 
 		this->clearSelection(); // this will solve the QT 5.4.1 bug
 
-		if ( newParent != NULL )
-		{
-			movedItem->gameObject->SetParentNode( newParent->gameObject );
+		UInt indexInHierarchy = newParent->indexOfChild( movedItem );
+
+		if ( newParent != NULL ) {
+			if ( newParent->scene != NULL ) {
+				// if scene
+				movedItem->gameObject->SetParentNode( NULL );
+				newParent->scene->GetRoot()->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+			}
+			else {
+				// if gameobject
+				movedItem->gameObject->SetParentNode( NULL );
+				newParent->gameObject->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+			}
 		}
-		else
-		{
+		else {
 			movedItem->gameObject->SetParentNode( NULL );
 		}
 	}

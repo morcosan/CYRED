@@ -30,7 +30,7 @@ void Random::SetSeed( UInt value )
 }
 
 
-Float Random::FromRange( Float min, Float max )
+Float Random::FromRangeFloat( Float min, Float max )
 {
 	if ( min >= max )
 	{
@@ -42,7 +42,7 @@ Float Random::FromRange( Float min, Float max )
 }
 
 
-Int Random::FromRange( Int min, Int max )
+Int Random::FromRangeInt( Int min, Int max )
 {
 	if ( min >= max )
 	{
@@ -54,8 +54,8 @@ Int Random::FromRange( Int min, Int max )
 
 Vector2 Random::FromCircle( Float radius )
 {
-	Float theta = FromRange( 0.0f, 2 * Math::PI );
-	Float r = FromRange( 0.0f, radius );
+	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	Float r = FromRangeFloat( 0.0f, radius );
 
 	Vector2 point;
 	point.x = r * Math::Cos( theta );
@@ -67,7 +67,7 @@ Vector2 Random::FromCircle( Float radius )
 
 Vector2 Random::FromCircleEdge( Float radius )
 {
-	Float theta = FromRange( 0.0f, 2 * Math::PI );
+	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
 
 	Vector2 point;
 	point.x = radius * Math::Cos( theta );
@@ -79,9 +79,9 @@ Vector2 Random::FromCircleEdge( Float radius )
 
 Vector3 Random::FromSphere( Float radius )
 {
-	Float theta = FromRange( 0.0f, 2 * Math::PI );
-	Float phi	= FromRange( - Math::HALF_PI, Math::HALF_PI );
-	Float r		= FromRange( 0.0f, radius );
+	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	Float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
+	Float r		= FromRangeFloat( 0.0f, radius );
 
 	Vector3 point;
 	point.x = r * Math::Cos( theta ) * Math::Cos( phi );
@@ -94,8 +94,8 @@ Vector3 Random::FromSphere( Float radius )
 
 Vector3 Random::FromSphereEdge( Float radius )
 {
-	Float theta = FromRange( 0.0f, 2 * Math::PI );
-	Float phi	= FromRange( - Math::HALF_PI, Math::HALF_PI );
+	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	Float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
 
 	Vector3 point;
 	point.x = radius * Math::Cos( theta ) * Math::Cos( phi );

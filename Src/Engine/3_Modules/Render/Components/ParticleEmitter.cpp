@@ -86,8 +86,8 @@ void ParticleEmitter::BindToGPU()
 		Float age = - (1.0f / _wavesPerSec) * (i / _particlesPerWave);
 
 		Vector2 size;
-		size.x = Random::FromRange( _particleSizeStart.x, _particleSizeStart.y );
-		size.y = Random::FromRange( _particleSizeEnd.x, _particleSizeEnd.y );
+		size.x = Random::FromRangeFloat( _particleSizeStart.x, _particleSizeStart.y );
+		size.y = Random::FromRangeFloat( _particleSizeEnd.x, _particleSizeEnd.y );
 
 		_vertices.Add( ParticleVertex( position, velocity, acceleration, age, size ) );
 		_indices.Add( i );

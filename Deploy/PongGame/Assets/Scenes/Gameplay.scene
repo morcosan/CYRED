@@ -2,6 +2,35 @@
     "uid": "MS4lMlLMgGsxtREZjvObXcUnN0DIxSRG",
     "game_objects": [
         {
+            "name": "BG",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -10.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 30.0,
+                        "y": 20.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "VyhGK36haPbjJfw2y2rQOwuGoWmXxlRg"
+                }
+            }
+        },
+        {
             "name": "Camera",
             "enabled": true,
             "components": {

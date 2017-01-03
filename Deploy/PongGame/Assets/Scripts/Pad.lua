@@ -3,12 +3,26 @@ VARS = {
 	speed = "FLOAT"
 }
 
+-- global
+g_padSize = {
+	x = 0,
+	y = 0
+}
+g_padLeftX = 0
+g_padRightX = 0
 
 local transform 
 
 
 function OnStart()
 	transform = GAMEOBJECT:GetComponent_Transform()
+
+	-- set globals
+	if VARS.isLeft then
+		g_padLeftX = transform.positionWorld.x
+	else
+		g_padRightX = transform.positionWorld.x
+	end
 end
 
 

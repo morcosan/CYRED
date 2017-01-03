@@ -53,6 +53,7 @@ namespace CYRED
 			void _RegisterShader();
 			void _RegisterTexture();
 
+			void _RegisterRandom();
 			void _RegisterMath();
 			void _RegisterVector2();
 			void _RegisterVector3();

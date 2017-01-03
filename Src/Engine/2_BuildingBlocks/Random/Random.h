@@ -26,8 +26,8 @@ namespace CYRED
 
 		static void		SetSeed			( UInt value );
 
-		static Float	FromRange		( Float min, Float max );	//! both inclusive
-		static Int		FromRange		( Int min, Int max );		//! both inclusive
+		static Float	FromRangeFloat	( Float min, Float max );	//! both inclusive
+		static Int		FromRangeInt	( Int min, Int max );		//! both inclusive
 		static Vector2	FromCircle		( Float radius );
 		static Vector2	FromCircleEdge	( Float radius );
 		static Vector3	FromSphere		( Float radius );

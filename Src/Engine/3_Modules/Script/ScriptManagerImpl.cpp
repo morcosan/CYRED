@@ -10,6 +10,7 @@
 #include "../../2_BuildingBlocks/Math/Vector3.h"
 #include "../../2_BuildingBlocks/Math/Vector4.h"
 #include "../../2_BuildingBlocks/Math/Matrix4.h"
+#include "../../2_BuildingBlocks/Random/Random.h"
 #include "../../2_BuildingBlocks/GameObject.h"
 #include "../../2_BuildingBlocks/Component.h"
 #include "../../2_BuildingBlocks/Components/Transform.h"
@@ -88,6 +89,7 @@ void ScriptManagerImpl::Initialize()
 	_RegisterShader();
 	_RegisterTexture();
 	
+	_RegisterRandom();
 	_RegisterMath();
 	_RegisterVector2();
 	_RegisterVector3();
@@ -414,6 +416,20 @@ void ScriptManagerImpl::_RegisterTexture()
 	luabridge::getGlobalNamespace( _L )
 	.deriveClass<Texture, Asset>( "Texture" )
 	.endClass ();
+}
+
+
+void ScriptManagerImpl::_RegisterRandom()
+{
+	luabridge::getGlobalNamespace( _L )
+	.beginClass<Random>( "Random" )
+		.addStaticFunction( "FromRangeFloat",	&Random::FromRangeFloat )
+		.addStaticFunction( "FromRangeInt",		&Random::FromRangeInt )
+		.addStaticFunction( "FromCircle",		&Random::FromCircle )
+		.addStaticFunction( "FromCircleEdge",	&Random::FromCircleEdge )
+		.addStaticFunction( "FromSphere",		&Random::FromSphere )
+		.addStaticFunction( "FromSphereEdge",	&Random::FromSphereEdge )
+	.endClass();
 }
 
 

@@ -24,12 +24,13 @@ namespace CYRED
 
 
 	public:
-		UInt		Add			( TValue value );
-		void		Erase		( UInt index );
-		UInt		Size		()					const;
+		UInt		Add		( TValue value );
+		void		Insert	( UInt index, TValue value );
+		void		Erase	( UInt index );
+		UInt		Size	()					const;
 
 		//! remove all elements
-		void		Clear		();
+		void		Clear	();
 
 		//! returns a pointer-like list
 		const TValue* Data() const;
@@ -83,6 +84,14 @@ namespace CYRED
 	{
 		_vector->push_back( value );
 		return (_vector->size() - 1);
+	}
+
+
+	template<typename TValue>
+	void DataArray<TValue>::Insert( UInt index, TValue value )
+	{
+		ASSERT( index < _vector->size() );
+		_vector->insert( _vector->begin() + index, value );
 	}
 
 

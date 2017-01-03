@@ -29,6 +29,7 @@ namespace CYRED
 		Node*	GetParentNode	()					const;
 		void	SetParentNode	( Node* newNode );
 		void	AddChildNode	( Node* newNode );
+		void	InsertChildNode	( UInt index, Node* newNode );
 
 		UInt	GetChildNodeCount	()				const;
 		Node*	GetChildNodeAt		( UInt index );

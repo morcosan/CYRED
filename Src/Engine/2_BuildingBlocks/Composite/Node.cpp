@@ -59,20 +59,40 @@ void Node::SetParentNode( Node* newNode )
 
 void Node::AddChildNode( Node* newNode )
 {
-	if ( newNode == NULL )		//! sanity check
-	{
+	//! sanity check
+	if ( newNode == NULL ) {
 		return;		
 	}
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i )
-	{
-		if ( _childNodes[i] == newNode )	//! cannot add same child more times
-		{
+	for ( UInt i = 0; i < _childNodes.Size(); ++i ) {
+		if ( _childNodes[i] == newNode ) {
+			//! cannot add same child more times
 			return;
 		}
 	}
 
 	_childNodes.Add( newNode );
+	newNode->SetParentNode( this );
+
+	OnHierarchyChange();	//! callback
+}
+
+
+void Node::InsertChildNode( UInt index, Node* newNode )
+{
+	//! sanity check
+	if ( newNode == NULL ) {
+		return;		
+	}
+
+	for ( UInt i = 0; i < _childNodes.Size(); ++i ) {
+		if ( _childNodes[i] == newNode ) {
+			//! cannot add same child more times
+			return;
+		}
+	}
+
+	_childNodes.Insert( index, newNode );
 	newNode->SetParentNode( this );
 
 	OnHierarchyChange();	//! callback
