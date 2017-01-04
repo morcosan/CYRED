@@ -2,6 +2,64 @@
     "uid": "MS4lMlLMgGsxtREZjvObXcUnN0DIxSRG",
     "game_objects": [
         {
+            "name": "BG",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -10.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 30.0,
+                        "y": 20.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "VyhGK36haPbjJfw2y2rQOwuGoWmXxlRg"
+                }
+            }
+        },
+        {
+            "name": "BGLine",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 22.0,
+                        "y": 10.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "Uv8Neq1UwDP4EippcRyWATZVkbVyTHs2"
+                }
+            }
+        },
+        {
             "name": "Camera",
             "enabled": true,
             "components": {
@@ -25,8 +83,8 @@
                 },
                 "camera": {
                     "enabled": true,
-                    "camera_type": "PERSPECTIVE",
-                    "fovy_angle": 60.0,
+                    "camera_type": "ORTHOGRAPHIC",
+                    "ortho_height": 11.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
                 }
@@ -39,7 +97,7 @@
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": -5.0,
+                        "x": -10.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -50,7 +108,7 @@
                     },
                     "scale_world": {
                         "x": 1.0,
-                        "y": 2.0,
+                        "y": 3.0,
                         "z": 1.0
                     }
                 },
@@ -73,7 +131,7 @@
                                 {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 5.0
+                                    "value": 10.0
                                 }
                             ]
                         }
@@ -88,7 +146,7 @@
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": 5.0,
+                        "x": 10.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -99,7 +157,7 @@
                     },
                     "scale_world": {
                         "x": 1.0,
-                        "y": 2.0,
+                        "y": 3.0,
                         "z": 1.0
                     }
                 },
@@ -122,7 +180,7 @@
                                 {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 5.0
+                                    "value": 10.0
                                 }
                             ]
                         }
@@ -162,7 +220,26 @@
                     "scripts": [
                         {
                             "uid": "ak55NgvPwODryAwCGyr8j2MemTDfiLSZ",
-                            "variables": []
+                            "variables": [
+                                {
+                                    "name": "accOnBounce",
+                                    "type": "FLOAT",
+                                    "value": 0.5
+                                },
+                                {
+                                    "name": "limits",
+                                    "type": "VECTOR2",
+                                    "value": {
+                                        "x": 11.0,
+                                        "y": 5.0
+                                    }
+                                },
+                                {
+                                    "name": "speed",
+                                    "type": "FLOAT",
+                                    "value": 7.0
+                                }
+                            ]
                         }
                     ]
                 }

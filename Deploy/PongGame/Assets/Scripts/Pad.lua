@@ -4,12 +4,9 @@ VARS = {
 }
 
 -- global
-g_padSize = {
-	x = 0,
-	y = 0
-}
-g_padLeftX = 0
-g_padRightX = 0
+g_padSize = Vector2( 0, 0 )
+g_padLeft = nil
+g_padRight = nil
 
 local transform 
 
@@ -18,10 +15,13 @@ function OnStart()
 	transform = GAMEOBJECT:GetComponent_Transform()
 
 	-- set globals
+	g_padSize.x = transform.scaleLocal.x
+	g_padSize.y = transform.scaleLocal.y
+
 	if VARS.isLeft then
-		g_padLeftX = transform.positionWorld.x
+		g_padLeft = transform
 	else
-		g_padRightX = transform.positionWorld.x
+		g_padRight = transform
 	end
 end
 

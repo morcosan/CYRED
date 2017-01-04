@@ -74,7 +74,7 @@ void DebugManagerImpl::Log( const Char* value )
 }
 
 
-void DebugManagerImpl::Log( Int value )
+void DebugManagerImpl::LogInt( Int value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -88,7 +88,7 @@ void DebugManagerImpl::Log( Int value )
 }
 
 
-void DebugManagerImpl::Log( Float value )
+void DebugManagerImpl::LogFloat( Float value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -102,21 +102,7 @@ void DebugManagerImpl::Log( Float value )
 }
 
 
-void DebugManagerImpl::Log( Double value )
-{
-	ASSERT( _isInitialized );
-	if ( !_enabled ) 
-	{
-		return;
-	}
-
-	FiniteString text( "%lf", value );
-	DebugInfo debugInfo { text.GetChar() };
-	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
-}
-
-
-void DebugManagerImpl::Log( const Vector2& value )
+void DebugManagerImpl::LogVec2( const Vector2& value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -130,7 +116,7 @@ void DebugManagerImpl::Log( const Vector2& value )
 }
 
 
-void DebugManagerImpl::Log( const Vector3& value )
+void DebugManagerImpl::LogVec3( const Vector3& value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -144,7 +130,7 @@ void DebugManagerImpl::Log( const Vector3& value )
 }
 
 
-void DebugManagerImpl::Log( const Vector4& value )
+void DebugManagerImpl::LogVec4( const Vector4& value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -153,22 +139,6 @@ void DebugManagerImpl::Log( const Vector4& value )
 	}
 
 	FiniteString text( "(%f, %f, %f, %f)", value.x, value.y, value.z, value.w );
-	DebugInfo debugInfo { text.GetChar() };
-	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
-}
-
-
-void DebugManagerImpl::Log( const Quaternion& value )
-{
-	ASSERT( _isInitialized );
-	if ( !_enabled ) 
-	{
-		return;
-	}
-
-	Vector3 euler = value.ToEulerAngles();
-
-	FiniteString text( "(%f, %f, %f)", euler.x, euler.y, euler.z );
 	DebugInfo debugInfo { text.GetChar() };
 	EventManager::Singleton()->EmitEvent( EventType::CONSOLE_LOG, &debugInfo );
 }

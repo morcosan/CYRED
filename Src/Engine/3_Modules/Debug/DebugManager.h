@@ -37,12 +37,10 @@ namespace CYRED
 		virtual void Error			( const Char* value )			PURE_VIRTUAL;
 
 		virtual void Log			( const Char* value )			PURE_VIRTUAL;
-		virtual void Log			( Int value )					PURE_VIRTUAL;
-		virtual void Log			( Float value )					PURE_VIRTUAL;
-		virtual void Log			( Double value )				PURE_VIRTUAL;
-		virtual void Log			( const Vector2& value )		PURE_VIRTUAL;
-		virtual void Log			( const Vector3& value )		PURE_VIRTUAL;
-		virtual void Log			( const Vector4& value )		PURE_VIRTUAL;
-		virtual void Log			( const Quaternion& value )		PURE_VIRTUAL;
+		virtual void LogInt			( Int value )					PURE_VIRTUAL;
+		virtual void LogFloat		( Float value )					PURE_VIRTUAL;
+		virtual void LogVec2		( const Vector2& value )		PURE_VIRTUAL;
+		virtual void LogVec3		( const Vector3& value )		PURE_VIRTUAL;
+		virtual void LogVec4		( const Vector4& value )		PURE_VIRTUAL;
 	};
 }

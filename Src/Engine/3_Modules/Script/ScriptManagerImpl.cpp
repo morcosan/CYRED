@@ -335,6 +335,12 @@ void ScriptManagerImpl::_RegisterDebugManager()
 {
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<DebugManager>( "DebugManager" )
+		.addFunction( "Log",		&DebugManager::Log )
+		.addFunction( "LogInt",		&DebugManager::LogInt )
+		.addFunction( "LogFloat",	&DebugManager::LogFloat )
+		.addFunction( "LogVec2",	&DebugManager::LogVec2 )
+		.addFunction( "LogVec3",	&DebugManager::LogVec3 )
+		.addFunction( "LogVec4",	&DebugManager::LogVec4 )
 	.endClass();
 
 	// set global

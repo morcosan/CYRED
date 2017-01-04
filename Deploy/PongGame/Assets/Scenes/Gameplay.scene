@@ -47,7 +47,7 @@
                         "z": 0.0
                     },
                     "scale_world": {
-                        "x": 20.0,
+                        "x": 22.0,
                         "y": 10.0,
                         "z": 1.0
                     }
@@ -84,7 +84,7 @@
                 "camera": {
                     "enabled": true,
                     "camera_type": "ORTHOGRAPHIC",
-                    "ortho_height": 5.0,
+                    "ortho_height": 11.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
                 }
@@ -108,7 +108,7 @@
                     },
                     "scale_world": {
                         "x": 1.0,
-                        "y": 2.0,
+                        "y": 3.0,
                         "z": 1.0
                     }
                 },
@@ -131,7 +131,7 @@
                                 {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 5.0
+                                    "value": 10.0
                                 }
                             ]
                         }
@@ -157,7 +157,7 @@
                     },
                     "scale_world": {
                         "x": 1.0,
-                        "y": 2.0,
+                        "y": 3.0,
                         "z": 1.0
                     }
                 },
@@ -180,7 +180,7 @@
                                 {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 5.0
+                                    "value": 10.0
                                 }
                             ]
                         }
