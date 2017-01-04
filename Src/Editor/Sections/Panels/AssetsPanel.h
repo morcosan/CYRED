@@ -40,6 +40,7 @@ namespace CYRED
 		const Char* const	MENU_OPEN_DISK	= "Open On Disk";
 		const Char* const	MENU_SHOW_DISK	= "Show On Disk";
 		const Char* const	MENU_RENAME		= "Rename";
+		const Char* const	MENU_DUPLICATE	= "Duplicate";
 		const Char* const	MENU_DELETE		= "Delete";
 		const Char* const	MENU_OPEN_SCENE	= "Open Scene";
 		const Char* const	MENU_LOAD_SCENE	= "Load Scene";
@@ -56,6 +57,7 @@ namespace CYRED
 		const Char* const	MENU_C_MESH			= "Mesh";
 		const Char* const	MENU_C_MORPH		= "Morph";
 		const Char* const	MENU_C_SCRIPT		= "Script";
+		const Char* const	MENU_C_SCENE		= "Scene";
 
 		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s not loaded. Already existing.";
 		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s has invalid UID. New UID generated.";
@@ -85,6 +87,7 @@ namespace CYRED
 		void A_OpenOnDisk		();
 		void A_ShowOnDisk		();
 		void A_Rename			();
+		void A_Duplicate		();
 		void A_Delete			();
 
 		void A_OpenScene		();
@@ -125,6 +128,8 @@ namespace CYRED
 		void	_AddRightClickActions	( QTreeWidgetItem* item );
 		void	_SaveAssetToFile		( Asset* asset, const Char* oldName );
 		Bool	_IsFilePathDuplicate	( Asset* asset );
+		void	_SetAvailableName		( Asset* asset );
+		void	_AddAssetToTree			( Asset* asset, QTreeWidgetItem* parentItem, const Char* icon );
 
 		_QtTreeItem* _FindTreeItem	( Asset* asset );
 	};

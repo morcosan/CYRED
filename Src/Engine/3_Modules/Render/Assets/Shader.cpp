@@ -91,6 +91,16 @@ Asset* Shader::Clone()
 }
 
 
+const Char* CYRED::Shader::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_SHADER;
+	}
+
+	return NULL;
+}
+
+
 void Shader::SetShaderFiles( const Char* rendererType, const Char* vertexPath,
 							 const Char* geometryPath, const Char* fragmentPath )
 {

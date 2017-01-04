@@ -98,6 +98,16 @@ Asset* Mesh::Clone()
 }
 
 
+const Char* CYRED::Mesh::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_MESH;
+	}
+
+	return NULL;
+}
+
+
 void Mesh::BindToGPU()
 {
 	if ( _loadType == MeshLoadType::EXTERNAL ) {

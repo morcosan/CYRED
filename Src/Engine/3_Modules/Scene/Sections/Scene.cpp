@@ -81,6 +81,15 @@ Asset* Scene::Clone()
 	return _BuildClone( Memory::Alloc<Scene>() );
 }
 
+const Char* CYRED::Scene::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_SCENE;
+	}
+
+	return NULL;
+}
+
 
 void Scene::OnUpdate( Bool isRuntime )
 {

@@ -99,6 +99,16 @@ Asset* Morph::Clone()
 }
 
 
+const Char* CYRED::Morph::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_MORPH;
+	}
+
+	return NULL;
+}
+
+
 void Morph::BindToGPU()
 {
 	DataArray<MorphVertex>	vertices;

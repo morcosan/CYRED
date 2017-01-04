@@ -34,12 +34,16 @@ function OnUpdate()
 	if (transform.positionWorld.y + ballSize / 2) >= VARS.limits.y then
 		-- change direction
 		direction.y = - direction.y
+		-- increase speed
+		currSpeed = currSpeed + VARS.accOnBounce
 	end
 
 	-- bounce bottom
 	if (transform.positionWorld.y - ballSize / 2) <= - VARS.limits.y then
 		-- change direction
 		direction.y = - direction.y
+		-- increase speed
+		currSpeed = currSpeed + VARS.accOnBounce
 	end
 
 	-- pass left
@@ -48,14 +52,24 @@ function OnUpdate()
 	end
 
 	-- pass right
-	if (transform.positionWorld.x - ballSize / 2) >= g_padRightX then
+	if (transform.positionWorld.x + ballSize / 2) >= g_padRightX then
 		canBounce = false
 	end
 
 	-- bounce left pad
-	if (transform.positionWorld.x - ballSize / 2) <= - VARS.limits.y then
+	if (transform.positionWorld.x - ballSize / 2) <= g_padLeftX then
 		-- change direction
-		direction.y = - direction.y
+		direction.x = - direction.x
+		-- increase speed
+		currSpeed = currSpeed + VARS.accOnBounce
+	end
+
+	-- bounce right pad
+	if (transform.positionWorld.x + ballSize / 2) >= g_padRightX then
+		-- change direction
+		direction.x = - direction.x
+		-- increase speed
+		currSpeed = currSpeed + VARS.accOnBounce
 	end
 
 	-- exit left

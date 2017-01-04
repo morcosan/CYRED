@@ -157,6 +157,16 @@ Asset* Texture::Clone()
 }
 
 
+const Char* CYRED::Texture::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_TEXTURE;
+	}
+
+	return NULL;
+}
+
+
 void Texture::BindToGPU()
 {
 	NotAPI::RenderManagerImpl* renderManager = NotAPI::RenderManagerImpl::Singleton();

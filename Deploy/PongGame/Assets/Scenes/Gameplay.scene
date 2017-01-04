@@ -31,6 +31,35 @@
             }
         },
         {
+            "name": "BGLine",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 20.0,
+                        "y": 10.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "Uv8Neq1UwDP4EippcRyWATZVkbVyTHs2"
+                }
+            }
+        },
+        {
             "name": "Camera",
             "enabled": true,
             "components": {
@@ -195,7 +224,7 @@
                                 {
                                     "name": "accOnBounce",
                                     "type": "FLOAT",
-                                    "value": 0.200
+                                    "value": 0.5
                                 },
                                 {
                                     "name": "limits",
@@ -208,7 +237,7 @@
                                 {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 5.0
+                                    "value": 7.0
                                 }
                             ]
                         }

@@ -37,10 +37,11 @@ namespace CYRED
 
 
 	public:
-		virtual void	LoadUniqueID	() PURE_VIRTUAL;
-		virtual void	LoadFullFile	() PURE_VIRTUAL;
-		virtual void	ClearAsset		() PURE_VIRTUAL;
-		virtual Asset*	Clone			() PURE_VIRTUAL;
+		virtual void		LoadUniqueID	() PURE_VIRTUAL;
+		virtual void		LoadFullFile	() PURE_VIRTUAL;
+		virtual void		ClearAsset		() PURE_VIRTUAL;
+		virtual Asset*		Clone			() PURE_VIRTUAL;
+		virtual const Char*	GetExtension	() PURE_VIRTUAL;
 
 
 	public:

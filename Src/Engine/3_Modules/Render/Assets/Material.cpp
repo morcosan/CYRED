@@ -86,6 +86,16 @@ Asset* Material::Clone()
 }
 
 
+const Char* CYRED::Material::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_MATERIAL;
+	}
+
+	return NULL;
+}
+
+
 Shader* Material::GetShader() const
 {
 	return _shader;

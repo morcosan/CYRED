@@ -93,6 +93,16 @@ Asset* Script::Clone()
 }
 
 
+const Char* CYRED::Script::GetExtension()
+{
+	if ( _useExtension ) {
+		return FileManager::FILE_FORMAT_SCRIPT;
+	}
+
+	return NULL;
+}
+
+
 void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 {
 	// call lua function if exists

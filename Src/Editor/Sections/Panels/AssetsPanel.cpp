@@ -311,6 +311,79 @@ void AssetsPanel::A_Rename()
 }
 
 
+void AssetsPanel::A_Duplicate()
+{
+	// get item selected
+	QTreeWidgetItem* item = _qtTree->currentItem();
+	// get asset
+	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
+	// create new asset
+	Asset* clone = asset->Clone();
+
+	// create asset path for copying
+	clone->SetEmitEvents( TRUE );
+	_SetAvailableName( clone );
+
+	// copy file
+	FiniteString assetPath( "%s%s%s", asset->GetDirPath(), asset->GetName(), asset->GetExtension() );
+	FiniteString clonePath( "%s%s%s", clone->GetDirPath(), clone->GetName(), clone->GetExtension() );
+	FileManager::Singleton()->CopyFile( assetPath.GetChar(), clonePath.GetChar() );
+
+	// load full file clone
+	clone->LoadFullFile();
+	// set new UID
+	clone->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+	clone->SetIsTemporary( FALSE );
+	clone->SetEmitEvents( TRUE );
+
+	// add to asset pool and get icon
+	const Char* icon = NULL;
+
+	switch ( asset->GetAssetType() ) {
+		case AssetType::MATERIAL:
+			AssetManager::Singleton()->AddMaterial( CAST_S( Material*, clone ) );
+			icon = ICON_MATERIAL;
+			break;
+
+		case AssetType::MESH:
+			AssetManager::Singleton()->AddMesh( CAST_S( Mesh*, clone ) );
+			icon = ICON_MESH;
+			break;
+
+		case AssetType::MORPH:
+			AssetManager::Singleton()->AddMorph( CAST_S( Morph*, clone ) );
+			icon = ICON_MORPH;
+			break;
+
+		case AssetType::SCENE:
+			AssetManager::Singleton()->AddScene( CAST_S( Scene*, clone ) );
+			icon = ICON_SCENE;
+			break;
+
+		case AssetType::SCRIPT:
+			AssetManager::Singleton()->AddScript( CAST_S( Script*, clone ) );
+			icon = ICON_SCRIPT;
+			break;
+
+		case AssetType::SHADER:
+			AssetManager::Singleton()->AddShader( CAST_S( Shader*, clone ) );
+			icon = ICON_SHADER;
+			break;
+
+		case AssetType::TEXTURE:
+			AssetManager::Singleton()->AddTexture( CAST_S( Texture*, clone ) );
+			icon = ICON_TEXTURE;
+			break;
+	}
+
+	// add to tree
+	_AddAssetToTree( clone, item->parent(), icon );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, clone );
+}
+
+
 void AssetsPanel::A_Delete()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
@@ -787,13 +860,9 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentItem,
 								  AssetType assetType )
 {
-	UInt assetIndex = -1;
-	QString filePath;
-	QString fileName;
-	QIcon icon;
-	Asset* asset = NULL;
-
-	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+	Asset*		asset		= NULL;
+	const Char* extension	= NULL;
+	const Char* icon		= NULL;
 
 	switch ( assetType )
 	{
@@ -804,25 +873,13 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			material->SetDirPath( dirPath );
 			material->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			material->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_MATERIAL ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_MATERIAL );
-
-				material->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( material ) );
-
-			icon = _icons.Get( ICON_MATERIAL );
-
+			_SetAvailableName( material );
 			material->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddMaterial( material );
+
 			asset = material;
+			icon = ICON_MATERIAL;
+			extension = FileManager::FILE_FORMAT_MATERIAL;
 			break;
 		}
 
@@ -833,25 +890,13 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			mesh->SetDirPath( dirPath );
 			mesh->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			mesh->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_MESH ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_MESH );
-
-				mesh->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( mesh ) );
-
-			icon = _icons.Get( ICON_MESH );
-
+			_SetAvailableName( mesh );
 			mesh->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddMesh( mesh );
+
 			asset = mesh;
+			icon = ICON_MESH;
+			extension = FileManager::FILE_FORMAT_MESH;
 			break;
 		}
 
@@ -862,25 +907,13 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			morph->SetDirPath( dirPath );
 			morph->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			morph->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_MORPH ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_MORPH );
-
-				morph->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( morph ) );
-
-			icon = _icons.Get( ICON_MORPH );
-
+			_SetAvailableName( morph );
 			morph->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddMorph( morph );
+
 			asset = morph;
+			icon = ICON_MORPH;
+			extension = FileManager::FILE_FORMAT_MORPH;
 			break;
 		}
 
@@ -891,25 +924,13 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			script->SetDirPath( dirPath );
 			script->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			script->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_SCRIPT ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_SCRIPT );
-
-				script->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( script ) );
-
-			icon = _icons.Get( ICON_SCRIPT );
-
+			_SetAvailableName( script );
 			script->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddScript( script );
+
 			asset = script;
+			icon = ICON_SCRIPT;
+			extension = FileManager::FILE_FORMAT_SCRIPT;
 			break;
 		}
 
@@ -920,25 +941,13 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			shader->SetDirPath( dirPath );
 			shader->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			shader->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_SHADER ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_SHADER );
-
-				shader->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( shader ) );
-
-			icon = _icons.Get( ICON_SHADER );
-
+			_SetAvailableName( shader );
 			shader->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddShader( shader );
+
 			asset = shader;
+			icon = ICON_SHADER;
+			extension = FileManager::FILE_FORMAT_SHADER;
 			break;
 		}
 
@@ -949,64 +958,19 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 			texture->SetDirPath( dirPath );
 			texture->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 			texture->SetIsTemporary( FALSE );
-
-			do
-			{
-				++assetIndex;
-				fileName = QString( "%1%2" ).arg( MENU_C_TEXTURE ).arg( assetIndex );
-				filePath = QString( dirPath )
-							.append( fileName )
-							.append( FileManager::FILE_FORMAT_TEXTURE );
-
-				texture->SetName( fileName.toUtf8().constData() );
-			} 
-			while ( _IsFilePathDuplicate( texture ) );
-
-			icon = _icons.Get( ICON_TEXTURE );
-
+			_SetAvailableName( texture );
 			texture->SetEmitEvents( TRUE );
-
 			AssetManager::Singleton()->AddTexture( texture );
+
 			asset = texture;
-			break;
-		}
-
-		case AssetType::UNKNOWN:
-		{
-			do
-			{
-				++assetIndex;
-				fileName = QString("%1%2").arg( MENU_C_FOLDER ).arg( assetIndex );
-				filePath = QString( dirPath ).append( fileName );
-			} 
-			while ( QDir( filePath ).exists() );
-
-			icon = _icons.Get( ICON_FOLDER );
-			treeItem->setWhatsThis( 0, TYPE_FOLDER );
-
-			QDir().mkdir( filePath );
-
+			icon = ICON_TEXTURE;
+			extension = FileManager::FILE_FORMAT_TEXTURE;
 			break;
 		}
 	}
 
-	treeItem->asset = asset;
-	treeItem->setWhatsThis( 1, filePath ); 
-	treeItem->setFlags( Qt::ItemIsSelectable | 
-						Qt::ItemIsEnabled | 
-						Qt::ItemIsEditable );
-	treeItem->setText( 0, fileName );
-	treeItem->setIcon( 0, icon );
-
-	if ( parentItem != NULL )
-	{
-		parentItem->addChild( treeItem );
-		parentItem->setExpanded( TRUE );
-	}
-	else
-	{
-		_qtTree->addTopLevelItem( treeItem );
-	}
+	// add to tree
+	_AddAssetToTree( asset, parentItem, icon );
 
 	return asset;
 }
@@ -1052,6 +1016,7 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		}
 
 		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
+		QAction* actionDuplicate = _qtRightClickMenu->addAction( MENU_DUPLICATE );
 		_qtRightClickMenu->addSeparator();
 		QAction* actionOpenOnDisk = _qtRightClickMenu->addAction( MENU_OPEN_DISK );
 		QAction* actionShowOnDisk = _qtRightClickMenu->addAction( MENU_SHOW_DISK );
@@ -1062,6 +1027,7 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionRename,		&QAction::triggered, this, &AssetsPanel::A_Rename );
 		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &AssetsPanel::A_OpenOnDisk );
 		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &AssetsPanel::A_ShowOnDisk );
+		QObject::connect( actionDuplicate,	&QAction::triggered, this, &AssetsPanel::A_Duplicate );
 		QObject::connect( actionDelete,		&QAction::triggered, this, &AssetsPanel::A_Delete );
 	}
 
@@ -1309,6 +1275,86 @@ Bool AssetsPanel::_IsFilePathDuplicate( Asset* asset )
 	}
 
 	return FALSE;
+}
+
+
+void AssetsPanel::_SetAvailableName( Asset* asset )
+{
+	// get base name and extension according to type
+	const Char* baseName = NULL;
+	const Char* extension = NULL;
+
+	switch ( asset->GetAssetType() ) {
+		case AssetType::MATERIAL:
+			baseName = MENU_C_MATERIAL;
+			extension = FileManager::FILE_FORMAT_MATERIAL;
+			break;
+
+		case AssetType::MESH:
+			baseName = MENU_C_MESH;
+			extension = FileManager::FILE_FORMAT_MESH;
+			break;
+
+		case AssetType::MORPH:
+			baseName = MENU_C_MORPH;
+			extension = FileManager::FILE_FORMAT_MORPH;
+			break;
+
+		case AssetType::SCENE:
+			baseName = MENU_C_SCENE;
+			extension = FileManager::FILE_FORMAT_SCENE;
+			break;
+
+		case AssetType::SCRIPT:
+			baseName = MENU_C_SCRIPT;
+			extension = FileManager::FILE_FORMAT_SCRIPT;
+			break;
+
+		case AssetType::SHADER:
+			baseName = MENU_C_SHADER;
+			extension = FileManager::FILE_FORMAT_SHADER;
+			break;
+
+		case AssetType::TEXTURE:
+			baseName = MENU_C_TEXTURE;
+			extension = FileManager::FILE_FORMAT_TEXTURE;
+			break;
+	}
+
+	// find new name
+	UInt assetIndex = -1;
+	do {
+		assetIndex++;
+		FiniteString fileName( "%s%d", baseName, assetIndex );
+		FiniteString filePath( "%s%s%s", asset->GetDirPath(), fileName.GetChar(), extension );
+		asset->SetName( fileName.GetChar() );
+	} 
+	while ( _IsFilePathDuplicate( asset ) );
+}
+
+
+void AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, const Char* icon )
+{
+	// create item
+	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+
+	// set item data
+	FiniteString filePath( "%s%s%s", asset->GetDirPath(), asset->GetName(), asset->GetExtension() );
+	treeItem->asset = asset;
+	treeItem->setWhatsThis( 1, filePath.GetChar() ); 
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled | 
+						Qt::ItemIsEditable );
+	treeItem->setText( 0, asset->GetName() );
+	treeItem->setIcon( 0, _icons.Get( icon ) );
+
+	if ( parentItem != NULL ) {
+		parentItem->addChild( treeItem );
+		parentItem->setExpanded( TRUE );
+	}
+	else {
+		_qtTree->addTopLevelItem( treeItem );
+	}
 }
 
 
