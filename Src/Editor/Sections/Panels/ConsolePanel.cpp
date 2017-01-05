@@ -8,6 +8,7 @@
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlabel.h"
 #include "QtWidgets\qscrollarea.h"
+#include "QtWidgets\qpushbutton.h"
 
 
 using namespace CYRED;
@@ -20,6 +21,19 @@ ConsolePanel::ConsolePanel()
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
+	// create top bar
+	QHBoxLayout* qtTopBarLayout = Memory::Alloc<QHBoxLayout>();
+	qtTopBarLayout->setAlignment( Qt::AlignLeft );
+	qtTopBarLayout->setSpacing( 3 );
+
+	// create buttons for top bar
+	QPushButton* clearButton =  Memory::Alloc<QPushButton>();
+	clearButton->setText( "Clear" );
+	clearButton->setObjectName( EditorSkin::VIEWPORT_BUTTON );
+	qtTopBarLayout->addWidget( clearButton );
+	QObject::connect( clearButton,	&QPushButton::pressed, this, &ConsolePanel::A_ClearLogs );
+
+	// create logs list
 	_logsLayout = Memory::Alloc<QVBoxLayout>();
 	_logsLayout->setSpacing( 0 );
 	_logsLayout->setContentsMargins( 0, 0, 0, 0 );
@@ -27,13 +41,43 @@ ConsolePanel::ConsolePanel()
 
 	QWidget* logsWidget = Memory::Alloc<QWidget>();
 	logsWidget->setLayout( _logsLayout );
+	logsWidget->setObjectName( EditorSkin::CONSOLE_LAYOUT );
 
+	// create scroll area
 	QScrollArea* scrollArea = Memory::Alloc<QScrollArea>();
-	scrollArea->setObjectName( EditorSkin::CONSOLE_LAYOUT );
 	scrollArea->setWidgetResizable( TRUE );
 	scrollArea->setWidget( logsWidget );
 
-	this->setWidget( scrollArea );
+	// create scroll area holder
+	QHBoxLayout* scrollHolderLayout = new QHBoxLayout();
+	scrollHolderLayout->setSpacing(0);
+	scrollHolderLayout->setContentsMargins( 0, 0, 0, 0 );
+	scrollHolderLayout->addWidget( scrollArea );
+	QWidget* scrollHolderWidget = new QWidget();
+	scrollHolderWidget->setLayout( scrollHolderLayout );
+
+	// create layout for top bar + logs
+	QVBoxLayout *vLayout = new QVBoxLayout();
+	vLayout->setSpacing(0);
+	vLayout->setContentsMargins( 0, 0, 0, 0 );
+	vLayout->addLayout( qtTopBarLayout );
+	vLayout->addWidget( scrollHolderWidget );
+
+	QWidget* layoutWidget = new QWidget();
+	layoutWidget->setLayout( vLayout );
+	layoutWidget->setObjectName( EditorSkin::PANEL_LAYOUT );
+
+	this->setWidget( layoutWidget );
+}
+
+
+void ConsolePanel::A_ClearLogs()
+{
+	// delete all items
+	QLayoutItem *child;
+	while ( (child = _logsLayout->takeAt(0)) !=  NULL ) {
+		Memory::Free( child->widget() );
+	}
 }
 
 

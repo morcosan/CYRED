@@ -91,10 +91,10 @@ void ViewportPanel::Initialize( Bool isPrimary )
 	vLayout->addLayout( _qtTopBarLayout );
 	vLayout->addWidget( container );
 
-	QWidget* newWidget = new QWidget();
-	newWidget->setLayout( vLayout );
+	QWidget* layoutWidget = new QWidget();
+	layoutWidget->setLayout( vLayout );
 
-	this->setWidget( newWidget );
+	this->setWidget( layoutWidget );
 
 	_glContext = Memory::Alloc<GLContextImpl>( _qtWindow );
 

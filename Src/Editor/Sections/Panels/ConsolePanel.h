@@ -25,6 +25,10 @@ namespace CYRED
 
 
 	public:
+		void A_ClearLogs();
+
+
+	public:
 		void Initialize	() override;
 		void Finalize	() override;
 		void OnEvent	( EventType eType, void* eData )	override;

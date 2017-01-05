@@ -401,19 +401,23 @@ QScrollBar::right-arrow
 /*--- CONSOLE ---*/
 /*---------------*/
 
-#ConsoleLayout
+QScrollArea
 {
-	background-color: #333;
 	border: none;
 }
 
 #ConsoleLog
 {
-	min-height: 25px;
+	min-height: 15px;
 	padding: 2px 0;
 	border-bottom: 1px solid #222;
-	background-color: #333;
+	background-color: #444;
 }
 #ConsoleLog QLabel
 {
+}
+
+#ConsoleLayout
+{
+	background-color: #444;
 }
