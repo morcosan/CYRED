@@ -36,6 +36,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override;
+
+
+	public:
 		void BindToGPU();
 
 		UInt			GetVBO				() const;		

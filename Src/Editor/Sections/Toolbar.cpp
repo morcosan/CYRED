@@ -69,3 +69,17 @@ void Toolbar::A_PauseButton( Bool checked )
 	EditorApp::Singleton()->SetPlayPaused( checked );
 }
 
+
+void Toolbar::SetPlayButton( Bool isActive )
+{
+	// update button
+	_playButton->setChecked( isActive );
+}
+
+
+void Toolbar::SetPauseButton( Bool isActive )
+{
+	// update button
+	_pauseButton->setChecked( isActive );
+}
+

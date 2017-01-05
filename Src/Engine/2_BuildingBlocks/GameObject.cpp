@@ -9,6 +9,7 @@
 #include "../3_Modules/Render/Components/MeshRendering.h"
 #include "../3_Modules/Render/Components/MorphRendering.h"
 #include "../3_Modules/Render/Components/ParticleEmitter.h"
+#include "../3_Modules/Script/Components/Scripter.h"
 
 
 using namespace CYRED;
@@ -133,6 +134,51 @@ void GameObject::SetName( const Char* name )
 void GameObject::SetEmitEvents( Bool value )
 {
 	_emitEvents = value;
+}
+
+
+void GameObject::Clone( GameObject* clone ) const
+{
+	// create clone of this gameobject
+	clone->SetEnabled( _enabled );
+	clone->SetName( _name.GetChar() );
+
+	for ( UInt i = 0; i < _components.Size(); i++ ) {
+		Component* cloneComp = NULL;
+
+		switch ( _components[i]->GetComponentType() ) {
+			case ComponentType::CAMERA:
+				cloneComp = clone->AddComponent<Camera>();
+				break;
+			case ComponentType::LIGHT:
+				break;
+
+			case ComponentType::MESH_RENDERING:
+				cloneComp = clone->AddComponent<MeshRendering>();
+				break;
+
+			case ComponentType::MORPH_RENDERING:
+				cloneComp = clone->AddComponent<MorphRendering>();
+				break;
+
+			case ComponentType::PARTICLE_EMITTER:
+				cloneComp = clone->AddComponent<ParticleEmitter>();
+				break;
+
+			case ComponentType::TRANSFORM:
+				cloneComp = clone->AddComponent<Transform>();
+				break;
+
+			case ComponentType::SCRIPTER:
+				cloneComp = clone->AddComponent<Scripter>();
+				break;
+		}
+
+		// clone component
+		cloneComp->SetEmitEvents( FALSE );
+		_components[i]->Clone( cloneComp );
+		cloneComp->SetEmitEvents( TRUE );
+	}
 }
 
 

@@ -38,6 +38,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override;
+
+
+	public:
 		// getters
 		Matrix4		GetWorldMatrix			();
 		Matrix4		GetViewMatrix			();

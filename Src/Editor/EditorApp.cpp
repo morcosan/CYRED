@@ -134,6 +134,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	// mark flags
 	_isPlayMode = FALSE;
 	_isPlayPaused = FALSE;
+	_shouldStopPlay = FALSE;
 
 	//! start the main loop
 	_qtTime = Memory::Alloc<QTime>();
@@ -152,7 +153,14 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 
 void EditorApp::Exit()
 {
-	_shouldExit = TRUE;
+	// if play mode, exit play mode
+	if ( _isPlayMode ) {
+		StopPlayMode();
+	}
+	else {
+		// exit editor
+		_shouldExit = TRUE;
+	}
 }
 
 
@@ -177,30 +185,36 @@ void EditorApp::_UpdateLoop()
 	Double realGameTime = CAST_S( Double, _qtTime->elapsed() ) / 1000;
 	timeManager->RenderUpdate( realGameTime );
 
-	while ( timeManager->GetGameTime() < realGameTime )
-	{
+	while ( timeManager->GetGameTime() < realGameTime ) {
+		// time update
 		timeManager->Update();
 
 		//! game update
-		{
-			_UpdateCameras();
+		_UpdateCameras();
 
-			//! update scripts
-			SceneManager* sceneManager = SceneManager::Singleton();
-			UInt totalScenes = sceneManager->CountLoadedScenes();
-			for ( UInt i = 0; i < totalScenes; ++i )
-			{
-				sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
-			}
+		//! update scripts
+		SceneManager* sceneManager = SceneManager::Singleton();
+		UInt totalScenes = sceneManager->CountLoadedScenes();
+		for ( UInt i = 0; i < totalScenes; ++i ) {
+			sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
 		}
 	}
 
-	//! update panels
-	for ( UInt i = 0; i < _panels.Size(); ++i )
-	{
-		_panels[i]->Update();
+	// stop play mode if needed
+	if ( _shouldStopPlay ) {
+		// disable play mode
+		_isPlayMode = FALSE;
+		_shouldStopPlay = FALSE;
+		_toolbar->SetPlayButton( FALSE );
+
+		// restore scenes
+		SceneManager::Singleton()->RestoreScenes();
 	}
 
+	//! update panels
+	for ( UInt i = 0; i < _panels.Size(); ++i ) {
+		_panels[i]->Update();
+	}
 
 	//! get and process events
 	_qtApp->processEvents();
@@ -489,6 +503,10 @@ void EditorApp::StartPlayMode()
 
 	// activate play mode
 	_isPlayMode = TRUE;
+	_toolbar->SetPlayButton( TRUE );
+
+	// no stopping needed yet
+	_shouldStopPlay = FALSE;
 
 	// store current scenes
 	SceneManager::Singleton()->StoreScenes();
@@ -502,11 +520,8 @@ void EditorApp::StopPlayMode()
 		return;
 	}
 
-	// disable play mode
-	_isPlayMode = FALSE;
-
-	// restore scenes
-	SceneManager::Singleton()->RestoreScenes();
+	// do not stop play directly, but mark for stop
+	_shouldStopPlay = TRUE;
 }
 
 
@@ -514,6 +529,7 @@ void EditorApp::SetPlayPaused( Bool value )
 {
 	// pause / unpause play mode
 	_isPlayPaused = value;
+	_toolbar->SetPauseButton( value );
 }
 
 

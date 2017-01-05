@@ -25,6 +25,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override;
+
+
+	public:
 		Material*	GetMaterial	() const;
 		Mesh*		GetMesh		() const;
 

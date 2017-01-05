@@ -44,6 +44,11 @@ ParticleEmitter::~ParticleEmitter()
 }
 
 
+void ParticleEmitter::Clone( Component* clone ) const
+{
+}
+
+
 void ParticleEmitter::BindToGPU()
 {
 	_particlesAge.Clear();

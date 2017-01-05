@@ -301,7 +301,7 @@ void Script::_LoadLuaData( const Char* luaData )
 		case LUA_ERRSYNTAX:
 		{
 			// syntax error
-			DebugManager::Singleton()->Log( lua_tostring( L, -1 ) );
+			DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
 			break;
 		}
 
@@ -311,7 +311,7 @@ void Script::_LoadLuaData( const Char* luaData )
 			// run lua
 			if ( lua_pcall( L, 0, 0, 0 ) ) {
 				// run error
-				DebugManager::Singleton()->Log( lua_tostring( L, -1 ) );
+				DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
 				break;
 			}
 			else {

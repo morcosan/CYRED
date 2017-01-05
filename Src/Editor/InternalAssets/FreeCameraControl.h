@@ -23,6 +23,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override {}
+
+
+	public:
 		DataMap<Int, Bool>	myWindows;
 		Float				rotateSpeed;
 		Float				zoomSpeed;

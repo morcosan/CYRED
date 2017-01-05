@@ -32,6 +32,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override;
+
+
+	public:
 		Script* GetScript		( UInt index )	const;
 		UInt	GetScriptsCount	()				const;
 

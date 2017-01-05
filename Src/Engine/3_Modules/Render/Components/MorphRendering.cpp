@@ -30,6 +30,11 @@ MorphRendering::MorphRendering( GameObject* gameObject )
 }
 
 
+
+void MorphRendering::Clone( Component* clone ) const
+{
+}
+
 Material* MorphRendering::GetMaterial() const
 {
 	return _material;

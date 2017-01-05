@@ -52,9 +52,7 @@ namespace CYRED
 			GameObject*	NewGameObject	( const Char* sceneUID )		override;
 			GameObject*	Duplicate		( const GameObject* object )	override;
 			GameObject*	Search			( const Char* objectName, 
-										  UInt sceneIndex = 0 )			override;
-			GameObject*	Search			( const Char* objectName, 
-										  const Char* sceneUID )		override;
+										  const Char* sceneUID = NULL )	override;
 			void		Destroy			( GameObject* object )			override;
 			
 			Int			GetSceneIndex		( const Char* sceneUID )	override;

@@ -76,6 +76,18 @@ void Transform::OnHierarchyChange()
 }
 
 
+void Transform::Clone( Component* clone ) const
+{
+	// cast to transform
+	Transform* cloneComp = CAST_S( Transform*, clone );
+	// set attributes
+	cloneComp->SetPositionLocal( _positionLocal );
+	cloneComp->SetRotationLocal( _rotationLocal );
+	cloneComp->SetScaleLocal( _scaleLocal );
+	cloneComp->SetEnabled( _enabled );
+}
+
+
 Vector3 Transform::GetEulerRotationWorld() const
 {
 	return Math::ToDegrees( _rotationWorld.ToEulerAngles() );

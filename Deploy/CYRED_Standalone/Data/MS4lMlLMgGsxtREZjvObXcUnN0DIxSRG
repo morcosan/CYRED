@@ -84,7 +84,7 @@
                 "camera": {
                     "enabled": true,
                     "camera_type": "ORTHOGRAPHIC",
-                    "ortho_height": 11.0,
+                    "ortho_height": 13.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
                 }
@@ -235,13 +235,192 @@
                                     }
                                 },
                                 {
+                                    "name": "lives",
+                                    "type": "INT",
+                                    "value": 3
+                                },
+                                {
                                     "name": "speed",
                                     "type": "FLOAT",
-                                    "value": 7.0
+                                    "value": 10.0
                                 }
                             ]
                         }
                     ]
+                }
+            }
+        },
+        {
+            "name": "LifeLeft 1",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": -2.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
+                }
+            }
+        },
+        {
+            "name": "LifeLeft 2",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": -4.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
+                }
+            }
+        },
+        {
+            "name": "LifeLeft 3",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": -6.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
+                }
+            }
+        },
+        {
+            "name": "LifeRight 1",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 2.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
+                }
+            }
+        },
+        {
+            "name": "LifeRight 2",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 4.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
+                }
+            }
+        },
+        {
+            "name": "LifeRight 3",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 6.0,
+                        "y": 6.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "cxE9yxaC2blvLKry03qfObg9hpyQJctB"
                 }
             }
         }

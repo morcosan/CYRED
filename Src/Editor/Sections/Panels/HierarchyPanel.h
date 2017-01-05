@@ -26,6 +26,7 @@ namespace CYRED
 		const Char* const	MENU_SAVE_SCENE_AS	= "Save Scene As..";
 		const Char* const	MENU_CLOSE_SCENE	= "Close Scene";
 		const Char* const	MENU_RENAME			= "Rename";
+		const Char* const	MENU_DUPLICATE		= "Duplicate";
 		const Char* const	MENU_DELETE			= "Delete";
 
 		const Char*	const	MENU_GO				= "Create Object";
@@ -68,6 +69,7 @@ namespace CYRED
 		void A_SaveSceneAs			();
 		void A_CloseScene			();
 		void A_Rename				();
+		void A_Duplicate			();
 		void A_Delete				();
 
 		void A_GO_CreateEmpty		();

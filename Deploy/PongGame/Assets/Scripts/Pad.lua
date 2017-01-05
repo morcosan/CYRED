@@ -5,8 +5,7 @@ VARS = {
 
 -- global
 g_padSize = Vector2( 0, 0 )
-g_padLeft = nil
-g_padRight = nil
+
 
 local transform 
 
@@ -17,12 +16,6 @@ function OnStart()
 	-- set globals
 	g_padSize.x = transform.scaleLocal.x
 	g_padSize.y = transform.scaleLocal.y
-
-	if VARS.isLeft then
-		g_padLeft = transform
-	else
-		g_padRight = transform
-	end
 end
 
 

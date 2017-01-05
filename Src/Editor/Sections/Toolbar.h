@@ -18,8 +18,15 @@ namespace CYRED
 		Toolbar();
 		virtual ~Toolbar() {}
 
+
+	public:
 		void A_PlayButton	( Bool checked );
 		void A_PauseButton	( Bool checked );
+
+
+	public:
+		void SetPlayButton	( Bool isActive );
+		void SetPauseButton	( Bool isActive );
 
 
 	protected:

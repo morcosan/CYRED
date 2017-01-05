@@ -21,6 +21,17 @@ MeshRendering::MeshRendering( GameObject* gameObject )
 }
 
 
+void MeshRendering::Clone( Component* clone ) const
+{
+	// cast to transform
+	MeshRendering* cloneComp = CAST_S( MeshRendering*, clone );
+	// set attributes
+	cloneComp->SetMesh( _mesh );
+	cloneComp->SetMaterial( _material );
+	cloneComp->SetEnabled( _enabled );
+}
+
+
 Material* MeshRendering::GetMaterial() const
 {
 	return _material;

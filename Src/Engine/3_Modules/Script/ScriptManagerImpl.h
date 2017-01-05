@@ -27,6 +27,8 @@ namespace CYRED
 		protected:
 			lua_State*	_L;
 
+			void _RegisterApplication();
+
 			void _RegisterGameObject();
 
 			void _RegisterComponent();

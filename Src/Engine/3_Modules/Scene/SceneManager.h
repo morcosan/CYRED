@@ -45,9 +45,7 @@ namespace CYRED
 		virtual GameObject*	NewGameObject	( const Char* sceneUID )		PURE_VIRTUAL;
 		virtual GameObject*	Duplicate		( const GameObject* object )	PURE_VIRTUAL;
 		virtual GameObject*	Search			( const Char* objectName, 
-											  UInt sceneIndex = 0 )			PURE_VIRTUAL;
-		virtual GameObject*	Search			( const Char* objectName, 
-											  const Char* sceneUID )		PURE_VIRTUAL;
+											  const Char* sceneUID = NULL )	PURE_VIRTUAL;
 		virtual void		Destroy			( GameObject* object )			PURE_VIRTUAL;
 
 		virtual Int			GetSceneIndex		( const Char* sceneUID )	PURE_VIRTUAL;

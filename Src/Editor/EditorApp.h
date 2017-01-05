@@ -73,6 +73,7 @@ namespace CYRED
 
 		Bool			_shouldExit;	/* flag that is used to exit the main loop	*/
 		Bool			_isPlayMode;	/* flag that indicates "play in editor"		*/
+		Bool			_shouldStopPlay;/* flag that is used to update play mode */
 		Bool			_isPlayPaused;	// flag for running the scripts in play mode
 
 		Char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	

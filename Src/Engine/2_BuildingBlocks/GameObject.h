@@ -37,17 +37,19 @@ namespace CYRED
 
 
 	public:
-		const Char*	GetName				()							const;
-		Bool		IsEnabled			()							const;
-		UInt		GetUniqueID			()							const;
-		Bool		DoesEmitEvents		()							const;
+		const Char*	GetName				()						const;
+		Bool		IsEnabled			()						const;
+		UInt		GetUniqueID			()						const;
+		Bool		DoesEmitEvents		()						const;
 
-		UInt		GetComponentCount	()				const;
-		Component*	GetComponentAt		( UInt index )	const;
+		UInt		GetComponentCount	()						const;
+		Component*	GetComponentAt		( UInt index )			const;
 
 		void		SetEnabled			( Bool value );
 		void		SetName				( const Char* name );
 		void		SetEmitEvents		( Bool value );
+
+		void		Clone				( GameObject* clone )	const;
 
 
 	public:
@@ -76,12 +78,10 @@ namespace CYRED
 
 		T*	requested;
 
-		for ( UInt i = 0; i < _components.Size(); ++i )
-		{
+		for ( UInt i = 0; i < _components.Size(); ++i ) {
 			requested = dynamic_cast<T*>( _components[i] );
 
-			if ( requested != NULL )
-			{
+			if ( requested != NULL ) {
 				return requested;
 			}
 		}
@@ -97,12 +97,10 @@ namespace CYRED
 
 		T*	onlyOneAllowed;
 
-		for ( UInt i = 0; i < _components.Size(); ++i )
-		{
+		for ( UInt i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
-			if ( onlyOneAllowed != NULL )
-			{
+			if ( onlyOneAllowed != NULL ) {
 				return onlyOneAllowed;
 			}
 		}
@@ -128,12 +126,10 @@ namespace CYRED
 
 		T*	onlyOneAllowed;
 
-		for ( UInt i = 0; i < _components.Size(); ++i )
-		{
+		for ( UInt i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
-			if ( onlyOneAllowed != NULL )
-			{
+			if ( onlyOneAllowed != NULL ) {
 				_components.Erase( i );
 				Memory::Free( onlyOneAllowed );
 

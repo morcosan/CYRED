@@ -60,7 +60,6 @@ void StandaloneApp::Run( Int& argc, Char* argv[] )
 }
 
 
-
 void StandaloneApp::Exit()
 {
 	_shouldExit = TRUE;
@@ -89,28 +88,26 @@ void StandaloneApp::_UpdateLoop()
 	Double realGameTime = glfwGetTime();
 	timeManager->RenderUpdate( realGameTime );
 
-	while ( timeManager->GetGameTime() < realGameTime )
-	{
+	while ( timeManager->GetGameTime() < realGameTime ) {
+		// time update
 		timeManager->Update();
 
 		//! game update
-		{
-			//! update scripts
-			SceneManager* sceneManager = SceneManager::Singleton();
-			UInt totalScenes = sceneManager->CountLoadedScenes();
-			for ( UInt i = 0; i < totalScenes; ++i )
-			{
-				sceneManager->GetScene( i )->OnUpdate();
-			}
+		//! update scripts
+		SceneManager* sceneManager = SceneManager::Singleton();
+		UInt totalScenes = sceneManager->CountLoadedScenes();
+		for ( UInt i = 0; i < totalScenes; ++i ) {
+			sceneManager->GetScene( i )->OnUpdate();
 		}
 	}
 
+	// render
 	_RenderScene();
-
 
 	//! get and process events
 	glfwPollEvents();
-	_shouldExit = ( glfwWindowShouldClose( _glfwWindow ) == 1 );
+	// check for close button
+	_shouldExit |= ( glfwWindowShouldClose( _glfwWindow ) == 1 );
 
 	// process input
 	InputManager::Singleton()->ProcessEvents();

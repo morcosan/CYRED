@@ -287,19 +287,12 @@ GameObject* SceneManagerImpl::NewGameObject( const Char* sceneUID )
 GameObject* SceneManagerImpl::Duplicate( const GameObject* object )
 {
 	ASSERT( _isInitialized );
-	// TODO
-	return NULL;
-}
 
+	// clone gameobject
+	GameObject* clone = SceneManager::Singleton()->NewGameObject();
+	object->Clone( clone );
 
-GameObject* SceneManagerImpl::Search( const Char* objectName, UInt sceneIndex )
-{
-	ASSERT( _isInitialized );
-
-	Scene* scene = GetScene( sceneIndex );
-	ASSERT( scene != NULL );
-
-	return NULL;
+	return clone;
 }
 
 
@@ -310,6 +303,19 @@ GameObject* SceneManagerImpl::Search( const Char* objectName, const Char* sceneU
 	Scene* scene = GetScene( sceneUID );
 	ASSERT( scene != NULL );
 
+	// find first gameobject with name
+	FiniteString searchName( objectName );
+	Node* sceneRoot = scene->GetRoot();
+	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+		GameObject* childGO = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
+		// check name
+		if ( searchName == childGO->GetName() ) {
+			// found
+			return childGO;
+		}
+	}
+
+	// nothing found
 	return NULL;
 }
 

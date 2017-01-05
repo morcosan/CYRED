@@ -38,6 +38,10 @@ namespace CYRED
 
 
 	public:
+		void Clone( Component* clone ) const override;
+
+
+	public:
 		Matrix4 GetProjectionMatrix();
 
 		Float		GetFovYAngle		()	const;

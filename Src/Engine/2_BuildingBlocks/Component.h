@@ -45,6 +45,10 @@ namespace CYRED
 
 
 	public:
+		virtual void Clone( Component* clone ) const PURE_VIRTUAL;
+
+
+	public:
 		void		OnUpdate		( Bool isRuntime );
 
 		GameObject*	GetGameObject	()				const;

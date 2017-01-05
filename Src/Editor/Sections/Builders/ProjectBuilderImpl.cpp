@@ -10,6 +10,7 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Script.h"
+#include "CyredModule_Debug.h"
 
 #include "../Settings/ProjectSettings.h"
 
@@ -152,6 +153,9 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 	for ( UInt i = 0; i < assetManager->GetScriptCount(); i++ ) {
 		_BuildScriptFile( assetManager->GetScriptAt( i ) );
 	}
+
+	// send message
+	DebugManager::Singleton()->Log( "Build Windows Done." );
 }
 
 

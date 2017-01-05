@@ -32,6 +32,7 @@
 #include "../../3_Modules/Scene/SceneManager.h"
 #include "../../3_Modules/Time/TimeManager.h"
 #include "../../3_Modules/Debug/DebugManager.h"
+#include "../../4_Application/Application.h"
 
 extern "C" 
 {
@@ -63,6 +64,8 @@ void ScriptManagerImpl::Initialize()
 	luaL_openlibs( _L );
 
 	// register lua classes
+	_RegisterApplication();
+
 	_RegisterGameObject();
 
 	_RegisterComponent();
@@ -108,6 +111,19 @@ void ScriptManagerImpl::Finalize()
 lua_State* ScriptManagerImpl::GetLuaState() const
 {
 	return _L;
+}
+
+
+void ScriptManagerImpl::_RegisterApplication()
+{
+	luabridge::getGlobalNamespace( _L )
+	.beginClass<Application>( "Application" )
+		.addFunction( "Exit", &Application::Exit )
+	.endClass();
+
+	// set global
+	luabridge::LuaRef goRef( _L, Application::Singleton() );
+	luabridge::setGlobal( _L, goRef, "APP" );
 }
 
 
@@ -323,6 +339,7 @@ void ScriptManagerImpl::_RegisterSceneManager()
 {
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<SceneManager>( "SceneManager" )
+		.addFunction( "Search", &SceneManager::Search )
 	.endClass();
 
 	// set global

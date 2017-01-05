@@ -45,6 +45,11 @@ void Scripter::OnEvent( EventType eType, void* eData )
 }
 
 
+void Scripter::Clone( Component* clone ) const
+{
+}
+
+
 Script* Scripter::GetScript( UInt index ) const
 {
 	ASSERT( index < _scripts.Size() );

@@ -27,6 +27,11 @@ Camera::Camera( GameObject * gameObject )
 }
 
 
+void Camera::Clone( Component* clone ) const
+{
+}
+
+
 Matrix4 Camera::GetProjectionMatrix()
 {
 	if (_projectionChanged)

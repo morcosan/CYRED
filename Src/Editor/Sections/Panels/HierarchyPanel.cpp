@@ -249,6 +249,9 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 	if ( treeItem->gameObject != NULL && treeItem->scene == NULL)
 	{
 		_qtRightClickMenu->addSeparator();
+		QAction* actionDuplicate = _qtRightClickMenu->addAction( MENU_DUPLICATE );
+
+		_qtRightClickMenu->addSeparator();
 		QMenu* menu_AddComp = _qtRightClickMenu->addMenu( MENU_ADD_COMPONENT );
 		QAction* actionComp_Camera		= menu_AddComp->addAction( MENU_COMP_CAMERA );
 		QAction* actionComp_MeshRen		= menu_AddComp->addAction( MENU_COMP_MESH_REN );
@@ -259,6 +262,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		_qtRightClickMenu->addSeparator();
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 
+		QObject::connect( actionDuplicate,		&QAction::triggered, this, &HierarchyPanel::A_Duplicate );
 		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Camera );
 		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MeshRendering );
 		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MorphRendering );
@@ -459,6 +463,15 @@ void HierarchyPanel::A_Rename()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 	_qtTree->editItem( item );
+}
+
+
+void HierarchyPanel::A_Duplicate()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	if ( treeItem->gameObject != NULL ) {
+		SceneManager::Singleton()->Duplicate( treeItem->gameObject );
+	}
 }
 
 
