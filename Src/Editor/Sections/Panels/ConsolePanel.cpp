@@ -4,6 +4,7 @@
 #include "ConsolePanel.h"
 #include "../Settings/EditorSkin.h"
 #include "CyredModule_Debug.h"
+#include "../Settings/EditorSettings.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlabel.h"
@@ -125,6 +126,21 @@ void ConsolePanel::_AddLine( const Char* message, Bool isError )
 {
 	// create layout
 	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();
+
+	// create icon
+	FiniteString iconPath;
+	if ( isError ) {
+		iconPath.Set( "%s%s", EditorSettings::DIR_PATH_ICONS_LAYOUT, ICON_ERROR );
+	}
+	else {
+		iconPath.Set( "%s%s", EditorSettings::DIR_PATH_ICONS_LAYOUT, ICON_INFO );
+	}
+	QLabel* iconWidget = Memory::Alloc<QLabel>();
+	iconWidget->setPixmap( QPixmap( iconPath.GetChar() ) );
+	iconWidget->setObjectName( "Icon" );
+	iconWidget->setScaledContents( TRUE );
+	qtLineLayout->addWidget( iconWidget );
+
 	// create widget for layout
 	QWidget* qtLineWidget = Memory::Alloc<QWidget>();
 	qtLineWidget->setLayout( qtLineLayout );

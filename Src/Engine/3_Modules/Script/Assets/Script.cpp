@@ -107,7 +107,7 @@ void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 {
 	// call lua function if exists
 	if ( _luaFuncList.Has( funcName ) ) {
-		DataArray<luabridge::LuaRef*>& funcList = _luaFuncList.Get( funcName );
+		DataArray<LuaFunc>& funcList = _luaFuncList.Get( funcName );
 
 		// bind globals
 		lua_State* L = ScriptManager::Singleton()->GetLuaState();
@@ -119,13 +119,19 @@ void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 
 		// call all functions
 		for ( UInt i = 0; i < funcList.Size(); i++ ) {
-			// try to call the function
-			try {
-				(*funcList[i])();
-			}
-			// handle error
-			catch ( luabridge::LuaException const& e ) {
-				DebugManager::Singleton()->Error( e.what () );
+			// if is broken do not call
+			if ( !funcList[i].isBroken ) {
+				// try to call the function
+				try {
+					(*funcList[i].funcRef)();
+				}
+				// handle error
+				catch ( luabridge::LuaException const& e ) {
+					// display error once
+					DebugManager::Singleton()->Error( e.what () );
+					// mark as broken
+					funcList[i].isBroken = TRUE;
+				}
 			}
 		}
 	}
@@ -193,7 +199,7 @@ const Char* Script::GetFilePath( UInt index ) const
 }
 
 
-Iterator<String, DataArray<luabridge::LuaRef*>> Script::GetFuncListIterator() const
+Iterator<String, DataArray<Script::LuaFunc>> Script::GetFuncListIterator() const
 {
 	return _luaFuncList.GetIterator();
 }
@@ -334,11 +340,17 @@ void Script::_AddLuaFunc( const Char* funcName )
 	if ( !luaFunc.isNil() && luaFunc.isFunction() ) {
 		// add func
 		if ( _luaFuncList.Has(funcName) ) {
-			_luaFuncList.Get(funcName).Add( Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
+			_luaFuncList.Get( funcName ).Add( LuaFunc {
+				Memory::Alloc<luabridge::LuaRef>( luaFunc ),
+				FALSE
+			} );
 		}
 		else {
-			DataArray<luabridge::LuaRef*> funcList;
-			funcList.Add( Memory::Alloc<luabridge::LuaRef>( luaFunc ) );
+			DataArray<LuaFunc> funcList;
+			funcList.Add( LuaFunc {
+				Memory::Alloc<luabridge::LuaRef>( luaFunc ),
+				FALSE
+			} );
 			_luaFuncList.Set( funcName, funcList );
 		}
 	}

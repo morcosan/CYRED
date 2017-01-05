@@ -44,6 +44,14 @@ namespace CYRED
 
 
 	public:
+		struct LuaFunc
+		{
+			luabridge::LuaRef*	funcRef;
+			Bool				isBroken;
+		};
+
+
+	public:
 		void		LoadUniqueID	() override;
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
@@ -60,8 +68,8 @@ namespace CYRED
 		UInt		GetPathsCount	()				const;
 		const Char*	GetFilePath		( UInt index )	const;
 
-		Iterator<String, DataArray<luabridge::LuaRef*>> GetFuncListIterator() const;
-		Iterator<String, DataUnion>						GetVarsListIterator() const;
+		Iterator<String, DataArray<LuaFunc>>	GetFuncListIterator() const;
+		Iterator<String, DataUnion>				GetVarsListIterator() const;
 
 		void SetRunInEditor	( Bool value );
 		void SetFirstUpdate	( Bool value );
@@ -77,9 +85,9 @@ namespace CYRED
 		DataArray<String>	_filePaths;
 
 		// a list with all lua objects associated with this Scripter
-		DataMap<String, DataArray<luabridge::LuaRef*>>	_luaFuncList;
-		DataMap<String, DataUnion>						_luaVarsList;
-		luabridge::LuaRef*								_luaVarsRef;
+		DataMap<String, DataArray<LuaFunc>>	_luaFuncList;
+		DataMap<String, DataUnion>			_luaVarsList;
+		luabridge::LuaRef*					_luaVarsRef;
 
 
 	protected:

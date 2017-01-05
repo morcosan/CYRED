@@ -421,3 +421,8 @@ QScrollArea
 {
 	background-color: #444;
 }
+#ConsoleLayout #Icon
+{
+	max-height: 15px;
+	max-width: 15px;
+}

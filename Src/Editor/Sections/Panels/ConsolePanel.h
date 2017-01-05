@@ -18,6 +18,9 @@ namespace CYRED
 		const Char* const	PANEL_TITLE = "Console Panel";
 		const Vector2		MIN_SIZE	= Vector2( 100, 100 );
 
+		const Char* const	ICON_INFO	= "info_icon.png";
+		const Char* const	ICON_ERROR	= "error_icon.png";
+
 
 	public:
 		ConsolePanel();

@@ -12,7 +12,6 @@ local currSpeed
 local ballSize
 local canBounce
 
-
 function OnStart()
 	transform = GAMEOBJECT:GetComponent_Transform()
 	

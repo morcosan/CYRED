@@ -13,6 +13,7 @@ const Char* const EditorSettings::FILE_PATH_CONFIG		= "Editor/editor.config";
 
 const Char* const EditorSettings::DIR_PATH_SKINS		= "Editor/Skins/";
 const Char* const EditorSettings::DIR_PATH_ICONS_ASSETS	= "Editor/Icons/Assets/";
+const Char* const EditorSettings::DIR_PATH_ICONS_LAYOUT	= "Editor/Icons/Layout/";
 
 const Char* const EditorSettings::DIR_DEFALUT_ASSETS	= "DefaultAssets/";
 

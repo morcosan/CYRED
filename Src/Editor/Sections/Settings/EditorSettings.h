@@ -16,6 +16,7 @@ namespace CYRED
 
 		static const Char* const DIR_PATH_SKINS;		/* directory for skins			*/
 		static const Char* const DIR_PATH_ICONS_ASSETS;		
+		static const Char* const DIR_PATH_ICONS_LAYOUT;		
 
 		static const Char* const DIR_DEFALUT_ASSETS;		
 

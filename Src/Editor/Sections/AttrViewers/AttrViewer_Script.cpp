@@ -85,7 +85,7 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 	// add functions
 	_OpenGroup( GROUP_FUNCTIONS );
 	{
-		Iterator<String, DataArray<luabridge::LuaRef*>> iter = _target->GetFuncListIterator();
+		Iterator<String, DataArray<Script::LuaFunc>> iter = _target->GetFuncListIterator();
 		while ( iter.HasNext() ) {
 			FiniteString attrName( "%s%s", _target->GetUniqueID(), iter.GetKey().GetChar() );
 			_CreateAttrLabel( attrName.GetChar(), iter.GetKey().GetChar() );
