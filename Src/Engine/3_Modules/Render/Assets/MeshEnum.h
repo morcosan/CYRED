@@ -20,6 +20,7 @@ namespace CYRED
 		enum Enum
 		{
 			EXTERNAL
+			, SCRIPTED
 			, GEN_QUAD
 			, GEN_CUBE
 		};

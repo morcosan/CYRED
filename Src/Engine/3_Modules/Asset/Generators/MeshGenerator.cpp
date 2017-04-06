@@ -72,7 +72,6 @@ void MeshGenerator::GenerateCube( OUT Mesh* mesh )
 	indices.Add(20); indices.Add(22); indices.Add(23);
 
 
-	mesh->SetMeshType( MeshType::POLYGON );
 	mesh->SetVertices( vertices );
 	mesh->SetIndices( indices );
 }
@@ -93,7 +92,6 @@ void MeshGenerator::GenerateQuad( OUT Mesh* mesh )
 	indices.Add(0); indices.Add(1); indices.Add(2);
 	indices.Add(0); indices.Add(2); indices.Add(3);
 
-	mesh->SetMeshType( MeshType::POLYGON );
 	mesh->SetVertices( vertices );
 	mesh->SetIndices( indices );
 }

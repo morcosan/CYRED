@@ -1,0 +1,7 @@
+{
+    "uid": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+    "mesh_type": "POLYGON",
+    "load_type": "SCRIPTED",
+    "clear_buffers_on_bind": true,
+    "file_path": "QuadMesh.lua"
+}

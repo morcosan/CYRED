@@ -31,7 +31,7 @@ namespace CYRED
 
 	public:
 		//! must be called in order for mesh to work
-		void BindToGPU		();
+		void BindToGPU	();
 
 		MeshType		GetMeshType				() const;		
 		MeshLoadType	GetLoadType				() const;		

@@ -292,9 +292,8 @@ void ForwardTechnique::_RenderParticles( GameObject* gameObject )
 	}
 
 	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
-	Transform*		objTran	= gameObject->GetComponent<Transform>();
-	if ( emitter == NULL || objTran == NULL || 
-		!emitter->IsEnabled() || !objTran->IsEnabled() )
+	Transform*			objTran	= gameObject->GetComponent<Transform>();
+	if ( emitter == NULL || objTran == NULL || !emitter->IsEnabled() || !objTran->IsEnabled() )
 	{
 		return;
 	}

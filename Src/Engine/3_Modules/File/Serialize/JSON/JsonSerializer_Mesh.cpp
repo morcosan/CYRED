@@ -55,7 +55,13 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( void* object )
 
 		case MeshLoadType::EXTERNAL:
 			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
-							rapidjson::StringRef( LOAD_TYPE_EXT ),
+							rapidjson::StringRef( LOAD_TYPE_EXTERNAL ),
+							_al );
+			break;
+
+		case MeshLoadType::SCRIPTED:
+			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+							rapidjson::StringRef( LOAD_TYPE_SCRIPTED ),
 							_al );
 			break;
 	}
@@ -63,7 +69,8 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( void* object )
 	switch ( mesh->GetLoadType() )
 	{
 		case MeshLoadType::EXTERNAL:
-			json.AddMember( rapidjson::StringRef( EXT_FILE_PATH ),
+		case MeshLoadType::SCRIPTED:
+			json.AddMember( rapidjson::StringRef( FILE_PATH ),
 							rapidjson::StringRef( mesh->GetExternalPath() ),
 							_al );
 			break;
@@ -112,8 +119,11 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 	if ( json.HasMember( LOAD_TYPE ) ) {
 		FiniteString type( json[LOAD_TYPE].GetString() );
 
-		if ( type == LOAD_TYPE_EXT ) {
+		if ( type == LOAD_TYPE_EXTERNAL ) {
 			mesh->SetLoadType( MeshLoadType::EXTERNAL );
+		}
+		else if ( type == LOAD_TYPE_SCRIPTED ) {
+			mesh->SetLoadType( MeshLoadType::SCRIPTED );
 		}
 		else if ( type == LOAD_TYPE_CUBE ) {
 			mesh->SetLoadType( MeshLoadType::GEN_CUBE );
@@ -123,9 +133,9 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 	}
 
-	if ( json.HasMember( EXT_FILE_PATH ) )
+	if ( json.HasMember( FILE_PATH ) )
 	{
-		mesh->SetExternalPath( json[EXT_FILE_PATH].GetString() );
+		mesh->SetExternalPath( json[FILE_PATH].GetString() );
 	}
 
 	if ( json.HasMember( CLEAR_BUFFER ) )

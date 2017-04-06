@@ -123,8 +123,25 @@ void Mesh::BindToGPU()
 				FileManager::Singleton()->ImportMesh( fileData, fileSize, _vertices, _indices );
 			}
 
+			// free string memory
 			Memory::FreeArray( fileData );
 
+			// store total indices
+			_numIndices = _indices.Size();
+		}
+	}
+	else if ( _loadType == MeshLoadType::SCRIPTED ) {
+		if ( _externalPath.GetLength() > 0 ) {
+			FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
+
+			Int fileSize;
+			Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+
+			
+			// free string memory
+			Memory::FreeArray( fileData );
+
+			// store total indices
 			_numIndices = _indices.Size();
 		}
 	}
