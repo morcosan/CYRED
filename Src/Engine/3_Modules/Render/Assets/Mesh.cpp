@@ -6,12 +6,23 @@
 #include "../../Event/EventManager.h"
 #include "../../File/FileManager.h"
 #include "../../Asset/AssetManager.h"
+#include "../../Script/ScriptManager.h"
+#include "../../Debug/DebugManager.h"
 #include "../../File/Sections/MeshLoader.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
 
 
-using namespace CYRED;
+extern "C" 
+{
+	#include "Lua_523\Include\lua.h"
+	#include "Lua_523\Include\lauxlib.h"
+	#include "Lua_523\Include\lualib.h"
+};
 
+#include "LuaBridge\Include\LuaBridge.h"
+
+
+using namespace CYRED;
 
 
 Mesh::Mesh()
@@ -98,7 +109,7 @@ Asset* Mesh::Clone()
 }
 
 
-const Char* CYRED::Mesh::GetExtension()
+const Char* Mesh::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MESH;
@@ -137,7 +148,44 @@ void Mesh::BindToGPU()
 			Int fileSize;
 			Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 
-			
+			// execute script
+
+			// get lua state
+			lua_State* L = ScriptManager::Singleton()->GetLuaState();
+
+			// bind global this
+			luabridge::LuaRef thisRef( L, this );
+			luabridge::setGlobal( L, thisRef, GLOBAL_THIS );
+
+			// load script data
+			switch ( luaL_loadstring( L, fileData ) ) {
+				case LUA_ERRSYNTAX:
+				{
+					// syntax error
+					DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
+					break;
+				}
+
+				case LUA_OK:
+				{
+					// script loaded
+					// run lua
+					if ( lua_pcall( L, 0, 0, 0 ) ) {
+						// run error
+						DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
+
+						// clear lists
+						ClearVertices();
+						ClearIndices();
+
+						break;
+					}
+					else {
+						// run lua: success
+					}
+				}
+			}
+
 			// free string memory
 			Memory::FreeArray( fileData );
 
@@ -267,5 +315,29 @@ void Mesh::SetExternalPath( const Char* filePath )
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
+}
+
+
+void Mesh::ClearVertices()
+{
+	_vertices.Clear();
+}
+
+
+void Mesh::AddVertex( Vertex vertex )
+{
+	_vertices.Add( vertex );
+}
+
+
+void Mesh::ClearIndices()
+{
+	_indices.Clear();
+}
+
+
+void Mesh::AddIndex( UInt index )
+{
+	_indices.Add( index );
 }
 

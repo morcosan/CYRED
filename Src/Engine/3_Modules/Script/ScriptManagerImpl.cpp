@@ -99,6 +99,7 @@ void ScriptManagerImpl::Initialize()
 	_RegisterVector4();
 	_RegisterMatrix4();
 	_RegisterQuaternion();
+	_RegisterVertex();
 }
 
 
@@ -414,6 +415,10 @@ void ScriptManagerImpl::_RegisterMesh()
 {
 	luabridge::getGlobalNamespace( _L )
 	.deriveClass<Mesh, Asset>( "Mesh" )
+		.addFunction( "ClearVertices",	&Mesh::ClearVertices )
+		.addFunction( "AddVertex",		&Mesh::AddVertex )
+		.addFunction( "ClearIndices",	&Mesh::ClearIndices )
+		.addFunction( "AddIndex",		&Mesh::AddIndex )
 	.endClass ();
 }
 
@@ -514,5 +519,14 @@ void ScriptManagerImpl::_RegisterQuaternion()
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<Quaternion>( "Quaternion" )
 		.addConstructor <void (*) ()> ()
+	.endClass();
+}
+
+
+void ScriptManagerImpl::_RegisterVertex()
+{
+	luabridge::getGlobalNamespace( _L )
+	.beginClass<Vertex>( "Vertex" )
+		.addConstructor <void (*) (Vector3, Vector4, Vector3, Vector2, Vector3, Vector3)> ()
 	.endClass();
 }

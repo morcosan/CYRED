@@ -21,6 +21,7 @@ void AttrViewer_Mesh::_OnInitialize()
 
 	DataArray<const Char*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
+	loadTypes.Add( LOAD_TYPE_SCRIPTED );
 	loadTypes.Add( LOAD_TYPE_GEN_CUBE );
 	loadTypes.Add( LOAD_TYPE_GEN_QUAD );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
@@ -65,12 +66,16 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 				typeIndex = 0;
 				break;
 
-			case MeshLoadType::GEN_CUBE:
+			case MeshLoadType::SCRIPTED:
 				typeIndex = 1;
 				break;
 
-			case MeshLoadType::GEN_QUAD:
+			case MeshLoadType::GEN_CUBE:
 				typeIndex = 2;
+				break;
+
+			case MeshLoadType::GEN_QUAD:
+				typeIndex = 3;
 				break;
 		}
 		_WriteAttrDropdown( ATTR_LOAD_TYPE, typeIndex );
@@ -81,6 +86,7 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 	switch ( _target->GetLoadType() )
 	{
 		case MeshLoadType::EXTERNAL:
+		case MeshLoadType::SCRIPTED:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetExternalPath() );
 			break;
 
@@ -107,12 +113,13 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 			case 0:
 				_target->SetLoadType( MeshLoadType::EXTERNAL );
 				break;
-
 			case 1:
+				_target->SetLoadType( MeshLoadType::SCRIPTED );
+				break;
+			case 2:
 				_target->SetLoadType( MeshLoadType::GEN_CUBE );
 				break;
-
-			case 2:
+			case 3:
 				_target->SetLoadType( MeshLoadType::GEN_QUAD );
 				break;
 		}
@@ -127,21 +134,17 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 		switch ( typeIndex )
 		{
 			case 0:
-			{
 				_target->SetMeshType( MeshType::LINE );
 				break;
-			}
-
 			case 1:
-			{
 				_target->SetMeshType( MeshType::POLYGON );
 				break;
-			}
 		}
 
 		switch ( _target->GetLoadType() )
 		{
 			case MeshLoadType::EXTERNAL:
+			case MeshLoadType::SCRIPTED:
 				_target->SetExternalPath( _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
 				break;
 
@@ -163,6 +166,7 @@ void AttrViewer_Mesh::_ChangeVisibility()
 	switch ( _target->GetLoadType() )
 	{
 		case MeshLoadType::EXTERNAL:
+		case MeshLoadType::SCRIPTED:
 			_SetAttrVisibility( ATTR_FILE_PATH, TRUE );
 			break;
 

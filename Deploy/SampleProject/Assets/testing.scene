@@ -3,7 +3,7 @@
     "game_objects": [
         {
             "name": "Mesh",
-            "enabled": true,
+            "enabled": false,
             "components": {
                 "transform": {
                     "enabled": true,
@@ -61,7 +61,7 @@
         },
         {
             "name": "Morph",
-            "enabled": true,
+            "enabled": false,
             "components": {
                 "transform": {
                     "enabled": true,
@@ -176,6 +176,35 @@
                     "fovy_angle": 60.0,
                     "near_clipping": 0.100,
                     "far_clipping": 200.0
+                }
+            }
+        },
+        {
+            "name": "Quad",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
                 }
             }
         }

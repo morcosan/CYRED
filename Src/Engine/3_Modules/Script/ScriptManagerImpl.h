@@ -62,6 +62,7 @@ namespace CYRED
 			void _RegisterVector4();
 			void _RegisterMatrix4();
 			void _RegisterQuaternion();
+			void _RegisterVertex();
 		};
 	}
 }

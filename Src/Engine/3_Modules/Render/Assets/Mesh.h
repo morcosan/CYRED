@@ -16,6 +16,9 @@ namespace CYRED
 {
 	class DLL Mesh : public Asset
 	{
+		const Char* GLOBAL_THIS	= "MESH";
+
+
 	public:
 		Mesh();
 		virtual ~Mesh();
@@ -47,6 +50,11 @@ namespace CYRED
 		void SetIndices				( DataArray<UInt>& indices );
 		void SetClearBuffersOnBind	( Bool value );
 		void SetExternalPath		( const Char* filePath );
+
+		void ClearVertices	();
+		void AddVertex		( Vertex vertex );
+		void ClearIndices	();
+		void AddIndex		( UInt index );
 
 
 	protected:

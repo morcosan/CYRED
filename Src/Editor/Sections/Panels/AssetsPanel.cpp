@@ -434,11 +434,50 @@ void AssetsPanel::A_LoadScene()
 
 void AssetsPanel::A_Create_Folder()
 {
-	QTreeWidgetItem* item = _qtTree->currentItem();
+	QTreeWidgetItem* parentItem = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	_AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::UNKNOWN );
+	QString dirPath = (parentItem != NULL) ? parentItem->whatsThis( 1 ).append( "/" ) 
+										   : ProjectSettings::dirPathAssets.GetChar();
+
+	// generate name
+	// find new name
+	Int nextIndex = -1;
+	FiniteString folderName;
+	FiniteString folderPath;
+
+	do {
+		nextIndex++;
+		folderName.Set( "%s%d", MENU_C_FOLDER, nextIndex );
+		folderPath.Set( "%s%s", dirPath.toUtf8().constData(), folderName.GetChar() );
+
+		// check if exists
+		QDir dir( folderPath.GetChar() );
+
+		// if not existing, create dir and break loop
+		if ( !dir.exists() ) {
+			dir.mkpath( "." );
+			break;
+		}
+	} 
+	while ( true );
+
+	// create folder
+	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+	treeItem->setText( 0, folderName.GetChar() );
+	treeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
+	treeItem->setWhatsThis( 1, folderPath.GetChar() ); 
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled |
+						Qt::ItemIsEditable );
+	treeItem->setIcon( 0, _icons.Get( ICON_FOLDER ) );
+
+	if ( parentItem != NULL ) {
+		parentItem->addChild( treeItem );
+		parentItem->setExpanded( TRUE );
+	}
+	else {
+		_qtTree->addTopLevelItem( treeItem );
+	}
 }
 
 
@@ -861,7 +900,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 								  AssetType assetType )
 {
 	Asset*		asset		= NULL;
-	const Char* extension	= NULL;
 	const Char* icon		= NULL;
 
 	switch ( assetType )
@@ -879,7 +917,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = material;
 			icon = ICON_MATERIAL;
-			extension = FileManager::FILE_FORMAT_MATERIAL;
 			break;
 		}
 
@@ -896,7 +933,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = mesh;
 			icon = ICON_MESH;
-			extension = FileManager::FILE_FORMAT_MESH;
 			break;
 		}
 
@@ -913,7 +949,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = morph;
 			icon = ICON_MORPH;
-			extension = FileManager::FILE_FORMAT_MORPH;
 			break;
 		}
 
@@ -930,7 +965,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = script;
 			icon = ICON_SCRIPT;
-			extension = FileManager::FILE_FORMAT_SCRIPT;
 			break;
 		}
 
@@ -947,7 +981,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = shader;
 			icon = ICON_SHADER;
-			extension = FileManager::FILE_FORMAT_SHADER;
 			break;
 		}
 
@@ -964,7 +997,6 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 
 			asset = texture;
 			icon = ICON_TEXTURE;
-			extension = FileManager::FILE_FORMAT_TEXTURE;
 			break;
 		}
 	}
@@ -1322,7 +1354,7 @@ void AssetsPanel::_SetAvailableName( Asset* asset )
 	}
 
 	// find new name
-	UInt assetIndex = -1;
+	Int assetIndex = -1;
 	do {
 		assetIndex++;
 		FiniteString fileName( "%s%d", baseName, assetIndex );
