@@ -1,0 +1,7 @@
+{
+    "uid": "pxMbWHcjTNFY1diqDsDPDouxNJ9cM0fh",
+    "mesh_type": "POLYGON",
+    "load_type": "SCRIPTED",
+    "file_path": "PlaneMesh.lua",
+    "clear_buffers_on_bind": true
+}

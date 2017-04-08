@@ -1,0 +1,7 @@
+{
+    "uid": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
+    "mesh_type": "POLYGON",
+    "load_type": "SCRIPTED",
+    "file_path": "SphereMesh.lua",
+    "clear_buffers_on_bind": true
+}
