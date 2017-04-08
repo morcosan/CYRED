@@ -41,18 +41,6 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( void* object )
 
 	switch ( mesh->GetLoadType() )
 	{
-		case MeshLoadType::GEN_CUBE:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
-							rapidjson::StringRef( LOAD_TYPE_CUBE ),
-							_al );
-			break;
-
-		case MeshLoadType::GEN_QUAD:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
-							rapidjson::StringRef( LOAD_TYPE_QUAD ),
-							_al );
-			break;
-
 		case MeshLoadType::EXTERNAL:
 			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
 							rapidjson::StringRef( LOAD_TYPE_EXTERNAL ),
@@ -124,12 +112,6 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 		else if ( type == LOAD_TYPE_SCRIPTED ) {
 			mesh->SetLoadType( MeshLoadType::SCRIPTED );
-		}
-		else if ( type == LOAD_TYPE_CUBE ) {
-			mesh->SetLoadType( MeshLoadType::GEN_CUBE );
-		}
-		else if ( type == LOAD_TYPE_QUAD ) {
-			mesh->SetLoadType( MeshLoadType::GEN_QUAD );
 		}
 	}
 

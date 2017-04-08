@@ -1,7 +1,7 @@
 {
     "uid": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
     "mesh_type": "POLYGON",
-    "load_type": "SCRIPTED",
+    "load_type": "EXTERNAL",
     "file_path": "CubeMesh.lua",
     "clear_buffers_on_bind": true
 }

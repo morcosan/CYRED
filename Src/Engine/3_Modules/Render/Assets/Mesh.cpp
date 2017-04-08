@@ -193,14 +193,12 @@ void Mesh::BindToGPU()
 			_numIndices = _indices.Size();
 		}
 	}
-	else {
-		AssetManager::Singleton()->GenerateMesh( _loadType, this );
-	}
 
+	// create buffers
 	NotAPI::RenderManagerImpl::Singleton()->CreateMeshBuffers( _vbo, _ibo, _vertices, _indices );
 
-	if ( _clearBuffersOnBind )
-	{
+	// clear data
+	if ( _clearBuffersOnBind ) {
 		_vertices.Clear();
 		_indices.Clear();
 	}

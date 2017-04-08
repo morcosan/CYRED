@@ -14,15 +14,6 @@ namespace CYRED
 {
 	namespace NotAPI
 	{
-		class MeshGenerator;
-	}
-}
-
-
-namespace CYRED
-{
-	namespace NotAPI
-	{
 		class AssetManagerImpl : public AssetManager
 		{
 			DECLARE_LOCAL_SINGLETON_IMPL( AssetManagerImpl )
@@ -71,8 +62,6 @@ namespace CYRED
 			UInt		GetScriptCount	()							override;
 			Script*		GetScriptAt		( UInt index )				override;
 
-			void		GenerateMesh	( MeshLoadType loadType, OUT Mesh* mesh )	override;
-
 
 		protected:
 			DataArray<Material*>	_materials;
@@ -82,8 +71,6 @@ namespace CYRED
 			DataArray<Texture*>		_textures;
 			DataArray<Scene*>		_scenes;
 			DataArray<Script*>		_scripts;
-
-			MeshGenerator*			_meshGenerator;
 		};
 	}
 }

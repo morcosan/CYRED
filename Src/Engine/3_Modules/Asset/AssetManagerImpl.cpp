@@ -11,7 +11,6 @@
 #include "../Render/Assets/Shader.h"
 #include "../Scene/Sections/Scene.h"
 #include "../Script/Assets/Script.h"
-#include "Generators\MeshGenerator.h"
 
 
 using namespace CYRED;
@@ -20,7 +19,6 @@ using namespace NotAPI;
 
 //! deferred definition
 DEFINE_LOCAL_SINGLETON( AssetManager, AssetManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( AssetManagerImpl )
 
 
@@ -28,9 +26,6 @@ void AssetManagerImpl::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
-
-	// create generator
-	_meshGenerator = Memory::Alloc<MeshGenerator>();
 }
 
 
@@ -40,8 +35,6 @@ void AssetManagerImpl::Finalize()
 	{
 		return;
 	}
-
-	Memory::Free( _meshGenerator );
 }
 
 
@@ -481,21 +474,5 @@ Script* AssetManagerImpl::GetScriptAt( UInt index )
 	ASSERT( _isInitialized );
 	ASSERT( index < _scripts.Size() );
 	return _scripts[index];
-}
-
-
-void AssetManagerImpl::GenerateMesh( MeshLoadType loadType, OUT Mesh* mesh )
-{
-	ASSERT( _isInitialized );
-
-	switch ( loadType ) {
-		case MeshLoadType::GEN_CUBE:
-			_meshGenerator->GenerateCube( mesh );
-			break;
-
-		case MeshLoadType::GEN_QUAD:
-			_meshGenerator->GenerateQuad( mesh );
-			break;
-	}
 }
 

@@ -81,8 +81,5 @@ namespace CYRED
 
 		virtual UInt		GetScriptCount	()				PURE_VIRTUAL;
 		virtual Script*		GetScriptAt		( UInt index )	PURE_VIRTUAL;
-
-		virtual void		GenerateMesh	( MeshLoadType loadType, OUT Mesh* mesh )	PURE_VIRTUAL;
-
 	};
 }

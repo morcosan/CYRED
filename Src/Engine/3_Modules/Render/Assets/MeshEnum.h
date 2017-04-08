@@ -21,8 +21,6 @@ namespace CYRED
 		{
 			EXTERNAL
 			, SCRIPTED
-			, GEN_QUAD
-			, GEN_CUBE
 		};
 	}
 

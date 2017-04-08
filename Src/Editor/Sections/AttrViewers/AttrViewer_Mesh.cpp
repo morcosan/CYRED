@@ -22,8 +22,6 @@ void AttrViewer_Mesh::_OnInitialize()
 	DataArray<const Char*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
 	loadTypes.Add( LOAD_TYPE_SCRIPTED );
-	loadTypes.Add( LOAD_TYPE_GEN_CUBE );
-	loadTypes.Add( LOAD_TYPE_GEN_QUAD );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
 	_CreateAttrString	( ATTR_FILE_PATH, ATTR_FILE_PATH );
@@ -69,14 +67,6 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 			case MeshLoadType::SCRIPTED:
 				typeIndex = 1;
 				break;
-
-			case MeshLoadType::GEN_CUBE:
-				typeIndex = 2;
-				break;
-
-			case MeshLoadType::GEN_QUAD:
-				typeIndex = 3;
-				break;
 		}
 		_WriteAttrDropdown( ATTR_LOAD_TYPE, typeIndex );
 	}
@@ -89,13 +79,7 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 		case MeshLoadType::SCRIPTED:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetExternalPath() );
 			break;
-
-		case MeshLoadType::GEN_CUBE:
-		case MeshLoadType::GEN_QUAD:
-			break;
 	}
-
-	_ChangeVisibility();
 }
 
 
@@ -116,15 +100,7 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 			case 1:
 				_target->SetLoadType( MeshLoadType::SCRIPTED );
 				break;
-			case 2:
-				_target->SetLoadType( MeshLoadType::GEN_CUBE );
-				break;
-			case 3:
-				_target->SetLoadType( MeshLoadType::GEN_QUAD );
-				break;
 		}
-
-		_ChangeVisibility();
 	}
 	else
 	{
@@ -147,10 +123,6 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 			case MeshLoadType::SCRIPTED:
 				_target->SetExternalPath( _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
 				break;
-
-			case MeshLoadType::GEN_CUBE:
-			case MeshLoadType::GEN_QUAD:
-				break;
 		}
 	}
 
@@ -159,23 +131,3 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, _target );
 }
-
-
-void AttrViewer_Mesh::_ChangeVisibility()
-{
-	switch ( _target->GetLoadType() )
-	{
-		case MeshLoadType::EXTERNAL:
-		case MeshLoadType::SCRIPTED:
-			_SetAttrVisibility( ATTR_FILE_PATH, TRUE );
-			break;
-
-		case MeshLoadType::GEN_CUBE:
-		case MeshLoadType::GEN_QUAD:
-			_SetAttrVisibility( ATTR_FILE_PATH, FALSE );
-			break;
-	}
-
-	_UpdateVisibility();
-}
-
