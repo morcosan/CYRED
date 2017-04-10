@@ -55,8 +55,7 @@ rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
 }
 
 
-void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
-										 DeserFlag flag )
+void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, DeserFlag flag )
 {
 	Camera* camera = CAST_S( Camera*, object );
 
@@ -75,7 +74,7 @@ void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object,
 		{
 			camera->SetCameraType( CameraType::PERSPECTIVE );
 		}
-		if ( type == Camera::TYPE_ORTHOGRAPHIC )
+		else if ( type == Camera::TYPE_ORTHOGRAPHIC )
 		{
 			camera->SetCameraType( CameraType::ORTHOGRAPHIC );
 		}

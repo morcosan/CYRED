@@ -176,5 +176,6 @@
     <ClCompile Include="3_Modules\File\Sections\MeshLoader.cpp" />
     <ClCompile Include="3_Modules\Input\Sections\InputReceiver.cpp" />
     <ClCompile Include="3_Modules\Scene\Sections\Scene.cpp" />
+    <ClCompile Include="3_Modules\Render\Components\Light.cpp" />
   </ItemGroup>
 </Project>

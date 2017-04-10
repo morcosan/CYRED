@@ -11,6 +11,7 @@
 #include "..\AttrViewers\AttrViewer_GameObject.h"
 #include "..\AttrViewers\AttrViewer_Transform.h"
 #include "..\AttrViewers\AttrViewer_Camera.h"
+#include "..\AttrViewers\AttrViewer_Light.h"
 #include "..\AttrViewers\AttrViewer_ParticleEmitter.h"
 #include "..\AttrViewers\AttrViewer_MeshRendering.h"
 #include "..\AttrViewers\AttrViewer_MorphRendering.h"
@@ -78,6 +79,7 @@ void AttributePanel::Initialize()
 
 	SetAttrViewer( ATTR_TRANSFORM,			Memory::Alloc<AttrViewer_Transform>() );
 	SetAttrViewer( ATTR_CAMERA,				Memory::Alloc<AttrViewer_Camera>() );
+	SetAttrViewer( ATTR_LIGHT,				Memory::Alloc<AttrViewer_Light>() );
 	SetAttrViewer( ATTR_PARTICLES_EMITTER,	Memory::Alloc<AttrViewer_ParticleEmitter>() );
 	SetAttrViewer( ATTR_MESH_RENDERING,		Memory::Alloc<AttrViewer_MeshRendering>() );
 	SetAttrViewer( ATTR_MORPH_RENDERING,	Memory::Alloc<AttrViewer_MorphRendering>() );

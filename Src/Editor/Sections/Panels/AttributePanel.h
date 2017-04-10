@@ -22,6 +22,7 @@ namespace CYRED
 		const Char* const	ATTR_GAMEOBJECT			= "GameObject";
 		const Char* const	ATTR_TRANSFORM			= "Transform";
 		const Char* const	ATTR_CAMERA				= "Camera";
+		const Char* const	ATTR_LIGHT				= "Light";
 		const Char* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
 		const Char* const	ATTR_MESH_RENDERING		= "MeshRendering";
 		const Char* const	ATTR_MORPH_RENDERING	= "MorphRendering";

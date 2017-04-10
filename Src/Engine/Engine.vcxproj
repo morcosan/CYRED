@@ -150,6 +150,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Render\Assets\Morph.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Texture.cpp" />
     <ClCompile Include="3_Modules\Render\Components\Camera.cpp" />
+    <ClCompile Include="3_Modules\Render\Components\Light.cpp" />
     <ClCompile Include="3_Modules\Render\Components\MeshRendering.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Material.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Mesh.cpp" />
