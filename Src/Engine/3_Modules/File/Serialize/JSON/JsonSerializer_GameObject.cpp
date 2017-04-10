@@ -6,12 +6,14 @@
 #include "../../../../2_BuildingBlocks/Component.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../Render/Components/Camera.h"
+#include "../../../Render/Components/Light.h"
 #include "../../../Render/Components/ParticleEmitter.h"
 #include "../../../Render/Components/MeshRendering.h"
 #include "../../../Render/Components/MorphRendering.h"
 #include "../../../Script/Components/Scripter.h"
 #include "JsonSerializer_Transform.h"
 #include "JsonSerializer_Camera.h"
+#include "JsonSerializer_Light.h"
 #include "JsonSerializer_ParticleEmitter.h"
 #include "JsonSerializer_MeshRendering.h"
 #include "JsonSerializer_MorphRendering.h"
@@ -56,6 +58,12 @@ rapidjson::Value JsonSerializer_GameObject::ToJson( void* object )
 			else if ( comp->GetComponentType() == ComponentType::CAMERA ) {
 				JsonSerializer_Camera serializer;
 				objectNode.AddMember( rapidjson::StringRef( CAMERA ), 
+									  serializer.ToJson( comp ),
+									  _al );
+			}
+			else if ( comp->GetComponentType() == ComponentType::LIGHT ) {
+				JsonSerializer_Light serializer;
+				objectNode.AddMember( rapidjson::StringRef( LIGHT ), 
 									  serializer.ToJson( comp ),
 									  _al );
 			}

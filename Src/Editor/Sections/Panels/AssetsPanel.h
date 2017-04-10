@@ -19,8 +19,9 @@ namespace CYRED
 {
 	class AssetsPanel : public Panel, public IEventListener
 	{
-		const Char* const	PANEL_TITLE = "Assets Panel";
-		const Vector2		MIN_SIZE	= Vector2( 200, 100 );
+		const Char* const	PANEL_TITLE		= "Assets Panel";
+		const Vector2		MIN_SIZE		= Vector2( 200, 100 );
+		const Vector2		MAX_SIZE		= Vector2( 300, 1000 );
 
 		const Char* const	ICON_SCENE		= "scene_icon";
 		const Char* const	ICON_FOLDER		= "folder_icon";

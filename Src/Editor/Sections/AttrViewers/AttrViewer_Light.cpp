@@ -22,7 +22,7 @@ void AttrViewer_Light::_OnInitialize()
 {
 	_CreateAttrDropdown	( ATTR_LIGHT_TYPE, ATTR_LIGHT_TYPE, _lightTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
-	_CreateAttrFloat	( ATTR_COLOR,		ATTR_COLOR );
+	_CreateAttrVector3	( ATTR_COLOR,		ATTR_COLOR );
 	_CreateAttrFloat	( ATTR_INTENSITY,	ATTR_INTENSITY );
 	_CreateAttrFloat	( ATTR_RANGE,		ATTR_RANGE );
 	_CreateAttrFloat	( ATTR_SPOT_ANGLE,	ATTR_SPOT_ANGLE );
@@ -85,7 +85,7 @@ void AttrViewer_Light::_OnUpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, _target );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, _target );
 }
 
 

@@ -421,8 +421,7 @@ void AttributePanel::_DisplayGameObject()
 	Node* node = CAST_S( Node*, _target );
 	GameObject* selectedGO = CAST_D( GameObject*, node );
 
-	if ( selectedGO != NULL )
-	{
+	if ( selectedGO != NULL ) {
 		{
 			ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
@@ -433,8 +432,7 @@ void AttributePanel::_DisplayGameObject()
 		}
 		{
 			Component* comp = selectedGO->GetComponent<Transform>();
-			if ( comp != NULL )
-			{
+			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_TRANSFORM );
 				atttrViewer->needsRefresh = TRUE;
@@ -445,8 +443,7 @@ void AttributePanel::_DisplayGameObject()
 		}
 		{
 			Component* comp = selectedGO->GetComponent<Camera>();
-			if ( comp != NULL )
-			{
+			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CAMERA );
 				atttrViewer->needsRefresh = TRUE;
@@ -456,9 +453,19 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
+			Component* comp = selectedGO->GetComponent<Light>();
+			if ( comp != NULL )	{
+				ASSERT( _attrViewers.Has( ATTR_LIGHT ) );
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_LIGHT );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
 			Component* comp = selectedGO->GetComponent<ParticleEmitter>();
-			if ( comp != NULL )
-			{
+			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
 				atttrViewer->needsRefresh = TRUE;
@@ -469,8 +476,7 @@ void AttributePanel::_DisplayGameObject()
 		}
 		{
 			Component* comp = selectedGO->GetComponent<MeshRendering>();
-			if ( comp != NULL )
-			{
+			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MESH_RENDERING );
 				atttrViewer->needsRefresh = TRUE;
@@ -481,8 +487,7 @@ void AttributePanel::_DisplayGameObject()
 		}
 		{
 			Component* comp = selectedGO->GetComponent<MorphRendering>();
-			if ( comp != NULL )
-			{
+			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
 				atttrViewer->needsRefresh = TRUE;

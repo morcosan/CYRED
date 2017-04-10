@@ -3,19 +3,19 @@
     "game_objects": [
         {
             "name": "Mesh",
-            "enabled": false,
+            "enabled": true,
             "components": {
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": 5.0,
+                        "x": 7.0,
                         "y": 0.0,
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 180.0,
+                        "x": -180.0,
                         "y": -48.700,
-                        "z": 180.0
+                        "z": -180.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -61,12 +61,12 @@
         },
         {
             "name": "Morph",
-            "enabled": false,
+            "enabled": true,
             "components": {
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": -5.0,
+                        "x": -7.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -100,7 +100,7 @@
                     "position_world": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": 5.0
                     },
                     "rotation_world": {
                         "x": 90.0,
@@ -180,7 +180,36 @@
             }
         },
         {
-            "name": "Quad",
+            "name": "Plane",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": -2.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "pxMbWHcjTNFY1diqDsDPDouxNJ9cM0fh",
+                    "material": "DOvzKnuy4aN5a0fe3kINNejG1cVCQLmu"
+                }
+            }
+        },
+        {
+            "name": "Light",
             "enabled": true,
             "components": {
                 "transform": {
@@ -200,11 +229,6 @@
                         "y": 1.0,
                         "z": 1.0
                     }
-                },
-                "mesh_rendering": {
-                    "enabled": true,
-                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
-                    "material": "ERRZIeoxy0mp9FUDxH0orcMwNhWnrGvE"
                 }
             }
         }

@@ -107,8 +107,7 @@ void Camera::SetFovYAngle( Float value )
 	_fovYAngle = value;
 	_projectionChanged = true;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }
@@ -119,8 +118,7 @@ void Camera::SetNearClipping( Float value )
 	_nearClipping = value;
 	_projectionChanged = true;
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_CAMERA, this );
 	}
 }

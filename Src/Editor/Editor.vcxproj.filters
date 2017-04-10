@@ -50,6 +50,7 @@
     <ClCompile Include="Sections\SelectorPopup.cpp" />
     <ClCompile Include="Sections\Toolbar.cpp" />
     <ClCompile Include="EngineOverride\Input\InputReceiverQT.cpp" />
+    <ClCompile Include="Sections\AttrViewers\AttrViewer_Light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -102,5 +103,6 @@
     <ClInclude Include="Sections\SelectorPopup.h" />
     <ClInclude Include="Sections\Toolbar.h" />
     <ClInclude Include="EngineOverride\Input\InputReceiverQT.h" />
+    <ClInclude Include="Sections\AttrViewers\AttrViewer_Light.h" />
   </ItemGroup>
 </Project>

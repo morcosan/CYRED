@@ -81,31 +81,52 @@ const Char* Light::GetLightTypeString() const
 void Light::SetLightType( LightType value )
 {
 	_lightType = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, this );
+	}
 }
 
 
 void Light::SetColor( Vector3& value )
 {
 	_color = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, this );
+	}
 }
 
 
 void Light::SetIntensity( Float value )
 {
 	_intensity = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, this );
+	}
 }
 
 
 void Light::SetRange( Float value )
 {
 	_range = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, this );
+	}
 }
 
 
 void Light::SetSpotAngle( Float value )
 {
 	_spotAngle = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, this );
+	}
 }
+
 
 void Light::SetLightTypeString( const Char* value )
 {

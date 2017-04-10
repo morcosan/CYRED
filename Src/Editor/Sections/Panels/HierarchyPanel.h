@@ -18,6 +18,7 @@ namespace CYRED
 	{
 		const Char*	const	PANEL_TITLE			= "Hierarchy Panel";
 		const Vector2		MIN_SIZE			= Vector2( 200, 100 );
+		const Vector2		MAX_SIZE			= Vector2( 300, 1000 );
 
 		const Char* const	MSG_SAVE_SCENE		= "Save Scene";
 		const Char* const	FILE_FILTER_SCENE	= "Scene (*%s)";
@@ -34,6 +35,7 @@ namespace CYRED
 		const Char*	const	MENU_GO_3D			= "3D";
 		const Char*	const	MENU_GO_3D_PIVOT	= "Pivot";
 		const Char*	const	MENU_GO_3D_CAMERA	= "Camera";
+		const Char*	const	MENU_GO_3D_LIGHT	= "Light";
 		const Char*	const	MENU_GO_3D_MESH		= "Mesh";
 		const Char*	const	MENU_GO_3D_MORPH	= "Morph";
 		const Char*	const	MENU_GO_PS			= "Particles";
@@ -41,6 +43,7 @@ namespace CYRED
 
 		const Char* const	MENU_ADD_COMPONENT		= "Add Component";
 		const Char* const	MENU_COMP_CAMERA		= "Camera";
+		const Char* const	MENU_COMP_LIGHT			= "Light";
 		const Char* const	MENU_COMP_MESH_REN		= "Mesh Rendering";
 		const Char* const	MENU_COMP_MORPH_REN		= "Morph Rendering";
 		const Char* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
@@ -75,11 +78,13 @@ namespace CYRED
 		void A_GO_CreateEmpty		();
 		void A_GO_Create3D_Pivot	();
 		void A_GO_Create3D_Camera	();
+		void A_GO_Create3D_Light	();
 		void A_GO_Create3D_Mesh		();
 		void A_GO_Create3D_Morph	();
 		void A_GO_Particles_Emitter	();
 
 		void A_AddComp_Camera			();
+		void A_AddComp_Light			();
 		void A_AddComp_MeshRendering	();
 		void A_AddComp_MorphRendering	();
 		void A_AddComp_ParticlesEmitter	();

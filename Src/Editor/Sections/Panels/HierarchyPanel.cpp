@@ -75,6 +75,7 @@ HierarchyPanel::HierarchyPanel()
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
+	this->setMaximumSize( MAX_SIZE.x, MAX_SIZE.y );
 
 	_qtTree = Memory::Alloc<_QtTree>();
 	_qtTree->setHeaderHidden( true );
@@ -254,6 +255,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		_qtRightClickMenu->addSeparator();
 		QMenu* menu_AddComp = _qtRightClickMenu->addMenu( MENU_ADD_COMPONENT );
 		QAction* actionComp_Camera		= menu_AddComp->addAction( MENU_COMP_CAMERA );
+		QAction* actionComp_Light		= menu_AddComp->addAction( MENU_COMP_LIGHT );
 		QAction* actionComp_MeshRen		= menu_AddComp->addAction( MENU_COMP_MESH_REN );
 		QAction* actionComp_MorphRen	= menu_AddComp->addAction( MENU_COMP_MORPH_REN );
 		QAction* actionComp_PsEmitter	= menu_AddComp->addAction( MENU_COMP_PS_EMITTER );
@@ -264,6 +266,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 
 		QObject::connect( actionDuplicate,		&QAction::triggered, this, &HierarchyPanel::A_Duplicate );
 		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Camera );
+		QObject::connect( actionComp_Light,		&QAction::triggered, this, &HierarchyPanel::A_AddComp_Light );
 		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MeshRendering );
 		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MorphRendering );
 		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_ParticlesEmitter );
@@ -281,6 +284,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QMenu* menuGO_3D = menuGO->addMenu( MENU_GO_3D );
 		QAction* actionGO_3D_Pivot = menuGO_3D->addAction( MENU_GO_3D_PIVOT );
 		QAction* actionGO_3D_Camera = menuGO_3D->addAction( MENU_GO_3D_CAMERA );
+		QAction* actionGO_3D_Light = menuGO_3D->addAction( MENU_GO_3D_LIGHT );
 		QAction* actionGO_3D_Mesh = menuGO_3D->addAction( MENU_GO_3D_MESH );
 		QAction* actionGO_3D_Morph = menuGO_3D->addAction( MENU_GO_3D_MORPH );
 
@@ -290,6 +294,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionGO_Empty,		&QAction::triggered, this, &HierarchyPanel::A_GO_CreateEmpty );
 		QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Pivot );
 		QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Camera );
+		QObject::connect( actionGO_3D_Light,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Light );
 		QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Mesh );
 		QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Morph );
 		QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &HierarchyPanel::A_GO_Particles_Emitter );
@@ -525,6 +530,21 @@ void HierarchyPanel::A_GO_Create3D_Camera()
 }
 
 
+void HierarchyPanel::A_GO_Create3D_Light()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->scene != NULL );
+
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
+	newObject->SetName( MENU_GO_3D_LIGHT );
+
+	newObject->AddComponent<Light>();
+
+	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
+}
+
+
 void HierarchyPanel::A_GO_Create3D_Mesh()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
@@ -579,6 +599,16 @@ void HierarchyPanel::A_AddComp_Camera()
 
 	// add camera component
 	treeItem->gameObject->AddComponent<Camera>();
+}
+
+
+void HierarchyPanel::A_AddComp_Light()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add light component
+	treeItem->gameObject->AddComponent<Light>();
 }
 
 

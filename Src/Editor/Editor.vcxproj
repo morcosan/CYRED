@@ -90,6 +90,7 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Camera.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_CyredProj.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_GameObject.cpp" />
+    <ClCompile Include="Sections\AttrViewers\AttrViewer_Light.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Material.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Mesh.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_MeshRendering.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Camera.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_CyredProj.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_GameObject.h" />
+    <ClInclude Include="Sections\AttrViewers\AttrViewer_Light.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Material.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Mesh.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_MeshRendering.h" />
