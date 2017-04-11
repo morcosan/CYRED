@@ -1,5 +1,5 @@
 {
-    "uid": "3F70qXZBhFEq3XiIBie6IwVdpnqjJwx1",
+    "uid": "3F70qX5BhFEq3XiIBie6IwVdpnqjJwx1",
     "renderer": "FORWARD",
     "vertex_file_path": "CelShading_vert.glsl",
     "geometry_file_path": "CelShading_geom.glsl",

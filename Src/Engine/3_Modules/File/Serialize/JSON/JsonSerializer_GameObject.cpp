@@ -151,6 +151,12 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 				JsonSerializer_Camera serializer;
 				serializer.FromJson( iter->value, camera, DeserFlag::FULL );
 			}
+			else if ( comp == LIGHT ) {
+				Light* light = gameObject->AddComponent<Light>();
+
+				JsonSerializer_Light serializer;
+				serializer.FromJson( iter->value, light, DeserFlag::FULL );
+			}
 			else if ( comp == PARTICLE_EMITTER ) {
 				ParticleEmitter* emitter = gameObject->AddComponent<ParticleEmitter>();
 

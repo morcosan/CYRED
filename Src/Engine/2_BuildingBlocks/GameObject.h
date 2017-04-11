@@ -66,7 +66,7 @@ namespace CYRED
 
 		DataArray<Component*>	_components;
 
-		void _SentChangeEvent();
+		void _SendChangeEvent();
 	};
 
 
@@ -113,7 +113,7 @@ namespace CYRED
 		comp->SetEnabled( TRUE );
 
 		// emit change event
-		_SentChangeEvent();
+		_SendChangeEvent();
 
 		return onlyOneAllowed;
 	}
@@ -134,7 +134,7 @@ namespace CYRED
 				Memory::Free( onlyOneAllowed );
 
 				// emit change event
-				_SentChangeEvent();
+				_SendChangeEvent();
 
 				return;
 			}

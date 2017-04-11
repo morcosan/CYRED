@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": -180.0,
+                        "x": 180.0,
                         "y": -48.700,
-                        "z": -180.0
+                        "z": 180.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -229,6 +229,18 @@
                         "y": 1.0,
                         "z": 1.0
                     }
+                },
+                "light": {
+                    "enabled": true,
+                    "light_type": "SPOT",
+                    "range": 1.0,
+                    "spot_angle": 90.0,
+                    "color": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "intensity": 1.0
                 }
             }
         }

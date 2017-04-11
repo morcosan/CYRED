@@ -182,7 +182,7 @@ void GameObject::Clone( GameObject* clone ) const
 }
 
 
-void GameObject::_SentChangeEvent()
+void GameObject::_SendChangeEvent()
 {
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_GAMEOBJECT, this );
