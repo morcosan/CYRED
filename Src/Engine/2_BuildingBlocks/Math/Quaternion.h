@@ -29,14 +29,14 @@ namespace CYRED
 
 
 	public:
-		static Quaternion Inverse		( const Quaternion& other );
+		static Quaternion Inverse	( const Quaternion& other );
 		static Quaternion Normalize	( const Quaternion& other );
 
 
 	public:
-		Vector3 ToEulerAngles		()							const;
-		Matrix4 ToMatrix4			()							const;
-		Vector3 ApplyRotation		( const Vector3& other );
+		Vector3 ToEulerAngles	()							const;
+		Matrix4 ToMatrix4		()							const;
+		Vector3 ApplyRotation	( const Vector3& other );
 
 
 	protected:

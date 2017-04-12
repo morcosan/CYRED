@@ -15,7 +15,7 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			DIRECTIONAL
+			DIRECTIONAL = 0
 			, POINT
 			, SPOT
 		};

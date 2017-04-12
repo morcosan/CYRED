@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 180.0,
+                        "x": -180.0,
                         "y": -48.700,
-                        "z": 180.0
+                        "z": -180.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -84,7 +84,7 @@
                 "morph_rendering": {
                     "enabled": true,
                     "morph": "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN",
-                    "material": "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE",
+                    "material": "xYarO1jKggLPtCFMkgtcUD9LIoQ2XR6K",
                     "duration_state": 1.0,
                     "duration_state_change": 0.5,
                     "is_playing": true
@@ -220,7 +220,7 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 0.0,
+                        "x": -45.000,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -232,15 +232,18 @@
                 },
                 "light": {
                     "enabled": true,
-                    "light_type": "SPOT",
-                    "range": 1.0,
-                    "spot_angle": 90.0,
+                    "light_type": "DIRECTIONAL",
                     "color": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0
                     },
                     "intensity": 1.0
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                    "material": "chFbRmqXjq19ONmNQSKe4XA09mpXgnmn"
                 }
             }
         }

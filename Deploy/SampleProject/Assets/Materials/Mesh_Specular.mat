@@ -1,10 +1,20 @@
 {
-    "uid": "DOvzKnuy4aN5a0fe3kINNejG1cVCQLmu",
-    "shader": "qYgaWilUh1KooYAHpNSpjqW4UTMG81pC",
+    "uid": "I96XTmZelzzFz30hlHWxfCQ004kEjsUx",
+    "shader": "qYgaWilUh1KooYAgpNSpjqW8UTMG81pC",
     "wireframe": false,
     "line_width": 1.0,
     "cull_face": "CULL_BACK",
     "properties": [
+        {
+            "name": "specularPower",
+            "type": "FLOAT",
+            "value": 1.0
+        },
+        {
+            "name": "specularIntensity",
+            "type": "FLOAT",
+            "value": 1.0
+        },
         {
             "name": "diffuseColor",
             "type": "VEC4",
@@ -17,6 +27,11 @@
         },
         {
             "name": "diffuseTexture",
+            "type": "TEXTURE",
+            "value": "g8FCleDKR8C1okcciqsX5nOVzakl8Qr2"
+        },
+        {
+            "name": "specularTexture",
             "type": "TEXTURE",
             "value": "g8FCleDKR8C1okcciqsX5nOVzakl8Qr2"
         }

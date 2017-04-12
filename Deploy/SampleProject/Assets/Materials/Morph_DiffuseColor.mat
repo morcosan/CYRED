@@ -1,0 +1,19 @@
+{
+    "uid": "xYarO1jKggLPtCFMkgtcUD9LIoQ2XR6K",
+    "shader": "qYgaWilUh5KooYAHpNSpjqW4UTMG81pC",
+    "wireframe": false,
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
+    "properties": [
+        {
+            "name": "diffuseColor",
+            "type": "VEC4",
+            "value": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0,
+                "w": 1.0
+            }
+        }
+    ]
+}

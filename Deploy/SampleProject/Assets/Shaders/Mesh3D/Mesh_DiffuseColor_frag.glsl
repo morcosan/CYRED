@@ -20,29 +20,18 @@ struct Light
 uniform int 	DEFAULT_lightsCount;
 uniform Light 	DEFAULT_lights[ MAX_LIGHTS ];
 uniform vec3 	DEFAULT_ambientColor;
-uniform vec3 	DEFAULT_cameraPosWorld;
 
-uniform float 		specularIntensity;
-uniform float 		specularPower;
-uniform sampler2D 	specularTexture;
-
-uniform vec4 		diffuseColor;
-uniform sampler2D 	diffuseTexture;
+uniform vec4 	diffuseColor;
 
 in vec3 INTER_fragPosWorld;
 in vec3 INTER_fragNormWorld;
-in vec2 INTER_fragUV;
 
 
 void main()
 {
 	vec3 normal = normalize( INTER_fragNormWorld );
 
-	vec4 textureColor = texture( diffuseTexture, INTER_fragUV );
-	vec3 specularMap = texture( specularTexture, INTER_fragUV ).xyz;
-
 	vec3 lightFactor = vec3(0, 0, 0);
-	vec3 specularColor = vec3(0, 0, 0);
 
 	for ( int i = 0; i < DEFAULT_lightsCount; i++ ) {
 		vec3 rayDirection;
@@ -100,28 +89,10 @@ void main()
            					distanceAttenuation *
            					spotAttenuation;
 		}
-
-		if ( diffuseFactor > 0 ) {
-			vec3 vertexToEye = normalize( DEFAULT_cameraPosWorld - INTER_fragPosWorld );
-	        vec3 reflectDirection = normalize( reflect( rayDirection, normal ) );
-	        float specularFactor = max( 0, dot( vertexToEye, reflectDirection ) );
-	        specularFactor = pow(specularFactor, specularPower * 100.0f);
-
-	        specularColor += DEFAULT_lights[i].color * 
-           					DEFAULT_lights[i].intensity *
-           					specularFactor *
-           					specularIntensity * 10.0f *
-           					angleAttenuation *
-           					distanceAttenuation *
-							spotAttenuation;
-	    }
 	}
 
     lightFactor += DEFAULT_ambientColor;
 	
 
-	OUT_color = diffuseColor * textureColor * vec4( lightFactor, 1.0f ) 
-			  + vec4( specularColor * specularMap, 0.0f );
-
-    OUT_color = diffuseColor;
+	OUT_color = diffuseColor * vec4( lightFactor, 1.0f );
 }

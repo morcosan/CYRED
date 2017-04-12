@@ -2,7 +2,6 @@
 
 layout(location = 0) in vec3 IN_position;
 layout(location = 2) in vec3 IN_normal;
-layout(location = 3) in vec2 IN_uv;
 
 uniform mat4 DEFAULT_world;
 uniform mat4 DEFAULT_view;

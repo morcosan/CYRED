@@ -20,7 +20,6 @@ struct Light
 uniform int 	DEFAULT_lightsCount;
 uniform Light 	DEFAULT_lights[ MAX_LIGHTS ];
 uniform vec3 	DEFAULT_ambientColor;
-uniform vec3 	DEFAULT_cameraPosWorld;
 
 uniform vec4 	diffuseColor;
 

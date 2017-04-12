@@ -9,14 +9,14 @@ uniform vec2 intensityLimits;
 uniform vec2 colorLimits;
 
 in vec3 INTER_fragPosWorld;
-in vec3 INTER_fragNormalWorld;
+in vec3 INTER_fragNormWorld;
 
 
 void main()
 {
 	vec3 dirToCamera = normalize( DEFAULT_cameraPosWorld - INTER_fragPosWorld );
 
-	float metallic = dot( INTER_fragNormalWorld, dirToCamera );
+	float metallic = dot( INTER_fragNormWorld, dirToCamera );
 	// smooth interpolation between values
 	metallic = smoothstep( intensityLimits.x, intensityLimits.y, metallic ); 
 	// shift matallic value from range [0, 1] to range[0.5, 1]

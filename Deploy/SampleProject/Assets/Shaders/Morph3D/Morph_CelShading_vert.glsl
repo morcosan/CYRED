@@ -1,5 +1,4 @@
 #version 330
-// Morph CelShading.vert
 
 layout(location = 0) in vec3 IN_posFirst;
 layout(location = 1) in vec3 IN_posSecond;
@@ -13,7 +12,7 @@ uniform mat4 	DEFAULT_projection;
 uniform float 	stateRatio;
 
 out vec3 INTER_vertPosWorld;
-out vec3 INTER_vertNormalWorld;
+out vec3 INTER_vertNormWorld;
 
 
 void main()
@@ -22,7 +21,7 @@ void main()
 	vec3 normal = mix( IN_normalFirst, IN_normalSecond, stateRatio );
 
 	INTER_vertPosWorld = ( DEFAULT_world * vec4( pos, 1.0 ) ).xyz;
-	INTER_vertNormalWorld = ( DEFAULT_world * vec4( normal, 0.0 ) ).xyz;
+	INTER_vertNormWorld = ( DEFAULT_world * vec4( normal, 0.0 ) ).xyz;
 
 	gl_Position = DEFAULT_projection * DEFAULT_view * DEFAULT_world * vec4( pos, 1.0f ); 
 }
