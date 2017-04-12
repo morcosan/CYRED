@@ -11,6 +11,7 @@
 #include "../../2_BuildingBlocks/Components/Transform.h"
 #include "Sections/Scene.h"
 #include "../Render/Components/Camera.h" 
+#include "../Render/Components/Light.h" 
 
 
 using namespace CYRED;
@@ -414,23 +415,45 @@ GameObject* SceneManagerImpl::GetMainCamera()
 {
 	ASSERT( _isInitialized );
 
-	if ( _mainCameraGO == NULL )
-	{
+	if ( _mainCameraGO == NULL ) {
 		// search for first active camera
-		for ( UInt i = 0; i < _currScenes.Size(); ++i )
-		{
+		for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
 			Node* root = _currScenes[i]->GetRoot();
 
 			_mainCameraGO = _RecFindActiveCamera( root );
 
-			if ( _mainCameraGO != NULL )
-			{
+			if ( _mainCameraGO != NULL ) {
 				break;
 			}
 		}
 	}
 
 	return _mainCameraGO;
+}
+
+
+void SceneManagerImpl::FindClosestLights( GameObject* target, OUT DataArray<GameObject*>& lightsGO )
+{
+	// parse all scenes
+	for ( UInt i = 0; i < _currScenes.Size(); i++ ) {
+		Node* root = _currScenes[i]->GetRoot();
+
+		// parse all gameobjects
+		for ( UInt j = 0; j < root->GetChildNodeCount(); j++ ) {
+			GameObject* gameobject = CAST_S( GameObject*, root->GetChildNodeAt( j ) );
+
+			// ignore target gameobject
+			if ( gameobject != target && gameobject->IsEnabled() ) {
+				Light* light = gameobject->GetComponent<Light>();
+
+				// check if gameobject has active light
+				if ( light != NULL && light->IsEnabled() ) {
+					// add to list
+					lightsGO.Add( gameobject );
+				}
+			}
+		}
+	}
 }
 
 

@@ -12,6 +12,7 @@
 namespace CYRED
 {
 	class Node;
+	class GameObject;
 }
 
 
@@ -64,6 +65,10 @@ namespace CYRED
 
 			void		SetMainCamera		( GameObject* cameraGO )	override;
 			GameObject*	GetMainCamera		()							override;
+
+
+		public:
+			void		FindClosestLights( GameObject* target, OUT DataArray<GameObject*>& lightsGO );
 
 
 		protected:

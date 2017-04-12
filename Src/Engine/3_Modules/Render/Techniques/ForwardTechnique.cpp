@@ -4,6 +4,7 @@
 #include "ForwardTechnique.h"
 
 #include "../../Scene/Sections/Scene.h"
+#include "../../Scene/SceneManagerImpl.h"
 
 #include "../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../2_BuildingBlocks/GameObject.h"
@@ -38,14 +39,15 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 
 	_ClearScreen();
 
-	if ( scene == NULL || cameraGO == NULL )
-	{ 
+	if ( scene == NULL || cameraGO == NULL ) { 
 		return;
 	}
 
+	// get camera
 	_cameraTran = cameraGO->GetComponent<Transform>();
 	_cameraComp = cameraGO->GetComponent<Camera>();
 
+	// get scene root
 	Node* sceneRoot = scene->GetRoot();
 
 	_gl->Enable( GLCapability::BLEND );
@@ -55,12 +57,12 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 	_gl->DepthFunc( GLDepthFunc::LEQUAL );
 	_gl->DepthMask( TRUE );
 
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )
-	{
+	// render mesh
+	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
 		_RenderMesh( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )
-	{
+	// render morph
+	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
 		_RenderMorph( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
 
@@ -68,8 +70,8 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 	_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE );
 	_gl->DepthMask( FALSE );
 
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )
-	{
+	// render particles
+	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )	{
 		_RenderParticles( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
 }
@@ -94,38 +96,33 @@ void ForwardTechnique::_ClearScreen()
 
 void ForwardTechnique::_RenderMesh( GameObject* gameObject )
 {
-	if ( !gameObject->IsEnabled() )
-	{
+	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
-	if ( meshRender == NULL || objTran == NULL ||
-		!meshRender->IsEnabled() || !objTran->IsEnabled() )
-	{
+	if ( meshRender == NULL || objTran == NULL || !meshRender->IsEnabled() || !objTran->IsEnabled() ) {
 		return;
 	}
 
 	Material*	material	= meshRender->GetMaterial();
 	Mesh*		mesh		= meshRender->GetMesh();
-	if ( material == NULL || mesh == NULL )
-	{
+	if ( material == NULL || mesh == NULL ) {
 		return;
 	}
 
 	Shader* shader = material->GetShader();
-	if ( shader == NULL )
-	{
+	if ( shader == NULL ) {
 		return;
 	}
 
 	UInt shaderProgram = shader->GetProgramID();
-	if ( shaderProgram == INVALID_SHADER )
-	{
+	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
 
+	// add shader
 	_gl->UseProgram( shaderProgram );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
@@ -151,25 +148,46 @@ void ForwardTechnique::_RenderMesh( GameObject* gameObject )
     _gl->VertexAttribPointer( 5, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
 							  (const void*) (offsetof(Vertex, bitangent)) );
 
-	Int worldLoc			= shader->GetUniformLocation( Uniform::WORLD		);
-    Int viewLoc				= shader->GetUniformLocation( Uniform::VIEW			);
-    Int projectionLoc		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+    Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+    Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
 	Matrix4 projectionMatrix	= _cameraComp->GetProjectionMatrix();
 
-	_gl->UniformMatrix4fv( worldLoc,		1, FALSE, worldMatrix.Ptr()		 );
-	_gl->UniformMatrix4fv( viewLoc,			1, FALSE, viewMatrix.Ptr()		 );
-	_gl->UniformMatrix4fv( projectionLoc,	1, FALSE, projectionMatrix.Ptr() );
+	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
-    Int cameraPosWorldLoc = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
-	_gl->Uniform3fv( cameraPosWorldLoc,	1, _cameraTran->GetPositionWorld().Ptr() );
+    Int cameraPosWorldUniform = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
+	_gl->Uniform3fv( cameraPosWorldUniform,	1, _cameraTran->GetPositionWorld().Ptr() );
 
+	// add material
 	_BindMaterial( material );
 
-	switch ( mesh->GetMeshType() )
+
+	// add lights if needed
 	{
+		// check if shader contains light uniforms
+		Int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
+		Int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
+		Int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
+
+		// check if lights needed
+		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
+			// get closest lights
+			DataArray<GameObject*> lightsGO;
+			SceneManagerImpl::Singleton()->FindClosestLights( gameObject, lightsGO );
+			
+			// add lights count
+			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
+		}
+	}
+
+
+	// draw
+	switch ( mesh->GetMeshType() ) {
 		case MeshType::POLYGON:
 			_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 			break;
@@ -179,7 +197,7 @@ void ForwardTechnique::_RenderMesh( GameObject* gameObject )
 			break;
 	}
 
-	//! unbind all
+	// unbind all
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
@@ -188,35 +206,29 @@ void ForwardTechnique::_RenderMesh( GameObject* gameObject )
 
 void ForwardTechnique::_RenderMorph( GameObject* gameObject )
 {
-	if ( !gameObject->IsEnabled() )
-	{
+	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	MorphRendering*	morphRender	= gameObject->GetComponent<MorphRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
-	if ( morphRender == NULL || objTran == NULL ||
-		!morphRender->IsEnabled() || !objTran->IsEnabled() )
-	{
+	if ( morphRender == NULL || objTran == NULL || !morphRender->IsEnabled() || !objTran->IsEnabled() ) {
 		return;
 	}
 
 	Material*	material	= morphRender->GetMaterial();
 	Morph*		morph		= morphRender->GetMorph();
-	if ( material == NULL || morph == NULL || morph->GetActiveStates() == 0 )
-	{
+	if ( material == NULL || morph == NULL || morph->GetActiveStates() == 0 ) {
 		return;
 	}
 
 	Shader* shader = material->GetShader();
-	if ( shader == NULL )
-	{
+	if ( shader == NULL ) {
 		return;
 	}
 
 	UInt shaderProgram = shader->GetProgramID();
-	if ( shaderProgram == INVALID_SHADER )
-	{
+	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
 
@@ -254,30 +266,29 @@ void ForwardTechnique::_RenderMorph( GameObject* gameObject )
     _gl->VertexAttribPointer( 7, 3, GLVarType::FLOAT, FALSE, sizeof(MorphVertex), 
 							  (const void*) (offsetof(MorphVertex, bitangent)) );
 
-	Int worldLoc			= shader->GetUniformLocation( Uniform::WORLD		);
-    Int viewLoc				= shader->GetUniformLocation( Uniform::VIEW			);
-    Int projectionLoc		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+    Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+    Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
 	Matrix4 projectionMatrix	= _cameraComp->GetProjectionMatrix();
 
-	_gl->UniformMatrix4fv( worldLoc,		1, FALSE, worldMatrix.Ptr()			);
-	_gl->UniformMatrix4fv( viewLoc,			1, FALSE, viewMatrix.Ptr()			);
-	_gl->UniformMatrix4fv( projectionLoc,	1, FALSE, projectionMatrix.Ptr()	);
+	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()			);
+	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()			);
+	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr()	);
 
-	//! morph rendering curstom uniforms
-	{
-		Int location = shader->GetUniformLocation( UNIFORM_STATE_RATIO );
-		_gl->Uniform1f( location, morphRender->GetStateRatio() );
-	}
+	// morph rendering curstom uniforms
+	Int stateRatioUniform = shader->GetUniformLocation( UNIFORM_STATE_RATIO );
+	_gl->Uniform1f( stateRatioUniform, morphRender->GetStateRatio() );
 
-
+	// add material
 	_BindMaterial( material );
 
+	// draw
 	_gl->DrawElements( GLDrawMode::TRIANGLES, morph->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
-	//! unbind all
+	// unbind all
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
@@ -286,36 +297,32 @@ void ForwardTechnique::_RenderMorph( GameObject* gameObject )
 
 void ForwardTechnique::_RenderParticles( GameObject* gameObject )
 {
-	if ( !gameObject->IsEnabled() )
-	{
+	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
 	Transform*			objTran	= gameObject->GetComponent<Transform>();
-	if ( emitter == NULL || objTran == NULL || !emitter->IsEnabled() || !objTran->IsEnabled() )
-	{
+	if ( emitter == NULL || objTran == NULL || !emitter->IsEnabled() || !objTran->IsEnabled() ) {
 		return;
 	}
 
 	Material* material = emitter->GetMaterial();
-	if ( material == NULL )
-	{
+	if ( material == NULL ) {
 		return;
 	}
 
 	Shader* shader = material->GetShader();
-	if ( shader == NULL )
-	{
+	if ( shader == NULL ) {
 		return;
 	}
 
 	UInt shaderProgram = shader->GetProgramID();
-	if ( shaderProgram == INVALID_SHADER )
-	{
+	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
 
+	// add shader
 	_gl->UseProgram( shaderProgram );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			emitter->GetVBO() );
@@ -334,39 +341,41 @@ void ForwardTechnique::_RenderParticles( GameObject* gameObject )
     _gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(ParticleVertex), 
 							  (const void*) (offsetof(ParticleVertex, age_sizeS_sizeE)) );
 
-	Int worldLoc			= shader->GetUniformLocation( Uniform::WORLD		);
-    Int viewLoc				= shader->GetUniformLocation( Uniform::VIEW			);
-    Int projectionLoc		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+	Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+	Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
 	Matrix4 projectionMatrix	= _cameraComp->GetProjectionMatrix();
 
-	_gl->UniformMatrix4fv( worldLoc,		1, FALSE, worldMatrix.Ptr()			);
-	_gl->UniformMatrix4fv( viewLoc,			1, FALSE, viewMatrix.Ptr()			);
-	_gl->UniformMatrix4fv( projectionLoc,	1, FALSE, projectionMatrix.Ptr()	);
+	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()			);
+	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()			);
+	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr()	);
 
-	//! particle emitter curstom uniforms
+	// particle emitter curstom uniforms
 	{
-		Int location = shader->GetUniformLocation( UNIFORM_IS_LOOPING );
-		_gl->Uniform1i( location, (emitter->IsLooping() ? 1 : 0) );
+		Int uniform = shader->GetUniformLocation( UNIFORM_IS_LOOPING );
+		_gl->Uniform1i( uniform, (emitter->IsLooping() ? 1 : 0) );
 	}
 	{
-		Int location = shader->GetUniformLocation( UNIFORM_LIFETIME );
-		_gl->Uniform1f( location, emitter->GetParticleLifetime() );
+		Int uniform = shader->GetUniformLocation( UNIFORM_LIFETIME );
+		_gl->Uniform1f( uniform, emitter->GetParticleLifetime() );
 	}
 	{
-		Int location = shader->GetUniformLocation( UNIFORM_DELTA_TIME );
-		_gl->Uniform1f( location, TimeManager::Singleton()->GetRenderDeltaTime() );
+		Int uniform = shader->GetUniformLocation( UNIFORM_DELTA_TIME );
+		_gl->Uniform1f( uniform, TimeManager::Singleton()->GetRenderDeltaTime() );
 	}
 
+	// add material
 	_BindMaterial( material );
 
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, emitter->GetVBO() );
 
+	// draw
 	_gl->DrawElements( GLDrawMode::POINTS, emitter->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
-	//! unbind all
+	// unbind all
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, EMPTY_BUFFER );
