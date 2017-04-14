@@ -31,6 +31,7 @@ namespace CYRED
 		static const Char* const FILE_FORMAT_TEXTURE;
 		static const Char* const FILE_FORMAT_SCENE;
 		static const Char* const FILE_FORMAT_SCRIPT;
+		static const Char* const FILE_FORMAT_PREFAB;
 		
 		static const Char* const DIR_ASSETS;		
 
@@ -76,7 +77,7 @@ namespace CYRED
 		virtual void SetSerializeSystem( SerializeSystem* serializeSystem )			PURE_VIRTUAL;
 
 		/* requires a SerializeSystem assigned */
-		template <class T> String	Serialize	( T* object );
+		template <class T> String	Serialize	( const T* object );
 		/* requires a SerializeSystem assigned */
 		template <class T> void		Deserialize	( const Char* data, OUT T* object,
 												  DeserFlag flag = DeserFlag::FULL );	
@@ -89,7 +90,7 @@ namespace CYRED
 
 
 	template<class T>
-	String FileManager::Serialize( T* object )
+	String FileManager::Serialize( const T* object )
 	{
 		ASSERT( _serializeSystem != NULL );
 

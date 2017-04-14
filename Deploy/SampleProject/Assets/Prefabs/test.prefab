@@ -1,0 +1,32 @@
+{
+    "uid": "g8FCleDKR8C1okcuiqsX5nOVzakl8Qr2",
+    "game_object": {
+    	"name": "whatever",
+	    "enabled": true,
+	    "components": {
+	        "transform": {
+	            "enabled": true,
+	            "position_world": {
+	                "x": 0.0,
+	                "y": -2.0,
+	                "z": 0.0
+	            },
+	            "rotation_world": {
+	                "x": 0.0,
+	                "y": 0.0,
+	                "z": 0.0
+	            },
+	            "scale_world": {
+	                "x": 1.0,
+	                "y": 1.0,
+	                "z": 1.0
+	            }
+	        },
+	        "mesh_rendering": {
+	            "enabled": true,
+	            "mesh": "pxMbWHcjTNFY1diqDsDPDouxNJ9cM0fh",
+	            "material": "DOvzKnuy4aN5a0fe3kINNejG1cVCQLmu"
+	        }
+	    }
+    }
+}

@@ -15,7 +15,7 @@ using namespace CYRED;
 rapidjson::Document::AllocatorType JsonSerializer::_al;
 
 
-String JsonSerializer::Serialize( void* object )
+String JsonSerializer::Serialize( const void* object )
 {
 	rapidjson::Value json = ToJson( object );
 
@@ -121,7 +121,7 @@ Vector4 JsonSerializer::DeserializeVec4( const Char * data )
 }
 
 
-rapidjson::Value JsonSerializer::ToJson( void* object )
+rapidjson::Value JsonSerializer::ToJson( const void* object )
 {
 	// bcuz it needs to return something
 	// it will be override

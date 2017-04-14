@@ -16,9 +16,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Material::ToJson( void* object )
+rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 {
-	Material* material = CAST_S( Material*, object );
+	const Material* material = CAST_S( const Material*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

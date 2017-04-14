@@ -12,7 +12,7 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_EditorConfig::ToJson( void* object )
+rapidjson::Value JsonSerializer_EditorConfig::ToJson( const void* object )
 {
 	ASSERT( object == NULL );
 

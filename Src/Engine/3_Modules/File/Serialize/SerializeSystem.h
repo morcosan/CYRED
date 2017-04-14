@@ -18,7 +18,7 @@ namespace CYRED
 
 
 	public:
-		template <class T> String	Serialize		( T* object );	
+		template <class T> String	Serialize		( const T* object );	
 		template <class T> void		Deserialize		( const Char* data, OUT T* object, 
 													  DeserFlag flag = DeserFlag::FULL );
 		template <class T> void		AddSerializer	( Serializer* serializer );
@@ -40,7 +40,7 @@ namespace CYRED
 
 
 	template<class T>
-	String SerializeSystem::Serialize( T* object )
+	String SerializeSystem::Serialize( const T* object )
 	{
 		ASSERT( _serializers.Has( GET_TYPE_INDEX( T ) ) );
 		

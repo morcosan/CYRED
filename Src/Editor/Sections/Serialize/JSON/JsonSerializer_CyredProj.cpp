@@ -14,7 +14,7 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_CyredProj::ToJson( void* object )
+rapidjson::Value JsonSerializer_CyredProj::ToJson( const void* object )
 {
 	ASSERT( object == NULL );
 

@@ -13,9 +13,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Camera::ToJson( void* object )
+rapidjson::Value JsonSerializer_Camera::ToJson( const void* object )
 {
-	Camera* camera = CAST_S( Camera*, object );
+	const Camera* camera = CAST_S( const Camera*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

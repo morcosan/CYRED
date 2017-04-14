@@ -21,6 +21,7 @@ const Char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 const Char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
 const Char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
 const Char* const FileManager::FILE_FORMAT_SCRIPT	= ".script";
+const Char* const FileManager::FILE_FORMAT_PREFAB	= ".prefab";
 const Char* const FileManager::DIR_ASSETS			= "Assets/";
 
 

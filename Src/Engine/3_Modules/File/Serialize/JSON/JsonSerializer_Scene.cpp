@@ -16,9 +16,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Scene::ToJson( void* object )
+rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 {
-	Scene* scene = CAST_S( Scene*, object );
+	const Scene* scene = CAST_S( const Scene*, object );
 
 	rapidjson::Value json;
 	json.SetObject();
@@ -37,8 +37,7 @@ rapidjson::Value JsonSerializer_Scene::ToJson( void* object )
 		{
 			GameObject* gameObject = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
 
-			if ( gameObject->GetParentNode() == sceneRoot )
-			{
+			if ( gameObject->GetParentNode() == sceneRoot )	{
 				arrayNode.PushBack( serializer.ToJson( gameObject ), _al );
 			}
 		}

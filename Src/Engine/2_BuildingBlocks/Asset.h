@@ -20,6 +20,7 @@ namespace CYRED
 			, SCENE
 			, MORPH
 			, SCRIPT
+			, PREFAB
 		};
 	}
 

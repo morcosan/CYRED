@@ -91,7 +91,6 @@ const Char* CYRED::Material::GetExtension()
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MATERIAL;
 	}
-
 	return NULL;
 }
 
@@ -292,13 +291,13 @@ void Material::SetProperty( const Char* name, Texture* value )
 }
 
 
-UInt Material::GetPropertiesCount()
+UInt Material::GetPropertiesCount() const
 {
 	return _properties.Size();
 }
 
 
-DataUnion& Material::GetPropertyDataAt( UInt index )
+DataUnion& Material::GetPropertyDataAt( UInt index ) const
 {
 	ASSERT( index < _properties.Size() );
 
@@ -306,7 +305,7 @@ DataUnion& Material::GetPropertyDataAt( UInt index )
 }
 
 
-const Char* Material::GetPropertyNameAt( UInt index )
+const Char* Material::GetPropertyNameAt( UInt index ) const
 {
 	ASSERT( index < _properties.Size() );
 

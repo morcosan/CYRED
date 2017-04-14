@@ -23,15 +23,16 @@ namespace CYRED
 		const Vector2		MIN_SIZE		= Vector2( 200, 100 );
 		const Vector2		MAX_SIZE		= Vector2( 300, 1000 );
 
-		const Char* const	ICON_SCENE		= "scene_icon";
-		const Char* const	ICON_FOLDER		= "folder_icon";
-		const Char* const	ICON_MATERIAL	= "material_icon";
-		const Char* const	ICON_MESH		= "mesh_icon";
-		const Char* const	ICON_MORPH		= "morph_icon";
-		const Char* const	ICON_TEXTURE	= "texture_icon";
-		const Char* const	ICON_SHADER		= "shader_icon";
-		const Char* const	ICON_SCRIPT		= "script_icon";
-		const Char* const	ICON_UNKNOWN	= "unknown_icon";
+		const Char* const	ICON_SCENE		= "scene";
+		const Char* const	ICON_FOLDER		= "folder";
+		const Char* const	ICON_MATERIAL	= "material";
+		const Char* const	ICON_MESH		= "mesh";
+		const Char* const	ICON_MORPH		= "morph";
+		const Char* const	ICON_TEXTURE	= "texture";
+		const Char* const	ICON_SHADER		= "shader";
+		const Char* const	ICON_SCRIPT		= "script";
+		const Char* const	ICON_PREFAB		= "scene";
+		const Char* const	ICON_UNKNOWN	= "unknown";
 
 		const Char* const	BUTTON_RELOAD	= "Reload";
 

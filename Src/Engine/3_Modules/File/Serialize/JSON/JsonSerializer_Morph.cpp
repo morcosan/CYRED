@@ -13,9 +13,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Morph::ToJson( void* object )
+rapidjson::Value JsonSerializer_Morph::ToJson( const void* object )
 {
-	Morph* morph = CAST_S( Morph*, object );
+	const Morph* morph = CAST_S( const Morph*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

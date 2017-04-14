@@ -13,9 +13,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Texture::ToJson( void* object )
+rapidjson::Value JsonSerializer_Texture::ToJson( const void* object )
 {
-	Texture* texture = CAST_S( Texture*, object );
+	const Texture* texture = CAST_S( const Texture*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

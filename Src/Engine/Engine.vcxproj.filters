@@ -110,6 +110,8 @@
     <ClInclude Include="3_Modules\Scene\Sections\Scene.h" />
     <ClInclude Include="3_Modules\Render\Assets\MeshEnum.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.h" />
+    <ClInclude Include="3_Modules\Asset\Assets\Prefab.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -179,5 +181,7 @@
     <ClCompile Include="3_Modules\Scene\Sections\Scene.cpp" />
     <ClCompile Include="3_Modules\Render\Components\Light.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.cpp" />
+    <ClCompile Include="3_Modules\Asset\Assets\Prefab.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.cpp" />
   </ItemGroup>
 </Project>

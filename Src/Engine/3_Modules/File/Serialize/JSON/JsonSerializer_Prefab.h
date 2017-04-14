@@ -8,16 +8,15 @@
 
 namespace CYRED
 {
-	class DLL JsonSerializer_Script : public JsonSerializer
+	class DLL JsonSerializer_Prefab : public JsonSerializer
 	{
 		const Char* const UNIQUE_ID		= "uid";
-		const Char* const RUN_IN_EDITOR	= "run_in_editor";
-		const Char* const FILE_PATHS	= "file_paths";
+		const Char* const GAME_OBJECT	= "game_object";
 
 
 	public:
-		JsonSerializer_Script() {}
-		virtual ~JsonSerializer_Script() {};
+		JsonSerializer_Prefab() {}
+		virtual ~JsonSerializer_Prefab() {};
 
 
 	public:

@@ -12,9 +12,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_AppConfig::ToJson( void* object )
+rapidjson::Value JsonSerializer_AppConfig::ToJson( const void* object )
 {
-	AppConfig* appConfig = CAST_S( AppConfig*, object );
+	const AppConfig* appConfig = CAST_S( const AppConfig*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

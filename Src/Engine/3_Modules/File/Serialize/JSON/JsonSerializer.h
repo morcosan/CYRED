@@ -21,7 +21,7 @@ namespace CYRED
 
 
 	public:
-		String		Serialize	( void* object )			override;
+		String		Serialize	( const void* object )		override;
 		void		Deserialize	( const Char* data, 
 								  OUT void* object,
 								  DeserFlag flag )			override;
@@ -36,7 +36,7 @@ namespace CYRED
 
 
 	public:
-		virtual rapidjson::Value	ToJson	( void* object );
+		virtual rapidjson::Value	ToJson	( const void* object );
 		virtual void				FromJson( rapidjson::Value& json, OUT void* object,
 											  DeserFlag flag ) {}
 

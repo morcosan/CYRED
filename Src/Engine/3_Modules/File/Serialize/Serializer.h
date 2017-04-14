@@ -32,7 +32,7 @@ namespace CYRED
 
 
 	public:
-		virtual String		Serialize	( void* object )			PURE_VIRTUAL;
+		virtual String		Serialize	( const void* object )		PURE_VIRTUAL;
 		virtual void		Deserialize	( const Char* data, OUT void* object,
 										  DeserFlag flag )			PURE_VIRTUAL;
 

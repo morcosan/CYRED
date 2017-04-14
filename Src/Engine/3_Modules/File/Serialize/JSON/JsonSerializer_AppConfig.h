@@ -36,7 +36,7 @@ namespace CYRED
 
 
 	public:
-		rapidjson::Value	ToJson	( void* object )							override;
+		rapidjson::Value	ToJson	( const void* object )						override;
 		void				FromJson( rapidjson::Value& json, OUT void* object,
 									  DeserFlag flag )							override;
 	};

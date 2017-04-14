@@ -24,9 +24,9 @@ JsonSerializer_ParticleEmitter::JsonSerializer_ParticleEmitter()
 }
 
 
-rapidjson::Value JsonSerializer_ParticleEmitter::ToJson( void* object )
+rapidjson::Value JsonSerializer_ParticleEmitter::ToJson( const void* object )
 {
-	ParticleEmitter* emitter = CAST_S( ParticleEmitter*, object );
+	const ParticleEmitter* emitter = CAST_S( const ParticleEmitter*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

@@ -12,9 +12,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_Shader::ToJson( void* object )
+rapidjson::Value JsonSerializer_Shader::ToJson( const void* object )
 {
-	Shader* shader = CAST_S( Shader*, object );
+	const Shader* shader = CAST_S( const Shader*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

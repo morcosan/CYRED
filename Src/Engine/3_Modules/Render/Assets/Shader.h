@@ -32,7 +32,8 @@ namespace CYRED
 								  const Char* geometryPath, const Char* fragmentPath );
 
 		void GetShaderFiles		( const Char* rendererType, OUT const Char** vertexPath,
-								  OUT const Char** geometryPath, OUT const Char** fragmentPath );
+								  OUT const Char** geometryPath, 
+								  OUT const Char** fragmentPath ) const;
 
 		//! must be called before using the shader
 		//! setting the same renderer, does a reload of shaders

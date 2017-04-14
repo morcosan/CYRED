@@ -67,9 +67,9 @@ namespace CYRED
 		void		SetProperty		( const Char* name, const Vector4& value );
 		void		SetProperty		( const Char* name, Texture* value );
 
-		UInt		GetPropertiesCount	();
-		DataUnion&	GetPropertyDataAt	( UInt index );
-		const Char*	GetPropertyNameAt	( UInt index );
+		UInt		GetPropertiesCount	() const;
+		DataUnion&	GetPropertyDataAt	( UInt index ) const;
+		const Char*	GetPropertyNameAt	( UInt index ) const;
 		void		ClearProperties		();
 
 

@@ -11,17 +11,16 @@
 namespace CYRED
 {
 	class GameObject;
-	class Node;
 }
 
 
 namespace CYRED
 {
-	class DLL Scene : public Asset
+	class DLL Prefab : public Asset
 	{
 	public:
-		Scene();
-		virtual ~Scene();
+		Prefab();
+		virtual ~Prefab() {}
 
 
 	public:
@@ -33,14 +32,10 @@ namespace CYRED
 
 
 	public:
-		void	OnUpdate( Bool isRuntime = TRUE );
-
-		Node*	GetRoot	() const;
+		
 
 
 	protected:
-		GameObject*	_mainCameraGO;
-		Node*		_root;
+		
 	};
-
 }

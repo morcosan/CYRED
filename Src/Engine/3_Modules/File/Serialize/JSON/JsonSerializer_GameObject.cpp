@@ -28,9 +28,9 @@ using namespace CYRED;
 
 
 
-rapidjson::Value JsonSerializer_GameObject::ToJson( void* object )
+rapidjson::Value JsonSerializer_GameObject::ToJson( const void* object )
 {
-	GameObject* gameObject = CAST_S( GameObject*, object );
+	const GameObject* gameObject = CAST_S( const GameObject*, object );
 
 	rapidjson::Value json;
 	json.SetObject();

@@ -100,7 +100,7 @@ void Scene::OnUpdate( Bool isRuntime )
 }
 
 
-Node* Scene::GetRoot()
+Node* Scene::GetRoot() const
 {
 	ASSERT( _root != NULL );
 	return _root;

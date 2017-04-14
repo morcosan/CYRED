@@ -128,7 +128,7 @@ void Shader::SetShaderFiles( const Char* rendererType, const Char* vertexPath,
 
 
 void Shader::GetShaderFiles( const Char* rendererType, OUT const Char** vertexPath, 
-							 OUT const Char** geometryPath, OUT const Char** fragmentPath )
+							 OUT const Char** geometryPath, OUT const Char** fragmentPath ) const
 {
 	if ( _shaderFiles.Has( rendererType ) )
 	{
