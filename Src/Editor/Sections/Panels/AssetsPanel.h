@@ -122,7 +122,8 @@ namespace CYRED
 
 
 		void	_LoadIcons				();
-		void	_ParseDirectory			( const Char* dirPath, QTreeWidgetItem* parentItem );
+		void	_ParseDirectory			( const Char* dirName, const Char* dirPath, 
+										  QTreeWidgetItem* parentItem );
 		Asset*	_AddNewAsset			( const Char* dirPath, QTreeWidgetItem* parentItem,
 										  AssetType assetType );
 		void	_CreateRightClickMenu	();

@@ -102,12 +102,9 @@ namespace CYRED
 								   DeserFlag flag )
 	{
 		ASSERT( _serializeSystem != NULL );
-
-		if ( data == NULL )
-		{
+		if ( data == NULL ) {
 			return;
 		}
-
 		_serializeSystem->Deserialize<T>( data, object, flag );
 	}
 }

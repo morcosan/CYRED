@@ -21,7 +21,6 @@ Texture::Texture()
 	, _height( 0 )
 	, _channels( 0 )
 	, _textureType( TextureType::TEXTURE_2D )
-	, _loadFromFile( FALSE )
 {
 	_imageBuffers[0] = NULL;
 	_imageBuffers[1] = NULL;
@@ -41,7 +40,6 @@ Texture::Texture( UInt textureID )
 	, _height( 0 )
 	, _channels( 0 )
 	, _textureType( TextureType::TEXTURE_2D )
-	, _loadFromFile( FALSE )
 {
 	_imageBuffers[0] = NULL;
 	_imageBuffers[1] = NULL;
@@ -128,7 +126,6 @@ void Texture::ClearAsset()
 	_height = 0;
 	_channels = 0;
 	_textureType = TextureType::TEXTURE_2D;
-	_loadFromFile = FALSE;
 	_isTemporary = TRUE;
 
 	Memory::FreeArray( _imageBuffers[0] );
@@ -171,10 +168,9 @@ void Texture::BindToGPU()
 {
 	NotAPI::RenderManagerImpl* renderManager = NotAPI::RenderManagerImpl::Singleton();
 
-	if ( _loadFromFile )
-	{
-		if ( _textureType == TextureType::TEXTURE_2D )
-		{
+	// load texture into CPU
+	if ( _loadType == TextureLoadType::EXTERNAL ) {
+		if ( _textureType == TextureType::TEXTURE_2D ) {
 			FiniteString imagePath( "%s%s", _dirPath.GetChar(), _imagePaths[0].GetChar() );
 
 			Int width, height, channels;
@@ -186,10 +182,8 @@ void Texture::BindToGPU()
 			_height = height;
 			_channels = channels;
 		}
-		else if ( _textureType == TextureType::CUBE_MAP )
-		{
-			for ( UInt i = 0; i < 6; ++i )
-			{
+		else if ( _textureType == TextureType::CUBE_MAP ) {
+			for ( UInt i = 0; i < 6; ++i ) {
 				FiniteString imagePath( "%s%s", _dirPath.GetChar(), _imagePaths[i].GetChar() );
 
 				Int width, height, channels;
@@ -203,27 +197,26 @@ void Texture::BindToGPU()
 			}
 		}
 	}
+	else if ( _loadType == TextureLoadType::SCRIPTED ) {
 
-	if ( _textureType == TextureType::TEXTURE_2D )
-	{
+	}
+
+	// bind texture to GPU
+	if ( _textureType == TextureType::TEXTURE_2D ) {
 		renderManager->CreateTexture2D( _textureID, _width, _height, _channels, _hasMipmap, _imageBuffers[0] );
 
-		if ( _clearBufferOnBind )
-		{
+		if ( _clearBufferOnBind ) {
 			Memory::FreeArray( _imageBuffers[0] );
 			_imageBuffers[0] = NULL;
 		}
 	}
-
-	if ( _textureType == TextureType::CUBE_MAP )
-	{
+	else if ( _textureType == TextureType::CUBE_MAP ) {
 		renderManager->CreateCubeMapTexture( _textureID, _width, _height, _channels, _hasMipmap, 
 											 _imageBuffers[0], _imageBuffers[1],
 											 _imageBuffers[2], _imageBuffers[3],
 											 _imageBuffers[4], _imageBuffers[5] );
 
-		if ( _clearBufferOnBind )
-		{
+		if ( _clearBufferOnBind ) {
 			Memory::FreeArray( _imageBuffers[0] );
 			Memory::FreeArray( _imageBuffers[1] );
 			Memory::FreeArray( _imageBuffers[2] );
@@ -251,6 +244,12 @@ UInt Texture::GetTextureID() const
 TextureType Texture::GetTextureType() const
 {
 	return _textureType;
+}
+
+
+TextureLoadType Texture::GetLoadType() const
+{
+	return _loadType;
 }
 
 
@@ -310,6 +309,16 @@ void Texture::SetTextureType( TextureType type )
 }
 
 
+void Texture::SetLoadType( TextureLoadType type )
+{
+	_loadType = type;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+	}
+}
+
+
 void Texture::SetHasMipmap( Bool value )
 {
 	_hasMipmap = value;
@@ -359,16 +368,6 @@ void Texture::SetImagePath( UInt index, const Char* path )
 	ASSERT( index < 6 );
 
 	_imagePaths[index] = path;
-
-	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
-	}
-}
-
-
-void Texture::SetLoadFromFile( Bool value )
-{
-	_loadFromFile = value;
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );

@@ -11,9 +11,12 @@ namespace CYRED
 	class DLL JsonSerializer_Texture : public JsonSerializer
 	{
 		const Char* const UNIQUE_ID			= "uid";
-		const Char* const TYPE				= "type";
+		const Char* const TEXTURE_TYPE		= "texture_type";
 		const Char* const TYPE_TEXTURE_2D	= "TEXTURE_2D";
 		const Char* const TYPE_CUBE_MAP		= "CUBE_MAP";
+		const Char* const LOAD_TYPE			= "load_type";
+		const Char* const TYPE_SCRIPTED		= "SCRIPTED";
+		const Char* const TYPE_EXTERNAL		= "EXTERNAL";
 		const Char* const HAS_MIPMAP		= "has_mipmap";
 		const Char* const CLEAR_BUFFER		= "clear_buffer_on_bind";
 		const Char* const FILE_PATH			= "file_path";

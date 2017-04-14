@@ -24,17 +24,30 @@ rapidjson::Value JsonSerializer_Texture::ToJson( void* object )
 					rapidjson::StringRef( texture->GetUniqueID() ),
 					_al );
 
-	switch ( texture->GetTextureType() )
-	{
+	switch ( texture->GetTextureType() ) {
 		case TextureType::TEXTURE_2D:
-			json.AddMember( rapidjson::StringRef( TYPE ),
+			json.AddMember( rapidjson::StringRef( TEXTURE_TYPE ),
 							rapidjson::StringRef( TYPE_TEXTURE_2D ),
 							_al );
 			break;
 
 		case TextureType::CUBE_MAP:
-			json.AddMember( rapidjson::StringRef( TYPE ),
+			json.AddMember( rapidjson::StringRef( TEXTURE_TYPE ),
 							rapidjson::StringRef( TYPE_CUBE_MAP ),
+							_al );
+			break;
+	}
+
+	switch ( texture->GetLoadType() ) {
+		case TextureLoadType::SCRIPTED:
+			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+							rapidjson::StringRef( TYPE_SCRIPTED ),
+							_al );
+			break;
+
+		case TextureLoadType::EXTERNAL:
+			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+							rapidjson::StringRef( TYPE_EXTERNAL ),
 							_al );
 			break;
 	}
@@ -88,35 +101,38 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 	Bool emitEvents = texture->DoesEmitEvents();
 	texture->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
+	if ( json.HasMember( UNIQUE_ID ) ) {
 		texture->SetUniqueID( json[UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( TYPE ) )
-	{
-		FiniteString type( json[TYPE].GetString() );
+	if ( json.HasMember( TEXTURE_TYPE ) ) {
+		FiniteString type( json[TEXTURE_TYPE].GetString() );
 
-		if ( type == TYPE_TEXTURE_2D )
-		{
+		if ( type == TYPE_TEXTURE_2D ) {
 			texture->SetTextureType( TextureType::TEXTURE_2D );
 		}
-		if ( type == TYPE_CUBE_MAP )
-		{
+		else if ( type == TYPE_CUBE_MAP ) {
 			texture->SetTextureType( TextureType::CUBE_MAP );
 		}
 	}
-	if ( json.HasMember( HAS_MIPMAP ) )
-	{
+	if ( json.HasMember( LOAD_TYPE ) ) {
+		FiniteString type( json[LOAD_TYPE].GetString() );
+
+		if ( type == TYPE_SCRIPTED ) {
+			texture->SetLoadType( TextureLoadType::SCRIPTED );
+		}
+		else if ( type == TYPE_EXTERNAL ) {
+			texture->SetLoadType( TextureLoadType::EXTERNAL );
+		}
+	}
+	if ( json.HasMember( HAS_MIPMAP ) ) {
 		texture->SetHasMipmap( json[HAS_MIPMAP].GetBool() );
 	}
-	if ( json.HasMember( CLEAR_BUFFER ) )
-	{
+	if ( json.HasMember( CLEAR_BUFFER ) ) {
 		texture->SetClearBufferOnBind( json[CLEAR_BUFFER].GetBool() );
 	}
 
@@ -124,45 +140,31 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 	{
 		case TextureType::TEXTURE_2D:
 		{
-			if ( json.HasMember( FILE_PATH ) )
-			{
+			if ( json.HasMember( FILE_PATH ) ) {
 				texture->SetImagePath( 0, json[FILE_PATH].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
 			break;
 		}
 
 		case TextureType::CUBE_MAP:
 		{
-			if ( json.HasMember( FILE_PATH_POSX ) )
-			{
+			if ( json.HasMember( FILE_PATH_POSX ) )	{
 				texture->SetImagePath( 0, json[FILE_PATH_POSX].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
-			if ( json.HasMember( FILE_PATH_NEGX ) )
-			{
+			if ( json.HasMember( FILE_PATH_NEGX ) )	{
 				texture->SetImagePath( 1, json[FILE_PATH_NEGX].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
-			if ( json.HasMember( FILE_PATH_POSY ) )
-			{
+			if ( json.HasMember( FILE_PATH_POSY ) )	{
 				texture->SetImagePath( 2, json[FILE_PATH_POSY].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
-			if ( json.HasMember( FILE_PATH_NEGY ) )
-			{
+			if ( json.HasMember( FILE_PATH_NEGY ) )	{
 				texture->SetImagePath( 3, json[FILE_PATH_NEGY].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
-			if ( json.HasMember( FILE_PATH_POSZ ) )
-			{
+			if ( json.HasMember( FILE_PATH_POSZ ) )	{
 				texture->SetImagePath( 4, json[FILE_PATH_POSZ].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
-			if ( json.HasMember( FILE_PATH_NEGZ ) )
-			{
+			if ( json.HasMember( FILE_PATH_NEGZ ) )	{
 				texture->SetImagePath( 5, json[FILE_PATH_NEGZ].GetString() );
-				texture->SetLoadFromFile( TRUE );
 			}
 			break;
 		}

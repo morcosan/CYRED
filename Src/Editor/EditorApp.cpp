@@ -115,15 +115,12 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 
 	// it requires to be initialized after viewport is shown
 	ASSERT( _mainViewport != NULL );
-	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), 
-											   Memory::Alloc<GLImpl_3_0>() );
+	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), Memory::Alloc<GLImpl_3_0>() );
 
 	// load assets
-	for ( UInt i = 0; i < _panels.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _panels.Size(); ++i ) {
 		AssetsPanel* assetsPanel = CAST_D( AssetsPanel*, _panels[i] );
-		if ( assetsPanel != NULL )
-		{
+		if ( assetsPanel != NULL ) {
 			assetsPanel->ReloadAllAssets();
 		}
 	}
@@ -142,8 +139,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 
 	_shouldExit = FALSE;
 
-	while ( !_shouldExit ) //! _shouldExit will be changed from other thread
-	{
+	while ( !_shouldExit ) { //! _shouldExit will be changed from other thread
 		_UpdateLoop();
 	}
 

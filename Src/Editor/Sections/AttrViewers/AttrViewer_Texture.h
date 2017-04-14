@@ -21,9 +21,12 @@ namespace CYRED
 		const Char* TITLE					= "Texture";
 
 		const Char* ATTR_NAME				= "Name";
-		const Char* ATTR_TYPE				= "Type";
+		const Char* ATTR_TEXTURE_TYPE		= "Texture Type";
+		const Char* ATTR_LOAD_TYPE			= "Load Type";
 		const Char* TYPE_TEXTURE_2D			= "TEXTURE_2D";
 		const Char* TYPE_CUBE_MAP			= "CUBE_MAP";
+		const Char* TYPE_SCRIPTED			= "SCRIPTED";
+		const Char* TYPE_EXTERNAL			= "EXTERNAL";
 		const Char* ATTR_HAS_MIPMAP			= "Has Mipmap";
 		const Char* ATTR_CLEAR_BUFFER		= "Clear Buffer On Bind";
 		const Char* ATTR_FILE_PATH			= "File Path";

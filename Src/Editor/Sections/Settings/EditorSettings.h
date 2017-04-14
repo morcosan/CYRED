@@ -19,6 +19,7 @@ namespace CYRED
 		static const Char* const DIR_PATH_ICONS_LAYOUT;		
 
 		static const Char* const DIR_DEFALUT_ASSETS;		
+		static const Char* const DIR_PATH_DEFALUT_ASSETS;		
 
 		static const Char* const MSG_EDITOR_STARTED;	/* message when editor starts	*/
 
@@ -34,6 +35,7 @@ namespace CYRED
 		static Int	posY;		/* y position on desktop						*/
 		static UInt	fps;		/* desired FPS when rendering					*/
 
+		static String projectName;
 		static String projectPath;	/* path to project .cyredproj file	*/	
 	};
 }

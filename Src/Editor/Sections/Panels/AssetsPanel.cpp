@@ -609,13 +609,23 @@ void AssetsPanel::ReloadAllAssets()
 	AssetManager::Singleton()->ClearAll();
 
 	// clear tree
-	while ( _qtTree->topLevelItemCount() > 0 )
-	{
+	while ( _qtTree->topLevelItemCount() > 0 ) {
 		Memory::Free( _qtTree->takeTopLevelItem(0) );
 	}
 
-	// add again all
-	_ParseDirectory( ProjectSettings::dirPathAssets.GetChar(), _qtTree->invisibleRootItem() );
+	// add all editor assets
+	_ParseDirectory( EditorSettings::DIR_DEFALUT_ASSETS, 
+					 EditorSettings::DIR_PATH_DEFALUT_ASSETS,
+					 _qtTree->invisibleRootItem() );
+	// add all project assets
+	_ParseDirectory( EditorSettings::projectName.GetChar(), 
+					 ProjectSettings::dirPathAssets.GetChar(), 
+					 _qtTree->invisibleRootItem() );
+
+	// expand main folders
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); i++ ) {
+		_qtTree->topLevelItem( i )->setExpanded( TRUE );
+	}
 }
 
 
@@ -623,10 +633,9 @@ void AssetsPanel::_LoadIcons()
 {
 	ASSERT( _isInitialized );
 
+	// parse directory
 	QDirIterator dirIterator( EditorSettings::DIR_PATH_ICONS_ASSETS, QDir::Files );
-
-	while (dirIterator.hasNext())
-	{
+	while ( dirIterator.hasNext() ) {
 		dirIterator.next();
 		QFileInfo& fileInfo = dirIterator.fileInfo();
 
@@ -636,19 +645,34 @@ void AssetsPanel::_LoadIcons()
 }
 
 
-void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentItem )
+void AssetsPanel::_ParseDirectory( const Char* dirName, const Char* dirPath, 
+								   QTreeWidgetItem* parentItem )
 {
 	ASSERT( _isInitialized );
 
-	QDirIterator dirIterator( dirPath, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot );
+	// create folder in panel
+	_QtTreeItem* dirTreeItem = Memory::Alloc<_QtTreeItem>();
+	dirTreeItem->setText( 0, dirName );
+	dirTreeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
+	dirTreeItem->setWhatsThis( 1, dirPath ); 
+	dirTreeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
+	dirTreeItem->setIcon( 0, _icons.Get( ICON_FOLDER ) );
+	// add to panel
+	parentItem->addChild( dirTreeItem );
 
-	while ( dirIterator.hasNext() )
-	{
+
+	// parse directory
+	QDirIterator dirIterator( dirPath, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot );
+	while ( dirIterator.hasNext() ) {
 		dirIterator.next();
 		QFileInfo& fileInfo = dirIterator.fileInfo();
 
-		if ( fileInfo.isFile() )
-		{
+		if ( fileInfo.isDir() ) {
+			FiniteString newDirPath( "%s/", fileInfo.filePath().toUtf8().constData() );
+			_ParseDirectory( fileInfo.completeBaseName().toUtf8().constData(), newDirPath.GetChar(), 
+							 dirTreeItem );
+		}
+		else  if ( fileInfo.isFile() ) {
 			QString fileFormat = fileInfo.suffix();
 			fileFormat.prepend( "." );
 			QString fileName = fileInfo.completeBaseName();
@@ -658,8 +682,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 			StatusAssetAdd statusAdd = StatusAssetAdd::SUCCESS;
 
 
-			if ( fileFormat.compare( FileManager::FILE_FORMAT_SCENE ) == 0 )
-			{
+			if ( fileFormat.compare( FileManager::FILE_FORMAT_SCENE ) == 0 ) {
 				icon = _icons.Get( ICON_SCENE );
 
 				Scene* scene = Memory::Alloc<Scene>();
@@ -672,8 +695,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddScene( scene );
 				asset = scene; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MATERIAL ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MATERIAL ) == 0 ) {
 				icon = _icons.Get( ICON_MATERIAL );
 
 				Material* material = Memory::Alloc<Material>();
@@ -686,8 +708,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddMaterial( material );
 				asset = material; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MESH ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MESH ) == 0 ) {
 				icon = _icons.Get( ICON_MESH );
 				
 				Mesh* mesh = Memory::Alloc<Mesh>();
@@ -700,8 +721,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddMesh( mesh );
 				asset = mesh; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MORPH ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MORPH ) == 0 ) {
 				icon = _icons.Get( ICON_MORPH );
 				
 				Morph* morph = Memory::Alloc<Morph>();
@@ -714,8 +734,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddMorph( morph );
 				asset = morph; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SHADER ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SHADER ) == 0 ) {
 				icon = _icons.Get( ICON_SHADER );
 				
 				Shader* shader = Memory::Alloc<Shader>();
@@ -728,8 +747,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddShader( shader );
 				asset = shader; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_TEXTURE ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_TEXTURE ) == 0 ) {
 				icon = _icons.Get( ICON_TEXTURE );
 				
 				Texture* texture = Memory::Alloc<Texture>();
@@ -742,8 +760,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddTexture( texture );
 				asset = texture; // will be checked later
 			}
-			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SCRIPT ) == 0 )
-			{
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SCRIPT ) == 0 ) {
 				icon = _icons.Get( ICON_SCRIPT );
 				
 				Script* script = Memory::Alloc<Script>();
@@ -756,20 +773,16 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 				statusAdd = AssetManager::Singleton()->AddScript( script );
 				asset = script; // will be checked later
 			}
-			else /*unknown file*/
-			{
+			else { // unknown file
 				isUnknown = TRUE;
 				fileFormat = NULL;
 				fileName = NULL;
 			}
 
-			if ( !isUnknown )
-			{
-				switch ( statusAdd )
-				{
+			if ( !isUnknown ) {
+				switch ( statusAdd ) {
 					case StatusAssetAdd::SUCCESS:
-						if ( asset != NULL )
-						{
+						if ( asset != NULL ) {
 							asset->SetIsTemporary( FALSE );
 						}
 						break;
@@ -789,8 +802,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 						Asset* other = NULL;
 						const Char* uid = asset->GetUniqueID();
 
-						switch ( asset->GetAssetType() )
-						{
+						switch ( asset->GetAssetType() ) {
 							case AssetType::MATERIAL:
 								other = AssetManager::Singleton()->GetMaterial( uid );
 								break;
@@ -820,8 +832,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 								break;
 						}
 
-						if ( other->IsTemporary() )
-						{
+						if ( other->IsTemporary() )	{
 							other->SetEmitEvents( FALSE );
 							other->SetName( fileName.toUtf8().constData() );
 							other->SetDirPath( dirPath );
@@ -831,8 +842,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 							Memory::Free( asset );
 							asset = other;
 						}
-						else
-						{
+						else {
 							FiniteString warning( DEBUG_EXISTING_ASSET,   
 												  fileName.toUtf8().constData() );
 							DebugManager::Singleton()->Log( warning.GetChar() );
@@ -844,8 +854,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 					}
 				}
 
-				if ( asset != NULL && asset->GetAssetType() != AssetType::SCENE )
-				{
+				if ( asset != NULL && asset->GetAssetType() != AssetType::SCENE ) {
 					asset->SetEmitEvents( FALSE );
 					asset->LoadFullFile();
 
@@ -867,31 +876,13 @@ void AssetsPanel::_ParseDirectory( const Char* dirPath, QTreeWidgetItem* parentI
 			treeItem->setText( 0, fileName );
 			treeItem->setIcon( 0, icon );
 
-			parentItem->addChild( treeItem );
+			dirTreeItem->addChild( treeItem );
 
-			if ( isUnknown )
-			{
+			if ( isUnknown ) {
 				QLabel* fileLabel = Memory::Alloc<QLabel>( fileInfo.fileName() );
 				fileLabel->setObjectName( EditorSkin::ASSET_UNKNOWN );
 				_qtTree->setItemWidget( treeItem, 0, fileLabel );
 			}
-		}
-
-		if ( fileInfo.isDir() )
-		{
-			_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
-			treeItem->setText( 0, fileInfo.completeBaseName() );
-			treeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
-			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
-			treeItem->setFlags( Qt::ItemIsSelectable | 
-								Qt::ItemIsEnabled |
-								Qt::ItemIsEditable );
-			treeItem->setIcon( 0, _icons.Get( ICON_FOLDER ) );
-
-			parentItem->addChild( treeItem );
-
-			QString newDirPath = fileInfo.filePath().append( "/" );
-			_ParseDirectory( newDirPath.toUtf8().constData(), treeItem );
 		}
 	}
 }
