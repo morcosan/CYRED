@@ -35,6 +35,9 @@ namespace CYRED
 {
 	class DLL Texture : public Asset
 	{
+		const Char* GLOBAL_THIS	= "TEXTURE";
+
+
 	public:
 		Texture();
 		Texture( UInt textureID );
@@ -58,9 +61,6 @@ namespace CYRED
 		TextureLoadType	GetLoadType				()				const;
 		Bool			HasMipmap				()				const;
 		Bool			DoesClearBufferOnBind	()				const;
-		UInt			GetWidth				()				const;
-		UInt			GetHeight				()				const;
-		UInt			GetChannels				()				const;
 		UChar*			GetImageBuffer			( UInt index )	const;
 		const Char*		GetImagePath			( UInt index )	const;
 
@@ -69,8 +69,11 @@ namespace CYRED
 		void SetHasMipmap			( Bool value );
 		void SetClearBufferOnBind	( Bool value );
 		void SetImageBuffer			( UInt index, UChar* buffer );
-		void SetImageInfo			( UInt width, UInt height, UInt channels );
 		void SetImagePath			( UInt index, const Char* path );
+
+		//script API
+		void SetImageData	( UInt bufferIndex, Int width, Int height, Int channels );
+		void SetPixel		( UInt bufferIndex, UInt pixelIndex, UChar pixelValue );
 
 
 	protected:
@@ -79,12 +82,11 @@ namespace CYRED
 		TextureLoadType	_loadType;
 		Bool			_hasMipmap;
 		Bool			_clearBufferOnBind;		//! when binding to GPU, clear image buffer
-	
-		UInt			_width;
-		UInt			_height;
-		UInt			_channels;
-		UChar*			_imageBuffers[6];
-	
-		String			_imagePaths[6];
+		String			_filePaths[6];
+
+		Int				_imageWidth[6];
+		Int				_imageHeight[6];
+		Int				_imageChannels[6];
+		UChar*			_imageBuffer[6];
 	};
 }

@@ -454,33 +454,28 @@ void RenderManagerImpl::CreateTexture2D( OUT UInt& textureID, UInt width, UInt h
 {
 	ASSERT( _isInitialized );
 
-	if ( width == 0 || height == 0 || channels == 0 )
-	{
+	if ( width == 0 || height == 0 || channels == 0 ) {
 		return;
 	}
 
-	if ( textureID == INVALID_TEXTURE )
-	{
+	if ( textureID == INVALID_TEXTURE )	{
 		_gl->GenTextures( 1, &textureID );
 	}
 	_gl->BindTexture( GLTexture::TEXTURE_2D, textureID );
 
 	_gl->PixelStorei( GLAlignType::UNPACK_ALIGNMENT, GLAlignValue::VALUE_1 );
 
-	if ( channels == 1 ) 
-	{
+	if ( channels == 1 ) {
 		_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::LUMINANCE, width, height, 0, 
 						 GLTexFormat::LUMINANCE, GLVarType::UNSIGNED_BYTE, imageBuffer );
 	}
 
-	if ( channels == 3 ) 
-	{
+	if ( channels == 3 ) {
 		_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGB, width, height, 0, 
 						 GLTexFormat::RGB, GLVarType::UNSIGNED_BYTE, imageBuffer );
 	}
 
-	if ( channels == 4 ) 
-	{
+	if ( channels == 4 ) {
 		_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
 						 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, imageBuffer );
 	}
@@ -488,15 +483,13 @@ void RenderManagerImpl::CreateTexture2D( OUT UInt& textureID, UInt width, UInt h
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S, GLTexParamValue::REPEAT );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T, GLTexParamValue::REPEAT );
 
-	if ( hasMipmap )
-	{
+	if ( hasMipmap ) {
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR_MIPMAP_LINEAR );
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR_MIPMAP_LINEAR );
 
 		_gl->GenerateMipmap( GLTexture::TEXTURE_2D );
 	}
-	else
-	{
+	else {
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR );
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR );
 	}

@@ -33,6 +33,14 @@ namespace CYRED
 			StatusAssetAdd	AddScene	( Scene* scene )			override;
 			StatusAssetAdd	AddScript	( Script* script )			override;
 
+			void RemoveMesh		( Mesh* mesh )			override;
+			void RemoveMorph	( Morph* morph )		override;
+			void RemoveMaterial	( Material* material )	override;
+			void RemoveShader	( Shader* shader )		override;
+			void RemoveTexture	( Texture* texture )	override;
+			void RemoveScene	( Scene* scene )		override;
+			void RemoveScript	( Script* script )		override;
+
 			Mesh*		GetMesh			( const Char* uniqueID )	override;
 			Morph*		GetMorph		( const Char* uniqueID )	override;
 			Material*	GetMaterial		( const Char* uniqueID )	override;

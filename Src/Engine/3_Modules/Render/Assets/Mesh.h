@@ -51,6 +51,7 @@ namespace CYRED
 		void SetClearBuffersOnBind	( Bool value );
 		void SetExternalPath		( const Char* filePath );
 
+		//script API
 		void ClearVertices	();
 		void AddVertex		( Vertex vertex );
 		void ClearIndices	();

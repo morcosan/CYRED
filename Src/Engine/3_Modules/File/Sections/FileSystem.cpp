@@ -104,7 +104,7 @@ Bool FileSystem::CreateDir( const Char* parentPath, const Char* dirName )
 
 
 UChar* FileSystem::ReadImage( const Char* filePath, OUT Int* width, OUT Int* height, 
-									 OUT Int* channels )
+							  OUT Int* channels )
 {
 	return stbi_load( filePath, width, height, channels, 0 );
 }

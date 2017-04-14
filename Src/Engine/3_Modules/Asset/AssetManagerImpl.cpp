@@ -220,20 +220,172 @@ StatusAssetAdd AssetManagerImpl::AddScript( Script* script )
 	ASSERT( _isInitialized );
 
 	Bool isOk = Random::ValidateUniqueID( script->GetUniqueID() );
-	if ( !isOk )
-	{
+	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
 	Script* found = GetScript( script->GetUniqueID() );
-	if ( found != NULL )
-	{
+	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
 	_scripts.Add( script );
 
 	return StatusAssetAdd::SUCCESS;
+}
+
+
+void AssetManagerImpl::RemoveMesh( Mesh* mesh )
+{
+	ASSERT( _isInitialized );
+
+	if ( mesh == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _meshes.Size(); i++ ) {
+		if ( _meshes[i] == mesh ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_meshes.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveMorph( Morph* morph )
+{
+	ASSERT( _isInitialized );
+
+	if ( morph == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _morphs.Size(); i++ ) {
+		if ( _morphs[i] == morph ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_morphs.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveMaterial( Material* material )
+{
+	ASSERT( _isInitialized );
+
+	if ( material == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _materials.Size(); i++ ) {
+		if ( _materials[i] == material ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_materials.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveShader( Shader* shader )
+{
+	ASSERT( _isInitialized );
+
+	if ( shader == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _shaders.Size(); i++ ) {
+		if ( _shaders[i] == shader ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_shaders.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveTexture( Texture* texture )
+{
+	ASSERT( _isInitialized );
+
+	if ( texture == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _textures.Size(); i++ ) {
+		if ( _textures[i] == texture ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_textures.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveScene( Scene* scene )
+{
+	ASSERT( _isInitialized );
+
+	if ( scene == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _scenes.Size(); i++ ) {
+		if ( _scenes[i] == scene ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_scenes.Erase( index );
+}
+
+
+void AssetManagerImpl::RemoveScript( Script* script )
+{
+	ASSERT( _isInitialized );
+
+	if ( script == NULL ) {
+		return;
+	}
+
+	// find index in array
+	UInt index = -1;
+	for ( UInt i = 0; i < _scripts.Size(); i++ ) {
+		if ( _scripts[i] == script ) {
+			index = i;
+			break;
+		}
+	}
+
+	// remove from index
+	_scripts.Erase( index );
 }
 
 

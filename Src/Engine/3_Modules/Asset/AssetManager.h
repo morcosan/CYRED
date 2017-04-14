@@ -53,6 +53,14 @@ namespace CYRED
 		virtual StatusAssetAdd	AddScene	( Scene* scene )			PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddScript	( Script* script )			PURE_VIRTUAL;
 
+		virtual void RemoveMesh		( Mesh* mesh )			PURE_VIRTUAL;
+		virtual void RemoveMorph	( Morph* morph )		PURE_VIRTUAL;
+		virtual void RemoveMaterial	( Material* material )	PURE_VIRTUAL;
+		virtual void RemoveShader	( Shader* shader )		PURE_VIRTUAL;
+		virtual void RemoveTexture	( Texture* texture )	PURE_VIRTUAL;
+		virtual void RemoveScene	( Scene* scene )		PURE_VIRTUAL;
+		virtual void RemoveScript	( Script* script )		PURE_VIRTUAL;
+
 		virtual Mesh*		GetMesh			( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Morph*		GetMorph		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Material*	GetMaterial		( const Char* uniqueID )	PURE_VIRTUAL;

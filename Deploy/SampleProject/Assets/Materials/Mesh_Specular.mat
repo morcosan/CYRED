@@ -8,12 +8,12 @@
         {
             "name": "specularPower",
             "type": "FLOAT",
-            "value": 1.0
+            "value": 10.0
         },
         {
             "name": "specularIntensity",
             "type": "FLOAT",
-            "value": 1.0
+            "value": 0.5
         },
         {
             "name": "diffuseColor",
@@ -28,12 +28,12 @@
         {
             "name": "diffuseTexture",
             "type": "TEXTURE",
-            "value": "g8FCleDKR8C1okcciqsX5nOVzakl8Qr2"
+            "value": "GKZsidCsQORMpow2QG7BkcZQWwdRWUy4"
         },
         {
             "name": "specularTexture",
             "type": "TEXTURE",
-            "value": "g8FCleDKR8C1okcciqsX5nOVzakl8Qr2"
+            "value": "GKZsidCsQORMpow2QG7BkcZQWwdRWUy4"
         }
     ]
 }

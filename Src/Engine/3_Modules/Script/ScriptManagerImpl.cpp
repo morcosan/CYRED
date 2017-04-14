@@ -443,6 +443,8 @@ void ScriptManagerImpl::_RegisterTexture()
 {
 	luabridge::getGlobalNamespace( _L )
 	.deriveClass<Texture, Asset>( "Texture" )
+		.addFunction( "SetImageData",	&Texture::SetImageData )
+		.addFunction( "SetPixel",		&Texture::SetPixel )
 	.endClass ();
 }
 

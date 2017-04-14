@@ -391,18 +391,47 @@ void AssetsPanel::A_Delete()
 
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 
-	if ( asset != NULL )
-	{
+	if ( asset != NULL ) {
+		// clear
 		asset->ClearAsset();
+
+		// remove from manager
+		switch ( asset->GetAssetType() ) {
+			case AssetType::MATERIAL:
+				AssetManager::Singleton()->RemoveMaterial( CAST_S( Material*, asset ) );
+				break;
+
+			case AssetType::MESH:
+				AssetManager::Singleton()->RemoveMesh( CAST_S( Mesh*, asset ) );
+				break;
+
+			case AssetType::MORPH:
+				AssetManager::Singleton()->RemoveMorph( CAST_S( Morph*, asset ) );
+				break;
+
+			case AssetType::SHADER:
+				AssetManager::Singleton()->RemoveShader( CAST_S( Shader*, asset ) );
+				break;
+
+			case AssetType::TEXTURE:
+				AssetManager::Singleton()->RemoveTexture( CAST_S( Texture*, asset ) );
+				break;
+
+			case AssetType::SCENE:
+				AssetManager::Singleton()->RemoveScene( CAST_S( Scene*, asset ) );
+				break;
+
+			case AssetType::SCRIPT:
+				AssetManager::Singleton()->RemoveScript( CAST_S( Script*, asset ) );
+				break;
+		}
 	}
 
 	QFileInfo fileInfo( item->whatsThis(1) );
-	if ( fileInfo.isDir() )
-	{
+	if ( fileInfo.isDir() ) {
 		QDir( item->whatsThis(1) ).removeRecursively();
 	}
-	else
-	{
+	else {
 		QDir().remove( item->whatsThis(1) );
 	}
 
@@ -894,8 +923,7 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 	Asset*		asset		= NULL;
 	const Char* icon		= NULL;
 
-	switch ( assetType )
-	{
+	switch ( assetType ) {
 		case AssetType::MATERIAL:
 		{
 			Material* material = Memory::Alloc<Material>();
