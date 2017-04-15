@@ -12,6 +12,7 @@
 #include "Sections/Scene.h"
 #include "../Render/Components/Camera.h" 
 #include "../Render/Components/Light.h" 
+#include "../Asset/Assets/Prefab.h" 
 
 
 using namespace CYRED;
@@ -290,6 +291,30 @@ GameObject* SceneManagerImpl::NewGameObject( const Char* sceneUID )
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
 
 	return newObject;
+}
+
+
+GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, UInt sceneIndex )
+{
+	ASSERT( _isInitialized );
+	
+	if ( prefab != NULL && prefab->GetGameObject() != NULL ) {
+		Scene* scene = GetScene( sceneIndex );
+		ASSERT( scene != NULL );
+
+		// create object
+		GameObject* newObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
+		// clone from prefab
+		prefab->GetGameObject()->Clone( newObject );
+		// add to scene
+		scene->GetRoot()->AddChildNode( newObject );
+		// send event
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+
+		return newObject;
+	}
+	
+	return NULL;
 }
 
 

@@ -12,7 +12,6 @@ end
 
 
 function OnUpdate()
-
 	if INPUT:KeyDown( KEY_ARROW_UP ) then
 		transform:TranslateByWorld( Vector3( 0, VARS.speed * TIME:GetDeltaTime(), 0 ) );
 	end

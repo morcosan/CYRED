@@ -24,7 +24,7 @@ namespace CYRED
 		const Char* const VAR_TYPE_VEC2		= "VECTOR2";
 		const Char* const VAR_TYPE_VEC3		= "VECTOR3";
 		const Char* const VAR_TYPE_VEC4		= "VECTOR4";
-		const Char* const VAR_TYPE_TEX		= "TEXTURE";
+		const Char* const VAR_TYPE_PREFAB	= "PREFAB";
 
 
 	public:

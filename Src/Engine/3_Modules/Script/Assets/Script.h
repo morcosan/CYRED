@@ -36,6 +36,9 @@ namespace CYRED
 		const Char* TYPE_VECTOR3		= "VECTOR3";
 		const Char* TYPE_VECTOR4		= "VECTOR4";
 		const Char* TYPE_STRING			= "STRING";
+		const Char* TYPE_PREFAB			= "PREFAB";
+
+		const Char* ERROR_UNKNOWN_TYPE	= "Unknown variable type: %.";
 
 
 	public:

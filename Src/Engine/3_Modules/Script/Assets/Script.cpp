@@ -7,6 +7,7 @@
 #include "../../Debug/DebugManager.h"
 #include "../ScriptManager.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
+#include "../../Asset/Assets/Prefab.h"
 
 extern "C" 
 {
@@ -170,6 +171,13 @@ void Script::SetVariable( const Char* varName, DataUnion varValue )
 		case DataUnion::VECTOR4:
 			(*_luaVarsRef)[varName] = varValue.GetVector4();
 			break;
+
+		case DataUnion::REFERENCE:
+		{
+			Prefab* prefab = CAST_S( Prefab*, varValue.GetReference() );
+			(*_luaVarsRef)[varName] = prefab;
+			break;
+		}
 	}
 }
 
@@ -335,6 +343,8 @@ void Script::_AddLuaFunc( const Char* funcName )
 
 	// get ref
 	luabridge::LuaRef luaFunc = luabridge::getGlobal( L, funcName );
+	// remove ref
+	luabridge::setGlobal( L, luabridge::Nil(), funcName );
 
 	// check if exists
 	if ( !luaFunc.isNil() && luaFunc.isFunction() ) {
@@ -364,6 +374,7 @@ void Script::_LoadLuaVars()
 
 	// get ref
 	luabridge::LuaRef luaVars = luabridge::getGlobal( L, GLOBAL_VARS );
+	// remove ref
 	luabridge::setGlobal( L, luabridge::Nil(), GLOBAL_VARS );
 
 	// check if exists
@@ -398,9 +409,13 @@ void Script::_LoadLuaVars()
 				else if ( type == TYPE_VECTOR4 ) {
 					varValue.SetVector4( Vector4() );
 				}
+				else if ( type == TYPE_PREFAB ) {
+					varValue.SetReference( NULL );
+				}
 				else {
 					// unknown type error
-					DebugManager::Singleton()->Error( "Unknown type." );
+					FiniteString errorMsg( ERROR_UNKNOWN_TYPE, type.GetChar() );
+					DebugManager::Singleton()->Error( errorMsg.GetChar() );
 					return;
 				}
 

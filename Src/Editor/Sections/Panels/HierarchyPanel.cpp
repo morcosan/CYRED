@@ -164,16 +164,14 @@ void HierarchyPanel::OnEvent( EventType eType, void* eData )
 HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindGameObjectItem( UInt uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
-	while ( *it != NULL ) 
-	{
+	while ( *it != NULL ) {
 		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
 		GameObject* gameObject = treeItem->gameObject;
 
-		if ( gameObject != NULL && gameObject->GetUniqueID() == uid )
-		{
+		if ( gameObject != NULL && gameObject->GetUniqueID() == uid ) {
 			return treeItem;
 		}
-
+		// next
 		++it;
 	}
 
@@ -185,13 +183,11 @@ HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindSceneItem( const Char* uid )
 {
 	String temp( uid );
 
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i )
-	{
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->topLevelItem(i) );
 		Scene* scene = treeItem->scene;
 
-		if ( scene != NULL && temp == scene->GetUniqueID() )
-		{
+		if ( scene != NULL && temp == scene->GetUniqueID() ) {
 			return treeItem;
 		}
 	}

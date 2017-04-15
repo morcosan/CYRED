@@ -108,6 +108,7 @@
     <ClCompile Include="Sections\Panels\ConsolePanel.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Mesh.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Morph.cpp" />
+    <ClCompile Include="Sections\Selectors\Selector_Prefab.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Scene.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Script.cpp" />
     <ClCompile Include="Sections\Serialize\JSON\JsonSerializer_CyredProj.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Sections\Panels\ConsolePanel.h" />
     <ClInclude Include="Sections\Selectors\Selector_Mesh.h" />
     <ClInclude Include="Sections\Selectors\Selector_Morph.h" />
+    <ClInclude Include="Sections\Selectors\Selector_Prefab.h" />
     <ClInclude Include="Sections\Selectors\Selector_Scene.h" />
     <ClInclude Include="Sections\Selectors\Selector_Script.h" />
     <ClInclude Include="Sections\Settings\EditorSettings.h" />

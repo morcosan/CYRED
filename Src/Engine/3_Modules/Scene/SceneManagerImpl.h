@@ -51,6 +51,8 @@ namespace CYRED
 			
 			GameObject*	NewGameObject	( UInt sceneIndex = 0 )			override;
 			GameObject*	NewGameObject	( const Char* sceneUID )		override;
+			GameObject*	Instantiate		( const Prefab* prefab,
+										  UInt sceneIndex = 0  )		override;
 			GameObject*	Duplicate		( const GameObject* object )	override;
 			GameObject*	Search			( const Char* objectName, 
 										  const Char* sceneUID = NULL )	override;

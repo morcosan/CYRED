@@ -13,6 +13,7 @@
 #include "Selectors\Selector_Texture.h"
 #include "Selectors\Selector_Scene.h"
 #include "Selectors\Selector_Script.h"
+#include "Selectors\Selector_Prefab.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlistwidget.h"
@@ -86,6 +87,7 @@ void SelectorPopup::Initialize()
 	AddSelector( Selector_Texture::TYPE,	Memory::Alloc<Selector_Texture>( this ) );
 	AddSelector( Selector_Scene::TYPE,		Memory::Alloc<Selector_Scene>( this ) );
 	AddSelector( Selector_Script::TYPE,		Memory::Alloc<Selector_Script>( this ) );
+	AddSelector( Selector_Prefab::TYPE,		Memory::Alloc<Selector_Prefab>( this ) );
 }
 
 

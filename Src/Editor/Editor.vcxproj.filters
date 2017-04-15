@@ -52,6 +52,7 @@
     <ClCompile Include="EngineOverride\Input\InputReceiverQT.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Light.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Prefab.cpp" />
+    <ClCompile Include="Sections\Selectors\Selector_Prefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -106,5 +107,6 @@
     <ClInclude Include="EngineOverride\Input\InputReceiverQT.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Light.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Prefab.h" />
+    <ClInclude Include="Sections\Selectors\Selector_Prefab.h" />
   </ItemGroup>
 </Project>

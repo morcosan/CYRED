@@ -7,6 +7,7 @@
 #include "../../../../2_BuildingBlocks/Random/Random.h"
 #include "../../../Script/Assets/Script.h"
 #include "../../../Script/Components/Scripter.h"
+#include "../../../Asset/Assets/Prefab.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -67,10 +68,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 												 rapidjson::StringRef( iter.GetKey().GetChar() ),
 												 _al );
 
-						switch ( iter.GetValue().GetValueType() )
-						{
+						switch ( iter.GetValue().GetValueType() ) {
 							case DataUnion::INT:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_INT ),
 														 _al );
@@ -78,10 +77,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 iter.GetValue().GetInt(),
 														 _al );
 								break;
-							}
 
 							case DataUnion::FLOAT:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_FLOAT ),
 														 _al );
@@ -89,10 +86,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 iter.GetValue().GetFloat(),
 														 _al );
 								break;
-							}
 
 							case DataUnion::BOOL:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_BOOL ),
 														 _al );
@@ -100,10 +95,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 iter.GetValue().GetBool(),
 														 _al );
 								break;
-							}
 
 							case DataUnion::STRING:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_STRING ),
 														 _al );
@@ -111,10 +104,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 rapidjson::StringRef( iter.GetValue().GetString() ),
 														 _al );
 								break;
-							}
 
 							case DataUnion::VECTOR2:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_VEC2 ),
 														 _al );
@@ -122,10 +113,8 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 _ToJsonVec2( iter.GetValue().GetVector2() ),
 														 _al );
 								break;
-							}
 
 							case DataUnion::VECTOR3:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_VEC3 ),
 														 _al );
@@ -133,16 +122,33 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 														 _ToJsonVec3( iter.GetValue().GetVector3() ),
 														 _al );
 								break;
-							}
 
 							case DataUnion::VECTOR4:
-							{
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
 														 rapidjson::StringRef( VAR_TYPE_VEC4 ),
 														 _al );
 								objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
 														 _ToJsonVec4( iter.GetValue().GetVector4() ),
 														 _al );
+								break;
+
+							case DataUnion::REFERENCE:
+							{
+								objectNodeVar.AddMember( rapidjson::StringRef( VAR_TYPE ),
+														 rapidjson::StringRef( VAR_TYPE_PREFAB ),
+														 _al );
+								Prefab* prefab = CAST_S( Prefab*, iter.GetValue().GetReference() );
+								if ( prefab != NULL ) {
+									objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+															 rapidjson::StringRef( prefab->GetUniqueID() ),
+															 _al );
+								}
+								else {
+									objectNodeVar.AddMember( rapidjson::StringRef( VAR_VALUE ),
+															 rapidjson::StringRef( "" ),
+															 _al );
+								}
+								
 								break;
 							}
 						}
@@ -251,6 +257,13 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 										  && iter.GetValue().GetValueType() == DataUnion::VECTOR4 ) 
 								{
 									varValue.SetVector4( _FromJsonVec4( vars[j][VAR_VALUE] ) );
+									script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
+								}
+								else if ( vars[j][VAR_TYPE] == VAR_TYPE_PREFAB 
+										  && iter.GetValue().GetValueType() == DataUnion::REFERENCE ) 
+								{
+									Prefab* prefab = AssetManager::Singleton()->GetPrefab( vars[j][VAR_VALUE].GetString() );
+									varValue.SetReference( prefab );
 									script->SetVariable( vars[j][VAR_NAME].GetString(), varValue );
 								}
 

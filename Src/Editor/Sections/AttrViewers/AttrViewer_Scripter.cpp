@@ -7,10 +7,10 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Event.h"
 #include "../Selectors/Selector_Script.h"
+#include "../Selectors/Selector_Prefab.h"
 
 
 using namespace CYRED;
-
 
 
 void AttrViewer_Scripter::_OnInitialize()
@@ -85,6 +85,18 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 						case DataUnion::VECTOR4:
 							_CreateAttrVector4( attrName.GetChar(), iter.GetKey().GetChar(), AttrFlag::NONE, CallbackGroup::GROUP_2 );
 							_WriteAttrVector4( attrName.GetChar(), iter.GetValue().GetVector4() );
+							break;
+
+						case DataUnion::REFERENCE:
+							_CreateAttrSelector( attrName.GetChar(), iter.GetKey().GetChar(), Selector_Prefab::TYPE, 
+												 AttrFlag::NONE, CallbackGroup::GROUP_2 );
+							if ( iter.GetValue().GetReference() != NULL ) {
+								Prefab* prefab = CAST_S( Prefab*, iter.GetValue().GetReference() );
+								_WriteAttrSelector( attrName.GetChar(), prefab, prefab->GetName() );
+							}
+							else {
+								_WriteAttrSelector( attrName.GetChar(), NULL, Selector_Prefab::OPTION_NULL );
+							}
 							break;
 					}
 
@@ -184,6 +196,11 @@ void AttrViewer_Scripter::_OnUpdateTarget()
 
 							case DataUnion::VECTOR4:
 								varValue.SetVector4( _ReadAttrVector4( attrName.GetChar() ) );
+								script->SetVariable( iter.GetKey().GetChar(), varValue );
+								break;
+
+							case DataUnion::REFERENCE:
+								varValue.SetReference( _ReadAttrSelector( attrName.GetChar() ) );
 								script->SetVariable( iter.GetKey().GetChar(), varValue );
 								break;
 						}

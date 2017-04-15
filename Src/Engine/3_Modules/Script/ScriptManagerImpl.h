@@ -54,6 +54,7 @@ namespace CYRED
 			void _RegisterMorph();
 			void _RegisterShader();
 			void _RegisterTexture();
+			void _RegisterPrefab();
 
 			void _RegisterRandom();
 			void _RegisterMath();

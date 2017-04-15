@@ -50,7 +50,8 @@ void Scene::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
-	ClearAsset();
+	// delete previous data
+	ClearRoot();
 
 	// create path
 	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );

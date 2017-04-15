@@ -91,6 +91,7 @@ void ScriptManagerImpl::Initialize()
 	_RegisterMorph();
 	_RegisterShader();
 	_RegisterTexture();
+	_RegisterPrefab();
 	
 	_RegisterRandom();
 	_RegisterMath();
@@ -340,7 +341,8 @@ void ScriptManagerImpl::_RegisterSceneManager()
 {
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<SceneManager>( "SceneManager" )
-		.addFunction( "Search", &SceneManager::Search )
+		.addFunction( "Search",			&SceneManager::Search )
+		.addFunction( "Instantiate",	&SceneManager::Instantiate )
 	.endClass();
 
 	// set global
@@ -445,6 +447,14 @@ void ScriptManagerImpl::_RegisterTexture()
 	.deriveClass<Texture, Asset>( "Texture" )
 		.addFunction( "SetImageData",	&Texture::SetImageData )
 		.addFunction( "SetPixel",		&Texture::SetPixel )
+	.endClass ();
+}
+
+
+void ScriptManagerImpl::_RegisterPrefab()
+{
+	luabridge::getGlobalNamespace( _L )
+	.deriveClass<Prefab, Asset>( "Prefab" )
 	.endClass ();
 }
 

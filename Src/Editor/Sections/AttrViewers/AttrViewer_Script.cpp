@@ -4,6 +4,7 @@
 #include "AttrViewer_Script.h"
 #include "CyredModule_Script.h"
 #include "CyredModule_Event.h"
+#include "../Selectors/Selector_Prefab.h"
 
 
 using namespace CYRED;
@@ -74,6 +75,12 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 				case DataUnion::VECTOR4:
 					_CreateAttrVector4( attrName.GetChar(), iter.GetKey().GetChar(), 
 										AttrFlag::READONLY, CallbackGroup::GROUP_1 );
+					break;
+
+				case DataUnion::REFERENCE:
+					_CreateAttrSelector( attrName.GetChar(), iter.GetKey().GetChar(),
+										 Selector_Prefab::TYPE,
+										 AttrFlag::READONLY, CallbackGroup::GROUP_1 );
 					break;
 			}
 

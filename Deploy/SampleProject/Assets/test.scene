@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 180.0,
+                        "x": -180.0,
                         "y": -48.700,
-                        "z": 180.0
+                        "z": -180.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -39,19 +39,19 @@
                                     "type": "VECTOR3",
                                     "value": {
                                         "x": 0.0,
-                                        "y": 100.0,
+                                        "y": 0.0,
                                         "z": 0.0
                                     }
                                 }
                             ]
                         },
                         {
-                            "uid": "LPaTVfT098ByEIVcIgn5a3metEOD8KyS",
+                            "uid": "V2fFlcqak6qWDREqDeqBJRd0A0GtWANb",
                             "variables": [
                                 {
-                                    "name": "speed",
-                                    "type": "FLOAT",
-                                    "value": 5.0
+                                    "name": "prefab",
+                                    "type": "PREFAB",
+                                    "value": "OpG9RI1FtJ7Khu4opRKMbcB8xjN9QMMX"
                                 }
                             ]
                         }

@@ -12,6 +12,7 @@ namespace CYRED
 {
 	class GameObject;
 	class Scene;
+	class Prefab;
 }
 
 
@@ -43,6 +44,8 @@ namespace CYRED
 
 		virtual GameObject*	NewGameObject	( UInt sceneIndex = 0 )			PURE_VIRTUAL;
 		virtual GameObject*	NewGameObject	( const Char* sceneUID )		PURE_VIRTUAL;
+		virtual GameObject*	Instantiate		( const Prefab* prefab,
+											  UInt sceneIndex = 0 )			PURE_VIRTUAL;
 		virtual GameObject*	Duplicate		( const GameObject* object )	PURE_VIRTUAL;
 		virtual GameObject*	Search			( const Char* objectName, 
 											  const Char* sceneUID = NULL )	PURE_VIRTUAL;

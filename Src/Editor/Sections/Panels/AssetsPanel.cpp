@@ -482,13 +482,7 @@ void AssetsPanel::A_InstPrefab()
 	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
 
 	Prefab* prefab = CAST_S( Prefab*, asset );
-
-	// create new gameonject in scene
-	GameObject* newGameObject = SceneManager::Singleton()->NewGameObject();
-	// clone prefab into new gameobject
-	prefab->GetGameObject()->Clone( newGameObject );
-	// update hierarchy panel
-	EventManager::Singleton()->EmitEvent( EventType::RENAME_GAMEOBJECT, newGameObject );
+	SceneManager::Singleton()->Instantiate( prefab );
 }
 
 
