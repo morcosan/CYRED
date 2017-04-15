@@ -47,6 +47,8 @@ namespace CYRED
 		const Char* const	MENU_OPEN_SCENE	= "Open Scene";
 		const Char* const	MENU_LOAD_SCENE	= "Load Scene";
 
+		const Char* const	MENU_PREFAB_INST	= "Instantiate";
+
 		const Char* const	MENU_CREATE			= "Create";
 		const Char* const	MENU_C_FOLDER		= "Folder";
 		const Char* const	MENU_C_MATERIAL		= "Material";
@@ -61,10 +63,10 @@ namespace CYRED
 		const Char* const	MENU_C_SCRIPT		= "Script";
 		const Char* const	MENU_C_SCENE		= "Scene";
 
-		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s not loaded. Already existing.";
+		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
 		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
 		const Char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
-
+		const Char* const	DEBUG_FOLDER_NOT_FOUND		= "ERROR: Directory %s not found.";
 
 
 	public:
@@ -91,6 +93,8 @@ namespace CYRED
 		void A_Rename			();
 		void A_Duplicate		();
 		void A_Delete			();
+
+		void A_InstPrefab		();
 
 		void A_OpenScene		();
 		void A_LoadScene		();
@@ -122,18 +126,20 @@ namespace CYRED
 		QFileSystemWatcher*		_qtFileWatcher;
 
 
-		void	_LoadIcons				();
-		void	_ParseDirectory			( const Char* dirName, const Char* dirPath, 
-										  QTreeWidgetItem* parentItem );
-		Asset*	_AddNewAsset			( const Char* dirPath, QTreeWidgetItem* parentItem,
-										  AssetType assetType );
-		void	_CreateRightClickMenu	();
-		void	_AddRightClickActions	( QTreeWidgetItem* item );
-		void	_SaveAssetToFile		( Asset* asset, const Char* oldName );
-		Bool	_IsFilePathDuplicate	( Asset* asset );
-		void	_SetAvailableName		( Asset* asset );
-		void	_AddAssetToTree			( Asset* asset, QTreeWidgetItem* parentItem, const Char* icon );
+		void		_LoadIcons				();
+		void		_ParseDirectory			( const Char* dirName, const Char* dirPath, 
+											  QTreeWidgetItem* parentItem );
+		Asset*		_AddNewAsset			( const Char* dirPath, QTreeWidgetItem* parentItem,
+											  AssetType assetType );
+		void		_CreateRightClickMenu	();
+		void		_AddRightClickActions	( QTreeWidgetItem* item );
+		void		_SaveAssetToFile		( Asset* asset, const Char* oldName );
+		Bool		_IsFilePathDuplicate	( Asset* asset );
+		void		_SetAvailableName		( Asset* asset );
+		_QtTreeItem* _AddAssetToTree		( Asset* asset, QTreeWidgetItem* parentItem, 
+											  const Char* icon );
 
-		_QtTreeItem* _FindTreeItem	( Asset* asset );
+		_QtTreeItem* _FindTreeItem			( Asset* asset );
+		_QtTreeItem* _FindFolderItem		( const Char* dirPath );
 	};
 }

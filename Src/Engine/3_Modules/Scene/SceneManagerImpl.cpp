@@ -136,28 +136,38 @@ Scene* SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newScene
 {
 	ASSERT( _isInitialized );
 
-	// create new asset scene
+	// get existing scene
 	Scene* scene = GetScene( sceneUID );
 	ASSERT( scene != NULL );
 
-	scene->SetEmitEvents( FALSE );
-	scene->SetName( newSceneName );
-	scene->SetDirPath( dirPath );
-	scene->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-	scene->SetIsTemporary( FALSE );
-	scene->SetEmitEvents( TRUE );
+	// uids
+	String newUID = Random::GenerateUniqueID();
+	String oldUID = scene->GetUniqueID();
 
-	AssetManager::Singleton()->AddScene( scene );
+	// create new asset scene
+	Scene* newScene = Memory::Alloc<Scene>();
+	newScene->SetEmitEvents( FALSE );
+	newScene->SetName( newSceneName );
+	newScene->SetDirPath( dirPath );
+	newScene->SetUniqueID( newUID.GetChar() );
+	newScene->SetIsTemporary( FALSE );
+	newScene->SetEmitEvents( TRUE );
+
+	AssetManager::Singleton()->AddScene( newScene );
 	
-		// save new scene to file
+	// save new scene to file
 	FiniteString filePath( "%s%s%s", dirPath,
 								     newSceneName,
 								     FileManager::FILE_FORMAT_SCENE );
 
+	// write file using new uid
+	scene->SetUniqueID( newUID.GetChar() );
 	FileManager* fileManager = FileManager::Singleton();
 	fileManager->WriteFile( filePath.GetChar(), fileManager->Serialize<Scene>( scene ).GetChar() );
+	scene->SetUniqueID( oldUID.GetChar() );
 
-	return scene;
+	// return new scene
+	return newScene;
 }
 
 
@@ -185,11 +195,9 @@ void SceneManagerImpl::CloseScene( const Char* sceneUID )
 
 	String temp( sceneUID );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
-	{
-		if ( temp == _currScenes[i]->GetUniqueID() )
-		{
-			 _currScenes[i]->ClearAsset();
+	for ( UInt i = 0; i < _currScenes.Size(); ++i ) {
+		if ( temp == _currScenes[i]->GetUniqueID() ) {
+			_currScenes[i]->ClearAsset();
 			_currScenes.Erase( i );
 
 			EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );

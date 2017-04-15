@@ -5,10 +5,10 @@
         "enabled": true,
         "components": {
             "transform": {
-                "enabled": true,
+                "enabled": false,
                 "position_world": {
-                    "x": 50.0,
-                    "y": -2.0,
+                    "x": 0.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "rotation_world": {

@@ -1,5 +1,5 @@
 {
-    "uid": "OpG9RI1FtJ7Khu4opRKMbcB8xDN9QMMX",
+    "uid": "GkNvHokx1vGZbqqc1O1qP2us8OrPKzFk",
     "game_objects": [
         {
             "name": "Mesh",
@@ -13,9 +13,9 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": -180.0,
+                        "x": 180.0,
                         "y": -48.700,
-                        "z": -180.0
+                        "z": 180.0
                     },
                     "scale_world": {
                         "x": 1.0,

@@ -81,6 +81,7 @@ Asset* Scene::Clone()
 	return _BuildClone( Memory::Alloc<Scene>() );
 }
 
+
 const Char* CYRED::Scene::GetExtension()
 {
 	if ( _useExtension ) {

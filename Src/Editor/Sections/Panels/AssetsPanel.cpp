@@ -131,9 +131,39 @@ void AssetsPanel::OnEvent( EventType eType, void* eData )
 		{
 			Asset* asset = CAST_S( Asset*, eData );
 
+			// do not save temporary assets
 			if ( asset != NULL && !asset->IsTemporary() ) {
+				// get tree item
 				_QtTreeItem* treeItem = _FindTreeItem( asset );
 
+				// if tree item does not exist, create one
+				if ( treeItem == NULL ) {
+					// find folder tree item
+					_QtTreeItem* parentItem = _FindFolderItem( asset->GetDirPath() );
+					if ( parentItem == NULL ) {
+						// if not found, it cannot save
+						FiniteString errorMsg( DEBUG_FOLDER_NOT_FOUND, asset->GetDirPath() );
+						DebugManager::Singleton()->Error( errorMsg.GetChar() );
+						return;
+					}
+
+					// get icon
+					const Char* icon = NULL;
+					switch ( asset->GetAssetType() ) {
+						case AssetType::MATERIAL:	icon = ICON_MATERIAL;	break;
+						case AssetType::MESH:		icon = ICON_MESH;		break;
+						case AssetType::MORPH:		icon = ICON_MORPH;		break;
+						case AssetType::SCENE:		icon = ICON_SCENE;		break;
+						case AssetType::SCRIPT:		icon = ICON_SCRIPT;		break;
+						case AssetType::SHADER:		icon = ICON_SHADER;		break;
+						case AssetType::TEXTURE:	icon = ICON_TEXTURE;	break;
+						case AssetType::PREFAB:		icon = ICON_SCENE;		break;
+					}
+					// create tree item
+					treeItem = _AddAssetToTree( asset, parentItem, icon );
+				}
+
+				// check for duplicated path
 				Bool isDuplicate = _IsFilePathDuplicate( asset );
 				if ( isDuplicate ) {
 					DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
@@ -144,13 +174,13 @@ void AssetsPanel::OnEvent( EventType eType, void* eData )
 					}
 				}
 				else {
+					// write file
 					_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
 
-					if ( treeItem != NULL )	{
-						_qtTree->blockSignals( true );
-						treeItem->setText( 0, asset->GetName() );
-						_qtTree->blockSignals( false );
-					}
+					// update item name
+					_qtTree->blockSignals( true );
+					treeItem->setText( 0, asset->GetName() );
+					_qtTree->blockSignals( false );
 				}
 			}
 			break;
@@ -201,8 +231,7 @@ void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 			newFolder.append( "/" ).append( item->text(0) );
 			
 			Bool success = dir.rename( item->whatsThis(1), newFolder );
-			if ( success )
-			{
+			if ( success ) {
 				treeItem->setWhatsThis( 1, newFolder );
 			}
 		}
@@ -447,10 +476,25 @@ void AssetsPanel::A_Delete()
 }
 
 
+void AssetsPanel::A_InstPrefab()
+{
+	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
+	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
+
+	Prefab* prefab = CAST_S( Prefab*, asset );
+
+	// create new gameonject in scene
+	GameObject* newGameObject = SceneManager::Singleton()->NewGameObject();
+	// clone prefab into new gameobject
+	prefab->GetGameObject()->Clone( newGameObject );
+	// update hierarchy panel
+	EventManager::Singleton()->EmitEvent( EventType::RENAME_GAMEOBJECT, newGameObject );
+}
+
+
 void AssetsPanel::A_OpenScene()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
-
 	ASSERT( asset->GetAssetType() == AssetType::SCENE );
 
 	SceneManager::Singleton()->OpenScene( asset->GetUniqueID() );
@@ -460,7 +504,6 @@ void AssetsPanel::A_OpenScene()
 void AssetsPanel::A_LoadScene()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
-
 	ASSERT( asset->GetAssetType() == AssetType::SCENE );
 
 	SceneManager::Singleton()->LoadScene( asset->GetUniqueID() );
@@ -638,6 +681,7 @@ void AssetsPanel::ReloadAllAssets()
 {
 	ASSERT( _isInitialized );
 
+	// clear assets from managers
 	AssetManager::Singleton()->ClearAll();
 
 	// clear tree
@@ -895,7 +939,8 @@ void AssetsPanel::_ParseDirectory( const Char* dirName, const Char* dirPath,
 						}
 						else {
 							FiniteString warning( DEBUG_EXISTING_ASSET,   
-												  fileName.toUtf8().constData() );
+												  fileName.toUtf8().constData(),
+												  asset->GetExtension() );
 							DebugManager::Singleton()->Log( warning.GetChar() );
 
 							Memory::Free( asset );
@@ -921,9 +966,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirName, const Char* dirPath,
 			_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
 			treeItem->asset = asset;
 			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
-			treeItem->setFlags( Qt::ItemIsSelectable | 
-								Qt::ItemIsEnabled | 
-								Qt::ItemIsEditable );
+			treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
 			treeItem->setText( 0, fileName );
 			treeItem->setIcon( 0, icon );
 
@@ -1080,6 +1123,12 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 				QObject::connect( actionOpenScene, &QAction::triggered, this, &AssetsPanel::A_OpenScene );
 				QObject::connect( actionLoadScene, &QAction::triggered, this, &AssetsPanel::A_LoadScene );
 			}
+			else if ( asset->GetAssetType() == AssetType::PREFAB ) {
+				QAction* actionInstantiate = _qtRightClickMenu->addAction( MENU_PREFAB_INST );
+				_qtRightClickMenu->addSeparator();
+
+				QObject::connect( actionInstantiate, &QAction::triggered, this, &AssetsPanel::A_InstPrefab );
+			}
 
 			QAction* actionReload = _qtRightClickMenu->addAction( MENU_RELOAD );
 
@@ -1228,7 +1277,7 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 														data.GetChar() );
 
 	// now delete old file
-	if ( success && String(oldName) != asset->GetName() ) {
+	if ( success && oldName != NULL && String(oldName) != asset->GetName() ) {
 		filePath.Set( "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
 		FileManager::Singleton()->DeleteFile( filePath.GetChar() );
 	}
@@ -1414,7 +1463,8 @@ void AssetsPanel::_SetAvailableName( Asset* asset )
 }
 
 
-void AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, const Char* icon )
+AssetsPanel::_QtTreeItem* AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, 
+														const Char* icon )
 {
 	// create item
 	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
@@ -1434,6 +1484,8 @@ void AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, co
 	else {
 		_qtTree->addTopLevelItem( treeItem );
 	}
+
+	return treeItem;
 }
 
 
@@ -1442,11 +1494,26 @@ AssetsPanel::_QtTreeItem* AssetsPanel::_FindTreeItem( Asset* asset )
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
 		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
-
 		if ( asset == treeItem->asset ) {
 			return treeItem;
 		}
+		// next
+		it++;
+	}
 
+	return NULL;
+}
+
+
+AssetsPanel::_QtTreeItem* AssetsPanel::_FindFolderItem( const Char* dirPath )
+{
+	QTreeWidgetItemIterator it( _qtTree );
+	while ( *it != NULL ) {
+		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
+		if ( treeItem->whatsThis( 1 ).compare( dirPath ) == 0 ) {
+			return treeItem;
+		}
+		// next
 		it++;
 	}
 

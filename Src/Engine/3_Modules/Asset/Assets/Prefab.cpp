@@ -62,10 +62,13 @@ void Prefab::LoadFullFile()
 
 void Prefab::ClearAsset()
 {
+	_isTemporary = TRUE; 
+
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }
+
 
 Asset* Prefab::Clone()
 {
@@ -91,4 +94,8 @@ GameObject* Prefab::GetGameObject() const
 void Prefab::SetGameObject( GameObject* gameObject )
 {
 	_gameObject = gameObject;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+	}
 }

@@ -5,6 +5,7 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
+#include "CyredModule_Asset.h"
 #include "CyredModule_Script.h"
 #include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
@@ -118,20 +119,16 @@ void HierarchyPanel::Finalize()
 
 void HierarchyPanel::OnEvent( EventType eType, void* eData )
 {
-	switch ( eType )
-	{
+	switch ( eType ) {
 		case EventType::CHANGE_HIERARCHY:
-		{
 			_ResetHierarchy();
 			break;
-		}
 
 		case EventType::RENAME_GAMEOBJECT:
 		{
 			GameObject* gameObject = CAST_S( GameObject*, eData );
 			_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
-			if ( treeItem != NULL )
-			{
+			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 			}
 
@@ -139,11 +136,8 @@ void HierarchyPanel::OnEvent( EventType eType, void* eData )
 		}
 		
 		case EventType::SELECT_ASSET:
-		{
 			_qtTree->setCurrentItem( NULL );
-
 			break;
-		}
 
 		case EventType::CHANGE_ASSET:
 		{
@@ -151,12 +145,10 @@ void HierarchyPanel::OnEvent( EventType eType, void* eData )
 
 			Asset* asset = CAST_S( Asset*, eData );
 
-			if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE )
-			{
+			if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE ) {
 				_QtTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
 
-				if ( treeItem != NULL )
-				{
+				if ( treeItem != NULL )	{
 					_qtTree->blockSignals( true );
 					treeItem->setText( 0, asset->GetName() );
 					_qtTree->blockSignals( false );
@@ -228,8 +220,8 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 
-	if ( treeItem->scene != NULL )
-	{
+	// scene only
+	if ( treeItem->scene != NULL && treeItem->gameObject == NULL ) {
 		QAction* actionSaveScene	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE );
 		QAction* actionSaveSceneAs	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE_AS );
 		QAction* actionCloseScene	= _qtRightClickMenu->addAction( MENU_CLOSE_SCENE );
@@ -239,16 +231,16 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionCloseScene,		&QAction::triggered, this, &HierarchyPanel::A_CloseScene );
 	}
 
-	if ( treeItem->gameObject != NULL || treeItem->scene != NULL )
-	{
+	// both
+	if ( treeItem->gameObject != NULL || treeItem->scene != NULL ) {
 		_qtRightClickMenu->addSeparator();
 		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
 
 		QObject::connect( actionRename,	&QAction::triggered, this, &HierarchyPanel::A_Rename );
 	}
 
-	if ( treeItem->gameObject != NULL && treeItem->scene == NULL)
-	{
+	// gameobject only
+	if ( treeItem->gameObject != NULL && treeItem->scene == NULL) {
 		_qtRightClickMenu->addSeparator();
 		QAction* actionDuplicate = _qtRightClickMenu->addAction( MENU_DUPLICATE );
 
@@ -262,6 +254,9 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionComp_Scripter	= menu_AddComp->addAction( MENU_COMP_SCRIPTER );
 
 		_qtRightClickMenu->addSeparator();
+		QAction* actionCreatePrefab = _qtRightClickMenu->addAction( MENU_CREATE_PREFAB );
+
+		_qtRightClickMenu->addSeparator();
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 
 		QObject::connect( actionDuplicate,		&QAction::triggered, this, &HierarchyPanel::A_Duplicate );
@@ -271,11 +266,12 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MorphRendering );
 		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_ParticlesEmitter );
 		QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Scripter );
+		QObject::connect( actionCreatePrefab,	&QAction::triggered, this, &HierarchyPanel::A_CreatePrefab );
 		QObject::connect( actionDelete,			&QAction::triggered, this, &HierarchyPanel::A_Delete );
 	}
 
-	if ( treeItem->gameObject == NULL && treeItem->scene != NULL )
-	{
+	// scene only
+	if ( treeItem->gameObject == NULL && treeItem->scene != NULL ) {
 		_qtRightClickMenu->addSeparator();
 		QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
 
@@ -410,12 +406,11 @@ void HierarchyPanel::A_SaveScene()
 	Scene* scene = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->scene;
 	ASSERT( scene != NULL );
 
-	if ( scene->IsTemporary() )		// a new scene
-	{
+	// a new scene
+	if ( scene->IsTemporary() )	{
 		A_SaveSceneAs();
 	}
-	else
-	{
+	else {
 		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
 	}
 }
@@ -428,27 +423,36 @@ void HierarchyPanel::A_SaveSceneAs()
 	Scene* scene = treeItem->scene;
 	ASSERT( scene != NULL );
 
+	// set file filter
 	FiniteString fileFilter( FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
-
+	// open explorer popup
 	QString newPath = QFileDialog::getSaveFileName( this, 
 													MSG_SAVE_SCENE, 
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
-	
-	const char* paths = newPath.toUtf8().constData();
+	// get selected path
+	const Char* paths = newPath.toUtf8().constData();
 	QFileInfo filePath( newPath );
-
+	// open directory
 	QDir dir;
 	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
 	dirPath.append( "/" );
-
+	// create new asset
 	const Char* newName = filePath.completeBaseName().toUtf8().constData();
 	Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
 															  newName,
 															  dirPath.toUtf8().constData() );
-
-	treeItem->scene = newScene;
+	// add new scene to manager
+	AssetManager::Singleton()->AddScene( newScene );
 	
+	// update assets panel
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
+
+	// use new scene
+	treeItem->scene = newScene;
+	SceneManager::Singleton()->OpenScene( newScene->GetUniqueID() );
+
+	// update hierarchy panel
 	_qtTree->blockSignals( true );
 	treeItem->setText( 0, newScene->GetName() );
 	_qtTree->blockSignals( false );
@@ -486,6 +490,43 @@ void HierarchyPanel::A_Delete()
 	ASSERT( treeItem->gameObject != NULL );
 
 	SceneManager::Singleton()->Destroy( treeItem->gameObject );
+}
+
+
+void HierarchyPanel::A_CreatePrefab()
+{
+	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// set file filter
+	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
+	// open explorer popup
+	QString newPath = QFileDialog::getSaveFileName( this, 
+													MSG_SAVE_PREFAB, 
+													ProjectSettings::dirPathAssets.GetChar(), 
+													fileFilter.GetChar() );
+	// get selected path
+	const Char* paths = newPath.toUtf8().constData();
+	QFileInfo filePath( newPath );
+	// open directory
+	QDir dir;
+	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
+	dirPath.append( "/" );
+	// write file
+	const Char* newName = filePath.completeBaseName().toUtf8().constData();
+	// create new prefab asset
+	Prefab* prefab = Memory::Alloc<Prefab>();
+	prefab->SetEmitEvents( FALSE );
+	prefab->SetName( newName );
+	prefab->SetDirPath( dirPath.toUtf8().constData() );
+	prefab->SetGameObject( treeItem->gameObject );
+	prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+	prefab->SetIsTemporary( FALSE );
+	prefab->SetEmitEvents( TRUE );
+	// add to manager
+	AssetManager::Singleton()->AddPrefab( prefab );
+	// save file
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
 }
 
 

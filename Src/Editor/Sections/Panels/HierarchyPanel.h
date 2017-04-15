@@ -30,6 +30,11 @@ namespace CYRED
 		const Char* const	MENU_DUPLICATE		= "Duplicate";
 		const Char* const	MENU_DELETE			= "Delete";
 
+		const Char* const	MSG_SAVE_PREFAB		= "Save Prefab";
+		const Char* const	FILE_FILTER_PREFAB	= "Prefab (*%s)";
+
+		const Char* const	MENU_CREATE_PREFAB	= "Create Prefab";
+
 		const Char*	const	MENU_GO				= "Create Object";
 		const Char*	const	MENU_GO_EMPTY		= "Empty";
 		const Char*	const	MENU_GO_3D			= "3D";
@@ -74,6 +79,8 @@ namespace CYRED
 		void A_Rename				();
 		void A_Duplicate			();
 		void A_Delete				();
+
+		void A_CreatePrefab			();
 
 		void A_GO_CreateEmpty		();
 		void A_GO_Create3D_Pivot	();
