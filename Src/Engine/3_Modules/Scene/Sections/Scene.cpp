@@ -6,6 +6,7 @@
 #include "../../File/FileManager.h"
 #include "../../../2_BuildingBlocks/Composite/Node.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
+#include "../../Event/EventManager.h"
 
 
 using namespace CYRED;
@@ -71,8 +72,11 @@ void Scene::LoadFullFile()
 
 void Scene::ClearAsset()
 {
-	Memory::Free( _root );
-	_root = Memory::Alloc<Node>();
+	_isTemporary = TRUE;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+	}
 }
 
 
@@ -105,5 +109,12 @@ Node* Scene::GetRoot() const
 {
 	ASSERT( _root != NULL );
 	return _root;
+}
+
+
+void Scene::ClearRoot()
+{
+	Memory::Free( _root );
+	_root = Memory::Alloc<Node>();
 }
 

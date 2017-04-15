@@ -33,9 +33,10 @@ namespace CYRED
 
 
 	public:
-		void	OnUpdate( Bool isRuntime = TRUE );
+		void	OnUpdate	( Bool isRuntime = TRUE );
 
-		Node*	GetRoot	() const;
+		Node*	GetRoot		() const;
+		void	ClearRoot	();
 
 
 	protected:

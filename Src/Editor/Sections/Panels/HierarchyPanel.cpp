@@ -411,6 +411,7 @@ void HierarchyPanel::A_SaveScene()
 		A_SaveSceneAs();
 	}
 	else {
+		// write file
 		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
 	}
 }

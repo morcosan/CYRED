@@ -197,7 +197,7 @@ void SceneManagerImpl::CloseScene( const Char* sceneUID )
 
 	for ( UInt i = 0; i < _currScenes.Size(); ++i ) {
 		if ( temp == _currScenes[i]->GetUniqueID() ) {
-			_currScenes[i]->ClearAsset();
+			_currScenes[i]->ClearRoot();
 			_currScenes.Erase( i );
 
 			EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
@@ -213,7 +213,7 @@ void SceneManagerImpl::CloseAllScenes()
 	ASSERT( _isInitialized );
 
 	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
-		_currScenes[i]->ClearAsset();
+		_currScenes[i]->ClearRoot();
 	}
 	_currScenes.Clear();
 
@@ -244,7 +244,7 @@ void SceneManagerImpl::RestoreScenes()
 
 	// clear everything
 	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
-		_currScenes[i]->ClearAsset();
+		_currScenes[i]->ClearRoot();
 	}
 	_currScenes.Clear();
 

@@ -266,8 +266,10 @@ void AssetManagerImpl::RemoveMesh( Mesh* mesh )
 		}
 	}
 
-	// remove from index
-	_meshes.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_meshes.Erase( index );
+	}
 }
 
 
@@ -288,8 +290,10 @@ void AssetManagerImpl::RemoveMorph( Morph* morph )
 		}
 	}
 
-	// remove from index
-	_morphs.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_morphs.Erase( index );
+	}
 }
 
 
@@ -310,8 +314,10 @@ void AssetManagerImpl::RemoveMaterial( Material* material )
 		}
 	}
 
-	// remove from index
-	_materials.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_materials.Erase( index );
+	}
 }
 
 
@@ -332,8 +338,10 @@ void AssetManagerImpl::RemoveShader( Shader* shader )
 		}
 	}
 
-	// remove from index
-	_shaders.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_shaders.Erase( index );
+	}
 }
 
 
@@ -354,8 +362,10 @@ void AssetManagerImpl::RemoveTexture( Texture* texture )
 		}
 	}
 
-	// remove from index
-	_textures.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_textures.Erase( index );
+	}
 }
 
 
@@ -376,8 +386,10 @@ void AssetManagerImpl::RemoveScene( Scene* scene )
 		}
 	}
 
-	// remove from index
-	_scenes.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_scenes.Erase( index );
+	}
 }
 
 
@@ -398,8 +410,10 @@ void AssetManagerImpl::RemoveScript( Script* script )
 		}
 	}
 
-	// remove from index
-	_scripts.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_scripts.Erase( index );
+	}
 }
 
 
@@ -420,8 +434,10 @@ void AssetManagerImpl::RemovePrefab( Prefab* prefab )
 		}
 	}
 
-	// remove from index
-	_prefabs.Erase( index );
+	if ( index > -1 ) {
+		// remove from index
+		_prefabs.Erase( index );
+	}
 }
 
 
