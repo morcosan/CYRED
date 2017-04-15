@@ -25,10 +25,10 @@ rapidjson::Value JsonSerializer_Prefab::ToJson( const void* object )
 					rapidjson::StringRef( prefab->GetUniqueID() ),
 					_al );
 
-	//JsonSerializer_GameObject serializer;
-	//json.AddMember( rapidjson::StringRef( GAME_OBJECT ), 
-	//				serializer.ToJson( comp ), 
-	//				_al );
+	JsonSerializer_GameObject serializer;
+	json.AddMember( rapidjson::StringRef( GAME_OBJECT ), 
+					serializer.ToJson( prefab->GetGameObject() ), 
+					_al );
 
 	return json;
 }
@@ -50,7 +50,11 @@ void JsonSerializer_Prefab::FromJson( rapidjson::Value& json, OUT void* object, 
 	}
 
 	if ( json.HasMember( GAME_OBJECT ) ) {
-		
+		GameObject* gameObject = Memory::Alloc<GameObject>( NULL, -1 );
+		prefab->SetGameObject( gameObject );
+
+		JsonSerializer_GameObject serializer;
+		serializer.FromJson( json[GAME_OBJECT], gameObject, DeserFlag::FULL );
 	}
 
 	prefab->SetEmitEvents( emitEvents );

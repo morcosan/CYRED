@@ -32,6 +32,7 @@ namespace CYRED
 		const Char* const	ATTR_MORPH				= "Morph";
 		const Char* const	ATTR_TEXTURE			= "Texture";
 		const Char* const	ATTR_SCRIPT				= "Script";
+		const Char* const	ATTR_PREFAB				= "Prefab";
 		const Char* const	ATTR_SHADER				= "Shader";
 		const Char* const	ATTR_SCENE				= "Scene";
 		const Char* const	ATTR_CYRED_PROJ			= "CyredProj";
@@ -72,7 +73,8 @@ namespace CYRED
 		void*			_target;
 		Bool			_needsRefresh;
 
+
 		void _ClearPanel		();
-		void _DisplayGameObject	();
+		void _DisplayGameObject	( GameObject* gameObject );
 	};
 }

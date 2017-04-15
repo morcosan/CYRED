@@ -62,7 +62,7 @@ namespace CYRED
 		const Char* const	MENU_C_SCENE		= "Scene";
 
 		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s not loaded. Already existing.";
-		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s has invalid UID. New UID generated.";
+		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
 		const Char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
 
 

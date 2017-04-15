@@ -136,7 +136,9 @@ void GameObject::SetEmitEvents( Bool value )
 void GameObject::Clone( GameObject* clone ) const
 {
 	// serialize this
-	String fileData = FileManager::Singleton()->Serialize<GameObject>( this );
+	String& fileData = FileManager::Singleton()->Serialize<GameObject>( this );
+	// deserialize into clone
+	FileManager::Singleton()->Deserialize<GameObject>( fileData.GetChar(), clone );
 }
 
 

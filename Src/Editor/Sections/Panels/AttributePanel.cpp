@@ -23,6 +23,7 @@
 #include "..\AttrViewers\AttrViewer_Texture.h"
 #include "..\AttrViewers\AttrViewer_Scene.h"
 #include "..\AttrViewers\AttrViewer_Script.h"
+#include "..\AttrViewers\AttrViewer_Prefab.h"
 #include "..\AttrViewers\AttrViewer_CyredProj.h"
 
 #include "QtWidgets\qboxlayout.h"
@@ -75,6 +76,15 @@ void AttributePanel::Initialize()
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
 
+	SetAttrViewer( ATTR_MATERIAL,			Memory::Alloc<AttrViewer_Material>() );
+	SetAttrViewer( ATTR_MESH,				Memory::Alloc<AttrViewer_Mesh>() );
+	SetAttrViewer( ATTR_MORPH,				Memory::Alloc<AttrViewer_Morph>() );
+	SetAttrViewer( ATTR_SHADER,				Memory::Alloc<AttrViewer_Shader>() );
+	SetAttrViewer( ATTR_TEXTURE,			Memory::Alloc<AttrViewer_Texture>() );
+	SetAttrViewer( ATTR_SCENE,				Memory::Alloc<AttrViewer_Scene>() );
+	SetAttrViewer( ATTR_SCRIPT,				Memory::Alloc<AttrViewer_Script>() );
+	SetAttrViewer( ATTR_PREFAB,				Memory::Alloc<AttrViewer_Prefab>() );
+
 	SetAttrViewer( ATTR_GAMEOBJECT,			Memory::Alloc<AttrViewer_GameObject>() );
 
 	SetAttrViewer( ATTR_TRANSFORM,			Memory::Alloc<AttrViewer_Transform>() );
@@ -84,14 +94,6 @@ void AttributePanel::Initialize()
 	SetAttrViewer( ATTR_MESH_RENDERING,		Memory::Alloc<AttrViewer_MeshRendering>() );
 	SetAttrViewer( ATTR_MORPH_RENDERING,	Memory::Alloc<AttrViewer_MorphRendering>() );
 	SetAttrViewer( ATTR_SCRIPTER,			Memory::Alloc<AttrViewer_Scripter>() );
-
-	SetAttrViewer( ATTR_MATERIAL,			Memory::Alloc<AttrViewer_Material>() );
-	SetAttrViewer( ATTR_MESH,				Memory::Alloc<AttrViewer_Mesh>() );
-	SetAttrViewer( ATTR_MORPH,				Memory::Alloc<AttrViewer_Morph>() );
-	SetAttrViewer( ATTR_SHADER,				Memory::Alloc<AttrViewer_Shader>() );
-	SetAttrViewer( ATTR_TEXTURE,			Memory::Alloc<AttrViewer_Texture>() );
-	SetAttrViewer( ATTR_SCENE,				Memory::Alloc<AttrViewer_Scene>() );
-	SetAttrViewer( ATTR_SCRIPT,				Memory::Alloc<AttrViewer_Script>() );
 
 	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
 
@@ -137,8 +139,7 @@ void AttributePanel::Update()
 
 void AttributePanel::OnEvent( EventType eType, void* eData )
 {
-	switch ( eType )
-	{
+	switch ( eType ) {
 		case EventType::SELECT_GAMEOBJECT:
 		{
 			_target = eData;
@@ -147,19 +148,30 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 			_ClearPanel();
 
 			// display game object
-			_DisplayGameObject();
+			Node* node = CAST_S( Node*, _target );
+			GameObject* gameObject = CAST_D( GameObject*, node );
+			_DisplayGameObject( gameObject );
 
 			break;
 		}
 
 		case EventType::CHANGE_GAMEOBJECT:
 		{
-			if ( _target != NULL && _target == eData ) {
-				// clear panel
-				_ClearPanel();
-
-				// display game object
-				_DisplayGameObject();
+			if ( _target != NULL ) {
+				if ( _target == eData ) {
+					// display game object
+					Node* node = CAST_S( Node*, _target );
+					GameObject* gameObject = CAST_D( GameObject*, node );
+					_DisplayGameObject( gameObject );
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -176,16 +188,19 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 
 		case EventType::RENAME_GAMEOBJECT:
 		{
-			if ( _target != NULL && _target == eData )
-			{
-				Node* node = CAST_S( Node*, eData );
-				GameObject* selectedGO = CAST_D( GameObject*, node );
-
-				if ( selectedGO != NULL )
-				{
+			if ( _target != NULL ) {
+				if ( _target == eData ) {
 					ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 					AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
 					gameObjectViewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
 				}
 			}
 			break;
@@ -194,10 +209,20 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_TRANSFORM:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -205,10 +230,20 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_CAMERA:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -216,10 +251,20 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_MESH_RENDERING:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -227,10 +272,20 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_MORPH_RENDERING:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -238,10 +293,20 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_PARTICLE_EMITTER:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
@@ -249,25 +314,54 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 		case EventType::CHANGE_SCRIPTER:
 		{
 			Component* comp = CAST_S( Component*, eData );
-			if ( _target != NULL  && _target == comp->GetGameObject() ) {
-				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
-				AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
-				viewer->UpdateGUI();
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
+			}
+			break;
+		}
+
+		case EventType::CHANGE_LIGHT:
+		{
+			Component* comp = CAST_S( Component*, eData );
+			if ( _target != NULL ) {
+				if ( _target == comp->GetGameObject() ) {
+					ASSERT( _attrViewers.Has( ATTR_LIGHT ) );
+					AttrViewer* viewer = _attrViewers.Get( ATTR_LIGHT )->viewer;
+					viewer->UpdateGUI();
+				}
+				else {
+					// check if target is prefab
+					Asset* asset = CAST_S( Asset*, _target );
+					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+						// send asset change event
+						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+					}
+				}
 			}
 			break;
 		}
 		
 		case EventType::CHANGE_ASSET:
 		{
-			if ( _target == eData )
-			{
+			if ( _target == eData )	{
 				Asset* asset = CAST_S( Asset*, eData );
 				ASSERT( asset != NULL );
 
 				const Char* attrViewerType = NULL;
 
-				switch ( asset->GetAssetType() )
-				{
+				switch ( asset->GetAssetType() ) {
 					case AssetType::MATERIAL:
 						attrViewerType = ATTR_MATERIAL;
 						break;
@@ -295,6 +389,10 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 					case AssetType::SCRIPT:
 						attrViewerType = ATTR_SCRIPT;
 						break;
+
+					case AssetType::PREFAB:
+						attrViewerType = ATTR_PREFAB;
+						break;
 				}
 
 				ASSERT( _attrViewers.Has( attrViewerType ) );
@@ -309,8 +407,7 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 			_target = eData;
 			_ClearPanel();
 
-			if ( eData == NULL )
-			{
+			if ( eData == NULL ) {
 				break;
 			}
 
@@ -319,8 +416,7 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 
 			const Char* attrViewerType = NULL;
 
-			switch ( asset->GetAssetType() )
-			{
+			switch ( asset->GetAssetType() ) {
 				case AssetType::MATERIAL:
 					attrViewerType = ATTR_MATERIAL;
 					break;
@@ -348,6 +444,10 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 				case AssetType::SCRIPT:
 					attrViewerType = ATTR_SCRIPT;
 					break;
+
+				case AssetType::PREFAB:
+					attrViewerType = ATTR_PREFAB;
+					break;
 			}
 
 			ASSERT( _attrViewers.Has( attrViewerType ) );
@@ -356,6 +456,12 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 			AttrViewer* viewer = atttrViewer->viewer;
 			viewer->ChangeTarget( asset );
 			viewer->UpdateGUI();
+
+			// for prefab, also show gameobject
+			if ( asset->GetAssetType() == AssetType::PREFAB ) {
+				// display game object
+				_DisplayGameObject( CAST_S( Prefab*, asset )->GetGameObject() );
+			}
 
 			break;
 		}
@@ -416,22 +522,19 @@ void AttributePanel::_ClearPanel()
 }
 
 
-void AttributePanel::_DisplayGameObject()
+void AttributePanel::_DisplayGameObject( GameObject* gameObject )
 {
-	Node* node = CAST_S( Node*, _target );
-	GameObject* selectedGO = CAST_D( GameObject*, node );
-
-	if ( selectedGO != NULL ) {
+	if ( gameObject != NULL ) {
 		{
 			ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
 			atttrViewer->needsRefresh = TRUE;
 			AttrViewer* viewer = atttrViewer->viewer;
-			viewer->ChangeTarget( selectedGO );
+			viewer->ChangeTarget( gameObject );
 			viewer->UpdateGUI();
 		}
 		{
-			Component* comp = selectedGO->GetComponent<Transform>();
+			Component* comp = gameObject->GetComponent<Transform>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_TRANSFORM );
@@ -442,7 +545,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<Camera>();
+			Component* comp = gameObject->GetComponent<Camera>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CAMERA );
@@ -453,7 +556,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<Light>();
+			Component* comp = gameObject->GetComponent<Light>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_LIGHT ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_LIGHT );
@@ -464,7 +567,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<ParticleEmitter>();
+			Component* comp = gameObject->GetComponent<ParticleEmitter>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
@@ -475,7 +578,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<MeshRendering>();
+			Component* comp = gameObject->GetComponent<MeshRendering>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MESH_RENDERING );
@@ -486,7 +589,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<MorphRendering>();
+			Component* comp = gameObject->GetComponent<MorphRendering>();
 			if ( comp != NULL )	{
 				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
@@ -497,7 +600,7 @@ void AttributePanel::_DisplayGameObject()
 			}
 		}
 		{
-			Component* comp = selectedGO->GetComponent<Scripter>();
+			Component* comp = gameObject->GetComponent<Scripter>();
 			if ( comp != NULL )
 			{
 				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );

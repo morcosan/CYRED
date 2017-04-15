@@ -259,8 +259,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 		UInt totalVec4s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4 );
 		UInt totalTexs		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE );
 
-		for ( UInt i = 0; i < totalFloats; ++i )
-		{
+		for ( UInt i = 0; i < totalFloats; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 
@@ -268,8 +267,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetFloat() );
 		}
 
-		for ( UInt i = 0; i < totalInts; ++i )
-		{
+		for ( UInt i = 0; i < totalInts; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 
@@ -277,8 +275,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetInt() );
 		}
 
-		for ( UInt i = 0; i < totalVec2s; ++i )
-		{
+		for ( UInt i = 0; i < totalVec2s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
@@ -286,8 +283,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector2() );
 		}
 
-		for ( UInt i = 0; i < totalVec3s; ++i )
-		{
+		for ( UInt i = 0; i < totalVec3s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
@@ -295,8 +291,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector3() );
 		}
 
-		for ( UInt i = 0; i < totalVec4s; ++i )
-		{
+		for ( UInt i = 0; i < totalVec4s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
@@ -304,8 +299,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector4() );
 		}
 
-		for ( UInt i = 0; i < totalTexs; ++i )
-		{
+		for ( UInt i = 0; i < totalTexs; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 

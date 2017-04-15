@@ -121,22 +121,18 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 	Bool emitEvents = gameObject->DoesEmitEvents();
 	gameObject->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( NAME ) )
-	{
+	if ( json.HasMember( NAME ) ) {
 		gameObject->SetName( json[NAME].GetString() );
 	}
 
-	if ( json.HasMember( ENABLED ) )
-	{
+	if ( json.HasMember( ENABLED ) ) {
 		gameObject->SetEnabled( json[ENABLED].GetBool() );
 	}
 
-	if ( json.HasMember( COMPONENTS ) )
-	{
+	if ( json.HasMember( COMPONENTS ) ) {
 		rapidjson::Value& components = json[COMPONENTS];
 
-		for ( auto iter = components.MemberBegin(); iter != components.MemberEnd(); ++iter )
-		{
+		for ( auto iter = components.MemberBegin(); iter != components.MemberEnd(); ++iter ) {
 			FiniteString comp( iter->name.GetString() );
 
 			if ( comp == TRANSFORM ) {

@@ -17,6 +17,7 @@ namespace CYRED
 	class Texture;
 	class Scene;
 	class Script;
+	class Prefab;
 
 	namespace Enum_StatusAssetAdd
 	{
@@ -52,6 +53,7 @@ namespace CYRED
 		virtual StatusAssetAdd	AddTexture	( Texture* texture )		PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddScene	( Scene* scene )			PURE_VIRTUAL;
 		virtual StatusAssetAdd	AddScript	( Script* script )			PURE_VIRTUAL;
+		virtual StatusAssetAdd	AddPrefab	( Prefab* prefab )			PURE_VIRTUAL;
 
 		virtual void RemoveMesh		( Mesh* mesh )			PURE_VIRTUAL;
 		virtual void RemoveMorph	( Morph* morph )		PURE_VIRTUAL;
@@ -60,6 +62,7 @@ namespace CYRED
 		virtual void RemoveTexture	( Texture* texture )	PURE_VIRTUAL;
 		virtual void RemoveScene	( Scene* scene )		PURE_VIRTUAL;
 		virtual void RemoveScript	( Script* script )		PURE_VIRTUAL;
+		virtual void RemovePrefab	( Prefab* prefab )		PURE_VIRTUAL;
 
 		virtual Mesh*		GetMesh			( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Morph*		GetMorph		( const Char* uniqueID )	PURE_VIRTUAL;
@@ -68,6 +71,7 @@ namespace CYRED
 		virtual Texture*	GetTexture		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Scene*		GetScene		( const Char* uniqueID )	PURE_VIRTUAL;
 		virtual Script*		GetScript		( const Char* uniqueID )	PURE_VIRTUAL;
+		virtual Prefab*		GetPrefab		( const Char* uniqueID )	PURE_VIRTUAL;
 
 		virtual UInt		GetMaterialCount()				PURE_VIRTUAL;
 		virtual Material*	GetMaterialAt	( UInt index )	PURE_VIRTUAL;
@@ -89,5 +93,8 @@ namespace CYRED
 
 		virtual UInt		GetScriptCount	()				PURE_VIRTUAL;
 		virtual Script*		GetScriptAt		( UInt index )	PURE_VIRTUAL;
+
+		virtual UInt		GetPrefabCount	()				PURE_VIRTUAL;
+		virtual Prefab*		GetPrefabAt		( UInt index )	PURE_VIRTUAL;
 	};
 }

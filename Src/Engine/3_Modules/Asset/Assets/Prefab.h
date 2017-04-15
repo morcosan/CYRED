@@ -32,10 +32,12 @@ namespace CYRED
 
 
 	public:
-		
+		GameObject* GetGameObject() const;
+
+		void SetGameObject( GameObject* gameObject );
 
 
 	protected:
-		
+		GameObject* _gameObject;
 	};
 }

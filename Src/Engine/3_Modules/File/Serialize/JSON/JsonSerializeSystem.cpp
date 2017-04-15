@@ -18,6 +18,7 @@
 #include "JsonSerializer_AppConfig.h"
 #include "JsonSerializer_Script.h"
 #include "JsonSerializer_Scripter.h"
+#include "JsonSerializer_Prefab.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
@@ -35,6 +36,7 @@
 #include "../../../../4_Application/AppConfig.h"
 #include "../../../Script/Assets/Script.h"
 #include "../../../Script/Components/Scripter.h"
+#include "../../../Asset/Assets/Prefab.h"
 
 #include "rapidjson\Include\document.h"
 #include "rapidjson\Include\stringbuffer.h"
@@ -64,6 +66,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Mesh>				( Memory::Alloc<JsonSerializer_Mesh>() );
 	AddSerializer<Morph>			( Memory::Alloc<JsonSerializer_Morph>() );
 	AddSerializer<Script>			( Memory::Alloc<JsonSerializer_Script>() );
+	AddSerializer<Prefab>			( Memory::Alloc<JsonSerializer_Prefab>() );
 
 	AddSerializer<AppConfig>		( Memory::Alloc<JsonSerializer_AppConfig>() );
 }

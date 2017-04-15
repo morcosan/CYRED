@@ -12,6 +12,7 @@ using namespace CYRED;
 
 Prefab::Prefab()
 	: Asset( AssetType::PREFAB )
+	, _gameObject( NULL )
 {
 }
 
@@ -22,7 +23,7 @@ void Prefab::LoadUniqueID()
 	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
 	// add extension of needed
 	if ( _useExtension ) {
-		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MATERIAL );
+		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_PREFAB );
 	}
 
 	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
@@ -78,4 +79,16 @@ const Char* Prefab::GetExtension()
 		return FileManager::FILE_FORMAT_PREFAB;
 	}
 	return NULL;
+}
+
+
+GameObject* Prefab::GetGameObject() const
+{
+	return _gameObject;
+}
+
+
+void Prefab::SetGameObject( GameObject* gameObject )
+{
+	_gameObject = gameObject;
 }
