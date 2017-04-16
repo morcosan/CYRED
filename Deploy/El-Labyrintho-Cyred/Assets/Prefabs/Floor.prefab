@@ -1,0 +1,32 @@
+{
+    "uid": "NMTqp8lPruZl1s6AHyXusd8c1S5lT8SM",
+    "game_object": {
+        "name": "Floor",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 2.0,
+                    "y": -0.5,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": -90.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
+                "material": "BxTFYR4SKJTcYpgM1tPSXjQLDPyLG9Vg"
+            }
+        }
+    }
+}

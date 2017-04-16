@@ -1,0 +1,32 @@
+{
+    "uid": "q5YUeHOC6t3QLYfqYYv5oMi2w6lYzUhQ",
+    "game_object": {
+        "name": "Wall",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "uid": "eSYa0tyIbsPsogByxvU0WKKe1PUvuCop",
+    "game_objects": [
+        {
+            "name": "Sun",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": -45.0,
+                        "y": 29.999,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "light": {
+                    "enabled": true,
+                    "light_type": "DIRECTIONAL",
+                    "color": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "intensity": 1.0
+                }
+            }
+        },
+        {
+            "name": "LevelManager",
+            "enabled": true,
+            "components": {
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
+                            "variables": [
+                                {
+                                    "name": "floor",
+                                    "type": "PREFAB",
+                                    "value": "NMTqp8lPruZl1s6AHyXusd8c1S5lT8SM"
+                                },
+                                {
+                                    "name": "wall",
+                                    "type": "PREFAB",
+                                    "value": "q5YUeHOC6t3QLYfqYYv5oMi2w6lYzUhQ"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

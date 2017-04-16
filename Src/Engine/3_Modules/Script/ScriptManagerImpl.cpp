@@ -11,6 +11,7 @@
 #include "../../2_BuildingBlocks/Math/Vector4.h"
 #include "../../2_BuildingBlocks/Math/Matrix4.h"
 #include "../../2_BuildingBlocks/Random/Random.h"
+#include "../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../2_BuildingBlocks/GameObject.h"
 #include "../../2_BuildingBlocks/Component.h"
 #include "../../2_BuildingBlocks/Components/Transform.h"
@@ -25,6 +26,7 @@
 #include "../../3_Modules/Render/Assets/Morph.h"
 #include "../../3_Modules/Render/Assets/Shader.h"
 #include "../../3_Modules/Render/Assets/Texture.h"
+#include "../../3_Modules/Asset/Assets/Prefab.h"
 #include "../../3_Modules/File/FileManager.h"
 #include "../../3_Modules/Input/InputManager.h"
 #include "../../3_Modules/Asset/AssetManager.h"
@@ -53,6 +55,54 @@ DEFINE_LOCAL_SINGLETON( ScriptManager, ScriptManagerImpl )
 DEFINE_LOCAL_SINGLETON_IMPL( ScriptManagerImpl )
 
 
+int ScriptManagerImpl::LuaFunc_Print( lua_State* L )
+{
+	// redirect lua print function to debug manager
+	int nargs = lua_gettop( L );
+	for ( Int i = 1; i <= nargs; ++i ) {
+		int argType = lua_type( L, i );
+		switch ( argType ) {
+			case LUA_TNIL:
+				DebugManager::Singleton()->Log( "nil" );
+				break;
+
+			case LUA_TSTRING:
+				DebugManager::Singleton()->Log( lua_tostring( L, i ) );
+				break;
+
+			case LUA_TBOOLEAN:
+				DebugManager::Singleton()->Log( lua_toboolean( L, i ) ? "TRUE" : "FALSE" );
+				break;
+
+			case LUA_TNUMBER:
+				DebugManager::Singleton()->LogFloat( CAST_S( Float, lua_tonumber( L, i ) ) );
+				break;
+
+			case LUA_TLIGHTUSERDATA:
+				DebugManager::Singleton()->Log( "Lua light userdata." );
+				break;
+
+			case LUA_TTABLE:
+				DebugManager::Singleton()->Log( "Lua table." );
+				break;
+
+			case LUA_TFUNCTION:
+				DebugManager::Singleton()->Log( "Lua function." );
+				break;
+
+			case LUA_TUSERDATA:
+				DebugManager::Singleton()->Log( "Lua userdata." );
+				break;
+				
+			default:
+				DebugManager::Singleton()->Log( "Unknown Lua type." );
+				break;
+		}
+	}
+
+	return 0;
+}
+
 
 void ScriptManagerImpl::Initialize()
 {
@@ -62,6 +112,9 @@ void ScriptManagerImpl::Initialize()
 	// create lua state
 	_L = luaL_newstate();
 	luaL_openlibs( _L );
+
+	// override some lua functions
+	_OverrideLuaFunc();
 
 	// register lua classes
 	_RegisterApplication();
@@ -107,12 +160,28 @@ void ScriptManagerImpl::Initialize()
 void ScriptManagerImpl::Finalize()
 {
 	ASSERT( _isInitialized );
+
+	lua_close( _L );
 }
 
 
 lua_State* ScriptManagerImpl::GetLuaState() const
 {
 	return _L;
+}
+
+
+void ScriptManagerImpl::_OverrideLuaFunc()
+{
+	// redirect print function
+	struct luaL_Reg printlib[] = {
+		{ "print", ScriptManagerImpl::LuaFunc_Print },
+		{ NULL, NULL } /* end of array */
+	};
+
+	lua_getglobal( _L, "_G" );
+	luaL_setfuncs( _L, printlib, 0 );
+	lua_pop( _L, 1);
 }
 
 

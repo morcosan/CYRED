@@ -59,8 +59,7 @@ void DebugManagerImpl::Error( const Char* value )
 void DebugManagerImpl::Log( const Char* value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
-	{
+	if ( !_enabled ) {
 		return;
 	}
 
@@ -72,8 +71,7 @@ void DebugManagerImpl::Log( const Char* value )
 void DebugManagerImpl::LogInt( Int value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
-	{
+	if ( !_enabled ) {
 		return;
 	}
 

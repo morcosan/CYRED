@@ -29,6 +29,7 @@ Texture::Texture()
 	, _hasMipmap( TRUE )
 	, _clearBufferOnBind( TRUE )
 	, _textureType( TextureType::TEXTURE_2D )
+	, _loadType( TextureLoadType::EXTERNAL )
 {
 	for ( UInt i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
@@ -45,6 +46,7 @@ Texture::Texture( UInt textureID )
 	, _hasMipmap( TRUE )
 	, _clearBufferOnBind( TRUE )
 	, _textureType( TextureType::TEXTURE_2D )
+	, _loadType( TextureLoadType::EXTERNAL )
 {
 	for ( UInt i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
@@ -128,6 +130,8 @@ void Texture::ClearAsset()
 	_hasMipmap = TRUE;
 	_clearBufferOnBind = TRUE;
 	_textureType = TextureType::TEXTURE_2D;
+	_loadType = TextureLoadType::EXTERNAL;
+
 	_isTemporary = TRUE;
 
 	Memory::FreeArray( _imageBuffer[0] );

@@ -16,7 +16,6 @@ namespace CYRED
 		const Char* const FPS			= "fps";
 		const Char* const PROJECT_NAME	= "project_name";
 		const Char* const PROJECT_PATH	= "project_path";
-		const Char* const BUILD_PATH	= "build_path";
 
 
 	public:

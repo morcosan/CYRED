@@ -120,8 +120,7 @@ void AssetsPanel::OnEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
-	switch ( eType )
-	{
+	switch ( eType ) {
 		case EventType::SELECT_SCENE:
 		case EventType::SELECT_GAMEOBJECT:
 			_qtTree->setCurrentItem( NULL );
@@ -177,9 +176,15 @@ void AssetsPanel::OnEvent( EventType eType, void* eData )
 					// write file
 					_SaveAssetToFile( asset, treeItem->text(0).toUtf8().constData() );
 
-					// update item name
 					_qtTree->blockSignals( true );
-					treeItem->setText( 0, asset->GetName() );
+					{
+						// update item name
+						treeItem->setText( 0, asset->GetName() );
+						// change file path
+						FiniteString filePath( "%s%s%s", asset->GetDirPath(), asset->GetName(), 
+											   asset->GetExtension() );
+						treeItem->setWhatsThis( 1, filePath.GetChar() );
+					}
 					_qtTree->blockSignals( false );
 				}
 			}
@@ -217,9 +222,17 @@ void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 		FiniteString newName( item->text(0).toUtf8().constData() );
 
 		_qtTree->blockSignals( true );
-		item->setText( 0, asset->GetName() );
+		{
+			// set old name since will be changed after
+			item->setText( 0, asset->GetName() );
+			// change file path
+			FiniteString filePath( "%s%s%s", asset->GetDirPath(), newName.GetChar(), 
+								   asset->GetExtension() );
+			treeItem->setWhatsThis( 1, filePath.GetChar() );
+		}
 		_qtTree->blockSignals( false );
 
+		// change name
 		asset->SetName( newName.GetChar() );
 	}
 	else {

@@ -108,7 +108,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 	}
 	else {
 		TextureLoadType loadType;
-		Int typeIndex = _ReadAttrDropdown( ATTR_TEXTURE_TYPE );
+		Int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
 		switch ( typeIndex ) {
 			case 0:	loadType = TextureLoadType::SCRIPTED;	break;
 			case 1:	loadType = TextureLoadType::EXTERNAL;	break;

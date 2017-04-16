@@ -18,6 +18,10 @@ namespace CYRED
 
 
 		public:
+			static int LuaFunc_Print( lua_State* L );
+
+
+		public:
 			void Initialize	()	override;
 			void Finalize	()	override;
 
@@ -26,6 +30,8 @@ namespace CYRED
 
 		protected:
 			lua_State*	_L;
+
+			void _OverrideLuaFunc();
 
 			void _RegisterApplication();
 
