@@ -19,6 +19,7 @@
 #include "JsonSerializer_MorphRendering.h"
 #include "JsonSerializer_Scripter.h"
 #include "../../../../2_BuildingBlocks/String/FiniteString.h"
+#include "../../../Scene/SceneManager.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -92,22 +93,19 @@ rapidjson::Value JsonSerializer_GameObject::ToJson( const void* object )
 									  _al );
 			}
 		}
-		json.AddMember( rapidjson::StringRef(COMPONENTS), objectNode, _al );
+		json.AddMember( rapidjson::StringRef( COMPONENTS ), objectNode, _al );
 	}
 
-	//{
-	//	rapidjson::Value arrayNode;
-	//	arrayNode.SetArray();
-	//	for ( uint i = 0; i < gameObject->GetChildNodeCount(); ++i )
-	//	{
-	//		GameObject* child = gameObject->GetChildNodeAt( i );
-	//		if ( _useAll || child->IsSavable() )
-	//		{
-	//			arrayNode.PushBack( _GameObject_to_JSON( child, al ), al );
-	//		}
-	//	}
-	//	json.AddMember( "childNodes", arrayNode, al );
-	//}
+	// add child nodes
+	if ( gameObject->GetChildNodeCount() > 0 ) {
+		rapidjson::Value arrayNode;
+		arrayNode.SetArray();
+		for ( UInt i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
+			GameObject* child = CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) );
+			arrayNode.PushBack( this->ToJson( child ), _al );
+		}
+		json.AddMember( rapidjson::StringRef( CHILD_NODES ), arrayNode, _al );
+	}
 	
 	return json;
 }
@@ -177,6 +175,17 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 				JsonSerializer_Scripter serializer;
 				serializer.FromJson( iter->value, scripter, DeserFlag::FULL );
 			}
+		}
+	}
+
+	if ( json.HasMember( CHILD_NODES ) ) {
+		rapidjson::Value& childNodes = json[CHILD_NODES];
+
+		for ( UInt i = 0; i < childNodes.Size(); i++ ) {
+			UInt uid = SceneManager::Singleton()->NextGameObjectUID();
+			GameObject* childObject = Memory::Alloc<GameObject>( NULL, uid );
+			gameObject->AddChildNode( childObject );
+			this->FromJson( childNodes[i], childObject, DeserFlag::FULL );
 		}
 	}
 

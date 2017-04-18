@@ -16,14 +16,12 @@ Node::Node()
 Node::~Node()
 {
 	// the child will remove itself from parent
-	while ( _childNodes.Size() > 0 )
-	{
+	while ( _childNodes.Size() > 0 ) {
 		Memory::Free( _childNodes[0] );
 	}
 
 	// should have no children by now
-	if ( _parentNode != NULL )
-	{
+	if ( _parentNode != NULL ) {
 		_parentNode->_RemoveChildNode( this );
 	}
 }
@@ -37,18 +35,16 @@ Node* Node::GetParentNode() const
 
 void Node::SetParentNode( Node* newNode )
 {
-	if ( _parentNode != newNode )	//! not to waste resources
-	{
+	// not to waste resources
+	if ( _parentNode != newNode ) {
 		Node* lastParent = _parentNode;
 		_parentNode = newNode;
 
-		if ( newNode != NULL )
-		{
+		if ( newNode != NULL ) {
 			newNode->AddChildNode( this );
 		}
 
-		if ( lastParent != NULL )
-		{
+		if ( lastParent != NULL ) {
 			lastParent->_RemoveChildNode( this );
 		}
 
@@ -105,7 +101,7 @@ UInt Node::GetChildNodeCount() const
 }
 
 
-Node* Node::GetChildNodeAt( UInt index )
+Node* Node::GetChildNodeAt( UInt index ) const
 {
 	ASSERT( index < _childNodes.Size() );
 
@@ -117,10 +113,8 @@ void Node::_RemoveChildNode( Node* childNode )
 {
 	ASSERT( childNode != NULL );
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i )
-	{
-		if ( _childNodes[i] == childNode )
-		{
+	for ( UInt i = 0; i < _childNodes.Size(); ++i )	{
+		if ( _childNodes[i] == childNode ) {
 			_childNodes.Erase( i );
 			return;
 		}

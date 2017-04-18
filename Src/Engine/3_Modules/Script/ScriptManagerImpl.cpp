@@ -243,10 +243,8 @@ void ScriptManagerImpl::_RegisterTransform()
 		.addFunction( "GetLocalForward",	&Transform::GetLocalForward )
 		.addFunction( "TranslateByWorld",	&Transform::TranslateByWorld )
 		.addFunction( "TranslateByLocal",	&Transform::TranslateByLocal )
-		.addFunction( "Translate",			&Transform::Translate )
 		.addFunction( "RotateByWorld",		&Transform::RotateByWorld )
 		.addFunction( "RotateByLocal",		&Transform::RotateByLocal )
-		//.addFunction( "Rotate",				&Transform::Rotate )
 		.addFunction( "ScaleByConstant",	&Transform::ScaleByConstant )
 	.endClass ();
 }

@@ -20,6 +20,7 @@ namespace CYRED
 		const Char* const MESH_RENDERING	= "mesh_rendering";
 		const Char* const MORPH_RENDERING	= "morph_rendering";
 		const Char* const SCRIPTER			= "scripter";
+		const Char* const CHILD_NODES		= "child_nodes";
 
 
 	public:

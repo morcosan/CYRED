@@ -49,11 +49,11 @@ namespace CYRED
 			Transform*	_cameraTran;
 			Camera*		_cameraComp;
 
-			void _RenderMesh		( GameObject* gameObject );
-			void _RenderMorph		( GameObject* gameObject );
-			void _RenderParticles	( GameObject* gameObject );
+			void _RecRenderMesh		( GameObject* gameObject );
+			void _RecRenderMorph	( GameObject* gameObject );
+			void _RecRenderParticles( GameObject* gameObject );
 
-			void _BindMaterial	( Material* material );
+			void _BindMaterial		( Material* material );
 		};
 	}
 }

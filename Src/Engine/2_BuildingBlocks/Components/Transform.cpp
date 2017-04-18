@@ -35,16 +35,14 @@ Transform::Transform( GameObject* gameObject )
 
 void Transform::_OnEnable()
 {
-	_RecursiveFindFirstParent();  // ?? is it needed
-	_RecursiveFindFirstChildren( _gameObject );
+	// update oneself
+	OnHierarchyChange();
 
 	// anounce both parent and children
-	if ( _parent != NULL )
-	{
+	if ( _parent != NULL ) {
 		_parent->OnHierarchyChange();
 	}
-	for ( UInt i = 0; i < _children.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _children.Size(); ++i ) {
 		_children[i]->OnHierarchyChange();
 	}
 }
@@ -58,16 +56,13 @@ void Transform::OnHierarchyChange()
 	_RecursiveFindFirstChildren( _gameObject );
 
 	// if it did change its parent
-	if ( lastParent != _parent )
-	{
-		if ( _parent != NULL )
-		{
+	if ( lastParent != _parent ) {
+		if ( _parent != NULL ) {
 			_positionLocal	= _positionWorld - _parent->GetPositionWorld();
 			_rotationLocal	= _rotationWorld * Quaternion::Inverse( _parent->GetRotationWorld() );
 			_scaleLocal		= _scaleWorld / _parent->GetScaleWorld();
 		}
-		else
-		{
+		else {
 			_positionLocal	= _positionWorld;
 			_rotationLocal	= _rotationWorld;
 			_scaleLocal		= _scaleWorld;
@@ -102,8 +97,7 @@ Vector3 Transform::GetEulerRotationLocal() const
 
 Matrix4 Transform::GetPositionMatrix()
 {
-	if ( _positionHasChanged )
-	{
+	if ( _positionHasChanged ) {
 		_positionMatrix = Matrix4::Translate( Matrix4::Identity(), _positionWorld );
 		_positionHasChanged = false;
 	}
@@ -113,8 +107,7 @@ Matrix4 Transform::GetPositionMatrix()
 
 Matrix4 Transform::GetRotationMatrix()
 {
-	if ( _rotationHasChanged )
-	{
+	if ( _rotationHasChanged ) {
 		_rotationMatrix =  _rotationWorld.ToMatrix4();
 		_rotationHasChanged = false;
 	}
@@ -124,8 +117,7 @@ Matrix4 Transform::GetRotationMatrix()
 
 Matrix4 Transform::GetScaleMatrix()
 {
-	if ( _scaleHasChanged )
-	{
+	if ( _scaleHasChanged ) {
 		_scaleMatrix = Matrix4::Scale( Matrix4::Identity(), _scaleWorld );
 		_scaleHasChanged = false;
 	}
@@ -135,8 +127,7 @@ Matrix4 Transform::GetScaleMatrix()
 
 Matrix4 Transform::GetWorldMatrix()
 {
-	if ( _worldHasChanged )
-	{
+	if ( _worldHasChanged )	{
 		_worldMatrix = GetPositionMatrix() * GetRotationMatrix() * GetScaleMatrix();
 		_worldHasChanged = false;
 	}
@@ -146,8 +137,7 @@ Matrix4 Transform::GetWorldMatrix()
 
 Matrix4 Transform::GetViewMatrix()
 {
-	if ( _viewHasChanged )
-	{
+	if ( _viewHasChanged ) {
 		_viewMatrix = Matrix4::Inverse( GetPositionMatrix() * GetRotationMatrix() );
 		_viewHasChanged = false;
 	}
@@ -258,8 +248,7 @@ void Transform::SetPositionLocal( const Vector3& value )
 	_positionLocal = value;
 	_RecalculatePositionWorld();
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
@@ -280,14 +269,13 @@ void Transform::TranslateByLocal( const Vector3& value )
 
 void Transform::Translate( const Vector3& value, SpaceSystem spaceSystem )
 {
-	switch ( spaceSystem )
-	{
-	case SpaceSystem::WORLD:
-		TranslateByWorld( value );
-		return;
-	case SpaceSystem::LOCAL:
-		TranslateByLocal( value );
-		return;
+	switch ( spaceSystem ) {
+		case SpaceSystem::WORLD:
+			TranslateByWorld( value );
+			return;
+		case SpaceSystem::LOCAL:
+			TranslateByLocal( value );
+			return;
 	}
 }
 
@@ -304,8 +292,7 @@ void Transform::SetRotationLocal( const Quaternion& value )
 	_rotationLocal = Quaternion::Normalize( value );
 	_RecalculateRotationWorld();
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
@@ -342,14 +329,13 @@ void Transform::RotateByLocal( const Vector3& value )
 
 void Transform::Rotate( const Vector3& value, SpaceSystem spaceSystem )
 {
-	switch ( spaceSystem )
-	{
-	case SpaceSystem::WORLD:
-		RotateByWorld( value );
-		return;
-	case SpaceSystem::LOCAL:
-		RotateByLocal( value );
-		return;
+	switch ( spaceSystem ) {
+		case SpaceSystem::WORLD:
+			RotateByWorld( value );
+			return;
+		case SpaceSystem::LOCAL:
+			RotateByLocal( value );
+			return;
 	}
 }
 
@@ -366,8 +352,7 @@ void Transform::SetScaleLocal( const Vector3& value )
 	_scaleLocal = value;
 	_RecalculateScaleWorld();
 
-	if ( _emitEvents )
-	{
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
 	}
 }
@@ -383,18 +368,15 @@ void Transform::_RecalculatePositionWorld()
 {
 	_MarkPositionChanged();
 
-	if ( _parent != NULL )
-	{
-		_positionWorld = _parent->GetRotationWorld().ApplyRotation( _positionWorld );
+	if ( _parent != NULL ) {
+		_positionWorld = _parent->GetRotationWorld().ApplyRotation( _positionLocal );
 		_positionWorld += _parent->GetPositionWorld();
 	}
-	else
-	{
+	else {
 		_positionWorld = _positionLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculatePositionWorld();
 	}
 }
@@ -404,17 +386,14 @@ void Transform::_RecalculateRotationWorld()
 {
 	_MarkRotationChanged();
 
-	if ( _parent != NULL )
-	{
+	if ( _parent != NULL ) {
 		_rotationWorld = Quaternion::Normalize( _parent->GetRotationWorld() * _rotationLocal );
 	}
-	else
-	{
+	else {
 		_rotationWorld = _rotationLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculateRotationWorld();
 		_children[i]->_RecalculatePositionWorld();
 	}
@@ -427,17 +406,14 @@ void Transform::_RecalculateScaleWorld()
 {
 	_MarkScaleChanged();
 
-	if ( _parent != NULL )
-	{
+	if ( _parent != NULL ) {
 		_scaleWorld *= _parent->GetScaleWorld();
 	}
-	else
-	{
+	else {
 		_scaleWorld = _scaleLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculateScaleWorld();
 	}
 }
@@ -449,25 +425,20 @@ void Transform::_RecursiveFindFirstParent()
 	Transform* parentTran = NULL;
 
 	// try first parent
-	if ( parentNode != NULL )
-	{
+	if ( parentNode != NULL ) {
 		parentTran = parentNode->GetComponent<Transform>();
-		if ( parentTran != NULL )
-		{
+		if ( parentTran != NULL ) {
 			parentTran = parentTran->IsEnabled() ? parentTran : NULL;
 		}
 	}
 
 	// go recursively till you find a parent
-	while ( parentNode != NULL && parentTran == NULL )
-	{
+	while ( parentNode != NULL && parentTran == NULL ) {
 		parentNode = dynamic_cast<GameObject*>( parentNode->GetParentNode() );
 
-		if ( parentNode != NULL )
-		{
+		if ( parentNode != NULL ) {
 			parentTran = parentNode->GetComponent<Transform>();
-			if ( parentTran != NULL )
-			{
+			if ( parentTran != NULL ) {
 				parentTran = parentTran->IsEnabled() ? parentTran : NULL;
 			}
 		}
@@ -481,25 +452,21 @@ void Transform::_RecursiveFindFirstChildren( GameObject* currChildNode )
 {
 	_children.Clear();
 
-	if ( !_enabled )
-	{
+	if ( !_enabled ) {
 		return;		// if we are disabled, we have no children, but still have parent
 	}
 
 
-	for ( UInt i = 0; i < currChildNode->GetChildNodeCount(); ++i )
-	{
+	for ( UInt i = 0; i < currChildNode->GetChildNodeCount(); ++i ) {
 		GameObject* childNode = CAST_S( GameObject*, currChildNode->GetChildNodeAt(i) );
 		Transform* childTran = childNode->GetComponent<Transform>();
 
-		if ( childTran != NULL )
-		{
+		if ( childTran != NULL ) {
 			// we add it anyway
 			_children.Add( childTran );
 
 			// is not enabled, we take its children also
-			if ( !childTran->IsEnabled() )
-			{
+			if ( !childTran->IsEnabled() ) {
 				_RecursiveFindFirstChildren( childNode );
 			}
 		}

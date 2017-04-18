@@ -57,13 +57,11 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 	Bool emitEvents = scene->DoesEmitEvents();
 	scene->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
+	if ( json.HasMember( UNIQUE_ID ) ) {
 		scene->SetUniqueID( json[UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 

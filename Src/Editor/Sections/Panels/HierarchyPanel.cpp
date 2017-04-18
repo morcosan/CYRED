@@ -38,19 +38,47 @@ public:
 	{
 		// this will prevent dropping directly to root, which is outside scene
 		QModelIndex droppedIndex = indexAt( e->pos() );
-		if ( !droppedIndex.isValid() )
-		{
+		if ( !droppedIndex.isValid() ) {
 			return;
 		}
 
+		// get moved item
 		_QtTreeItem* movedItem = CAST_S( _QtTreeItem*, this->currentItem() );
-		QTreeWidget::dropEvent( e );	// apply the drop
+		// get old parent item
+		_QtTreeItem* prevParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		// get the order in the old hierarchy
+		UInt prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
+
+		// apply the drop event
+		QTreeWidget::dropEvent( e );	
+		
+		// get new parent item
 		_QtTreeItem* newParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		// check if drop is outside scene
+		if ( newParent == NULL ) {
+			// if so, reset drop
+			// remove from tree
+			UInt tmpIndex = this->indexOfTopLevelItem( movedItem );
+			this->takeTopLevelItem( tmpIndex );
+			// add back to old position
+			prevParent->insertChild( prevIndexInHierarchy, movedItem );
+			// select item
+			this->clearSelection();
+			movedItem->setSelected( TRUE );
+			// exit
+			return;
+		}
 
-		this->clearSelection(); // this will solve the QT 5.4.1 bug
+		// select item
+		this->clearSelection();
+		movedItem->setSelected( TRUE );
+		// expand parent
+		newParent->setExpanded( TRUE );
 
+		// get the order in the new hierarchy
 		UInt indexInHierarchy = newParent->indexOfChild( movedItem );
 
+		// apply changes to gameobjects
 		if ( newParent != NULL ) {
 			if ( newParent->scene != NULL ) {
 				// if scene

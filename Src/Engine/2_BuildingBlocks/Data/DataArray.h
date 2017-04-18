@@ -90,7 +90,7 @@ namespace CYRED
 	template<typename TValue>
 	void DataArray<TValue>::Insert( UInt index, TValue value )
 	{
-		ASSERT( index < _vector->size() );
+		ASSERT( index <= _vector->size() );
 		_vector->insert( _vector->begin() + index, value );
 	}
 

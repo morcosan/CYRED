@@ -61,11 +61,11 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 
 	// render mesh
 	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
-		_RenderMesh( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+		_RecRenderMesh( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
 	// render morph
 	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
-		_RenderMorph( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+		_RecRenderMorph( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
 
 	_gl->Enable( GLCapability::BLEND );
@@ -74,7 +74,7 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 
 	// render particles
 	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )	{
-		_RenderParticles( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+		_RecRenderParticles( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
 	}
 }
 
@@ -96,11 +96,17 @@ void ForwardTechnique::_ClearScreen()
 }
 
 
-void ForwardTechnique::_RenderMesh( GameObject* gameObject )
+void ForwardTechnique::_RecRenderMesh( GameObject* gameObject )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
+
+	// render child nodes
+	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+		_RecRenderMesh( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+	}
+
 
 	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
@@ -243,11 +249,17 @@ void ForwardTechnique::_RenderMesh( GameObject* gameObject )
 }
 
 
-void ForwardTechnique::_RenderMorph( GameObject* gameObject )
+void ForwardTechnique::_RecRenderMorph( GameObject* gameObject )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
+
+	// render child nodes
+	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+		_RecRenderMorph( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+	}
+
 
 	MorphRendering*	morphRender	= gameObject->GetComponent<MorphRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
@@ -391,11 +403,17 @@ void ForwardTechnique::_RenderMorph( GameObject* gameObject )
 }
 
 
-void ForwardTechnique::_RenderParticles( GameObject* gameObject )
+void ForwardTechnique::_RecRenderParticles( GameObject* gameObject )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
+
+	// render child nodes
+	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+		_RecRenderParticles( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+	}
+
 
 	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
 	Transform*			objTran	= gameObject->GetComponent<Transform>();
@@ -489,14 +507,12 @@ void ForwardTechnique::_BindMaterial( Material* material )
 	UInt nextActiveTexture = 0;
 	UInt totalProperties = material->GetPropertiesCount();
 
-	for ( UInt i = 0; i < totalProperties; ++i )
-	{
+	for ( UInt i = 0; i < totalProperties; ++i ) {
 		const Char* uniformName = material->GetPropertyNameAt( i );
 		Int location = shader->GetUniformLocation( uniformName );
 		DataUnion& data = material->GetPropertyDataAt( i );
 
-		switch ( data.GetValueType() )
-		{
+		switch ( data.GetValueType() ) {
 			case DataUnion::INT:
 				_gl->Uniform1i( location, data.GetInt() );
 				break;
@@ -521,10 +537,8 @@ void ForwardTechnique::_BindMaterial( Material* material )
 				_gl->ActiveTexture( nextActiveTexture );
 				Texture* texture = CAST_S( Texture*, data.GetReference() );
 				
-				if ( texture != NULL )
-				{
-					switch ( texture->GetTextureType() )
-					{
+				if ( texture != NULL ) {
+					switch ( texture->GetTextureType() ) {
 						case TextureType::TEXTURE_2D:
 							_gl->BindTexture( GLTexture::TEXTURE_2D, texture->GetTextureID() );
 							break;
@@ -534,8 +548,7 @@ void ForwardTechnique::_BindMaterial( Material* material )
 							break;
 					}
 				}
-				else
-				{
+				else {
 					// TODO
 					// bind a pure white texture
 				}
@@ -548,18 +561,15 @@ void ForwardTechnique::_BindMaterial( Material* material )
 	}
 
 
-	if ( material->IsWireframe() )
-	{
+	if ( material->IsWireframe() ) {
 		_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::LINE );
 		//_gl->glLineWidth( material->GetLineWidth() );  TODO
 		_gl->Disable( GLCapability::CULL_FACE );
 	}
-	else
-	{
+	else {
 		_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );
 
-		switch ( material->GetFaceCulling() )
-		{
+		switch ( material->GetFaceCulling() ) {
 			case FaceCulling::CULL_NONE:
 				_gl->Disable( GLCapability::CULL_FACE );
 				break;

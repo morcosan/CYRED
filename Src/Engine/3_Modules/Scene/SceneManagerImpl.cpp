@@ -325,6 +325,7 @@ GameObject* SceneManagerImpl::Duplicate( const GameObject* object )
 	// clone gameobject
 	GameObject* clone = SceneManager::Singleton()->NewGameObject();
 	object->Clone( clone );
+	clone->SetName( object->GetName() );
 
 	return clone;
 }

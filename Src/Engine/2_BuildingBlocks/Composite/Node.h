@@ -32,7 +32,7 @@ namespace CYRED
 		void	InsertChildNode	( UInt index, Node* newNode );
 
 		UInt	GetChildNodeCount	()				const;
-		Node*	GetChildNodeAt		( UInt index );
+		Node*	GetChildNodeAt		( UInt index )	const;
 
 
 	protected:
