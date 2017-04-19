@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "ConsolePanel.h"
+#include "Panel_Console.h"
 #include "../Settings/EditorSkin.h"
 #include "CyredModule_Debug.h"
 #include "../Settings/EditorSettings.h"
@@ -15,7 +15,7 @@
 using namespace CYRED;
 
 
-ConsolePanel::ConsolePanel()
+Panel_Console::Panel_Console()
 {
 	this->setWindowTitle( PANEL_TITLE );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -32,7 +32,7 @@ ConsolePanel::ConsolePanel()
 	clearButton->setText( "Clear" );
 	clearButton->setObjectName( EditorSkin::VIEWPORT_BUTTON );
 	qtTopBarLayout->addWidget( clearButton );
-	QObject::connect( clearButton,	&QPushButton::pressed, this, &ConsolePanel::A_ClearLogs );
+	QObject::connect( clearButton,	&QPushButton::pressed, this, &Panel_Console::A_ClearLogs );
 
 	// create logs list
 	_logsLayout = Memory::Alloc<QVBoxLayout>();
@@ -72,7 +72,7 @@ ConsolePanel::ConsolePanel()
 }
 
 
-void ConsolePanel::A_ClearLogs()
+void Panel_Console::A_ClearLogs()
 {
 	// delete all items
 	QLayoutItem *child;
@@ -82,7 +82,7 @@ void ConsolePanel::A_ClearLogs()
 }
 
 
-void ConsolePanel::Initialize()
+void Panel_Console::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
@@ -93,7 +93,7 @@ void ConsolePanel::Initialize()
 }
 
 
-void ConsolePanel::Finalize()
+void Panel_Console::Finalize()
 {
 	ASSERT( _isInitialized );
 	// unregister events
@@ -102,7 +102,7 @@ void ConsolePanel::Finalize()
 }
 
 
-void ConsolePanel::OnEvent( EventType eType, void* eData )
+void Panel_Console::OnEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
@@ -122,7 +122,7 @@ void ConsolePanel::OnEvent( EventType eType, void* eData )
 }
 
 
-void ConsolePanel::_AddLine( const Char* message, Bool isError )
+void Panel_Console::_AddLine( const Char* message, Bool isError )
 {
 	// create layout
 	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();

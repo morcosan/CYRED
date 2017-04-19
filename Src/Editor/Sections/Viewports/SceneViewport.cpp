@@ -19,7 +19,7 @@ DataMap<TechniqueType, UInt> SceneViewport::_techSlots;
 
 
 SceneViewport::SceneViewport( UInt panelIndex )
-	: ViewportPanel( panelIndex )
+	: Panel_Viewport( panelIndex )
 {
 }
 

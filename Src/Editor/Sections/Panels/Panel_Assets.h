@@ -17,9 +17,9 @@ class QFileSystemWatcher;
 
 namespace CYRED
 {
-	class AssetsPanel : public Panel, public IEventListener
+	class Panel_Assets : public Panel, public IEventListener
 	{
-		const Char* const	PANEL_TITLE		= "Assets Panel";
+		const Char* const	PANEL_TITLE		= "Assets";
 		const Vector2		MIN_SIZE		= Vector2( 200, 100 );
 		const Vector2		MAX_SIZE		= Vector2( 300, 1000 );
 
@@ -47,6 +47,7 @@ namespace CYRED
 		const Char* const	MENU_OPEN_SCENE	= "Open Scene";
 		const Char* const	MENU_LOAD_SCENE	= "Load Scene";
 
+		const Char* const	MENU_PREFAB_EDIT	= "Edit";
 		const Char* const	MENU_PREFAB_INST	= "Instantiate";
 
 		const Char* const	MENU_CREATE			= "Create";
@@ -70,8 +71,8 @@ namespace CYRED
 
 
 	public:
-		AssetsPanel();
-		virtual ~AssetsPanel() {}
+		Panel_Assets();
+		virtual ~Panel_Assets() {}
 
 
 	public:
@@ -94,6 +95,7 @@ namespace CYRED
 		void A_Duplicate		();
 		void A_Delete			();
 
+		void A_EditPrefab		();
 		void A_InstPrefab		();
 
 		void A_OpenScene		();

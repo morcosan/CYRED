@@ -27,11 +27,6 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Transform.cpp" />
     <ClCompile Include="Sections\Builders\ProjectBuilderImpl.cpp" />
-    <ClCompile Include="Sections\Panels\AssetsPanel.cpp" />
-    <ClCompile Include="Sections\Panels\AttributePanel.cpp" />
-    <ClCompile Include="Sections\Panels\ConsolePanel.cpp" />
-    <ClCompile Include="Sections\Panels\HierarchyPanel.cpp" />
-    <ClCompile Include="Sections\Panels\ViewportPanel.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Material.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Mesh.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Morph.cpp" />
@@ -53,6 +48,12 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Light.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Prefab.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Prefab.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Assets.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Attributes.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_SceneHierarchy.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Viewport.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -81,11 +82,6 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Transform.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilder.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilderImpl.h" />
-    <ClInclude Include="Sections\Panels\AssetsPanel.h" />
-    <ClInclude Include="Sections\Panels\AttributePanel.h" />
-    <ClInclude Include="Sections\Panels\ConsolePanel.h" />
-    <ClInclude Include="Sections\Panels\HierarchyPanel.h" />
-    <ClInclude Include="Sections\Panels\ViewportPanel.h" />
     <ClInclude Include="Sections\Selectors\Selector.h" />
     <ClInclude Include="Sections\Selectors\Selector_Material.h" />
     <ClInclude Include="Sections\Selectors\Selector_Mesh.h" />
@@ -108,5 +104,11 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Light.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Prefab.h" />
     <ClInclude Include="Sections\Selectors\Selector_Prefab.h" />
+    <ClInclude Include="Sections\Panels\Panel_Assets.h" />
+    <ClInclude Include="Sections\Panels\Panel_Attributes.h" />
+    <ClInclude Include="Sections\Panels\Panel_Console.h" />
+    <ClInclude Include="Sections\Panels\Panel_SceneHierarchy.h" />
+    <ClInclude Include="Sections\Panels\Panel_Viewport.h" />
+    <ClInclude Include="Sections\Panels\Panel_PrefabHierarchy.h" />
   </ItemGroup>
 </Project>

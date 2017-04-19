@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "AssetsPanel.h"
+#include "Panel_Assets.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Render.h"
@@ -28,7 +28,7 @@ using namespace CYRED;
 
 
 
-class AssetsPanel::_QtTreeItem : public QTreeWidgetItem
+class Panel_Assets::_QtTreeItem : public QTreeWidgetItem
 {
 public:
 	Asset* asset;
@@ -43,7 +43,7 @@ public:
 };
 
 
-AssetsPanel::AssetsPanel()
+Panel_Assets::Panel_Assets()
 {
 	this->setWindowTitle( PANEL_TITLE );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -54,7 +54,7 @@ AssetsPanel::AssetsPanel()
 	QPushButton* reloadBtn = Memory::Alloc<QPushButton>( this );
 	reloadBtn->setText( BUTTON_RELOAD );
 	reloadBtn->setObjectName( EditorSkin::ASSET_BUTTON );
-	QObject::connect( reloadBtn, &QPushButton::clicked,	this, &AssetsPanel::A_ReloadAll );
+	QObject::connect( reloadBtn, &QPushButton::clicked,	this, &Panel_Assets::A_ReloadAll );
 
 	QHBoxLayout* topBarLayout = Memory::Alloc<QHBoxLayout>();
 	topBarLayout->setSpacing( 0 );
@@ -80,19 +80,19 @@ AssetsPanel::AssetsPanel()
 
 	this->setWidget( layoutWidget );
 
-	QObject::connect( _qtTree, &QTreeWidget::itemPressed,		this, &AssetsPanel::A_ItemClicked );
-	QObject::connect( _qtTree, &QTreeWidget::itemDoubleClicked, this, &AssetsPanel::A_Item2xClicked );
-	QObject::connect( _qtTree, &QTreeWidget::itemChanged,		this, &AssetsPanel::A_ItemRenamed );
+	QObject::connect( _qtTree, &QTreeWidget::itemPressed,		this, &Panel_Assets::A_ItemClicked );
+	QObject::connect( _qtTree, &QTreeWidget::itemDoubleClicked, this, &Panel_Assets::A_Item2xClicked );
+	QObject::connect( _qtTree, &QTreeWidget::itemChanged,		this, &Panel_Assets::A_ItemRenamed );
 
 	_qtFileWatcher = Memory::Alloc<QFileSystemWatcher>();
 	_qtFileWatcher->addPath( ProjectSettings::dirPathAssets.GetChar() );
 
 	QObject::connect( _qtFileWatcher, &QFileSystemWatcher::directoryChanged,	
-					  this, &AssetsPanel::A_DirChanged );
+					  this, &Panel_Assets::A_DirChanged );
 }
 
 
-void AssetsPanel::Initialize()
+void Panel_Assets::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
@@ -107,7 +107,7 @@ void AssetsPanel::Initialize()
 }
 
 
-void AssetsPanel::Finalize()
+void Panel_Assets::Finalize()
 {
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
@@ -116,7 +116,7 @@ void AssetsPanel::Finalize()
 }
 
 
-void AssetsPanel::OnEvent( EventType eType, void* eData )
+void Panel_Assets::OnEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
@@ -194,7 +194,7 @@ void AssetsPanel::OnEvent( EventType eType, void* eData )
 }
 
 
-void AssetsPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
+void Panel_Assets::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
@@ -202,7 +202,7 @@ void AssetsPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 }
 
 
-void AssetsPanel::A_Item2xClicked( QTreeWidgetItem* item, int column )
+void Panel_Assets::A_Item2xClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
@@ -212,7 +212,7 @@ void AssetsPanel::A_Item2xClicked( QTreeWidgetItem* item, int column )
 }
 
 
-void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
+void Panel_Assets::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
 
@@ -252,7 +252,7 @@ void AssetsPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 }
 
 
-void AssetsPanel::A_RightClickMenu( const QPoint& pos )
+void Panel_Assets::A_RightClickMenu( const QPoint& pos )
 {
 	QTreeWidgetItem* item = _qtTree->itemAt( pos );
 
@@ -264,7 +264,7 @@ void AssetsPanel::A_RightClickMenu( const QPoint& pos )
 }
 
 
-void AssetsPanel::A_ReloadAsset()
+void Panel_Assets::A_ReloadAsset()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 
@@ -324,7 +324,7 @@ void AssetsPanel::A_ReloadAsset()
 }
 
 
-void AssetsPanel::A_OpenOnDisk()
+void Panel_Assets::A_OpenOnDisk()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -333,7 +333,7 @@ void AssetsPanel::A_OpenOnDisk()
 }
 
 
-void AssetsPanel::A_ShowOnDisk()
+void Panel_Assets::A_ShowOnDisk()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -343,14 +343,14 @@ void AssetsPanel::A_ShowOnDisk()
 }
 
 
-void AssetsPanel::A_Rename()
+void Panel_Assets::A_Rename()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 	_qtTree->editItem( item );
 }
 
 
-void AssetsPanel::A_Duplicate()
+void Panel_Assets::A_Duplicate()
 {
 	// get item selected
 	QTreeWidgetItem* item = _qtTree->currentItem();
@@ -428,7 +428,7 @@ void AssetsPanel::A_Duplicate()
 }
 
 
-void AssetsPanel::A_Delete()
+void Panel_Assets::A_Delete()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -489,7 +489,16 @@ void AssetsPanel::A_Delete()
 }
 
 
-void AssetsPanel::A_InstPrefab()
+void Panel_Assets::A_EditPrefab()
+{
+	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
+	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
+
+	EventManager::Singleton()->EmitEvent( EventType::EDIT_PREFAB, asset );
+}
+
+
+void Panel_Assets::A_InstPrefab()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
@@ -499,7 +508,7 @@ void AssetsPanel::A_InstPrefab()
 }
 
 
-void AssetsPanel::A_OpenScene()
+void Panel_Assets::A_OpenScene()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::SCENE );
@@ -508,7 +517,7 @@ void AssetsPanel::A_OpenScene()
 }
 
 
-void AssetsPanel::A_LoadScene()
+void Panel_Assets::A_LoadScene()
 {
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::SCENE );
@@ -517,7 +526,7 @@ void AssetsPanel::A_LoadScene()
 }
 
 
-void AssetsPanel::A_Create_Folder()
+void Panel_Assets::A_Create_Folder()
 {
 	QTreeWidgetItem* parentItem = _qtTree->currentItem();
 
@@ -564,7 +573,7 @@ void AssetsPanel::A_Create_Folder()
 }
 
 
-void AssetsPanel::A_Create_Mat_Empty()
+void Panel_Assets::A_Create_Mat_Empty()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -576,7 +585,7 @@ void AssetsPanel::A_Create_Mat_Empty()
 }
 
 
-void AssetsPanel::A_Create_Mat_PS()
+void Panel_Assets::A_Create_Mat_PS()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -595,7 +604,7 @@ void AssetsPanel::A_Create_Mat_PS()
 }
 
 
-void AssetsPanel::A_Create_Tex_2D()
+void Panel_Assets::A_Create_Tex_2D()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -607,7 +616,7 @@ void AssetsPanel::A_Create_Tex_2D()
 }
 
 
-void AssetsPanel::A_Create_Tex_CM()
+void Panel_Assets::A_Create_Tex_CM()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -624,7 +633,7 @@ void AssetsPanel::A_Create_Tex_CM()
 }
 
 
-void AssetsPanel::A_Create_Shader()
+void Panel_Assets::A_Create_Shader()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -636,7 +645,7 @@ void AssetsPanel::A_Create_Shader()
 }
 
 
-void AssetsPanel::A_Create_Mesh()
+void Panel_Assets::A_Create_Mesh()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -648,7 +657,7 @@ void AssetsPanel::A_Create_Mesh()
 }
 
 
-void AssetsPanel::A_Create_Morph()
+void Panel_Assets::A_Create_Morph()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -660,7 +669,7 @@ void AssetsPanel::A_Create_Morph()
 }
 
 
-void AssetsPanel::A_Create_Script()
+void Panel_Assets::A_Create_Script()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
@@ -672,19 +681,19 @@ void AssetsPanel::A_Create_Script()
 }
 
 
-void AssetsPanel::A_DirChanged( const QString& path )
+void Panel_Assets::A_DirChanged( const QString& path )
 {
 	// TODO
 }
 
 
-void AssetsPanel::A_ReloadAll()
+void Panel_Assets::A_ReloadAll()
 {
 	ReloadAllAssets();
 }
 
 
-void AssetsPanel::ReloadAllAssets()
+void Panel_Assets::ReloadAllAssets()
 {
 	ASSERT( _isInitialized );
 
@@ -712,7 +721,7 @@ void AssetsPanel::ReloadAllAssets()
 }
 
 
-void AssetsPanel::_LoadIcons()
+void Panel_Assets::_LoadIcons()
 {
 	ASSERT( _isInitialized );
 
@@ -728,7 +737,7 @@ void AssetsPanel::_LoadIcons()
 }
 
 
-void AssetsPanel::_ParseDirectory( const Char* dirName, const Char* dirPath, 
+void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath, 
 								   QTreeWidgetItem* parentItem )
 {
 	ASSERT( _isInitialized );
@@ -989,7 +998,7 @@ void AssetsPanel::_ParseDirectory( const Char* dirName, const Char* dirPath,
 }
 
 
-Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentItem,
+Asset* Panel_Assets::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentItem,
 								  AssetType assetType )
 {
 	Asset*		asset		= NULL;
@@ -1100,7 +1109,7 @@ Asset* AssetsPanel::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentIt
 }
 
 
-void AssetsPanel::_CreateRightClickMenu()
+void Panel_Assets::_CreateRightClickMenu()
 {
 	ASSERT( _isInitialized );
 
@@ -1108,11 +1117,11 @@ void AssetsPanel::_CreateRightClickMenu()
 
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
 	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
-					  this, &AssetsPanel::A_RightClickMenu );
+					  this, &Panel_Assets::A_RightClickMenu );
 }
 
 
-void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
+void Panel_Assets::_AddRightClickActions( QTreeWidgetItem* item )
 {
 	ASSERT( _isInitialized );
 
@@ -1127,19 +1136,19 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 				QAction* actionLoadScene = _qtRightClickMenu->addAction( MENU_LOAD_SCENE );
 				_qtRightClickMenu->addSeparator();
 
-				QObject::connect( actionOpenScene, &QAction::triggered, this, &AssetsPanel::A_OpenScene );
-				QObject::connect( actionLoadScene, &QAction::triggered, this, &AssetsPanel::A_LoadScene );
+				QObject::connect( actionOpenScene, &QAction::triggered, this, &Panel_Assets::A_OpenScene );
+				QObject::connect( actionLoadScene, &QAction::triggered, this, &Panel_Assets::A_LoadScene );
 			}
 			else if ( asset->GetAssetType() == AssetType::PREFAB ) {
 				QAction* actionInstantiate = _qtRightClickMenu->addAction( MENU_PREFAB_INST );
 				_qtRightClickMenu->addSeparator();
 
-				QObject::connect( actionInstantiate, &QAction::triggered, this, &AssetsPanel::A_InstPrefab );
+				QObject::connect( actionInstantiate, &QAction::triggered, this, &Panel_Assets::A_InstPrefab );
 			}
 
 			QAction* actionReload = _qtRightClickMenu->addAction( MENU_RELOAD );
 
-			QObject::connect( actionReload, &QAction::triggered, this, &AssetsPanel::A_ReloadAsset );
+			QObject::connect( actionReload, &QAction::triggered, this, &Panel_Assets::A_ReloadAsset );
 		}
 
 		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
@@ -1151,11 +1160,11 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 		_qtRightClickMenu->addSeparator();
 
-		QObject::connect( actionRename,		&QAction::triggered, this, &AssetsPanel::A_Rename );
-		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &AssetsPanel::A_OpenOnDisk );
-		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &AssetsPanel::A_ShowOnDisk );
-		QObject::connect( actionDuplicate,	&QAction::triggered, this, &AssetsPanel::A_Duplicate );
-		QObject::connect( actionDelete,		&QAction::triggered, this, &AssetsPanel::A_Delete );
+		QObject::connect( actionRename,		&QAction::triggered, this, &Panel_Assets::A_Rename );
+		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &Panel_Assets::A_OpenOnDisk );
+		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &Panel_Assets::A_ShowOnDisk );
+		QObject::connect( actionDuplicate,	&QAction::triggered, this, &Panel_Assets::A_Duplicate );
+		QObject::connect( actionDelete,		&QAction::triggered, this, &Panel_Assets::A_Delete );
 	}
 
 	if ( item == NULL || item->whatsThis(0).compare( TYPE_FOLDER ) == 0 ) {
@@ -1178,20 +1187,20 @@ void AssetsPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionMorph	= menuCreate->addAction( MENU_C_MORPH );
 		QAction* actionScript	= menuCreate->addAction( MENU_C_SCRIPT );
 
-		QObject::connect( actionFolder,		&QAction::triggered, this, &AssetsPanel::A_Create_Folder );
-		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &AssetsPanel::A_Create_Mat_Empty );
-		QObject::connect( actionMatPS,		&QAction::triggered, this, &AssetsPanel::A_Create_Mat_PS );
-		QObject::connect( actionTex2D,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_2D );
-		QObject::connect( actionTexCM,		&QAction::triggered, this, &AssetsPanel::A_Create_Tex_CM );
-		QObject::connect( actionShader,		&QAction::triggered, this, &AssetsPanel::A_Create_Shader );
-		QObject::connect( actionMesh,		&QAction::triggered, this, &AssetsPanel::A_Create_Mesh );
-		QObject::connect( actionMorph,		&QAction::triggered, this, &AssetsPanel::A_Create_Morph );
-		QObject::connect( actionScript,		&QAction::triggered, this, &AssetsPanel::A_Create_Script );
+		QObject::connect( actionFolder,		&QAction::triggered, this, &Panel_Assets::A_Create_Folder );
+		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &Panel_Assets::A_Create_Mat_Empty );
+		QObject::connect( actionMatPS,		&QAction::triggered, this, &Panel_Assets::A_Create_Mat_PS );
+		QObject::connect( actionTex2D,		&QAction::triggered, this, &Panel_Assets::A_Create_Tex_2D );
+		QObject::connect( actionTexCM,		&QAction::triggered, this, &Panel_Assets::A_Create_Tex_CM );
+		QObject::connect( actionShader,		&QAction::triggered, this, &Panel_Assets::A_Create_Shader );
+		QObject::connect( actionMesh,		&QAction::triggered, this, &Panel_Assets::A_Create_Mesh );
+		QObject::connect( actionMorph,		&QAction::triggered, this, &Panel_Assets::A_Create_Morph );
+		QObject::connect( actionScript,		&QAction::triggered, this, &Panel_Assets::A_Create_Script );
 	}
 }
 
 
-void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
+void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
 {
 	ASSERT( asset != NULL );
 
@@ -1291,7 +1300,7 @@ void AssetsPanel::_SaveAssetToFile( Asset* asset, const Char* oldName )
 }
 
 
-Bool AssetsPanel::_IsFilePathDuplicate( Asset* asset )
+Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 {
 	AssetManager* assetMgr = AssetManager::Singleton();
 	QString name( asset->GetName() );
@@ -1415,7 +1424,7 @@ Bool AssetsPanel::_IsFilePathDuplicate( Asset* asset )
 }
 
 
-void AssetsPanel::_SetAvailableName( Asset* asset )
+void Panel_Assets::_SetAvailableName( Asset* asset )
 {
 	// get base name and extension according to type
 	const Char* baseName = NULL;
@@ -1470,7 +1479,7 @@ void AssetsPanel::_SetAvailableName( Asset* asset )
 }
 
 
-AssetsPanel::_QtTreeItem* AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, 
+Panel_Assets::_QtTreeItem* Panel_Assets::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, 
 														const Char* icon )
 {
 	// create item
@@ -1496,7 +1505,7 @@ AssetsPanel::_QtTreeItem* AssetsPanel::_AddAssetToTree( Asset* asset, QTreeWidge
 }
 
 
-AssetsPanel::_QtTreeItem* AssetsPanel::_FindTreeItem( Asset* asset )
+Panel_Assets::_QtTreeItem* Panel_Assets::_FindTreeItem( Asset* asset )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
@@ -1512,7 +1521,7 @@ AssetsPanel::_QtTreeItem* AssetsPanel::_FindTreeItem( Asset* asset )
 }
 
 
-AssetsPanel::_QtTreeItem* AssetsPanel::_FindFolderItem( const Char* dirPath )
+Panel_Assets::_QtTreeItem* Panel_Assets::_FindFolderItem( const Char* dirPath )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {

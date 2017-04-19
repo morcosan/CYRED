@@ -105,7 +105,8 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Transform.cpp" />
     <ClCompile Include="Sections\Builders\ProjectBuilderImpl.cpp" />
-    <ClCompile Include="Sections\Panels\ConsolePanel.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Mesh.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Morph.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Prefab.cpp" />
@@ -116,10 +117,10 @@
     <ClCompile Include="Sections\Settings\EditorSkin.cpp" />
     <ClCompile Include="Sections\MenuBar.cpp" />
     <ClCompile Include="Sections\Panel.cpp" />
-    <ClCompile Include="Sections\Panels\AssetsPanel.cpp" />
-    <ClCompile Include="Sections\Panels\AttributePanel.cpp" />
-    <ClCompile Include="Sections\Panels\ViewportPanel.cpp" />
-    <ClCompile Include="Sections\Panels\HierarchyPanel.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Assets.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Attributes.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_Viewport.cpp" />
+    <ClCompile Include="Sections\Panels\Panel_SceneHierarchy.cpp" />
     <ClCompile Include="Sections\SelectorPopup.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Material.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Shader.cpp" />
@@ -160,7 +161,8 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Transform.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilder.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilderImpl.h" />
-    <ClInclude Include="Sections\Panels\ConsolePanel.h" />
+    <ClInclude Include="Sections\Panels\Panel_Console.h" />
+    <ClInclude Include="Sections\Panels\Panel_PrefabHierarchy.h" />
     <ClInclude Include="Sections\Selectors\Selector_Mesh.h" />
     <ClInclude Include="Sections\Selectors\Selector_Morph.h" />
     <ClInclude Include="Sections\Selectors\Selector_Prefab.h" />
@@ -168,7 +170,7 @@
     <ClInclude Include="Sections\Selectors\Selector_Script.h" />
     <ClInclude Include="Sections\Settings\EditorSettings.h" />
     <ClInclude Include="Sections\Settings\EditorSkin.h" />
-    <ClInclude Include="Sections\Panels\AssetsPanel.h" />
+    <ClInclude Include="Sections\Panels\Panel_Assets.h" />
     <ClInclude Include="Sections\SelectorPopup.h" />
     <ClInclude Include="Sections\Selectors\Selector.h" />
     <ClInclude Include="Sections\Selectors\Selector_Material.h" />
@@ -181,9 +183,9 @@
     <ClInclude Include="Sections\Viewports\SceneViewport.h" />
     <ClInclude Include="Sections\MenuBar.h" />
     <ClInclude Include="Sections\Panel.h" />
-    <ClInclude Include="Sections\Panels\AttributePanel.h" />
-    <ClInclude Include="Sections\Panels\ViewportPanel.h" />
-    <ClInclude Include="Sections\Panels\HierarchyPanel.h" />
+    <ClInclude Include="Sections\Panels\Panel_Attributes.h" />
+    <ClInclude Include="Sections\Panels\Panel_Viewport.h" />
+    <ClInclude Include="Sections\Panels\Panel_SceneHierarchy.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />

@@ -17,7 +17,7 @@ class QTime;
 namespace CYRED
 {
 	class MenuBar;
-	class ViewportPanel;
+	class Panel_Viewport;
 	class InputReceiverQT;
 	class SelectorPopup;
 	class Toolbar;
@@ -42,7 +42,7 @@ namespace CYRED
 		void	Run			( Int& argc, Char* argv[] );
 				
 		/* create a new panel for editor				*/
-		Panel*	NewPanel	( PanelType type, Qt::Orientation orietation,
+		Panel*	NewPanel	( PanelType type, Qt::Orientation orietation = Qt::Horizontal,
 							  UInt panelIndex = 0, Bool isPrimary = TRUE );
 		/* show a message in status bar					*/
 		void	ShowStatus	( const Char* message );
@@ -80,7 +80,7 @@ namespace CYRED
 
 		DataArray<Panel*>			_panels;	/* list with panel without rendering	*/
 		DataArray<GameObject*>		_cameras;	/* list with default camera GOs			*/
-		ViewportPanel*				_mainViewport;
+		Panel_Viewport*				_mainViewport;
 
 		InputReceiverQT*		_inputReceiver;	/* object for receiving input events	*/
 

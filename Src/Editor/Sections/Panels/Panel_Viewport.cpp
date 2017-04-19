@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "ViewportPanel.h"
+#include "Panel_Viewport.h"
 #include "../../EngineOverride/OpenGL/GLContextImpl.h"
 #include "../../EngineOverride/Input/InputReceiverQT.h"
 #include "../../EditorApp.h"
@@ -13,37 +13,37 @@
 using namespace CYRED;
 
 
-void ViewportPanel::_QtWindow::keyPressEvent( QKeyEvent* e )
+void Panel_Viewport::_QtWindow::keyPressEvent( QKeyEvent* e )
 {
 	_inputReceiver->OnKeyPress( e );
 }
-void ViewportPanel::_QtWindow::keyReleaseEvent( QKeyEvent* e )
+void Panel_Viewport::_QtWindow::keyReleaseEvent( QKeyEvent* e )
 {
 	_inputReceiver->OnKeyRelease( e );
 }
-void ViewportPanel::_QtWindow::mouseMoveEvent( QMouseEvent* e )
+void Panel_Viewport::_QtWindow::mouseMoveEvent( QMouseEvent* e )
 {
 	_inputReceiver->OnMouseMove( e, _windowIndex );
 }
-void ViewportPanel::_QtWindow::mousePressEvent( QMouseEvent* e )
+void Panel_Viewport::_QtWindow::mousePressEvent( QMouseEvent* e )
 {
 	_inputReceiver->OnMousePress( e, _windowIndex );
 }
-void ViewportPanel::_QtWindow::mouseReleaseEvent( QMouseEvent* e )
+void Panel_Viewport::_QtWindow::mouseReleaseEvent( QMouseEvent* e )
 {
 	_inputReceiver->OnMouseRelease( e, _windowIndex );
 }
-void ViewportPanel::_QtWindow::wheelEvent( QWheelEvent* e )
+void Panel_Viewport::_QtWindow::wheelEvent( QWheelEvent* e )
 {
 	_inputReceiver->OnWheelMove( e, _windowIndex );
 }
-void ViewportPanel::_QtWindow::focusOutEvent( QFocusEvent* e )
+void Panel_Viewport::_QtWindow::focusOutEvent( QFocusEvent* e )
 {
 	_inputReceiver->OnFocusOut( _windowIndex );
 }
 
 
-ViewportPanel::ViewportPanel( UInt panelIndex )
+Panel_Viewport::Panel_Viewport( UInt panelIndex )
 	: _mustResize( TRUE )
 	, _panelIndex( panelIndex )
 	, _canvasSlot( INVALID_CANVAS_SLOT )
@@ -53,19 +53,19 @@ ViewportPanel::ViewportPanel( UInt panelIndex )
 }
 
 
-void ViewportPanel::Initialize()
+void Panel_Viewport::Initialize()
 {
 	ASSERT( FALSE );	// use Initialize with Bool instead
 }
 
 
-void ViewportPanel::Finalize()
+void Panel_Viewport::Finalize()
 {
 	ASSERT( _isInitialized );
 }
 
 
-void ViewportPanel::Initialize( Bool isPrimary )
+void Panel_Viewport::Initialize( Bool isPrimary )
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
@@ -107,7 +107,7 @@ void ViewportPanel::Initialize( Bool isPrimary )
 }
 
 
-void ViewportPanel::Update()
+void Panel_Viewport::Update()
 {
 	ASSERT( _isInitialized );
 
@@ -127,20 +127,20 @@ void ViewportPanel::Update()
 }
 
 
-GLContext* ViewportPanel::GetGLContext()
+GLContext* Panel_Viewport::GetGLContext()
 {
 	ASSERT( _isInitialized );
 	return _glContext;
 }
 
 
-void ViewportPanel::_OnResize()
+void Panel_Viewport::_OnResize()
 {
 	_mustResize = TRUE;
 }
 
 
-void ViewportPanel::_CreateCanvasSlot()
+void Panel_Viewport::_CreateCanvasSlot()
 {
 	ASSERT( _isInitialized );
 

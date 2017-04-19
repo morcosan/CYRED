@@ -13,9 +13,9 @@ class QVBoxLayout;
 
 namespace CYRED
 {
-	ABSTRACT class ConsolePanel : public Panel, public IEventListener
+	ABSTRACT class Panel_Console : public Panel, public IEventListener
 	{
-		const Char* const	PANEL_TITLE = "Console Panel";
+		const Char* const	PANEL_TITLE = "Console";
 		const Vector2		MIN_SIZE	= Vector2( 100, 100 );
 
 		const Char* const	ICON_INFO	= "info_icon.png";
@@ -23,8 +23,8 @@ namespace CYRED
 
 
 	public:
-		ConsolePanel();
-		virtual ~ConsolePanel() {}
+		Panel_Console();
+		virtual ~Panel_Console() {}
 
 
 	public:

@@ -17,7 +17,7 @@ namespace CYRED
 	class AttrViewer;
 
 
-	class AttributePanel : public Panel, public IEventListener
+	class Panel_Attributes : public Panel, public IEventListener
 	{
 		const Char* const	ATTR_GAMEOBJECT			= "GameObject";
 		const Char* const	ATTR_TRANSFORM			= "Transform";
@@ -37,14 +37,14 @@ namespace CYRED
 		const Char* const	ATTR_SCENE				= "Scene";
 		const Char* const	ATTR_CYRED_PROJ			= "CyredProj";
 
-		const Char*	const	PANEL_TITLE				= "Attributes Panel";
+		const Char*	const	PANEL_TITLE				= "Attributes";
 		const Char*	const	ADD_COMPONENT_BUTTON	= "Add Component";
 		const Vector2 		MIN_SIZE				= Vector2( 300, 100 );
 
 
 	public:
-		AttributePanel();
-		virtual ~AttributePanel();
+		Panel_Attributes();
+		virtual ~Panel_Attributes();
 
 
 	public:

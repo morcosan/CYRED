@@ -4,7 +4,7 @@
 #include "AttrViewer.h"
 #include "../Settings/EditorSkin.h"
 #include "../../EditorApp.h"
-#include "../Panels/AttributePanel.h"
+#include "../Panels/Panel_Attributes.h"
 
 #include "../../Utils/CustomTreeWidget.h"
 #include "../../Utils/QtUtils.h"
@@ -201,7 +201,7 @@ AttrViewer::AttrViewer()
 }
 
 
-void AttrViewer::Initialize( AttributePanel* panel, QTreeWidget* panelTree )
+void AttrViewer::Initialize( Panel_Attributes* panel, QTreeWidget* panelTree )
 {
 	_panel = panel;
 	_panelTree = panelTree;

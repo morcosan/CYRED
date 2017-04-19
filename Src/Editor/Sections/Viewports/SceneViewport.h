@@ -5,7 +5,7 @@
 #pragma once
 #include "CyredRequired.h"
 #include "CyredModule_Render.h"
-#include "../Panels/ViewportPanel.h"
+#include "../Panels/Panel_Viewport.h"
 
 
 class QHBoxLayout;
@@ -15,10 +15,10 @@ class QPushButton;
 
 namespace CYRED
 {
-	class SceneViewport : public ViewportPanel
+	class SceneViewport : public Panel_Viewport
 	{
 	public:
-		const Char*		PANEL_TITLE = "Scene Viewport";
+		const Char*		PANEL_TITLE = "Scene";
 		const Vector2	MIN_SIZE	= Vector2( 200, 100 );
 
 

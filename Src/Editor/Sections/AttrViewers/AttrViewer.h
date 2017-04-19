@@ -16,7 +16,7 @@ class QTreeWidgetItem;
 namespace CYRED
 {
 	class CustomTreeWidget;
-	class AttributePanel;
+	class Panel_Attributes;
 }
 
 
@@ -106,7 +106,7 @@ namespace CYRED
 
 	public:
 		//! called once when the viewer is added to panel
-		void Initialize		( AttributePanel* panel, QTreeWidget* panelTree );
+		void Initialize		( Panel_Attributes* panel, QTreeWidget* panelTree );
 
 		void ChangeTarget	( void* target );
 		void UpdateGUI		();
@@ -297,7 +297,7 @@ namespace CYRED
 		DataArray<_Attribute>					_attributes;
 		DataMap<InnerAttrType, _InnerAttribute>	_innerAttributes;
 
-		AttributePanel*		_panel;
+		Panel_Attributes*		_panel;
 		QTreeWidget*		_panelTree;
 		QTreeWidgetItem*	_titleItem;
 

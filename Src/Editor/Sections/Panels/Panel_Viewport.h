@@ -21,11 +21,11 @@ namespace CYRED
 
 namespace CYRED
 {
-	ABSTRACT class ViewportPanel : public Panel
+	ABSTRACT class Panel_Viewport : public Panel
 	{
 	public:
-		ViewportPanel( UInt panelIndex );
-		virtual ~ViewportPanel() {}
+		Panel_Viewport( UInt panelIndex );
+		virtual ~Panel_Viewport() {}
 
 
 	public:

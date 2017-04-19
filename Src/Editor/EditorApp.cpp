@@ -18,11 +18,12 @@
 
 #include "Sections\Builders\ProjectBuilder.h"
 
-#include "Sections\Panels\HierarchyPanel.h"
-#include "Sections\Panels\AttributePanel.h"
-#include "Sections\Panels\ViewportPanel.h"
-#include "Sections\Panels\AssetsPanel.h"
-#include "Sections\Panels\ConsolePanel.h"
+#include "Sections\Panels\Panel_SceneHierarchy.h"
+#include "Sections\Panels\Panel_Attributes.h"
+#include "Sections\Panels\Panel_Viewport.h"
+#include "Sections\Panels\Panel_Assets.h"
+#include "Sections\Panels\Panel_Console.h"
+#include "Sections\Panels\Panel_PrefabHierarchy.h"
 
 #include "Sections\Viewports\SceneViewport.h"
 #include "Sections\SelectorPopup.h"
@@ -97,11 +98,12 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	_CreateSelectorPopup();
 
 	// create some panels
-	NewPanel( PanelType::ASSETS, Qt::Orientation::Horizontal );
-	NewPanel( PanelType::HIERARCHY, Qt::Orientation::Horizontal );
-	_mainViewport = CAST_S( ViewportPanel*, NewPanel( PanelType::SCENE_VIEWPORT, Qt::Orientation::Horizontal ) );
-	NewPanel( PanelType::CONSOLE, Qt::Orientation::Vertical );
-	NewPanel( PanelType::ATTRIBUTES, Qt::Orientation::Horizontal );
+	NewPanel( PanelType::ASSETS );
+	NewPanel( PanelType::SCENE_HIERARCHY );
+	NewPanel( PanelType::PREFAB_HIERARCHY, Qt::Vertical );
+	_mainViewport = CAST_S( Panel_Viewport*, NewPanel( PanelType::SCENE_VIEWPORT ) );
+	NewPanel( PanelType::CONSOLE, Qt::Vertical );
+	NewPanel( PanelType::ATTRIBUTES );
 
 	_skinStylesheet = NULL;
 	// change skin after everything is created
@@ -119,7 +121,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 
 	// load assets
 	for ( UInt i = 0; i < _panels.Size(); ++i ) {
-		AssetsPanel* assetsPanel = CAST_D( AssetsPanel*, _panels[i] );
+		Panel_Assets* assetsPanel = CAST_D( Panel_Assets*, _panels[i] );
 		if ( assetsPanel != NULL ) {
 			assetsPanel->ReloadAllAssets();
 		}
@@ -408,54 +410,48 @@ void EditorApp::_ReadProjectFile()
 Panel* EditorApp::NewPanel( PanelType type, Qt::Orientation orietation, 
 							UInt panelIndex, Bool isPrimary )
 {
+	// new panel
 	Panel* panel = NULL;
 	
-	switch ( type )
-	{
-		case PanelType::HIERARCHY:
-		{
-			panel = Memory::Alloc<HierarchyPanel>();
+	switch ( type ) {
+		case PanelType::SCENE_HIERARCHY:
+			panel = Memory::Alloc<Panel_SceneHierarchy>();
 			panel->Initialize();
-			_panels.Add( panel );
 			break;
-		}
 
 		case PanelType::ATTRIBUTES:
-		{
-			panel = Memory::Alloc<AttributePanel>();
+			panel = Memory::Alloc<Panel_Attributes>();
 			panel->Initialize();
-			_panels.Add( panel );
 			break;
-		}
 
 		case PanelType::SCENE_VIEWPORT:
 		{
 			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( panelIndex );
 			viewportPanel->Initialize( isPrimary );
 			viewportPanel->SetCamera( _cameras[ 0 ] );
-
-			_panels.Add( viewportPanel );
 			panel = viewportPanel;
 			break;
 		}
 
 		case PanelType::ASSETS:
-		{
-			panel = Memory::Alloc<AssetsPanel>();
+			panel = Memory::Alloc<Panel_Assets>();
 			panel->Initialize();
-			_panels.Add( panel );
 			break;
-		}
 
 		case PanelType::CONSOLE:
-		{
-			panel = Memory::Alloc<ConsolePanel>();
+			panel = Memory::Alloc<Panel_Console>();
 			panel->Initialize();
-			_panels.Add( panel );
 			break;
-		}
+
+		case PanelType::PREFAB_HIERARCHY:
+			panel = Memory::Alloc<Panel_PrefabHierarchy>();
+			panel->Initialize();
+			break;
 	}
 
+	// add to list
+	_panels.Add( panel );
+	// add to window
 	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel, orietation );
 
 	return panel;

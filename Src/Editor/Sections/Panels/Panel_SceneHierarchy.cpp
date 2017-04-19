@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "HierarchyPanel.h"
+#include "Panel_SceneHierarchy.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
@@ -21,8 +21,7 @@
 using namespace CYRED;
 
 
-
-class HierarchyPanel::_QtTreeItem : public QTreeWidgetItem
+class Panel_SceneHierarchy::_QtTreeItem : public QTreeWidgetItem
 {
 public:
 	Scene*		scene;
@@ -31,17 +30,11 @@ public:
 };
 
 
-class HierarchyPanel::_QtTree : public QTreeWidget
+class Panel_SceneHierarchy::_QtTree : public QTreeWidget
 {
 public:
 	void dropEvent( QDropEvent* e )
 	{
-		// this will prevent dropping directly to root, which is outside scene
-		QModelIndex droppedIndex = indexAt( e->pos() );
-		if ( !droppedIndex.isValid() ) {
-			return;
-		}
-
 		// get moved item
 		_QtTreeItem* movedItem = CAST_S( _QtTreeItem*, this->currentItem() );
 		// get old parent item
@@ -63,17 +56,13 @@ public:
 			// add back to old position
 			prevParent->insertChild( prevIndexInHierarchy, movedItem );
 			// select item
-			this->clearSelection();
-			movedItem->setSelected( TRUE );
+			this->setCurrentItem( movedItem );
 			// exit
 			return;
 		}
 
 		// select item
-		this->clearSelection();
-		movedItem->setSelected( TRUE );
-		// expand parent
-		newParent->setExpanded( TRUE );
+		this->setCurrentItem( movedItem );
 
 		// get the order in the new hierarchy
 		UInt indexInHierarchy = newParent->indexOfChild( movedItem );
@@ -98,7 +87,7 @@ public:
 };
 
 
-HierarchyPanel::HierarchyPanel()
+Panel_SceneHierarchy::Panel_SceneHierarchy()
 {
 	this->setWindowTitle( PANEL_TITLE );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -115,12 +104,12 @@ HierarchyPanel::HierarchyPanel()
 
 	this->setWidget( _qtTree );
 
-	QObject::connect( _qtTree, &QTreeWidget::itemPressed, this, &HierarchyPanel::A_ItemClicked );
-	QObject::connect( _qtTree, &QTreeWidget::itemChanged, this, &HierarchyPanel::A_ItemRenamed );
+	QObject::connect( _qtTree, &QTreeWidget::itemPressed, this, &Panel_SceneHierarchy::A_ItemClicked );
+	QObject::connect( _qtTree, &QTreeWidget::itemChanged, this, &Panel_SceneHierarchy::A_ItemRenamed );
 }
 
 
-void HierarchyPanel::Initialize()
+void Panel_SceneHierarchy::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
@@ -135,7 +124,7 @@ void HierarchyPanel::Initialize()
 }
 
 
-void HierarchyPanel::Finalize()
+void Panel_SceneHierarchy::Finalize()
 {
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_HIERARCHY, this );
@@ -145,7 +134,7 @@ void HierarchyPanel::Finalize()
 }
 
 
-void HierarchyPanel::OnEvent( EventType eType, void* eData )
+void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
 		case EventType::CHANGE_HIERARCHY:
@@ -189,7 +178,7 @@ void HierarchyPanel::OnEvent( EventType eType, void* eData )
 }
 
 
-HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindGameObjectItem( UInt uid )
+Panel_SceneHierarchy::_QtTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UInt uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
@@ -207,7 +196,7 @@ HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindGameObjectItem( UInt uid )
 }
 
 
-HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindSceneItem( const Char* uid )
+Panel_SceneHierarchy::_QtTreeItem* Panel_SceneHierarchy::_FindSceneItem( const Char* uid )
 {
 	String temp( uid );
 
@@ -224,7 +213,7 @@ HierarchyPanel::_QtTreeItem* HierarchyPanel::_FindSceneItem( const Char* uid )
 }
 
 
-void HierarchyPanel::_CreateRightClickMenu()
+void Panel_SceneHierarchy::_CreateRightClickMenu()
 {
 	ASSERT( _isInitialized );
 
@@ -232,11 +221,11 @@ void HierarchyPanel::_CreateRightClickMenu()
 
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
 	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
-					  this, &HierarchyPanel::A_RightClickMenu );
+					  this, &Panel_SceneHierarchy::A_RightClickMenu );
 }
 
 
-void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
+void Panel_SceneHierarchy::_AddRightClickActions( QTreeWidgetItem* item )
 {
 	ASSERT( _isInitialized );
 
@@ -250,9 +239,9 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QAction* actionSaveSceneAs	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE_AS );
 		QAction* actionCloseScene	= _qtRightClickMenu->addAction( MENU_CLOSE_SCENE );
 
-		QObject::connect( actionSaveScene,		&QAction::triggered, this, &HierarchyPanel::A_SaveScene );
-		QObject::connect( actionSaveSceneAs,	&QAction::triggered, this, &HierarchyPanel::A_SaveSceneAs );
-		QObject::connect( actionCloseScene,		&QAction::triggered, this, &HierarchyPanel::A_CloseScene );
+		QObject::connect( actionSaveScene,		&QAction::triggered, this, &Panel_SceneHierarchy::A_SaveScene );
+		QObject::connect( actionSaveSceneAs,	&QAction::triggered, this, &Panel_SceneHierarchy::A_SaveSceneAs );
+		QObject::connect( actionCloseScene,		&QAction::triggered, this, &Panel_SceneHierarchy::A_CloseScene );
 	}
 
 	// both
@@ -260,7 +249,7 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		_qtRightClickMenu->addSeparator();
 		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
 
-		QObject::connect( actionRename,	&QAction::triggered, this, &HierarchyPanel::A_Rename );
+		QObject::connect( actionRename,	&QAction::triggered, this, &Panel_SceneHierarchy::A_Rename );
 	}
 
 	// gameobject only
@@ -283,15 +272,15 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		_qtRightClickMenu->addSeparator();
 		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
 
-		QObject::connect( actionDuplicate,		&QAction::triggered, this, &HierarchyPanel::A_Duplicate );
-		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Camera );
-		QObject::connect( actionComp_Light,		&QAction::triggered, this, &HierarchyPanel::A_AddComp_Light );
-		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MeshRendering );
-		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_MorphRendering );
-		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_ParticlesEmitter );
-		QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &HierarchyPanel::A_AddComp_Scripter );
-		QObject::connect( actionCreatePrefab,	&QAction::triggered, this, &HierarchyPanel::A_CreatePrefab );
-		QObject::connect( actionDelete,			&QAction::triggered, this, &HierarchyPanel::A_Delete );
+		QObject::connect( actionDuplicate,		&QAction::triggered, this, &Panel_SceneHierarchy::A_Duplicate );
+		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Camera );
+		QObject::connect( actionComp_Light,		&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Light );
+		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_MeshRendering );
+		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_MorphRendering );
+		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_ParticlesEmitter );
+		QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Scripter );
+		QObject::connect( actionCreatePrefab,	&QAction::triggered, this, &Panel_SceneHierarchy::A_CreatePrefab );
+		QObject::connect( actionDelete,			&QAction::triggered, this, &Panel_SceneHierarchy::A_Delete );
 	}
 
 	// scene only
@@ -311,18 +300,18 @@ void HierarchyPanel::_AddRightClickActions( QTreeWidgetItem* item )
 		QMenu* menuGO_PS = menuGO->addMenu( MENU_GO_PS );
 		QAction* actionGO_PS_Emitter = menuGO_PS->addAction( MENU_GO_PS_EMITTER );
 
-		QObject::connect( actionGO_Empty,		&QAction::triggered, this, &HierarchyPanel::A_GO_CreateEmpty );
-		QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Pivot );
-		QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Camera );
-		QObject::connect( actionGO_3D_Light,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Light );
-		QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Mesh );
-		QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &HierarchyPanel::A_GO_Create3D_Morph );
-		QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &HierarchyPanel::A_GO_Particles_Emitter );
+		QObject::connect( actionGO_Empty,		&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_CreateEmpty );
+		QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Pivot );
+		QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Camera );
+		QObject::connect( actionGO_3D_Light,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Light );
+		QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Mesh );
+		QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Morph );
+		QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Particles_Emitter );
 	}
 }
 
 
-void HierarchyPanel::_RecResetHierarchy( GameObject* gameObject, QTreeWidgetItem* parent )
+void Panel_SceneHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWidgetItem* parent )
 {
 	ASSERT( gameObject != NULL );
 
@@ -344,7 +333,7 @@ void HierarchyPanel::_RecResetHierarchy( GameObject* gameObject, QTreeWidgetItem
 }
 
 
-void HierarchyPanel::_ResetHierarchy()
+void Panel_SceneHierarchy::_ResetHierarchy()
 {
 	// delete all items
 	while ( _qtTree->topLevelItemCount() > 0 ) {
@@ -369,8 +358,7 @@ void HierarchyPanel::_ResetHierarchy()
 		rootItem->addChild( treeItem );
 		treeItem->setExpanded( TRUE );
 
-		for ( UInt j = 0; j < scene->GetRoot()->GetChildNodeCount(); ++j )
-		{
+		for ( UInt j = 0; j < scene->GetRoot()->GetChildNodeCount(); ++j ) {
 			_RecResetHierarchy( CAST_S( GameObject*, scene->GetRoot()->GetChildNodeAt(j) ), 
 								treeItem );
 		}
@@ -378,7 +366,7 @@ void HierarchyPanel::_ResetHierarchy()
 }
 
 
-void HierarchyPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
+void Panel_SceneHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
 
@@ -391,7 +379,7 @@ void HierarchyPanel::A_ItemClicked( QTreeWidgetItem* item, int column )
 }
 
 
-void HierarchyPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
+void Panel_SceneHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
 
@@ -412,7 +400,7 @@ void HierarchyPanel::A_ItemRenamed( QTreeWidgetItem* item, int column )
 }
 
 
-void HierarchyPanel::A_RightClickMenu( const QPoint& pos )
+void Panel_SceneHierarchy::A_RightClickMenu( const QPoint& pos )
 {
 	QTreeWidgetItem* item = _qtTree->itemAt( pos );
 
@@ -425,7 +413,7 @@ void HierarchyPanel::A_RightClickMenu( const QPoint& pos )
 }
 
 
-void HierarchyPanel::A_SaveScene()
+void Panel_SceneHierarchy::A_SaveScene()
 {
 	Scene* scene = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->scene;
 	ASSERT( scene != NULL );
@@ -441,7 +429,7 @@ void HierarchyPanel::A_SaveScene()
 }
 
 
-void HierarchyPanel::A_SaveSceneAs()
+void Panel_SceneHierarchy::A_SaveSceneAs()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 
@@ -484,7 +472,7 @@ void HierarchyPanel::A_SaveSceneAs()
 }
 
 
-void HierarchyPanel::A_CloseScene()
+void Panel_SceneHierarchy::A_CloseScene()
 {
 	Scene* scene = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->scene;
 	ASSERT( scene != NULL );
@@ -493,14 +481,14 @@ void HierarchyPanel::A_CloseScene()
 }
 
 
-void HierarchyPanel::A_Rename()
+void Panel_SceneHierarchy::A_Rename()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 	_qtTree->editItem( item );
 }
 
 
-void HierarchyPanel::A_Duplicate()
+void Panel_SceneHierarchy::A_Duplicate()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	if ( treeItem->gameObject != NULL ) {
@@ -509,7 +497,7 @@ void HierarchyPanel::A_Duplicate()
 }
 
 
-void HierarchyPanel::A_Delete()
+void Panel_SceneHierarchy::A_Delete()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -518,7 +506,7 @@ void HierarchyPanel::A_Delete()
 }
 
 
-void HierarchyPanel::A_CreatePrefab()
+void Panel_SceneHierarchy::A_CreatePrefab()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -555,7 +543,7 @@ void HierarchyPanel::A_CreatePrefab()
 }
 
 
-void HierarchyPanel::A_GO_CreateEmpty()
+void Panel_SceneHierarchy::A_GO_CreateEmpty()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -565,7 +553,7 @@ void HierarchyPanel::A_GO_CreateEmpty()
 }
 
 
-void HierarchyPanel::A_GO_Create3D_Pivot()
+void Panel_SceneHierarchy::A_GO_Create3D_Pivot()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -578,7 +566,7 @@ void HierarchyPanel::A_GO_Create3D_Pivot()
 }
 
 
-void HierarchyPanel::A_GO_Create3D_Camera()
+void Panel_SceneHierarchy::A_GO_Create3D_Camera()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -596,7 +584,7 @@ void HierarchyPanel::A_GO_Create3D_Camera()
 }
 
 
-void HierarchyPanel::A_GO_Create3D_Light()
+void Panel_SceneHierarchy::A_GO_Create3D_Light()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -611,7 +599,7 @@ void HierarchyPanel::A_GO_Create3D_Light()
 }
 
 
-void HierarchyPanel::A_GO_Create3D_Mesh()
+void Panel_SceneHierarchy::A_GO_Create3D_Mesh()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -626,7 +614,7 @@ void HierarchyPanel::A_GO_Create3D_Mesh()
 }
 
 
-void HierarchyPanel::A_GO_Create3D_Morph()
+void Panel_SceneHierarchy::A_GO_Create3D_Morph()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -641,7 +629,7 @@ void HierarchyPanel::A_GO_Create3D_Morph()
 }
 
 
-void HierarchyPanel::A_GO_Particles_Emitter()
+void Panel_SceneHierarchy::A_GO_Particles_Emitter()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
@@ -658,7 +646,7 @@ void HierarchyPanel::A_GO_Particles_Emitter()
 }
 
 
-void HierarchyPanel::A_AddComp_Camera()
+void Panel_SceneHierarchy::A_AddComp_Camera()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -668,7 +656,7 @@ void HierarchyPanel::A_AddComp_Camera()
 }
 
 
-void HierarchyPanel::A_AddComp_Light()
+void Panel_SceneHierarchy::A_AddComp_Light()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -678,7 +666,7 @@ void HierarchyPanel::A_AddComp_Light()
 }
 
 
-void HierarchyPanel::A_AddComp_MeshRendering()
+void Panel_SceneHierarchy::A_AddComp_MeshRendering()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -688,7 +676,7 @@ void HierarchyPanel::A_AddComp_MeshRendering()
 }
 
 
-void HierarchyPanel::A_AddComp_MorphRendering()
+void Panel_SceneHierarchy::A_AddComp_MorphRendering()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -698,7 +686,7 @@ void HierarchyPanel::A_AddComp_MorphRendering()
 }
 
 
-void HierarchyPanel::A_AddComp_ParticlesEmitter()
+void Panel_SceneHierarchy::A_AddComp_ParticlesEmitter()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
@@ -708,7 +696,7 @@ void HierarchyPanel::A_AddComp_ParticlesEmitter()
 }
 
 
-void HierarchyPanel::A_AddComp_Scripter()
+void Panel_SceneHierarchy::A_AddComp_Scripter()
 {
 	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );

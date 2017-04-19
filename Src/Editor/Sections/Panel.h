@@ -14,11 +14,13 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			HIERARCHY
-			, ATTRIBUTES
+			ATTRIBUTES
 			, SCENE_VIEWPORT
+			, SCENE_HIERARCHY
 			, ASSETS
 			, CONSOLE
+			, PREFAB_HIERARCHY
+			, PREFAB_VIEWPORT
 		};
 	}
 	typedef Enum_PanelType::Enum	PanelType;

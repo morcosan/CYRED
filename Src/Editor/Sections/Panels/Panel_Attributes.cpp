@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "AttributePanel.h"
+#include "Panel_Attributes.h"
 #include "../AttrViewers/AttrViewer.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
@@ -35,7 +35,7 @@ using namespace CYRED;
 
 
 
-AttributePanel::AttributePanel()
+Panel_Attributes::Panel_Attributes()
 	: _needsRefresh( FALSE )
 {
 	this->setWindowTitle( PANEL_TITLE );
@@ -61,7 +61,7 @@ AttributePanel::AttributePanel()
 }
 
 
-AttributePanel::~AttributePanel()
+Panel_Attributes::~Panel_Attributes()
 {
 	Iterator<String, _AttrViewer*> iter = _attrViewers.GetIterator();
 	while ( iter.HasNext() ) {
@@ -71,7 +71,7 @@ AttributePanel::~AttributePanel()
 }
 
 
-void AttributePanel::Initialize()
+void Panel_Attributes::Initialize()
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
@@ -104,7 +104,7 @@ void AttributePanel::Initialize()
 }
 
 
-void AttributePanel::Finalize()
+void Panel_Attributes::Finalize()
 {
 	ASSERT( _isInitialized );
 
@@ -113,7 +113,7 @@ void AttributePanel::Finalize()
 }
 
 
-void AttributePanel::Update()
+void Panel_Attributes::Update()
 {
 	ASSERT( _isInitialized );
 
@@ -137,7 +137,7 @@ void AttributePanel::Update()
 }
 
 
-void AttributePanel::OnEvent( EventType eType, void* eData )
+void Panel_Attributes::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
 		case EventType::SELECT_GAMEOBJECT:
@@ -480,7 +480,7 @@ void AttributePanel::OnEvent( EventType eType, void* eData )
 }
 
 
-void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
+void Panel_Attributes::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 {
 	ASSERT( _isInitialized );
 
@@ -496,14 +496,14 @@ void AttributePanel::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
 }
 
 
-void AttributePanel::RefreshPanel()
+void Panel_Attributes::RefreshPanel()
 {
 	ASSERT( _isInitialized );
 	_needsRefresh = TRUE;
 }
 
 
-void AttributePanel::_ClearPanel()
+void Panel_Attributes::_ClearPanel()
 {
 	ASSERT( _isInitialized );
 
@@ -522,7 +522,7 @@ void AttributePanel::_ClearPanel()
 }
 
 
-void AttributePanel::_DisplayGameObject( GameObject* gameObject )
+void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 {
 	if ( gameObject != NULL ) {
 		{
