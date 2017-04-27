@@ -2,15 +2,18 @@
 // MIT License
 
 #include "Panel_PrefabHierarchy.h"
+
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Script.h"
+
 #include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
 #include "../Settings/ProjectSettings.h"
 #include "../../EditorApp.h"
+#include "../../Utils/CustomTreeItem.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -21,23 +24,15 @@
 using namespace CYRED;
 
 
-
-class Panel_PrefabHierarchy::_QtTreeItem : public QTreeWidgetItem
-{
-public:
-	GameObject* gameObject;
-};
-
-
 class Panel_PrefabHierarchy::_QtTree : public QTreeWidget
 {
 public:
 	void dropEvent( QDropEvent* e )
 	{
 		// get moved item
-		_QtTreeItem* movedItem = CAST_S( _QtTreeItem*, this->currentItem() );
+		CustomTreeItem* movedItem = CAST_S( CustomTreeItem*, this->currentItem() );
 		// get old parent item
-		_QtTreeItem* prevParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		CustomTreeItem* prevParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// get the order in the old hierarchy
 		UInt prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
 
@@ -45,7 +40,7 @@ public:
 		QTreeWidget::dropEvent( e );	
 		
 		// get new parent item
-		_QtTreeItem* newParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		CustomTreeItem* newParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// check if drop is outside scene
 		if ( newParent == NULL ) {
 			// if so, reset drop
@@ -145,7 +140,7 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 		case EventType::RENAME_GAMEOBJECT:
 		{
 			GameObject* gameObject = CAST_S( GameObject*, eData );
-			_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 			}
@@ -160,11 +155,11 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 }
 
 
-Panel_PrefabHierarchy::_QtTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( UInt uid )
+CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( UInt uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
-		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
+		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, *it );
 		GameObject* gameObject = treeItem->gameObject;
 
 		if ( gameObject != NULL && gameObject->GetUniqueID() == uid ) {
@@ -196,7 +191,7 @@ void Panel_PrefabHierarchy::_AddRightClickActions( QTreeWidgetItem* item )
 
 	_qtRightClickMenu->clear();
 
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 
 	_qtRightClickMenu->addSeparator();
 	QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
@@ -260,7 +255,7 @@ void Panel_PrefabHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWid
 {
 	ASSERT( gameObject != NULL );
 
-	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 	treeItem->gameObject = gameObject;
 	
 	treeItem->setText( 0, gameObject->GetName() );
@@ -291,7 +286,7 @@ void Panel_PrefabHierarchy::_ResetHierarchy()
 	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
-		_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 		//treeItem->scene = scene;
 		//treeItem->sceneIndex = i;
 
@@ -314,7 +309,7 @@ void Panel_PrefabHierarchy::_ResetHierarchy()
 
 void Panel_PrefabHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
 }
@@ -322,7 +317,7 @@ void Panel_PrefabHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 
 void Panel_PrefabHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
 }
@@ -350,7 +345,7 @@ void Panel_PrefabHierarchy::A_Rename()
 
 void Panel_PrefabHierarchy::A_Duplicate()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	if ( treeItem->gameObject != NULL ) {
 		SceneManager::Singleton()->Duplicate( treeItem->gameObject );
 	}
@@ -359,7 +354,7 @@ void Panel_PrefabHierarchy::A_Duplicate()
 
 void Panel_PrefabHierarchy::A_Delete()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	SceneManager::Singleton()->Destroy( treeItem->gameObject );
@@ -372,7 +367,7 @@ void CYRED::Panel_PrefabHierarchy::A_SavePrefab()
 
 void Panel_PrefabHierarchy::A_CreateNewPrefab()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// set file filter
@@ -409,7 +404,7 @@ void Panel_PrefabHierarchy::A_CreateNewPrefab()
 
 void Panel_PrefabHierarchy::A_GO_CreateEmpty()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -419,7 +414,7 @@ void Panel_PrefabHierarchy::A_GO_CreateEmpty()
 
 void Panel_PrefabHierarchy::A_GO_Create3D_Pivot()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -432,7 +427,7 @@ void Panel_PrefabHierarchy::A_GO_Create3D_Pivot()
 
 void Panel_PrefabHierarchy::A_GO_Create3D_Camera()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -450,7 +445,7 @@ void Panel_PrefabHierarchy::A_GO_Create3D_Camera()
 
 void Panel_PrefabHierarchy::A_GO_Create3D_Light()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -465,7 +460,7 @@ void Panel_PrefabHierarchy::A_GO_Create3D_Light()
 
 void Panel_PrefabHierarchy::A_GO_Create3D_Mesh()
 {
-	//_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	//CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	//ASSERT( treeItem->scene != NULL );
 
 	//GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -480,7 +475,7 @@ void Panel_PrefabHierarchy::A_GO_Create3D_Mesh()
 
 void Panel_PrefabHierarchy::A_GO_Create3D_Morph()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -495,7 +490,7 @@ void Panel_PrefabHierarchy::A_GO_Create3D_Morph()
 
 void Panel_PrefabHierarchy::A_GO_Particles_Emitter()
 {
-	/*_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	/*CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->scene != NULL );
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
@@ -512,7 +507,7 @@ void Panel_PrefabHierarchy::A_GO_Particles_Emitter()
 
 void Panel_PrefabHierarchy::A_AddComp_Camera()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add camera component
@@ -522,7 +517,7 @@ void Panel_PrefabHierarchy::A_AddComp_Camera()
 
 void Panel_PrefabHierarchy::A_AddComp_Light()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add light component
@@ -532,7 +527,7 @@ void Panel_PrefabHierarchy::A_AddComp_Light()
 
 void Panel_PrefabHierarchy::A_AddComp_MeshRendering()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add mesh rendering component
@@ -542,7 +537,7 @@ void Panel_PrefabHierarchy::A_AddComp_MeshRendering()
 
 void Panel_PrefabHierarchy::A_AddComp_MorphRendering()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add morph rendering component
@@ -552,7 +547,7 @@ void Panel_PrefabHierarchy::A_AddComp_MorphRendering()
 
 void Panel_PrefabHierarchy::A_AddComp_ParticlesEmitter()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add particles emitter component
@@ -562,7 +557,7 @@ void Panel_PrefabHierarchy::A_AddComp_ParticlesEmitter()
 
 void Panel_PrefabHierarchy::A_AddComp_Scripter()
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
 	// add scripter component

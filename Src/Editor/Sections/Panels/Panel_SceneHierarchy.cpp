@@ -2,15 +2,18 @@
 // MIT License
 
 #include "Panel_SceneHierarchy.h"
+
 #include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Script.h"
+
 #include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
-#include "../Settings/ProjectSettings.h"
-#include "../../EditorApp.h"
+#include "../../Utils/CustomTreeItem.h"
+#include "../Menus/Menu_GameObject.h"
+#include "../Menus/Menu_Scene.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -21,24 +24,15 @@
 using namespace CYRED;
 
 
-class Panel_SceneHierarchy::_QtTreeItem : public QTreeWidgetItem
-{
-public:
-	Scene*		scene;
-	UInt		sceneIndex;
-	GameObject* gameObject;
-};
-
-
 class Panel_SceneHierarchy::_QtTree : public QTreeWidget
 {
 public:
 	void dropEvent( QDropEvent* e )
 	{
 		// get moved item
-		_QtTreeItem* movedItem = CAST_S( _QtTreeItem*, this->currentItem() );
+		CustomTreeItem* movedItem = CAST_S( CustomTreeItem*, this->currentItem() );
 		// get old parent item
-		_QtTreeItem* prevParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		CustomTreeItem* prevParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// get the order in the old hierarchy
 		UInt prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
 
@@ -46,7 +40,7 @@ public:
 		QTreeWidget::dropEvent( e );	
 		
 		// get new parent item
-		_QtTreeItem* newParent = CAST_S( _QtTreeItem*, movedItem->parent() );
+		CustomTreeItem* newParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// check if drop is outside scene
 		if ( newParent == NULL ) {
 			// if so, reset drop
@@ -144,7 +138,7 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 		case EventType::RENAME_GAMEOBJECT:
 		{
 			GameObject* gameObject = CAST_S( GameObject*, eData );
-			_QtTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 			}
@@ -163,7 +157,7 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 			Asset* asset = CAST_S( Asset*, eData );
 
 			if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE ) {
-				_QtTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
+				CustomTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
 
 				if ( treeItem != NULL )	{
 					_qtTree->blockSignals( true );
@@ -178,11 +172,11 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 }
 
 
-Panel_SceneHierarchy::_QtTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UInt uid )
+CustomTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UInt uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
-		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, *it );
+		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, *it );
 		GameObject* gameObject = treeItem->gameObject;
 
 		if ( gameObject != NULL && gameObject->GetUniqueID() == uid ) {
@@ -196,12 +190,12 @@ Panel_SceneHierarchy::_QtTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UI
 }
 
 
-Panel_SceneHierarchy::_QtTreeItem* Panel_SceneHierarchy::_FindSceneItem( const Char* uid )
+CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( const Char* uid )
 {
 	String temp( uid );
 
 	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
-		_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->topLevelItem(i) );
+		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->topLevelItem(i) );
 		Scene* scene = treeItem->scene;
 
 		if ( scene != NULL && temp == scene->GetUniqueID() ) {
@@ -217,97 +211,13 @@ void Panel_SceneHierarchy::_CreateRightClickMenu()
 {
 	ASSERT( _isInitialized );
 
-	_qtRightClickMenu = Memory::Alloc<QMenu>( this );
+	// create menus
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree );
+	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree );
 
+	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
-	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
-					  this, &Panel_SceneHierarchy::A_RightClickMenu );
-}
-
-
-void Panel_SceneHierarchy::_AddRightClickActions( QTreeWidgetItem* item )
-{
-	ASSERT( _isInitialized );
-
-	_qtRightClickMenu->clear();
-
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-
-	// scene only
-	if ( treeItem->scene != NULL && treeItem->gameObject == NULL ) {
-		QAction* actionSaveScene	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE );
-		QAction* actionSaveSceneAs	= _qtRightClickMenu->addAction( MENU_SAVE_SCENE_AS );
-		QAction* actionCloseScene	= _qtRightClickMenu->addAction( MENU_CLOSE_SCENE );
-
-		QObject::connect( actionSaveScene,		&QAction::triggered, this, &Panel_SceneHierarchy::A_SaveScene );
-		QObject::connect( actionSaveSceneAs,	&QAction::triggered, this, &Panel_SceneHierarchy::A_SaveSceneAs );
-		QObject::connect( actionCloseScene,		&QAction::triggered, this, &Panel_SceneHierarchy::A_CloseScene );
-	}
-
-	// both
-	if ( treeItem->gameObject != NULL || treeItem->scene != NULL ) {
-		_qtRightClickMenu->addSeparator();
-		QAction* actionRename = _qtRightClickMenu->addAction( MENU_RENAME );
-
-		QObject::connect( actionRename,	&QAction::triggered, this, &Panel_SceneHierarchy::A_Rename );
-	}
-
-	// gameobject only
-	if ( treeItem->gameObject != NULL && treeItem->scene == NULL) {
-		_qtRightClickMenu->addSeparator();
-		QAction* actionDuplicate = _qtRightClickMenu->addAction( MENU_DUPLICATE );
-
-		_qtRightClickMenu->addSeparator();
-		QMenu* menu_AddComp = _qtRightClickMenu->addMenu( MENU_ADD_COMPONENT );
-		QAction* actionComp_Camera		= menu_AddComp->addAction( MENU_COMP_CAMERA );
-		QAction* actionComp_Light		= menu_AddComp->addAction( MENU_COMP_LIGHT );
-		QAction* actionComp_MeshRen		= menu_AddComp->addAction( MENU_COMP_MESH_REN );
-		QAction* actionComp_MorphRen	= menu_AddComp->addAction( MENU_COMP_MORPH_REN );
-		QAction* actionComp_PsEmitter	= menu_AddComp->addAction( MENU_COMP_PS_EMITTER );
-		QAction* actionComp_Scripter	= menu_AddComp->addAction( MENU_COMP_SCRIPTER );
-
-		_qtRightClickMenu->addSeparator();
-		QAction* actionCreatePrefab = _qtRightClickMenu->addAction( MENU_CREATE_PREFAB );
-
-		_qtRightClickMenu->addSeparator();
-		QAction* actionDelete = _qtRightClickMenu->addAction( MENU_DELETE );
-
-		QObject::connect( actionDuplicate,		&QAction::triggered, this, &Panel_SceneHierarchy::A_Duplicate );
-		QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Camera );
-		QObject::connect( actionComp_Light,		&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Light );
-		QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_MeshRendering );
-		QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_MorphRendering );
-		QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_ParticlesEmitter );
-		QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_AddComp_Scripter );
-		QObject::connect( actionCreatePrefab,	&QAction::triggered, this, &Panel_SceneHierarchy::A_CreatePrefab );
-		QObject::connect( actionDelete,			&QAction::triggered, this, &Panel_SceneHierarchy::A_Delete );
-	}
-
-	// scene only
-	if ( treeItem->gameObject == NULL && treeItem->scene != NULL ) {
-		_qtRightClickMenu->addSeparator();
-		QMenu* menuGO = _qtRightClickMenu->addMenu( MENU_GO );
-
-		QAction* actionGO_Empty = menuGO->addAction( MENU_GO_EMPTY );
-
-		QMenu* menuGO_3D = menuGO->addMenu( MENU_GO_3D );
-		QAction* actionGO_3D_Pivot = menuGO_3D->addAction( MENU_GO_3D_PIVOT );
-		QAction* actionGO_3D_Camera = menuGO_3D->addAction( MENU_GO_3D_CAMERA );
-		QAction* actionGO_3D_Light = menuGO_3D->addAction( MENU_GO_3D_LIGHT );
-		QAction* actionGO_3D_Mesh = menuGO_3D->addAction( MENU_GO_3D_MESH );
-		QAction* actionGO_3D_Morph = menuGO_3D->addAction( MENU_GO_3D_MORPH );
-
-		QMenu* menuGO_PS = menuGO->addMenu( MENU_GO_PS );
-		QAction* actionGO_PS_Emitter = menuGO_PS->addAction( MENU_GO_PS_EMITTER );
-
-		QObject::connect( actionGO_Empty,		&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_CreateEmpty );
-		QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Pivot );
-		QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Camera );
-		QObject::connect( actionGO_3D_Light,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Light );
-		QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Mesh );
-		QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Create3D_Morph );
-		QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &Panel_SceneHierarchy::A_GO_Particles_Emitter );
-	}
+	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, this, &Panel_SceneHierarchy::A_RightClickMenu );
 }
 
 
@@ -315,7 +225,7 @@ void Panel_SceneHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWidg
 {
 	ASSERT( gameObject != NULL );
 
-	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 	treeItem->gameObject = gameObject;
 	
 	treeItem->setText( 0, gameObject->GetName() );
@@ -346,7 +256,7 @@ void Panel_SceneHierarchy::_ResetHierarchy()
 	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
-		_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
+		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 		treeItem->scene = scene;
 		treeItem->sceneIndex = i;
 
@@ -368,7 +278,7 @@ void Panel_SceneHierarchy::_ResetHierarchy()
 
 void Panel_SceneHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	if ( treeItem->gameObject != NULL ) {
 		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
@@ -381,7 +291,7 @@ void Panel_SceneHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 
 void Panel_SceneHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, item );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	if ( treeItem->gameObject != NULL )
 	{
@@ -402,306 +312,16 @@ void Panel_SceneHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 
 void Panel_SceneHierarchy::A_RightClickMenu( const QPoint& pos )
 {
-	QTreeWidgetItem* item = _qtTree->itemAt( pos );
-
-	if ( item != NULL )
-	{
-		_AddRightClickActions( item );
-
-		_qtRightClickMenu->popup( _qtTree->mapToGlobal(pos) );
+	// get tree item
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->itemAt( pos ) );
+	if ( treeItem != NULL ) {
+		if ( treeItem->gameObject != NULL ) {
+			// open gameobject menu
+			_menuGameObject->Open( pos );
+		}
+		else if ( treeItem->scene != NULL ) {
+			// open gameobject menu
+			_menuScene->Open( pos );
+		}
 	}
 }
-
-
-void Panel_SceneHierarchy::A_SaveScene()
-{
-	Scene* scene = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->scene;
-	ASSERT( scene != NULL );
-
-	// a new scene
-	if ( scene->IsTemporary() )	{
-		A_SaveSceneAs();
-	}
-	else {
-		// write file
-		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
-	}
-}
-
-
-void Panel_SceneHierarchy::A_SaveSceneAs()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-
-	Scene* scene = treeItem->scene;
-	ASSERT( scene != NULL );
-
-	// set file filter
-	FiniteString fileFilter( FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
-	// open explorer popup
-	QString newPath = QFileDialog::getSaveFileName( this, 
-													MSG_SAVE_SCENE, 
-													ProjectSettings::dirPathAssets.GetChar(), 
-													fileFilter.GetChar() );
-	// get selected path
-	const Char* paths = newPath.toUtf8().constData();
-	QFileInfo filePath( newPath );
-	// open directory
-	QDir dir;
-	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
-	dirPath.append( "/" );
-	// create new asset
-	const Char* newName = filePath.completeBaseName().toUtf8().constData();
-	Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
-															  newName,
-															  dirPath.toUtf8().constData() );
-	// add new scene to manager
-	AssetManager::Singleton()->AddScene( newScene );
-	
-	// update assets panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
-
-	// use new scene
-	treeItem->scene = newScene;
-	SceneManager::Singleton()->OpenScene( newScene->GetUniqueID() );
-
-	// update hierarchy panel
-	_qtTree->blockSignals( true );
-	treeItem->setText( 0, newScene->GetName() );
-	_qtTree->blockSignals( false );
-}
-
-
-void Panel_SceneHierarchy::A_CloseScene()
-{
-	Scene* scene = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->scene;
-	ASSERT( scene != NULL );
-
-	SceneManager::Singleton()->CloseScene( scene->GetUniqueID() );
-}
-
-
-void Panel_SceneHierarchy::A_Rename()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-	_qtTree->editItem( item );
-}
-
-
-void Panel_SceneHierarchy::A_Duplicate()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	if ( treeItem->gameObject != NULL ) {
-		SceneManager::Singleton()->Duplicate( treeItem->gameObject );
-	}
-}
-
-
-void Panel_SceneHierarchy::A_Delete()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	SceneManager::Singleton()->Destroy( treeItem->gameObject );
-}
-
-
-void Panel_SceneHierarchy::A_CreatePrefab()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// set file filter
-	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
-	// open explorer popup
-	QString newPath = QFileDialog::getSaveFileName( this, 
-													MSG_SAVE_PREFAB, 
-													ProjectSettings::dirPathAssets.GetChar(), 
-													fileFilter.GetChar() );
-	// get selected path
-	const Char* paths = newPath.toUtf8().constData();
-	QFileInfo filePath( newPath );
-	// open directory
-	QDir dir;
-	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
-	dirPath.append( "/" );
-	// write file
-	const Char* newName = filePath.completeBaseName().toUtf8().constData();
-	// create new prefab asset
-	Prefab* prefab = Memory::Alloc<Prefab>();
-	prefab->SetEmitEvents( FALSE );
-	prefab->SetName( newName );
-	prefab->SetDirPath( dirPath.toUtf8().constData() );
-	prefab->SetGameObject( treeItem->gameObject );
-	prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-	prefab->SetIsTemporary( FALSE );
-	prefab->SetEmitEvents( TRUE );
-	// add to manager
-	AssetManager::Singleton()->AddPrefab( prefab );
-	// save file
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
-}
-
-
-void Panel_SceneHierarchy::A_GO_CreateEmpty()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Create3D_Pivot()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<Transform>();
-	newObject->SetName( MENU_GO_3D_PIVOT );
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Create3D_Camera()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
-	newObject->SetName( MENU_GO_3D_CAMERA );
-
-	Camera* camera = newObject->AddComponent<Camera>();
-	camera->SetFovYAngle( 60 );
-	camera->SetNearClipping( 0.1f );
-	camera->SetFarClipping( 200.0f );
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Create3D_Light()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
-	newObject->SetName( MENU_GO_3D_LIGHT );
-
-	newObject->AddComponent<Light>();
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Create3D_Mesh()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
-	newObject->SetName( MENU_GO_3D_MESH );
-
-	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Create3D_Morph()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
-	newObject->SetName( MENU_GO_3D_MORPH );
-
-	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_GO_Particles_Emitter()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
-
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
-	newObject->SetName( MENU_GO_PS_EMITTER );
-	
-	Transform* tran = newObject->AddComponent<Transform>();
-	tran->RotateByWorld( Vector3( 90, 0, 0 ) );
-
-	newObject->AddComponent<ParticleEmitter>();
-
-	EditorApp::Singleton()->ShowStatus( STATUS_NEW_GO );
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_Camera()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add camera component
-	treeItem->gameObject->AddComponent<Camera>();
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_Light()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add light component
-	treeItem->gameObject->AddComponent<Light>();
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_MeshRendering()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add mesh rendering component
-	treeItem->gameObject->AddComponent<MeshRendering>();
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_MorphRendering()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add morph rendering component
-	treeItem->gameObject->AddComponent<MorphRendering>();
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_ParticlesEmitter()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add particles emitter component
-	treeItem->gameObject->AddComponent<ParticleEmitter>();
-}
-
-
-void Panel_SceneHierarchy::A_AddComp_Scripter()
-{
-	_QtTreeItem* treeItem = CAST_S( _QtTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
-
-	// add scripter component
-	treeItem->gameObject->AddComponent<Scripter>();
-}
-

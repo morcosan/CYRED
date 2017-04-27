@@ -105,6 +105,8 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Transform.cpp" />
     <ClCompile Include="Sections\Builders\ProjectBuilderImpl.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
     <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
     <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
     <ClCompile Include="Sections\Selectors\Selector_Mesh.cpp" />
@@ -161,6 +163,8 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Transform.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilder.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilderImpl.h" />
+    <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
+    <ClInclude Include="Sections\Menus\Menu_Scene.h" />
     <ClInclude Include="Sections\Panels\Panel_Console.h" />
     <ClInclude Include="Sections\Panels\Panel_PrefabHierarchy.h" />
     <ClInclude Include="Sections\Selectors\Selector_Mesh.h" />
@@ -189,6 +193,7 @@
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />
+    <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
     <ClInclude Include="Utils\QtUtils.h" />
   </ItemGroup>

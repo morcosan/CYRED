@@ -5,10 +5,18 @@
 #include "CyredRequired.h"
 #include "CyredModule_Event.h"
 #include "CyredBuildingBlocks.h"
+
 #include "../Panel.h"
+
 
 class QTreeWidgetItem;
 class QMenu;
+
+
+namespace CYRED
+{
+	class CustomTreeItem;
+}
 
 
 namespace CYRED
@@ -90,13 +98,12 @@ namespace CYRED
 
 	protected:
 		class _QtTree;
-		class _QtTreeItem;
 
 		_QtTree*	_qtTree;
 		QMenu*		_qtRightClickMenu;
 
 		void			_RecResetHierarchy	( GameObject* gameObject, QTreeWidgetItem* parent );
-		_QtTreeItem*	_FindGameObjectItem	( UInt uid );
+		CustomTreeItem*	_FindGameObjectItem	( UInt uid );
 
 		void _CreateRightClickMenu	();
 		void _AddRightClickActions	( QTreeWidgetItem* item );
