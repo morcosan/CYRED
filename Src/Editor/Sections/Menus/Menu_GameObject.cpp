@@ -9,7 +9,6 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Script.h"
-#include "CyredModule_Event.h"
 
 #include "../../EditorApp.h"
 #include "../../Utils/CustomTreeItem.h"
@@ -22,9 +21,10 @@
 using namespace CYRED;
 
 
-Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree )
+Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	: QMenu( qtTree )
 	, _qtTree( qtTree )
+	, _eventType( eventType )
 {
 	// add actions
 
@@ -104,7 +104,15 @@ void Menu_GameObject::A_Duplicate()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	if ( treeItem->gameObject != NULL ) {
-		SceneManager::Singleton()->Duplicate( treeItem->gameObject );
+		// create gameobject
+		GameObject* clone = _CreateGameObject( treeItem->gameObject->GetParentNode() );
+		// do the cloning
+		treeItem->gameObject->Clone( clone );
+		// update name
+		clone->SetName( treeItem->gameObject->GetName() );
+
+		// send event
+		EventManager::Singleton()->EmitEvent( _eventType, NULL );
 	}
 }
 
@@ -114,7 +122,11 @@ void Menu_GameObject::A_Delete()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	SceneManager::Singleton()->Destroy( treeItem->gameObject );
+	// destroy object
+	_DestroyGameObject( treeItem->gameObject );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
 }
 
 
@@ -160,7 +172,12 @@ void Menu_GameObject::A_GO_CreateEmpty()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -169,9 +186,15 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
 	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -180,14 +203,20 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 	newObject->SetName( MENU_GO_3D_CAMERA );
-
+	// add camera
 	Camera* camera = newObject->AddComponent<Camera>();
 	camera->SetFovYAngle( 60 );
 	camera->SetNearClipping( 0.1f );
 	camera->SetFarClipping( 200.0f );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -196,11 +225,17 @@ void Menu_GameObject::A_GO_Create3D_Light()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_LIGHT );
-
+	// add light
 	newObject->AddComponent<Light>();
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -209,11 +244,17 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MESH );
-
+	// add mesh render
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -222,11 +263,17 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MORPH );
-
+	// add morph render
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -235,13 +282,17 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->gameObject != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	// add transform
+	newObject->AddComponent<Transform>()->RotateByWorld( Vector3( 90, 0, 0 ) );
 	newObject->SetName( MENU_GO_PS_EMITTER );
-
-	Transform* tran = newObject->AddComponent<Transform>();
-	tran->RotateByWorld( Vector3( 90, 0, 0 ) );
-
+	// add particle emitter
 	newObject->AddComponent<ParticleEmitter>();
+
+	// send event
+	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
 }
 
 
@@ -302,4 +353,26 @@ void Menu_GameObject::A_AddComp_Scripter()
 
 	// add scripter component
 	treeItem->gameObject->AddComponent<Scripter>();
+}
+
+
+GameObject* Menu_GameObject::_CreateGameObject( Node* parentNode )
+{
+	// get new uid
+	UInt uid = SceneManager::Singleton()->NextGameObjectUID();
+	// create object
+	GameObject* newObject = Memory::Alloc<GameObject>( MENU_GO_EMPTY, uid );
+	// add to parent
+	newObject->SetParentNode( parentNode );
+
+	return newObject;
+}
+
+
+void Menu_GameObject::_DestroyGameObject( GameObject* gameObject )
+{
+	if ( gameObject != NULL ) {
+		gameObject->SetParentNode( NULL );
+		Memory::Free( gameObject );
+	}
 }

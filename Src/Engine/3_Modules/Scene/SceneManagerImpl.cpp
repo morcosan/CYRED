@@ -55,7 +55,7 @@ Scene* SceneManagerImpl::OpenScene( const Char* sceneUID )
 	scene->LoadFullFile();
 	_currScenes.Add( scene );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 	return NULL;
 }
@@ -73,7 +73,7 @@ Scene* SceneManagerImpl::OpenNewScene()
 	scene->SetEmitEvents( TRUE );
 	_currScenes.Add( scene );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 	return scene;
 }
@@ -94,7 +94,7 @@ Scene* SceneManagerImpl::LoadScene( const Char* sceneUID )
 	scene->LoadFullFile();
 	_currScenes.Add( scene );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 	
 	return scene;
 }
@@ -110,7 +110,7 @@ Scene* SceneManagerImpl::LoadNewScene()
 	scene->SetEmitEvents( TRUE );
 	_currScenes.Add( scene );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 	return scene;
 }
@@ -201,7 +201,7 @@ void SceneManagerImpl::CloseScene( const Char* sceneUID )
 			_currScenes[i]->ClearRoot();
 			_currScenes.Erase( i );
 
-			EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+			EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 			return;
 		}
@@ -218,7 +218,7 @@ void SceneManagerImpl::CloseAllScenes()
 	}
 	_currScenes.Clear();
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 }
 
 
@@ -258,7 +258,7 @@ void SceneManagerImpl::RestoreScenes()
 		_currScenes.Add( _storedScenes[i].scene );
 	}
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 }
 
 
@@ -272,7 +272,7 @@ GameObject* SceneManagerImpl::NewGameObject( UInt sceneIndex )
 	GameObject* newObject = Memory::Alloc<GameObject>( EMPTY_GAMEOBJECT, NextGameObjectUID() );
 	scene->GetRoot()->AddChildNode( newObject );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 	return newObject;
 }
@@ -288,7 +288,7 @@ GameObject* SceneManagerImpl::NewGameObject( const Char* sceneUID )
 	GameObject* newObject = Memory::Alloc<GameObject>( EMPTY_GAMEOBJECT, NextGameObjectUID() );
 	scene->GetRoot()->AddChildNode( newObject );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 	return newObject;
 }
@@ -309,7 +309,7 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, UInt sceneIndex
 		// add to scene
 		scene->GetRoot()->AddChildNode( newObject );
 		// send event
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 		return newObject;
 	}
@@ -367,7 +367,7 @@ void SceneManagerImpl::Destroy( GameObject* object )
 	object->SetParentNode( NULL );
 	Memory::Free( object );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 }
 
 

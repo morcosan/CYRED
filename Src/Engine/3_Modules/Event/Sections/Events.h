@@ -12,8 +12,9 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			ALL						= -1
-			, CHANGE_HIERARCHY		= 0
+			ALL							= -1
+			, CHANGE_SCENE_HIERARCHY	= 0
+			, CHANGE_PREFAB_HIERARCHY	
 			
 			, SELECT_SCENE
 			, SELECT_GAMEOBJECT

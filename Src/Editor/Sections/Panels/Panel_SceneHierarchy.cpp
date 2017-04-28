@@ -111,27 +111,29 @@ void Panel_SceneHierarchy::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::CHANGE_HIERARCHY, this );
+	EventManager::Singleton()->RegisterListener( EventType::CHANGE_SCENE_HIERARCHY, this );
 	EventManager::Singleton()->RegisterListener( EventType::RENAME_GAMEOBJECT, this );
 	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
 	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
 void Panel_SceneHierarchy::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_HIERARCHY, this );
+	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_SCENE_HIERARCHY, this );
 	EventManager::Singleton()->UnregisterListener( EventType::RENAME_GAMEOBJECT, this );
 	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
 void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
-		case EventType::CHANGE_HIERARCHY:
+		case EventType::CHANGE_SCENE_HIERARCHY:
 			_ResetHierarchy();
 			break;
 
@@ -150,6 +152,14 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 			_qtTree->setCurrentItem( NULL );
 			break;
 
+		case EventType::SELECT_GAMEOBJECT:
+		{
+			GameObject* gameObject = CAST_S( GameObject*, eData );
+			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			_qtTree->setCurrentItem( treeItem );
+			break;
+		}
+			
 		case EventType::CHANGE_ASSET:
 		{
 			_qtTree->setCurrentItem( NULL );
@@ -212,7 +222,7 @@ void Panel_SceneHierarchy::_CreateRightClickMenu()
 	ASSERT( _isInitialized );
 
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, EventType::CHANGE_SCENE_HIERARCHY );
 	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree );
 
 	// add menu to tree

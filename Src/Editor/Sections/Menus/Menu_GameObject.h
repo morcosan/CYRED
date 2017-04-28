@@ -4,11 +4,18 @@
 
 #pragma once
 #include "CyredRequired.h"
+#include "CyredModule_Event.h"
 
 #include "QtWidgets\qmenu.h"
 
 
 class QTreeWidget;
+
+namespace CYRED
+{
+	class GameObject;
+	class Node;
+}
 
 
 namespace CYRED
@@ -45,7 +52,7 @@ namespace CYRED
 
 
 	public:
-		Menu_GameObject( QTreeWidget* qtTree );
+		Menu_GameObject( QTreeWidget* qtTree, EventType eventType );
 		virtual ~Menu_GameObject() {}
 
 
@@ -78,5 +85,11 @@ namespace CYRED
 
 	private:
 		QTreeWidget*	_qtTree;
+		EventType		_eventType;
+
+
+	protected:
+		GameObject*		_CreateGameObject	( Node* parentNode );
+		void			_DestroyGameObject	( GameObject* gameObject );
 	};
 }
