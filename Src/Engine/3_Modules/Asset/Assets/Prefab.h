@@ -10,7 +10,7 @@
 
 namespace CYRED
 {
-	class GameObject;
+	class Node;
 }
 
 
@@ -32,12 +32,11 @@ namespace CYRED
 
 
 	public:
-		GameObject* GetGameObject() const;
-
-		void SetGameObject( GameObject* gameObject );
+		Node*	GetRoot		() const;
+		void	CreateRoot	();
 
 
 	protected:
-		GameObject* _gameObject;
+		Node* _root;
 	};
 }

@@ -5,6 +5,7 @@
 #include "../../File/FileManager.h"
 #include "../../Event/EventManager.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
+#include "../../../2_BuildingBlocks/Composite/Node.h"
 
 
 using namespace CYRED;
@@ -12,7 +13,7 @@ using namespace CYRED;
 
 Prefab::Prefab()
 	: Asset( AssetType::PREFAB )
-	, _gameObject( NULL )
+	, _root( NULL )
 {
 }
 
@@ -39,6 +40,9 @@ void Prefab::LoadFullFile()
 	Bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
+	// create root
+	CreateRoot();
+
 	// create path
 	FiniteString filePath( "%s%s", _dirPath.GetChar(), _name.GetChar() );
 	// add extension of needed
@@ -62,6 +66,9 @@ void Prefab::LoadFullFile()
 
 void Prefab::ClearAsset()
 {
+	// delete root
+	Memory::Free( _root );
+
 	_isTemporary = TRUE; 
 
 	if ( _emitEvents ) {
@@ -85,17 +92,13 @@ const Char* Prefab::GetExtension()
 }
 
 
-GameObject* Prefab::GetGameObject() const
+Node* Prefab::GetRoot() const
 {
-	return _gameObject;
+	return _root;
 }
 
 
-void Prefab::SetGameObject( GameObject* gameObject )
+void Prefab::CreateRoot()
 {
-	_gameObject = gameObject;
-
-	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
-	}
+	_root = Memory::Alloc<Node>();
 }

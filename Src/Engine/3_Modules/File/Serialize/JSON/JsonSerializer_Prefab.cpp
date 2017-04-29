@@ -6,6 +6,7 @@
 #include "../../../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "JsonSerializer_GameObject.h"
+#include "../../../Scene/SceneManager.h"
 
 #include "rapidjson\Include\stringbuffer.h"
 #include "rapidjson\Include\prettywriter.h"
@@ -25,10 +26,24 @@ rapidjson::Value JsonSerializer_Prefab::ToJson( const void* object )
 					rapidjson::StringRef( prefab->GetUniqueID() ),
 					_al );
 
-	JsonSerializer_GameObject serializer;
-	json.AddMember( rapidjson::StringRef( GAME_OBJECT ), 
-					serializer.ToJson( prefab->GetGameObject() ), 
-					_al );
+	{
+		rapidjson::Value arrayNode;
+		arrayNode.SetArray();
+
+		JsonSerializer_GameObject serializer;
+		Node* root = prefab->GetRoot();
+
+		for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
+			GameObject* gameObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+
+			if ( gameObject->GetParentNode() == root )	{
+				arrayNode.PushBack( serializer.ToJson( gameObject ), _al );
+			}
+		}
+
+		json.AddMember( rapidjson::StringRef( GAME_OBJECTS ), arrayNode, _al );
+	}
+
 
 	return json;
 }
@@ -49,12 +64,17 @@ void JsonSerializer_Prefab::FromJson( rapidjson::Value& json, OUT void* object, 
 		return;
 	}
 
-	if ( json.HasMember( GAME_OBJECT ) ) {
-		GameObject* gameObject = Memory::Alloc<GameObject>( NULL, -1 );
-		prefab->SetGameObject( gameObject );
+	if ( json.HasMember( GAME_OBJECTS ) ) {
+		rapidjson::Value& gameObjects = json[GAME_OBJECTS];
 
-		JsonSerializer_GameObject serializer;
-		serializer.FromJson( json[GAME_OBJECT], gameObject, DeserFlag::FULL );
+		for ( UInt i = 0; i < gameObjects.Size(); ++i )	{
+			UInt uid = SceneManager::Singleton()->NextGameObjectUID();
+			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
+			prefab->GetRoot()->AddChildNode( gameObject );
+
+			JsonSerializer_GameObject serializer;
+			serializer.FromJson( gameObjects[i], gameObject, DeserFlag::FULL );
+		}
 	}
 
 	prefab->SetEmitEvents( emitEvents );

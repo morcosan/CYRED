@@ -11,7 +11,7 @@ using namespace CYRED;
 
 void AttrViewer_Prefab::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME,	ATTR_NAME,	AttrFlag::EDIT_FINISH,	CallbackGroup::GROUP_1 );
+	// deferred for individual target
 
 	_AddToPanel( TITLE );
 }
@@ -20,13 +20,31 @@ void AttrViewer_Prefab::_OnInitialize()
 void AttrViewer_Prefab::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Prefab*, target );
+
+	// reset viewer
+	_ResetViewer();
+
+	// add attributes
+	_CreateAttrString( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+
+	_OpenGroup( GROUP_GAMEOBJECTS );
+	{
+		Node* root = _target->GetRoot();
+		for ( UInt i = 0; i < root->GetChildNodeCount(); i++ ) {
+			GameObject* gameObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+			FiniteString attrName( "%s%s", _target->GetUniqueID(), gameObject->GetName() );
+			_CreateAttrLabel( attrName.GetChar(), gameObject->GetName() );
+		}
+	}
+	_CloseGroup();
+
+	// update panel
+	_UpdatePanel();
 }
 
 
 void AttrViewer_Prefab::_OnUpdateGUI()
 {
-	GameObject* gameObject = _target->GetGameObject();
-
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 }
 

@@ -457,12 +457,6 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 			viewer->ChangeTarget( asset );
 			viewer->UpdateGUI();
 
-			// for prefab, also show gameobject
-			if ( asset->GetAssetType() == AssetType::PREFAB ) {
-				// display game object
-				_DisplayGameObject( CAST_S( Prefab*, asset )->GetGameObject() );
-			}
-
 			break;
 		}
 

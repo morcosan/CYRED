@@ -156,7 +156,12 @@ void Menu_GameObject::A_CreatePrefab()
 	prefab->SetEmitEvents( FALSE );
 	prefab->SetName( newName );
 	prefab->SetDirPath( dirPath.toUtf8().constData() );
-	prefab->SetGameObject( treeItem->gameObject );
+	prefab->CreateRoot();
+
+	// clone gameobject to prefab
+	GameObject* prefabObject = _CreateGameObject( prefab->GetRoot() );
+	treeItem->gameObject->Clone( prefabObject );
+
 	prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 	prefab->SetIsTemporary( FALSE );
 	prefab->SetEmitEvents( TRUE );

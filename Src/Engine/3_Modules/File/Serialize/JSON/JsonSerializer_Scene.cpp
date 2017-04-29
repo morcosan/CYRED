@@ -33,8 +33,7 @@ rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 		JsonSerializer_GameObject serializer;
 		Node* sceneRoot = scene->GetRoot();
 
-		for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )
-		{
+		for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
 			GameObject* gameObject = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
 
 			if ( gameObject->GetParentNode() == sceneRoot )	{

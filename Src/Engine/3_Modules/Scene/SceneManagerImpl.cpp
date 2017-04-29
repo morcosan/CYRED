@@ -298,20 +298,32 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, UInt sceneIndex
 {
 	ASSERT( _isInitialized );
 	
-	if ( prefab != NULL && prefab->GetGameObject() != NULL ) {
+	if ( prefab != NULL && prefab->GetRoot() != NULL ) {
 		Scene* scene = GetScene( sceneIndex );
 		ASSERT( scene != NULL );
 
-		// create object
-		GameObject* newObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
-		// clone from prefab
-		prefab->GetGameObject()->Clone( newObject );
-		// add to scene
-		scene->GetRoot()->AddChildNode( newObject );
+		// create game object for root
+		Node* root = prefab->GetRoot();
+		GameObject* rootObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
+		rootObject->SetName( prefab->GetName() );
+		scene->GetRoot()->AddChildNode( rootObject );
+
+		// add all game objects to it
+		for ( UInt i = 0; i < root->GetChildNodeCount(); i++ ) {
+			GameObject* prefabObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+
+			// create object
+			GameObject* newObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
+			// clone from prefab
+			prefabObject->Clone( newObject );
+			// add to scene
+			rootObject->AddChildNode( newObject );
+		}
+		
 		// send event
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
-		return newObject;
+		return rootObject;
 	}
 	
 	return NULL;

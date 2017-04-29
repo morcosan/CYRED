@@ -247,8 +247,7 @@ void AttrViewer::ShowViewer()
 	_titleItem->setHidden( FALSE );
 
 	// recalculate height
-	for ( UInt i = 0; i < _attributes.Size(); ++i )
-	{
+	for ( UInt i = 0; i < _attributes.Size(); ++i ) {
 		_attributes[i].treeWidget->A_CalculateHeight();
 	}
 }
