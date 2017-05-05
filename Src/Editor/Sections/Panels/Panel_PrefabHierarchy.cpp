@@ -3,7 +3,6 @@
 
 #include "Panel_PrefabHierarchy.h"
 
-#include "CyredModule_Scene.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
@@ -11,9 +10,9 @@
 
 #include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
-#include "../Settings/ProjectSettings.h"
-#include "../../EditorApp.h"
 #include "../../Utils/CustomTreeItem.h"
+#include "../Menus/Menu_GameObject.h"
+#include "../Menus/Menu_Prefab.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -38,10 +37,10 @@ public:
 
 		// apply the drop event
 		QTreeWidget::dropEvent( e );	
-		
+
 		// get new parent item
 		CustomTreeItem* newParent = CAST_S( CustomTreeItem*, movedItem->parent() );
-		// check if drop is outside scene
+		// check if drop is outside prefab
 		if ( newParent == NULL ) {
 			// if so, reset drop
 			// remove from tree
@@ -63,8 +62,17 @@ public:
 
 		// apply changes to gameobjects
 		if ( newParent != NULL ) {
-			movedItem->gameObject->SetParentNode( NULL );
-			newParent->gameObject->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+			if ( newParent->asset != NULL ) {
+				// if prefab
+				movedItem->gameObject->SetParentNode( NULL );
+				Prefab* prefab = CAST_S( Prefab*, newParent->asset );
+				prefab->GetRoot()->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+			}
+			else {
+				// if gameobject
+				movedItem->gameObject->SetParentNode( NULL );
+				newParent->gameObject->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+			}
 		}
 		else {
 			movedItem->gameObject->SetParentNode( NULL );
@@ -103,39 +111,23 @@ void Panel_PrefabHierarchy::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::RENAME_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::EDIT_PREFAB, this );
+	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }
 
 
 void Panel_PrefabHierarchy::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::RENAME_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::EDIT_PREFAB, this );
+	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
 }
 
 
 void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
-		case EventType::EDIT_PREFAB:
-		{
-			Prefab* prefab = CAST_S( Prefab*, eData );
-
-			// clear panel
-			// delete all items
-			while ( _qtTree->topLevelItemCount() > 0 ) {
-				_qtTree->takeTopLevelItem( 0 );
-			}
-
-			_ResetHierarchy();
+		case EventType::CHANGE_PREFAB_HIERARCHY:
+			_ResetHierarchy( CAST_S( Prefab*, eData ) );
 			break;
-		}
 
 		case EventType::RENAME_GAMEOBJECT:
 		{
@@ -144,13 +136,41 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 			}
+
 			break;
 		}
-		
+
 		case EventType::SELECT_ASSET:
-		case EventType::SELECT_GAMEOBJECT:
+		case EventType::SELECT_SCENE:
 			_qtTree->setCurrentItem( NULL );
 			break;
+
+		case EventType::SELECT_GAMEOBJECT:
+		{
+			GameObject* gameObject = CAST_S( GameObject*, eData );
+			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			_qtTree->setCurrentItem( treeItem );
+			break;
+		}
+
+		case EventType::CHANGE_ASSET:
+		{
+			_qtTree->setCurrentItem( NULL );
+
+			Asset* asset = CAST_S( Asset*, eData );
+
+			if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
+				CustomTreeItem* treeItem = _FindPrefabItem( asset->GetUniqueID() );
+
+				if ( treeItem != NULL )	{
+					_qtTree->blockSignals( true );
+					treeItem->setText( 0, asset->GetName() );
+					_qtTree->blockSignals( false );
+				}
+			}
+
+			break;
+		}
 	}
 }
 
@@ -173,15 +193,34 @@ CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( UInt uid )
 }
 
 
+CustomTreeItem* Panel_PrefabHierarchy::_FindPrefabItem( const Char* uid )
+{
+	String temp( uid );
+
+	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
+		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->topLevelItem(i) );
+		Asset* prefab = treeItem->asset;
+
+		if ( prefab != NULL && temp == prefab->GetUniqueID() ) {
+			return treeItem;
+		}
+	}
+
+	return NULL;
+}
+
+
 void Panel_PrefabHierarchy::_CreateRightClickMenu()
 {
 	ASSERT( _isInitialized );
 
-	_qtRightClickMenu = Memory::Alloc<QMenu>( this );
+	// create menus
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, EventType::CHANGE_PREFAB_HIERARCHY );
+	_menuPrefab		= Memory::Alloc<Menu_Prefab>( _qtTree );
 
+	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
-	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
-					  this, &Panel_PrefabHierarchy::A_RightClickMenu );
+	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, this, &Panel_PrefabHierarchy::A_RightClickMenu );
 }
 
 
@@ -191,7 +230,7 @@ void Panel_PrefabHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWid
 
 	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 	treeItem->gameObject = gameObject;
-	
+
 	treeItem->setText( 0, gameObject->GetName() );
 	treeItem->setFlags( Qt::ItemIsSelectable |
 						Qt::ItemIsEditable |
@@ -207,24 +246,22 @@ void Panel_PrefabHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWid
 }
 
 
-void Panel_PrefabHierarchy::_ResetHierarchy()
+void Panel_PrefabHierarchy::_ResetHierarchy( Prefab* prefab )
 {
 	// delete all items
 	while ( _qtTree->topLevelItemCount() > 0 ) {
 		_qtTree->takeTopLevelItem( 0 );
 	}
 
-	// re-add all scenes
+	// re-add objects
 	QTreeWidgetItem* rootItem = _qtTree->invisibleRootItem();
 
-	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
-		Scene* scene = SceneManager::Singleton()->GetScene( i );
-		
+	// sanity check
+	if ( prefab != NULL ) {
 		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
-		//treeItem->scene = scene;
-		//treeItem->sceneIndex = i;
+		treeItem->asset = prefab;
 
-		treeItem->setText( 0, scene->GetName() );
+		treeItem->setText( 0, prefab->GetName() );
 		treeItem->setFlags( Qt::ItemIsSelectable | 
 							Qt::ItemIsEditable |
 							Qt::ItemIsDropEnabled | 
@@ -232,9 +269,8 @@ void Panel_PrefabHierarchy::_ResetHierarchy()
 		rootItem->addChild( treeItem );
 		treeItem->setExpanded( TRUE );
 
-		for ( UInt j = 0; j < scene->GetRoot()->GetChildNodeCount(); ++j )
-		{
-			_RecResetHierarchy( CAST_S( GameObject*, scene->GetRoot()->GetChildNodeAt(j) ), 
+		for ( UInt j = 0; j < prefab->GetRoot()->GetChildNodeCount(); ++j ) {
+			_RecResetHierarchy( CAST_S( GameObject*, prefab->GetRoot()->GetChildNodeAt(j) ), 
 								treeItem );
 		}
 	}
@@ -245,7 +281,12 @@ void Panel_PrefabHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
+	if ( treeItem->gameObject != NULL ) {
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
+	}
+	else if ( treeItem->asset != NULL ) {
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_PREFAB, treeItem->asset );
+	}
 }
 
 
@@ -253,17 +294,33 @@ void Panel_PrefabHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
-	treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
+	if ( treeItem->gameObject != NULL ) {
+		treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
+	}
+	else if ( treeItem->asset != NULL ) {
+		FiniteString newName( item->text(0).toUtf8().constData() );
+
+		_qtTree->blockSignals( true );
+		item->setText( 0, treeItem->asset->GetName() );
+		_qtTree->blockSignals( false );
+
+		treeItem->asset->SetName( newName.GetChar() );
+	}
 }
 
 
 void Panel_PrefabHierarchy::A_RightClickMenu( const QPoint& pos )
 {
-	QTreeWidgetItem* item = _qtTree->itemAt( pos );
-
-	if ( item != NULL )
-	{
-
-		_qtRightClickMenu->popup( _qtTree->mapToGlobal(pos) );
+	// get tree item
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->itemAt( pos ) );
+	if ( treeItem != NULL ) {
+		if ( treeItem->gameObject != NULL ) {
+			// open gameobject menu
+			_menuGameObject->Open( pos );
+		}
+		else if ( treeItem->asset != NULL ) {
+			// open prefab menu
+			_menuPrefab->Open( pos );
+		}
 	}
 }

@@ -71,9 +71,10 @@ void Menu_Scene::Open( const QPoint& pos )
 	this->popup( _qtTree->mapToGlobal(pos) );
 }
 
+
 void Menu_Scene::A_SaveScene()
 {
-	Scene* scene = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->scene;
+	Asset* scene = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( scene != NULL );
 
 	// a new scene
@@ -91,7 +92,7 @@ void Menu_Scene::A_SaveSceneAs()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 
-	Scene* scene = treeItem->scene;
+	Asset* scene = treeItem->asset;
 	ASSERT( scene != NULL );
 
 	// set file filter
@@ -120,7 +121,7 @@ void Menu_Scene::A_SaveSceneAs()
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
 
 	// use new scene
-	treeItem->scene = newScene;
+	treeItem->asset = newScene;
 	SceneManager::Singleton()->OpenScene( newScene->GetUniqueID() );
 
 	// update hierarchy panel
@@ -132,7 +133,7 @@ void Menu_Scene::A_SaveSceneAs()
 
 void Menu_Scene::A_CloseScene()
 {
-	Scene* scene = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->scene;
+	Asset* scene = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( scene != NULL );
 
 	SceneManager::Singleton()->CloseScene( scene->GetUniqueID() );
@@ -149,18 +150,18 @@ void Menu_Scene::A_Rename()
 void Menu_Scene::A_GO_CreateEmpty()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 }
 
 
 void Menu_Scene::A_GO_Create3D_Pivot()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
 }
@@ -169,9 +170,9 @@ void Menu_Scene::A_GO_Create3D_Pivot()
 void Menu_Scene::A_GO_Create3D_Camera()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 	newObject->SetName( MENU_GO_3D_CAMERA );
 
@@ -185,9 +186,9 @@ void Menu_Scene::A_GO_Create3D_Camera()
 void Menu_Scene::A_GO_Create3D_Light()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_LIGHT );
 
@@ -198,9 +199,9 @@ void Menu_Scene::A_GO_Create3D_Light()
 void Menu_Scene::A_GO_Create3D_Mesh()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MESH );
 
@@ -211,9 +212,9 @@ void Menu_Scene::A_GO_Create3D_Mesh()
 void Menu_Scene::A_GO_Create3D_Morph()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MORPH );
 
@@ -224,9 +225,9 @@ void Menu_Scene::A_GO_Create3D_Morph()
 void Menu_Scene::A_GO_Particles_Emitter()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->scene != NULL );
+	ASSERT( treeItem->asset != NULL );
 
-	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->sceneIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->SetName( MENU_GO_PS_EMITTER );
 
 	Transform* tran = newObject->AddComponent<Transform>();

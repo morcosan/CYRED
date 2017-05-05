@@ -101,18 +101,14 @@ void Panel_Assets::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }
 
 
 void Panel_Assets::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
 }
 
 
@@ -122,6 +118,7 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 
 	switch ( eType ) {
 		case EventType::SELECT_SCENE:
+		case EventType::SELECT_PREFAB:
 		case EventType::SELECT_GAMEOBJECT:
 			_qtTree->setCurrentItem( NULL );
 			break;
@@ -206,8 +203,13 @@ void Panel_Assets::A_Item2xClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( _QtTreeItem*, item )->asset;
 
-	if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE ) {
-		SceneManager::Singleton()->OpenScene( asset->GetUniqueID() );
+	if ( asset != NULL ) {
+		if ( asset->GetAssetType() == AssetType::SCENE ) {
+			SceneManager::Singleton()->OpenScene( asset->GetUniqueID() );
+		}
+		else if ( asset->GetAssetType() == AssetType::PREFAB ) {
+			A_EditPrefab();
+		}
 	}
 }
 
@@ -494,7 +496,7 @@ void Panel_Assets::A_EditPrefab()
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
 
-	EventManager::Singleton()->EmitEvent( EventType::EDIT_PREFAB, asset );
+	EventManager::Singleton()->EmitEvent( EventType::CHANGE_PREFAB_HIERARCHY, asset );
 }
 
 
@@ -1140,10 +1142,18 @@ void Panel_Assets::_AddRightClickActions( QTreeWidgetItem* item )
 				QObject::connect( actionLoadScene, &QAction::triggered, this, &Panel_Assets::A_LoadScene );
 			}
 			else if ( asset->GetAssetType() == AssetType::PREFAB ) {
-				QAction* actionInstantiate = _qtRightClickMenu->addAction( MENU_PREFAB_INST );
+				QAction* actionEdit = _qtRightClickMenu->addAction( MENU_PREFAB_EDIT );
+				QObject::connect( actionEdit, &QAction::triggered, this, &Panel_Assets::A_EditPrefab );
+
+				// add instantiate option if scene is open
+				UInt totalScenes = SceneManager::Singleton()->CountLoadedScenes();
+				if ( totalScenes > 0 ) {
+					QAction* actionInstantiate = _qtRightClickMenu->addAction( MENU_PREFAB_INST );
+					QObject::connect( actionInstantiate, &QAction::triggered, this, &Panel_Assets::A_InstPrefab );
+				}
+
 				_qtRightClickMenu->addSeparator();
 
-				QObject::connect( actionInstantiate, &QAction::triggered, this, &Panel_Assets::A_InstPrefab );
 			}
 
 			QAction* actionReload = _qtRightClickMenu->addAction( MENU_RELOAD );

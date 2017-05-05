@@ -176,16 +176,6 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 			break;
 		}
 
-		case EventType::SELECT_SCENE:
-		{
-			// clear panel
-			_ClearPanel();
-
-			_target = NULL;
-
-			break;
-		}
-
 		case EventType::RENAME_GAMEOBJECT:
 		{
 			if ( _target != NULL ) {
@@ -235,14 +225,6 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 					ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 					AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
 					viewer->UpdateGUI();
-				}
-				else {
-					// check if target is prefab
-					Asset* asset = CAST_S( Asset*, _target );
-					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
-						// send asset change event
-						EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-					}
 				}
 			}
 			break;
@@ -402,6 +384,8 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 			break;
 		}
 
+		case EventType::SELECT_SCENE:
+		case EventType::SELECT_PREFAB:
 		case EventType::SELECT_ASSET:
 		{
 			_target = eData;

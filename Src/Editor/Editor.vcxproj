@@ -106,6 +106,7 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Transform.cpp" />
     <ClCompile Include="Sections\Builders\ProjectBuilderImpl.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
     <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
     <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Sections\Builders\ProjectBuilder.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilderImpl.h" />
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
+    <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
     <ClInclude Include="Sections\Panels\Panel_Console.h" />
     <ClInclude Include="Sections\Panels\Panel_PrefabHierarchy.h" />

@@ -19,7 +19,7 @@ namespace CYRED
 			, SELECT_SCENE
 			, SELECT_GAMEOBJECT
 			, SELECT_ASSET
-			, SELECT_PREFAB_GO
+			, SELECT_PREFAB
 
 			, RENAME_GAMEOBJECT
 			
@@ -37,8 +37,6 @@ namespace CYRED
 			, CONSOLE_ERROR
 
 			, EDITOR_PROJ_SETTINGS
-
-			, EDIT_PREFAB
 
 			, _COUNT_
 		};

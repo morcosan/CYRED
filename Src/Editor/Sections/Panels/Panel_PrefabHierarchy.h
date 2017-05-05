@@ -10,12 +10,13 @@
 
 
 class QTreeWidgetItem;
-class QMenu;
-
 
 namespace CYRED
 {
 	class CustomTreeItem;
+	class Menu_GameObject;
+	class Menu_Prefab;
+	class Prefab;
 }
 
 
@@ -48,15 +49,14 @@ namespace CYRED
 	protected:
 		class _QtTree;
 
-		_QtTree*	_qtTree;
-		QMenu*		_qtRightClickMenu;
+		_QtTree*			_qtTree;
+		Menu_GameObject*	_menuGameObject;
+		Menu_Prefab*		_menuPrefab;
 
-		void			_RecResetHierarchy	( GameObject* gameObject, QTreeWidgetItem* parent );
-		CustomTreeItem*	_FindGameObjectItem	( UInt uid );
-
-		void _CreateRightClickMenu	();
-
-		/* each time something changes, reset all hierarchy */
-		void _ResetHierarchy		();
+		CustomTreeItem*		_FindGameObjectItem		( UInt uid );
+		CustomTreeItem*		_FindPrefabItem			( const Char* uid );
+		void				_CreateRightClickMenu	();
+		void				_ResetHierarchy			( Prefab* prefab );
+		void				_RecResetHierarchy		( GameObject* gameObject, QTreeWidgetItem* parent );
 	};
 }

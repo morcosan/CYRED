@@ -1,7 +1,6 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 
@@ -10,17 +9,23 @@
 
 class QTreeWidget;
 
+namespace CYRED
+{
+	class Node;
+	class GameObject;
+}
+
 
 namespace CYRED
 {
-	class Menu_Scene : public QMenu
+	class Menu_Prefab : public QMenu
 	{
-		const Char* const	MSG_SAVE_SCENE		= "Save Scene";
-		const Char* const	FILE_FILTER_SCENE	= "Scene (*%s)";
+		const Char* const	MSG_SAVE_PREFAB		= "Save Prefab";
+		const Char* const	FILE_FILTER_PREFAB	= "Prefab (*%s)";
 
-		const Char* const	MENU_SAVE_SCENE		= "Save Scene";
-		const Char* const	MENU_SAVE_SCENE_AS	= "Save Scene As..";
-		const Char* const	MENU_CLOSE_SCENE	= "Close Scene";
+		const Char* const	MENU_SAVE_PREFAB	= "Save Prefab";
+		const Char* const	MENU_SAVE_PREFAB_AS	= "Save Prefab As..";
+		const Char* const	MENU_CLOSE_PREFAB	= "Close Prefab";
 
 		const Char* const	MENU_RENAME			= "Rename";
 
@@ -37,8 +42,8 @@ namespace CYRED
 
 
 	public:
-		Menu_Scene( QTreeWidget* qtTree );
-		virtual ~Menu_Scene() {}
+		Menu_Prefab( QTreeWidget* qtTree );
+		virtual ~Menu_Prefab() {}
 
 
 	public:
@@ -46,9 +51,9 @@ namespace CYRED
 
 
 	public:
-		void A_SaveScene				();
-		void A_SaveSceneAs				();
-		void A_CloseScene				();
+		void A_SavePrefab				();
+		void A_SavePrefabAs				();
+		void A_ClosePrefab				();
 
 		void A_Rename					();
 
@@ -63,5 +68,9 @@ namespace CYRED
 
 	private:
 		QTreeWidget*	_qtTree;
+
+
+	private:
+		GameObject*		_CreateGameObject( Node* parentNode );
 	};
 }

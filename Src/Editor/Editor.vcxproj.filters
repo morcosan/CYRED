@@ -56,6 +56,7 @@
     <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -115,5 +116,6 @@
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
+    <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
   </ItemGroup>
 </Project>

@@ -24,8 +24,8 @@ namespace CYRED
 
 
 	public:
-		Scene*		scene;
-		UInt		sceneIndex;
+		Asset*		asset;
+		UInt		assetIndex;
 		GameObject* gameObject;
 	};
 }

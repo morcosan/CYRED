@@ -63,10 +63,11 @@ public:
 
 		// apply changes to gameobjects
 		if ( newParent != NULL ) {
-			if ( newParent->scene != NULL ) {
+			if ( newParent->asset != NULL ) {
 				// if scene
 				movedItem->gameObject->SetParentNode( NULL );
-				newParent->scene->GetRoot()->InsertChildNode( indexInHierarchy, movedItem->gameObject );
+				Scene* scene = CAST_S( Scene*, newParent->asset );
+				scene->GetRoot()->InsertChildNode( indexInHierarchy, movedItem->gameObject );
 			}
 			else {
 				// if gameobject
@@ -111,22 +112,14 @@ void Panel_SceneHierarchy::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::CHANGE_SCENE_HIERARCHY, this );
-	EventManager::Singleton()->RegisterListener( EventType::RENAME_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::CHANGE_ASSET, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }
 
 
 void Panel_SceneHierarchy::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_SCENE_HIERARCHY, this );
-	EventManager::Singleton()->UnregisterListener( EventType::RENAME_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::CHANGE_ASSET, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
 }
 
 
@@ -149,6 +142,7 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 		}
 		
 		case EventType::SELECT_ASSET:
+		case EventType::SELECT_PREFAB:
 			_qtTree->setCurrentItem( NULL );
 			break;
 
@@ -206,7 +200,7 @@ CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( const Char* uid )
 
 	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->topLevelItem(i) );
-		Scene* scene = treeItem->scene;
+		Asset* scene = treeItem->asset;
 
 		if ( scene != NULL && temp == scene->GetUniqueID() ) {
 			return treeItem;
@@ -267,8 +261,8 @@ void Panel_SceneHierarchy::_ResetHierarchy()
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
 		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
-		treeItem->scene = scene;
-		treeItem->sceneIndex = i;
+		treeItem->asset = scene;
+		treeItem->assetIndex = i;
 
 		treeItem->setText( 0, scene->GetName() );
 		treeItem->setFlags( Qt::ItemIsSelectable | 
@@ -293,8 +287,8 @@ void Panel_SceneHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 	if ( treeItem->gameObject != NULL ) {
 		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
 	}
-	if ( treeItem->scene != NULL ) {
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_SCENE, NULL );
+	else if ( treeItem->asset != NULL ) {
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_SCENE, treeItem->asset );
 	}
 }
 
@@ -303,19 +297,17 @@ void Panel_SceneHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
-	if ( treeItem->gameObject != NULL )
-	{
+	if ( treeItem->gameObject != NULL ) {
 		treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
 	}
-	if ( treeItem->scene != NULL )
-	{
+	else if ( treeItem->asset != NULL ) {
 		FiniteString newName( item->text(0).toUtf8().constData() );
 
 		_qtTree->blockSignals( true );
-		item->setText( 0, treeItem->scene->GetName() );
+		item->setText( 0, treeItem->asset->GetName() );
 		_qtTree->blockSignals( false );
 
-		treeItem->scene->SetName( newName.GetChar() );
+		treeItem->asset->SetName( newName.GetChar() );
 	}
 }
 
@@ -329,7 +321,7 @@ void Panel_SceneHierarchy::A_RightClickMenu( const QPoint& pos )
 			// open gameobject menu
 			_menuGameObject->Open( pos );
 		}
-		else if ( treeItem->scene != NULL ) {
+		else if ( treeItem->asset != NULL ) {
 			// open gameobject menu
 			_menuScene->Open( pos );
 		}

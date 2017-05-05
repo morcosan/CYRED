@@ -32,8 +32,8 @@ namespace CYRED
 
 
 	public:
-		Node*	GetRoot		() const;
-		void	CreateRoot	();
+		Node*		GetRoot			() const;
+		void		CreateRoot		();
 
 
 	protected:
