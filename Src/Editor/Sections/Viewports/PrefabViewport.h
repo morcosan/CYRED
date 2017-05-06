@@ -15,24 +15,20 @@ class QPushButton;
 
 namespace CYRED
 {
-	class SceneViewport : public Panel_Viewport
+	class PrefabViewport : public Panel_Viewport
 	{
 	public:
-		const Char*		PANEL_TITLE = "Scene Viewport";
+		const Char*		PANEL_TITLE = "Prefab Viewport";
 		const Vector2	MIN_SIZE	= Vector2( 200, 100 );
 
 
 	public:
-		SceneViewport( UInt panelIndex );
-		virtual ~SceneViewport() {}
+		PrefabViewport( UInt panelIndex );
+		virtual ~PrefabViewport() {}
 
 
 	public:
 		void SetCamera( GameObject* cameraGO );
-
-
-	public:
-		void A_CameraButton();
 
 
 	protected:
@@ -42,9 +38,6 @@ namespace CYRED
 
 
 	protected:
-		QComboBox*		_qtCameraDropdown;
-		QPushButton*	_qtCameraButton;
-
 		virtual const Char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;

@@ -9,7 +9,7 @@
 namespace CYRED
 {
 	class GL;
-	class Scene;
+	class Node;
 	class GameObject;
 }
 
@@ -25,13 +25,13 @@ namespace CYRED
 
 
 	public:
-		virtual void Render( UInt* buffers, Scene* scene, GameObject* cameraGO )	PURE_VIRTUAL;
+		virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO )	PURE_VIRTUAL;
 
 
 	public:
 		void SetAPI			( GL* glAPI );
 
-		void SetViewportSize	( UInt width, UInt height );
+		void SetViewportSize( UInt width, UInt height );
 
 
 	protected:

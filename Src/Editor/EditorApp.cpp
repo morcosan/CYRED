@@ -20,12 +20,12 @@
 
 #include "Sections\Panels\Panel_SceneHierarchy.h"
 #include "Sections\Panels\Panel_Attributes.h"
-#include "Sections\Panels\Panel_Viewport.h"
 #include "Sections\Panels\Panel_Assets.h"
 #include "Sections\Panels\Panel_Console.h"
 #include "Sections\Panels\Panel_PrefabHierarchy.h"
-
 #include "Sections\Viewports\SceneViewport.h"
+#include "Sections\Viewports\PrefabViewport.h"
+
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\EditorSettings.h"
 #include "Sections\Settings\ProjectSettings.h"
@@ -102,6 +102,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	NewPanel( PanelType::SCENE_HIERARCHY );
 	NewPanel( PanelType::PREFAB_HIERARCHY, Qt::Vertical );
 	_mainViewport = CAST_S( Panel_Viewport*, NewPanel( PanelType::SCENE_VIEWPORT ) );
+	NewPanel( PanelType::PREFAB_VIEWPORT, Qt::Vertical, 1, FALSE );
 	NewPanel( PanelType::CONSOLE, Qt::Vertical );
 	NewPanel( PanelType::ATTRIBUTES );
 
@@ -360,28 +361,32 @@ void EditorApp::_CreateSelectorPopup()
 
 void EditorApp::_CreateCameras()
 {
-	GameObject* cameraGO1 = Memory::Alloc<GameObject>();
-	cameraGO1->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
+	for ( UInt i = 0; i < 2; i++ ) {
+		GameObject* cameraGO = Memory::Alloc<GameObject>();
+		cameraGO->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 
-	Camera* cameraComp1 = cameraGO1->AddComponent<Camera>();
-	cameraComp1->SetFovYAngle( 60 );
-	cameraComp1->SetNearClipping( 0.1f );
-	cameraComp1->SetFarClipping( 200.0f );
+		Camera* cameraComp1 = cameraGO->AddComponent<Camera>();
+		cameraComp1->SetFovYAngle( 60 );
+		cameraComp1->SetNearClipping( 0.1f );
+		cameraComp1->SetFarClipping( 200.0f );
 
-	FreeCameraControl* freeCamera = cameraGO1->AddComponent<FreeCameraControl>();
-	freeCamera->panSpeed	= 1.5f;
-	freeCamera->rotateSpeed = 8.0f;
-	freeCamera->zoomSpeed	= 80.0f;
-	freeCamera->myWindows.Set( 0, TRUE );
+		FreeCameraControl* freeCamera = cameraGO->AddComponent<FreeCameraControl>();
+		freeCamera->panSpeed	= 1.5f;
+		freeCamera->rotateSpeed = 8.0f;
+		freeCamera->zoomSpeed	= 80.0f;
+		freeCamera->myWindows.Set( 0, TRUE );
 
-	_cameras.Add( cameraGO1 );
+		_cameras.Add( cameraGO );
+	}
 }
 
 
 void EditorApp::_UpdateCameras()
 {
-	FreeCameraControl* freeCamera = _cameras[ 0 ]->GetComponent<FreeCameraControl>();
-	freeCamera->OnUpdate( _isPlayMode );
+	for ( UInt i = 0; i < _cameras.Size(); i++ ) {
+		FreeCameraControl* freeCamera = _cameras[i]->GetComponent<FreeCameraControl>();
+		freeCamera->OnUpdate( _isPlayMode );
+	}
 }
 
 
@@ -429,6 +434,15 @@ Panel* EditorApp::NewPanel( PanelType type, Qt::Orientation orietation,
 			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( panelIndex );
 			viewportPanel->Initialize( isPrimary );
 			viewportPanel->SetCamera( _cameras[ 0 ] );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::PREFAB_VIEWPORT:
+		{
+			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( panelIndex );
+			viewportPanel->Initialize( isPrimary );
+			viewportPanel->SetCamera( _cameras[ 1 ] );
 			panel = viewportPanel;
 			break;
 		}

@@ -12,7 +12,7 @@ namespace CYRED
 	class Technique;
 	class GL;
 	class GLContext;
-	class Scene;
+	class Node;
 	class GameObject;
 }
 
@@ -28,7 +28,7 @@ namespace CYRED
 
 		
 	public:
-		virtual void Render			( Scene* scene, GameObject* cameraGO )	PURE_VIRTUAL;
+		virtual void Render			( Node* root, GameObject* cameraGO )	PURE_VIRTUAL;
 		virtual void OnResize		()										PURE_VIRTUAL;
 		virtual void DisplayOnScreen()										PURE_VIRTUAL;
 

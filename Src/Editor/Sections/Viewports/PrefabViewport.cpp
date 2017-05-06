@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Morco (www.morco.ro)
 // MIT License
 
-#include "SceneViewport.h"
+#include "PrefabViewport.h"
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "../Settings/EditorSkin.h"
@@ -15,28 +15,22 @@ using namespace CYRED;
 
 
 
-DataMap<TechniqueType, UInt> SceneViewport::_techSlots;
+DataMap<TechniqueType, UInt> PrefabViewport::_techSlots;
 
 
-SceneViewport::SceneViewport( UInt panelIndex )
+PrefabViewport::PrefabViewport( UInt panelIndex )
 	: Panel_Viewport( panelIndex )
 {
 }
 
 
-void SceneViewport::SetCamera( GameObject* cameraGO )
+void PrefabViewport::SetCamera( GameObject* cameraGO )
 {
 	_cameraGO = cameraGO;
 }
 
 
-void SceneViewport::A_CameraButton()
-{
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, _cameraGO );
-}
-
-
-UInt SceneViewport::GetSlotForTechnique( TechniqueType type )
+UInt PrefabViewport::GetSlotForTechnique( TechniqueType type )
 {
 	if ( _techSlots.Has( type ) ) {
 		return _techSlots.Get( type );
@@ -49,34 +43,24 @@ UInt SceneViewport::GetSlotForTechnique( TechniqueType type )
 }
 
 
-const Char* SceneViewport::_GetPanelTitle()
+const Char* PrefabViewport::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
 
 
-Vector2 SceneViewport::_GetPanelMinSize()
+Vector2 PrefabViewport::_GetPanelMinSize()
 {
 	return MIN_SIZE;
 }
 
 
-void SceneViewport::_OnInitialize()
+void PrefabViewport::_OnInitialize()
 {
-	_qtCameraDropdown = Memory::Alloc<QComboBox>();
-
-	_qtCameraButton =  Memory::Alloc<QPushButton>();
-	_qtCameraButton->setText( "C" );
-	_qtCameraButton->setMaximumWidth( 30 );
-	_qtCameraButton->setObjectName( EditorSkin::VIEWPORT_BUTTON );
-	QObject::connect( _qtCameraButton,	&QPushButton::pressed, this, &SceneViewport::A_CameraButton );
-
-	_qtTopBarLayout->addWidget( _qtCameraDropdown );
-	_qtTopBarLayout->addWidget( _qtCameraButton );
 }
 
 
-void SceneViewport::_OnUpdate()
+void PrefabViewport::_OnUpdate()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
@@ -101,7 +85,7 @@ void SceneViewport::_OnUpdate()
 	Float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
-	
+
 	// render scenes
 	SceneManager* sceneMngr = SceneManager::Singleton();
 	if ( sceneMngr->CountLoadedScenes() > 0 ) {

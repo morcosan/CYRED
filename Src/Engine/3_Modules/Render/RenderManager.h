@@ -12,7 +12,7 @@ namespace CYRED
 	class GLContext;
 	class Renderer;
 	class Technique;
-	class Scene;
+	class Node;
 	class GameObject;
 }
 
@@ -71,7 +71,7 @@ namespace CYRED
 		virtual void ChangeTechnique( UInt canvasID, UInt techID )			PURE_VIRTUAL;
 
 
-		virtual void RenderScene	( UInt canvasID, Scene* scene, 
+		virtual void Render			( UInt canvasID, Node* root, 
 									  GameObject* cameraGO )				PURE_VIRTUAL;
 
 		virtual void OnResize		( UInt canvasID )						PURE_VIRTUAL;

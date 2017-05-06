@@ -36,7 +36,7 @@ namespace CYRED
 
 
 		public:
-			virtual void Render( UInt* buffers, Scene* scene, GameObject* cameraGO )	override;
+			virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO )	override;
 
 
 		protected:

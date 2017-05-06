@@ -33,7 +33,7 @@ using namespace NotAPI;
 
 
 
-void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO )
+void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO )
 {
 	ASSERT( _gl != NULL );
 
@@ -41,16 +41,13 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 
 	_ClearScreen();
 
-	if ( scene == NULL || cameraGO == NULL ) { 
+	if ( root == NULL || cameraGO == NULL ) { 
 		return;
 	}
 
 	// get camera
 	_cameraTran = cameraGO->GetComponent<Transform>();
 	_cameraComp = cameraGO->GetComponent<Camera>();
-
-	// get scene root
-	Node* sceneRoot = scene->GetRoot();
 
 	_gl->Enable( GLCapability::BLEND );
 	_gl->BlendEquation( GLBlendMode::FUNC_ADD );
@@ -60,12 +57,12 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 	_gl->DepthMask( TRUE );
 
 	// render mesh
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
-		_RecRenderMesh( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
+		_RecRenderMesh( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
 	}
 	// render morph
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
-		_RecRenderMorph( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
+		_RecRenderMorph( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
 	}
 
 	_gl->Enable( GLCapability::BLEND );
@@ -73,8 +70,8 @@ void ForwardTechnique::Render( UInt* buffers, Scene* scene, GameObject* cameraGO
 	_gl->DepthMask( FALSE );
 
 	// render particles
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i )	{
-		_RecRenderParticles( CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) ) );
+	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i )	{
+		_RecRenderParticles( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
 	}
 }
 

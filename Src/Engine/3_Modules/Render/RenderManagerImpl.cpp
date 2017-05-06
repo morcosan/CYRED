@@ -193,7 +193,7 @@ void RenderManagerImpl::ChangeTechnique( UInt canvasID, UInt techID )
 }
 
 
-void RenderManagerImpl::RenderScene( UInt canvasID, Scene* scene, GameObject* cameraGO )
+void RenderManagerImpl::Render( UInt canvasID, Node* root, GameObject* cameraGO )
 {
 	ASSERT( _isInitialized );
 	ASSERT( canvasID < _canvases.Size() );
@@ -205,7 +205,7 @@ void RenderManagerImpl::RenderScene( UInt canvasID, Scene* scene, GameObject* ca
 
 	canvas.glContext->MakeCurrent();
 
-	canvas.renderer->Render( scene, cameraGO );
+	canvas.renderer->Render( root, cameraGO );
 	canvas.renderer->DisplayOnScreen();
 
 	canvas.glContext->SwapBuffers();

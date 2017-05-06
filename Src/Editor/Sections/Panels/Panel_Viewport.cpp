@@ -98,8 +98,7 @@ void Panel_Viewport::Initialize( Bool isPrimary )
 
 	_glContext = Memory::Alloc<GLContextImpl>( _qtWindow );
 
-	if ( isPrimary )
-	{
+	if ( isPrimary ) {
 		_canvasSlot = 0;
 	}
 
@@ -111,13 +110,11 @@ void Panel_Viewport::Update()
 {
 	ASSERT( _isInitialized );
 
-	if ( !_qtWindow->isExposed() )
-	{
+	if ( !_qtWindow->isExposed() ) {
 		return;
 	}
 
-	if ( _canvasSlot == INVALID_CANVAS_SLOT )
-	{
+	if ( _canvasSlot == INVALID_CANVAS_SLOT ) {
 		_CreateCanvasSlot();
 	}
 

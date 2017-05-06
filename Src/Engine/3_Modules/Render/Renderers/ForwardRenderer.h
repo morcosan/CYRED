@@ -25,7 +25,7 @@ namespace CYRED
 
 
 		public:
-			void Render			( Scene* scene, GameObject* cameraGO )	override;
+			void Render			( Node* root, GameObject* cameraGO )	override;
 			void OnResize		()										override;
 			void DisplayOnScreen()										override;
 
