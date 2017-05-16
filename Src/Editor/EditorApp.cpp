@@ -112,13 +112,6 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 			_mainViewport = CAST_S( Panel_Viewport*, panel );
 		}
 	}
-	/*NewPanel( PanelType::ASSETS );
-	NewPanel( PanelType::SCENE_HIERARCHY );
-	NewPanel( PanelType::PREFAB_HIERARCHY, Qt::Vertical );
-	_mainViewport = CAST_S( Panel_Viewport*, NewPanel( PanelType::SCENE_VIEWPORT ) );
-	NewPanel( PanelType::PREFAB_VIEWPORT, Qt::Vertical, 1, FALSE );
-	NewPanel( PanelType::CONSOLE, Qt::Vertical );
-	NewPanel( PanelType::ATTRIBUTES );*/
 
 	_skinStylesheet = NULL;
 	// change skin after everything is created
@@ -255,7 +248,7 @@ Panel* EditorApp::_NewPanel( PanelType type, UInt viewportIndex )
 		{
 			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
-			viewportPanel->SetCamera( _cameras[ 0 ] );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
 			break;
 		}
@@ -264,7 +257,7 @@ Panel* EditorApp::_NewPanel( PanelType type, UInt viewportIndex )
 		{
 			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
-			viewportPanel->SetCamera( _cameras[ 1 ] );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
 			break;
 		}
@@ -527,7 +520,7 @@ void EditorApp::_CreateCameras()
 		freeCamera->panSpeed	= 1.5f;
 		freeCamera->rotateSpeed = 8.0f;
 		freeCamera->zoomSpeed	= 80.0f;
-		freeCamera->myWindows.Set( 0, TRUE );
+		freeCamera->myWindows.Set( i, TRUE );
 
 		_cameras.Add( cameraGO );
 	}

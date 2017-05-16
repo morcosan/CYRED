@@ -15,6 +15,11 @@ GLContextImpl::GLContextImpl( QWindow* qtWindow )
 	: _qtWindow( qtWindow )
 	, _qtContext( Memory::Alloc<QOpenGLContext>() ) 
 {
+}
+
+
+void GLContextImpl::Create()
+{
 	_qtContext->create();
 }
 

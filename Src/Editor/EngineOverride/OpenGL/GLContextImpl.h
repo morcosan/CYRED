@@ -19,6 +19,8 @@ namespace CYRED
 
 
 	public:
+		void Create		() override;
+
 		void MakeCurrent() override;
 		void SwapBuffers() override;
 

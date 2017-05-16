@@ -31,7 +31,7 @@ void FreeCameraControl::_OnUpdate( Bool isRuntime )
 		Int windowForCursor = inputManager->GetWindowForCursor();
 		Float deltaTime = TimeManager::Singleton()->GetDeltaTime();
 
-		if ( myWindows.Has( windowForCursor ) && myWindows.Get( windowForCursor ) == TRUE )
+		if ( myWindows.Has( windowForCursor ) && myWindows.Get( windowForCursor ) )
 		{
 			if ( inputManager->KeyDown( KeyCode::MOUSE_RIGHT ) )
 			{

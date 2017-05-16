@@ -55,6 +55,7 @@ void RenderManagerImpl::_SetMainCanvas( GLContext* glContext )
 
 	_Canvas canvas;
 	canvas.glContext = glContext;
+	canvas.glContext->Create();
 	canvas.renderer = NULL;
 
 	_canvases.Add( canvas );
@@ -147,6 +148,7 @@ UInt RenderManagerImpl::NewCanvas( GLContext* glContext )
 	_Canvas canvas;
 	canvas.glContext = glContext;
 	canvas.glContext->SetSharedContext( _canvases[0].glContext );
+	canvas.glContext->Create();
 	canvas.renderer = NULL;
 
 	return _canvases.Add( canvas );

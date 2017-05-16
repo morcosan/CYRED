@@ -15,6 +15,9 @@ namespace CYRED
 		virtual ~GLContext() {};
 
 
+	public:
+		virtual void Create				()						PURE_VIRTUAL;
+
 		virtual void MakeCurrent		()						PURE_VIRTUAL;
 		virtual void SwapBuffers		()						PURE_VIRTUAL;
 
