@@ -7,6 +7,7 @@
 #include "CyredBuildingBlocks.h"
 
 #include "Sections\Panel.h"
+#include "Sections\Settings\EditorSettings.h"
 
 #include <QtWidgets/QMainWindow>
 
@@ -40,13 +41,9 @@ namespace CYRED
 		/* main function for starting the editor		*/
 		/* must be called only once from main()			*/
 		void	Run			( Int& argc, Char* argv[] );
-				
-		/* create a new panel for editor				*/
-		Panel*	NewPanel	( PanelType type, Qt::Orientation orietation = Qt::Horizontal,
-							  UInt panelIndex = 0, Bool isPrimary = TRUE );
-		/* show a message in status bar					*/
+
 		void	ShowStatus	( const Char* message );
-		/* changes the skin of editor */
+
 		void	ApplySkin	( const Char* skinName );
 
 		void	StartPlayMode	();				// called to start play mode
@@ -78,8 +75,8 @@ namespace CYRED
 
 		Char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	
 
-		DataArray<Panel*>			_panels;	/* list with panel without rendering	*/
-		DataArray<GameObject*>		_cameras;	/* list with default camera GOs			*/
+		DataMap<PanelType, Panel*>	_panels;
+		DataArray<GameObject*>		_cameras;
 		Panel_Viewport*				_mainViewport;
 
 		InputReceiverQT*		_inputReceiver;	/* object for receiving input events	*/
@@ -92,6 +89,10 @@ namespace CYRED
 		/* the main loop of application						*/
 		/* called continuously, every frame					*/
 		void _UpdateLoop			();
+
+		Panel*	_NewPanel	( PanelType type, UInt viewportIndex = -1 );
+		Panel*	_NewPanel	( PanelType type, PanelType splitFrom, PanelSplitType splitType,
+							  UInt viewportIndex = -1 );
 
 		/* create singletons for manager classes			*/
 		void _CreateManagers		();

@@ -28,6 +28,9 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 {
 	ASSERT( object == NULL );
 	
+	if ( json.HasMember( FULLSCREEN ) ) {
+		EditorSettings::fullscreen = json[FULLSCREEN].GetBool();
+	}
 	if ( json.HasMember( WIDTH ) ) {
 		EditorSettings::width = json[WIDTH].GetInt();
 	}
@@ -122,6 +125,14 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 				else if ( splitType == VERTICAL ) {
 					panel.splitType = PanelSplitType::VERTICAL;
 				}
+			}
+
+			// add viewport index
+			if ( panels[i].HasMember( PANELS_VP_INDEX ) ) {
+				panel.viewportIndex = panels[i][PANELS_VP_INDEX].GetInt();
+			}
+			else {
+				panel.viewportIndex = -1;
 			}
 
 			// add to list

@@ -49,8 +49,10 @@ namespace CYRED
 			PanelType		type;
 			PanelType		splitFrom;
 			PanelSplitType	splitType;
+			UInt			viewportIndex;
 		};
 
+		static Bool fullscreen;
 		static UInt	width;		/* width of editor window						*/
 		static UInt	height;		/* height of editor window						*/
 		static Int	posX;		/* x position on desktop from top-left corner	*/

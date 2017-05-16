@@ -26,11 +26,12 @@ const Char* const EditorSettings::SKIN_DEFAULT_WHITE		= "Default-White";
 const Char* const EditorSettings::FILE_FORMAT_SKINS			= ".css";
 
 
-UInt	EditorSettings::width	= 800;
-UInt	EditorSettings::height	= 600;
-Int		EditorSettings::posX	= 0;
-Int		EditorSettings::posY	= 0;
-UInt	EditorSettings::fps		= 60;
+Bool	EditorSettings::fullscreen	= false;
+UInt	EditorSettings::width		= 800;
+UInt	EditorSettings::height		= 600;
+Int		EditorSettings::posX		= 0;
+Int		EditorSettings::posY		= 0;
+UInt	EditorSettings::fps			= 60;
 
 String EditorSettings::projectName;
 String EditorSettings::projectPath;

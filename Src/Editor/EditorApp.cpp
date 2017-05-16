@@ -27,7 +27,6 @@
 #include "Sections\Viewports\PrefabViewport.h"
 
 #include "Sections\SelectorPopup.h"
-#include "Sections\Settings\EditorSettings.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
 #include "Sections\Serialize\JSON\JsonSerializer_CyredProj.h"
@@ -97,14 +96,29 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	_CreateCameras();
 	_CreateSelectorPopup();
 
-	// create some panels
-	NewPanel( PanelType::ASSETS );
+	// create panels
+	for ( UInt i = 0; i < EditorSettings::panels.Size(); i++ ) {
+		Panel* panel = NULL;
+		if ( i == 0 ) {
+			panel = _NewPanel( EditorSettings::panels[i].type, EditorSettings::panels[i].viewportIndex );
+		}
+		else {
+			panel = _NewPanel( EditorSettings::panels[i].type, EditorSettings::panels[i].splitFrom,
+								EditorSettings::panels[i].splitType, EditorSettings::panels[i].viewportIndex );
+
+		}
+
+		if ( EditorSettings::panels[i].viewportIndex == 0 ) {
+			_mainViewport = CAST_S( Panel_Viewport*, panel );
+		}
+	}
+	/*NewPanel( PanelType::ASSETS );
 	NewPanel( PanelType::SCENE_HIERARCHY );
 	NewPanel( PanelType::PREFAB_HIERARCHY, Qt::Vertical );
 	_mainViewport = CAST_S( Panel_Viewport*, NewPanel( PanelType::SCENE_VIEWPORT ) );
 	NewPanel( PanelType::PREFAB_VIEWPORT, Qt::Vertical, 1, FALSE );
 	NewPanel( PanelType::CONSOLE, Qt::Vertical );
-	NewPanel( PanelType::ATTRIBUTES );
+	NewPanel( PanelType::ATTRIBUTES );*/
 
 	_skinStylesheet = NULL;
 	// change skin after everything is created
@@ -120,12 +134,10 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	ASSERT( _mainViewport != NULL );
 	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), Memory::Alloc<GLImpl_3_0>() );
 
-	// load assets
-	for ( UInt i = 0; i < _panels.Size(); ++i ) {
-		Panel_Assets* assetsPanel = CAST_D( Panel_Assets*, _panels[i] );
-		if ( assetsPanel != NULL ) {
-			assetsPanel->ReloadAllAssets();
-		}
+	// load assets, after GL init
+	if ( _panels.Has( PanelType::ASSETS ) ) {
+		Panel_Assets* assetsPanel = CAST_S( Panel_Assets*, _panels.Get( PanelType::ASSETS ) );
+		assetsPanel->ReloadAllAssets();
 	}
 
 	// must be called after all scenes assets are loaded
@@ -211,13 +223,146 @@ void EditorApp::_UpdateLoop()
 	}
 
 	//! update panels
-	for ( UInt i = 0; i < _panels.Size(); ++i ) {
-		_panels[i]->Update();
+	Iterator<PanelType, Panel*> iter = _panels.GetIterator();
+	while ( iter.HasNext() ) {
+		iter.GetValue()->Update();
+		iter.Next();
 	}
 
 	//! get and process events
 	_qtApp->processEvents();
 	InputManager::Singleton()->ProcessEvents();
+}
+
+
+Panel* EditorApp::_NewPanel( PanelType type, UInt viewportIndex )
+{
+	// new panel
+	Panel* panel = NULL;
+
+	switch ( type ) {
+		case PanelType::SCENE_HIERARCHY:
+			panel = Memory::Alloc<Panel_SceneHierarchy>();
+			panel->Initialize();
+			break;
+
+		case PanelType::ATTRIBUTES:
+			panel = Memory::Alloc<Panel_Attributes>();
+			panel->Initialize();
+			break;
+
+		case PanelType::SCENE_VIEWPORT:
+		{
+			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( viewportIndex );
+			viewportPanel->Initialize( viewportIndex == 0 );
+			viewportPanel->SetCamera( _cameras[ 0 ] );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::PREFAB_VIEWPORT:
+		{
+			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( viewportIndex );
+			viewportPanel->Initialize( viewportIndex == 0 );
+			viewportPanel->SetCamera( _cameras[ 1 ] );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::ASSETS:
+			panel = Memory::Alloc<Panel_Assets>();
+			panel->Initialize();
+			break;
+
+		case PanelType::CONSOLE:
+			panel = Memory::Alloc<Panel_Console>();
+			panel->Initialize();
+			break;
+
+		case PanelType::PREFAB_HIERARCHY:
+			panel = Memory::Alloc<Panel_PrefabHierarchy>();
+			panel->Initialize();
+			break;
+	}
+
+	// add to list
+	_panels.Set( type, panel );
+	// add to window
+	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel );
+
+	return panel;
+}
+
+
+Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType splitType, 
+							 UInt viewportIndex )
+{
+	// new panel
+	Panel* panel = NULL;
+	// get split from
+	ASSERT( _panels.Has( splitFrom ) );
+	Panel* panelFrom = _panels.Get( splitFrom );
+
+	switch ( type ) {
+		case PanelType::SCENE_HIERARCHY:
+			panel = Memory::Alloc<Panel_SceneHierarchy>();
+			panel->Initialize();
+			break;
+
+		case PanelType::ATTRIBUTES:
+			panel = Memory::Alloc<Panel_Attributes>();
+			panel->Initialize();
+			break;
+
+		case PanelType::SCENE_VIEWPORT:
+		{
+			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( viewportIndex );
+			viewportPanel->Initialize( (viewportIndex == 0) );
+			viewportPanel->SetCamera( _cameras[ 0 ] );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::PREFAB_VIEWPORT:
+		{
+			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( viewportIndex );
+			viewportPanel->Initialize( (viewportIndex == 0) );
+			viewportPanel->SetCamera( _cameras[ 1 ] );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::ASSETS:
+			panel = Memory::Alloc<Panel_Assets>();
+			panel->Initialize();
+			break;
+
+		case PanelType::CONSOLE:
+			panel = Memory::Alloc<Panel_Console>();
+			panel->Initialize();
+			break;
+
+		case PanelType::PREFAB_HIERARCHY:
+			panel = Memory::Alloc<Panel_PrefabHierarchy>();
+			panel->Initialize();
+			break;
+	}
+
+	// add to list
+	_panels.Set( type, panel );
+
+	// add to window
+	switch ( splitType ) {
+		case PanelSplitType::HORIZONTAL:
+			_qtMainWindow->splitDockWidget( panelFrom, panel, Qt::Horizontal );
+			break;
+
+		case PanelSplitType::VERTICAL:
+			_qtMainWindow->splitDockWidget( panelFrom, panel, Qt::Vertical );
+			break;
+	}
+
+	return panel;
 }
 
 
@@ -297,8 +442,10 @@ void EditorApp::_DestroyManagers()
 
 void EditorApp::_FinalizePanels()
 {
-	for ( UInt i = 0; i < _panels.Size(); i++ ) {
-		_panels[i]->Finalize();
+	Iterator<PanelType, Panel*> iter = _panels.GetIterator();
+	while ( iter.HasNext() ) {
+		iter.GetValue()->Finalize();
+		iter.Next();
 	}
 }
 
@@ -313,7 +460,13 @@ void EditorApp::_CreateMainWindow()
 								   QMainWindow::AllowNestedDocks | 
 								   QMainWindow::AllowTabbedDocks );
 	_qtMainWindow->setTabPosition( Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North );
-	_qtMainWindow->show();
+
+	if ( EditorSettings::fullscreen ) {
+		_qtMainWindow->showMaximized();
+	}
+	else {
+		_qtMainWindow->showNormal();
+	}
 }
 
 
@@ -409,66 +562,6 @@ void EditorApp::_ReadProjectFile()
 {
 	Char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::projectPath.GetChar() );
 	FileManager::Singleton()->Deserialize<ProjectSettings>( fileData, NULL );
-}
-
-
-Panel* EditorApp::NewPanel( PanelType type, Qt::Orientation orietation, 
-							UInt panelIndex, Bool isPrimary )
-{
-	// new panel
-	Panel* panel = NULL;
-	
-	switch ( type ) {
-		case PanelType::SCENE_HIERARCHY:
-			panel = Memory::Alloc<Panel_SceneHierarchy>();
-			panel->Initialize();
-			break;
-
-		case PanelType::ATTRIBUTES:
-			panel = Memory::Alloc<Panel_Attributes>();
-			panel->Initialize();
-			break;
-
-		case PanelType::SCENE_VIEWPORT:
-		{
-			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( panelIndex );
-			viewportPanel->Initialize( isPrimary );
-			viewportPanel->SetCamera( _cameras[ 0 ] );
-			panel = viewportPanel;
-			break;
-		}
-
-		case PanelType::PREFAB_VIEWPORT:
-		{
-			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( panelIndex );
-			viewportPanel->Initialize( isPrimary );
-			viewportPanel->SetCamera( _cameras[ 1 ] );
-			panel = viewportPanel;
-			break;
-		}
-
-		case PanelType::ASSETS:
-			panel = Memory::Alloc<Panel_Assets>();
-			panel->Initialize();
-			break;
-
-		case PanelType::CONSOLE:
-			panel = Memory::Alloc<Panel_Console>();
-			panel->Initialize();
-			break;
-
-		case PanelType::PREFAB_HIERARCHY:
-			panel = Memory::Alloc<Panel_PrefabHierarchy>();
-			panel->Initialize();
-			break;
-	}
-
-	// add to list
-	_panels.Add( panel );
-	// add to window
-	_qtMainWindow->addDockWidget( Qt::LeftDockWidgetArea, panel, orietation );
-
-	return panel;
 }
 
 

@@ -9,6 +9,7 @@ namespace CYRED
 {
 	class JsonSerializer_EditorConfig : public JsonSerializer
 	{
+		const Char* const FULLSCREEN		= "fullscreen";
 		const Char* const WIDTH				= "width";
 		const Char* const HEIGHT			= "height";
 		const Char* const POS_X				= "pos_x";
@@ -21,14 +22,15 @@ namespace CYRED
 		const Char* const PANELS_TYPE		= "type";
 		const Char* const PANELS_SPLIT_FROM	= "split_from";
 		const Char* const PANELS_SPLIT_TYPE	= "split_type";
+		const Char* const PANELS_VP_INDEX	= "viewport_index";
 		const Char* const HORIZONTAL		= "HORIZONTAL";
 		const Char* const VERTICAL			= "VERTICAL";
 		const Char* const P_ASSETS			= "ASSETS";
 		const Char* const P_ATTRIBUTES		= "ATTRIBUTES";
 		const Char* const P_CONSOLE			= "CONSOLE";
-		const Char* const P_PREFAB_HIERARCHY= "PREFAB_HIERARCHY";
-		const Char* const P_SCENE_HIERARCHY	= "PREFAB_HIERARCHY";
+		const Char* const P_SCENE_HIERARCHY	= "SCENE_HIERARCHY";
 		const Char* const P_SCENE_VIEWPORT	= "SCENE_VIEWPORT";
+		const Char* const P_PREFAB_HIERARCHY= "PREFAB_HIERARCHY";
 		const Char* const P_PREFAB_VIEWPORT	= "PREFAB_VIEWPORT";
 
 

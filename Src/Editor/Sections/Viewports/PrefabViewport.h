@@ -19,7 +19,7 @@ namespace CYRED
 	{
 	public:
 		const Char*		PANEL_TITLE = "Prefab Viewport";
-		const Vector2	MIN_SIZE	= Vector2( 200, 100 );
+		const Vector2	MIN_SIZE	= Vector2( 400, 200 );
 
 
 	public:
