@@ -49,4 +49,83 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 	if ( json.HasMember( PROJECT_PATH ) ) {
 		EditorSettings::projectPath = json[PROJECT_PATH].GetString();
 	}
+	if ( json.HasMember( PANELS ) ) {
+		rapidjson::Value& panels = json[PANELS];
+
+		for ( UInt i = 0; i < panels.Size(); i++ ) {
+			// new panel struct
+			EditorSettings::PanelData panel;
+
+			// add type
+			String type( panels[i][PANELS_TYPE].GetString() );
+			if ( type == P_ASSETS ) {
+				panel.type = PanelType::ASSETS;
+			}
+			else if ( type == P_ATTRIBUTES ) {
+				panel.type = PanelType::ATTRIBUTES;
+			}
+			else if ( type == P_ATTRIBUTES ) {
+				panel.type = PanelType::ATTRIBUTES;
+			}
+			else if ( type == P_CONSOLE ) {
+				panel.type = PanelType::CONSOLE;
+			}
+			else if ( type == P_PREFAB_HIERARCHY ) {
+				panel.type = PanelType::PREFAB_HIERARCHY;
+			}
+			else if ( type == P_PREFAB_VIEWPORT ) {
+				panel.type = PanelType::PREFAB_VIEWPORT;
+			}
+			else if ( type == P_SCENE_HIERARCHY ) {
+				panel.type = PanelType::SCENE_HIERARCHY;
+			}
+			else if ( type == P_SCENE_VIEWPORT ) {
+				panel.type = PanelType::SCENE_VIEWPORT;
+			}
+			
+
+			// add split from
+			if ( panels[i].HasMember( PANELS_SPLIT_FROM ) ) {
+				String splitFrom( panels[i][PANELS_SPLIT_FROM].GetString() );
+				if ( splitFrom == P_ASSETS ) {
+					panel.splitFrom = PanelType::ASSETS;
+				}
+				else if ( splitFrom == P_ATTRIBUTES ) {
+					panel.splitFrom = PanelType::ATTRIBUTES;
+				}
+				else if ( splitFrom == P_ATTRIBUTES ) {
+					panel.splitFrom = PanelType::ATTRIBUTES;
+				}
+				else if ( splitFrom == P_CONSOLE ) {
+					panel.splitFrom = PanelType::CONSOLE;
+				}
+				else if ( splitFrom == P_PREFAB_HIERARCHY ) {
+					panel.splitFrom = PanelType::PREFAB_HIERARCHY;
+				}
+				else if ( splitFrom == P_PREFAB_VIEWPORT ) {
+					panel.splitFrom = PanelType::PREFAB_VIEWPORT;
+				}
+				else if ( splitFrom == P_SCENE_HIERARCHY ) {
+					panel.splitFrom = PanelType::SCENE_HIERARCHY;
+				}
+				else if ( splitFrom == P_SCENE_VIEWPORT ) {
+					panel.splitFrom = PanelType::SCENE_VIEWPORT;
+				}
+			}
+
+			// add split type
+			if ( panels[i].HasMember( PANELS_SPLIT_TYPE ) ) {
+				String splitType( panels[i][PANELS_SPLIT_TYPE].GetString() );
+				if ( splitType == HORIZONTAL ) {
+					panel.splitType = PanelSplitType::HORIZONTAL;
+				}
+				else if ( splitType == VERTICAL ) {
+					panel.splitType = PanelSplitType::VERTICAL;
+				}
+			}
+
+			// add to list
+			EditorSettings::panels.Add( panel );
+		}
+	}
 }

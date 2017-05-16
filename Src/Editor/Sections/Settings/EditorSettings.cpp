@@ -34,3 +34,5 @@ UInt	EditorSettings::fps		= 60;
 
 String EditorSettings::projectName;
 String EditorSettings::projectPath;
+
+DataArray<EditorSettings::PanelData> EditorSettings::panels;

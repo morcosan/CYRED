@@ -31,7 +31,7 @@ namespace CYRED
 		const Char* const	ICON_TEXTURE	= "texture";
 		const Char* const	ICON_SHADER		= "shader";
 		const Char* const	ICON_SCRIPT		= "script";
-		const Char* const	ICON_PREFAB		= "scene";
+		const Char* const	ICON_PREFAB		= "prefab";
 		const Char* const	ICON_UNKNOWN	= "unknown";
 
 		const Char* const	BUTTON_RELOAD	= "Reload";

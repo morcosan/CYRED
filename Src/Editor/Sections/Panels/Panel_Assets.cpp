@@ -153,7 +153,7 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 						case AssetType::SCRIPT:		icon = ICON_SCRIPT;		break;
 						case AssetType::SHADER:		icon = ICON_SHADER;		break;
 						case AssetType::TEXTURE:	icon = ICON_TEXTURE;	break;
-						case AssetType::PREFAB:		icon = ICON_SCENE;		break;
+						case AssetType::PREFAB:		icon = ICON_PREFAB;		break;
 					}
 					// create tree item
 					treeItem = _AddAssetToTree( asset, parentItem, icon );
@@ -418,7 +418,7 @@ void Panel_Assets::A_Duplicate()
 
 		case AssetType::PREFAB:
 			AssetManager::Singleton()->AddPrefab( CAST_S( Prefab*, clone ) );
-			icon = ICON_SCENE;
+			icon = ICON_PREFAB;
 			break;
 	}
 
@@ -868,7 +868,7 @@ void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath,
 				asset = script; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_PREFAB ) == 0 ) {
-				icon = _icons.Get( ICON_SCENE );
+				icon = _icons.Get( ICON_PREFAB );
 
 				Prefab* prefab = Memory::Alloc<Prefab>();
 				prefab->SetEmitEvents( FALSE );

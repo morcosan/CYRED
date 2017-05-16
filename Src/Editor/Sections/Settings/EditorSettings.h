@@ -5,6 +5,22 @@
 #include "CyredRequired.h"
 #include "CyredBuildingBlocks.h"
 
+#include "../Panel.h"
+
+
+namespace CYRED
+{
+	namespace Enum_PanelSplitType
+	{
+		enum Enum
+		{
+			HORIZONTAL
+			, VERTICAL
+		};
+	}
+	typedef Enum_PanelSplitType::Enum	PanelSplitType;
+}
+
 
 namespace CYRED
 {
@@ -28,6 +44,12 @@ namespace CYRED
 
 		static const Char* const FILE_FORMAT_SKINS;		/* the format of the skin file	*/
 
+		struct PanelData
+		{
+			PanelType		type;
+			PanelType		splitFrom;
+			PanelSplitType	splitType;
+		};
 
 		static UInt	width;		/* width of editor window						*/
 		static UInt	height;		/* height of editor window						*/
@@ -37,5 +59,7 @@ namespace CYRED
 
 		static String projectName;
 		static String projectPath;	/* path to project .cyredproj file	*/	
+
+		static DataArray<PanelData>	panels;
 	};
 }
