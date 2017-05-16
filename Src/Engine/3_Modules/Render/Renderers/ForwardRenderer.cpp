@@ -31,7 +31,7 @@ ForwardRenderer::~ForwardRenderer()
 }
 
 
-void ForwardRenderer::Render( Node* root, GameObject* cameraGO )
+void ForwardRenderer::Render( Node* root, GameObject* cameraGO, Bool useAllScenes )
 {
 	ASSERT( _technique != NULL );
 
@@ -41,7 +41,7 @@ void ForwardRenderer::Render( Node* root, GameObject* cameraGO )
 	};
 
 	_technique->SetViewportSize( _glContext->GetWidth(), _glContext->GetHeight() );
-	_technique->Render( buffers, root, cameraGO );
+	_technique->Render( buffers, root, cameraGO, useAllScenes );
 }
 
 

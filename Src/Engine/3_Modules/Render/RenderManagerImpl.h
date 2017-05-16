@@ -36,8 +36,8 @@ namespace CYRED
 			void ChangeRenderer	( UInt canvasID, RendererType type )	override;
 			void ChangeRenderer	( UInt canvasID, Renderer* renderer )	override;
 			void ChangeTechnique( UInt canvasID, UInt techID )			override;
-			void Render			( UInt canvasID, Node* root, 
-								  GameObject* cameraGO )				override;
+			void Render			( UInt canvasID, Node* root, GameObject* cameraGO, 
+								  Bool useAllScenes )					override;
 			void OnResize		( UInt canvasID )						override;
 
 

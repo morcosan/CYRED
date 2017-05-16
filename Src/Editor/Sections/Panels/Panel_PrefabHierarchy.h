@@ -52,11 +52,12 @@ namespace CYRED
 		_QtTree*			_qtTree;
 		Menu_GameObject*	_menuGameObject;
 		Menu_Prefab*		_menuPrefab;
+		Prefab*				_targetPrefab;
 
 		CustomTreeItem*		_FindGameObjectItem		( UInt uid );
 		CustomTreeItem*		_FindPrefabItem			( const Char* uid );
 		void				_CreateRightClickMenu	();
-		void				_ResetHierarchy			( Prefab* prefab );
+		void				_ResetHierarchy			();
 		void				_RecResetHierarchy		( GameObject* gameObject, QTreeWidgetItem* parent );
 	};
 }

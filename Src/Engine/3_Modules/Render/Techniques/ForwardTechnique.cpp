@@ -33,7 +33,7 @@ using namespace NotAPI;
 
 
 
-void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO )
+void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO, Bool useAllScenes )
 {
 	ASSERT( _gl != NULL );
 
@@ -48,6 +48,7 @@ void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO )
 	// get camera
 	_cameraTran = cameraGO->GetComponent<Transform>();
 	_cameraComp = cameraGO->GetComponent<Camera>();
+	_cameraLight = cameraGO->GetComponent<Light>();
 
 	_gl->Enable( GLCapability::BLEND );
 	_gl->BlendEquation( GLBlendMode::FUNC_ADD );
@@ -58,11 +59,11 @@ void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO )
 
 	// render mesh
 	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
-		_RecRenderMesh( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
+		_RecRenderMesh( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 	// render morph
 	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
-		_RecRenderMorph( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
+		_RecRenderMorph( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 
 	_gl->Enable( GLCapability::BLEND );
@@ -71,7 +72,7 @@ void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO )
 
 	// render particles
 	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i )	{
-		_RecRenderParticles( CAST_S( GameObject*, root->GetChildNodeAt( i ) ) );
+		_RecRenderParticles( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 }
 
@@ -93,7 +94,7 @@ void ForwardTechnique::_ClearScreen()
 }
 
 
-void ForwardTechnique::_RecRenderMesh( GameObject* gameObject )
+void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -101,7 +102,7 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject )
 
 	// render child nodes
 	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
-		_RecRenderMesh( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+		_RecRenderMesh( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
 
@@ -183,7 +184,16 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject )
 		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
 			// get closest lights
 			DataArray<GameObject*> lightsGO;
-			SceneManagerImpl::Singleton()->FindClosestLights( gameObject, lightsGO );
+
+			// use light from camera
+			if ( _cameraLight != NULL ) {
+				lightsGO.Add( _cameraLight->GetGameObject() );
+			}
+
+			// use lights from scenes
+			if ( useAllScenes ) {
+				SceneManagerImpl::Singleton()->FindClosestLights( gameObject, lightsGO );
+			}
 			
 			// add lights count
 			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
@@ -246,7 +256,7 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject )
 }
 
 
-void ForwardTechnique::_RecRenderMorph( GameObject* gameObject )
+void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -254,7 +264,7 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject )
 
 	// render child nodes
 	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
-		_RecRenderMorph( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+		_RecRenderMorph( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
 
@@ -400,7 +410,7 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject )
 }
 
 
-void ForwardTechnique::_RecRenderParticles( GameObject* gameObject )
+void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, Bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -408,7 +418,7 @@ void ForwardTechnique::_RecRenderParticles( GameObject* gameObject )
 
 	// render child nodes
 	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
-		_RecRenderParticles( CAST_S( GameObject*, gameObject->GetChildNodeAt( i ) ) );
+		_RecRenderParticles( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
 

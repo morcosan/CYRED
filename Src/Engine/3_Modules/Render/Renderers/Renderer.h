@@ -28,9 +28,9 @@ namespace CYRED
 
 		
 	public:
-		virtual void Render			( Node* root, GameObject* cameraGO )	PURE_VIRTUAL;
-		virtual void OnResize		()										PURE_VIRTUAL;
-		virtual void DisplayOnScreen()										PURE_VIRTUAL;
+		virtual void Render			( Node* root, GameObject* cameraGO, Bool useAllScenes)	PURE_VIRTUAL;
+		virtual void OnResize		() PURE_VIRTUAL;
+		virtual void DisplayOnScreen() PURE_VIRTUAL;
 
 
 	public:

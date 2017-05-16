@@ -496,7 +496,7 @@ void Panel_Assets::A_EditPrefab()
 	Asset* asset = CAST_S( _QtTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_PREFAB_HIERARCHY, asset );
+	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, asset );
 }
 
 

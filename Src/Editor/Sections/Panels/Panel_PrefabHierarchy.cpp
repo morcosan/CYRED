@@ -125,8 +125,13 @@ void Panel_PrefabHierarchy::Finalize()
 void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
+		case EventType::OPEN_PREFAB:
+			_targetPrefab = CAST_S( Prefab*, eData );
+			_ResetHierarchy();
+			break;
+		
 		case EventType::CHANGE_PREFAB_HIERARCHY:
-			_ResetHierarchy( CAST_S( Prefab*, eData ) );
+			_ResetHierarchy();
 			break;
 
 		case EventType::RENAME_GAMEOBJECT:
@@ -246,7 +251,7 @@ void Panel_PrefabHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWid
 }
 
 
-void Panel_PrefabHierarchy::_ResetHierarchy( Prefab* prefab )
+void Panel_PrefabHierarchy::_ResetHierarchy()
 {
 	// delete all items
 	while ( _qtTree->topLevelItemCount() > 0 ) {
@@ -257,11 +262,11 @@ void Panel_PrefabHierarchy::_ResetHierarchy( Prefab* prefab )
 	QTreeWidgetItem* rootItem = _qtTree->invisibleRootItem();
 
 	// sanity check
-	if ( prefab != NULL ) {
+	if ( _targetPrefab != NULL ) {
 		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
-		treeItem->asset = prefab;
+		treeItem->asset = _targetPrefab;
 
-		treeItem->setText( 0, prefab->GetName() );
+		treeItem->setText( 0, _targetPrefab->GetName() );
 		treeItem->setFlags( Qt::ItemIsSelectable | 
 							Qt::ItemIsEditable |
 							Qt::ItemIsDropEnabled | 
@@ -269,8 +274,8 @@ void Panel_PrefabHierarchy::_ResetHierarchy( Prefab* prefab )
 		rootItem->addChild( treeItem );
 		treeItem->setExpanded( TRUE );
 
-		for ( UInt j = 0; j < prefab->GetRoot()->GetChildNodeCount(); ++j ) {
-			_RecResetHierarchy( CAST_S( GameObject*, prefab->GetRoot()->GetChildNodeAt(j) ), 
+		for ( UInt j = 0; j < _targetPrefab->GetRoot()->GetChildNodeCount(); ++j ) {
+			_RecResetHierarchy( CAST_S( GameObject*, _targetPrefab->GetRoot()->GetChildNodeAt(j) ), 
 								treeItem );
 		}
 	}

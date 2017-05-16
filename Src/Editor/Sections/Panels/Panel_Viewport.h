@@ -72,6 +72,7 @@ namespace CYRED
 		virtual const Char*	_GetPanelTitle	() PURE_VIRTUAL;
 		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
 		virtual void		_OnInitialize	() PURE_VIRTUAL;
+		virtual void		_OnFinalize		() PURE_VIRTUAL;
 		virtual void		_OnUpdate		() PURE_VIRTUAL;
 
 

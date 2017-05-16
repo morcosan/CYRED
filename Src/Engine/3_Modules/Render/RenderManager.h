@@ -71,8 +71,8 @@ namespace CYRED
 		virtual void ChangeTechnique( UInt canvasID, UInt techID )			PURE_VIRTUAL;
 
 
-		virtual void Render			( UInt canvasID, Node* root, 
-									  GameObject* cameraGO )				PURE_VIRTUAL;
+		virtual void Render			( UInt canvasID, Node* root, GameObject* cameraGO,
+									  Bool useAllScenes )					PURE_VIRTUAL;
 
 		virtual void OnResize		( UInt canvasID )						PURE_VIRTUAL;
 	};

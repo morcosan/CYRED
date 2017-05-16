@@ -76,6 +76,11 @@ void SceneViewport::_OnInitialize()
 }
 
 
+void SceneViewport::_OnFinalize()
+{
+}
+
+
 void SceneViewport::_OnUpdate()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
@@ -108,10 +113,10 @@ void SceneViewport::_OnUpdate()
 		//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
 		{
 			Scene* scene = sceneMngr->GetScene();
-			renderMngr->Render( _canvasSlot, scene->GetRoot(), _cameraGO );
+			renderMngr->Render( _canvasSlot, scene->GetRoot(), _cameraGO, TRUE );
 		}
 	}
 	else {
-		renderMngr->Render( _canvasSlot, NULL, _cameraGO );
+		renderMngr->Render( _canvasSlot, NULL, _cameraGO, TRUE );
 	}
 }

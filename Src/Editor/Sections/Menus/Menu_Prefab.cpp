@@ -147,7 +147,7 @@ void Menu_Prefab::A_ClosePrefab()
 	ASSERT( prefab != NULL );
 
 	// reload hierarchy
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_PREFAB_HIERARCHY, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, NULL );
 }
 
 

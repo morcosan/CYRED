@@ -13,6 +13,7 @@ namespace CYRED
 	class Material;
 	class Transform;
 	class Camera;
+	class Light;
 }
 
 
@@ -36,7 +37,8 @@ namespace CYRED
 
 
 		public:
-			virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO )	override;
+			virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO, 
+								 Bool useAllScenes )	override;
 
 
 		protected:
@@ -48,10 +50,11 @@ namespace CYRED
 
 			Transform*	_cameraTran;
 			Camera*		_cameraComp;
+			Light*		_cameraLight;
 
-			void _RecRenderMesh		( GameObject* gameObject );
-			void _RecRenderMorph	( GameObject* gameObject );
-			void _RecRenderParticles( GameObject* gameObject );
+			void _RecRenderMesh		( GameObject* gameObject, Bool useAllScenes );
+			void _RecRenderMorph	( GameObject* gameObject, Bool useAllScenes );
+			void _RecRenderParticles( GameObject* gameObject, Bool useAllScenes );
 
 			void _BindMaterial		( Material* material );
 		};

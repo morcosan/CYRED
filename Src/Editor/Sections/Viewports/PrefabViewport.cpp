@@ -4,6 +4,7 @@
 #include "PrefabViewport.h"
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
+#include "CyredModule_Asset.h"
 #include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
@@ -21,6 +22,16 @@ DataMap<TechniqueType, UInt> PrefabViewport::_techSlots;
 PrefabViewport::PrefabViewport( UInt panelIndex )
 	: Panel_Viewport( panelIndex )
 {
+}
+
+
+void PrefabViewport::OnEvent( EventType eType, void* eData )
+{
+	switch ( eType ) {
+		case EventType::OPEN_PREFAB:
+			_targetPrefab = CAST_S( Prefab*, eData );
+			break;
+	}
 }
 
 
@@ -57,6 +68,15 @@ Vector2 PrefabViewport::_GetPanelMinSize()
 
 void PrefabViewport::_OnInitialize()
 {
+	// register events
+	EventManager::Singleton()->RegisterListener( EventType::OPEN_PREFAB, this );
+}
+
+
+void PrefabViewport::_OnFinalize()
+{
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( EventType::OPEN_PREFAB, this );
 }
 
 
@@ -86,16 +106,11 @@ void PrefabViewport::_OnUpdate()
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
 
-	// render scenes
-	SceneManager* sceneMngr = SceneManager::Singleton();
-	if ( sceneMngr->CountLoadedScenes() > 0 ) {
-		//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
-		{
-			Scene* scene = sceneMngr->GetScene();
-			renderMngr->Render( _canvasSlot, scene->GetRoot(), _cameraGO );
-		}
+	// render prefab
+	if ( _targetPrefab != NULL ) {
+		renderMngr->Render( _canvasSlot, _targetPrefab->GetRoot(), _cameraGO, FALSE );
 	}
 	else {
-		renderMngr->Render( _canvasSlot, NULL, _cameraGO );
+		renderMngr->Render( _canvasSlot, NULL, _cameraGO, FALSE );
 	}
 }

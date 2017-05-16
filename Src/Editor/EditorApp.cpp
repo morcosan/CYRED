@@ -524,6 +524,9 @@ void EditorApp::_CreateCameras()
 
 		_cameras.Add( cameraGO );
 	}
+
+	// add light for camera 1
+	_cameras[1]->AddComponent<Light>();
 }
 
 

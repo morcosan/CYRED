@@ -5,17 +5,20 @@
 #pragma once
 #include "CyredRequired.h"
 #include "CyredModule_Render.h"
+#include "CyredModule_Event.h"
+
 #include "../Panels/Panel_Viewport.h"
-
-
-class QHBoxLayout;
-class QComboBox;
-class QPushButton;
 
 
 namespace CYRED
 {
-	class PrefabViewport : public Panel_Viewport
+	class Prefab;
+}
+
+
+namespace CYRED
+{
+	class PrefabViewport : public Panel_Viewport, public IEventListener
 	{
 	public:
 		const Char*		PANEL_TITLE = "Prefab Viewport";
@@ -25,6 +28,10 @@ namespace CYRED
 	public:
 		PrefabViewport( UInt panelIndex );
 		virtual ~PrefabViewport() {}
+
+
+	public:
+		void OnEvent( EventType eType, void* eData )	override;
 
 
 	public:
@@ -38,9 +45,14 @@ namespace CYRED
 
 
 	protected:
+		Prefab* _targetPrefab;
+
+
+	protected:
 		virtual const Char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;
+		virtual void		_OnFinalize		() override;
 		virtual void		_OnUpdate		() override;
 	};
 }

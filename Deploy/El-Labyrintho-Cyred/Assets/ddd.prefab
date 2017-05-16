@@ -60,11 +60,6 @@
                     }
                 }
             ]
-        },
-        {
-            "name": "Empty",
-            "enabled": true,
-            "components": {}
         }
     ]
 }

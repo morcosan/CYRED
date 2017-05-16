@@ -25,7 +25,8 @@ namespace CYRED
 
 
 	public:
-		virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO )	PURE_VIRTUAL;
+		virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO, 
+							 Bool useAllScenes )	PURE_VIRTUAL;
 
 
 	public:
