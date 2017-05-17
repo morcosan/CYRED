@@ -23,7 +23,7 @@ Vector3::Vector3( const Vector3& other )
 }
 
 
-Vector3::Vector3( Float xx, Float yy, Float zz )
+Vector3::Vector3( float xx, float yy, float zz )
 	: x( xx ), y( yy ), z( zz )
 {
 }
@@ -69,7 +69,7 @@ void Vector3::operator*=( const Vector3& other )
 }
 
 
-void Vector3::operator*=( Float other )
+void Vector3::operator*=( float other )
 {
 	x *= other;
 	y *= other;
@@ -77,7 +77,7 @@ void Vector3::operator*=( Float other )
 }
 
 
-void Vector3::operator*=( UInt other )
+void Vector3::operator*=( int other )
 {
 	x *= other;
 	y *= other;
@@ -85,7 +85,7 @@ void Vector3::operator*=( UInt other )
 }
 
 
-void Vector3::operator*=( Int other )
+void Vector3::operator*=( int other )
 {
 	x *= other;
 	y *= other;
@@ -93,7 +93,7 @@ void Vector3::operator*=( Int other )
 }
 
 
-Bool Vector3::operator==( const Vector3& other ) const
+bool Vector3::operator==( const Vector3& other ) const
 {
 	glm::vec3 vec_self( x, y, z );
 	glm::vec3 vec_other( other.x, other.y, other.z );
@@ -103,7 +103,7 @@ Bool Vector3::operator==( const Vector3& other ) const
 }
 
 
-Bool Vector3::operator!=( const Vector3& other ) const
+bool Vector3::operator!=( const Vector3& other ) const
 {
 	return !(*this == other);
 }
@@ -133,19 +133,19 @@ Vector3 Vector3::operator/( const Vector3& other ) const
 }
 
 
-Vector3 Vector3::operator/( Float value ) const
+Vector3 Vector3::operator/( float value ) const
 {
 	return Vector3( x / value, y / value, z / value );
 }
 
 
-Vector3 Vector3::operator/( UInt value ) const
+Vector3 Vector3::operator/( int value ) const
 {
 	return Vector3( x / value, y / value, z / value );
 }
 
 
-Vector3 Vector3::operator/( Int value ) const
+Vector3 Vector3::operator/( int value ) const
 {
 	return Vector3( x / value, y / value, z / value );
 }
@@ -157,25 +157,25 @@ Vector3 Vector3::operator*( const Vector3& other ) const
 }
 
 
-Vector3 Vector3::operator*( Float value ) const
+Vector3 Vector3::operator*( float value ) const
 {
 	return Vector3( x * value, y * value, z * value );
 }
 
 
-Vector3 Vector3::operator*( UInt value ) const
+Vector3 Vector3::operator*( int value ) const
 {
 	return Vector3( x * value, y * value, z * value );
 }
 
 
-Vector3 Vector3::operator*( Int value ) const
+Vector3 Vector3::operator*( int value ) const
 {
 	return Vector3( x * value, y * value, z * value );
 }
 
 
-const Float* Vector3::Ptr()
+const float* Vector3::Ptr()
 {
 	return &x;
 }

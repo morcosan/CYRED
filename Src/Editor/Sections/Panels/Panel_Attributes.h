@@ -19,26 +19,26 @@ namespace CYRED
 
 	class Panel_Attributes : public Panel, public IEventListener
 	{
-		const Char* const	ATTR_GAMEOBJECT			= "GameObject";
-		const Char* const	ATTR_TRANSFORM			= "Transform";
-		const Char* const	ATTR_CAMERA				= "Camera";
-		const Char* const	ATTR_LIGHT				= "Light";
-		const Char* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
-		const Char* const	ATTR_MESH_RENDERING		= "MeshRendering";
-		const Char* const	ATTR_MORPH_RENDERING	= "MorphRendering";
-		const Char* const	ATTR_SCRIPTER			= "Scripter";
-		const Char* const	ATTR_MATERIAL			= "Material";
-		const Char* const	ATTR_MESH				= "Mesh";
-		const Char* const	ATTR_MORPH				= "Morph";
-		const Char* const	ATTR_TEXTURE			= "Texture";
-		const Char* const	ATTR_SCRIPT				= "Script";
-		const Char* const	ATTR_PREFAB				= "Prefab";
-		const Char* const	ATTR_SHADER				= "Shader";
-		const Char* const	ATTR_SCENE				= "Scene";
-		const Char* const	ATTR_CYRED_PROJ			= "CyredProj";
+		const char* const	ATTR_GAMEOBJECT			= "GameObject";
+		const char* const	ATTR_TRANSFORM			= "Transform";
+		const char* const	ATTR_CAMERA				= "Camera";
+		const char* const	ATTR_LIGHT				= "Light";
+		const char* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
+		const char* const	ATTR_MESH_RENDERING		= "MeshRendering";
+		const char* const	ATTR_MORPH_RENDERING	= "MorphRendering";
+		const char* const	ATTR_SCRIPTER			= "Scripter";
+		const char* const	ATTR_MATERIAL			= "Material";
+		const char* const	ATTR_MESH				= "Mesh";
+		const char* const	ATTR_MORPH				= "Morph";
+		const char* const	ATTR_TEXTURE			= "Texture";
+		const char* const	ATTR_SCRIPT				= "Script";
+		const char* const	ATTR_PREFAB				= "Prefab";
+		const char* const	ATTR_SHADER				= "Shader";
+		const char* const	ATTR_SCENE				= "Scene";
+		const char* const	ATTR_CYRED_PROJ			= "CyredProj";
 
-		const Char*	const	PANEL_TITLE				= "Attributes";
-		const Char*	const	ADD_COMPONENT_BUTTON	= "Add Component";
+		const char*	const	PANEL_TITLE				= "Attributes";
+		const char*	const	ADD_COMPONENT_BUTTON	= "Add Component";
 		const Vector2 		MIN_SIZE				= Vector2( 300, 100 );
 
 
@@ -56,14 +56,14 @@ namespace CYRED
 
 	public:
 		//! it will take ownership of the viewers
-		void SetAttrViewer	( const Char* typeName, AttrViewer* viewer );
+		void SetAttrViewer	( const char* typeName, AttrViewer* viewer );
 		void RefreshPanel	();
 
 
 	protected:
 		struct _AttrViewer
 		{
-			Bool		needsRefresh;
+			bool		needsRefresh;
 			AttrViewer* viewer;
 		};
 
@@ -71,7 +71,7 @@ namespace CYRED
 
 		QTreeWidget*	_qtTree;
 		void*			_target;
-		Bool			_needsRefresh;
+		bool			_needsRefresh;
 
 
 		void _ClearPanel		();

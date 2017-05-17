@@ -19,7 +19,7 @@ namespace CYRED
 
 	public:
 		template <class T> String	Serialize		( const T* object );	
-		template <class T> void		Deserialize		( const Char* data, OUT T* object, 
+		template <class T> void		Deserialize		( const char* data, OUT T* object, 
 													  DeserFlag flag = DeserFlag::FULL );
 		template <class T> void		AddSerializer	( Serializer* serializer );
 
@@ -28,9 +28,9 @@ namespace CYRED
 		virtual String		SerializeVec2	( Vector2 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec3	( Vector3 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec4	( Vector4 value )		PURE_VIRTUAL;
-		virtual Vector2		DeserializeVec2	( const Char* data )	PURE_VIRTUAL;
-		virtual Vector3		DeserializeVec3	( const Char* data )	PURE_VIRTUAL;
-		virtual Vector4		DeserializeVec4	( const Char* data )	PURE_VIRTUAL;
+		virtual Vector2		DeserializeVec2	( const char* data )	PURE_VIRTUAL;
+		virtual Vector3		DeserializeVec3	( const char* data )	PURE_VIRTUAL;
+		virtual Vector4		DeserializeVec4	( const char* data )	PURE_VIRTUAL;
 
 
 	protected:
@@ -49,7 +49,7 @@ namespace CYRED
 
 
 	template<class T>
-	void SerializeSystem::Deserialize( const Char* data, OUT T* object,
+	void SerializeSystem::Deserialize( const char* data, OUT T* object,
 									   DeserFlag flag )
 	{
 		ASSERT( _serializers.Has( GET_TYPE_INDEX( T ) ) );

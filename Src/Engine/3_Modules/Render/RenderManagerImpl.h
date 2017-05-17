@@ -30,44 +30,44 @@ namespace CYRED
 		public:
 			void Initialize		( GLContext* glContext, GL* gl )		override;
 			void Finalize		()										override;
-			UInt NewTechnique	( TechniqueType techType )				override;
-			UInt NewTechnique	( Technique* technique )				override;
-			UInt NewCanvas		( GLContext* glContext )				override;
-			void ChangeRenderer	( UInt canvasID, RendererType type )	override;
-			void ChangeRenderer	( UInt canvasID, Renderer* renderer )	override;
-			void ChangeTechnique( UInt canvasID, UInt techID )			override;
-			void Render			( UInt canvasID, Node* root, GameObject* cameraGO, 
-								  Bool useAllScenes )					override;
-			void OnResize		( UInt canvasID )						override;
+			int NewTechnique	( TechniqueType techType )				override;
+			int NewTechnique	( Technique* technique )				override;
+			int NewCanvas		( GLContext* glContext )				override;
+			void ChangeRenderer	( int canvasID, RendererType type )	override;
+			void ChangeRenderer	( int canvasID, Renderer* renderer )	override;
+			void ChangeTechnique( int canvasID, int techID )			override;
+			void Render			( int canvasID, Node* root, GameObject* cameraGO, 
+								  bool useAllScenes )					override;
+			void OnResize		( int canvasID )						override;
 
 
 		public:
-			void CreateMeshBuffers		( OUT UInt& vbo, OUT UInt& ibo,
-										  DataArray<Vertex>& vertices, DataArray<UInt>& indices );
-			void CreateMorphBuffers		( OUT UInt& vbo, OUT UInt& ibo,
-										  DataArray<MorphVertex>& vertices, DataArray<UInt>& indices );
-			void CreateParticleBuffers	( OUT UInt& vbo, OUT UInt& ibo,
-										  DataArray<ParticleVertex>& vertices, DataArray<UInt>& indices );
-			void DeleteBuffers			( UInt vbo, UInt ibo );
-			UInt CreateShaderProgram	( const Char* vertexCode, const Char* geometryCode,
-										  const Char* fragmentCode );
-			void DeleteShaderProgram	( UInt programID );
-			UInt GetUniformLocation		( UInt programID, const Char* uniform );
-			UInt GetUniformsCount		( UInt programID );
-			void GetUniformInfo			( UInt programID, UInt index, Int buffSize,
-										  OUT Int* length, OUT Char* name );
-			void CreateTexture2D		( OUT UInt& textureID, UInt width, UInt height, 
-										  UInt channels, Bool hasMipmap,
-										  UChar* imageBuffer );
-			void CreateCubeMapTexture	( OUT UInt& textureID, UInt width, UInt height, 
-										  UInt channels, Bool hasMipmap,
-										  UChar* imageBuffer_PosX,
-										  UChar* imageBuffer_NegX,
-										  UChar* imageBuffer_PosY,
-										  UChar* imageBuffer_NegY,
-										  UChar* imageBuffer_PosZ,
-										  UChar* imageBuffer_NegZ );
-			void DeleteTexture			( UInt textureID );
+			void CreateMeshBuffers		( OUT int& vbo, OUT int& ibo,
+										  DataArray<Vertex>& vertices, DataArray<int>& indices );
+			void CreateMorphBuffers		( OUT int& vbo, OUT int& ibo,
+										  DataArray<MorphVertex>& vertices, DataArray<int>& indices );
+			void CreateParticleBuffers	( OUT int& vbo, OUT int& ibo,
+										  DataArray<ParticleVertex>& vertices, DataArray<int>& indices );
+			void DeleteBuffers			( int vbo, int ibo );
+			int CreateShaderProgram	( const char* vertexCode, const char* geometryCode,
+										  const char* fragmentCode );
+			void DeleteShaderProgram	( int programID );
+			int GetUniformLocation		( int programID, const char* uniform );
+			int GetUniformsCount		( int programID );
+			void GetUniformInfo			( int programID, int index, int buffSize,
+										  OUT int* length, OUT char* name );
+			void CreateTexture2D		( OUT int& textureID, int width, int height, 
+										  int channels, bool hasMipmap,
+										  uchar* imageBuffer );
+			void CreateCubeMapTexture	( OUT int& textureID, int width, int height, 
+										  int channels, bool hasMipmap,
+										  uchar* imageBuffer_PosX,
+										  uchar* imageBuffer_NegX,
+										  uchar* imageBuffer_PosY,
+										  uchar* imageBuffer_NegY,
+										  uchar* imageBuffer_PosZ,
+										  uchar* imageBuffer_NegZ );
+			void DeleteTexture			( int textureID );
 
 
 		protected:
@@ -83,8 +83,8 @@ namespace CYRED
 
 			void _SetMainCanvas( GLContext* glContext );
 
-			Bool _IsShaderCompiled	( UInt shaderID )	const;
-			Bool _IsProgramLinked	( UInt programID )	const;
+			bool _IsShaderCompiled	( int shaderID )	const;
+			bool _IsProgramLinked	( int programID )	const;
 		};
 	}
 }

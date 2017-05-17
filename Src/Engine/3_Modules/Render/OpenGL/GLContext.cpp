@@ -8,13 +8,13 @@
 using namespace CYRED;
 
 
-UInt GLContext::GetWidth()
+int GLContext::GetWidth()
 {
 	return _width;
 }
 
 
-UInt GLContext::GetHeight()
+int GLContext::GetHeight()
 {
 	return _height;
 }

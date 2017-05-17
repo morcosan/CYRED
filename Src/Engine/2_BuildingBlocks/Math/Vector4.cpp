@@ -25,7 +25,7 @@ Vector4::Vector4( const Vector4& other )
 }
 
 
-Vector4::Vector4( Float xx, Float yy, Float zz, Float ww )
+Vector4::Vector4( float xx, float yy, float zz, float ww )
 	: x( xx ), y( yy ), z( zz ), w( ww )
 {
 }
@@ -40,7 +40,7 @@ void Vector4::operator=( const Vector4& other )
 }
 
 
-Bool Vector4::operator==( const Vector4& other ) const
+bool Vector4::operator==( const Vector4& other ) const
 {
 	glm::vec4 vec_self( x, y, z, w );
 	glm::vec4 vec_other( other.x, other.y, other.z, other.w );
@@ -50,7 +50,7 @@ Bool Vector4::operator==( const Vector4& other ) const
 }
 
 
-Bool Vector4::operator!=( const Vector4& other ) const
+bool Vector4::operator!=( const Vector4& other ) const
 {
 	return !(*this == other);
 }
@@ -74,19 +74,19 @@ Vector4 Vector4::operator/( const Vector4& other ) const
 }
 
 
-Vector4 Vector4::operator/( Float value ) const
+Vector4 Vector4::operator/( float value ) const
 {
 	return Vector4( x / value, y / value, z / value, w / value );
 }
 
 
-Vector4 Vector4::operator/( UInt value ) const
+Vector4 Vector4::operator/( int value ) const
 {
 	return Vector4( x / value, y / value, z / value, w / value );
 }
 
 
-Vector4 Vector4::operator/( Int value ) const
+Vector4 Vector4::operator/( int value ) const
 {
 	return Vector4( x / value, y / value, z / value, w / value );
 }
@@ -98,25 +98,25 @@ Vector4 Vector4::operator*( const Vector4& other ) const
 }
 
 
-Vector4 Vector4::operator*( Float value ) const
+Vector4 Vector4::operator*( float value ) const
 {
 	return Vector4( x * value, y * value, z * value, w * value );
 }
 
 
-Vector4 Vector4::operator*( UInt value ) const
+Vector4 Vector4::operator*( int value ) const
 {
 	return Vector4( x * value, y * value, z * value, w * value );
 }
 
 
-Vector4 Vector4::operator*( Int value ) const
+Vector4 Vector4::operator*( int value ) const
 {
 	return Vector4( x * value, y * value, z * value, w * value );
 }
 
 
-const Float* Vector4::Ptr()
+const float* Vector4::Ptr()
 {
 	return &x;
 }

@@ -22,17 +22,17 @@ namespace CYRED
 
 
 	public:
-		static const Char* const FILE_PATH_CONFIG;	
-		static const Char* const DIR_PATH_DATA;	
+		static const char* const FILE_PATH_CONFIG;	
+		static const char* const DIR_PATH_DATA;	
 
 
 	public:
-		UInt		width;		/* width of editor window						*/
-		UInt		height;		/* height of editor window						*/
-		Int			posX;		/* x position on desktop from top-left corner	*/
-		Int			posY;		/* y position on desktop						*/
-		UInt		fps;		/* desired FPS when rendering					*/
-		Bool		fullscreen;
+		int		width;		/* width of editor window						*/
+		int		height;		/* height of editor window						*/
+		int			posX;		/* x position on desktop from top-left corner	*/
+		int			posY;		/* y position on desktop						*/
+		int		fps;		/* desired FPS when rendering					*/
+		bool		fullscreen;
 
 		String		appName;
 

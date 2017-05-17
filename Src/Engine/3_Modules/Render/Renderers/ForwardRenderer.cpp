@@ -31,11 +31,11 @@ ForwardRenderer::~ForwardRenderer()
 }
 
 
-void ForwardRenderer::Render( Node* root, GameObject* cameraGO, Bool useAllScenes )
+void ForwardRenderer::Render( Node* root, GameObject* cameraGO, bool useAllScenes )
 {
 	ASSERT( _technique != NULL );
 
-	UInt buffers[ 1 ] =
+	int buffers[ 1 ] =
 	{
 		_mainFramebufferID
 	};
@@ -70,7 +70,7 @@ void ForwardRenderer::DisplayOnScreen()
 }
 
 
-void ForwardRenderer::_CreateMainBuffers( UInt width, UInt height )
+void ForwardRenderer::_CreateMainBuffers( int width, int height )
 {
 	_gl->GenFramebuffers( 1, &_mainFramebufferID );
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _mainFramebufferID );
@@ -107,7 +107,7 @@ void ForwardRenderer::_CreateMainBuffers( UInt width, UInt height )
 }
 
 
-void ForwardRenderer::_ResizeMainBuffers( UInt width, UInt height )
+void ForwardRenderer::_ResizeMainBuffers( int width, int height )
 {
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _mainColorbufferID );
 	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
@@ -123,7 +123,7 @@ void ForwardRenderer::_RenderScreenQuad( Texture* texture, Shader* shader )
 {
 	ASSERT( shader != NULL );
 
-	UInt programID = shader->GetProgramID();
+	int programID = shader->GetProgramID();
 	_gl->UseProgram( programID );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );

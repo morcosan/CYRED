@@ -10,24 +10,24 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Material : public JsonSerializer
 	{
-		const Char* const UNIQUE_ID			= "uid";
-		const Char* const SHADER			= "shader";
-		const Char* const WIREFRAME			= "wireframe";
-		const Char* const LINE_WIDTH		= "line_width";
-		const Char* const CULL_FACE			= "cull_face";
-		const Char* const CULL_FACE_BACK	= "CULL_BACK";
-		const Char* const CULL_FACE_FRONT	= "CULL_FRONT";
-		const Char* const CULL_FACE_NONE	= "CULL_NONE";
-		const Char* const PROPERTIES		= "properties";
-		const Char* const PROP_NAME			= "name";
-		const Char* const PROP_TYPE			= "type";
-		const Char* const PROP_VALUE		= "value";
-		const Char* const PROP_TYPE_FLOAT	= "FLOAT";
-		const Char* const PROP_TYPE_INT		= "INT";
-		const Char* const PROP_TYPE_VEC2	= "VEC2";
-		const Char* const PROP_TYPE_VEC3	= "VEC3";
-		const Char* const PROP_TYPE_VEC4	= "VEC4";
-		const Char* const PROP_TYPE_TEX		= "TEXTURE";
+		const char* const UNIQUE_ID			= "uid";
+		const char* const SHADER			= "shader";
+		const char* const WIREFRAME			= "wireframe";
+		const char* const LINE_WIDTH		= "line_width";
+		const char* const CULL_FACE			= "cull_face";
+		const char* const CULL_FACE_BACK	= "CULL_BACK";
+		const char* const CULL_FACE_FRONT	= "CULL_FRONT";
+		const char* const CULL_FACE_NONE	= "CULL_NONE";
+		const char* const PROPERTIES		= "properties";
+		const char* const PROP_NAME			= "name";
+		const char* const PROP_TYPE			= "type";
+		const char* const PROP_VALUE		= "value";
+		const char* const PROP_TYPE_FLOAT	= "FLOAT";
+		const char* const PROP_TYPE_INT		= "INT";
+		const char* const PROP_TYPE_VEC2	= "VEC2";
+		const char* const PROP_TYPE_VEC3	= "VEC3";
+		const char* const PROP_TYPE_VEC4	= "VEC4";
+		const char* const PROP_TYPE_TEX		= "TEXTURE";
 
 
 	public:

@@ -17,7 +17,7 @@ namespace CYRED
 
 
 		ParticleVertex( const Vector3& pos, const Vector3& vel, const Vector3& acc,
-						Float age, Vector2 size )
+						float age, Vector2 size )
 			: position( pos.x, pos.y, pos.z, 0 )
 			, velocity( vel.x, vel.y, vel.z, 0 )
 			, acceleration( acc.x, acc.y, acc.z, 0 )

@@ -14,7 +14,7 @@ void AttrViewer_Shader::_OnInitialize()
 {
 	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	DataArray<const Char*> renderers;
+	DataArray<const char*> renderers;
 	renderers.Add( RENDERER_FORWARD );
 	_CreateAttrDropdown	( ATTR_RENDERER,	ATTR_RENDERER, renderers );
 
@@ -36,12 +36,12 @@ void AttrViewer_Shader::_OnUpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
-	Int rendererIndex = 0;
+	int rendererIndex = 0;
 	_WriteAttrDropdown( ATTR_RENDERER, rendererIndex );
 
-	const Char* vertexPath = NULL;
-	const Char* geometryPath = NULL;
-	const Char* fragmentPath = NULL;
+	const char* vertexPath = NULL;
+	const char* geometryPath = NULL;
+	const char* fragmentPath = NULL;
 	_target->GetShaderFiles( RENDERER_FORWARD, &vertexPath, &geometryPath, &fragmentPath );
 	_WriteAttrString( ATTR_VERTEX, vertexPath );
 	_WriteAttrString( ATTR_GEOMETRY, geometryPath );
@@ -55,8 +55,8 @@ void AttrViewer_Shader::_OnUpdateTarget()
 
 	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
-	const Char* renderer = NULL;
-	Int rendererIndex = _ReadAttrDropdown( ATTR_RENDERER );
+	const char* renderer = NULL;
+	int rendererIndex = _ReadAttrDropdown( ATTR_RENDERER );
 	switch ( rendererIndex )
 	{
 		case 0:

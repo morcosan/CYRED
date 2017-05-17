@@ -33,7 +33,7 @@ void AttrViewer_Morph::_OnUpdateGUI()
 	_WriteAttrListSize( ATTR_FILE_PATHS, _target->GetTotalStates() );
 
 	DataUnion attrValue;
-	for ( UInt i = 0; i < _target->GetTotalStates(); ++i )
+	for ( int i = 0; i < _target->GetTotalStates(); ++i )
 	{
 		_WriteAttrListIndex( ATTR_FILE_PATHS, i, attrValue.SetString( _target->GetFilePath(i) ) );
 	}
@@ -47,7 +47,7 @@ void AttrViewer_Morph::_OnUpdateTarget()
 
 	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
-	UInt numSteps = _ReadAttrListSize( ATTR_FILE_PATHS );
+	int numSteps = _ReadAttrListSize( ATTR_FILE_PATHS );
 	if ( numSteps > MORPH_LIMIT )
 	{
 		numSteps = MORPH_LIMIT;
@@ -56,7 +56,7 @@ void AttrViewer_Morph::_OnUpdateTarget()
 
 	_target->SetTotalStates( numSteps );
 
-	for ( UInt i = 0; i < numSteps; ++i )
+	for ( int i = 0; i < numSteps; ++i )
 	{
 		_target->SetFilePath( i, _ReadAttrListIndex( ATTR_FILE_PATHS, i ).GetString() );
 	}

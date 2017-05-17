@@ -33,7 +33,7 @@ void Scripter::OnEvent( EventType eType, void* eData )
 	// check if any script asset was reloaded
 	if ( eType == EventType::CHANGE_ASSET ) {
 		// find script asset
-		for ( UInt i = 0; i < _scriptsAsset.Size(); i++ ) {
+		for ( int i = 0; i < _scriptsAsset.Size(); i++ ) {
 			if ( eData == _scriptsAsset[i] ) {
 				// reload this script
 				_scripts[i]->LoadFullFile();
@@ -50,20 +50,20 @@ void Scripter::Clone( Component* clone ) const
 }
 
 
-Script* Scripter::GetScript( UInt index ) const
+Script* Scripter::GetScript( int index ) const
 {
 	ASSERT( index < _scripts.Size() );
 	return _scripts[index];
 }
 
 
-UInt Scripter::GetScriptsCount() const
+int Scripter::GetScriptsCount() const
 {
 	return _scripts.Size();
 }
 
 
-void Scripter::SetScript( UInt index, const Char* scriptUID )
+void Scripter::SetScript( int index, const char* scriptUID )
 {
 	// fill array
 	while ( index >= _scripts.Size() ) {
@@ -100,9 +100,9 @@ void Scripter::ClearScripts()
 }
 
 
-void Scripter::_OnStart( Bool isRuntime )
+void Scripter::_OnStart( bool isRuntime )
 {
-	for ( UInt i = 0; i < _scripts.Size(); i++ ) {
+	for ( int i = 0; i < _scripts.Size(); i++ ) {
 		if ( _scripts[i] != NULL ) {
 			// call script function
 			if ( isRuntime || _scripts[i]->RunsInEditor() ) {
@@ -114,9 +114,9 @@ void Scripter::_OnStart( Bool isRuntime )
 }
 
 
-void Scripter::_OnUpdate( Bool isRuntime )
+void Scripter::_OnUpdate( bool isRuntime )
 {
-	for ( UInt i = 0; i < _scripts.Size(); i++ ) {
+	for ( int i = 0; i < _scripts.Size(); i++ ) {
 		if ( _scripts[i] != NULL ) {
 			// call script function
 			if ( isRuntime || _scripts[i]->RunsInEditor() ) {

@@ -14,13 +14,13 @@ void InputReceiver::ClearQueue()
 }
 
 
-UInt InputReceiver::GetEventsCount()
+int InputReceiver::GetEventsCount()
 {
 	return _eventQueue.Size();
 }
 
 
-InputEvent& CYRED::InputReceiver::GetEventAt( UInt index )
+InputEvent& CYRED::InputReceiver::GetEventAt( int index )
 {
 	ASSERT( index < _eventQueue.Size() );
 

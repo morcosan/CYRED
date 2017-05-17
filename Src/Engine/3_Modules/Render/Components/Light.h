@@ -29,9 +29,9 @@ namespace CYRED
 	class DLL Light : public Component
 	{
 	public:
-		static const Char* const TYPE_DIRECTIONAL;
-		static const Char* const TYPE_POINT;
-		static const Char* const TYPE_SPOT;
+		static const char* const TYPE_DIRECTIONAL;
+		static const char* const TYPE_POINT;
+		static const char* const TYPE_SPOT;
 
 
 	public:
@@ -46,17 +46,17 @@ namespace CYRED
 	public:
 		LightType	GetLightType		() const;
 		Vector3		GetColor			() const;
-		Float		GetIntensity		() const;
-		Float		GetRange			() const;
-		Float		GetSpotAngle		() const;
-		const Char*	GetLightTypeString	() const;
+		float		GetIntensity		() const;
+		float		GetRange			() const;
+		float		GetSpotAngle		() const;
+		const char*	GetLightTypeString	() const;
 
 		void SetLightType		( LightType value );
 		void SetColor			( Vector3& value );
-		void SetIntensity		( Float value );
-		void SetRange			( Float value );
-		void SetSpotAngle		( Float value );
-		void SetLightTypeString	( const Char* value );
+		void SetIntensity		( float value );
+		void SetRange			( float value );
+		void SetSpotAngle		( float value );
+		void SetLightTypeString	( const char* value );
 
 
 	protected:
@@ -66,8 +66,8 @@ namespace CYRED
 	protected:
 		LightType	_lightType;
 		Vector3		_color;
-		Float		_intensity;
-		Float		_range;
-		Float		_spotAngle;
+		float		_intensity;
+		float		_range;
+		float		_spotAngle;
 	};
 }

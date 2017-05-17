@@ -108,7 +108,7 @@ void DataUnion::operator=( const DataUnion& other )
 }
 
 
-DataUnion& DataUnion::SetString( const Char* value )
+DataUnion& DataUnion::SetString( const char* value )
 {
 	if ( _type != REFERENCE )
 	{
@@ -121,39 +121,39 @@ DataUnion& DataUnion::SetString( const Char* value )
 }
 
 
-DataUnion& DataUnion::SetFloat( Float value )
+DataUnion& DataUnion::SetFloat( float value )
 {
 	if ( _type != REFERENCE )
 	{
 		Memory::Free( _value );
 	}
-	_value = Memory::Alloc<Float>( value );
+	_value = Memory::Alloc<float>( value );
 	_type = ValueType::FLOAT;
 
 	return *this;
 }
 
 
-DataUnion& DataUnion::SetInt( Int value )
+DataUnion& DataUnion::SetInt( int value )
 {
 	if ( _type != REFERENCE )
 	{
 		Memory::Free( _value );
 	}
-	_value = Memory::Alloc<Int>( value );
+	_value = Memory::Alloc<int>( value );
 	_type = ValueType::INT;
 
 	return *this;
 }
 
 
-DataUnion& DataUnion::SetBool( Bool value )
+DataUnion& DataUnion::SetBool( bool value )
 {
 	if ( _type != REFERENCE )
 	{
 		Memory::Free( _value );
 	}
-	_value = Memory::Alloc<Bool>( value );
+	_value = Memory::Alloc<bool>( value );
 	_type = ValueType::BOOL;
 
 	return *this;
@@ -212,7 +212,7 @@ DataUnion& DataUnion::SetReference( void* value )
 }
 
 
-const Char* DataUnion::GetString() const
+const char* DataUnion::GetString() const
 {
 	ASSERT( _value != NULL );
 	ASSERT( _type == ValueType::STRING );
@@ -221,30 +221,30 @@ const Char* DataUnion::GetString() const
 }
 
 
-Float DataUnion::GetFloat() const
+float DataUnion::GetFloat() const
 {
 	ASSERT( _value != NULL );
 	ASSERT( _type == ValueType::FLOAT );
 
-	return *CAST_S( Float*, _value );
+	return *CAST_S( float*, _value );
 }
 
 
-Int DataUnion::GetInt() const
+int DataUnion::GetInt() const
 {
 	ASSERT( _value != NULL );
 	ASSERT( _type == ValueType::INT );
 
-	return *CAST_S( Int*, _value );
+	return *CAST_S( int*, _value );
 }
 
 
-Bool DataUnion::GetBool() const
+bool DataUnion::GetBool() const
 {
 	ASSERT( _value != NULL );
 	ASSERT( _type == ValueType::BOOL );
 
-	return *CAST_S( Bool*, _value );
+	return *CAST_S( bool*, _value );
 }
 
 

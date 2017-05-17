@@ -31,7 +31,7 @@ Texture::Texture()
 	, _textureType( TextureType::TEXTURE_2D )
 	, _loadType( TextureLoadType::EXTERNAL )
 {
-	for ( UInt i = 0; i < 6; i++ ) {
+	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
 		_imageWidth[i]		= 0;
 		_imageHeight[i]		= 0;
@@ -40,7 +40,7 @@ Texture::Texture()
 }
 
 
-Texture::Texture( UInt textureID )
+Texture::Texture( int textureID )
 	: Asset( AssetType::TEXTURE )
 	, _textureID( textureID )
 	, _hasMipmap( TRUE )
@@ -48,7 +48,7 @@ Texture::Texture( UInt textureID )
 	, _textureType( TextureType::TEXTURE_2D )
 	, _loadType( TextureLoadType::EXTERNAL )
 {
-	for ( UInt i = 0; i < 6; i++ ) {
+	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
 		_imageWidth[i]		= 0;
 		_imageHeight[i]		= 0;
@@ -68,7 +68,7 @@ Texture::~Texture()
 	Memory::FreeArray( _imageBuffer[4] );
 	Memory::FreeArray( _imageBuffer[5] );
 
-	for ( UInt i = 0; i < 6; i++ ) {
+	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
 		_imageWidth[i]		= 0;
 		_imageHeight[i]		= 0;
@@ -86,7 +86,7 @@ void Texture::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_TEXTURE );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -96,7 +96,7 @@ void Texture::LoadUniqueID()
 
 void Texture::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create path
@@ -106,7 +106,7 @@ void Texture::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_TEXTURE );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this );
 
 	// free memory for file
@@ -141,7 +141,7 @@ void Texture::ClearAsset()
 	Memory::FreeArray( _imageBuffer[4] );
 	Memory::FreeArray( _imageBuffer[5] );
 
-	for ( UInt i = 0; i < 6; i++ ) {
+	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
 		_imageWidth[i]		= 0;
 		_imageHeight[i]		= 0;
@@ -160,7 +160,7 @@ Asset* Texture::Clone()
 }
 
 
-const Char* CYRED::Texture::GetExtension()
+const char* CYRED::Texture::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_TEXTURE;
@@ -176,13 +176,13 @@ void Texture::BindToGPU()
 
 	// load texture into CPU
 	if ( _loadType == TextureLoadType::EXTERNAL ) {
-		UInt total = 0;
+		int total = 0;
 		switch ( _textureType ) {
 			case TextureType::TEXTURE_2D:	total = 1;	break;
 			case TextureType::CUBE_MAP:		total = 6;	break;
 		}
 
-		for ( UInt i = 0; i < total; ++i ) {
+		for ( int i = 0; i < total; ++i ) {
 			FiniteString imagePath( "%s%s", _dirPath.GetChar(), _filePaths[i].GetChar() );
 			_imageBuffer[i] = FileManager::Singleton()->ReadImage( imagePath.GetChar(), 
 																	&_imageWidth[i], 
@@ -191,18 +191,18 @@ void Texture::BindToGPU()
 		}
 	}
 	else if ( _loadType == TextureLoadType::SCRIPTED ) {
-		UInt total = 0;
+		int total = 0;
 		switch ( _textureType ) {
 			case TextureType::TEXTURE_2D:	total = 1;	break;
 			case TextureType::CUBE_MAP:		total = 6;	break;
 		}
 
-		for ( UInt i = 0; i < total; ++i ) {
+		for ( int i = 0; i < total; ++i ) {
 			if ( _filePaths[i].GetLength() > 0 ) {
 				FiniteString filePath( "%s%s", _dirPath.GetChar(), _filePaths[i].GetChar() );
 
-				Int fileSize;
-				Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+				int fileSize;
+				char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 
 				// execute script
 
@@ -268,7 +268,7 @@ void Texture::BindToGPU()
 			Memory::FreeArray( _imageBuffer[4] );
 			Memory::FreeArray( _imageBuffer[5] );
 
-			for ( UInt i = 0; i < 6; i++ ) {
+			for ( int i = 0; i < 6; i++ ) {
 				_imageBuffer[i]		= NULL;
 			}
 		}
@@ -276,7 +276,7 @@ void Texture::BindToGPU()
 }
 
 
-UInt Texture::GetTextureID() const
+int Texture::GetTextureID() const
 {
 	return _textureID;
 }
@@ -294,19 +294,19 @@ TextureLoadType Texture::GetLoadType() const
 }
 
 
-Bool Texture::HasMipmap() const
+bool Texture::HasMipmap() const
 {
 	return _hasMipmap;
 }
 
 
-Bool Texture::DoesClearBufferOnBind() const
+bool Texture::DoesClearBufferOnBind() const
 {
 	return _clearBufferOnBind;
 }
 
 
-UChar* Texture::GetImageBuffer( UInt index ) const
+uchar* Texture::GetImageBuffer( int index ) const
 {
 	ASSERT( index < 6 );
 
@@ -314,7 +314,7 @@ UChar* Texture::GetImageBuffer( UInt index ) const
 }
 
 
-const Char* Texture::GetImagePath( UInt index ) const
+const char* Texture::GetImagePath( int index ) const
 {
 	ASSERT( index < 6 );
 
@@ -342,7 +342,7 @@ void Texture::SetLoadType( TextureLoadType type )
 }
 
 
-void Texture::SetHasMipmap( Bool value )
+void Texture::SetHasMipmap( bool value )
 {
 	_hasMipmap = value;
 
@@ -352,7 +352,7 @@ void Texture::SetHasMipmap( Bool value )
 }
 
 
-void Texture::SetClearBufferOnBind( Bool value )
+void Texture::SetClearBufferOnBind( bool value )
 {
 	_clearBufferOnBind = value;
 
@@ -362,7 +362,7 @@ void Texture::SetClearBufferOnBind( Bool value )
 }
 
 
-void Texture::SetImageBuffer( UInt index, UChar* buffer )
+void Texture::SetImageBuffer( int index, uchar* buffer )
 {
 	ASSERT( index < 6 );
 
@@ -374,7 +374,7 @@ void Texture::SetImageBuffer( UInt index, UChar* buffer )
 }
 
 
-void Texture::SetImagePath( UInt index, const Char* path )
+void Texture::SetImagePath( int index, const char* path )
 {
 	ASSERT( index < 6 );
 
@@ -386,18 +386,18 @@ void Texture::SetImagePath( UInt index, const Char* path )
 }
 
 
-void Texture::SetImageData( UInt bufferIndex, Int width, Int height, Int channels )
+void Texture::SetImageData( int bufferIndex, int width, int height, int channels )
 {
 	ASSERT( bufferIndex < 6 );
 
 	_imageWidth[bufferIndex]	= width;
 	_imageHeight[bufferIndex]	= height;
 	_imageChannels[bufferIndex] = channels;
-	_imageBuffer[bufferIndex]	= Memory::AllocArray<UChar>( width * height * channels );
+	_imageBuffer[bufferIndex]	= Memory::AllocArray<uchar>( width * height * channels );
 }
 
 
-void Texture::SetPixel( UInt bufferIndex, UInt pixelIndex, UChar pixelValue )
+void Texture::SetPixel( int bufferIndex, int pixelIndex, uchar pixelValue )
 {
 	ASSERT( bufferIndex < 6 );
 

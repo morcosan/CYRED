@@ -73,7 +73,7 @@ void AttrViewer_Light::_OnUpdateTarget()
 		_target->SetRange		( _ReadAttrFloat( ATTR_RANGE ) );
 		_target->SetSpotAngle	( _ReadAttrFloat( ATTR_SPOT_ANGLE ) );
 
-		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
 		if ( _target->IsEnabled() != newValue ) {
 			_target->SetEnabled( newValue );
 
@@ -89,7 +89,7 @@ void AttrViewer_Light::_OnUpdateTarget()
 }
 
 
-Int AttrViewer_Light::_GetIndexForType( LightType type )
+int AttrViewer_Light::_GetIndexForType( LightType type )
 {
 	switch ( type )	{
 		case LightType::DIRECTIONAL:
@@ -104,7 +104,7 @@ Int AttrViewer_Light::_GetIndexForType( LightType type )
 }
 
 
-LightType AttrViewer_Light::_GetTypeForIndex( Int index )
+LightType AttrViewer_Light::_GetTypeForIndex( int index )
 {
 	switch ( index ) {
 		case 0:

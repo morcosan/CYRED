@@ -26,18 +26,18 @@ namespace CYRED
 		void Exit() override;
 
 	public:
-		static void GlfwErrorCallback( Int code, const Char* desc );
+		static void GlfwErrorCallback( int code, const char* desc );
 
 
 	public:
-		void Run( Int& argc, Char* argv[] );
+		void Run( int& argc, char* argv[] );
 
 
 	protected:
 		GLFWwindow* _glfwWindow;
 		GLContext*	_glContext;
 
-		Bool		_shouldExit;
+		bool		_shouldExit;
 		GameObject* _missingCamera;
 		Console*	_console;
 

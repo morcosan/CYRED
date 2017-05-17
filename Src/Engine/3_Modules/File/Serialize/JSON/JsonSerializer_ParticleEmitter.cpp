@@ -70,7 +70,7 @@ rapidjson::Value JsonSerializer_ParticleEmitter::ToJson( const void* object )
 						_al );
 	}
 	{
-		for ( UInt i = 0; i < _shapeEnums.Size(); ++i )
+		for ( int i = 0; i < _shapeEnums.Size(); ++i )
 		{
 			if ( _shapeEnums[i] == emitter->GetEmitterShape() )
 			{
@@ -122,7 +122,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 {
 	ParticleEmitter* emitter = CAST_S( ParticleEmitter*, object );
 
-	Bool emitEvents = emitter->DoesEmitEvents();
+	bool emitEvents = emitter->DoesEmitEvents();
 	emitter->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( ENABLED ) )
@@ -136,7 +136,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 	}
 	if ( json.HasMember( PARTICLE_LIFETIME ) )
 	{
-		emitter->SetParticleLifetime( CAST_S( Float, json[PARTICLE_LIFETIME].GetDouble() ) );
+		emitter->SetParticleLifetime( CAST_S( float, json[PARTICLE_LIFETIME].GetDouble() ) );
 	}
 	if ( json.HasMember( PARTICLE_VELOCITY ) )
 	{
@@ -148,15 +148,15 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 	}
 	if ( json.HasMember( SHAPE_DRIVEN_SPEED ) )
 	{
-		emitter->SetShapeDrivenSpeed( CAST_S( Float, json[SHAPE_DRIVEN_SPEED].GetDouble() ) );
+		emitter->SetShapeDrivenSpeed( CAST_S( float, json[SHAPE_DRIVEN_SPEED].GetDouble() ) );
 	}
 	if ( json.HasMember( SHAPE_DRIVEN_ACCEL ) )
 	{
-		emitter->SetShapeDrivenAccel( CAST_S( Float, json[SHAPE_DRIVEN_ACCEL].GetDouble() ) );
+		emitter->SetShapeDrivenAccel( CAST_S( float, json[SHAPE_DRIVEN_ACCEL].GetDouble() ) );
 	}
 	if ( json.HasMember( WAVES_PER_SEC ) )
 	{
-		emitter->SetWavesPerSec( CAST_S( Float, json[WAVES_PER_SEC].GetDouble() ) );
+		emitter->SetWavesPerSec( CAST_S( float, json[WAVES_PER_SEC].GetDouble() ) );
 	}
 	if ( json.HasMember( PARTICLES_PER_WAVE ) )
 	{
@@ -168,14 +168,14 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 	}
 	if ( json.HasMember( SPAWN_DURATION ) )
 	{
-		emitter->SetSpawnDuration( CAST_S( Float, json[SPAWN_DURATION].GetDouble() ) );
+		emitter->SetSpawnDuration( CAST_S( float, json[SPAWN_DURATION].GetDouble() ) );
 	}
 
 	if ( json.HasMember( EMITTER_SHAPE ) )
 	{
-		for ( UInt i = 0; i < _shapeEnums.Size(); ++i )
+		for ( int i = 0; i < _shapeEnums.Size(); ++i )
 		{
-			const Char* value = json[EMITTER_SHAPE].GetString();
+			const char* value = json[EMITTER_SHAPE].GetString();
 
 			if ( _shapeStrings[i] == value )
 			{
@@ -186,7 +186,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 	}
 	if ( json.HasMember( SHAPE_RADIUS ) )
 	{
-		emitter->SetShapeRadius( CAST_S( Float, json[SHAPE_RADIUS].GetDouble() ) );
+		emitter->SetShapeRadius( CAST_S( float, json[SHAPE_RADIUS].GetDouble() ) );
 	}
 	if ( json.HasMember( SPAWN_FROM_EDGE ) )
 	{
@@ -201,11 +201,11 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 		}
 		else
 		{
-			const Char* uniqueID = json[MATERIAL].GetString();
+			const char* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					material = Memory::Alloc<Material>();

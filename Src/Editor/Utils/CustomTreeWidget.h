@@ -31,6 +31,6 @@ namespace CYRED
 	protected:
 		AttrViewer* _attrViewer;
 
-		Int _CalculateHeightRec( QTreeWidgetItem* item );
+		int _CalculateHeightRec( QTreeWidgetItem* item );
 	};
 }

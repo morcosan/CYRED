@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Morph::TYPE			= "Morph";
-const Char* const Selector_Morph::OPTION_NULL	= "NULL";
+const char* const Selector_Morph::TYPE			= "Morph";
+const char* const Selector_Morph::OPTION_NULL	= "NULL";
 
 
 void Selector_Morph::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Morph::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetMorphCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetMorphCount(); ++i )
 	{
 		Morph* morph = AssetManager::Singleton()->GetMorphAt( i );
 

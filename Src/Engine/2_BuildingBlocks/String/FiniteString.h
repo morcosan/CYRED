@@ -10,27 +10,27 @@ namespace CYRED
 	class DLL FiniteString
 	{
 	public:
-		static const UInt MAX_SIZE = 512;
+		static const int MAX_SIZE = 512;
 
 
 	public:
 		FiniteString();
-		FiniteString( const Char* format, ... );
+		FiniteString( const char* format, ... );
 		virtual ~FiniteString();
 
-		Bool	operator==	( const Char* other )	const;
-		Bool	operator!=	( const Char* other )	const;
-		Bool	operator<	( const Char* other )	const;
+		bool	operator==	( const char* other )	const;
+		bool	operator!=	( const char* other )	const;
+		bool	operator<	( const char* other )	const;
 
 
 	public:
-		void		Set			( const Char* format, ... );
+		void		Set			( const char* format, ... );
 
-		const Char*	GetChar		() const;
-		UInt		GetLength	() const;
+		const char*	GetChar		() const;
+		int		GetLength	() const;
 
 
 	protected:
-		Char	_data[ MAX_SIZE ];
+		char	_data[ MAX_SIZE ];
 	};
 }

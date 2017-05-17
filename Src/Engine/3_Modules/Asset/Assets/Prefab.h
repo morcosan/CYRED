@@ -28,7 +28,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const Char*	GetExtension	() override;
+		const char*	GetExtension	() override;
 
 
 	public:

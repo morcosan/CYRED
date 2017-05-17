@@ -103,7 +103,7 @@ Matrix4 Matrix4::Inverse( const Matrix4& mat )
 }
 
 
-Matrix4 Matrix4::CreatePerspective( Float fovyAngle, Float aspectRatio, Float nearClipping, Float farClipping )
+Matrix4 Matrix4::CreatePerspective( float fovyAngle, float aspectRatio, float nearClipping, float farClipping )
 {
 	if ( aspectRatio < 0.001f )
 	{
@@ -113,17 +113,17 @@ Matrix4 Matrix4::CreatePerspective( Float fovyAngle, Float aspectRatio, Float ne
 }
 
 
-Matrix4 Matrix4::CreateOrthogonal( const Vector2& size, Float nearClipping, Float farClipping )
+Matrix4 Matrix4::CreateOrthogonal( const Vector2& size, float nearClipping, float farClipping )
 {
-	Float left		= - size.x / 2;
-	Float right		=	size.x / 2;
-	Float bottom	= - size.y / 2;
-	Float top		=	size.y / 2;
+	float left		= - size.x / 2;
+	float right		=	size.x / 2;
+	float bottom	= - size.y / 2;
+	float top		=	size.y / 2;
 	return Matrix4( glm::ortho( left, right, bottom, top, nearClipping, farClipping ) );
 }
 
 
-const Float* Matrix4::Ptr()
+const float* Matrix4::Ptr()
 {
 	return glm::value_ptr( *_self );
 }

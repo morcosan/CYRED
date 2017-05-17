@@ -78,7 +78,7 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 {
 	MorphRendering* morphRender = CAST_S( MorphRendering*, object );
 
-	Bool emitEvents = morphRender->DoesEmitEvents();
+	bool emitEvents = morphRender->DoesEmitEvents();
 	morphRender->SetEmitEvents( FALSE );
 
 
@@ -90,11 +90,11 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 		else
 		{
-			const Char* uniqueID = json[MORPH].GetString();
+			const char* uniqueID = json[MORPH].GetString();
 			Morph* morph = AssetManager::Singleton()->GetMorph( uniqueID );
 			if ( morph == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					morph = Memory::Alloc<Morph>();
@@ -114,11 +114,11 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 		else
 		{
-			const Char* uniqueID = json[MATERIAL].GetString();
+			const char* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					material = Memory::Alloc<Material>();
@@ -132,11 +132,11 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 
 	if ( json.HasMember( DUR_STATE ) )
 	{
-		morphRender->SetDurationState( CAST_S( Float, json[DUR_STATE].GetDouble() ) );
+		morphRender->SetDurationState( CAST_S( float, json[DUR_STATE].GetDouble() ) );
 	}
 	if ( json.HasMember( DUR_CHANGE ) )
 	{
-		morphRender->SetDurationStateChange( CAST_S( Float, json[DUR_CHANGE].GetDouble() ) );
+		morphRender->SetDurationStateChange( CAST_S( float, json[DUR_CHANGE].GetDouble() ) );
 	}
 	if ( json.HasMember( IS_PLAYING ) )
 	{

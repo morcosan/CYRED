@@ -12,27 +12,27 @@ namespace CYRED
 {
 	class DLL JsonSerializer_ParticleEmitter : public JsonSerializer
 	{
-		const Char* const ENABLED				= "enabled";
+		const char* const ENABLED				= "enabled";
 
-		const Char* const MAX_PARTICLES			= "max_particles";
-		const Char* const PARTICLE_LIFETIME		= "particle_lifetime";
-		const Char* const PARTICLE_VELOCITY		= "particle_velocity";
-		const Char* const PARTICLE_ACCEL		= "particle_acceleration";
-		const Char* const SHAPE_DRIVEN_SPEED	= "shape_driven_speed";
-		const Char* const SHAPE_DRIVEN_ACCEL	= "shape_driven_accel";
+		const char* const MAX_PARTICLES			= "max_particles";
+		const char* const PARTICLE_LIFETIME		= "particle_lifetime";
+		const char* const PARTICLE_VELOCITY		= "particle_velocity";
+		const char* const PARTICLE_ACCEL		= "particle_acceleration";
+		const char* const SHAPE_DRIVEN_SPEED	= "shape_driven_speed";
+		const char* const SHAPE_DRIVEN_ACCEL	= "shape_driven_accel";
 
-		const Char* const WAVES_PER_SEC			= "waves_per_sec";
-		const Char* const PARTICLES_PER_WAVE	= "particles_per_wave";
-		const Char* const LOOPING				= "looping";
-		const Char* const SPAWN_DURATION		= "spawn_duration";
+		const char* const WAVES_PER_SEC			= "waves_per_sec";
+		const char* const PARTICLES_PER_WAVE	= "particles_per_wave";
+		const char* const LOOPING				= "looping";
+		const char* const SPAWN_DURATION		= "spawn_duration";
 
-		const Char* const EMITTER_SHAPE			= "emitter_shape";
-		const Char* const SHAPE_RADIUS			= "shape_radius";
-		const Char* const SPAWN_FROM_EDGE		= "epawn_from_edge";
+		const char* const EMITTER_SHAPE			= "emitter_shape";
+		const char* const SHAPE_RADIUS			= "shape_radius";
+		const char* const SPAWN_FROM_EDGE		= "epawn_from_edge";
 
-		const Char* const MATERIAL				= "material";
-		const Char* const PARTICLE_SIZE_START	= "particle_size_start";
-		const Char* const PARTICLE_SIZE_END		= "particle_size_end";
+		const char* const MATERIAL				= "material";
+		const char* const PARTICLE_SIZE_START	= "particle_size_start";
+		const char* const PARTICLE_SIZE_END		= "particle_size_end";
 
 
 	public:

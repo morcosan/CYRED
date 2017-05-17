@@ -19,55 +19,55 @@ namespace CYRED
 {
 	class Panel_Assets : public Panel, public IEventListener
 	{
-		const Char* const	PANEL_TITLE		= "Assets";
+		const char* const	PANEL_TITLE		= "Assets";
 		const Vector2		MIN_SIZE		= Vector2( 200, 100 );
 		const Vector2		MAX_SIZE		= Vector2( 300, 1000 );
 
-		const Char* const	ICON_SCENE		= "scene";
-		const Char* const	ICON_FOLDER		= "folder";
-		const Char* const	ICON_MATERIAL	= "material";
-		const Char* const	ICON_MESH		= "mesh";
-		const Char* const	ICON_MORPH		= "morph";
-		const Char* const	ICON_TEXTURE	= "texture";
-		const Char* const	ICON_SHADER		= "shader";
-		const Char* const	ICON_SCRIPT		= "script";
-		const Char* const	ICON_PREFAB		= "prefab";
-		const Char* const	ICON_UNKNOWN	= "unknown";
+		const char* const	ICON_SCENE		= "scene";
+		const char* const	ICON_FOLDER		= "folder";
+		const char* const	ICON_MATERIAL	= "material";
+		const char* const	ICON_MESH		= "mesh";
+		const char* const	ICON_MORPH		= "morph";
+		const char* const	ICON_TEXTURE	= "texture";
+		const char* const	ICON_SHADER		= "shader";
+		const char* const	ICON_SCRIPT		= "script";
+		const char* const	ICON_PREFAB		= "prefab";
+		const char* const	ICON_UNKNOWN	= "unknown";
 
-		const Char* const	BUTTON_RELOAD	= "Reload";
+		const char* const	BUTTON_RELOAD	= "Reload";
 
-		const Char* const	TYPE_FOLDER		= "Folder";
+		const char* const	TYPE_FOLDER		= "Folder";
 
-		const Char* const	MENU_RELOAD		= "Reload Asset";
-		const Char* const	MENU_OPEN_DISK	= "Open On Disk";
-		const Char* const	MENU_SHOW_DISK	= "Show On Disk";
-		const Char* const	MENU_RENAME		= "Rename";
-		const Char* const	MENU_DUPLICATE	= "Duplicate";
-		const Char* const	MENU_DELETE		= "Delete";
-		const Char* const	MENU_OPEN_SCENE	= "Open Scene";
-		const Char* const	MENU_LOAD_SCENE	= "Load Scene";
+		const char* const	MENU_RELOAD		= "Reload Asset";
+		const char* const	MENU_OPEN_DISK	= "Open On Disk";
+		const char* const	MENU_SHOW_DISK	= "Show On Disk";
+		const char* const	MENU_RENAME		= "Rename";
+		const char* const	MENU_DUPLICATE	= "Duplicate";
+		const char* const	MENU_DELETE		= "Delete";
+		const char* const	MENU_OPEN_SCENE	= "Open Scene";
+		const char* const	MENU_LOAD_SCENE	= "Load Scene";
 
-		const Char* const	MENU_PREFAB_EDIT	= "Edit";
-		const Char* const	MENU_PREFAB_INST	= "Instantiate";
+		const char* const	MENU_PREFAB_EDIT	= "Edit";
+		const char* const	MENU_PREFAB_INST	= "Instantiate";
 
-		const Char* const	MENU_CREATE			= "Create";
-		const Char* const	MENU_C_FOLDER		= "Folder";
-		const Char* const	MENU_C_MATERIAL		= "Material";
-		const Char* const	MENU_C_MAT_EMPTY	= "Empty";
-		const Char* const	MENU_C_MAT_PS		= "Particles";
-		const Char* const	MENU_C_TEXTURE		= "Texture";
-		const Char* const	MENU_C_TEX_2D		= "Texture2D";
-		const Char* const	MENU_C_TEX_CM		= "CubeMap";
-		const Char* const	MENU_C_SHADER		= "Shader";
-		const Char* const	MENU_C_MESH			= "Mesh";
-		const Char* const	MENU_C_MORPH		= "Morph";
-		const Char* const	MENU_C_SCRIPT		= "Script";
-		const Char* const	MENU_C_SCENE		= "Scene";
+		const char* const	MENU_CREATE			= "Create";
+		const char* const	MENU_C_FOLDER		= "Folder";
+		const char* const	MENU_C_MATERIAL		= "Material";
+		const char* const	MENU_C_MAT_EMPTY	= "Empty";
+		const char* const	MENU_C_MAT_PS		= "Particles";
+		const char* const	MENU_C_TEXTURE		= "Texture";
+		const char* const	MENU_C_TEX_2D		= "Texture2D";
+		const char* const	MENU_C_TEX_CM		= "CubeMap";
+		const char* const	MENU_C_SHADER		= "Shader";
+		const char* const	MENU_C_MESH			= "Mesh";
+		const char* const	MENU_C_MORPH		= "Morph";
+		const char* const	MENU_C_SCRIPT		= "Script";
+		const char* const	MENU_C_SCENE		= "Scene";
 
-		const Char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
-		const Char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
-		const Char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
-		const Char* const	DEBUG_FOLDER_NOT_FOUND		= "ERROR: Directory %s not found.";
+		const char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
+		const char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
+		const char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
+		const char* const	DEBUG_FOLDER_NOT_FOUND		= "ERROR: Directory %s not found.";
 
 
 	public:
@@ -129,19 +129,19 @@ namespace CYRED
 
 
 		void		_LoadIcons				();
-		void		_ParseDirectory			( const Char* dirName, const Char* dirPath, 
+		void		_ParseDirectory			( const char* dirName, const char* dirPath, 
 											  QTreeWidgetItem* parentItem );
-		Asset*		_AddNewAsset			( const Char* dirPath, QTreeWidgetItem* parentItem,
+		Asset*		_AddNewAsset			( const char* dirPath, QTreeWidgetItem* parentItem,
 											  AssetType assetType );
 		void		_CreateRightClickMenu	();
 		void		_AddRightClickActions	( QTreeWidgetItem* item );
-		void		_SaveAssetToFile		( Asset* asset, const Char* oldName );
-		Bool		_IsFilePathDuplicate	( Asset* asset );
+		void		_SaveAssetToFile		( Asset* asset, const char* oldName );
+		bool		_IsFilePathDuplicate	( Asset* asset );
 		void		_SetAvailableName		( Asset* asset );
 		_QtTreeItem* _AddAssetToTree		( Asset* asset, QTreeWidgetItem* parentItem, 
-											  const Char* icon );
+											  const char* icon );
 
 		_QtTreeItem* _FindTreeItem			( Asset* asset );
-		_QtTreeItem* _FindFolderItem		( const Char* dirPath );
+		_QtTreeItem* _FindFolderItem		( const char* dirPath );
 	};
 }

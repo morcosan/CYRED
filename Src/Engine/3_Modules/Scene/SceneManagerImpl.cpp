@@ -45,7 +45,7 @@ void SceneManagerImpl::Finalize()
 }
 
 
-Scene* SceneManagerImpl::OpenScene( const Char* sceneUID )
+Scene* SceneManagerImpl::OpenScene( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -79,12 +79,12 @@ Scene* SceneManagerImpl::OpenNewScene()
 }
 
 
-Scene* SceneManagerImpl::LoadScene( const Char* sceneUID )
+Scene* SceneManagerImpl::LoadScene( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( sceneUID );
-	for ( UInt i = 0; i < _currScenes.Size(); ++i ) {
+	for ( int i = 0; i < _currScenes.Size(); ++i ) {
 		if ( temp == _currScenes[i]->GetUniqueID() ) {
 			return NULL;
 		}
@@ -116,7 +116,7 @@ Scene* SceneManagerImpl::LoadNewScene()
 }
 
 
-void SceneManagerImpl::SaveScene( const Char* sceneUID )
+void SceneManagerImpl::SaveScene( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -132,8 +132,8 @@ void SceneManagerImpl::SaveScene( const Char* sceneUID )
 }
 
 
-Scene* SceneManagerImpl::SaveSceneAs( const Char* sceneUID, const Char* newSceneName, 
-									  const Char* dirPath )
+Scene* SceneManagerImpl::SaveSceneAs( const char* sceneUID, const char* newSceneName, 
+									  const char* dirPath )
 {
 	ASSERT( _isInitialized );
 
@@ -178,7 +178,7 @@ void SceneManagerImpl::SaveAllScenes()
 
 	FileManager* fileManager = FileManager::Singleton();
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
+	for ( int i = 0; i < _currScenes.Size(); ++i )
 	{
 		FiniteString filePath( "%s%s%s", _currScenes[i]->GetDirPath(),
 									     _currScenes[i]->GetName(),
@@ -190,13 +190,13 @@ void SceneManagerImpl::SaveAllScenes()
 }
 
 
-void SceneManagerImpl::CloseScene( const Char* sceneUID )
+void SceneManagerImpl::CloseScene( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( sceneUID );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i ) {
+	for ( int i = 0; i < _currScenes.Size(); ++i ) {
 		if ( temp == _currScenes[i]->GetUniqueID() ) {
 			_currScenes[i]->ClearRoot();
 			_currScenes.Erase( i );
@@ -213,7 +213,7 @@ void SceneManagerImpl::CloseAllScenes()
 {
 	ASSERT( _isInitialized );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
+	for ( int i = 0; i < _currScenes.Size(); ++i )	{
 		_currScenes[i]->ClearRoot();
 	}
 	_currScenes.Clear();
@@ -230,7 +230,7 @@ void SceneManagerImpl::StoreScenes()
 	_storedScenes.Clear();
 
 	// serialize each scene and store result
-	for ( UInt i = 0; i < _currScenes.Size(); i++ ) {
+	for ( int i = 0; i < _currScenes.Size(); i++ ) {
 		_storedScenes.Add( StoredScene {
 			_currScenes[i],
 			FileManager::Singleton()->Serialize<Scene>( _currScenes[i] )
@@ -244,13 +244,13 @@ void SceneManagerImpl::RestoreScenes()
 	ASSERT( _isInitialized );
 
 	// clear everything
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
+	for ( int i = 0; i < _currScenes.Size(); ++i )	{
 		_currScenes[i]->ClearRoot();
 	}
 	_currScenes.Clear();
 
 	// load stored scenes
-	for ( UInt i = 0; i < _storedScenes.Size(); i++ ) {
+	for ( int i = 0; i < _storedScenes.Size(); i++ ) {
 		// deserialize scene data
 		FileManager::Singleton()->Deserialize<Scene>( _storedScenes[i].data.GetChar(),
 													  _storedScenes[i].scene );
@@ -262,7 +262,7 @@ void SceneManagerImpl::RestoreScenes()
 }
 
 
-GameObject* SceneManagerImpl::NewGameObject( UInt sceneIndex )
+GameObject* SceneManagerImpl::NewGameObject( int sceneIndex )
 {
 	ASSERT( _isInitialized );
 
@@ -278,7 +278,7 @@ GameObject* SceneManagerImpl::NewGameObject( UInt sceneIndex )
 }
 
 
-GameObject* SceneManagerImpl::NewGameObject( const Char* sceneUID )
+GameObject* SceneManagerImpl::NewGameObject( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 	
@@ -294,7 +294,7 @@ GameObject* SceneManagerImpl::NewGameObject( const Char* sceneUID )
 }
 
 
-GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, UInt sceneIndex )
+GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, int sceneIndex )
 {
 	ASSERT( _isInitialized );
 	
@@ -309,7 +309,7 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, UInt sceneIndex
 		scene->GetRoot()->AddChildNode( rootObject );
 
 		// add all game objects to it
-		for ( UInt i = 0; i < root->GetChildNodeCount(); i++ ) {
+		for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
 			GameObject* prefabObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
 
 			// create object
@@ -343,7 +343,7 @@ GameObject* SceneManagerImpl::Duplicate( const GameObject* object )
 }
 
 
-GameObject* SceneManagerImpl::Search( const Char* objectName, const Char* sceneUID )
+GameObject* SceneManagerImpl::Search( const char* objectName, const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -353,7 +353,7 @@ GameObject* SceneManagerImpl::Search( const Char* objectName, const Char* sceneU
 	// find first gameobject with name
 	FiniteString searchName( objectName );
 	Node* sceneRoot = scene->GetRoot();
-	for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+	for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
 		GameObject* childGO = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
 		// check name
 		if ( searchName == childGO->GetName() ) {
@@ -383,13 +383,13 @@ void SceneManagerImpl::Destroy( GameObject* object )
 }
 
 
-Int SceneManagerImpl::GetSceneIndex( const Char* sceneUID )
+int SceneManagerImpl::GetSceneIndex( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( sceneUID );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
+	for ( int i = 0; i < _currScenes.Size(); ++i )
 	{
 		if ( temp == _currScenes[i]->GetUniqueID() )
 		{
@@ -401,7 +401,7 @@ Int SceneManagerImpl::GetSceneIndex( const Char* sceneUID )
 }
 
 
-Scene* SceneManagerImpl::GetScene( const Char* sceneUID )
+Scene* SceneManagerImpl::GetScene( const char* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -414,7 +414,7 @@ Scene* SceneManagerImpl::GetScene( const Char* sceneUID )
 
 	String temp( sceneUID );
 
-	for ( UInt i = 0; i < _currScenes.Size(); ++i )
+	for ( int i = 0; i < _currScenes.Size(); ++i )
 	{
 		if ( temp ==_currScenes[i]->GetUniqueID() )
 		{
@@ -426,7 +426,7 @@ Scene* SceneManagerImpl::GetScene( const Char* sceneUID )
 }
 
 
-Scene* SceneManagerImpl::GetScene( UInt sceneIndex )
+Scene* SceneManagerImpl::GetScene( int sceneIndex )
 {
 	ASSERT( _isInitialized );
 	ASSERT( sceneIndex < _currScenes.Size() );
@@ -435,14 +435,14 @@ Scene* SceneManagerImpl::GetScene( UInt sceneIndex )
 }
 
 
-UInt SceneManagerImpl::CountLoadedScenes()
+int SceneManagerImpl::CountLoadedScenes()
 {
 	ASSERT( _isInitialized );
 	return _currScenes.Size();
 }
 
 
-UInt SceneManagerImpl::NextGameObjectUID()
+int SceneManagerImpl::NextGameObjectUID()
 {
 	ASSERT( _isInitialized );
 	++_generatedUID;
@@ -463,7 +463,7 @@ GameObject* SceneManagerImpl::GetMainCamera()
 
 	if ( _mainCameraGO == NULL ) {
 		// search for first active camera
-		for ( UInt i = 0; i < _currScenes.Size(); ++i )	{
+		for ( int i = 0; i < _currScenes.Size(); ++i )	{
 			Node* root = _currScenes[i]->GetRoot();
 
 			_mainCameraGO = _RecFindActiveCamera( root );
@@ -481,11 +481,11 @@ GameObject* SceneManagerImpl::GetMainCamera()
 void SceneManagerImpl::FindClosestLights( GameObject* target, OUT DataArray<GameObject*>& lightsGO )
 {
 	// parse all scenes
-	for ( UInt i = 0; i < _currScenes.Size(); i++ ) {
+	for ( int i = 0; i < _currScenes.Size(); i++ ) {
 		Node* root = _currScenes[i]->GetRoot();
 
 		// parse all gameobjects
-		for ( UInt j = 0; j < root->GetChildNodeCount(); j++ ) {
+		for ( int j = 0; j < root->GetChildNodeCount(); j++ ) {
 			GameObject* gameobject = CAST_S( GameObject*, root->GetChildNodeAt( j ) );
 
 			// ignore target gameobject
@@ -505,7 +505,7 @@ void SceneManagerImpl::FindClosestLights( GameObject* target, OUT DataArray<Game
 
 GameObject* SceneManagerImpl::_RecFindActiveCamera( Node* parent )
 {
-	for ( UInt i = 0; i < parent->GetChildNodeCount(); ++i )
+	for ( int i = 0; i < parent->GetChildNodeCount(); ++i )
 	{
 		GameObject* gameObject = CAST_S( GameObject*, parent->GetChildNodeAt( i ) );
 

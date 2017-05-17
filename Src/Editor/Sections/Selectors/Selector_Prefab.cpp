@@ -10,8 +10,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Prefab::TYPE			= "Prefab";
-const Char* const Selector_Prefab::OPTION_NULL	= "NULL";
+const char* const Selector_Prefab::TYPE			= "Prefab";
+const char* const Selector_Prefab::OPTION_NULL	= "NULL";
 
 
 void Selector_Prefab::DisplayOptions( void* selected )
@@ -21,7 +21,7 @@ void Selector_Prefab::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetPrefabCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); ++i )
 	{
 		Prefab* prefab = AssetManager::Singleton()->GetPrefabAt( i );
 

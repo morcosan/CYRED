@@ -12,32 +12,32 @@ namespace CYRED
 {
 	struct DLL Vector2
 	{
-		Float	x;
-		Float	y;
+		float	x;
+		float	y;
 
 		Vector2();
 		Vector2( const Vector2& other );
-		Vector2( Float xx, Float yy );
+		Vector2( float xx, float yy );
 
 		void	operator=( const Vector2& other );
 
-		Bool	operator==( const Vector2& other )	const;
-		Bool	operator!=( const Vector2& other )	const;
+		bool	operator==( const Vector2& other )	const;
+		bool	operator!=( const Vector2& other )	const;
 
 		Vector2 operator-( const Vector2& other )	const;
 
 		Vector2 operator+( const Vector2& other )	const;
 
 		Vector2 operator/( const Vector2& other )	const;
-		Vector2 operator/( Float other )			const;
-		Vector2 operator/( UInt other )				const;
-		Vector2 operator/( Int other )				const;
+		Vector2 operator/( float other )			const;
+		Vector2 operator/( int other )				const;
+		Vector2 operator/( int other )				const;
 
 		Vector2 operator*( const Vector2& other )	const;
-		Vector2 operator*( Float other )			const;
-		Vector2 operator*( UInt other )				const;
-		Vector2 operator*( Int other )				const;
+		Vector2 operator*( float other )			const;
+		Vector2 operator*( int other )				const;
+		Vector2 operator*( int other )				const;
 
-		const Float* Ptr();
+		const float* Ptr();
 	};
 }

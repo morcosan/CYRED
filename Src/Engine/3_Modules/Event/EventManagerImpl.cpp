@@ -22,7 +22,7 @@ void EventManagerImpl::Initialize()
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
 
-	for ( UInt i = 0; i < EventType::_COUNT_; ++i )
+	for ( int i = 0; i < EventType::_COUNT_; ++i )
 	{
 		_listeners.Add( DataArray<IEventListener*>() );
 	}
@@ -41,7 +41,7 @@ void EventManagerImpl::RegisterListener( EventType eType, IEventListener* listen
 
 	if ( eType == EventType::ALL )
 	{
-		for ( UInt i = 0; i < EventType::_COUNT_; ++i )
+		for ( int i = 0; i < EventType::_COUNT_; ++i )
 		{
 			_AddListener( i, listener );
 		}
@@ -59,7 +59,7 @@ void EventManagerImpl::UnregisterListener( EventType eType, IEventListener* list
 
 	if ( eType == EventType::ALL )
 	{
-		for ( UInt i = 0; i < EventType::_COUNT_; ++i )
+		for ( int i = 0; i < EventType::_COUNT_; ++i )
 		{
 			_RemoveListener( i, listener );
 		}
@@ -75,11 +75,11 @@ void EventManagerImpl::EmitEvent( EventType eType, void* eData )
 {
 	ASSERT( _isInitialized );
 
-	for ( UInt i = 0; i < EventType::_COUNT_; ++i )
+	for ( int i = 0; i < EventType::_COUNT_; ++i )
 	{
 		if ( eType == i )
 		{
-			for ( UInt j = 0; j < _listeners[i].Size(); ++j )
+			for ( int j = 0; j < _listeners[i].Size(); ++j )
 			{
 				_listeners[i][j]->OnEvent( eType, eData );
 			}
@@ -89,9 +89,9 @@ void EventManagerImpl::EmitEvent( EventType eType, void* eData )
 }
 
 
-void EventManagerImpl::_AddListener( UInt eType, IEventListener* listener )
+void EventManagerImpl::_AddListener( int eType, IEventListener* listener )
 {
-	for ( UInt i = 0; i < _listeners[eType].Size(); ++i )
+	for ( int i = 0; i < _listeners[eType].Size(); ++i )
 	{
 		if ( _listeners[eType][i] == listener )
 		{
@@ -102,9 +102,9 @@ void EventManagerImpl::_AddListener( UInt eType, IEventListener* listener )
 }
 
 
-void EventManagerImpl::_RemoveListener( UInt eType, IEventListener* listener )
+void EventManagerImpl::_RemoveListener( int eType, IEventListener* listener )
 {
-	for ( UInt i = 0; i < _listeners[eType].Size(); ++i )
+	for ( int i = 0; i < _listeners[eType].Size(); ++i )
 	{
 		if ( _listeners[eType][i] == listener )
 		{

@@ -48,7 +48,7 @@
 		virtual ~ClassImpl() {} \
 	private: \
 		static ClassImpl* _singleton; \
-		Bool _isInitialized;
+		bool _isInitialized;
 
 
 #define DEFINE_LOCAL_SINGLETON_IMPL( ClassImpl ) \

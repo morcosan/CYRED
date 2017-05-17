@@ -21,20 +21,20 @@ namespace CYRED
 			void Initialize	()								override;
 			void Finalize	()								override;
 				  
-			void SetEnabled	( Bool value )					override;
+			void SetEnabled	( bool value )					override;
 
-			void Error		( const Char* value )			override;
+			void Error		( const char* value )			override;
 
-			void Log		( const Char* value )			override;
-			void LogInt		( Int value )					override;
-			void LogFloat	( Float value )					override;
+			void Log		( const char* value )			override;
+			void LogInt		( int value )					override;
+			void LogFloat	( float value )					override;
 			void LogVec2	( const Vector2& value )		override;
 			void LogVec3	( const Vector3& value )		override;
 			void LogVec4	( const Vector4& value )		override;
 
 
 		protected:
-			Bool		_enabled;
+			bool		_enabled;
 		};
 	}
 }

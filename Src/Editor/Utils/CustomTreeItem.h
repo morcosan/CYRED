@@ -25,7 +25,7 @@ namespace CYRED
 
 	public:
 		Asset*		asset;
-		UInt		assetIndex;
+		int		assetIndex;
 		GameObject* gameObject;
 	};
 }

@@ -25,12 +25,12 @@ namespace CYRED
 
 		virtual void SetSharedContext	( GLContext* other )	PURE_VIRTUAL;
 
-		UInt GetWidth	();
-		UInt GetHeight	();
+		int GetWidth	();
+		int GetHeight	();
 
 
 	protected:
-		UInt _width;
-		UInt _height;
+		int _width;
+		int _height;
 	};
 }

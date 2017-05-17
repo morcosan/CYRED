@@ -23,24 +23,24 @@ namespace CYRED
 			void		Finalize			()							override;
 			void		ProcessEvents		()							override;
 
-			Bool		KeyDown				( Int keyCode )				override;
-			Bool		KeyDownFirstTime	( Int keyCode )				override;
-			Bool		KeyUp				( Int keyCode )				override;
-			Bool		KeyUpFirstTime		( Int keyCode )				override;
+			bool		KeyDown				( int keyCode )				override;
+			bool		KeyDownFirstTime	( int keyCode )				override;
+			bool		KeyUp				( int keyCode )				override;
+			bool		KeyUpFirstTime		( int keyCode )				override;
 			Vector2		CursorPosition		()							override;
 			Vector2		CursorDeltaPosition	()							override;
-			Int			ScrollWheel			()							override;
-			Int			GetWindowForCursor	()							override;
+			int			ScrollWheel			()							override;
+			int			GetWindowForCursor	()							override;
 
 
 		protected:
 			InputReceiver*		_receiver;
 
-			DataMap<Int, Int>	_keyState;
+			DataMap<int, int>	_keyState;
 			Vector2				_cursorPosition;
 			Vector2				_cursorLastPosition;
-			Int					_wheelRotation;
-			Int					_windowForCursor;
+			int					_wheelRotation;
+			int					_windowForCursor;
 
 		};
 	}

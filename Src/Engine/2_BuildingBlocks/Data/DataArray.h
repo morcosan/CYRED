@@ -20,14 +20,14 @@ namespace CYRED
 
 	public:
 		void	operator=	( const DataArray& other );
-		TValue&	operator[]	( UInt index )				const;
+		TValue&	operator[]	( int index )				const;
 
 
 	public:
-		UInt		Add		( TValue value );
-		void		Insert	( UInt index, TValue value );
-		void		Erase	( UInt index );
-		UInt		Size	()					const;
+		int		Add		( TValue value );
+		void		Insert	( int index, TValue value );
+		void		Erase	( int index );
+		int		Size	()					const;
 
 		//! remove all elements
 		void		Clear	();
@@ -53,7 +53,7 @@ namespace CYRED
 	{
 		_vector = Memory::Alloc<std::vector<TValue>>();
 
-		for ( UInt i = 0; i < other.Size(); ++i )
+		for ( int i = 0; i < other.Size(); ++i )
 		{
 			_vector->push_back( (*other._vector)[i] );
 		}
@@ -72,7 +72,7 @@ namespace CYRED
 	{
 		_vector->clear();
 
-		for ( UInt i = 0; i < other.Size(); ++i )
+		for ( int i = 0; i < other.Size(); ++i )
 		{
 			_vector->push_back( (*other._vector)[i] );
 		}
@@ -80,7 +80,7 @@ namespace CYRED
 
 
 	template <typename TValue>
-	UInt DataArray<TValue>::Add( TValue value )
+	int DataArray<TValue>::Add( TValue value )
 	{
 		_vector->push_back( value );
 		return (_vector->size() - 1);
@@ -88,7 +88,7 @@ namespace CYRED
 
 
 	template<typename TValue>
-	void DataArray<TValue>::Insert( UInt index, TValue value )
+	void DataArray<TValue>::Insert( int index, TValue value )
 	{
 		ASSERT( index <= _vector->size() );
 		_vector->insert( _vector->begin() + index, value );
@@ -96,7 +96,7 @@ namespace CYRED
 
 
 	template <typename TValue>
-	void DataArray<TValue>::Erase( UInt index )
+	void DataArray<TValue>::Erase( int index )
 	{
 		ASSERT( index < _vector->size() );
 		_vector->erase( _vector->begin() + index );
@@ -104,14 +104,14 @@ namespace CYRED
 
 
 	template <typename TValue>
-	UInt DataArray<TValue>::Size() const
+	int DataArray<TValue>::Size() const
 	{
 		return _vector->size();
 	}
 
 
 	template <typename TValue>
-	TValue& DataArray<TValue>::operator[] ( UInt index ) const
+	TValue& DataArray<TValue>::operator[] ( int index ) const
 	{
 		ASSERT( index < _vector->size() );
 		return (*_vector)[index];

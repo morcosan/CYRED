@@ -15,10 +15,10 @@ using namespace CYRED;
 
 
 
-DataMap<TechniqueType, UInt> SceneViewport::_techSlots;
+DataMap<TechniqueType, int> SceneViewport::_techSlots;
 
 
-SceneViewport::SceneViewport( UInt panelIndex )
+SceneViewport::SceneViewport( int panelIndex )
 	: Panel_Viewport( panelIndex )
 {
 }
@@ -36,20 +36,20 @@ void SceneViewport::A_CameraButton()
 }
 
 
-UInt SceneViewport::GetSlotForTechnique( TechniqueType type )
+int SceneViewport::GetSlotForTechnique( TechniqueType type )
 {
 	if ( _techSlots.Has( type ) ) {
 		return _techSlots.Get( type );
 	}
 
-	UInt techSlot = RenderManager::Singleton()->NewTechnique( type );
+	int techSlot = RenderManager::Singleton()->NewTechnique( type );
 	_techSlots.Set( type, techSlot );
 
 	return techSlot;
 }
 
 
-const Char* SceneViewport::_GetPanelTitle()
+const char* SceneViewport::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
@@ -91,7 +91,7 @@ void SceneViewport::_OnUpdate()
 	}
 
 	if ( _isFirstUpdate ) {
-		UInt techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
+		int techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
 		renderMngr->ChangeRenderer( _canvasSlot, RendererType::GL_FORWARD );
 		renderMngr->ChangeTechnique( _canvasSlot, techSlot );
 	}
@@ -102,15 +102,15 @@ void SceneViewport::_OnUpdate()
 
 	//! update camera size
 	Camera* cam = _cameraGO->GetComponent<Camera>();
-	Float aspectRatio = CAST_S( Float, _qtWindow->width() ) / _qtWindow->height();
-	Float height = cam->GetOrthoSize().y;
+	float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
+	float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
 	
 	// render scenes
 	SceneManager* sceneMngr = SceneManager::Singleton();
 	if ( sceneMngr->CountLoadedScenes() > 0 ) {
-		//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
+		//for ( int i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
 		{
 			Scene* scene = sceneMngr->GetScene();
 			renderMngr->Render( _canvasSlot, scene->GetRoot(), _cameraGO, TRUE );

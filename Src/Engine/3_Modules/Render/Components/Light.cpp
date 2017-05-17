@@ -10,9 +10,9 @@
 using namespace CYRED;
 
 
-const Char* const Light::TYPE_DIRECTIONAL	= "DIRECTIONAL";
-const Char* const Light::TYPE_POINT			= "POINT";
-const Char* const Light::TYPE_SPOT			= "SPOT";
+const char* const Light::TYPE_DIRECTIONAL	= "DIRECTIONAL";
+const char* const Light::TYPE_POINT			= "POINT";
+const char* const Light::TYPE_SPOT			= "SPOT";
 
 
 Light::Light( GameObject * gameObject )
@@ -44,25 +44,25 @@ Vector3 Light::GetColor() const
 }
 
 
-Float Light::GetIntensity() const
+float Light::GetIntensity() const
 {
 	return _intensity;
 }
 
 
-Float Light::GetRange() const
+float Light::GetRange() const
 {
 	return _range;
 }
 
 
-Float Light::GetSpotAngle() const
+float Light::GetSpotAngle() const
 {
 	return _spotAngle;
 }
 
 
-const Char* Light::GetLightTypeString() const
+const char* Light::GetLightTypeString() const
 {
 	if ( _lightType == LightType::DIRECTIONAL ) {
 		return TYPE_DIRECTIONAL;
@@ -98,7 +98,7 @@ void Light::SetColor( Vector3& value )
 }
 
 
-void Light::SetIntensity( Float value )
+void Light::SetIntensity( float value )
 {
 	_intensity = value;
 
@@ -108,7 +108,7 @@ void Light::SetIntensity( Float value )
 }
 
 
-void Light::SetRange( Float value )
+void Light::SetRange( float value )
 {
 	_range = value;
 
@@ -118,7 +118,7 @@ void Light::SetRange( Float value )
 }
 
 
-void Light::SetSpotAngle( Float value )
+void Light::SetSpotAngle( float value )
 {
 	_spotAngle = value;
 
@@ -128,7 +128,7 @@ void Light::SetSpotAngle( Float value )
 }
 
 
-void Light::SetLightTypeString( const Char* value )
+void Light::SetLightTypeString( const char* value )
 {
 	String sType( value );
 

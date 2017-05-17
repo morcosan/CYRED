@@ -17,7 +17,7 @@ namespace CYRED
 		virtual ~Iterator() {}
 
 
-		Bool			HasNext()	const;
+		bool			HasNext()	const;
 		const TKey&		GetKey()	const;
 		const TValue&	GetValue()	const;
 		void			Next();
@@ -39,7 +39,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	Bool Iterator<TKey, TValue>::HasNext() const
+	bool Iterator<TKey, TValue>::HasNext() const
 	{
 		return (_curr != _end);
 	}

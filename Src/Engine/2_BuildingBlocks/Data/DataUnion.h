@@ -40,19 +40,19 @@ namespace CYRED
 
 		void operator=( const DataUnion& other );
 
-		DataUnion& SetString	( const Char* value );
-		DataUnion& SetFloat		( Float value );
-		DataUnion& SetInt		( Int value );
-		DataUnion& SetBool		( Bool value );
+		DataUnion& SetString	( const char* value );
+		DataUnion& SetFloat		( float value );
+		DataUnion& SetInt		( int value );
+		DataUnion& SetBool		( bool value );
 		DataUnion& SetVector2	( const Vector2& value );
 		DataUnion& SetVector3	( const Vector3& value );
 		DataUnion& SetVector4	( const Vector4& value );
 		DataUnion& SetReference	( void* value );
 
-		const Char*	GetString		()	const;
-		Float		GetFloat		()	const;
-		Int			GetInt			()	const;
-		Bool		GetBool			()	const;
+		const char*	GetString		()	const;
+		float		GetFloat		()	const;
+		int			GetInt			()	const;
+		bool		GetBool			()	const;
 		Vector2		GetVector2		()	const;
 		Vector3		GetVector3		()	const;
 		Vector4		GetVector4		()	const;

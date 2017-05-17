@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-Bool MeshLoaderWindows::ImportMesh( const Char* data, UInt dataSize, 
-									OUT DataArray<Vertex>& vertices, OUT DataArray<UInt>& indices )
+bool MeshLoaderWindows::ImportMesh( const char* data, int dataSize, 
+									OUT DataArray<Vertex>& vertices, OUT DataArray<int>& indices )
 {
 	Assimp::Importer assimpImporter;
 
@@ -22,16 +22,16 @@ Bool MeshLoaderWindows::ImportMesh( const Char* data, UInt dataSize,
 		return FALSE;
 	}
 
-	for ( UInt i = 0; i < assimpScene->mNumMeshes; ++i )
+	for ( int i = 0; i < assimpScene->mNumMeshes; ++i )
 	{
 		aiMesh* assimpMesh = assimpScene->mMeshes[i];
 
-		Bool needTanBitan = FALSE;
+		bool needTanBitan = FALSE;
 
 		aiVector3D zero3D(0, 0, 0);
 		aiColor4D zero4D(0, 0, 0, 0);
 
-		for ( UInt j = 0; j < assimpMesh->mNumVertices; ++j ) 
+		for ( int j = 0; j < assimpMesh->mNumVertices; ++j ) 
 		{
 			aiVector3D* assimpPos = assimpMesh->HasPositions() ? &(assimpMesh->mVertices[j]) : &zero3D;
 			aiColor4D* assimpColor = assimpMesh->HasVertexColors(0) ? &(assimpMesh->mColors[0][j]) : &zero4D;
@@ -59,7 +59,7 @@ Bool MeshLoaderWindows::ImportMesh( const Char* data, UInt dataSize,
 
 		if ( assimpMesh->HasFaces() )
 		{
-			for ( UInt j = 0; j < assimpMesh->mNumFaces; ++j ) 
+			for ( int j = 0; j < assimpMesh->mNumFaces; ++j ) 
 			{
 				aiFace& assimpFace = assimpMesh->mFaces[j];
 				indices.Add( assimpFace.mIndices[0] );

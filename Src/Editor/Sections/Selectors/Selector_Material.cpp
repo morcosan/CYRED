@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Material::TYPE			= "Material";
-const Char* const Selector_Material::OPTION_NULL	= "NULL";
+const char* const Selector_Material::TYPE			= "Material";
+const char* const Selector_Material::OPTION_NULL	= "NULL";
 
 
 void Selector_Material::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Material::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetMaterialCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetMaterialCount(); ++i )
 	{
 		Material* material = AssetManager::Singleton()->GetMaterialAt( i );
 

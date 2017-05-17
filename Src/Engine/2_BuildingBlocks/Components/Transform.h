@@ -112,11 +112,11 @@ namespace CYRED
 		Matrix4		_worldMatrix;
 		Matrix4		_viewMatrix;
 
-		Bool		_positionHasChanged;
-		Bool		_rotationHasChanged;
-		Bool		_scaleHasChanged;
-		Bool		_worldHasChanged;
-		Bool		_viewHasChanged;
+		bool		_positionHasChanged;
+		bool		_rotationHasChanged;
+		bool		_scaleHasChanged;
+		bool		_worldHasChanged;
+		bool		_viewHasChanged;
 
 		Transform*				_parent;
 		DataArray<Transform*>	_children;

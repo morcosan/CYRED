@@ -52,7 +52,7 @@ void Mesh::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MESH );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Mesh>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -62,7 +62,7 @@ void Mesh::LoadUniqueID()
 
 void Mesh::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create path
@@ -72,7 +72,7 @@ void Mesh::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MESH );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Mesh>( fileData, this );
 
 	// free memory for file
@@ -109,7 +109,7 @@ Asset* Mesh::Clone()
 }
 
 
-const Char* Mesh::GetExtension()
+const char* Mesh::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MESH;
@@ -125,11 +125,11 @@ void Mesh::BindToGPU()
 		if ( _externalPath.GetLength() > 0 ) {
 			FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
 
-			Int fileSize;
-			Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+			int fileSize;
+			char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 
 			// try custom format first, then try import
-			Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, _vertices, _indices );
+			bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, _vertices, _indices );
 			if ( !isLoaded ) {
 				FileManager::Singleton()->ImportMesh( fileData, fileSize, _vertices, _indices );
 			}
@@ -145,8 +145,8 @@ void Mesh::BindToGPU()
 		if ( _externalPath.GetLength() > 0 ) {
 			FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
 
-			Int fileSize;
-			Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+			int fileSize;
+			char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 
 			// execute script
 
@@ -216,31 +216,31 @@ MeshLoadType Mesh::GetLoadType() const
 }
 
 
-UInt Mesh::GetVBO() const
+int Mesh::GetVBO() const
 {
 	return _vbo;
 }
 
 
-UInt Mesh::GetIBO() const
+int Mesh::GetIBO() const
 {
 	return _ibo;
 }
 
 
-UInt Mesh::GetNumIndices() const
+int Mesh::GetNumIndices() const
 {
 	return _numIndices;
 }
 
 
-Bool Mesh::DoesClearBuffersOnBind() const
+bool Mesh::DoesClearBuffersOnBind() const
 {
 	return _clearBuffersOnBind;
 }
 
 
-const Char* Mesh::GetExternalPath() const
+const char* Mesh::GetExternalPath() const
 {
 	return _externalPath.GetChar();
 }
@@ -269,7 +269,7 @@ void Mesh::SetLoadType( MeshLoadType type )
 void Mesh::SetVertices( DataArray<Vertex>& vertices )
 {
 	_vertices.Clear();
-	for ( UInt i = 0; i < vertices.Size(); ++i )
+	for ( int i = 0; i < vertices.Size(); ++i )
 	{
 		_vertices.Add( vertices[i] );
 	}
@@ -280,10 +280,10 @@ void Mesh::SetVertices( DataArray<Vertex>& vertices )
 }
 
 
-void Mesh::SetIndices( DataArray<UInt>& indices )
+void Mesh::SetIndices( DataArray<int>& indices )
 {
 	_indices.Clear();
-	for ( UInt i = 0; i < indices.Size(); ++i )
+	for ( int i = 0; i < indices.Size(); ++i )
 	{
 		_indices.Add( indices[i] );
 	}
@@ -296,7 +296,7 @@ void Mesh::SetIndices( DataArray<UInt>& indices )
 }
 
 
-void Mesh::SetClearBuffersOnBind( Bool value )
+void Mesh::SetClearBuffersOnBind( bool value )
 {
 	_clearBuffersOnBind = value;
 
@@ -306,7 +306,7 @@ void Mesh::SetClearBuffersOnBind( Bool value )
 }
 
 
-void Mesh::SetExternalPath( const Char* filePath )
+void Mesh::SetExternalPath( const char* filePath )
 {
 	_externalPath = filePath;
 
@@ -334,7 +334,7 @@ void Mesh::ClearIndices()
 }
 
 
-void Mesh::AddIndex( UInt index )
+void Mesh::AddIndex( int index )
 {
 	_indices.Add( index );
 }

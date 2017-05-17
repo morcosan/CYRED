@@ -16,20 +16,20 @@ FreeCameraControl::FreeCameraControl( GameObject * gameObject )
 }
 
 
-void FreeCameraControl::_OnStart( Bool isRuntime )
+void FreeCameraControl::_OnStart( bool isRuntime )
 {
 	_transform = _gameObject->GetComponent<Transform>();
 }
 
 
-void FreeCameraControl::_OnUpdate( Bool isRuntime )
+void FreeCameraControl::_OnUpdate( bool isRuntime )
 {
 	// works only in editor mode
 	if ( !isRuntime ) {
 		InputManager* inputManager = InputManager::Singleton();
 
-		Int windowForCursor = inputManager->GetWindowForCursor();
-		Float deltaTime = TimeManager::Singleton()->GetDeltaTime();
+		int windowForCursor = inputManager->GetWindowForCursor();
+		float deltaTime = TimeManager::Singleton()->GetDeltaTime();
 
 		if ( myWindows.Has( windowForCursor ) && myWindows.Get( windowForCursor ) )
 		{
@@ -50,10 +50,10 @@ void FreeCameraControl::_OnUpdate( Bool isRuntime )
 														0 ) );
 			}
 
-			Int scrollWheel = inputManager->ScrollWheel();
+			int scrollWheel = inputManager->ScrollWheel();
 			if ( scrollWheel != 0 )
 			{
-				Float zoom = zoomSpeed * (- scrollWheel) * deltaTime;
+				float zoom = zoomSpeed * (- scrollWheel) * deltaTime;
 				_transform->TranslateByLocal( Vector3( 0, 0, zoom ) );
 			}
 		}

@@ -54,12 +54,12 @@ void ParticleEmitter::BindToGPU()
 	_particlesAge.Clear();
 
 	//! we don't need all paticles
-	UInt neededParticles = _isLooping ? CAST_S( UInt, _particleLifetime * _wavesPerSec ) :
-										CAST_S( UInt, _spawnDuration * _wavesPerSec );
+	int neededParticles = _isLooping ? CAST_S( int, _particleLifetime * _wavesPerSec ) :
+										CAST_S( int, _spawnDuration * _wavesPerSec );
 	neededParticles *= _particlesPerWave;
 	neededParticles = (neededParticles > _maxParticles) ? _maxParticles : neededParticles;
 
-	for ( UInt i = 0; i < neededParticles; ++i )
+	for ( int i = 0; i < neededParticles; ++i )
 	{
 		Vector3 position;
 		Vector3 velocity;
@@ -88,7 +88,7 @@ void ParticleEmitter::BindToGPU()
 		}
 
 		//! particles start with negative age
-		Float age = - (1.0f / _wavesPerSec) * (i / _particlesPerWave);
+		float age = - (1.0f / _wavesPerSec) * (i / _particlesPerWave);
 
 		Vector2 size;
 		size.x = Random::FromRangeFloat( _particleSizeStart.x, _particleSizeStart.y );
@@ -109,19 +109,19 @@ void ParticleEmitter::BindToGPU()
 }
 
 
-UInt ParticleEmitter::GetVBO() const
+int ParticleEmitter::GetVBO() const
 {
 	return _vbo;
 }
 
 
-UInt ParticleEmitter::GetIBO() const
+int ParticleEmitter::GetIBO() const
 {
 	return _ibo;
 }
 
 
-UInt ParticleEmitter::GetNumIndices() const
+int ParticleEmitter::GetNumIndices() const
 {
 	return _numIndices;
 }
@@ -163,13 +163,13 @@ void ParticleEmitter::SetParticleSizeEnd( Vector2 value )
 }
 
 
-void ParticleEmitter::SetMaxParticles( UInt value )
+void ParticleEmitter::SetMaxParticles( int value )
 {
 	_maxParticles = value;
 }
 
 
-void ParticleEmitter::SetParticleLifetime( Float value )
+void ParticleEmitter::SetParticleLifetime( float value )
 {
 	_particleLifetime = value;
 }
@@ -187,25 +187,25 @@ void ParticleEmitter::SetParticleAccel( Vector3 value )
 }
 
 
-void ParticleEmitter::SetShapeDrivenSpeed( Float value )
+void ParticleEmitter::SetShapeDrivenSpeed( float value )
 {
 	_shapeDrivenSpeed = value;
 }
 
 
-void ParticleEmitter::SetShapeDrivenAccel( Float value )
+void ParticleEmitter::SetShapeDrivenAccel( float value )
 {
 	_shapeDrivenAccel = value;
 }
 
 
-UInt ParticleEmitter::GetMaxParticles() const
+int ParticleEmitter::GetMaxParticles() const
 {
 	return _maxParticles;
 }
 
 
-Float ParticleEmitter::GetParticleLifetime() const
+float ParticleEmitter::GetParticleLifetime() const
 {
 	return _particleLifetime;
 }
@@ -223,61 +223,61 @@ Vector3 ParticleEmitter::GetParticleAccel() const
 }
 
 
-Float ParticleEmitter::GetShapeDrivenSpeed() const
+float ParticleEmitter::GetShapeDrivenSpeed() const
 {
 	return _shapeDrivenSpeed;
 }
 
 
-Float ParticleEmitter::GetShapeDrivenAccel() const
+float ParticleEmitter::GetShapeDrivenAccel() const
 {
 	return _shapeDrivenAccel;
 }
 
 
-void ParticleEmitter::SetWavesPerSec( Float value )
+void ParticleEmitter::SetWavesPerSec( float value )
 {
 	_wavesPerSec = value;
 }
 
 
-void ParticleEmitter::SetParticlesPerWave( UInt value )
+void ParticleEmitter::SetParticlesPerWave( int value )
 {
 	_particlesPerWave = value;
 }
 
 
-void ParticleEmitter::SetIsLooping( Bool value )
+void ParticleEmitter::SetIsLooping( bool value )
 {
 	_isLooping = value;
 }
 
 
-void ParticleEmitter::SetSpawnDuration( Float value )
+void ParticleEmitter::SetSpawnDuration( float value )
 {
 	_spawnDuration = value;
 }
 
 
-Float ParticleEmitter::GetWavesPerSec() const
+float ParticleEmitter::GetWavesPerSec() const
 {
 	return _wavesPerSec;
 }
 
 
-UInt ParticleEmitter::GetParticlesPerWave() const
+int ParticleEmitter::GetParticlesPerWave() const
 {
 	return _particlesPerWave;
 }
 
 
-Float ParticleEmitter::GetSpawnDuration() const
+float ParticleEmitter::GetSpawnDuration() const
 {
 	return _spawnDuration;
 }
 
 
-Bool ParticleEmitter::IsLooping() const
+bool ParticleEmitter::IsLooping() const
 {
 	return _isLooping;
 }
@@ -288,13 +288,13 @@ void ParticleEmitter::SetEmitterShape( EmitterShape value )
 	_emitterShape = value;
 }
 
-void ParticleEmitter::SetSpawnFromEndge( Bool value )
+void ParticleEmitter::SetSpawnFromEndge( bool value )
 {
 	_spawnFromEdge = value;
 }
 
 
-void ParticleEmitter::SetShapeRadius( Float value )
+void ParticleEmitter::SetShapeRadius( float value )
 {
 	_shapeRadius = value;
 }
@@ -306,13 +306,13 @@ EmitterShape ParticleEmitter::GetEmitterShape() const
 }
 
 
-Bool ParticleEmitter::DoesSpawnFromEdge() const
+bool ParticleEmitter::DoesSpawnFromEdge() const
 {
 	return _spawnFromEdge;
 }
 
 
-Float ParticleEmitter::GetShapeRadius() const
+float ParticleEmitter::GetShapeRadius() const
 {
 	return _shapeRadius;
 }

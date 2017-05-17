@@ -16,7 +16,7 @@ using namespace CYRED;
 
 
 
-Char* FileSystem::ReadFile( const Char* filePath, OUT Int& fileSize )
+char* FileSystem::ReadFile( const char* filePath, OUT int& fileSize )
 {
 	// open file
 	FILE* file;
@@ -31,8 +31,8 @@ Char* FileSystem::ReadFile( const Char* filePath, OUT Int& fileSize )
 	fseek( file, 0, SEEK_SET );
 
 	// read file data
-	Char* fileBuffer = Memory::AllocArray<Char>( fileSize + 1 );
-	fread( fileBuffer, sizeof(Char), fileSize, file );
+	char* fileBuffer = Memory::AllocArray<char>( fileSize + 1 );
+	fread( fileBuffer, sizeof(char), fileSize, file );
 	fileBuffer[fileSize] = 0;
 
 	// close file
@@ -42,7 +42,7 @@ Char* FileSystem::ReadFile( const Char* filePath, OUT Int& fileSize )
 }
 
 
-Bool FileSystem::WriteFile( const Char* filePath, const Char* buffer )
+bool FileSystem::WriteFile( const char* filePath, const char* buffer )
 {
 	// open file
 	FILE* file;
@@ -51,7 +51,7 @@ Bool FileSystem::WriteFile( const Char* filePath, const Char* buffer )
 		return FALSE;
 	}
 
-	UInt elemWritten = fwrite( buffer, sizeof( Char ), strlen( buffer ), file );
+	int elemWritten = fwrite( buffer, sizeof( char ), strlen( buffer ), file );
 
 	// close file
 	fclose(file);
@@ -60,14 +60,14 @@ Bool FileSystem::WriteFile( const Char* filePath, const Char* buffer )
 }
 
 
-Bool FileSystem::DeleteFile( const Char* filePath )
+bool FileSystem::DeleteFile( const char* filePath )
 {
-	Int fail = std::remove( filePath );
+	int fail = std::remove( filePath );
 	return (fail == 0);
 }
 
 
-Bool FileSystem::CopyFile( const Char* srcPath, const Char* dstPath )
+bool FileSystem::CopyFile( const char* srcPath, const char* dstPath )
 {
 	// try to open src
 	std::ifstream ifs( srcPath, std::ios::binary );
@@ -91,29 +91,29 @@ Bool FileSystem::CopyFile( const Char* srcPath, const Char* dstPath )
 }
 
 
-Bool FileSystem::DeleteDir( const Char* dirPath )
+bool FileSystem::DeleteDir( const char* dirPath )
 {
 	return FALSE;
 }
 
 
-Bool FileSystem::CreateDir( const Char* parentPath, const Char* dirName )
+bool FileSystem::CreateDir( const char* parentPath, const char* dirName )
 {
 	return FALSE;
 }
 
 
-UChar* FileSystem::ReadImage( const Char* filePath, OUT Int* width, OUT Int* height, 
-							  OUT Int* channels )
+uchar* FileSystem::ReadImage( const char* filePath, OUT int* width, OUT int* height, 
+							  OUT int* channels )
 {
 	return stbi_load( filePath, width, height, channels, 0 );
 }
 
 
-Bool FileSystem::WriteImage( const Char* filePath, const UChar* imageBuffer, 
-								    Int width, Int height, Int channels, ImageType type )
+bool FileSystem::WriteImage( const char* filePath, const uchar* imageBuffer, 
+								    int width, int height, int channels, ImageType type )
 {
-	Int success = 0; // 0 = fail
+	int success = 0; // 0 = fail
 
 	switch ( type )
 	{

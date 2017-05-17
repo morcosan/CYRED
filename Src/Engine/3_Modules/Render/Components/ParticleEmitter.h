@@ -42,41 +42,41 @@ namespace CYRED
 	public:
 		void BindToGPU();
 
-		UInt			GetVBO				() const;		
-		UInt			GetIBO				() const;			
-		UInt			GetNumIndices		() const;
+		int			GetVBO				() const;		
+		int			GetIBO				() const;			
+		int			GetNumIndices		() const;
 
-		void			SetMaxParticles		( UInt value );
-		void			SetParticleLifetime	( Float value );
+		void			SetMaxParticles		( int value );
+		void			SetParticleLifetime	( float value );
 		void			SetParticleVelocity	( Vector3 value );
 		void			SetParticleAccel	( Vector3 value );
-		void			SetShapeDrivenSpeed	( Float value );
-		void			SetShapeDrivenAccel	( Float value );
+		void			SetShapeDrivenSpeed	( float value );
+		void			SetShapeDrivenAccel	( float value );
 
-		UInt			GetMaxParticles		() const;
-		Float			GetParticleLifetime	() const;			
+		int			GetMaxParticles		() const;
+		float			GetParticleLifetime	() const;			
 		Vector3			GetParticleVelocity	() const;			
 		Vector3			GetParticleAccel	() const;			
-		Float			GetShapeDrivenSpeed	() const;
-		Float			GetShapeDrivenAccel	() const;
+		float			GetShapeDrivenSpeed	() const;
+		float			GetShapeDrivenAccel	() const;
 
-		void			SetWavesPerSec		( Float value );
-		void			SetParticlesPerWave	( UInt value );
-		void			SetIsLooping		( Bool value );
-		void			SetSpawnDuration	( Float value );
+		void			SetWavesPerSec		( float value );
+		void			SetParticlesPerWave	( int value );
+		void			SetIsLooping		( bool value );
+		void			SetSpawnDuration	( float value );
 
-		Float			GetWavesPerSec		() const;			
-		UInt			GetParticlesPerWave	() const;			
-		Float			GetSpawnDuration	() const;	
-		Bool			IsLooping			() const;
+		float			GetWavesPerSec		() const;			
+		int			GetParticlesPerWave	() const;			
+		float			GetSpawnDuration	() const;	
+		bool			IsLooping			() const;
 
 		void			SetEmitterShape		( EmitterShape value );
-		void			SetSpawnFromEndge	( Bool value );
-		void			SetShapeRadius		( Float value );
+		void			SetSpawnFromEndge	( bool value );
+		void			SetShapeRadius		( float value );
 			
 		EmitterShape	GetEmitterShape		() const;	
-		Bool			DoesSpawnFromEdge	() const;			
-		Float			GetShapeRadius		() const;			
+		bool			DoesSpawnFromEdge	() const;			
+		float			GetShapeRadius		() const;			
 
 		void			SetMaterial			( Material* value );
 		void			SetParticleSizeStart( Vector2 value );
@@ -92,37 +92,37 @@ namespace CYRED
 
 
 	protected:
-		UInt			_vbo;
-		UInt			_ibo;
-		UInt			_numIndices;
+		int			_vbo;
+		int			_ibo;
+		int			_numIndices;
 
 		DataArray<ParticleVertex>	_vertices;
-		DataArray<UInt>				_indices;
+		DataArray<int>				_indices;
 
 		//! simulation
-		UInt			_maxParticles;
-		Float			_particleLifetime;
+		int			_maxParticles;
+		float			_particleLifetime;
 		Vector3			_particleVelocity;
 		Vector3			_particleAcceleration;
-		Float			_shapeDrivenSpeed;
-		Float			_shapeDrivenAccel;
+		float			_shapeDrivenSpeed;
+		float			_shapeDrivenAccel;
 
 		//! spawning
-		Float			_wavesPerSec;		
-		UInt			_particlesPerWave;		
-		Bool			_isLooping;
-		Float			_spawnDuration;
+		float			_wavesPerSec;		
+		int			_particlesPerWave;		
+		bool			_isLooping;
+		float			_spawnDuration;
 
 		//! emission
 		EmitterShape	_emitterShape;
-		Float			_shapeRadius;
-		Bool			_spawnFromEdge;
+		float			_shapeRadius;
+		bool			_spawnFromEdge;
 
 		//! rendering
 		Material*		_material;
 		Vector2			_particleSizeStart;
 		Vector2			_particleSizeEnd;
 
-		DataArray<Float>	_particlesAge;
+		DataArray<float>	_particlesAge;
 	};
 }

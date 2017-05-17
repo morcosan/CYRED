@@ -38,7 +38,7 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 	_CreateAttrListSelector( ATTR_SCRIPTS, ATTR_SCRIPTS, Selector_Script::TYPE );
 
 	// add group for each script
-	for ( UInt i = 0; i < _target->GetScriptsCount(); i++ ) {
+	for ( int i = 0; i < _target->GetScriptsCount(); i++ ) {
 		Script* script = _target->GetScript( i );
 
 		// add group
@@ -114,9 +114,9 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 	// update scripts list
 	_WriteAttrListSize( ATTR_SCRIPTS, _target->GetScriptsCount() );
 	DataUnion attrValue;
-	for ( UInt i = 0; i < _target->GetScriptsCount(); ++i ) {
+	for ( int i = 0; i < _target->GetScriptsCount(); ++i ) {
 		Script* script = _target->GetScript( i );
-		const Char* scriptName = (script == NULL) ? Selector_Script::OPTION_NULL : script->GetName();
+		const char* scriptName = (script == NULL) ? Selector_Script::OPTION_NULL : script->GetName();
 		_WriteAttrListIndex( ATTR_SCRIPTS, i, attrValue.SetReference( script ), scriptName );
 	}
 
@@ -137,11 +137,11 @@ void AttrViewer_Scripter::_OnUpdateTarget()
 	// update
 	{
 		if ( _activatedGroup == CallbackGroup::GROUP_1 ) {
-			UInt scriptsCount = _ReadAttrListSize( ATTR_SCRIPTS );
+			int scriptsCount = _ReadAttrListSize( ATTR_SCRIPTS );
 			// clear list
 			_target->ClearScripts();
 			// add all again
-			for ( UInt i = 0; i < scriptsCount; ++i ) {
+			for ( int i = 0; i < scriptsCount; ++i ) {
 				Script* scriptAsset = CAST_S( Script*, _ReadAttrListIndex( ATTR_SCRIPTS, i ).GetReference() );
 				_target->SetScript( i, (scriptAsset == NULL) ? "" : scriptAsset->GetUniqueID() );
 			}
@@ -150,7 +150,7 @@ void AttrViewer_Scripter::_OnUpdateTarget()
 
 		}
 		else if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
-			for ( UInt i = 0; i < _target->GetScriptsCount(); i++ ) {
+			for ( int i = 0; i < _target->GetScriptsCount(); i++ ) {
 				// get script
 				Script* script = _target->GetScript( i );
 

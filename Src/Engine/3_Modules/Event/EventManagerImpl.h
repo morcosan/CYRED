@@ -31,9 +31,9 @@ namespace CYRED
 		protected:
 			DataArray< DataArray<IEventListener*> > _listeners;
 
-			//! eType is required UInt for the ALL case
-			void _AddListener		( UInt eType, IEventListener* listener );
-			void _RemoveListener	( UInt eType, IEventListener* listener );
+			//! eType is required int for the ALL case
+			void _AddListener		( int eType, IEventListener* listener );
+			void _RemoveListener	( int eType, IEventListener* listener );
 		};
 	}
 }

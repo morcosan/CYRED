@@ -12,11 +12,11 @@
 using namespace CYRED;
 
 
-const Float Math::PI		= glm::pi<Float>();
-const Float Math::HALF_PI	= glm::pi<Float>() / 2;
+const float Math::PI		= glm::pi<float>();
+const float Math::HALF_PI	= glm::pi<float>() / 2;
 
 
-Float Math::Dot( const Vector3& firstVec, const Vector3& secondVec )
+float Math::Dot( const Vector3& firstVec, const Vector3& secondVec )
 {
 	glm::vec3 first = glm::vec3( firstVec.x, firstVec.y, firstVec.z );
 	glm::vec3 second = glm::vec3( secondVec.x, secondVec.y, secondVec.z );
@@ -31,7 +31,7 @@ Vector3 Math::ToDegrees( const Vector3& vec )
 }
 
 
-Float Math::ToDegrees( Float value )
+float Math::ToDegrees( float value )
 {
 	return glm::degrees( value );
 }
@@ -44,43 +44,43 @@ Vector3 Math::ToRadians( const Vector3& vec )
 }
 
 
-Float Math::ToRadians( Float value )
+float Math::ToRadians( float value )
 {
 	return glm::radians( value );
 }
 
 
-Float Math::Max( Float value1, Float value2 )
+float Math::Max( float value1, float value2 )
 {
 	return glm::max( value1, value2 );
 }
 
 
-Float Math::Min( Float value1, Float value2 )
+float Math::Min( float value1, float value2 )
 {
 	return glm::min( value1, value2 );
 }
 
 
-Float Math::Tan( Float value )
+float Math::Tan( float value )
 {
 	return glm::tan( value );
 }
 
 
-Float Math::Cos( Float value )
+float Math::Cos( float value )
 {
 	return glm::cos( value );
 }
 
 
-Float Math::Sin( Float value )
+float Math::Sin( float value )
 {
 	return glm::sin( value );
 }
 
 
-Float Math::Clamp( Float value, Float min, Float max )
+float Math::Clamp( float value, float min, float max )
 {
 	return ( (value < min) ? min : ( (value > max) ? max : value) );
 }

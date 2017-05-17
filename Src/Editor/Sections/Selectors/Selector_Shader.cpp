@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Shader::TYPE			= "Shader";
-const Char* const Selector_Shader::OPTION_NULL	= "NULL";
+const char* const Selector_Shader::TYPE			= "Shader";
+const char* const Selector_Shader::OPTION_NULL	= "NULL";
 
 
 void Selector_Shader::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Shader::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetShaderCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetShaderCount(); ++i )
 	{
 		Shader* shader = AssetManager::Singleton()->GetShaderAt( i );
 

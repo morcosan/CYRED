@@ -16,7 +16,7 @@ namespace CYRED
 		virtual void Initialize	()	PURE_VIRTUAL;
 		virtual void Finalize	()	PURE_VIRTUAL;
 
-		virtual void BuildWindows( const Char* buildPath )	PURE_VIRTUAL;
-		virtual void BuildAndroid( const Char* buildPath )	PURE_VIRTUAL;
+		virtual void BuildWindows( const char* buildPath )	PURE_VIRTUAL;
+		virtual void BuildAndroid( const char* buildPath )	PURE_VIRTUAL;
 	};
 }

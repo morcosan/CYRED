@@ -18,12 +18,12 @@ namespace CYRED
 	class SceneViewport : public Panel_Viewport
 	{
 	public:
-		const Char*		PANEL_TITLE = "Scene Viewport";
+		const char*		PANEL_TITLE = "Scene Viewport";
 		const Vector2	MIN_SIZE	= Vector2( 400, 200 );
 
 
 	public:
-		SceneViewport( UInt panelIndex );
+		SceneViewport( int panelIndex );
 		virtual ~SceneViewport() {}
 
 
@@ -36,16 +36,16 @@ namespace CYRED
 
 
 	protected:
-		static DataMap<TechniqueType, UInt>	_techSlots;
+		static DataMap<TechniqueType, int>	_techSlots;
 
-		static UInt	GetSlotForTechnique( TechniqueType type );
+		static int	GetSlotForTechnique( TechniqueType type );
 
 
 	protected:
 		QComboBox*		_qtCameraDropdown;
 		QPushButton*	_qtCameraButton;
 
-		virtual const Char*	_GetPanelTitle	() override;
+		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;
 		virtual void		_OnFinalize		() override;

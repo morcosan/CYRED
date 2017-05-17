@@ -18,10 +18,10 @@ namespace CYRED
 	class AttrViewer_Scripter : public AttrViewer
 	{
 	public:
-		const Char* TITLE			= "Scripter";
+		const char* TITLE			= "Scripter";
 
-		const Char* ATTR_NAME		= "Name";
-		const Char* ATTR_SCRIPTS	= "Scripts";
+		const char* ATTR_NAME		= "Name";
+		const char* ATTR_SCRIPTS	= "Scripts";
 
 
 	public:

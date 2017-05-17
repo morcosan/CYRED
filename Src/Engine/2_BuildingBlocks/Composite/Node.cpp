@@ -60,7 +60,7 @@ void Node::AddChildNode( Node* newNode )
 		return;		
 	}
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i ) {
+	for ( int i = 0; i < _childNodes.Size(); ++i ) {
 		if ( _childNodes[i] == newNode ) {
 			//! cannot add same child more times
 			return;
@@ -74,14 +74,14 @@ void Node::AddChildNode( Node* newNode )
 }
 
 
-void Node::InsertChildNode( UInt index, Node* newNode )
+void Node::InsertChildNode( int index, Node* newNode )
 {
 	//! sanity check
 	if ( newNode == NULL ) {
 		return;		
 	}
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i ) {
+	for ( int i = 0; i < _childNodes.Size(); ++i ) {
 		if ( _childNodes[i] == newNode ) {
 			//! cannot add same child more times
 			return;
@@ -95,13 +95,13 @@ void Node::InsertChildNode( UInt index, Node* newNode )
 }
 
 
-UInt Node::GetChildNodeCount() const
+int Node::GetChildNodeCount() const
 {
 	return _childNodes.Size();
 }
 
 
-Node* Node::GetChildNodeAt( UInt index ) const
+Node* Node::GetChildNodeAt( int index ) const
 {
 	ASSERT( index < _childNodes.Size() );
 
@@ -113,7 +113,7 @@ void Node::_RemoveChildNode( Node* childNode )
 {
 	ASSERT( childNode != NULL );
 
-	for ( UInt i = 0; i < _childNodes.Size(); ++i )	{
+	for ( int i = 0; i < _childNodes.Size(); ++i )	{
 		if ( _childNodes[i] == childNode ) {
 			_childNodes.Erase( i );
 			return;

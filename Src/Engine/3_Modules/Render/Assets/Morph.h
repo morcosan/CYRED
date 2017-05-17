@@ -26,31 +26,31 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const Char*	GetExtension	() override;
+		const char*	GetExtension	() override;
 
 
 	public:
 		//! must be called in order for mesh to work
 		void			BindToGPU		();
 
-		UInt			GetVBO			()				const;		
-		UInt			GetIBO			()				const;			
-		UInt			GetNumIndices	()				const;	
-		UInt			GetTotalStates	()				const;
-		UInt			GetActiveStates	()				const;
-		const Char*		GetFilePath		( UInt index )	const;
+		int			GetVBO			()				const;		
+		int			GetIBO			()				const;			
+		int			GetNumIndices	()				const;	
+		int			GetTotalStates	()				const;
+		int			GetActiveStates	()				const;
+		const char*		GetFilePath		( int index )	const;
 
-		void SetTotalStates	( UInt value );
-		void SetFilePath	( UInt index, const Char* filePath );
+		void SetTotalStates	( int value );
+		void SetFilePath	( int index, const char* filePath );
 
 
 	protected:
-		UInt					_vbo;
-		UInt					_ibo;
-		UInt					_numIndices;
+		int					_vbo;
+		int					_ibo;
+		int					_numIndices;
 		
-		UInt					_totalStates;
-		UInt					_activeStates;
+		int					_totalStates;
+		int					_activeStates;
 		String					_filePaths[MORPH_LIMIT];
 	};
 }

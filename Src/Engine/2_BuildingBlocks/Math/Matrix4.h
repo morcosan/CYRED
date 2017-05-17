@@ -44,12 +44,12 @@ namespace CYRED
 		static Matrix4 Inverse			( const Matrix4& mat );
 		static Matrix4 Translate			( const Matrix4& mat, const Vector3& other );
 		static Matrix4 Scale				( const Matrix4& mat, const Vector3& other );
-		static Matrix4 CreatePerspective	( Float fovyAngle, Float aspectRatio, Float nearClipping, Float farClipping );
-		static Matrix4 CreateOrthogonal	( const Vector2& size, Float nearClipping, Float farClipping );
+		static Matrix4 CreatePerspective	( float fovyAngle, float aspectRatio, float nearClipping, float farClipping );
+		static Matrix4 CreateOrthogonal	( const Vector2& size, float nearClipping, float farClipping );
 
 
 	public:
-		const Float* Ptr();
+		const float* Ptr();
 
 
 	protected:

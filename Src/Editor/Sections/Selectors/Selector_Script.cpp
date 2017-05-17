@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Script::TYPE			= "Morph";
-const Char* const Selector_Script::OPTION_NULL	= "NULL";
+const char* const Selector_Script::TYPE			= "Morph";
+const char* const Selector_Script::OPTION_NULL	= "NULL";
 
 
 void Selector_Script::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Script::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetScriptCount(); ++i ) {
+	for ( int i = 0; i < AssetManager::Singleton()->GetScriptCount(); ++i ) {
 		Script* script = AssetManager::Singleton()->GetScriptAt( i );
 
 		_popup->AddToList( script->GetName(), script );

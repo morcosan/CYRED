@@ -16,7 +16,7 @@ void Technique::SetAPI( GL* glAPI )
 }
 
 
-void Technique::SetViewportSize( UInt width, UInt height )
+void Technique::SetViewportSize( int width, int height )
 {
 	_viewportWidth = width;
 	_viewportHeight = height;

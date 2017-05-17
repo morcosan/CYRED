@@ -20,14 +20,14 @@ GameObject::GameObject()
 }
 
 
-GameObject::GameObject( UInt uid )
+GameObject::GameObject( int uid )
 	: _uid( uid )
 	, _enabled ( TRUE )
 	, _emitEvents( TRUE )
 {
 }
 
-GameObject::GameObject( const Char* name, UInt uid )
+GameObject::GameObject( const char* name, int uid )
 	: _name( name )
 	, _uid( uid )
 	, _enabled ( TRUE )
@@ -38,7 +38,7 @@ GameObject::GameObject( const Char* name, UInt uid )
 
 GameObject::~GameObject()
 {
-	for ( UInt i = 0; i < _components.Size(); ++i )
+	for ( int i = 0; i < _components.Size(); ++i )
 	{
 		Memory::Free( _components[i] );
 	}
@@ -49,59 +49,59 @@ GameObject::~GameObject()
 
 void GameObject::OnHierarchyChange()
 {
-	for ( UInt i = 0; i < _components.Size(); ++i )
+	for ( int i = 0; i < _components.Size(); ++i )
 	{
 		_components[i]->OnHierarchyChange();
 	}
 }
 
 
-void GameObject::OnUpdate( Bool isRuntime )
+void GameObject::OnUpdate( bool isRuntime )
 {
 	// update components
-	for ( UInt i = 0; i < _components.Size(); ++i )	{
+	for ( int i = 0; i < _components.Size(); ++i )	{
 		_components[i]->OnUpdate( isRuntime );
 	}
 
 	// update child gameobjects
-	for ( UInt i = 0; i < _childNodes.Size(); ++i )	{
+	for ( int i = 0; i < _childNodes.Size(); ++i )	{
 		_childNodes[i]->OnUpdate( isRuntime );
 	}
 }
 
 
-Bool GameObject::IsEnabled() const
+bool GameObject::IsEnabled() const
 {
 	return _enabled;
 }
 
 
-UInt GameObject::GetUniqueID() const
+int GameObject::GetUniqueID() const
 {
 	return _uid;
 }
 
 
-Bool GameObject::DoesEmitEvents() const
+bool GameObject::DoesEmitEvents() const
 {
 	return _emitEvents;
 }
 
 
-UInt GameObject::GetComponentCount() const
+int GameObject::GetComponentCount() const
 {
 	return _components.Size();
 }
 
 
-Component* GameObject::GetComponentAt( UInt index ) const
+Component* GameObject::GetComponentAt( int index ) const
 {
 	ASSERT( index < _components.Size() );
 	return _components[index];
 }
 
 
-void GameObject::SetEnabled( Bool value )
+void GameObject::SetEnabled( bool value )
 {
 	_enabled = value;
 
@@ -111,13 +111,13 @@ void GameObject::SetEnabled( Bool value )
 }
 
 
-const Char* GameObject::GetName() const
+const char* GameObject::GetName() const
 {
 	return _name.GetChar();
 }
 
 
-void GameObject::SetName( const Char* name )
+void GameObject::SetName( const char* name )
 {
 	_name = name;
 
@@ -127,7 +127,7 @@ void GameObject::SetName( const Char* name )
 }
 
 
-void GameObject::SetEmitEvents( Bool value )
+void GameObject::SetEmitEvents( bool value )
 {
 	_emitEvents = value;
 }

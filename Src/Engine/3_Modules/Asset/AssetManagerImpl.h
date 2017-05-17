@@ -43,38 +43,38 @@ namespace CYRED
 			void RemoveScript	( Script* script )		override;
 			void RemovePrefab	( Prefab* prefab )		override;
 
-			Mesh*		GetMesh			( const Char* uniqueID )	override;
-			Morph*		GetMorph		( const Char* uniqueID )	override;
-			Material*	GetMaterial		( const Char* uniqueID )	override;
-			Shader*		GetShader		( const Char* uniqueID )	override;
-			Texture*	GetTexture		( const Char* uniqueID )	override;
-			Scene*		GetScene		( const Char* uniqueID )	override;
-			Script*		GetScript		( const Char* uniqueID )	override;
-			Prefab*		GetPrefab		( const Char* uniqueID )	override;
+			Mesh*		GetMesh			( const char* uniqueID )	override;
+			Morph*		GetMorph		( const char* uniqueID )	override;
+			Material*	GetMaterial		( const char* uniqueID )	override;
+			Shader*		GetShader		( const char* uniqueID )	override;
+			Texture*	GetTexture		( const char* uniqueID )	override;
+			Scene*		GetScene		( const char* uniqueID )	override;
+			Script*		GetScript		( const char* uniqueID )	override;
+			Prefab*		GetPrefab		( const char* uniqueID )	override;
 
-			UInt		GetMaterialCount()							override;
-			Material*	GetMaterialAt	( UInt index )				override;
+			int		GetMaterialCount()							override;
+			Material*	GetMaterialAt	( int index )				override;
 
-			UInt		GetMeshCount	()							override;
-			Mesh*		GetMeshAt		( UInt index )				override;
+			int		GetMeshCount	()							override;
+			Mesh*		GetMeshAt		( int index )				override;
 
-			UInt		GetMorphCount	()							override;
-			Morph*		GetMorphAt		( UInt index )				override;
+			int		GetMorphCount	()							override;
+			Morph*		GetMorphAt		( int index )				override;
 
-			UInt		GetShaderCount	()							override;
-			Shader*		GetShaderAt		( UInt index )				override;
+			int		GetShaderCount	()							override;
+			Shader*		GetShaderAt		( int index )				override;
 
-			UInt		GetTextureCount	()							override;
-			Texture*	GetTextureAt	( UInt index )				override;
+			int		GetTextureCount	()							override;
+			Texture*	GetTextureAt	( int index )				override;
 
-			UInt		GetSceneCount	()							override;
-			Scene*		GetSceneAt		( UInt index )				override;
+			int		GetSceneCount	()							override;
+			Scene*		GetSceneAt		( int index )				override;
 
-			UInt		GetScriptCount	()							override;
-			Script*		GetScriptAt		( UInt index )				override;
+			int		GetScriptCount	()							override;
+			Script*		GetScriptAt		( int index )				override;
 
-			UInt		GetPrefabCount	()							override;
-			Prefab*		GetPrefabAt		( UInt index )				override;
+			int		GetPrefabCount	()							override;
+			Prefab*		GetPrefabAt		( int index )				override;
 
 
 		protected:

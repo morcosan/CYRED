@@ -64,37 +64,37 @@ namespace CYRED
 		virtual void RemoveScript	( Script* script )		PURE_VIRTUAL;
 		virtual void RemovePrefab	( Prefab* prefab )		PURE_VIRTUAL;
 
-		virtual Mesh*		GetMesh			( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Morph*		GetMorph		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Material*	GetMaterial		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Shader*		GetShader		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Texture*	GetTexture		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Scene*		GetScene		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Script*		GetScript		( const Char* uniqueID )	PURE_VIRTUAL;
-		virtual Prefab*		GetPrefab		( const Char* uniqueID )	PURE_VIRTUAL;
+		virtual Mesh*		GetMesh			( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Morph*		GetMorph		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Material*	GetMaterial		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Shader*		GetShader		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Texture*	GetTexture		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Scene*		GetScene		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Script*		GetScript		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Prefab*		GetPrefab		( const char* uniqueID )	PURE_VIRTUAL;
 
-		virtual UInt		GetMaterialCount()				PURE_VIRTUAL;
-		virtual Material*	GetMaterialAt	( UInt index )	PURE_VIRTUAL;
+		virtual int		GetMaterialCount()				PURE_VIRTUAL;
+		virtual Material*	GetMaterialAt	( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetMeshCount	()				PURE_VIRTUAL;
-		virtual Mesh*		GetMeshAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetMeshCount	()				PURE_VIRTUAL;
+		virtual Mesh*		GetMeshAt		( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetMorphCount	()				PURE_VIRTUAL;
-		virtual Morph*		GetMorphAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetMorphCount	()				PURE_VIRTUAL;
+		virtual Morph*		GetMorphAt		( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetShaderCount	()				PURE_VIRTUAL;
-		virtual Shader*		GetShaderAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetShaderCount	()				PURE_VIRTUAL;
+		virtual Shader*		GetShaderAt		( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetTextureCount	()				PURE_VIRTUAL;
-		virtual Texture*	GetTextureAt	( UInt index )	PURE_VIRTUAL;
+		virtual int		GetTextureCount	()				PURE_VIRTUAL;
+		virtual Texture*	GetTextureAt	( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetSceneCount	()				PURE_VIRTUAL;
-		virtual Scene*		GetSceneAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetSceneCount	()				PURE_VIRTUAL;
+		virtual Scene*		GetSceneAt		( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetScriptCount	()				PURE_VIRTUAL;
-		virtual Script*		GetScriptAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetScriptCount	()				PURE_VIRTUAL;
+		virtual Script*		GetScriptAt		( int index )	PURE_VIRTUAL;
 
-		virtual UInt		GetPrefabCount	()				PURE_VIRTUAL;
-		virtual Prefab*		GetPrefabAt		( UInt index )	PURE_VIRTUAL;
+		virtual int		GetPrefabCount	()				PURE_VIRTUAL;
+		virtual Prefab*		GetPrefabAt		( int index )	PURE_VIRTUAL;
 	};
 }

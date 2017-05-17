@@ -144,7 +144,7 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 					}
 
 					// get icon
-					const Char* icon = NULL;
+					const char* icon = NULL;
 					switch ( asset->GetAssetType() ) {
 						case AssetType::MATERIAL:	icon = ICON_MATERIAL;	break;
 						case AssetType::MESH:		icon = ICON_MESH;		break;
@@ -160,7 +160,7 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 				}
 
 				// check for duplicated path
-				Bool isDuplicate = _IsFilePathDuplicate( asset );
+				bool isDuplicate = _IsFilePathDuplicate( asset );
 				if ( isDuplicate ) {
 					DebugManager::Singleton()->Log( DEBUG_DUPLICATED_FILE_PATH );
 
@@ -245,7 +245,7 @@ void Panel_Assets::A_ItemRenamed( QTreeWidgetItem* item, int column )
 			QString newFolder = dir.relativeFilePath( fileInfo.absolutePath() );
 			newFolder.append( "/" ).append( item->text(0) );
 			
-			Bool success = dir.rename( item->whatsThis(1), newFolder );
+			bool success = dir.rename( item->whatsThis(1), newFolder );
 			if ( success ) {
 				treeItem->setWhatsThis( 1, newFolder );
 			}
@@ -378,7 +378,7 @@ void Panel_Assets::A_Duplicate()
 	clone->SetEmitEvents( TRUE );
 
 	// add to asset pool and get icon
-	const Char* icon = NULL;
+	const char* icon = NULL;
 
 	switch ( asset->GetAssetType() ) {
 		case AssetType::MATERIAL:
@@ -537,7 +537,7 @@ void Panel_Assets::A_Create_Folder()
 
 	// generate name
 	// find new name
-	Int nextIndex = -1;
+	int nextIndex = -1;
 	FiniteString folderName;
 	FiniteString folderPath;
 
@@ -717,7 +717,7 @@ void Panel_Assets::ReloadAllAssets()
 					 _qtTree->invisibleRootItem() );
 
 	// expand main folders
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); i++ ) {
+	for ( int i = 0; i < _qtTree->topLevelItemCount(); i++ ) {
 		_qtTree->topLevelItem( i )->setExpanded( TRUE );
 	}
 }
@@ -739,7 +739,7 @@ void Panel_Assets::_LoadIcons()
 }
 
 
-void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath, 
+void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath, 
 								   QTreeWidgetItem* parentItem )
 {
 	ASSERT( _isInitialized );
@@ -771,7 +771,7 @@ void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath,
 			fileFormat.prepend( "." );
 			QString fileName = fileInfo.completeBaseName();
 			QIcon icon;
-			Bool isUnknown = FALSE;
+			bool isUnknown = FALSE;
 			Asset* asset = NULL;
 			StatusAssetAdd statusAdd = StatusAssetAdd::SUCCESS;
 
@@ -909,7 +909,7 @@ void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath,
 					{
 						// if temporary, reload the temporary one and delete this one
 						Asset* other = NULL;
-						const Char* uid = asset->GetUniqueID();
+						const char* uid = asset->GetUniqueID();
 
 						switch ( asset->GetAssetType() ) {
 							case AssetType::MATERIAL:
@@ -1000,11 +1000,11 @@ void Panel_Assets::_ParseDirectory( const Char* dirName, const Char* dirPath,
 }
 
 
-Asset* Panel_Assets::_AddNewAsset( const Char* dirPath, QTreeWidgetItem* parentItem,
+Asset* Panel_Assets::_AddNewAsset( const char* dirPath, QTreeWidgetItem* parentItem,
 								  AssetType assetType )
 {
 	Asset*		asset		= NULL;
-	const Char* icon		= NULL;
+	const char* icon		= NULL;
 
 	switch ( assetType ) {
 		case AssetType::MATERIAL:
@@ -1146,7 +1146,7 @@ void Panel_Assets::_AddRightClickActions( QTreeWidgetItem* item )
 				QObject::connect( actionEdit, &QAction::triggered, this, &Panel_Assets::A_EditPrefab );
 
 				// add instantiate option if scene is open
-				UInt totalScenes = SceneManager::Singleton()->CountLoadedScenes();
+				int totalScenes = SceneManager::Singleton()->CountLoadedScenes();
 				if ( totalScenes > 0 ) {
 					QAction* actionInstantiate = _qtRightClickMenu->addAction( MENU_PREFAB_INST );
 					QObject::connect( actionInstantiate, &QAction::triggered, this, &Panel_Assets::A_InstPrefab );
@@ -1210,7 +1210,7 @@ void Panel_Assets::_AddRightClickActions( QTreeWidgetItem* item )
 }
 
 
-void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
+void Panel_Assets::_SaveAssetToFile( Asset* asset, const char* oldName )
 {
 	ASSERT( asset != NULL );
 
@@ -1218,7 +1218,7 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
 	// this way, if writing fails, you still got old file
 
 	FiniteString filePath;
-	const Char* fileFormat = NULL;
+	const char* fileFormat = NULL;
 	String data;
 
 	switch ( asset->GetAssetType() ) {
@@ -1276,10 +1276,10 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
 			filePath.Set( "%s%s%s", asset->GetDirPath(), oldName, fileFormat );
 
 			QFile file( filePath.GetChar() );
-			Bool exists = file.exists();
+			bool exists = file.exists();
 			if ( exists ) {
 				filePath.Set( "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
-				Bool success = file.rename( filePath.GetChar() );
+				bool success = file.rename( filePath.GetChar() );
 			}
 
 			return;
@@ -1299,7 +1299,7 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
 
 	filePath.Set( "%s%s%s", asset->GetDirPath(), asset->GetName(), fileFormat );
 
-	Bool success = FileManager::Singleton()->WriteFile( filePath.GetChar(), 
+	bool success = FileManager::Singleton()->WriteFile( filePath.GetChar(), 
 														data.GetChar() );
 
 	// now delete old file
@@ -1310,7 +1310,7 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, const Char* oldName )
 }
 
 
-Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
+bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 {
 	AssetManager* assetMgr = AssetManager::Singleton();
 	QString name( asset->GetName() );
@@ -1319,7 +1319,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 	switch ( asset->GetAssetType() ) {
 		case AssetType::TEXTURE:
 		{
-			for ( UInt i = 0; i < assetMgr->GetTextureCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetTextureCount(); ++i ) {
 				Texture* other = assetMgr->GetTextureAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1333,7 +1333,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::SHADER:
 		{
-			for ( UInt i = 0; i < assetMgr->GetShaderCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetShaderCount(); ++i ) {
 				Shader* other = assetMgr->GetShaderAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1347,7 +1347,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::MATERIAL:
 		{
-			for ( UInt i = 0; i < assetMgr->GetMaterialCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetMaterialCount(); ++i ) {
 				Material* other = assetMgr->GetMaterialAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1361,7 +1361,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::MESH:
 		{
-			for ( UInt i = 0; i < assetMgr->GetMeshCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetMeshCount(); ++i ) {
 				Mesh* other = assetMgr->GetMeshAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1375,7 +1375,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::MORPH:
 		{
-			for ( UInt i = 0; i < assetMgr->GetMorphCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetMorphCount(); ++i ) {
 				Morph* other = assetMgr->GetMorphAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1389,7 +1389,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::SCRIPT:
 		{
-			for ( UInt i = 0; i < assetMgr->GetScriptCount(); ++i )	{
+			for ( int i = 0; i < assetMgr->GetScriptCount(); ++i )	{
 				Script* other = assetMgr->GetScriptAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1403,7 +1403,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::SCENE:
 		{
-			for ( UInt i = 0; i < assetMgr->GetSceneCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetSceneCount(); ++i ) {
 				Scene* other = assetMgr->GetSceneAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1417,7 +1417,7 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 
 		case AssetType::PREFAB:
 		{
-			for ( UInt i = 0; i < assetMgr->GetPrefabCount(); ++i ) {
+			for ( int i = 0; i < assetMgr->GetPrefabCount(); ++i ) {
 				Prefab* other = assetMgr->GetPrefabAt( i );
 				if ( asset != other && 
 					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
@@ -1437,8 +1437,8 @@ Bool Panel_Assets::_IsFilePathDuplicate( Asset* asset )
 void Panel_Assets::_SetAvailableName( Asset* asset )
 {
 	// get base name and extension according to type
-	const Char* baseName = NULL;
-	const Char* extension = NULL;
+	const char* baseName = NULL;
+	const char* extension = NULL;
 
 	switch ( asset->GetAssetType() ) {
 		case AssetType::MATERIAL:
@@ -1478,7 +1478,7 @@ void Panel_Assets::_SetAvailableName( Asset* asset )
 	}
 
 	// find new name
-	Int assetIndex = -1;
+	int assetIndex = -1;
 	do {
 		assetIndex++;
 		FiniteString fileName( "%s%d", baseName, assetIndex );
@@ -1490,7 +1490,7 @@ void Panel_Assets::_SetAvailableName( Asset* asset )
 
 
 Panel_Assets::_QtTreeItem* Panel_Assets::_AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, 
-														const Char* icon )
+														const char* icon )
 {
 	// create item
 	_QtTreeItem* treeItem = Memory::Alloc<_QtTreeItem>();
@@ -1531,7 +1531,7 @@ Panel_Assets::_QtTreeItem* Panel_Assets::_FindTreeItem( Asset* asset )
 }
 
 
-Panel_Assets::_QtTreeItem* Panel_Assets::_FindFolderItem( const Char* dirPath )
+Panel_Assets::_QtTreeItem* Panel_Assets::_FindFolderItem( const char* dirPath )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {

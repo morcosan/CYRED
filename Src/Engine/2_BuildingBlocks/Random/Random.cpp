@@ -12,37 +12,37 @@ using namespace CYRED;
 
 
 
-const UInt Random::UNIQUE_ID_SIZE	= 32;		// same as Unity
-const Char Random::ALPHA_NUM[]		= "0123456789"
+const int Random::UNIQUE_ID_SIZE	= 32;		// same as Unity
+const char Random::ALPHA_NUM[]		= "0123456789"
 									  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 									  "abcdefghijklmnopqrstuvwxyz";
 
 
 void Random::Initialize()
 {
-	srand( CAST_S( UInt, time( NULL ) ) );
+	srand( CAST_S( int, time( NULL ) ) );
 }
 
 
-void Random::SetSeed( UInt value )
+void Random::SetSeed( int value )
 {
 	srand( value );
 }
 
 
-Float Random::FromRangeFloat( Float min, Float max )
+float Random::FromRangeFloat( float min, float max )
 {
 	if ( min >= max )
 	{
 		return min;
 	}
 
-	Float r = CAST_S( Float, rand() ) / RAND_MAX; //! from 0-1 inclusive
+	float r = CAST_S( float, rand() ) / RAND_MAX; //! from 0-1 inclusive
 	return (r * (max - min) + min);
 }
 
 
-Int Random::FromRangeInt( Int min, Int max )
+int Random::FromRangeInt( int min, int max )
 {
 	if ( min >= max )
 	{
@@ -52,10 +52,10 @@ Int Random::FromRangeInt( Int min, Int max )
 }
 
 
-Vector2 Random::FromCircle( Float radius )
+Vector2 Random::FromCircle( float radius )
 {
-	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
-	Float r = FromRangeFloat( 0.0f, radius );
+	float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	float r = FromRangeFloat( 0.0f, radius );
 
 	Vector2 point;
 	point.x = r * Math::Cos( theta );
@@ -65,9 +65,9 @@ Vector2 Random::FromCircle( Float radius )
 }
 
 
-Vector2 Random::FromCircleEdge( Float radius )
+Vector2 Random::FromCircleEdge( float radius )
 {
-	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
 
 	Vector2 point;
 	point.x = radius * Math::Cos( theta );
@@ -77,11 +77,11 @@ Vector2 Random::FromCircleEdge( Float radius )
 }
 
 
-Vector3 Random::FromSphere( Float radius )
+Vector3 Random::FromSphere( float radius )
 {
-	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
-	Float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
-	Float r		= FromRangeFloat( 0.0f, radius );
+	float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
+	float r		= FromRangeFloat( 0.0f, radius );
 
 	Vector3 point;
 	point.x = r * Math::Cos( theta ) * Math::Cos( phi );
@@ -92,10 +92,10 @@ Vector3 Random::FromSphere( Float radius )
 }
 
 
-Vector3 Random::FromSphereEdge( Float radius )
+Vector3 Random::FromSphereEdge( float radius )
 {
-	Float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
-	Float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
+	float theta = FromRangeFloat( 0.0f, 2 * Math::PI );
+	float phi	= FromRangeFloat( - Math::HALF_PI, Math::HALF_PI );
 
 	Vector3 point;
 	point.x = radius * Math::Cos( theta ) * Math::Cos( phi );
@@ -108,11 +108,11 @@ Vector3 Random::FromSphereEdge( Float radius )
 
 String Random::GenerateUniqueID()
 {
-	UInt totalChars = sizeof( ALPHA_NUM );
+	int totalChars = sizeof( ALPHA_NUM );
 
-	Char id[ UNIQUE_ID_SIZE + 1 ];
+	char id[ UNIQUE_ID_SIZE + 1 ];
 
-	for ( UInt i = 0; i < UNIQUE_ID_SIZE; ++i )
+	for ( int i = 0; i < UNIQUE_ID_SIZE; ++i )
 	{
 		id[i] = ALPHA_NUM[ rand() % (totalChars - 1) ];
     }
@@ -123,19 +123,19 @@ String Random::GenerateUniqueID()
 }
 
 
-Bool Random::ValidateUniqueID( const Char* uniqueID )
+bool Random::ValidateUniqueID( const char* uniqueID )
 {
 	if ( strlen( uniqueID ) != UNIQUE_ID_SIZE )
 	{
 		return FALSE;
 	}
 
-	UInt totalChars = sizeof( ALPHA_NUM );
+	int totalChars = sizeof( ALPHA_NUM );
 
-	for ( UInt i = 0; i < UNIQUE_ID_SIZE; ++i )
+	for ( int i = 0; i < UNIQUE_ID_SIZE; ++i )
 	{
-		Bool found = FALSE;
-		for ( UInt j = 0; j < totalChars; ++j )
+		bool found = FALSE;
+		for ( int j = 0; j < totalChars; ++j )
 		{
 			if ( uniqueID[i] == ALPHA_NUM[j] )
 			{
@@ -153,25 +153,25 @@ Bool Random::ValidateUniqueID( const Char* uniqueID )
 }
 
 
-String Random::GenerateConstantID( const Char* text )
+String Random::GenerateConstantID( const char* text )
 {
 	// get available chars
-	UInt totalAlphanum = sizeof( ALPHA_NUM );
+	int totalAlphanum = sizeof( ALPHA_NUM );
 
 	// create id string
-	Char id[ UNIQUE_ID_SIZE + 1 ];
+	char id[ UNIQUE_ID_SIZE + 1 ];
 
 	// start from end of text
-	UInt textSize = strlen( text );
+	int textSize = strlen( text );
 
 	// replace each char with an alphanum
-	for ( UInt i = 0; i < UNIQUE_ID_SIZE; ++i )
+	for ( int i = 0; i < UNIQUE_ID_SIZE; ++i )
 	{
-		UInt textIndex = textSize - i - 1;
+		int textIndex = textSize - i - 1;
 		if ( textIndex < 0 ) {
 			textIndex += textSize;
 		}
-		UInt alphanumIndex = CAST_S( UInt, text[textIndex] ) % totalAlphanum;
+		int alphanumIndex = CAST_S( int, text[textIndex] ) % totalAlphanum;
 		id[i] = ALPHA_NUM[alphanumIndex];
     }
 

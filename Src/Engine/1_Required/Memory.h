@@ -33,7 +33,7 @@ namespace CYRED
 		}
 
 		template <typename T>
-		static T* AllocArray( UInt size )
+		static T* AllocArray( int size )
 		{
 			// TODO
 			return new T[size];

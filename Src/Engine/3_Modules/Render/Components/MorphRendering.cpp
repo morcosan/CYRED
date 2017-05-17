@@ -47,37 +47,37 @@ Morph* MorphRendering::GetMorph() const
 }
 
 
-Float MorphRendering::GetDurationState() const
+float MorphRendering::GetDurationState() const
 {
 	return _durationState;
 }
 
 
-Float MorphRendering::GetDurationStateChange() const
+float MorphRendering::GetDurationStateChange() const
 {
 	return _durationStateChange;
 }
 
 
-Bool MorphRendering::IsPlaying() const
+bool MorphRendering::IsPlaying() const
 {
 	return _isPlaying;
 }
 
 
-UInt MorphRendering::GetFirstState() const
+int MorphRendering::GetFirstState() const
 {
 	return _firstState;
 }
 
 
-UInt MorphRendering::GetSecondState() const
+int MorphRendering::GetSecondState() const
 {
 	return _secondState;
 }
 
 
-Float MorphRendering::GetStateRatio() const
+float MorphRendering::GetStateRatio() const
 {
 	return (_currDuration > 0) ? (_currTime / _currDuration) : 0.0f;
 }
@@ -112,7 +112,7 @@ void MorphRendering::SetMorph( Morph* value )
 }
 
 
-void MorphRendering::SetDurationState( Float value )
+void MorphRendering::SetDurationState( float value )
 {
 	_durationState = (value > 0.0f) ? value : 0.0f;
 
@@ -123,7 +123,7 @@ void MorphRendering::SetDurationState( Float value )
 }
 
 
-void MorphRendering::SetDurationStateChange( Float value )
+void MorphRendering::SetDurationStateChange( float value )
 {
 	_durationStateChange = (value > 0.0f) ? value : 0.0f;
 
@@ -134,7 +134,7 @@ void MorphRendering::SetDurationStateChange( Float value )
 }
 
 
-void MorphRendering::SetIsPlaying( Bool value )
+void MorphRendering::SetIsPlaying( bool value )
 {
 	_isPlaying = value;
 
@@ -145,7 +145,7 @@ void MorphRendering::SetIsPlaying( Bool value )
 }
 
 
-void MorphRendering::_OnUpdate( Bool isRuntime )
+void MorphRendering::_OnUpdate( bool isRuntime )
 {
 	if ( _morph != NULL && _isPlaying )
 	{
@@ -157,7 +157,7 @@ void MorphRendering::_OnUpdate( Bool isRuntime )
 			_currTime = 0.0f;
 			_currDuration = _isInState ? _durationState : _durationStateChange;
 
-			UInt numStates = _morph->GetActiveStates();
+			int numStates = _morph->GetActiveStates();
 
 			if ( !_isInState )
 			{

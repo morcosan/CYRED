@@ -41,50 +41,50 @@ void AssetManagerImpl::Finalize()
 void AssetManagerImpl::ClearAll()
 {
 	// clear meshes
-	for ( UInt i = 0; i < _meshes.Size(); ++i ) {
-		Bool emitEvents = _meshes[i]->DoesEmitEvents();
+	for ( int i = 0; i < _meshes.Size(); ++i ) {
+		bool emitEvents = _meshes[i]->DoesEmitEvents();
 		_meshes[i]->SetEmitEvents( FALSE );
 		_meshes[i]->ClearAsset();
 		_meshes[i]->SetEmitEvents( emitEvents );
 	}
 	// clear materials
-	for ( UInt i = 0; i < _materials.Size(); ++i ) {
-		Bool emitEvents = _materials[i]->DoesEmitEvents();
+	for ( int i = 0; i < _materials.Size(); ++i ) {
+		bool emitEvents = _materials[i]->DoesEmitEvents();
 		_materials[i]->SetEmitEvents( FALSE );
 		_materials[i]->ClearAsset();
 		_materials[i]->SetEmitEvents( emitEvents );
 	}
 	// clear textures
-	for ( UInt i = 0; i < _textures.Size(); ++i ) {
-		Bool emitEvents = _textures[i]->DoesEmitEvents();
+	for ( int i = 0; i < _textures.Size(); ++i ) {
+		bool emitEvents = _textures[i]->DoesEmitEvents();
 		_textures[i]->SetEmitEvents( FALSE );
 		_textures[i]->ClearAsset();
 		_textures[i]->SetEmitEvents( emitEvents );
 	}
 	// clear shaders
-	for ( UInt i = 0; i < _shaders.Size(); ++i ) {
-		Bool emitEvents = _shaders[i]->DoesEmitEvents();
+	for ( int i = 0; i < _shaders.Size(); ++i ) {
+		bool emitEvents = _shaders[i]->DoesEmitEvents();
 		_shaders[i]->SetEmitEvents( FALSE );
 		_shaders[i]->ClearAsset();
 		_shaders[i]->SetEmitEvents( emitEvents );
 	}
 	// clear scripts
-	for ( UInt i = 0; i < _scripts.Size(); ++i ) {
-		Bool emitEvents = _scripts[i]->DoesEmitEvents();
+	for ( int i = 0; i < _scripts.Size(); ++i ) {
+		bool emitEvents = _scripts[i]->DoesEmitEvents();
 		_scripts[i]->SetEmitEvents( FALSE );
 		_scripts[i]->ClearAsset();
 		_scripts[i]->SetEmitEvents( emitEvents );
 	}
 	// clear prefabs
-	for ( UInt i = 0; i < _prefabs.Size(); ++i ) {
-		Bool emitEvents = _prefabs[i]->DoesEmitEvents();
+	for ( int i = 0; i < _prefabs.Size(); ++i ) {
+		bool emitEvents = _prefabs[i]->DoesEmitEvents();
 		_prefabs[i]->SetEmitEvents( FALSE );
 		_prefabs[i]->ClearAsset();
 		_prefabs[i]->SetEmitEvents( emitEvents );
 	}
 
 	// do not clear scenes
-	for ( UInt i = 0; i < _scenes.Size(); ++i )	{
+	for ( int i = 0; i < _scenes.Size(); ++i )	{
 		_scenes[i]->SetIsTemporary( TRUE );
 	}
 }
@@ -94,7 +94,7 @@ StatusAssetAdd AssetManagerImpl::AddMesh( Mesh* mesh )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( mesh->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( mesh->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -113,7 +113,7 @@ StatusAssetAdd AssetManagerImpl::AddMorph( Morph* morph )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( morph->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( morph->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -133,7 +133,7 @@ StatusAssetAdd AssetManagerImpl::AddMaterial( Material* material )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( material->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( material->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -153,7 +153,7 @@ StatusAssetAdd AssetManagerImpl::AddShader( Shader* shader )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( shader->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( shader->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -173,7 +173,7 @@ StatusAssetAdd AssetManagerImpl::AddTexture( Texture* texture )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( texture->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( texture->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -193,7 +193,7 @@ StatusAssetAdd AssetManagerImpl::AddScene( Scene* scene )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( scene->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( scene->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -213,7 +213,7 @@ StatusAssetAdd AssetManagerImpl::AddScript( Script* script )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( script->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( script->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -233,7 +233,7 @@ StatusAssetAdd AssetManagerImpl::AddPrefab( Prefab* prefab )
 {
 	ASSERT( _isInitialized );
 
-	Bool isOk = Random::ValidateUniqueID( prefab->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( prefab->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
@@ -258,8 +258,8 @@ void AssetManagerImpl::RemoveMesh( Mesh* mesh )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _meshes.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _meshes.Size(); i++ ) {
 		if ( _meshes[i] == mesh ) {
 			index = i;
 			break;
@@ -282,8 +282,8 @@ void AssetManagerImpl::RemoveMorph( Morph* morph )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _morphs.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _morphs.Size(); i++ ) {
 		if ( _morphs[i] == morph ) {
 			index = i;
 			break;
@@ -306,8 +306,8 @@ void AssetManagerImpl::RemoveMaterial( Material* material )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _materials.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _materials.Size(); i++ ) {
 		if ( _materials[i] == material ) {
 			index = i;
 			break;
@@ -330,8 +330,8 @@ void AssetManagerImpl::RemoveShader( Shader* shader )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _shaders.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _shaders.Size(); i++ ) {
 		if ( _shaders[i] == shader ) {
 			index = i;
 			break;
@@ -354,8 +354,8 @@ void AssetManagerImpl::RemoveTexture( Texture* texture )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _textures.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _textures.Size(); i++ ) {
 		if ( _textures[i] == texture ) {
 			index = i;
 			break;
@@ -378,8 +378,8 @@ void AssetManagerImpl::RemoveScene( Scene* scene )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _scenes.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _scenes.Size(); i++ ) {
 		if ( _scenes[i] == scene ) {
 			index = i;
 			break;
@@ -402,8 +402,8 @@ void AssetManagerImpl::RemoveScript( Script* script )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _scripts.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _scripts.Size(); i++ ) {
 		if ( _scripts[i] == script ) {
 			index = i;
 			break;
@@ -426,8 +426,8 @@ void AssetManagerImpl::RemovePrefab( Prefab* prefab )
 	}
 
 	// find index in array
-	UInt index = -1;
-	for ( UInt i = 0; i < _prefabs.Size(); i++ ) {
+	int index = -1;
+	for ( int i = 0; i < _prefabs.Size(); i++ ) {
 		if ( _prefabs[i] == prefab ) {
 			index = i;
 			break;
@@ -441,13 +441,13 @@ void AssetManagerImpl::RemovePrefab( Prefab* prefab )
 }
 
 
-Mesh* AssetManagerImpl::GetMesh( const Char* uniqueID )
+Mesh* AssetManagerImpl::GetMesh( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _meshes.Size(); ++i ) {
+	for ( int i = 0; i < _meshes.Size(); ++i ) {
 		if ( temp == _meshes[i]->GetUniqueID() ) {
 			return _meshes[i];
 		}
@@ -456,13 +456,13 @@ Mesh* AssetManagerImpl::GetMesh( const Char* uniqueID )
 	return NULL;
 }
 
-Morph* AssetManagerImpl::GetMorph( const Char* uniqueID )
+Morph* AssetManagerImpl::GetMorph( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _morphs.Size(); ++i ) {
+	for ( int i = 0; i < _morphs.Size(); ++i ) {
 		if ( temp == _morphs[i]->GetUniqueID() ) {
 			return _morphs[i];
 		}
@@ -472,13 +472,13 @@ Morph* AssetManagerImpl::GetMorph( const Char* uniqueID )
 }
 
 
-Material* AssetManagerImpl::GetMaterial( const Char* uniqueID )
+Material* AssetManagerImpl::GetMaterial( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _materials.Size(); ++i ) {
+	for ( int i = 0; i < _materials.Size(); ++i ) {
 		if ( temp == _materials[i]->GetUniqueID() ) {
 			return _materials[i];
 		}
@@ -488,13 +488,13 @@ Material* AssetManagerImpl::GetMaterial( const Char* uniqueID )
 }
 
 
-Shader* AssetManagerImpl::GetShader( const Char* uniqueID )
+Shader* AssetManagerImpl::GetShader( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _shaders.Size(); ++i ) {
+	for ( int i = 0; i < _shaders.Size(); ++i ) {
 		if ( temp == _shaders[i]->GetUniqueID() ) {
 			return _shaders[i];
 		}
@@ -504,13 +504,13 @@ Shader* AssetManagerImpl::GetShader( const Char* uniqueID )
 }
 
 
-Texture* AssetManagerImpl::GetTexture( const Char* uniqueID )
+Texture* AssetManagerImpl::GetTexture( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _textures.Size(); ++i ) {
+	for ( int i = 0; i < _textures.Size(); ++i ) {
 		if ( temp == _textures[i]->GetUniqueID() ) {
 			return _textures[i];
 		}
@@ -520,13 +520,13 @@ Texture* AssetManagerImpl::GetTexture( const Char* uniqueID )
 }
 
 
-Scene* AssetManagerImpl::GetScene( const Char* uniqueID )
+Scene* AssetManagerImpl::GetScene( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _scenes.Size(); ++i ) {
+	for ( int i = 0; i < _scenes.Size(); ++i ) {
 		if ( temp == _scenes[i]->GetUniqueID() ) {
 			return _scenes[i];
 		}
@@ -536,13 +536,13 @@ Scene* AssetManagerImpl::GetScene( const Char* uniqueID )
 }
 
 
-Script* AssetManagerImpl::GetScript( const Char * uniqueID )
+Script* AssetManagerImpl::GetScript( const char * uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _scripts.Size(); ++i ) {
+	for ( int i = 0; i < _scripts.Size(); ++i ) {
 		if ( temp == _scripts[i]->GetUniqueID() ) {
 			return _scripts[i];
 		}
@@ -552,13 +552,13 @@ Script* AssetManagerImpl::GetScript( const Char * uniqueID )
 }
 
 
-Prefab* AssetManagerImpl::GetPrefab( const Char* uniqueID )
+Prefab* AssetManagerImpl::GetPrefab( const char* uniqueID )
 {
 	ASSERT( _isInitialized );
 
 	String temp( uniqueID );
 
-	for ( UInt i = 0; i < _prefabs.Size(); ++i ) {
+	for ( int i = 0; i < _prefabs.Size(); ++i ) {
 		if ( temp == _prefabs[i]->GetUniqueID() ) {
 			return _prefabs[i];
 		}
@@ -568,7 +568,7 @@ Prefab* AssetManagerImpl::GetPrefab( const Char* uniqueID )
 }
 
 
-UInt AssetManagerImpl::GetMaterialCount()
+int AssetManagerImpl::GetMaterialCount()
 {
 	ASSERT( _isInitialized );
 
@@ -576,7 +576,7 @@ UInt AssetManagerImpl::GetMaterialCount()
 }
 
 
-Material* AssetManagerImpl::GetMaterialAt( UInt index )
+Material* AssetManagerImpl::GetMaterialAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _materials.Size() );
@@ -585,7 +585,7 @@ Material* AssetManagerImpl::GetMaterialAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetMeshCount()
+int AssetManagerImpl::GetMeshCount()
 {
 	ASSERT( _isInitialized );
 
@@ -593,7 +593,7 @@ UInt AssetManagerImpl::GetMeshCount()
 }
 
 
-Mesh* AssetManagerImpl::GetMeshAt( UInt index )
+Mesh* AssetManagerImpl::GetMeshAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _meshes.Size() );
@@ -602,7 +602,7 @@ Mesh* AssetManagerImpl::GetMeshAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetMorphCount()
+int AssetManagerImpl::GetMorphCount()
 {
 	ASSERT( _isInitialized );
 
@@ -610,7 +610,7 @@ UInt AssetManagerImpl::GetMorphCount()
 }
 
 
-Morph* AssetManagerImpl::GetMorphAt( UInt index )
+Morph* AssetManagerImpl::GetMorphAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _morphs.Size() );
@@ -619,7 +619,7 @@ Morph* AssetManagerImpl::GetMorphAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetShaderCount()
+int AssetManagerImpl::GetShaderCount()
 {
 	ASSERT( _isInitialized );
 
@@ -627,7 +627,7 @@ UInt AssetManagerImpl::GetShaderCount()
 }
 
 
-Shader* AssetManagerImpl::GetShaderAt( UInt index )
+Shader* AssetManagerImpl::GetShaderAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _shaders.Size() );
@@ -636,7 +636,7 @@ Shader* AssetManagerImpl::GetShaderAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetTextureCount()
+int AssetManagerImpl::GetTextureCount()
 {
 	ASSERT( _isInitialized );
 
@@ -644,7 +644,7 @@ UInt AssetManagerImpl::GetTextureCount()
 }
 
 
-Texture* AssetManagerImpl::GetTextureAt( UInt index )
+Texture* AssetManagerImpl::GetTextureAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _textures.Size() );
@@ -653,14 +653,14 @@ Texture* AssetManagerImpl::GetTextureAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetSceneCount()
+int AssetManagerImpl::GetSceneCount()
 {
 	ASSERT( _isInitialized );
 	return _scenes.Size();
 }
 
 
-Scene* AssetManagerImpl::GetSceneAt( UInt index )
+Scene* AssetManagerImpl::GetSceneAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _scenes.Size() );
@@ -668,27 +668,27 @@ Scene* AssetManagerImpl::GetSceneAt( UInt index )
 }
 
 
-UInt AssetManagerImpl::GetScriptCount()
+int AssetManagerImpl::GetScriptCount()
 {
 	ASSERT( _isInitialized );
 	return _scripts.Size();
 }
 
 
-Script* AssetManagerImpl::GetScriptAt( UInt index )
+Script* AssetManagerImpl::GetScriptAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _scripts.Size() );
 	return _scripts[index];
 }
 
-UInt AssetManagerImpl::GetPrefabCount()
+int AssetManagerImpl::GetPrefabCount()
 {
 	ASSERT( _isInitialized );
 	return _prefabs.Size();
 }
 
-Prefab* AssetManagerImpl::GetPrefabAt( UInt index )
+Prefab* AssetManagerImpl::GetPrefabAt( int index )
 {
 	ASSERT( _isInitialized );
 	ASSERT( index < _prefabs.Size() );

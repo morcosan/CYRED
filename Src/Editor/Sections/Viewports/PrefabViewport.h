@@ -21,12 +21,12 @@ namespace CYRED
 	class PrefabViewport : public Panel_Viewport, public IEventListener
 	{
 	public:
-		const Char*		PANEL_TITLE = "Prefab Viewport";
+		const char*		PANEL_TITLE = "Prefab Viewport";
 		const Vector2	MIN_SIZE	= Vector2( 400, 200 );
 
 
 	public:
-		PrefabViewport( UInt panelIndex );
+		PrefabViewport( int panelIndex );
 		virtual ~PrefabViewport() {}
 
 
@@ -39,9 +39,9 @@ namespace CYRED
 
 
 	protected:
-		static DataMap<TechniqueType, UInt>	_techSlots;
+		static DataMap<TechniqueType, int>	_techSlots;
 
-		static UInt	GetSlotForTechnique( TechniqueType type );
+		static int	GetSlotForTechnique( TechniqueType type );
 
 
 	protected:
@@ -49,7 +49,7 @@ namespace CYRED
 
 
 	protected:
-		virtual const Char*	_GetPanelTitle	() override;
+		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;
 		virtual void		_OnFinalize		() override;

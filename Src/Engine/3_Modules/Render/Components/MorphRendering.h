@@ -31,38 +31,38 @@ namespace CYRED
 	public:
 		Material*	GetMaterial				() const;
 		Morph*		GetMorph				() const;
-		Float		GetDurationState		() const;
-		Float		GetDurationStateChange	() const;
-		Bool		IsPlaying				() const;
+		float		GetDurationState		() const;
+		float		GetDurationStateChange	() const;
+		bool		IsPlaying				() const;
 
-		UInt		GetFirstState			() const;
-		UInt		GetSecondState			() const;
-		Float		GetStateRatio			() const;
+		int		GetFirstState			() const;
+		int		GetSecondState			() const;
+		float		GetStateRatio			() const;
 
 		void		SetMaterial				( Material* value );
 		void		SetMorph				( Morph* value );
-		void		SetDurationState		( Float value );
-		void		SetDurationStateChange	( Float value );
-		void		SetIsPlaying			( Bool value );
+		void		SetDurationState		( float value );
+		void		SetDurationStateChange	( float value );
+		void		SetIsPlaying			( bool value );
 
 
 	protected:
 		void _OnEnable()				 override {}
-		void _OnUpdate( Bool isRuntime ) override;
+		void _OnUpdate( bool isRuntime ) override;
 
 
 	protected:
 		Material*	_material;
 		Morph*		_morph;
 
-		Float		_durationState;
-		Float		_durationStateChange;
-		Bool		_isPlaying;
+		float		_durationState;
+		float		_durationStateChange;
+		bool		_isPlaying;
 
-		UInt		_firstState;
-		UInt		_secondState;
-		Float		_currDuration;
-		Float		_currTime;
-		Bool		_isInState;
+		int		_firstState;
+		int		_secondState;
+		float		_currDuration;
+		float		_currTime;
+		bool		_isInState;
 	};
 }

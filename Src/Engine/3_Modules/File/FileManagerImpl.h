@@ -20,28 +20,28 @@ namespace CYRED
 			void Initialize		( FileSystem* fileSystem, MeshLoader* meshLoader )	override;
 			void Finalize		() override;
 
-			Char*	ReadFile	( const Char* filePath, OUT Int& fileSize )		override;
-			Char*	ReadFile	( const Char* filePath )						override;
-			Bool	WriteFile	( const Char* filePath, const Char* buffer )	override;
-			Bool	DeleteFile	( const Char* filePath )						override;
-			Bool	CopyFile	( const Char* srcPath, const Char* dstPath )	override;
+			char*	ReadFile	( const char* filePath, OUT int& fileSize )		override;
+			char*	ReadFile	( const char* filePath )						override;
+			bool	WriteFile	( const char* filePath, const char* buffer )	override;
+			bool	DeleteFile	( const char* filePath )						override;
+			bool	CopyFile	( const char* srcPath, const char* dstPath )	override;
 			
-			Bool	DeleteDir	( const Char* dirPath )							override;
-			Bool	CreateDir	( const Char* parentPath, const Char* dirName )	override;
+			bool	DeleteDir	( const char* dirPath )							override;
+			bool	CreateDir	( const char* parentPath, const char* dirName )	override;
 
-			UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
-								  OUT Int *height, OUT Int *channels )			override;
-			Bool	WriteImage	( const Char* filePath, const UChar* imageBuffer, 
-								  Int width, Int height, Int channels,
+			uchar*	ReadImage	( const char* filePath, OUT int *width, 
+								  OUT int *height, OUT int *channels )			override;
+			bool	WriteImage	( const char* filePath, const uchar* imageBuffer, 
+								  int width, int height, int channels,
 								  ImageType type )								override;
 			
-			Bool	ImportMesh	( const Char* data, UInt dataSize, 
+			bool	ImportMesh	( const char* data, int dataSize, 
 								  OUT DataArray<Vertex>& vertices, 
-								  OUT DataArray<UInt>& indices )					override;
-			Bool	LoadMesh	( const Char* data, OUT DataArray<Vertex>& vertices, 
-								  OUT DataArray<UInt>& indices )					override;
+								  OUT DataArray<int>& indices )					override;
+			bool	LoadMesh	( const char* data, OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<int>& indices )					override;
 			String	SaveMesh	( DataArray<Vertex>& vertices, 
-								  DataArray<UInt>& indices )						override;
+								  DataArray<int>& indices )						override;
 
 			void SetSerializeSystem( SerializeSystem* serializeSystem )			override;
 

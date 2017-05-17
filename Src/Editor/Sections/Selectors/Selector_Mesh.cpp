@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Mesh::TYPE			= "Mesh";
-const Char* const Selector_Mesh::OPTION_NULL	= "NULL";
+const char* const Selector_Mesh::TYPE			= "Mesh";
+const char* const Selector_Mesh::OPTION_NULL	= "NULL";
 
 
 void Selector_Mesh::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Mesh::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetMeshCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetMeshCount(); ++i )
 	{
 		Mesh* mesh = AssetManager::Singleton()->GetMeshAt( i );
 

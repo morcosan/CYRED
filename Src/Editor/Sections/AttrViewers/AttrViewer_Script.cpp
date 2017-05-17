@@ -116,7 +116,7 @@ void AttrViewer_Script::_OnUpdateGUI()
 	_WriteAttrListSize( ATTR_FILE_PATHS, _target->GetPathsCount() );
 
 	DataUnion attrValue;
-	for ( UInt i = 0; i < _target->GetPathsCount(); ++i ) {
+	for ( int i = 0; i < _target->GetPathsCount(); ++i ) {
 		_WriteAttrListIndex( ATTR_FILE_PATHS, i, attrValue.SetString( _target->GetFilePath(i) ) );
 	}
 }
@@ -132,11 +132,11 @@ void AttrViewer_Script::_OnUpdateTarget()
 
 		_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
-		UInt numFilePaths = _ReadAttrListSize( ATTR_FILE_PATHS );
+		int numFilePaths = _ReadAttrListSize( ATTR_FILE_PATHS );
 		// clear list
 		_target->ClearFilePaths();
 		// add all again
-		for ( UInt i = 0; i < numFilePaths; ++i ) {
+		for ( int i = 0; i < numFilePaths; ++i ) {
 			_target->SetFilePath( i, _ReadAttrListIndex( ATTR_FILE_PATHS, i ).GetString() );
 		}
 	}

@@ -26,7 +26,7 @@ void InputManagerImpl::Initialize( InputReceiver* receiver )
 	_windowForCursor = INPUT_INVALID_WINDOW;
 	_wheelRotation = 0;
 
-	for ( UInt i = 0; i < KeyCode::_COUNT_; ++i )
+	for ( int i = 0; i < KeyCode::_COUNT_; ++i )
 	{
 		_keyState.Set( i, INPUT_CONTINUOUS_UP );
 	}
@@ -48,7 +48,7 @@ void InputManagerImpl::ProcessEvents()
 
 	//! update from last frame
 	{
-		Iterator<Int, Int> iter = _keyState.GetIterator();
+		Iterator<int, int> iter = _keyState.GetIterator();
 
 		while ( iter.HasNext() )
 		{
@@ -70,9 +70,9 @@ void InputManagerImpl::ProcessEvents()
 
 	//! process the new events
 	{
-		UInt totalEvents = _receiver->GetEventsCount();
+		int totalEvents = _receiver->GetEventsCount();
 
-		for ( UInt i = 0; i < totalEvents; ++i )
+		for ( int i = 0; i < totalEvents; ++i )
 		{
 			InputEvent event = _receiver->GetEventAt( i );
 
@@ -107,38 +107,38 @@ void InputManagerImpl::ProcessEvents()
 }
 
 
-Bool InputManagerImpl::KeyDown( Int keyCode )
+bool InputManagerImpl::KeyDown( int keyCode )
 {
 	ASSERT( _isInitialized );
 	
-	Int state = _keyState.Get( keyCode );
+	int state = _keyState.Get( keyCode );
 	return ( state == INPUT_CONTINUOUS_DOWN || state == INPUT_FIRST_TIME_DOWN );
 }
 
 
-Bool InputManagerImpl::KeyDownFirstTime( Int keyCode )
+bool InputManagerImpl::KeyDownFirstTime( int keyCode )
 {
 	ASSERT( _isInitialized );
 	
-	Int state = _keyState.Get( keyCode );
+	int state = _keyState.Get( keyCode );
 	return ( state == INPUT_FIRST_TIME_DOWN );
 }
 
 
-Bool InputManagerImpl::KeyUp( Int keyCode )
+bool InputManagerImpl::KeyUp( int keyCode )
 {
 	ASSERT( _isInitialized );
 	
-	Int state = _keyState.Get( keyCode );
+	int state = _keyState.Get( keyCode );
 	return ( state == INPUT_CONTINUOUS_UP || state == INPUT_FIRST_TIME_UP );
 }
 
 
-Bool InputManagerImpl::KeyUpFirstTime( Int keyCode )
+bool InputManagerImpl::KeyUpFirstTime( int keyCode )
 {
 	ASSERT( _isInitialized );
 	
-	Int state = _keyState.Get( keyCode );
+	int state = _keyState.Get( keyCode );
 	return ( state == INPUT_FIRST_TIME_UP );
 }
 
@@ -159,7 +159,7 @@ Vector2 InputManagerImpl::CursorDeltaPosition()
 }
 
 
-Int InputManagerImpl::ScrollWheel()
+int InputManagerImpl::ScrollWheel()
 {
 	ASSERT( _isInitialized );
 	
@@ -167,7 +167,7 @@ Int InputManagerImpl::ScrollWheel()
 }
 
 
-Int InputManagerImpl::GetWindowForCursor()
+int InputManagerImpl::GetWindowForCursor()
 {
 	ASSERT( _isInitialized );
 	

@@ -33,7 +33,7 @@ using namespace NotAPI;
 
 
 
-void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO, Bool useAllScenes )
+void ForwardTechnique::Render( int* buffers, Node* root, GameObject* cameraGO, bool useAllScenes )
 {
 	ASSERT( _gl != NULL );
 
@@ -58,11 +58,11 @@ void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO, 
 	_gl->DepthMask( TRUE );
 
 	// render mesh
-	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < root->GetChildNodeCount(); ++i ) {
 		_RecRenderMesh( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 	// render morph
-	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < root->GetChildNodeCount(); ++i ) {
 		_RecRenderMorph( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 
@@ -71,7 +71,7 @@ void ForwardTechnique::Render( UInt* buffers, Node* root, GameObject* cameraGO, 
 	_gl->DepthMask( FALSE );
 
 	// render particles
-	for ( UInt i = 0; i < root->GetChildNodeCount(); ++i )	{
+	for ( int i = 0; i < root->GetChildNodeCount(); ++i )	{
 		_RecRenderParticles( CAST_S( GameObject*, root->GetChildNodeAt(i) ), useAllScenes );
 	}
 }
@@ -94,14 +94,14 @@ void ForwardTechnique::_ClearScreen()
 }
 
 
-void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes )
+void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	// render child nodes
-	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderMesh( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
@@ -123,7 +123,7 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
 		return;
 	}
 
-	UInt shaderProgram = shader->GetProgramID();
+	int shaderProgram = shader->GetProgramID();
 	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
@@ -154,9 +154,9 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
     _gl->VertexAttribPointer( 5, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
 							  (const void*) (offsetof(Vertex, bitangent)) );
 
-	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
-    Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
-    Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+    int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+    int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
@@ -166,7 +166,7 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
-    Int cameraPosWorldUniform = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
+    int cameraPosWorldUniform = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
 	_gl->Uniform3fv( cameraPosWorldUniform,	1, _cameraTran->GetPositionWorld().Ptr() );
 
 	// add material
@@ -176,9 +176,9 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
 	// add lights if needed
 	{
 		// check if shader contains light uniforms
-		Int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
-		Int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
-		Int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
+		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
+		int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
+		int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
 
 		// check if lights needed
 		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
@@ -199,11 +199,11 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
 			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
 
 			// bind each light
-			for ( UInt i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
+			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
 				Light* light = lightsGO[i]->GetComponent<Light>();
 				Transform* transform = lightsGO[i]->GetComponent<Transform>();
 				FiniteString uniformName;
-				Int uniform;
+				int uniform;
 
 				uniformName.Set( "DEFAULT_lights[%d].type", i );
 				uniform = shader->GetUniformLocation( uniformName.GetChar() );
@@ -256,14 +256,14 @@ void ForwardTechnique::_RecRenderMesh( GameObject* gameObject, Bool useAllScenes
 }
 
 
-void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScenes )
+void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	// render child nodes
-	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderMorph( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
@@ -285,7 +285,7 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 		return;
 	}
 
-	UInt shaderProgram = shader->GetProgramID();
+	int shaderProgram = shader->GetProgramID();
 	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
@@ -296,8 +296,8 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	morph->GetIBO() );
 
 
-	UInt firstState = morphRender->GetFirstState();
-	UInt secondState = morphRender->GetSecondState();
+	int firstState = morphRender->GetFirstState();
+	int secondState = morphRender->GetSecondState();
 
 	_gl->EnableVertexAttribArray( 0 );
     _gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(MorphVertex), 
@@ -324,9 +324,9 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
     _gl->VertexAttribPointer( 7, 3, GLVarType::FLOAT, FALSE, sizeof(MorphVertex), 
 							  (const void*) (offsetof(MorphVertex, bitangent)) );
 
-	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
-    Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
-    Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+    int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+    int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
@@ -337,7 +337,7 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr()	);
 
 	// morph rendering curstom uniforms
-	Int stateRatioUniform = shader->GetUniformLocation( UNIFORM_STATE_RATIO );
+	int stateRatioUniform = shader->GetUniformLocation( UNIFORM_STATE_RATIO );
 	_gl->Uniform1f( stateRatioUniform, morphRender->GetStateRatio() );
 
 	// add material
@@ -347,9 +347,9 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 	// add lights if needed
 	{
 		// check if shader contains light uniforms
-		Int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
-		Int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
-		Int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
+		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
+		int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
+		int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
 
 		// check if lights needed
 		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
@@ -361,11 +361,11 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
 
 			// bind each light
-			for ( UInt i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
+			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
 				Light* light = lightsGO[i]->GetComponent<Light>();
 				Transform* transform = lightsGO[i]->GetComponent<Transform>();
 				FiniteString uniformName;
-				Int uniform;
+				int uniform;
 
 				uniformName.Set( "DEFAULT_lights[%d].type", i );
 				uniform = shader->GetUniformLocation( uniformName.GetChar() );
@@ -410,14 +410,14 @@ void ForwardTechnique::_RecRenderMorph( GameObject* gameObject, Bool useAllScene
 }
 
 
-void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, Bool useAllScenes )
+void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, bool useAllScenes )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
 	}
 
 	// render child nodes
-	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderParticles( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), useAllScenes );
 	}
 
@@ -438,7 +438,7 @@ void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, Bool useAllS
 		return;
 	}
 
-	UInt shaderProgram = shader->GetProgramID();
+	int shaderProgram = shader->GetProgramID();
 	if ( shaderProgram == INVALID_SHADER ) {
 		return;
 	}
@@ -462,9 +462,9 @@ void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, Bool useAllS
     _gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(ParticleVertex), 
 							  (const void*) (offsetof(ParticleVertex, age_sizeS_sizeE)) );
 
-	Int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
-	Int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
-	Int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
+	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+	int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+	int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _cameraTran->GetViewMatrix();
@@ -476,15 +476,15 @@ void ForwardTechnique::_RecRenderParticles( GameObject* gameObject, Bool useAllS
 
 	// particle emitter curstom uniforms
 	{
-		Int uniform = shader->GetUniformLocation( UNIFORM_IS_LOOPING );
+		int uniform = shader->GetUniformLocation( UNIFORM_IS_LOOPING );
 		_gl->Uniform1i( uniform, (emitter->IsLooping() ? 1 : 0) );
 	}
 	{
-		Int uniform = shader->GetUniformLocation( UNIFORM_LIFETIME );
+		int uniform = shader->GetUniformLocation( UNIFORM_LIFETIME );
 		_gl->Uniform1f( uniform, emitter->GetParticleLifetime() );
 	}
 	{
-		Int uniform = shader->GetUniformLocation( UNIFORM_DELTA_TIME );
+		int uniform = shader->GetUniformLocation( UNIFORM_DELTA_TIME );
 		_gl->Uniform1f( uniform, TimeManager::Singleton()->GetRenderDeltaTime() );
 	}
 
@@ -511,12 +511,12 @@ void ForwardTechnique::_BindMaterial( Material* material )
 	ASSERT( shader != NULL );
 
 	//! set uniforms from material
-	UInt nextActiveTexture = 0;
-	UInt totalProperties = material->GetPropertiesCount();
+	int nextActiveTexture = 0;
+	int totalProperties = material->GetPropertiesCount();
 
-	for ( UInt i = 0; i < totalProperties; ++i ) {
-		const Char* uniformName = material->GetPropertyNameAt( i );
-		Int location = shader->GetUniformLocation( uniformName );
+	for ( int i = 0; i < totalProperties; ++i ) {
+		const char* uniformName = material->GetPropertyNameAt( i );
+		int location = shader->GetUniformLocation( uniformName );
 		DataUnion& data = material->GetPropertyDataAt( i );
 
 		switch ( data.GetValueType() ) {

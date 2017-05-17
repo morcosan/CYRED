@@ -83,7 +83,7 @@ void AttrViewer_ParticleEmitter::_OnUpdateGUI()
 	_WriteAttrVector2	( ATTR_SIZE_END,			_target->GetParticleSizeEnd() );
 
 	Material* material = _target->GetMaterial();
-	const Char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
+	const char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector	( ATTR_MATERIAL,			material, matName );
 
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
@@ -134,7 +134,7 @@ void AttrViewer_ParticleEmitter::_OnUpdateTarget()
 }
 
 
-Int AttrViewer_ParticleEmitter::_GetIndexForType( EmitterShape type )
+int AttrViewer_ParticleEmitter::_GetIndexForType( EmitterShape type )
 {
 	switch ( type )
 	{
@@ -149,7 +149,7 @@ Int AttrViewer_ParticleEmitter::_GetIndexForType( EmitterShape type )
 }
 
 
-EmitterShape AttrViewer_ParticleEmitter::_GetTypeForIndex( Int index )
+EmitterShape AttrViewer_ParticleEmitter::_GetTypeForIndex( int index )
 {
 	switch ( index )
 	{

@@ -18,13 +18,13 @@ Asset::Asset( AssetType type )
 }
 
 
-const Char* Asset::GetName() const
+const char* Asset::GetName() const
 {
 	return _name.GetChar();
 }
 
 
-const Char* Asset::GetDirPath() const
+const char* Asset::GetDirPath() const
 {
 	return _dirPath.GetChar();
 }
@@ -36,25 +36,25 @@ AssetType Asset::GetAssetType() const
 }
 
 
-const Char* Asset::GetUniqueID() const
+const char* Asset::GetUniqueID() const
 {
 	return _uniqueID.GetChar();
 }
 
 
-Bool Asset::IsTemporary() const
+bool Asset::IsTemporary() const
 {
 	return _isTemporary;
 }
 
 
-Bool Asset::DoesEmitEvents() const
+bool Asset::DoesEmitEvents() const
 {
 	return _emitEvents;
 }
 
 
-void Asset::SetName( const Char* name, Bool useExtension )
+void Asset::SetName( const char* name, bool useExtension )
 {
 	_name = name;
 	_useExtension = useExtension;
@@ -66,7 +66,7 @@ void Asset::SetName( const Char* name, Bool useExtension )
 }
 
 
-void Asset::SetDirPath( const Char* dirPath )
+void Asset::SetDirPath( const char* dirPath )
 {
 	_dirPath = dirPath;
 
@@ -77,20 +77,20 @@ void Asset::SetDirPath( const Char* dirPath )
 }
 
 
-void Asset::SetEmitEvents( Bool value )
+void Asset::SetEmitEvents( bool value )
 {
 	_emitEvents = value;
 }
 
 
-void Asset::SetUniqueID( const Char* uniqueID )
+void Asset::SetUniqueID( const char* uniqueID )
 {
 	// this should not emit events
 	_uniqueID = uniqueID;
 }
 
 
-void Asset::SetIsTemporary( Bool value )
+void Asset::SetIsTemporary( bool value )
 {
 	// this should not emit events
 	_isTemporary = value;

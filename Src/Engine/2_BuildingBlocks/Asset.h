@@ -42,32 +42,32 @@ namespace CYRED
 		virtual void		LoadFullFile	() PURE_VIRTUAL;
 		virtual void		ClearAsset		() PURE_VIRTUAL;
 		virtual Asset*		Clone			() PURE_VIRTUAL;
-		virtual const Char*	GetExtension	() PURE_VIRTUAL;
+		virtual const char*	GetExtension	() PURE_VIRTUAL;
 
 
 	public:
-		const Char*	GetName			()	const;
-		const Char*	GetDirPath		()	const;
+		const char*	GetName			()	const;
+		const char*	GetDirPath		()	const;
 		AssetType	GetAssetType	()	const;
-		const Char* GetUniqueID		()	const;
-		Bool		IsTemporary		()	const;
-		Bool		DoesEmitEvents	()	const;
+		const char* GetUniqueID		()	const;
+		bool		IsTemporary		()	const;
+		bool		DoesEmitEvents	()	const;
 
-		void		SetName			( const Char* name, Bool useExtension = TRUE );
-		void		SetDirPath		( const Char* dirPath );
-		void		SetEmitEvents	( Bool value );
-		void		SetUniqueID		( const Char* uniqueID );
-		void		SetIsTemporary	( Bool value );
+		void		SetName			( const char* name, bool useExtension = TRUE );
+		void		SetDirPath		( const char* dirPath );
+		void		SetEmitEvents	( bool value );
+		void		SetUniqueID		( const char* uniqueID );
+		void		SetIsTemporary	( bool value );
 
 
 	protected:
 		AssetType	_assetType;
 		String		_name;
 		String		_dirPath;
-		Bool		_useExtension;
-		Bool		_emitEvents;
+		bool		_useExtension;
+		bool		_emitEvents;
 		String		_uniqueID;
-		Bool		_isTemporary;
+		bool		_isTemporary;
 
 
 	protected:

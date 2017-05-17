@@ -34,13 +34,7 @@
 
 namespace CYRED
 {
-	typedef bool			Bool;
-	typedef int				Int;
-	typedef float			Float;
-	typedef size_t			UInt;
-	typedef char			Char;
-	typedef unsigned char	UChar;
-	typedef double			Double;
+	typedef unsigned char	uchar;
 }
 
 #define TRUE	true

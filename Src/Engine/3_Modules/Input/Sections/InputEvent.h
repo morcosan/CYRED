@@ -29,10 +29,10 @@ namespace CYRED
 	{
 		InputEventType	type;
 		DataUnion		data;
-		Int				window;
+		int				window;
 
 
-		InputEvent( InputEventType newType, DataUnion& newData, Int windowIndex )
+		InputEvent( InputEventType newType, DataUnion& newData, int windowIndex )
 			: type( newType )
 			, data( newData )
 			, window ( windowIndex )

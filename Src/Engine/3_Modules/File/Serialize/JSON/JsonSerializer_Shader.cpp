@@ -26,9 +26,9 @@ rapidjson::Value JsonSerializer_Shader::ToJson( const void* object )
 					rapidjson::StringRef( RENDERER_FORWARD ),
 					_al );
 
-	const Char* vertexPath = NULL;
-	const Char* geometryPath = NULL;
-	const Char* fragmentPath = NULL;
+	const char* vertexPath = NULL;
+	const char* geometryPath = NULL;
+	const char* fragmentPath = NULL;
 	shader->GetShaderFiles( RENDERER_FORWARD, &vertexPath, &geometryPath, &fragmentPath );
 
 	json.AddMember( rapidjson::StringRef( VERTEX_FILE_PATH ),
@@ -50,7 +50,7 @@ void JsonSerializer_Shader::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Shader* shader = CAST_S( Shader*, object );
 
-	Bool emitEvents = shader->DoesEmitEvents();
+	bool emitEvents = shader->DoesEmitEvents();
 	shader->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) )

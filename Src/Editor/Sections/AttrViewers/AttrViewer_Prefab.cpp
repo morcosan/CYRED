@@ -30,7 +30,7 @@ void AttrViewer_Prefab::_OnChangeTarget( void* target )
 	_OpenGroup( GROUP_GAMEOBJECTS );
 	{
 		Node* root = _target->GetRoot();
-		for ( UInt i = 0; i < root->GetChildNodeCount(); i++ ) {
+		for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
 			GameObject* gameObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
 			FiniteString attrName( "%s%s", _target->GetUniqueID(), gameObject->GetName() );
 			_CreateAttrLabel( attrName.GetChar(), gameObject->GetName() );

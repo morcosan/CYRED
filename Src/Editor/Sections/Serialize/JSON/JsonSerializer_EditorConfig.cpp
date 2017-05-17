@@ -55,7 +55,7 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 	if ( json.HasMember( PANELS ) ) {
 		rapidjson::Value& panels = json[PANELS];
 
-		for ( UInt i = 0; i < panels.Size(); i++ ) {
+		for ( int i = 0; i < panels.Size(); i++ ) {
 			// new panel struct
 			EditorSettings::PanelData panel;
 

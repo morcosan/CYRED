@@ -15,8 +15,8 @@ using namespace CYRED;
 DEFINE_LOCAL_SINGLETON_IMPL( InputReceiverGLFW )
 
 
-void InputReceiverGLFW::GLFW_KeyCallback( GLFWwindow* window, Int key, Int scancode, 
-										  Int action, Int mods )
+void InputReceiverGLFW::GLFW_KeyCallback( GLFWwindow* window, int key, int scancode, 
+										  int action, int mods )
 {
 	// check close window event
 	if ( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS ) {
@@ -45,7 +45,7 @@ void InputReceiverGLFW::GLFW_KeyCallback( GLFWwindow* window, Int key, Int scanc
 }
 
 
-void InputReceiverGLFW::GLFW_ButtonCallback( GLFWwindow* window, Int button, Int action, Int mods )
+void InputReceiverGLFW::GLFW_ButtonCallback( GLFWwindow* window, int button, int action, int mods )
 {
 	// on key pressed
 	if ( action == GLFW_PRESS ) {
@@ -68,27 +68,27 @@ void InputReceiverGLFW::GLFW_ButtonCallback( GLFWwindow* window, Int button, Int
 }
 
 
-void InputReceiverGLFW::GLFW_CursorCallback( GLFWwindow* window, Double xpos, Double ypos )
+void InputReceiverGLFW::GLFW_CursorCallback( GLFWwindow* window, double xpos, double ypos )
 {
 	DataUnion data;
-	data.SetVector2( Vector2( CAST_S(Float, xpos), CAST_S(Float, ypos) ) );
+	data.SetVector2( Vector2( CAST_S(float, xpos), CAST_S(float, ypos) ) );
 	InputReceiverGLFW::Singleton()->AddEventToQueue( 
 		InputEvent( InputEventType::MOUSE_MOVE, data, INPUT_INVALID_WINDOW ) 
 	);
 }
 
 
-void InputReceiverGLFW::GLFW_ScrollCallback( GLFWwindow* window, Double xoffset, Double yoffset )
+void InputReceiverGLFW::GLFW_ScrollCallback( GLFWwindow* window, double xoffset, double yoffset )
 {
 	DataUnion data;
-	data.SetInt( CAST_S(Int, yoffset) );
+	data.SetInt( CAST_S(int, yoffset) );
 	InputReceiverGLFW::Singleton()->AddEventToQueue( 
 		InputEvent( InputEventType::WHEEL_MOVE, data, INPUT_INVALID_WINDOW ) 
 	);
 }
 
 
-void InputReceiverGLFW::GLFW_FocusCallback( GLFWwindow* window, Int entered )
+void InputReceiverGLFW::GLFW_FocusCallback( GLFWwindow* window, int entered )
 {
 	if ( entered == GL_TRUE )	{
 		// enter window
@@ -105,7 +105,7 @@ void InputReceiverGLFW::AddEventToQueue( InputEvent event )
 }
 
 
-void InputReceiverGLFW::CheckModifiers( Int mods )
+void InputReceiverGLFW::CheckModifiers( int mods )
 {
 	// modifiers cannot check first time up/down
 	// check ALT
@@ -159,7 +159,7 @@ void InputReceiverGLFW::CheckModifiers( Int mods )
 
 
 
-KeyCode InputReceiverGLFW::ToKeyCode( Int glfwKey )
+KeyCode InputReceiverGLFW::ToKeyCode( int glfwKey )
 {
 	switch ( glfwKey ) {
 		case GLFW_KEY_A:

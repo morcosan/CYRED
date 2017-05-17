@@ -32,7 +32,7 @@ void MenuBar::Initialize()
 }
 
 
-void MenuBar::AddSkins( const DataArray<const Char*>& skinsName, UInt defaultIndex )
+void MenuBar::AddSkins( const DataArray<const char*>& skinsName, int defaultIndex )
 {
 	QMenu* menu = this->addMenu( SKINS_MENU );
 
@@ -41,7 +41,7 @@ void MenuBar::AddSkins( const DataArray<const Char*>& skinsName, UInt defaultInd
 	// connect the whole group
 	QObject::connect( actionGroup, &QActionGroup::triggered, this, &MenuBar::A_Skins );
 
-	for ( UInt i = 0; i < skinsName.Size(); ++i )
+	for ( int i = 0; i < skinsName.Size(); ++i )
 	{
 		QAction* action = menu->addAction( skinsName[i] );
 		action->setCheckable( TRUE );
@@ -133,7 +133,7 @@ void MenuBar::A_Skins( QAction* action )
 
 void CYRED::MenuBar::A_Magic()
 {
-	////Char filePath[MAX_SIZE_CUSTOM_STRING];
+	////char filePath[MAX_SIZE_CUSTOM_STRING];
 	////CUSTOM_STRING( filePath, "%s%s", FileManager::DIR_ASSETS, "magic.scene" );
 
 	//Scene* scene = SceneManager::Singleton()->OpenNewScene();

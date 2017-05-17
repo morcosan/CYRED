@@ -97,14 +97,14 @@ void Menu_Prefab::A_SavePrefabAs()
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
 	// get selected path
-	const Char* paths = newPath.toUtf8().constData();
+	const char* paths = newPath.toUtf8().constData();
 	QFileInfo filePath( newPath );
 	// open directory
 	QDir dir;
 	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
 	dirPath.append( "/" );
 	// create new asset
-	const Char* newName = filePath.completeBaseName().toUtf8().constData();
+	const char* newName = filePath.completeBaseName().toUtf8().constData();
 
 
 	// create new prefab asset
@@ -117,7 +117,7 @@ void Menu_Prefab::A_SavePrefabAs()
 	// get root of prefab
 	Node* root = CAST_S( Prefab*, prefab )->GetRoot();
 	// clone gameobjects to new prefab
-	for ( UInt i = 0; i < root->GetChildNodeCount(); i++ ) {
+	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
 		GameObject* newObject = _CreateGameObject( newPrefab->GetRoot() );
 		treeItem->gameObject->Clone( newObject );
 	}
@@ -297,7 +297,7 @@ void Menu_Prefab::A_GO_Particles_Emitter()
 GameObject* Menu_Prefab::_CreateGameObject( Node* parentNode )
 {
 	// get new uid
-	UInt uid = SceneManager::Singleton()->NextGameObjectUID();
+	int uid = SceneManager::Singleton()->NextGameObjectUID();
 	// create object
 	GameObject* newObject = Memory::Alloc<GameObject>( MENU_GO_EMPTY, uid );
 	// add to parent

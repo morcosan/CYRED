@@ -13,7 +13,7 @@ namespace CYRED
 {
 	class DLL MeshLoader
 	{
-		const Char* const HEADER			= "#CYRED Meshdata\n";
+		const char* const HEADER			= "#CYRED Meshdata\n";
 
 
 	public:
@@ -23,14 +23,14 @@ namespace CYRED
 
 	public:
 		// import mesh from classic formats
-		virtual Bool	ImportMesh( const Char* data, UInt dataSize, 
+		virtual bool	ImportMesh( const char* data, int dataSize, 
 									OUT DataArray<Vertex>& vertices, 
-									OUT DataArray<UInt>& indices )	{ return FALSE; };
+									OUT DataArray<int>& indices )	{ return FALSE; };
 
 		// load mesh from custom mesh file
-		virtual Bool	LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
-								  OUT DataArray<UInt>& indices );
+		virtual bool	LoadMesh( const char* data, OUT DataArray<Vertex>& vertices, 
+								  OUT DataArray<int>& indices );
 		// save mesh using custom format
-		virtual String	SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices );
+		virtual String	SaveMesh( DataArray<Vertex>& vertices, DataArray<int>& indices );
 	};
 }

@@ -36,17 +36,17 @@ namespace CYRED
 
 
 	public:
-		Script* GetScript		( UInt index )	const;
-		UInt	GetScriptsCount	()				const;
+		Script* GetScript		( int index )	const;
+		int	GetScriptsCount	()				const;
 
-		void	SetScript		( UInt index, const Char* scriptUID );
+		void	SetScript		( int index, const char* scriptUID );
 		void	ClearScripts	();
 
 
 	protected:
 		void _OnEnable	() override {}
-		void _OnStart	( Bool isRuntime ) override;
-		void _OnUpdate	( Bool isRuntime ) override;
+		void _OnStart	( bool isRuntime ) override;
+		void _OnUpdate	( bool isRuntime ) override;
 
 
 	protected:

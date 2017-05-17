@@ -22,32 +22,32 @@ namespace CYRED
 	class AttrViewer_ParticleEmitter : public AttrViewer
 	{
 	public:
-		const Char* TITLE					= "ParticleEmitter";
+		const char* TITLE					= "ParticleEmitter";
 
-		const Char* ATTR_MAX_PARTICLES		= "Max Particles";
-		const Char* ATTR_PARTICLE_LIFETIME	= "Particle Lifetime";
-		const Char* ATTR_PARTICLE_VELOCITY	= "Particle Velocity";
-		const Char* ATTR_PARTICLE_ACCEL		= "Particle Acceleration";
-		const Char* ATTR_SHAPE_DRIVEN_SPEED	= "Shape-Driven Speed";
-		const Char* ATTR_SHAPE_DRIVEN_ACCEL	= "Shape-Driven Accel";
+		const char* ATTR_MAX_PARTICLES		= "Max Particles";
+		const char* ATTR_PARTICLE_LIFETIME	= "Particle Lifetime";
+		const char* ATTR_PARTICLE_VELOCITY	= "Particle Velocity";
+		const char* ATTR_PARTICLE_ACCEL		= "Particle Acceleration";
+		const char* ATTR_SHAPE_DRIVEN_SPEED	= "Shape-Driven Speed";
+		const char* ATTR_SHAPE_DRIVEN_ACCEL	= "Shape-Driven Accel";
 
-		const Char* ATTR_WAVES_PER_SEC		= "Waves / Sec";
-		const Char* ATTR_PARTICLES_PER_WAVE	= "Particles / Wave";
-		const Char* ATTR_IS_LOOPING			= "Looping";
-		const Char* ATTR_SPAWN_DURATION		= "Spawn Duration";
+		const char* ATTR_WAVES_PER_SEC		= "Waves / Sec";
+		const char* ATTR_PARTICLES_PER_WAVE	= "Particles / Wave";
+		const char* ATTR_IS_LOOPING			= "Looping";
+		const char* ATTR_SPAWN_DURATION		= "Spawn Duration";
 
-		const Char* ATTR_EMITTER_SHAPE		= "Emitter Shape";
-		const Char* ATTR_SHAPE_RADIUS		= "Shape Radius";
-		const Char* ATTR_SPAWN_FROM_EDGE	= "Spawn From Edge";
+		const char* ATTR_EMITTER_SHAPE		= "Emitter Shape";
+		const char* ATTR_SHAPE_RADIUS		= "Shape Radius";
+		const char* ATTR_SPAWN_FROM_EDGE	= "Spawn From Edge";
 
-		const Char* ATTR_SIZE_START			= "P.Size Start";
-		const Char* ATTR_SIZE_END			= "P.Size End";
-		const Char* ATTR_MATERIAL			= "Material";
+		const char* ATTR_SIZE_START			= "P.Size Start";
+		const char* ATTR_SIZE_END			= "P.Size End";
+		const char* ATTR_MATERIAL			= "Material";
 
-		const Char* GROUP_PARTICLES			= "Simulation";
-		const Char* GROUP_SPAWNING			= "Spawning";
-		const Char* GROUP_EMISSION			= "Emission";
-		const Char* GROUP_RENDERING			= "Rendering";
+		const char* GROUP_PARTICLES			= "Simulation";
+		const char* GROUP_SPAWNING			= "Spawning";
+		const char* GROUP_EMISSION			= "Emission";
+		const char* GROUP_RENDERING			= "Rendering";
 
 
 	public:
@@ -65,9 +65,9 @@ namespace CYRED
 	protected:
 		ParticleEmitter*	_target;
 
-		DataArray<const Char*>	_emitterShapes;
+		DataArray<const char*>	_emitterShapes;
 
-		Int				_GetIndexForType( EmitterShape type );
-		EmitterShape	_GetTypeForIndex( Int index );
+		int				_GetIndexForType( EmitterShape type );
+		EmitterShape	_GetTypeForIndex( int index );
 	};
 }

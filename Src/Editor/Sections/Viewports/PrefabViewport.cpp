@@ -16,10 +16,10 @@ using namespace CYRED;
 
 
 
-DataMap<TechniqueType, UInt> PrefabViewport::_techSlots;
+DataMap<TechniqueType, int> PrefabViewport::_techSlots;
 
 
-PrefabViewport::PrefabViewport( UInt panelIndex )
+PrefabViewport::PrefabViewport( int panelIndex )
 	: Panel_Viewport( panelIndex )
 {
 }
@@ -41,20 +41,20 @@ void PrefabViewport::SetCamera( GameObject* cameraGO )
 }
 
 
-UInt PrefabViewport::GetSlotForTechnique( TechniqueType type )
+int PrefabViewport::GetSlotForTechnique( TechniqueType type )
 {
 	if ( _techSlots.Has( type ) ) {
 		return _techSlots.Get( type );
 	}
 
-	UInt techSlot = RenderManager::Singleton()->NewTechnique( type );
+	int techSlot = RenderManager::Singleton()->NewTechnique( type );
 	_techSlots.Set( type, techSlot );
 
 	return techSlot;
 }
 
 
-const Char* PrefabViewport::_GetPanelTitle()
+const char* PrefabViewport::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
@@ -90,7 +90,7 @@ void PrefabViewport::_OnUpdate()
 	}
 
 	if ( _isFirstUpdate ) {
-		UInt techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
+		int techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
 		renderMngr->ChangeRenderer( _canvasSlot, RendererType::GL_FORWARD );
 		renderMngr->ChangeTechnique( _canvasSlot, techSlot );
 	}
@@ -101,8 +101,8 @@ void PrefabViewport::_OnUpdate()
 
 	//! update camera size
 	Camera* cam = _cameraGO->GetComponent<Camera>();
-	Float aspectRatio = CAST_S( Float, _qtWindow->width() ) / _qtWindow->height();
-	Float height = cam->GetOrthoSize().y;
+	float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
+	float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
 

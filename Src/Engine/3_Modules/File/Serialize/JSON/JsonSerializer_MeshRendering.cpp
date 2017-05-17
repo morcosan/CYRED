@@ -68,7 +68,7 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 {
 	MeshRendering* meshRender = CAST_S( MeshRendering*, object );
 
-	Bool emitEvents = meshRender->DoesEmitEvents();
+	bool emitEvents = meshRender->DoesEmitEvents();
 	meshRender->SetEmitEvents( FALSE );
 
 
@@ -80,11 +80,11 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 		}
 		else
 		{
-			const Char* uniqueID = json[MESH].GetString();
+			const char* uniqueID = json[MESH].GetString();
 			Mesh* mesh = AssetManager::Singleton()->GetMesh( uniqueID );
 			if ( mesh == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					mesh = Memory::Alloc<Mesh>();
@@ -104,11 +104,11 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 		}
 		else
 		{
-			const Char* uniqueID = json[MATERIAL].GetString();
+			const char* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					material = Memory::Alloc<Material>();

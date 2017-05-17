@@ -28,8 +28,8 @@ namespace CYRED
 	class DLL Camera : public Component
 	{
 	public:
-		static const Char* const TYPE_PERSPECTIVE;
-		static const Char* const TYPE_ORTHOGRAPHIC;
+		static const char* const TYPE_PERSPECTIVE;
+		static const char* const TYPE_ORTHOGRAPHIC;
 
 
 	public:
@@ -44,23 +44,23 @@ namespace CYRED
 	public:
 		Matrix4 GetProjectionMatrix();
 
-		Float		GetFovYAngle		()	const;
-		Float		GetNearClipping		()	const;
-		Float		GetFarClipping		()	const;
-		Float		GetAspectRatio		()	const;
+		float		GetFovYAngle		()	const;
+		float		GetNearClipping		()	const;
+		float		GetFarClipping		()	const;
+		float		GetAspectRatio		()	const;
 		Vector2		GetOrthoSize		()	const;
 		CameraType	GetCameraType		()	const;
-		const Char*	GetCameraTypeString	()	const;
+		const char*	GetCameraTypeString	()	const;
 
-		void SetFovYAngle		( Float value );
-		void SetNearClipping	( Float value );
-		void SetFarClipping		( Float value );
-		void SetAspectRatio		( Float value );
-		void SetOrthoHeight		( Float value );
-		void SetOrthoWidth		( Float value );
+		void SetFovYAngle		( float value );
+		void SetNearClipping	( float value );
+		void SetFarClipping		( float value );
+		void SetAspectRatio		( float value );
+		void SetOrthoHeight		( float value );
+		void SetOrthoWidth		( float value );
 		void SetOrthoSize		( const Vector2& value );
 		void SetCameraType		( CameraType type );
-		void SetCameraTypeString( const Char* type );
+		void SetCameraTypeString( const char* type );
 
 
 	protected:
@@ -69,13 +69,13 @@ namespace CYRED
 
 	protected:
 		CameraType	_cameraType;
-		Float		_fovYAngle;
-		Float		_nearClipping;
-		Float		_farClipping;
-		Float		_aspectRatio;
+		float		_fovYAngle;
+		float		_nearClipping;
+		float		_farClipping;
+		float		_aspectRatio;
 		Vector2		_orthoSize;
 
 		Matrix4		_projectionMatrix;
-		Bool		_projectionChanged;
+		bool		_projectionChanged;
 	};
 }

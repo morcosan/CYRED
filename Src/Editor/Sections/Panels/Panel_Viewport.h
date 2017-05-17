@@ -24,7 +24,7 @@ namespace CYRED
 	ABSTRACT class Panel_Viewport : public Panel
 	{
 	public:
-		Panel_Viewport( UInt panelIndex );
+		Panel_Viewport( int panelIndex );
 		virtual ~Panel_Viewport() {}
 
 
@@ -35,7 +35,7 @@ namespace CYRED
 
 
 	public:
-		void		Initialize		( Bool isPrimary );
+		void		Initialize		( bool isPrimary );
 		GLContext*	GetGLContext	();
 
 
@@ -43,7 +43,7 @@ namespace CYRED
 		class _QtWindow : public QWindow
 		{
 		public:
-			_QtWindow( Int windowIndex, InputReceiverQT* inputReceiver ) 
+			_QtWindow( int windowIndex, InputReceiverQT* inputReceiver ) 
 				: _windowIndex( windowIndex )
 				, _inputReceiver( inputReceiver )
 			{
@@ -59,7 +59,7 @@ namespace CYRED
 			void focusOutEvent		( QFocusEvent* e )	override;
 
 		protected:
-			Int						_windowIndex;
+			int						_windowIndex;
 			InputReceiverQT*	_inputReceiver;
 		};
 
@@ -69,7 +69,7 @@ namespace CYRED
 
 
 	protected:
-		virtual const Char*	_GetPanelTitle	() PURE_VIRTUAL;
+		virtual const char*	_GetPanelTitle	() PURE_VIRTUAL;
 		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
 		virtual void		_OnInitialize	() PURE_VIRTUAL;
 		virtual void		_OnFinalize		() PURE_VIRTUAL;
@@ -79,10 +79,10 @@ namespace CYRED
 	protected:
 		GLContext*		_glContext;
 		_QtWindow*		_qtWindow;
-		UInt			_canvasSlot;
-		Bool			_mustResize;
-		UInt			_panelIndex;
-		Bool			_isFirstUpdate;
+		int			_canvasSlot;
+		bool			_mustResize;
+		int			_panelIndex;
+		bool			_isFirstUpdate;
 		GameObject*		_cameraGO;
 
 		QHBoxLayout*	_qtTopBarLayout;

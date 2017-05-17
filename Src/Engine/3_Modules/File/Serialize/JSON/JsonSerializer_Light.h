@@ -10,12 +10,12 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Light : public JsonSerializer
 	{
-		const Char* const ENABLED		= "enabled";
-		const Char* const LIGHT_TYPE	= "light_type";
-		const Char* const INTENSITY		= "intensity";
-		const Char* const COLOR			= "color";
-		const Char* const RANGE			= "range";
-		const Char* const SPOT_ANGLE	= "spot_angle";
+		const char* const ENABLED		= "enabled";
+		const char* const LIGHT_TYPE	= "light_type";
+		const char* const INTENSITY		= "intensity";
+		const char* const COLOR			= "color";
+		const char* const RANGE			= "range";
+		const char* const SPOT_ANGLE	= "spot_angle";
 
 
 	public:

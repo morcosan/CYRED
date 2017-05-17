@@ -25,7 +25,7 @@ Vector2::Vector2( const Vector2& other )
 }
 
 
-Vector2::Vector2( Float xx, Float yy )
+Vector2::Vector2( float xx, float yy )
 	: x( xx ), y( yy )
 {
 }
@@ -38,7 +38,7 @@ void Vector2::operator=( const Vector2& other )
 }
 
 
-Bool Vector2::operator==( const Vector2& other ) const
+bool Vector2::operator==( const Vector2& other ) const
 {
 	glm::vec2 vec_self( x, y );
 	glm::vec2 vec_other( other.x, other.y );
@@ -48,7 +48,7 @@ Bool Vector2::operator==( const Vector2& other ) const
 }
 
 
-Bool Vector2::operator!=( const Vector2& other ) const
+bool Vector2::operator!=( const Vector2& other ) const
 {
 	return !(*this == other);
 }
@@ -72,19 +72,19 @@ Vector2 Vector2::operator/( const Vector2& other ) const
 }
 
 
-Vector2 Vector2::operator/( Float value ) const
+Vector2 Vector2::operator/( float value ) const
 {
 	return Vector2( x / value, y / value );
 }
 
 
-Vector2 Vector2::operator/( UInt value ) const
+Vector2 Vector2::operator/( int value ) const
 {
 	return Vector2( x / value, y / value );
 }
 
 
-Vector2 Vector2::operator/( Int value ) const
+Vector2 Vector2::operator/( int value ) const
 {
 	return Vector2( x / value, y / value );
 }
@@ -96,25 +96,25 @@ Vector2 Vector2::operator*( const Vector2& other ) const
 }
 
 
-Vector2 Vector2::operator*( Float value ) const
+Vector2 Vector2::operator*( float value ) const
 {
 	return Vector2( x * value, y * value );
 }
 
 
-Vector2 Vector2::operator*( UInt value ) const
+Vector2 Vector2::operator*( int value ) const
 {
 	return Vector2( x * value, y * value );
 }
 
 
-Vector2 Vector2::operator*( Int value ) const
+Vector2 Vector2::operator*( int value ) const
 {
 	return Vector2( x * value, y * value );
 }
 
 
-const Float* Vector2::Ptr()
+const float* Vector2::Ptr()
 {
 	return &x;
 }

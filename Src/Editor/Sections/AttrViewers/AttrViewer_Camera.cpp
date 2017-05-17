@@ -75,7 +75,7 @@ void AttrViewer_Camera::_OnUpdateTarget()
 		_target->SetFarClipping( _ReadAttrFloat( ATTR_FAR_CLIPPING ) );
 		_target->SetOrthoHeight( _ReadAttrFloat( ATTR_ORTH_HEIGHT ) );
 		
-		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
 		if ( _target->IsEnabled() != newValue )
 		{
 			_target->SetEnabled( newValue );
@@ -92,7 +92,7 @@ void AttrViewer_Camera::_OnUpdateTarget()
 }
 
 
-Int AttrViewer_Camera::_GetIndexForType( CameraType type )
+int AttrViewer_Camera::_GetIndexForType( CameraType type )
 {
 	switch ( type )
 	{
@@ -107,7 +107,7 @@ Int AttrViewer_Camera::_GetIndexForType( CameraType type )
 }
 
 
-CameraType AttrViewer_Camera::_GetTypeForIndex( Int index )
+CameraType AttrViewer_Camera::_GetTypeForIndex( int index )
 {
 	switch ( index )
 	{

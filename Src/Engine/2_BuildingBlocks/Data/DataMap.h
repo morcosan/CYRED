@@ -31,12 +31,12 @@ namespace CYRED
 		//! use Has() before calling this
 		TValue&	Get		( TKey key )	const;
 
-		Bool	Has		( TKey key )	const;
+		bool	Has		( TKey key )	const;
 
 		//! remove the entry from dictionary; the value is also lost
 		void	Erase	( TKey key );
 
-		UInt	Size	()				const;
+		int	Size	()				const;
 
 		//! remove all entries
 		void	Clear	();
@@ -108,7 +108,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	Bool DataMap<TKey, TValue>::Has( TKey key ) const
+	bool DataMap<TKey, TValue>::Has( TKey key ) const
 	{
 		return (_map->find( key ) != _map->end());
 	}
@@ -124,7 +124,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	UInt DataMap<TKey, TValue>::Size() const
+	int DataMap<TKey, TValue>::Size() const
 	{
 		return _map->size();
 	}

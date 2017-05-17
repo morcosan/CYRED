@@ -40,41 +40,66 @@ namespace CYRED
 
 namespace CYRED
 {
-	//!		controls the rendering flow
+	/*
+	state machine for rendering
+	*/
 	ABSTRACT class DLL RenderManager
 	{
 		DECLARE_LOCAL_SINGLETON( RenderManager )
 
 
 	public:
-		//!		creates the main canvas with id 0, then initializes the manager
-		virtual void Initialize		( GLContext* glContext, GL* gl )		PURE_VIRTUAL;
-		virtual void Finalize		()										PURE_VIRTUAL;
+		/*****
+		initialize manager by creating first canvas, with id 0
+		@params: 
+			glContext	- the context of the main window
+			gl			- the OpenGL API
+		*/
+		virtual void	Initialize		( GLContext* glContext, GL* gl )	PURE_VIRTUAL;
 
-		//!		add technique to internal list
-		//!		returns the id for technique
-		virtual UInt NewTechnique	( TechniqueType techType )				PURE_VIRTUAL;
+		/*****
+		destroy the manager
+		@assert: it was first initialized
+		*/
+		virtual void	Finalize		()									PURE_VIRTUAL;
+		
+		/*****
+		create a new canvas and activate it
+		@params: 
+			glContext - the context of the window
+		@return: the index of the new canvas
+		*/
+		virtual int		CreateCanvas	( GLContext* glContext )			PURE_VIRTUAL;
 
-		//!		allows you to add custom technique
-		virtual UInt NewTechnique	( Technique* technique )				PURE_VIRTUAL;
+		/*****
+		change the current canvas
+		@params: 
+			canvasID - id of the new canvas
+		@assert: canvas id exists
+		*/
+		virtual void	SwitchCanvas	( int canvasID )					PURE_VIRTUAL;
 
-		//!		creates a new canvas for a window
-		//!		returns the id for the new canvas
-		virtual UInt NewCanvas		( GLContext* glContext )				PURE_VIRTUAL;
+		/*****
+		create a new renderer for current canvas
+		@params: 
+			rendererType - type of the renderer
+		*/
+		virtual void	CreateRenderer	( RendererType rendererType )		PURE_VIRTUAL;
+
+		/*****
+		change the current renderer for current canvas
+		@params: 
+		canvasID - id of the new canvas
+		@assert: canvas id exists
+		*/
+		virtual void	SwitchRenderer	( RendererType rendererType )		PURE_VIRTUAL;
 
 
-		virtual void ChangeRenderer	( UInt canvasID, RendererType type )	PURE_VIRTUAL;
 
-		//!		you can create your own renderer
-		virtual void ChangeRenderer	( UInt canvasID, Renderer* renderer )	PURE_VIRTUAL;
+		virtual void Render			( int canvasID, Node* root, GameObject* cameraGO,
+									  bool useAllScenes )					PURE_VIRTUAL;
 
-		virtual void ChangeTechnique( UInt canvasID, UInt techID )			PURE_VIRTUAL;
-
-
-		virtual void Render			( UInt canvasID, Node* root, GameObject* cameraGO,
-									  Bool useAllScenes )					PURE_VIRTUAL;
-
-		virtual void OnResize		( UInt canvasID )						PURE_VIRTUAL;
+		virtual void OnResize		( int canvasID )						PURE_VIRTUAL;
 	};
 }
 

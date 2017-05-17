@@ -33,7 +33,7 @@ public:
 		// get old parent item
 		CustomTreeItem* prevParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// get the order in the old hierarchy
-		UInt prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
+		int prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
 
 		// apply the drop event
 		QTreeWidget::dropEvent( e );	
@@ -44,7 +44,7 @@ public:
 		if ( newParent == NULL ) {
 			// if so, reset drop
 			// remove from tree
-			UInt tmpIndex = this->indexOfTopLevelItem( movedItem );
+			int tmpIndex = this->indexOfTopLevelItem( movedItem );
 			this->takeTopLevelItem( tmpIndex );
 			// add back to old position
 			prevParent->insertChild( prevIndexInHierarchy, movedItem );
@@ -58,7 +58,7 @@ public:
 		this->setCurrentItem( movedItem );
 
 		// get the order in the new hierarchy
-		UInt indexInHierarchy = newParent->indexOfChild( movedItem );
+		int indexInHierarchy = newParent->indexOfChild( movedItem );
 
 		// apply changes to gameobjects
 		if ( newParent != NULL ) {
@@ -180,7 +180,7 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 }
 
 
-CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( UInt uid )
+CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( int uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
@@ -198,11 +198,11 @@ CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( UInt uid )
 }
 
 
-CustomTreeItem* Panel_PrefabHierarchy::_FindPrefabItem( const Char* uid )
+CustomTreeItem* Panel_PrefabHierarchy::_FindPrefabItem( const char* uid )
 {
 	String temp( uid );
 
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
+	for ( int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->topLevelItem(i) );
 		Asset* prefab = treeItem->asset;
 
@@ -244,7 +244,7 @@ void Panel_PrefabHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWid
 						Qt::ItemIsEnabled );
 	parent->addChild( treeItem );
 
-	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i )
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i )
 	{
 		_RecResetHierarchy( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), treeItem );
 	}
@@ -274,7 +274,7 @@ void Panel_PrefabHierarchy::_ResetHierarchy()
 		rootItem->addChild( treeItem );
 		treeItem->setExpanded( TRUE );
 
-		for ( UInt j = 0; j < _targetPrefab->GetRoot()->GetChildNodeCount(); ++j ) {
+		for ( int j = 0; j < _targetPrefab->GetRoot()->GetChildNodeCount(); ++j ) {
 			_RecResetHierarchy( CAST_S( GameObject*, _targetPrefab->GetRoot()->GetChildNodeAt(j) ), 
 								treeItem );
 		}

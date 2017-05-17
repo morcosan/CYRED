@@ -9,29 +9,29 @@ namespace CYRED
 {
 	class JsonSerializer_EditorConfig : public JsonSerializer
 	{
-		const Char* const FULLSCREEN		= "fullscreen";
-		const Char* const WIDTH				= "width";
-		const Char* const HEIGHT			= "height";
-		const Char* const POS_X				= "pos_x";
-		const Char* const POS_Y				= "pos_y";
-		const Char* const FPS				= "fps";
-		const Char* const PROJECT_NAME		= "project_name";
-		const Char* const PROJECT_PATH		= "project_path";
+		const char* const FULLSCREEN		= "fullscreen";
+		const char* const WIDTH				= "width";
+		const char* const HEIGHT			= "height";
+		const char* const POS_X				= "pos_x";
+		const char* const POS_Y				= "pos_y";
+		const char* const FPS				= "fps";
+		const char* const PROJECT_NAME		= "project_name";
+		const char* const PROJECT_PATH		= "project_path";
 
-		const Char* const PANELS			= "panels";
-		const Char* const PANELS_TYPE		= "type";
-		const Char* const PANELS_SPLIT_FROM	= "split_from";
-		const Char* const PANELS_SPLIT_TYPE	= "split_type";
-		const Char* const PANELS_VP_INDEX	= "viewport_index";
-		const Char* const HORIZONTAL		= "HORIZONTAL";
-		const Char* const VERTICAL			= "VERTICAL";
-		const Char* const P_ASSETS			= "ASSETS";
-		const Char* const P_ATTRIBUTES		= "ATTRIBUTES";
-		const Char* const P_CONSOLE			= "CONSOLE";
-		const Char* const P_SCENE_HIERARCHY	= "SCENE_HIERARCHY";
-		const Char* const P_SCENE_VIEWPORT	= "SCENE_VIEWPORT";
-		const Char* const P_PREFAB_HIERARCHY= "PREFAB_HIERARCHY";
-		const Char* const P_PREFAB_VIEWPORT	= "PREFAB_VIEWPORT";
+		const char* const PANELS			= "panels";
+		const char* const PANELS_TYPE		= "type";
+		const char* const PANELS_SPLIT_FROM	= "split_from";
+		const char* const PANELS_SPLIT_TYPE	= "split_type";
+		const char* const PANELS_VP_INDEX	= "viewport_index";
+		const char* const HORIZONTAL		= "HORIZONTAL";
+		const char* const VERTICAL			= "VERTICAL";
+		const char* const P_ASSETS			= "ASSETS";
+		const char* const P_ATTRIBUTES		= "ATTRIBUTES";
+		const char* const P_CONSOLE			= "CONSOLE";
+		const char* const P_SCENE_HIERARCHY	= "SCENE_HIERARCHY";
+		const char* const P_SCENE_VIEWPORT	= "SCENE_VIEWPORT";
+		const char* const P_PREFAB_HIERARCHY= "PREFAB_HIERARCHY";
+		const char* const P_PREFAB_VIEWPORT	= "PREFAB_VIEWPORT";
 
 
 	public:

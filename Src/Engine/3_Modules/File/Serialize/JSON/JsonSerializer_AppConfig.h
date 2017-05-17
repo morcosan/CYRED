@@ -10,24 +10,24 @@ namespace CYRED
 {
 	class JsonSerializer_AppConfig : public JsonSerializer
 	{
-		const Char* const APP_NAME			= "app_name";
-		const Char* const FULLSCREEN		= "fullscreen";
-		const Char* const WIDTH				= "width";
-		const Char* const HEIGHT			= "height";
-		const Char* const POS_X				= "pos_x";
-		const Char* const POS_Y				= "pos_y";
-		const Char* const FPS				= "fps";
-		const Char* const START_SCENE		= "start_scene";
-		const Char* const ASSETS			= "assets";
-		const Char* const ASSETS_MATERIALS	= "materials";
-		const Char* const ASSETS_TEXTURES	= "textures";
-		const Char* const ASSETS_SHADERS	= "shaders";
-		const Char* const ASSETS_MESHES		= "meshes";
-		const Char* const ASSETS_MORPHS		= "morphs";
-		const Char* const ASSETS_SCENES		= "scenes";
-		const Char* const ASSETS_SCRIPTS	= "scripts";
-		const Char* const ASSET_NAME		= "name";
-		const Char* const ASSET_PATH		= "path";
+		const char* const APP_NAME			= "app_name";
+		const char* const FULLSCREEN		= "fullscreen";
+		const char* const WIDTH				= "width";
+		const char* const HEIGHT			= "height";
+		const char* const POS_X				= "pos_x";
+		const char* const POS_Y				= "pos_y";
+		const char* const FPS				= "fps";
+		const char* const START_SCENE		= "start_scene";
+		const char* const ASSETS			= "assets";
+		const char* const ASSETS_MATERIALS	= "materials";
+		const char* const ASSETS_TEXTURES	= "textures";
+		const char* const ASSETS_SHADERS	= "shaders";
+		const char* const ASSETS_MESHES		= "meshes";
+		const char* const ASSETS_MORPHS		= "morphs";
+		const char* const ASSETS_SCENES		= "scenes";
+		const char* const ASSETS_SCRIPTS	= "scripts";
+		const char* const ASSET_NAME		= "name";
+		const char* const ASSET_PATH		= "path";
 
 
 	public:

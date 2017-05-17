@@ -35,7 +35,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 		rapidjson::Value arrayNodeScripts;
 		arrayNodeScripts.SetArray();
 
-		for ( UInt i = 0; i < scripter->GetScriptsCount(); ++i ) {
+		for ( int i = 0; i < scripter->GetScriptsCount(); ++i ) {
 			Script* script = scripter->GetScript( i );
 
 			// create object
@@ -182,7 +182,7 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 {
 	Scripter* scripter = CAST_S( Scripter*, object );
 
-	Bool emitEvents = scripter->DoesEmitEvents();
+	bool emitEvents = scripter->DoesEmitEvents();
 	scripter->SetEmitEvents( FALSE );
 
 	// load script
@@ -190,7 +190,7 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 	{
 		rapidjson::Value& scripts = json[SCRIPTS];
 
-		for ( UInt i = 0; i < scripts.Size(); ++i ) {
+		for ( int i = 0; i < scripts.Size(); ++i ) {
 			// load script uid
 			if ( scripts[i].HasMember( SCRIPT_UID ) ) {
 				scripter->SetScript( i, scripts[i][SCRIPT_UID].GetString() );
@@ -209,7 +209,7 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 					Iterator<String, DataUnion> iter = script->GetVarsListIterator();
 					while ( iter.HasNext() ) {
 						// set variable if exists
-						for ( UInt j = 0; j < vars.Size(); j++ ) {
+						for ( int j = 0; j < vars.Size(); j++ ) {
 							if ( vars[j].HasMember( VAR_NAME ) 
 								 && vars[j].HasMember( VAR_TYPE )
 								 && vars[j].HasMember( VAR_VALUE )						

@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Texture::TYPE		= "Texture";
-const Char* const Selector_Texture::OPTION_NULL	= "NULL";
+const char* const Selector_Texture::TYPE		= "Texture";
+const char* const Selector_Texture::OPTION_NULL	= "NULL";
 
 
 void Selector_Texture::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Texture::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetTextureCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetTextureCount(); ++i )
 	{
 		Texture* texture = AssetManager::Singleton()->GetTextureAt( i );
 

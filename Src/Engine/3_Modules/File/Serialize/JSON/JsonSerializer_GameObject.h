@@ -10,17 +10,17 @@ namespace CYRED
 {
 	class DLL JsonSerializer_GameObject : public JsonSerializer
 	{
-		const Char* const NAME				= "name";
-		const Char* const ENABLED			= "enabled";
-		const Char* const COMPONENTS		= "components";
-		const Char* const TRANSFORM			= "transform";
-		const Char* const CAMERA			= "camera";
-		const Char* const LIGHT				= "light";
-		const Char* const PARTICLE_EMITTER	= "particle_emitter";
-		const Char* const MESH_RENDERING	= "mesh_rendering";
-		const Char* const MORPH_RENDERING	= "morph_rendering";
-		const Char* const SCRIPTER			= "scripter";
-		const Char* const CHILD_NODES		= "child_nodes";
+		const char* const NAME				= "name";
+		const char* const ENABLED			= "enabled";
+		const char* const COMPONENTS		= "components";
+		const char* const TRANSFORM			= "transform";
+		const char* const CAMERA			= "camera";
+		const char* const LIGHT				= "light";
+		const char* const PARTICLE_EMITTER	= "particle_emitter";
+		const char* const MESH_RENDERING	= "mesh_rendering";
+		const char* const MORPH_RENDERING	= "morph_rendering";
+		const char* const SCRIPTER			= "scripter";
+		const char* const CHILD_NODES		= "child_nodes";
 
 
 	public:

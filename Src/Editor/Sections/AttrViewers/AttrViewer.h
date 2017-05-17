@@ -86,14 +86,14 @@ namespace CYRED
 
 			void A_OnOpenSelector();
 
-			void OnChangeSelection( void* ref, const Char* name );
+			void OnChangeSelection( void* ref, const char* name );
 		};
 		struct AttrStruct
 		{
 			String					attrName;
 			AttrType				attrType;
 			String					selectorDataType;	// for single selector and list of selector
-			DataArray<const Char*>  dropdownValues;		// for single dropdown and list of dropdown
+			DataArray<const char*>  dropdownValues;		// for single dropdown and list of dropdown
 			DataArray<AttrStruct>	structScheme;		// for list of struct
 			AttrType				listType;			// for struct of list
 		};
@@ -118,18 +118,18 @@ namespace CYRED
 		void A_OnChange_Group2		();
 
 		// factor methods that are linked to this AttrViewer
-		QWidget* CreateString	( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateFloat	( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateInt		( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateBool		( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateVector2	( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateVector3	( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateVector4	( UInt flagMask, CallbackGroup callbackGroup );
-		QWidget* CreateDropdown	( DataArray<const Char*>& valueList, 
-								  UInt flagMask, CallbackGroup group );
-		QWidget* CreateSelector	( const Char* dataType, UInt flagMask, CallbackGroup group );
+		QWidget* CreateString	( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateFloat	( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateInt		( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateBool		( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateVector2	( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateVector3	( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateVector4	( int flagMask, CallbackGroup callbackGroup );
+		QWidget* CreateDropdown	( DataArray<const char*>& valueList, 
+								  int flagMask, CallbackGroup group );
+		QWidget* CreateSelector	( const char* dataType, int flagMask, CallbackGroup group );
 		QWidget* CreateStruct	( DataArray<AttrStruct>& structScheme, 
-								  UInt flagMask, CallbackGroup group );
+								  int flagMask, CallbackGroup group );
 
 
 	protected:
@@ -141,130 +141,130 @@ namespace CYRED
 
 	protected:
 		CallbackGroup	_activatedGroup;
-		UInt			_ignoreUpdateGUI;
+		int			_ignoreUpdateGUI;
 
-		void		_AddToPanel				( const Char* title );
+		void		_AddToPanel				( const char* title );
 		void		_UpdatePanel			();
 		void		_UpdateVisibility		();
 
 		// delete all attributes and groups
 		void		_ResetViewer			();
 
-		void		_OpenGroup				( const Char* name );
+		void		_OpenGroup				( const char* name );
 		void		_CloseGroup				();
 
-		void		_CreateAttrLabel		( const Char* name, const Char* label );
-		void		_CreateAttrString		( const Char* name, const Char* label );
-		void		_CreateAttrBool			( const Char* name, const Char* label );
-		void		_CreateAttrInt			( const Char* name, const Char* label );
-		void		_CreateAttrFloat		( const Char* name, const Char* label );
-		void		_CreateAttrVector2		( const Char* name, const Char* label );
-		void		_CreateAttrVector3		( const Char* name, const Char* label );
-		void		_CreateAttrVector4		( const Char* name, const Char* label );
-		void		_CreateAttrDropdown		( const Char* name, const Char* label, 
-											  DataArray<const Char*>& valueList );
-		void		_CreateAttrSelector		( const Char* name, const Char* label, 
-											  const Char* dataType );
-		void		_CreateAttrStruct		( const Char* name, const Char* label, 
+		void		_CreateAttrLabel		( const char* name, const char* label );
+		void		_CreateAttrString		( const char* name, const char* label );
+		void		_CreateAttrBool			( const char* name, const char* label );
+		void		_CreateAttrInt			( const char* name, const char* label );
+		void		_CreateAttrFloat		( const char* name, const char* label );
+		void		_CreateAttrVector2		( const char* name, const char* label );
+		void		_CreateAttrVector3		( const char* name, const char* label );
+		void		_CreateAttrVector4		( const char* name, const char* label );
+		void		_CreateAttrDropdown		( const char* name, const char* label, 
+											  DataArray<const char*>& valueList );
+		void		_CreateAttrSelector		( const char* name, const char* label, 
+											  const char* dataType );
+		void		_CreateAttrStruct		( const char* name, const char* label, 
 											  DataArray<AttrStruct>& structScheme );
-		void		_CreateAttrList			( const Char* name, const Char* label, 
+		void		_CreateAttrList			( const char* name, const char* label, 
 											  AttrType elementType );
-		void		_CreateAttrListSelector	( const Char* name, const Char* label, 
-											  const Char* dataType );
-		void		_CreateAttrListDropdown	( const Char* name, const Char* label, 
-											  DataArray<const Char*>& valueList );
-		void		_CreateAttrListStruct	( const Char* name, const Char* label, 
+		void		_CreateAttrListSelector	( const char* name, const char* label, 
+											  const char* dataType );
+		void		_CreateAttrListDropdown	( const char* name, const char* label, 
+											  DataArray<const char*>& valueList );
+		void		_CreateAttrListStruct	( const char* name, const char* label, 
 											  DataArray<AttrStruct>& structScheme );
 
-		void		_CreateAttrString		( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrBool			( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrInt			( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrFloat		( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector2		( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector3		( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrVector4		( const Char* name, const Char* label,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrDropdown		( const Char* name, const Char* label,
-											  DataArray<const Char*>& valueList,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrSelector		( const Char* name, const Char* label,
-											  const Char* dataType,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrStruct		( const Char* name, const Char* label,
+		void		_CreateAttrString		( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrBool			( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrInt			( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrFloat		( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrVector2		( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrVector3		( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrVector4		( const char* name, const char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrDropdown		( const char* name, const char* label,
+											  DataArray<const char*>& valueList,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrSelector		( const char* name, const char* label,
+											  const char* dataType,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrStruct		( const char* name, const char* label,
 											  DataArray<AttrStruct>& structScheme,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrList			( const Char* name, const Char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrList			( const char* name, const char* label,
 											  AttrType elementType,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListSelector	( const Char* name, const Char* label,
-											  const Char* dataType,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListDropdown	( const Char* name, const Char* label,
-											  DataArray<const Char*>& valueList,
-											  UInt flagMask, CallbackGroup group );
-		void		_CreateAttrListStruct	( const Char* name, const Char* label,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrListSelector	( const char* name, const char* label,
+											  const char* dataType,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrListDropdown	( const char* name, const char* label,
+											  DataArray<const char*>& valueList,
+											  int flagMask, CallbackGroup group );
+		void		_CreateAttrListStruct	( const char* name, const char* label,
 											  DataArray<AttrStruct>& structScheme,
-											  UInt flagMask, CallbackGroup group );
+											  int flagMask, CallbackGroup group );
 		
-		void		_WriteAttrString		( const Char* name, const Char* value );
-		void		_WriteAttrFloat			( const Char* name, Float value );
-		void		_WriteAttrInt			( const Char* name, Int value );
-		void		_WriteAttrBool			( const Char* name, Bool value );
-		void		_WriteAttrVector2		( const Char* name, const Vector2& value );
-		void		_WriteAttrVector3		( const Char* name, const Vector3& value );
-		void		_WriteAttrVector4		( const Char* name, const Vector4& value );
-		void		_WriteAttrDropdown		( const Char* name, UInt valueIndex );
-		void		_WriteAttrSelector		( const Char* name, void* valueRef, 
-											  const Char* valueName );
-		void		_WriteAttrStruct		( const Char* name, const Char* elemName, 
-											  const DataUnion& elemValue, const Char* valueName = NULL );
-		void		_WriteAttrListSize		( const Char* name, UInt size );
-		void		_WriteAttrListIndex		( const Char* name, Int index, DataUnion& elemValue,
-											  const Char* valueName = NULL );
-		void		_WriteAttrListIndex		( const Char* name, Int index, const Char* elemName, 
-											  DataUnion& elemValue, const Char* valueName = NULL );
-		void		_WriteAttrStrListSize	( const Char* name, const Char* listName, 
-											  UInt size );
-		void		_WriteAttrStrListIndex	( const Char* name, const Char* listName,
-											  Int index, DataUnion& elemValue,
-											  const Char* valueName = NULL );
-		void		_WriteAttrStrListIndex	( const Char* name, const Char* listName, 
-											  Int index, const Char* elemName, 
-											  DataUnion& elemValue, const Char* valueName = NULL );
+		void		_WriteAttrString		( const char* name, const char* value );
+		void		_WriteAttrFloat			( const char* name, float value );
+		void		_WriteAttrInt			( const char* name, int value );
+		void		_WriteAttrBool			( const char* name, bool value );
+		void		_WriteAttrVector2		( const char* name, const Vector2& value );
+		void		_WriteAttrVector3		( const char* name, const Vector3& value );
+		void		_WriteAttrVector4		( const char* name, const Vector4& value );
+		void		_WriteAttrDropdown		( const char* name, int valueIndex );
+		void		_WriteAttrSelector		( const char* name, void* valueRef, 
+											  const char* valueName );
+		void		_WriteAttrStruct		( const char* name, const char* elemName, 
+											  const DataUnion& elemValue, const char* valueName = NULL );
+		void		_WriteAttrListSize		( const char* name, int size );
+		void		_WriteAttrListIndex		( const char* name, int index, DataUnion& elemValue,
+											  const char* valueName = NULL );
+		void		_WriteAttrListIndex		( const char* name, int index, const char* elemName, 
+											  DataUnion& elemValue, const char* valueName = NULL );
+		void		_WriteAttrStrListSize	( const char* name, const char* listName, 
+											  int size );
+		void		_WriteAttrStrListIndex	( const char* name, const char* listName,
+											  int index, DataUnion& elemValue,
+											  const char* valueName = NULL );
+		void		_WriteAttrStrListIndex	( const char* name, const char* listName, 
+											  int index, const char* elemName, 
+											  DataUnion& elemValue, const char* valueName = NULL );
 
-		String		_ReadAttrString			( const Char* name );
-		Float		_ReadAttrFloat			( const Char* name );
-		Int			_ReadAttrInt			( const Char* name );
-		Bool		_ReadAttrBool			( const Char* name );
-		Vector2		_ReadAttrVector2		( const Char* name );
-		Vector3		_ReadAttrVector3		( const Char* name );
-		Vector4		_ReadAttrVector4		( const Char* name );
-		UInt		_ReadAttrDropdown		( const Char* name );
-		void*		_ReadAttrSelector		( const Char* name );
-		DataUnion	_ReadAttrStruct			( const Char* name, const Char* elemName );
-		UInt		_ReadAttrListSize		( const Char* name );
-		DataUnion	_ReadAttrListIndex		( const Char* name, Int index );
-		DataUnion	_ReadAttrListIndex		( const Char* name, Int index, 
-											  const Char* elemName );
-		UInt		_ReadAttrStrListSize	( const Char* name, const Char* listName );
-		DataUnion	_ReadAttrStrListIndex	( const Char* name, const Char* listName, 
-											  Int index );
-		DataUnion	_ReadAttrStrListIndex	( const Char* name, const Char* listName, 
-											  Int index, const Char* elemName );
+		String		_ReadAttrString			( const char* name );
+		float		_ReadAttrFloat			( const char* name );
+		int			_ReadAttrInt			( const char* name );
+		bool		_ReadAttrBool			( const char* name );
+		Vector2		_ReadAttrVector2		( const char* name );
+		Vector3		_ReadAttrVector3		( const char* name );
+		Vector4		_ReadAttrVector4		( const char* name );
+		int		_ReadAttrDropdown		( const char* name );
+		void*		_ReadAttrSelector		( const char* name );
+		DataUnion	_ReadAttrStruct			( const char* name, const char* elemName );
+		int		_ReadAttrListSize		( const char* name );
+		DataUnion	_ReadAttrListIndex		( const char* name, int index );
+		DataUnion	_ReadAttrListIndex		( const char* name, int index, 
+											  const char* elemName );
+		int		_ReadAttrStrListSize	( const char* name, const char* listName );
+		DataUnion	_ReadAttrStrListIndex	( const char* name, const char* listName, 
+											  int index );
+		DataUnion	_ReadAttrStrListIndex	( const char* name, const char* listName, 
+											  int index, const char* elemName );
 
-		void		_SetAttrVisibility		( const Char* name, Bool value );
+		void		_SetAttrVisibility		( const char* name, bool value );
 
 		void		_CreateInnerAttribute	( InnerAttrType innerType );
 		DataUnion	_ReadInnerAttribute		( InnerAttrType innerType );
 		void		_WriteInnerAttribute	( InnerAttrType innerType, DataUnion& attrValue );
 
-		void		_Colorize				( Bool enabled, Bool colorizeAll = FALSE );
+		void		_Colorize				( bool enabled, bool colorizeAll = FALSE );
 
 		
 	private:
@@ -276,7 +276,7 @@ namespace CYRED
 			CustomTreeWidget*	treeWidget;
 			QWidget*			valueWidget;
 			AttrType			type;
-			Bool				isVisible;
+			bool				isVisible;
 		};
 		struct _InnerAttribute
 		{
@@ -287,8 +287,8 @@ namespace CYRED
 		struct _Group
 		{
 			String	name;
-			UInt	firstIndex;
-			UInt	count;
+			int	firstIndex;
+			int	count;
 		};
 		struct _ListWidget;
 		struct _StructWidget;
@@ -304,44 +304,44 @@ namespace CYRED
 		QWidget*			_titleWidget;
 		QWidget*			_childWidget;
 
-		void		_SetAttribute	( const Char* name, const Char* label, 
+		void		_SetAttribute	( const char* name, const char* label, 
 									  QWidget* widget, AttrType type );
-		Bool		_GetAttribute	( const Char* name, OUT _Attribute& attribute );
+		bool		_GetAttribute	( const char* name, OUT _Attribute& attribute );
 		
-		void		_WriteString		( QWidget* widget, const Char* value );
-		void		_WriteFloat			( QWidget* widget, Float value );
-		void		_WriteInt			( QWidget* widget, Int value );
-		void		_WriteBool			( QWidget* widget, Bool value );
+		void		_WriteString		( QWidget* widget, const char* value );
+		void		_WriteFloat			( QWidget* widget, float value );
+		void		_WriteInt			( QWidget* widget, int value );
+		void		_WriteBool			( QWidget* widget, bool value );
 		void		_WriteVector2		( QWidget* widget, const Vector2& value );
 		void		_WriteVector3		( QWidget* widget, const Vector3& value );
 		void		_WriteVector4		( QWidget* widget, const Vector4& value );
-		void		_WriteDropdown		( QWidget* widget, UInt valueIndex );
+		void		_WriteDropdown		( QWidget* widget, int valueIndex );
 		void		_WriteSelector		( QWidget* widget, void* valueRef, 
-										  const Char* valueName );
-		void		_WriteListIndex		( QWidget* widget, Int index, const Char* elemName, 
-										  DataUnion& elemValue, const Char* valueName = NULL );
+										  const char* valueName );
+		void		_WriteListIndex		( QWidget* widget, int index, const char* elemName, 
+										  DataUnion& elemValue, const char* valueName = NULL );
 
 		String		_ReadString			( QWidget* widget );
-		Float		_ReadFloat			( QWidget* widget );
-		Int			_ReadInt			( QWidget* widget );
-		Bool		_ReadBool			( QWidget* widget );
+		float		_ReadFloat			( QWidget* widget );
+		int			_ReadInt			( QWidget* widget );
+		bool		_ReadBool			( QWidget* widget );
 		Vector2		_ReadVector2		( QWidget* widget );
 		Vector3		_ReadVector3		( QWidget* widget );
 		Vector4		_ReadVector4		( QWidget* widget );
-		UInt		_ReadDropdown		( QWidget* widget );
+		int		_ReadDropdown		( QWidget* widget );
 		void*		_ReadSelector		( QWidget* widget );
-		DataUnion	_ReadListIndex		( QWidget* widget, Int index, const Char* elemName );
+		DataUnion	_ReadListIndex		( QWidget* widget, int index, const char* elemName );
 
-		QWidget*	_CreateList			( AttrType elementType, UInt flagMask, 
+		QWidget*	_CreateList			( AttrType elementType, int flagMask, 
 										  CallbackGroup group );
-		QWidget*	_CreateListDropdown	( DataArray<const Char*>& valueList, UInt flagMask, 
+		QWidget*	_CreateListDropdown	( DataArray<const char*>& valueList, int flagMask, 
 										  CallbackGroup group );
-		QWidget*	_CreateListSelector	( const Char* dataType, UInt flagMask, 
+		QWidget*	_CreateListSelector	( const char* dataType, int flagMask, 
 										  CallbackGroup group );
-		QWidget*	_CreateListStruct	( DataArray<AttrStruct>& structScheme, UInt flagMask, 
+		QWidget*	_CreateListStruct	( DataArray<AttrStruct>& structScheme, int flagMask, 
 										  CallbackGroup group );
 
-		QWidget*	_FindStructElem		( _StructWidget* structWidget, const Char* elemName,
-										  OUT UInt& elemIndex );
+		QWidget*	_FindStructElem		( _StructWidget* structWidget, const char* elemName,
+										  OUT int& elemIndex );
 	};
 }

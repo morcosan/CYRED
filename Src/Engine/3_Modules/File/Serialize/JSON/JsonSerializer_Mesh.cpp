@@ -77,7 +77,7 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Mesh* mesh = CAST_S( Mesh*, object );
 
-	Bool emitEvents = mesh->DoesEmitEvents();
+	bool emitEvents = mesh->DoesEmitEvents();
 	mesh->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) )

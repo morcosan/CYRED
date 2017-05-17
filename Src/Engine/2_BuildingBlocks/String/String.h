@@ -11,26 +11,26 @@ namespace CYRED
 	{
 	public:
 		String();
-		String( const Char* other );
+		String( const char* other );
 		String( const String& other );
 		virtual ~String();
 
 		void	operator=	( const String& other );
-		void	operator=	( const Char* other );
-		Bool	operator==	( const String& other )	const;
-		Bool	operator==	( const Char* other )	const;
-		Bool	operator!=	( const String& other )	const;
-		Bool	operator!=	( const Char* other )	const;
-		Bool	operator<	( const String& other )	const;
-		Bool	operator<	( const Char* other )	const;
+		void	operator=	( const char* other );
+		bool	operator==	( const String& other )	const;
+		bool	operator==	( const char* other )	const;
+		bool	operator!=	( const String& other )	const;
+		bool	operator!=	( const char* other )	const;
+		bool	operator<	( const String& other )	const;
+		bool	operator<	( const char* other )	const;
 
 
 	public:
-		const Char*	GetChar		() const;
-		UInt		GetLength	() const;
+		const char*	GetChar		() const;
+		int		GetLength	() const;
 
 
 	protected:
-		Char*	_data;
+		char*	_data;
 	};
 }

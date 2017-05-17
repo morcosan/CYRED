@@ -42,7 +42,7 @@ void JsonSerializer_Transform::FromJson( rapidjson::Value& json, OUT void* objec
 {
 	Transform* transform = CAST_S( Transform*, object );
 
-	Bool emitEvents = transform->DoesEmitEvents();
+	bool emitEvents = transform->DoesEmitEvents();
 	transform->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( ENABLED ) )

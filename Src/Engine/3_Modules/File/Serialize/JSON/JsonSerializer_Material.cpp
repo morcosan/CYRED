@@ -72,11 +72,11 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 		rapidjson::Value arrayNode;
 		arrayNode.SetArray();
 
-		UInt totalProperties = material->GetPropertiesCount();
+		int totalProperties = material->GetPropertiesCount();
 
-		for ( UInt i = 0; i < totalProperties; ++i )
+		for ( int i = 0; i < totalProperties; ++i )
 		{
-			const Char* name = material->GetPropertyNameAt( i );
+			const char* name = material->GetPropertyNameAt( i );
 			DataUnion& data = material->GetPropertyDataAt( i );
 
 			rapidjson::Value objectNode;
@@ -176,7 +176,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	Material* material = CAST_S( Material*, object );
 	AssetManager* assetMgr = AssetManager::Singleton();
 
-	Bool emitEvents = material->DoesEmitEvents();
+	bool emitEvents = material->DoesEmitEvents();
 	material->SetEmitEvents( FALSE );
 
 	material->ClearProperties();
@@ -199,11 +199,11 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 		}
 		else
 		{
-			const Char* uniqueID = json[SHADER].GetString();
+			const char* uniqueID = json[SHADER].GetString();
 			Shader* shader = AssetManager::Singleton()->GetShader( uniqueID );
 			if ( shader == NULL )
 			{
-				Bool isOk = Random::ValidateUniqueID( uniqueID );
+				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
 					shader = Memory::Alloc<Shader>();
@@ -225,7 +225,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	}
 	if ( json.HasMember( LINE_WIDTH ) )
 	{
-		material->SetLineWidth( CAST_S( Float, json[LINE_WIDTH].GetDouble() ) );
+		material->SetLineWidth( CAST_S( float, json[LINE_WIDTH].GetDouble() ) );
 	}
 	if ( json.HasMember( CULL_FACE ) )
 	{
@@ -248,7 +248,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	{
 		rapidjson::Value& properties = json[PROPERTIES];
 
-		for ( UInt i = 0; i < properties.Size(); ++i )
+		for ( int i = 0; i < properties.Size(); ++i )
 		{
 			rapidjson::Value& property = properties[i];
 
@@ -261,7 +261,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 				if ( type == PROP_TYPE_FLOAT )
 				{
 					material->SetProperty( property[PROP_NAME].GetString(),
-										   CAST_S( Float, property[PROP_VALUE].GetDouble() ) );
+										   CAST_S( float, property[PROP_VALUE].GetDouble() ) );
 				}
 				else if ( type == PROP_TYPE_INT )
 				{
@@ -291,11 +291,11 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 					}
 					else
 					{
-						const Char* uniqueID = property[PROP_VALUE].GetString();
+						const char* uniqueID = property[PROP_VALUE].GetString();
 						Texture* texture = AssetManager::Singleton()->GetTexture( uniqueID );
 						if ( texture == NULL )
 						{
-							Bool isOk = Random::ValidateUniqueID( uniqueID );
+							bool isOk = Random::ValidateUniqueID( uniqueID );
 							if ( isOk )
 							{
 								texture = Memory::Alloc<Texture>();

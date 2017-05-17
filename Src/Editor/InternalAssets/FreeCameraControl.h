@@ -18,8 +18,8 @@ namespace CYRED
 
 	protected:
 		void _OnEnable	()					override {}
-		void _OnStart	( Bool isRuntime )	override;
-		void _OnUpdate	( Bool isRuntime )	override;
+		void _OnStart	( bool isRuntime )	override;
+		void _OnUpdate	( bool isRuntime )	override;
 
 
 	public:
@@ -27,10 +27,10 @@ namespace CYRED
 
 
 	public:
-		DataMap<Int, Bool>	myWindows;
-		Float				rotateSpeed;
-		Float				zoomSpeed;
-		Float				panSpeed;
+		DataMap<int, bool>	myWindows;
+		float				rotateSpeed;
+		float				zoomSpeed;
+		float				panSpeed;
 
 
 	protected:

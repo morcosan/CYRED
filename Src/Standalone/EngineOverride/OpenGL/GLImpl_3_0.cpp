@@ -28,25 +28,25 @@ void GLImpl_3_0::Initialize()
 }
 
 
-void GLImpl_3_0::Viewport( Int x, Int y, UInt width, UInt height )
+void GLImpl_3_0::Viewport( int x, int y, int width, int height )
 {
 	ASSERT( _isInitialized );
 	glViewport( x, y, width, height );
 }
 
 
-void GLImpl_3_0::ClearColor( Float r, Float g, Float b, Float a )
+void GLImpl_3_0::ClearColor( float r, float g, float b, float a )
 {
 	ASSERT( _isInitialized );
 	glClearColor( r, g, b, a );
 }
 
 
-void GLImpl_3_0::Clear( UInt bitMask )
+void GLImpl_3_0::Clear( int bitMask )
 {
 	ASSERT( _isInitialized );
 
-	UInt glBitMask = 0;
+	int glBitMask = 0;
 
 	if ( (bitMask & GLBufferBit::COLOR_BUFFER_BIT) != 0 )
 	{
@@ -61,14 +61,14 @@ void GLImpl_3_0::Clear( UInt bitMask )
 }
 
 
-void GLImpl_3_0::GenBuffers( UInt n, OUT UInt* buffers )
+void GLImpl_3_0::GenBuffers( int n, OUT int* buffers )
 {
 	ASSERT( _isInitialized );
 	glGenBuffers( n, buffers );
 }
 
 
-void GLImpl_3_0::DeleteBuffers( UInt n, UInt* buffers )
+void GLImpl_3_0::DeleteBuffers( int n, int* buffers )
 {
 	ASSERT( _isInitialized );
 
@@ -76,11 +76,11 @@ void GLImpl_3_0::DeleteBuffers( UInt n, UInt* buffers )
 }
 
 
-void GLImpl_3_0::BindBuffer( GLBuffer target, UInt buffer )
+void GLImpl_3_0::BindBuffer( GLBuffer target, int buffer )
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
+	int glTarget = 0;
 
 	switch ( target )
 	{
@@ -97,12 +97,12 @@ void GLImpl_3_0::BindBuffer( GLBuffer target, UInt buffer )
 }
 
 
-void GLImpl_3_0::BufferData( GLBuffer target, UInt size, const void * data, GLDrawType usage )
+void GLImpl_3_0::BufferData( GLBuffer target, int size, const void * data, GLDrawType usage )
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
-	UInt glUsage = 0;
+	int glTarget = 0;
+	int glUsage = 0;
 
 	switch ( target )
 	{
@@ -126,7 +126,7 @@ void GLImpl_3_0::BufferData( GLBuffer target, UInt size, const void * data, GLDr
 }
 
 
-void GLImpl_3_0::GetShaderiv( UInt shader, GLShaderInfo pname, OUT Int* params )
+void GLImpl_3_0::GetShaderiv( int shader, GLShaderInfo pname, OUT int* params )
 {
 	ASSERT( _isInitialized );
 
@@ -139,14 +139,14 @@ void GLImpl_3_0::GetShaderiv( UInt shader, GLShaderInfo pname, OUT Int* params )
 }
 
 
-void GLImpl_3_0::GetShaderInfoLog( UInt shader, UInt maxLength, OUT Int* size, OUT Char* logs )
+void GLImpl_3_0::GetShaderInfoLog( int shader, int maxLength, OUT int* size, OUT char* logs )
 {
 	ASSERT( _isInitialized );
 	glGetShaderInfoLog( shader, maxLength, size, logs );
 }
 
 
-void GLImpl_3_0::GetProgramiv( UInt program, GLProgramInfo pname, OUT Int* params )
+void GLImpl_3_0::GetProgramiv( int program, GLProgramInfo pname, OUT int* params )
 {
 	ASSERT( _isInitialized );
 
@@ -167,39 +167,39 @@ void GLImpl_3_0::GetProgramiv( UInt program, GLProgramInfo pname, OUT Int* param
 }
 
 
-void GLImpl_3_0::GetProgramInfoLog( UInt program, UInt maxLength, OUT Int* size, OUT Char* logs )
+void GLImpl_3_0::GetProgramInfoLog( int program, int maxLength, OUT int* size, OUT char* logs )
 {
 	ASSERT( _isInitialized );
 	glGetProgramInfoLog( program, maxLength, size, logs );
 }
 
 
-void GLImpl_3_0::ValidateProgram( UInt program )
+void GLImpl_3_0::ValidateProgram( int program )
 {
 	ASSERT( _isInitialized );
 	glValidateProgram( program );
 }
 
 
-UInt GLImpl_3_0::CreateProgram()
+int GLImpl_3_0::CreateProgram()
 {
 	ASSERT( _isInitialized );
 	return glCreateProgram();
 }
 
 
-void GLImpl_3_0::DeleteProgram( UInt program )
+void GLImpl_3_0::DeleteProgram( int program )
 {
 	ASSERT( _isInitialized );
 	glDeleteProgram( program );
 }
 
 
-UInt GLImpl_3_0::CreateShader( GLShader shaderType )
+int GLImpl_3_0::CreateShader( GLShader shaderType )
 {
 	ASSERT( _isInitialized );
 
-	UInt glShaderType = 0;
+	int glShaderType = 0;
 
 	switch ( shaderType )
 	{
@@ -220,59 +220,59 @@ UInt GLImpl_3_0::CreateShader( GLShader shaderType )
 }
 
 
-void GLImpl_3_0::DeleteShader( UInt shader )
+void GLImpl_3_0::DeleteShader( int shader )
 {
 	ASSERT( _isInitialized );
 	glDeleteShader( shader );
 }
 
 
-void GLImpl_3_0::ShaderSource( UInt shader, UInt count, const Char** string, const Int* length )
+void GLImpl_3_0::ShaderSource( int shader, int count, const char** string, const int* length )
 {
 	ASSERT( _isInitialized );
 	glShaderSource( shader, count, string, length );
 }
 
 
-void GLImpl_3_0::CompileShader( UInt shader )
+void GLImpl_3_0::CompileShader( int shader )
 {
 	ASSERT( _isInitialized );
 	glCompileShader( shader );
 }
 
 
-void GLImpl_3_0::AttachShader( UInt program, UInt shader )
+void GLImpl_3_0::AttachShader( int program, int shader )
 {
 	ASSERT( _isInitialized );
 	glAttachShader( program, shader );
 }
 
 
-void GLImpl_3_0::DetachShader( UInt program, UInt shader )
+void GLImpl_3_0::DetachShader( int program, int shader )
 {
 	ASSERT( _isInitialized );
 	glDetachShader( program, shader );
 }
 
 
-void GLImpl_3_0::LinkProgram( UInt program )
+void GLImpl_3_0::LinkProgram( int program )
 {
 	ASSERT( _isInitialized );
 	glLinkProgram( program );
 }
 
 
-Int GLImpl_3_0::GetUniformLocation( UInt program, const Char* name )
+int GLImpl_3_0::GetUniformLocation( int program, const char* name )
 {
 	ASSERT( _isInitialized );
 	return glGetUniformLocation( program, name );
 }
 
 
-void GLImpl_3_0::GetActiveUniform( UInt program, UInt index, Int buffSize, OUT Int* length, 
-								   OUT Int* size, OUT GLUniform& type, OUT Char* name )
+void GLImpl_3_0::GetActiveUniform( int program, int index, int buffSize, OUT int* length, 
+								   OUT int* size, OUT GLUniform& type, OUT char* name )
 {
-	UInt glType = GL_ZERO;
+	int glType = GL_ZERO;
 
 	glGetActiveUniform( program, index, buffSize, length, size, &glType, name );
 
@@ -309,21 +309,21 @@ void GLImpl_3_0::GetActiveUniform( UInt program, UInt index, Int buffSize, OUT I
 }
 
 
-void GLImpl_3_0::GenFramebuffers( UInt size, OUT UInt* framebuffers )
+void GLImpl_3_0::GenFramebuffers( int size, OUT int* framebuffers )
 {
 	ASSERT( _isInitialized );
 	glGenFramebuffers( size, framebuffers );
 }
 
 
-void GLImpl_3_0::DeleteFramebuffers( UInt size, UInt* framebuffers )
+void GLImpl_3_0::DeleteFramebuffers( int size, int* framebuffers )
 {
 	ASSERT( _isInitialized );
 	glDeleteFramebuffers( size, framebuffers );
 }
 
 
-void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, UInt framebuffer )
+void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, int framebuffer )
 {
 	ASSERT( _isInitialized );
 
@@ -336,7 +336,7 @@ void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, UInt framebuffer )
 }
 
 
-void GLImpl_3_0::GenTextures( UInt size, OUT UInt* textures )
+void GLImpl_3_0::GenTextures( int size, OUT int* textures )
 {
 	ASSERT( _isInitialized );
 
@@ -344,7 +344,7 @@ void GLImpl_3_0::GenTextures( UInt size, OUT UInt* textures )
 }
 
 
-void GLImpl_3_0::DeleteTextures( UInt size, UInt* textures )
+void GLImpl_3_0::DeleteTextures( int size, int* textures )
 {
 	ASSERT( _isInitialized );
 
@@ -352,7 +352,7 @@ void GLImpl_3_0::DeleteTextures( UInt size, UInt* textures )
 }
 
 
-void GLImpl_3_0::BindTexture( GLTexture target, UInt texture )
+void GLImpl_3_0::BindTexture( GLTexture target, int texture )
 {
 	ASSERT( _isInitialized );
 
@@ -369,16 +369,16 @@ void GLImpl_3_0::BindTexture( GLTexture target, UInt texture )
 }
 
 
-void GLImpl_3_0::TexImage2D( GLTextureImage target, Int level, GLTexInternal internalformat, 
-							 UInt width, UInt height, Int border, GLTexFormat format, 
+void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal internalformat, 
+							 int width, int height, int border, GLTexFormat format, 
 							 GLVarType type, const void* data )
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
-	UInt glInternalformat = 0;
-	UInt glFormat = 0;
-	UInt glType = 0;
+	int glTarget = 0;
+	int glInternalformat = 0;
+	int glFormat = 0;
+	int glType = 0;
 
 	switch ( target )
 	{
@@ -469,9 +469,9 @@ void GLImpl_3_0::TexParameteri( GLTexture target, GLTexParamType name, GLTexPara
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
-	UInt glName = 0;
-	UInt glParam = 0;
+	int glTarget = 0;
+	int glName = 0;
+	int glParam = 0;
 
 	switch ( target )
 	{
@@ -555,8 +555,8 @@ void GLImpl_3_0::PixelStorei( GLAlignType type, GLAlignValue value )
 {
 	ASSERT( _isInitialized );
 
-	UInt glType = 0;
-	UInt glValue = 0;
+	int glType = 0;
+	int glValue = 0;
 
 	switch ( type )
 	{
@@ -593,13 +593,13 @@ void GLImpl_3_0::PixelStorei( GLAlignType type, GLAlignValue value )
 
 
 void GLImpl_3_0::FramebufferTexture2D( GLFrameBuffer target, GLBufferAttachment attachment, 
-									   GLTexture texTarget, UInt texture, Int level )
+									   GLTexture texTarget, int texture, int level )
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
-	UInt glAttachment = 0;
-	UInt glTexTarget = 0;
+	int glTarget = 0;
+	int glAttachment = 0;
+	int glTexTarget = 0;
 
 	switch ( target )
 	{
@@ -634,7 +634,7 @@ GLBufferStatus GLImpl_3_0::CheckFramebufferStatus( GLFrameBuffer target )
 {
 	ASSERT( _isInitialized );
 
-	UInt glTarget = 0;
+	int glTarget = 0;
 
 	switch ( target )
 	{
@@ -643,7 +643,7 @@ GLBufferStatus GLImpl_3_0::CheckFramebufferStatus( GLFrameBuffer target )
 			break;
 	}
 
-	Int status = glCheckFramebufferStatus( glTarget );
+	int status = glCheckFramebufferStatus( glTarget );
 	
 	switch ( status )
 	{
@@ -661,22 +661,22 @@ GLBufferStatus GLImpl_3_0::CheckFramebufferStatus( GLFrameBuffer target )
 }
 
 
-void GLImpl_3_0::UseProgram( UInt programID )
+void GLImpl_3_0::UseProgram( int programID )
 {
 	glUseProgram( programID );
 }
 
 
-void GLImpl_3_0::EnableVertexAttribArray( UInt index )
+void GLImpl_3_0::EnableVertexAttribArray( int index )
 {
 	glEnableVertexAttribArray( index );
 }
 
 
-void GLImpl_3_0::VertexAttribPointer( UInt index, UInt size, GLVarType type, Bool normalized, 
-									  Int stride, const void* data )
+void GLImpl_3_0::VertexAttribPointer( int index, int size, GLVarType type, bool normalized, 
+									  int stride, const void* data )
 {
-	Int glType = 0;
+	int glType = 0;
 
 	switch ( type )
 	{
@@ -689,43 +689,43 @@ void GLImpl_3_0::VertexAttribPointer( UInt index, UInt size, GLVarType type, Boo
 }
 
 
-void GLImpl_3_0::Uniform1i( Int location, Int value )
+void GLImpl_3_0::Uniform1i( int location, int value )
 {
 	glUniform1i( location, value );
 }
 
 
-void GLImpl_3_0::Uniform1f( Int location, Float value )
+void GLImpl_3_0::Uniform1f( int location, float value )
 {
 	glUniform1f( location, value );
 }
 
 
-void GLImpl_3_0::Uniform2fv( Int location, Int size, const Float* value )
+void GLImpl_3_0::Uniform2fv( int location, int size, const float* value )
 {
 	glUniform2fv( location, size, value );
 }
 
 
-void GLImpl_3_0::Uniform3fv( Int location, Int size, const Float * value )
+void GLImpl_3_0::Uniform3fv( int location, int size, const float * value )
 {
 	glUniform3fv( location, size, value );
 }
 
 
-void GLImpl_3_0::Uniform4fv( Int location, Int size, const Float * value )
+void GLImpl_3_0::Uniform4fv( int location, int size, const float * value )
 {
 	glUniform4fv( location, size, value );
 }
 
 
-void GLImpl_3_0::UniformMatrix4fv( Int location, Int count, Bool transpose, const Float* value )
+void GLImpl_3_0::UniformMatrix4fv( int location, int count, bool transpose, const float* value )
 {
 	glUniformMatrix4fv( location, count, transpose, value );
 }
 
 
-void GLImpl_3_0::ActiveTexture( UInt index )
+void GLImpl_3_0::ActiveTexture( int index )
 {
 	glActiveTexture( GL_TEXTURE0 + index );
 }
@@ -733,8 +733,8 @@ void GLImpl_3_0::ActiveTexture( UInt index )
 
 void GLImpl_3_0::PolygonMode( GLPolygonFace face, GLPolygonMode mode )
 {
-	Int glFace = 0;
-	Int glMode = 0;
+	int glFace = 0;
+	int glMode = 0;
 
 	switch ( face )
 	{
@@ -848,8 +848,8 @@ void GLImpl_3_0::BlendEquation( GLBlendMode mode )
 
 void GLImpl_3_0::BlendFunc( GLBlendFactor src, GLBlendFactor dst )
 {
-	Int glSrc = 0;
-	Int glDst = 0;
+	int glSrc = 0;
+	int glDst = 0;
 
 	switch ( src )
 	{
@@ -941,7 +941,7 @@ void GLImpl_3_0::BlendFunc( GLBlendFactor src, GLBlendFactor dst )
 }
 
 
-void GLImpl_3_0::DrawArrays( GLDrawMode mode, Int first, UInt size )
+void GLImpl_3_0::DrawArrays( GLDrawMode mode, int first, int size )
 {
 	switch ( mode )
 	{
@@ -952,10 +952,10 @@ void GLImpl_3_0::DrawArrays( GLDrawMode mode, Int first, UInt size )
 }
 
 
-void GLImpl_3_0::DrawElements( GLDrawMode mode, Int count, GLVarType type, const void* indices )
+void GLImpl_3_0::DrawElements( GLDrawMode mode, int count, GLVarType type, const void* indices )
 {
-	UInt glMode = 0;
-	UInt glType = 0;
+	int glMode = 0;
+	int glType = 0;
 
 	switch ( mode )
 	{
@@ -1022,13 +1022,13 @@ void GLImpl_3_0::DepthFunc( GLDepthFunc func )
 }
 
 
-void GLImpl_3_0::DepthMask( Bool flag )
+void GLImpl_3_0::DepthMask( bool flag )
 {
 	glDepthMask( flag );
 }
 
 
-void GLImpl_3_0::BindBufferBase( GLBaseBuffer target, UInt index, UInt buffer )
+void GLImpl_3_0::BindBufferBase( GLBaseBuffer target, int index, int buffer )
 {
 	switch ( target )
 	{

@@ -14,12 +14,12 @@ void AttrViewer_Mesh::_OnInitialize()
 {
 	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	DataArray<const Char*> meshTypes;
+	DataArray<const char*> meshTypes;
 	meshTypes.Add( MESH_TYPE_LINE );
 	meshTypes.Add( MESH_TYPE_POLYGON );
 	_CreateAttrDropdown	( ATTR_MESH_TYPE, ATTR_MESH_TYPE, meshTypes, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 
-	DataArray<const Char*> loadTypes;
+	DataArray<const char*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
 	loadTypes.Add( LOAD_TYPE_SCRIPTED );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
@@ -43,7 +43,7 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	{
-		Int typeIndex = 0;
+		int typeIndex = 0;
 		switch ( _target->GetMeshType() )
 		{
 			case MeshType::LINE:
@@ -57,7 +57,7 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 		_WriteAttrDropdown( ATTR_MESH_TYPE, typeIndex );
 	}
 	{
-		Int typeIndex = 0;
+		int typeIndex = 0;
 		switch ( _target->GetLoadType() )
 		{
 			case MeshLoadType::EXTERNAL:
@@ -91,7 +91,7 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 
 	if ( _activatedGroup == CallbackGroup::GROUP_2 )
 	{
-		Int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
+		int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
 		switch ( typeIndex )
 		{
 			case 0:
@@ -106,7 +106,7 @@ void AttrViewer_Mesh::_OnUpdateTarget()
 	{
 		_target->SetClearBuffersOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
 
-		Int typeIndex = _ReadAttrDropdown( ATTR_MESH_TYPE );
+		int typeIndex = _ReadAttrDropdown( ATTR_MESH_TYPE );
 		switch ( typeIndex )
 		{
 			case 0:

@@ -22,33 +22,33 @@ namespace CYRED
 {
 	class Menu_GameObject : public QMenu
 	{
-		const Char* const	MENU_RENAME				= "Rename";
-		const Char* const	MENU_DUPLICATE			= "Duplicate";
-		const Char* const	MENU_DELETE				= "Delete";
+		const char* const	MENU_RENAME				= "Rename";
+		const char* const	MENU_DUPLICATE			= "Duplicate";
+		const char* const	MENU_DELETE				= "Delete";
 	
-		const Char* const	MSG_SAVE_PREFAB			= "Save Prefab";
-		const Char* const	FILE_FILTER_PREFAB		= "Prefab (*%s)";
+		const char* const	MSG_SAVE_PREFAB			= "Save Prefab";
+		const char* const	FILE_FILTER_PREFAB		= "Prefab (*%s)";
 	
-		const Char* const	MENU_CREATE_PREFAB		= "Create Prefab";
+		const char* const	MENU_CREATE_PREFAB		= "Create Prefab";
 	
-		const Char*	const	MENU_GO					= "Create Child";
-		const Char*	const	MENU_GO_EMPTY			= "Empty";
-		const Char*	const	MENU_GO_3D				= "3D";
-		const Char*	const	MENU_GO_3D_PIVOT		= "Pivot";
-		const Char*	const	MENU_GO_3D_CAMERA		= "Camera";
-		const Char*	const	MENU_GO_3D_LIGHT		= "Light";
-		const Char*	const	MENU_GO_3D_MESH			= "Mesh";
-		const Char*	const	MENU_GO_3D_MORPH		= "Morph";
-		const Char*	const	MENU_GO_PS				= "Particles";
-		const Char*	const	MENU_GO_PS_EMITTER		= "Emitter";
+		const char*	const	MENU_GO					= "Create Child";
+		const char*	const	MENU_GO_EMPTY			= "Empty";
+		const char*	const	MENU_GO_3D				= "3D";
+		const char*	const	MENU_GO_3D_PIVOT		= "Pivot";
+		const char*	const	MENU_GO_3D_CAMERA		= "Camera";
+		const char*	const	MENU_GO_3D_LIGHT		= "Light";
+		const char*	const	MENU_GO_3D_MESH			= "Mesh";
+		const char*	const	MENU_GO_3D_MORPH		= "Morph";
+		const char*	const	MENU_GO_PS				= "Particles";
+		const char*	const	MENU_GO_PS_EMITTER		= "Emitter";
 
-		const Char* const	MENU_ADD_COMPONENT		= "Add Component";
-		const Char* const	MENU_COMP_CAMERA		= "Camera";
-		const Char* const	MENU_COMP_LIGHT			= "Light";
-		const Char* const	MENU_COMP_MESH_REN		= "Mesh Rendering";
-		const Char* const	MENU_COMP_MORPH_REN		= "Morph Rendering";
-		const Char* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
-		const Char* const	MENU_COMP_SCRIPTER		= "Scripter";
+		const char* const	MENU_ADD_COMPONENT		= "Add Component";
+		const char* const	MENU_COMP_CAMERA		= "Camera";
+		const char* const	MENU_COMP_LIGHT			= "Light";
+		const char* const	MENU_COMP_MESH_REN		= "Mesh Rendering";
+		const char* const	MENU_COMP_MORPH_REN		= "Morph Rendering";
+		const char* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
+		const char* const	MENU_COMP_SCRIPTER		= "Scripter";
 
 
 	public:

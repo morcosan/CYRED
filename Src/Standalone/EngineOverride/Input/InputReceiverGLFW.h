@@ -17,18 +17,18 @@ namespace CYRED
 
 
 	public:
-		static void		GLFW_KeyCallback	( GLFWwindow* window, Int key, Int scancode, 
-											  Int action, Int mods );
-		static void		GLFW_ButtonCallback	( GLFWwindow* window, Int button, Int action, Int mods );
-		static void		GLFW_CursorCallback	( GLFWwindow* window, Double xpos, Double ypos );
-		static void		GLFW_ScrollCallback	( GLFWwindow* window, Double xoffset, Double yoffset );
-		static void		GLFW_FocusCallback	( GLFWwindow* window, Int entered );
+		static void		GLFW_KeyCallback	( GLFWwindow* window, int key, int scancode, 
+											  int action, int mods );
+		static void		GLFW_ButtonCallback	( GLFWwindow* window, int button, int action, int mods );
+		static void		GLFW_CursorCallback	( GLFWwindow* window, double xpos, double ypos );
+		static void		GLFW_ScrollCallback	( GLFWwindow* window, double xoffset, double yoffset );
+		static void		GLFW_FocusCallback	( GLFWwindow* window, int entered );
 
-		static KeyCode	ToKeyCode			( Int glfwKey );
+		static KeyCode	ToKeyCode			( int glfwKey );
 
 
 	public:
 		void	AddEventToQueue( InputEvent event );
-		void	CheckModifiers	( Int mods );
+		void	CheckModifiers	( int mods );
 	};
 }

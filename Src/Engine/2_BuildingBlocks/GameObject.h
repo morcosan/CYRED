@@ -26,28 +26,28 @@ namespace CYRED
 		//! created without UID, for internal use only
 		GameObject();
 
-		GameObject( UInt uid );
-		GameObject( const Char* name, UInt uid );
+		GameObject( int uid );
+		GameObject( const char* name, int uid );
 		virtual ~GameObject();
 
 
 	public:
 		void OnHierarchyChange	()					override;
-		void OnUpdate			( Bool isRuntime )	override;
+		void OnUpdate			( bool isRuntime )	override;
 
 
 	public:
-		const Char*	GetName				()						const;
-		Bool		IsEnabled			()						const;
-		UInt		GetUniqueID			()						const;
-		Bool		DoesEmitEvents		()						const;
+		const char*	GetName				()						const;
+		bool		IsEnabled			()						const;
+		int		GetUniqueID			()						const;
+		bool		DoesEmitEvents		()						const;
 
-		UInt		GetComponentCount	()						const;
-		Component*	GetComponentAt		( UInt index )			const;
+		int		GetComponentCount	()						const;
+		Component*	GetComponentAt		( int index )			const;
 
-		void		SetEnabled			( Bool value );
-		void		SetName				( const Char* name );
-		void		SetEmitEvents		( Bool value );
+		void		SetEnabled			( bool value );
+		void		SetName				( const char* name );
+		void		SetEmitEvents		( bool value );
 
 		void		Clone				( GameObject* clone )	const;
 
@@ -60,9 +60,9 @@ namespace CYRED
 
 	protected:
 		String	_name;
-		Bool	_enabled;
-		UInt	_uid;	// unique index
-		Bool	_emitEvents;
+		bool	_enabled;
+		int	_uid;	// unique index
+		bool	_emitEvents;
 
 		DataArray<Component*>	_components;
 
@@ -78,7 +78,7 @@ namespace CYRED
 
 		T*	requested;
 
-		for ( UInt i = 0; i < _components.Size(); ++i ) {
+		for ( int i = 0; i < _components.Size(); ++i ) {
 			requested = dynamic_cast<T*>( _components[i] );
 
 			if ( requested != NULL ) {
@@ -97,7 +97,7 @@ namespace CYRED
 
 		T*	onlyOneAllowed;
 
-		for ( UInt i = 0; i < _components.Size(); ++i ) {
+		for ( int i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
 			if ( onlyOneAllowed != NULL ) {
@@ -126,7 +126,7 @@ namespace CYRED
 
 		T*	onlyOneAllowed;
 
-		for ( UInt i = 0; i < _components.Size(); ++i ) {
+		for ( int i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
 			if ( onlyOneAllowed != NULL ) {

@@ -74,7 +74,7 @@ void AttrViewer_Transform::_OnUpdateTarget()
 			_target->SetScaleWorld			( _ReadAttrVector3( ATTR_WORLD_SCALE ) );
 		}
 
-		Bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
 		if ( _target->IsEnabled() != newValue )
 		{
 			_target->SetEnabled( newValue );

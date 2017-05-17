@@ -80,7 +80,7 @@ public:
 DEFINE_REMOTE_SINGLETON_IMPL( EditorApp )
 
 
-void EditorApp::Run( Int& argc, Char* argv[] )
+void EditorApp::Run( int& argc, char* argv[] )
 {
 	_qtApp = Memory::Alloc<QApplication>( argc, argv );
 
@@ -97,7 +97,7 @@ void EditorApp::Run( Int& argc, Char* argv[] )
 	_CreateSelectorPopup();
 
 	// create panels
-	for ( UInt i = 0; i < EditorSettings::panels.Size(); i++ ) {
+	for ( int i = 0; i < EditorSettings::panels.Size(); i++ ) {
 		Panel* panel = NULL;
 		if ( i == 0 ) {
 			panel = _NewPanel( EditorSettings::panels[i].type, EditorSettings::panels[i].viewportIndex );
@@ -186,7 +186,7 @@ void EditorApp::_UpdateLoop()
 {
 	TimeManager* timeManager = TimeManager::Singleton();
 
-	Double realGameTime = CAST_S( Double, _qtTime->elapsed() ) / 1000;
+	double realGameTime = CAST_S( double, _qtTime->elapsed() ) / 1000;
 	timeManager->RenderUpdate( realGameTime );
 
 	while ( timeManager->GetGameTime() < realGameTime ) {
@@ -198,8 +198,8 @@ void EditorApp::_UpdateLoop()
 
 		//! update scripts
 		SceneManager* sceneManager = SceneManager::Singleton();
-		UInt totalScenes = sceneManager->CountLoadedScenes();
-		for ( UInt i = 0; i < totalScenes; ++i ) {
+		int totalScenes = sceneManager->CountLoadedScenes();
+		for ( int i = 0; i < totalScenes; ++i ) {
 			sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
 		}
 	}
@@ -228,7 +228,7 @@ void EditorApp::_UpdateLoop()
 }
 
 
-Panel* EditorApp::_NewPanel( PanelType type, UInt viewportIndex )
+Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 {
 	// new panel
 	Panel* panel = NULL;
@@ -288,7 +288,7 @@ Panel* EditorApp::_NewPanel( PanelType type, UInt viewportIndex )
 
 
 Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType splitType, 
-							 UInt viewportIndex )
+							 int viewportIndex )
 {
 	// new panel
 	Panel* panel = NULL;
@@ -469,7 +469,7 @@ void EditorApp::_CreateMenuBar()
 	_menuBar->Initialize();
 
 	// add editor skins
-	DataArray<const Char*> skinsName;
+	DataArray<const char*> skinsName;
 	skinsName.Add( EditorSettings::SKIN_DEFAULT_BLACK );
 	skinsName.Add( EditorSettings::SKIN_DEFAULT_WHITE );
 	_menuBar->AddSkins( skinsName, 0 );
@@ -507,7 +507,7 @@ void EditorApp::_CreateSelectorPopup()
 
 void EditorApp::_CreateCameras()
 {
-	for ( UInt i = 0; i < 2; i++ ) {
+	for ( int i = 0; i < 2; i++ ) {
 		GameObject* cameraGO = Memory::Alloc<GameObject>();
 		cameraGO->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 
@@ -532,7 +532,7 @@ void EditorApp::_CreateCameras()
 
 void EditorApp::_UpdateCameras()
 {
-	for ( UInt i = 0; i < _cameras.Size(); i++ ) {
+	for ( int i = 0; i < _cameras.Size(); i++ ) {
 		FreeCameraControl* freeCamera = _cameras[i]->GetComponent<FreeCameraControl>();
 		freeCamera->OnUpdate( _isPlayMode );
 	}
@@ -541,7 +541,7 @@ void EditorApp::_UpdateCameras()
 
 void EditorApp::_ReadConfigFile()
 {
-	Char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::FILE_PATH_CONFIG );
+	char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::FILE_PATH_CONFIG );
 	FileManager::Singleton()->Deserialize<EditorSettings>( fileData, NULL );
 
 	QDir dir;
@@ -556,25 +556,25 @@ void EditorApp::_ReadConfigFile()
 
 void EditorApp::_ReadProjectFile()
 {
-	Char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::projectPath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::projectPath.GetChar() );
 	FileManager::Singleton()->Deserialize<ProjectSettings>( fileData, NULL );
 }
 
 
-void EditorApp::ShowStatus( const Char* message )
+void EditorApp::ShowStatus( const char* message )
 {
 	_qtStatusBar->showMessage( message, 0 );
 }
 
 
 // the skin must exist in skins directory
-void EditorApp::ApplySkin( const Char* skinName )
+void EditorApp::ApplySkin( const char* skinName )
 {
 	FiniteString filePath( "%s%s%s", EditorSettings::DIR_PATH_SKINS,
 									 skinName,
 									 EditorSettings::FILE_FORMAT_SKINS );
 
-	Char* stylesheet = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* stylesheet = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 
 	// apply skin to all elements
 	if ( stylesheet != NULL )
@@ -620,7 +620,7 @@ void EditorApp::StopPlayMode()
 }
 
 
-void EditorApp::SetPlayPaused( Bool value )
+void EditorApp::SetPlayPaused( bool value )
 {
 	// pause / unpause play mode
 	_isPlayPaused = value;
@@ -628,7 +628,7 @@ void EditorApp::SetPlayPaused( Bool value )
 }
 
 
-void EditorApp::ShowSelectorPopup( const Char* type, void* qtSelectorPtr )
+void EditorApp::ShowSelectorPopup( const char* type, void* qtSelectorPtr )
 {
 	_selectorPopup->DisplayPopup( type, qtSelectorPtr );
 }

@@ -43,7 +43,7 @@ void Panel_Viewport::_QtWindow::focusOutEvent( QFocusEvent* e )
 }
 
 
-Panel_Viewport::Panel_Viewport( UInt panelIndex )
+Panel_Viewport::Panel_Viewport( int panelIndex )
 	: _mustResize( TRUE )
 	, _panelIndex( panelIndex )
 	, _canvasSlot( INVALID_CANVAS_SLOT )
@@ -55,7 +55,7 @@ Panel_Viewport::Panel_Viewport( UInt panelIndex )
 
 void Panel_Viewport::Initialize()
 {
-	ASSERT( FALSE );	// use Initialize with Bool instead
+	ASSERT( FALSE );	// use Initialize with bool instead
 }
 
 
@@ -65,7 +65,7 @@ void Panel_Viewport::Finalize()
 }
 
 
-void Panel_Viewport::Initialize( Bool isPrimary )
+void Panel_Viewport::Initialize( bool isPrimary )
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;

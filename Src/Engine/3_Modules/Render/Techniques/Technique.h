@@ -25,20 +25,20 @@ namespace CYRED
 
 
 	public:
-		virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO, 
-							 Bool useAllScenes )	PURE_VIRTUAL;
+		virtual void Render( int* buffers, Node* root, GameObject* cameraGO, 
+							 bool useAllScenes )	PURE_VIRTUAL;
 
 
 	public:
 		void SetAPI			( GL* glAPI );
 
-		void SetViewportSize( UInt width, UInt height );
+		void SetViewportSize( int width, int height );
 
 
 	protected:
 		GL*		_gl;
-		UInt	_viewportWidth;
-		UInt	_viewportHeight;
+		int	_viewportWidth;
+		int	_viewportHeight;
 
 
 	protected:

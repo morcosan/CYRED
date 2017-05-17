@@ -12,8 +12,8 @@
 using namespace CYRED;
 
 
-Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices, 
-						   OUT DataArray<UInt>& indices )
+bool MeshLoader::LoadMesh( const char* data, OUT DataArray<Vertex>& vertices, 
+						   OUT DataArray<int>& indices )
 {
 	int headerIndex = strncmp( data, HEADER, strlen( HEADER ) );
 	if ( headerIndex != 0 ) {
@@ -21,13 +21,13 @@ Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices,
 	}
 
 	// parse data and get values
-	Char* dataPtr = NO_CONST( Char*, data );
+	char* dataPtr = NO_CONST( char*, data );
 	// jump over header
 	dataPtr += strlen( HEADER );
 
 	// read vertices
-	UInt countVertices = strtol( dataPtr, &dataPtr, 10 );
-	for ( UInt i = 0; i < countVertices; i++ ) {
+	int countVertices = strtol( dataPtr, &dataPtr, 10 );
+	for ( int i = 0; i < countVertices; i++ ) {
 		// read position
 		Vector3 pos;
 		pos.x = strtof( dataPtr, &dataPtr );
@@ -70,8 +70,8 @@ Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices,
 	}
 
 	// read indeces
-	UInt countIndices = strtol( dataPtr, &dataPtr, 10 );
-	for ( UInt i = 0; i < countIndices; i++ ) {
+	int countIndices = strtol( dataPtr, &dataPtr, 10 );
+	for ( int i = 0; i < countIndices; i++ ) {
 		indices.Add( strtol( dataPtr, &dataPtr, 10 ) );
 	}
 
@@ -79,7 +79,7 @@ Bool MeshLoader::LoadMesh( const Char* data, OUT DataArray<Vertex>& vertices,
 }
 
 
-String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indices )
+String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<int>& indices )
 {
 	// create string
 	std::ostringstream dataStream;
@@ -90,7 +90,7 @@ String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indic
 	// add vertices
 	dataStream << '\n' << vertices.Size() << '\n';
 	// populate array
-	for ( UInt i = 0; i < vertices.Size(); i++ ) {
+	for ( int i = 0; i < vertices.Size(); i++ ) {
 		dataStream  << vertices[i].position.x << ' '
 					<< vertices[i].position.y << ' '
 					<< vertices[i].position.z << ' '
@@ -114,7 +114,7 @@ String MeshLoader::SaveMesh( DataArray<Vertex>& vertices, DataArray<UInt>& indic
 	// add indices
 	dataStream << '\n' << indices.Size() << '\n';
 	// populate array
-	for ( UInt i = 0; i < indices.Size(); i += 3 ) {
+	for ( int i = 0; i < indices.Size(); i += 3 ) {
 		dataStream << indices[i + 0] << ' '
 					<< indices[i + 1] << ' '
 					<< indices[i + 2] << '\n';

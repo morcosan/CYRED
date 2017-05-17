@@ -29,7 +29,7 @@ rapidjson::Value JsonSerializer_Morph::ToJson( const void* object )
 		rapidjson::Value arrayNode;
 		arrayNode.SetArray();
 
-		for ( UInt i = 0; i < morph->GetTotalStates(); ++i )
+		for ( int i = 0; i < morph->GetTotalStates(); ++i )
 		{
 			arrayNode.PushBack( rapidjson::StringRef( morph->GetFilePath( i ) ), _al );
 		}
@@ -48,7 +48,7 @@ void JsonSerializer_Morph::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Morph* morph = CAST_S( Morph*, object );
 
-	Bool emitEvents = morph->DoesEmitEvents();
+	bool emitEvents = morph->DoesEmitEvents();
 	morph->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) )
@@ -67,7 +67,7 @@ void JsonSerializer_Morph::FromJson( rapidjson::Value& json, OUT void* object,
 
 		morph->SetTotalStates( paths.Size() );
 
-		for ( UInt i = 0; i < paths.Size(); ++i )
+		for ( int i = 0; i < paths.Size(); ++i )
 		{
 			morph->SetFilePath( i, paths[i].GetString() );
 		}

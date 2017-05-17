@@ -8,27 +8,27 @@ using namespace CYRED;
 
 
 
-const Char* const EditorSkin::ATTR_GROUP			= "AttrGroup";
-const Char* const EditorSkin::ATTR_GROUP_TREE		= "AttrGroupTree";
-const Char* const EditorSkin::ATTR_BUTTON			= "AttrButton";
-const Char* const EditorSkin::ATTR_SELECTOR_BUTTON	= "AttrSelectorButton";
-const Char* const EditorSkin::ATTR_COMP_TREE		= "AttrCompTree";
-const Char* const EditorSkin::ATTR_COMP_TITLE		= "AttrCompTitle";
+const char* const EditorSkin::ATTR_GROUP			= "AttrGroup";
+const char* const EditorSkin::ATTR_GROUP_TREE		= "AttrGroupTree";
+const char* const EditorSkin::ATTR_BUTTON			= "AttrButton";
+const char* const EditorSkin::ATTR_SELECTOR_BUTTON	= "AttrSelectorButton";
+const char* const EditorSkin::ATTR_COMP_TREE		= "AttrCompTree";
+const char* const EditorSkin::ATTR_COMP_TITLE		= "AttrCompTitle";
 
-const Char* const EditorSkin::SELECTOR_POPUP		= "SelectorPopup";
+const char* const EditorSkin::SELECTOR_POPUP		= "SelectorPopup";
 
-const Char* const EditorSkin::HIERARCHY_TREE		= "HierarchyTree";
+const char* const EditorSkin::HIERARCHY_TREE		= "HierarchyTree";
 
-const Char* const EditorSkin::ASSET_TREE			= "AssetTree";
-const Char* const EditorSkin::ASSET_BUTTON			= "AssetButton";
-const Char* const EditorSkin::ASSET_UNKNOWN			= "UnknownAsset";
+const char* const EditorSkin::ASSET_TREE			= "AssetTree";
+const char* const EditorSkin::ASSET_BUTTON			= "AssetButton";
+const char* const EditorSkin::ASSET_UNKNOWN			= "UnknownAsset";
 
-const Char* const EditorSkin::VIEWPORT_BUTTON		= "ViewportButton";
+const char* const EditorSkin::VIEWPORT_BUTTON		= "ViewportButton";
 
-const Char* const EditorSkin::PANEL_LAYOUT			= "PanelLayout";
+const char* const EditorSkin::PANEL_LAYOUT			= "PanelLayout";
 
-const Char* const EditorSkin::CONSOLE_LAYOUT		= "ConsoleLayout";
-const Char* const EditorSkin::CONSOLE_LOG			= "ConsoleLog";
+const char* const EditorSkin::CONSOLE_LAYOUT		= "ConsoleLayout";
+const char* const EditorSkin::CONSOLE_LOG			= "ConsoleLog";
 
-const Char* const EditorSkin::FLAG_DISABLED			= "Disabled";
+const char* const EditorSkin::FLAG_DISABLED			= "Disabled";
 

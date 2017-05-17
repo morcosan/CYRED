@@ -19,7 +19,7 @@ GameInitScript::GameInitScript( AppConfig* appConfig )
 }
 
 
-void GameInitScript::_OnStart( Bool isRuntime )
+void GameInitScript::_OnStart( bool isRuntime )
 {
 	// load all assets
 	_LoadAllAssets();
@@ -42,7 +42,7 @@ void GameInitScript::_OnStart( Bool isRuntime )
 void GameInitScript::_LoadAllAssets()
 {
 	// load textures
-	for ( UInt i = 0; i < _appConfig->assetTextures.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetTextures.Size(); i++ ) {
 		// create asset
 		Texture* texture = Memory::Alloc<Texture>();
 		texture->SetEmitEvents( FALSE );
@@ -54,7 +54,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load meshes
-	for ( UInt i = 0; i < _appConfig->assetMeshes.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetMeshes.Size(); i++ ) {
 		// create asset
 		Mesh* mesh = Memory::Alloc<Mesh>();
 		mesh->SetEmitEvents( FALSE );
@@ -66,7 +66,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load morphs
-	for ( UInt i = 0; i < _appConfig->assetMorphs.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetMorphs.Size(); i++ ) {
 		// create asset
 		Morph* morph = Memory::Alloc<Morph>();
 		morph->SetEmitEvents( FALSE );
@@ -78,7 +78,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load shaders
-	for ( UInt i = 0; i < _appConfig->assetShaders.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetShaders.Size(); i++ ) {
 		// create asset
 		Shader* shader = Memory::Alloc<Shader>();
 		shader->SetEmitEvents( FALSE );
@@ -90,7 +90,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load scripts
-	for ( UInt i = 0; i < _appConfig->assetScripts.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetScripts.Size(); i++ ) {
 		// create asset
 		Script* script = Memory::Alloc<Script>();
 		script->SetEmitEvents( FALSE );
@@ -102,7 +102,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load materials after shaders
-	for ( UInt i = 0; i < _appConfig->assetMaterials.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetMaterials.Size(); i++ ) {
 		// create asset
 		Material* material = Memory::Alloc<Material>();
 		material->SetEmitEvents( FALSE );
@@ -114,7 +114,7 @@ void GameInitScript::_LoadAllAssets()
 	}
 
 	// load scenes after all
-	for ( UInt i = 0; i < _appConfig->assetScenes.Size(); i++ ) {
+	for ( int i = 0; i < _appConfig->assetScenes.Size(); i++ ) {
 		// create asset
 		Scene* scene = Memory::Alloc<Scene>();
 		scene->SetEmitEvents( FALSE );

@@ -22,17 +22,17 @@ namespace CYRED
 	public:
 		//! callback for when the parent/ children links change
 		virtual void OnHierarchyChange	() {};
-		virtual void OnUpdate			( Bool isRuntime ) {};
+		virtual void OnUpdate			( bool isRuntime ) {};
 
 
 	public:
 		Node*	GetParentNode	()					const;
 		void	SetParentNode	( Node* newNode );
 		void	AddChildNode	( Node* newNode );
-		void	InsertChildNode	( UInt index, Node* newNode );
+		void	InsertChildNode	( int index, Node* newNode );
 
-		UInt	GetChildNodeCount	()				const;
-		Node*	GetChildNodeAt		( UInt index )	const;
+		int	GetChildNodeCount	()				const;
+		Node*	GetChildNodeAt		( int index )	const;
 
 
 	protected:

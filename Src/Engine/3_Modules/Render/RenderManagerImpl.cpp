@@ -62,14 +62,14 @@ void RenderManagerImpl::_SetMainCanvas( GLContext* glContext )
 }
 
 
-Bool RenderManagerImpl::_IsShaderCompiled( UInt shaderID ) const
+bool RenderManagerImpl::_IsShaderCompiled( int shaderID ) const
 {
-	Int comp;
+	int comp;
 	_gl->GetShaderiv( shaderID, GLShaderInfo::COMPILE_STATUS, &comp );
 
 	if( comp == FALSE )
 	{
-		Char description[512];
+		char description[512];
 		_gl->GetShaderInfoLog( shaderID, sizeof(description), 0, &description[0] );
 
 		DebugManager::Singleton()->Log( description );
@@ -81,15 +81,15 @@ Bool RenderManagerImpl::_IsShaderCompiled( UInt shaderID ) const
 }
 
 
-Bool RenderManagerImpl::_IsProgramLinked( UInt programID ) const
+bool RenderManagerImpl::_IsProgramLinked( int programID ) const
 {
-	Int status;
+	int status;
 	{
 		_gl->GetProgramiv( programID, GLProgramInfo::LINK_STATUS, &status );
 
 		if( status == FALSE )
 		{
-			Char description[512];
+			char description[512];
 			_gl->GetProgramInfoLog( programID, sizeof(description), 0, &description[0] );
 
 			DebugManager::Singleton()->Log( description );
@@ -103,7 +103,7 @@ Bool RenderManagerImpl::_IsProgramLinked( UInt programID ) const
   	
 		if( status == FALSE )
 		{
-			Char description[256];
+			char description[256];
 			_gl->GetProgramInfoLog( programID, sizeof(description), 0, &description[0] );
 
 			DebugManager::Singleton()->Log( description );
@@ -116,7 +116,7 @@ Bool RenderManagerImpl::_IsProgramLinked( UInt programID ) const
 }
 
 
-UInt RenderManagerImpl::NewTechnique( TechniqueType techType )
+int RenderManagerImpl::NewTechnique( TechniqueType techType )
 {
 	ASSERT( _isInitialized );
 
@@ -131,7 +131,7 @@ UInt RenderManagerImpl::NewTechnique( TechniqueType techType )
 }
 
 
-UInt RenderManagerImpl::NewTechnique( Technique* technique )
+int RenderManagerImpl::NewTechnique( Technique* technique )
 {
 	ASSERT( _isInitialized );
 	ASSERT( technique != NULL );
@@ -140,7 +140,7 @@ UInt RenderManagerImpl::NewTechnique( Technique* technique )
 }
 
 
-UInt RenderManagerImpl::NewCanvas( GLContext* glContext )
+int RenderManagerImpl::NewCanvas( GLContext* glContext )
 {
 	ASSERT( _isInitialized );
 	ASSERT( glContext != NULL );
@@ -155,7 +155,7 @@ UInt RenderManagerImpl::NewCanvas( GLContext* glContext )
 }
 
 
-void RenderManagerImpl::ChangeRenderer( UInt canvasID, RendererType type )
+void RenderManagerImpl::ChangeRenderer( int canvasID, RendererType type )
 {
 	ASSERT( _isInitialized );
 
@@ -168,7 +168,7 @@ void RenderManagerImpl::ChangeRenderer( UInt canvasID, RendererType type )
 }
 
 
-void RenderManagerImpl::ChangeRenderer( UInt canvasID, Renderer* renderer )
+void RenderManagerImpl::ChangeRenderer( int canvasID, Renderer* renderer )
 {
 	ASSERT( _isInitialized );
 	ASSERT( canvasID < _canvases.Size() );
@@ -181,7 +181,7 @@ void RenderManagerImpl::ChangeRenderer( UInt canvasID, Renderer* renderer )
 }
 
 
-void RenderManagerImpl::ChangeTechnique( UInt canvasID, UInt techID )
+void RenderManagerImpl::ChangeTechnique( int canvasID, int techID )
 {
 	ASSERT( _isInitialized );
 	ASSERT( canvasID < _canvases.Size() );
@@ -195,7 +195,7 @@ void RenderManagerImpl::ChangeTechnique( UInt canvasID, UInt techID )
 }
 
 
-void RenderManagerImpl::Render( UInt canvasID, Node* root, GameObject* cameraGO, Bool useAllScenes )
+void RenderManagerImpl::Render( int canvasID, Node* root, GameObject* cameraGO, bool useAllScenes )
 {
 	ASSERT( _isInitialized );
 	ASSERT( canvasID < _canvases.Size() );
@@ -214,7 +214,7 @@ void RenderManagerImpl::Render( UInt canvasID, Node* root, GameObject* cameraGO,
 }
 
 
-void RenderManagerImpl::OnResize( UInt canvasID )
+void RenderManagerImpl::OnResize( int canvasID )
 {
 	ASSERT( _isInitialized );
 	ASSERT( canvasID < _canvases.Size() );
@@ -231,8 +231,8 @@ void RenderManagerImpl::OnResize( UInt canvasID )
 }
 
 
-void RenderManagerImpl::CreateMeshBuffers( OUT UInt& vbo, OUT UInt& ibo, 
-										   DataArray<Vertex>& vertices, DataArray<UInt>& indices )
+void RenderManagerImpl::CreateMeshBuffers( OUT int& vbo, OUT int& ibo, 
+										   DataArray<Vertex>& vertices, DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );
 
@@ -254,7 +254,7 @@ void RenderManagerImpl::CreateMeshBuffers( OUT UInt& vbo, OUT UInt& ibo,
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
-	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(UInt) * indices.Size(), indices.Data(), 
+	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.Size(), indices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
@@ -262,8 +262,8 @@ void RenderManagerImpl::CreateMeshBuffers( OUT UInt& vbo, OUT UInt& ibo,
 }
 
 
-void RenderManagerImpl::CreateMorphBuffers( OUT UInt& vbo, OUT UInt& ibo, 
-										    DataArray<MorphVertex>& vertices, DataArray<UInt>& indices )
+void RenderManagerImpl::CreateMorphBuffers( OUT int& vbo, OUT int& ibo, 
+										    DataArray<MorphVertex>& vertices, DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );
 
@@ -285,7 +285,7 @@ void RenderManagerImpl::CreateMorphBuffers( OUT UInt& vbo, OUT UInt& ibo,
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
-	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(UInt) * indices.Size(), indices.Data(), 
+	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.Size(), indices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
@@ -293,16 +293,16 @@ void RenderManagerImpl::CreateMorphBuffers( OUT UInt& vbo, OUT UInt& ibo,
 }
 
 
-void RenderManagerImpl::DeleteBuffers( UInt vbo, UInt ibo )
+void RenderManagerImpl::DeleteBuffers( int vbo, int ibo )
 {
 	_gl->DeleteBuffers( 1, &vbo );
 	_gl->DeleteBuffers( 1, &ibo );
 }
 
 
-void RenderManagerImpl::CreateParticleBuffers( OUT UInt& vbo, OUT UInt& ibo, 
+void RenderManagerImpl::CreateParticleBuffers( OUT int& vbo, OUT int& ibo, 
 											   DataArray<ParticleVertex>& vertices, 
-											   DataArray<UInt>& indices )
+											   DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );
 
@@ -324,7 +324,7 @@ void RenderManagerImpl::CreateParticleBuffers( OUT UInt& vbo, OUT UInt& ibo,
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
-	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(UInt) * indices.Size(), indices.Data(), 
+	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.Size(), indices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
@@ -332,20 +332,20 @@ void RenderManagerImpl::CreateParticleBuffers( OUT UInt& vbo, OUT UInt& ibo,
 }
 
 
-UInt RenderManagerImpl::CreateShaderProgram( const Char* vertexCode, 
-											 const Char* geometryCode, 
-											 const Char* fragmentCode )
+int RenderManagerImpl::CreateShaderProgram( const char* vertexCode, 
+											 const char* geometryCode, 
+											 const char* fragmentCode )
 {
 	ASSERT( _isInitialized );
 	ASSERT( vertexCode != NULL );
 	ASSERT( geometryCode != NULL );
 	ASSERT( fragmentCode != NULL );
 
-    UInt programID = _gl->CreateProgram();
-	Bool isOk = TRUE;
-	UInt vertexShader	= _gl->CreateShader( GLShader::VERTEX_SHADER );
-	UInt geometryShader = _gl->CreateShader( GLShader::GEOMETRY_SHADER );
-	UInt fragmentShader = _gl->CreateShader( GLShader::FRAGMENT_SHADER );
+    int programID = _gl->CreateProgram();
+	bool isOk = TRUE;
+	int vertexShader	= _gl->CreateShader( GLShader::VERTEX_SHADER );
+	int geometryShader = _gl->CreateShader( GLShader::GEOMETRY_SHADER );
+	int fragmentShader = _gl->CreateShader( GLShader::FRAGMENT_SHADER );
 
 	{
 		_gl->ShaderSource( vertexShader, 1, &vertexCode, NULL );
@@ -414,45 +414,45 @@ UInt RenderManagerImpl::CreateShaderProgram( const Char* vertexCode,
 }
 
 
-void RenderManagerImpl::DeleteShaderProgram( UInt programID )
+void RenderManagerImpl::DeleteShaderProgram( int programID )
 {
 	_gl->DeleteProgram( programID );
 }
 
 
-UInt RenderManagerImpl::GetUniformLocation( UInt programID, const Char * uniform )
+int RenderManagerImpl::GetUniformLocation( int programID, const char * uniform )
 {
 	ASSERT( _isInitialized );
 	return _gl->GetUniformLocation( programID, uniform );
 }
 
 
-UInt RenderManagerImpl::GetUniformsCount( UInt programID )
+int RenderManagerImpl::GetUniformsCount( int programID )
 {
 	ASSERT( _isInitialized );
 
-	Int total = 0;
+	int total = 0;
 	_gl->GetProgramiv( programID, GLProgramInfo::ACTIVE_UNIFORMS, &total ); 
 
 	return total;
 }
 
 
-void RenderManagerImpl::GetUniformInfo( UInt programID, UInt index, Int buffSize,
-										OUT Int* length, OUT Char* name )
+void RenderManagerImpl::GetUniformInfo( int programID, int index, int buffSize,
+										OUT int* length, OUT char* name )
 {
 	ASSERT( _isInitialized );
 
-	Int size = -1;
+	int size = -1;
 	GLUniform type;
 
 	_gl->GetActiveUniform( programID, index, buffSize, length, &size, type, name );
 }
 
 
-void RenderManagerImpl::CreateTexture2D( OUT UInt& textureID, UInt width, UInt height, 
-										 UInt channels, Bool hasMipmap, 
-										 UChar* imageBuffer )
+void RenderManagerImpl::CreateTexture2D( OUT int& textureID, int width, int height, 
+										 int channels, bool hasMipmap, 
+										 uchar* imageBuffer )
 {
 	ASSERT( _isInitialized );
 
@@ -498,11 +498,11 @@ void RenderManagerImpl::CreateTexture2D( OUT UInt& textureID, UInt width, UInt h
 }
 
 
-void RenderManagerImpl::CreateCubeMapTexture( OUT UInt& textureID, UInt width, UInt height, 
-											  UInt channels, Bool hasMipmap,
-											  UChar* imageBuffer_PosX, UChar* imageBuffer_NegX, 
-											  UChar* imageBuffer_PosY, UChar* imageBuffer_NegY, 
-											  UChar* imageBuffer_PosZ, UChar* imageBuffer_NegZ )
+void RenderManagerImpl::CreateCubeMapTexture( OUT int& textureID, int width, int height, 
+											  int channels, bool hasMipmap,
+											  uchar* imageBuffer_PosX, uchar* imageBuffer_NegX, 
+											  uchar* imageBuffer_PosY, uchar* imageBuffer_NegY, 
+											  uchar* imageBuffer_PosZ, uchar* imageBuffer_NegZ )
 {
 	ASSERT( _isInitialized );
 
@@ -574,7 +574,7 @@ void RenderManagerImpl::CreateCubeMapTexture( OUT UInt& textureID, UInt width, U
 }
 
 
-void RenderManagerImpl::DeleteTexture( UInt textureID )
+void RenderManagerImpl::DeleteTexture( int textureID )
 {
 	_gl->DeleteTextures( 1, &textureID );
 }

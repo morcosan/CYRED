@@ -18,8 +18,8 @@ namespace CYRED
 	class DLL Math
 	{
 	public: 
-		static const Float PI;			//! the value of PI (180 degrees)
-		static const Float HALF_PI;		//! the value of PI / 2 (90 degrees)
+		static const float PI;			//! the value of PI (180 degrees)
+		static const float HALF_PI;		//! the value of PI / 2 (90 degrees)
 
 
 	private:
@@ -29,32 +29,32 @@ namespace CYRED
 
 	public:
 		static	//! returns the dot produc of 2 vectors
-		Float		Dot			( const Vector3& firstVec, const Vector3& secondVec );
+		float		Dot			( const Vector3& firstVec, const Vector3& secondVec );
 		
 		static	//! transforms each value of vector from radians to degrees
 		Vector3		ToDegrees	( const Vector3& vec );
 		static	//! transforms from radians to degrees
-		Float		ToDegrees	( Float value );
+		float		ToDegrees	( float value );
 
 		static	//! transforms each value of vector from degrees to radians
 		Vector3		ToRadians	( const Vector3& vec );
 		static	//! transforms from degrees to radians
-		Float		ToRadians	( Float value );
+		float		ToRadians	( float value );
 
 		static	//! returns tangent of the given angle in radians
-		Float		Tan			( Float value );
+		float		Tan			( float value );
 		static	//! returns cosinus of the given angle in radians
-		Float		Cos			( Float value );
+		float		Cos			( float value );
 		static	//! returns sinus of the given angle in radians
-		Float		Sin			( Float value );
+		float		Sin			( float value );
 
 		static	//! returns the max between the 2 values
-		Float		Max			( Float value1, Float value2 );
+		float		Max			( float value1, float value2 );
 		static	//! returns the min between the 2 values
-		Float		Min			( Float value1, Float value2 );
+		float		Min			( float value1, float value2 );
 		
 		static	//! returns the value given, but no smaller than min or bigger than max
-		Float		Clamp		( Float value, Float min, Float max );
+		float		Clamp		( float value, float min, float max );
 	};
 }
 

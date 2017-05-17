@@ -98,7 +98,7 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Texture* texture = CAST_S( Texture*, object );
 
-	Bool emitEvents = texture->DoesEmitEvents();
+	bool emitEvents = texture->DoesEmitEvents();
 	texture->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) ) {

@@ -10,8 +10,8 @@
 using namespace CYRED;
 
 
-const Char* const Camera::TYPE_PERSPECTIVE	= "PERSPECTIVE";
-const Char* const Camera::TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
+const char* const Camera::TYPE_PERSPECTIVE	= "PERSPECTIVE";
+const char* const Camera::TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
 
 
 Camera::Camera( GameObject * gameObject )
@@ -89,7 +89,7 @@ CameraType Camera::GetCameraType() const
 }
 
 
-const Char* Camera::GetCameraTypeString() const
+const char* Camera::GetCameraTypeString() const
 {
 	if ( _cameraType == CameraType::ORTHOGRAPHIC ) {
 		return TYPE_ORTHOGRAPHIC;
@@ -102,7 +102,7 @@ const Char* Camera::GetCameraTypeString() const
 }
 
 
-void Camera::SetFovYAngle( Float value )
+void Camera::SetFovYAngle( float value )
 {
 	_fovYAngle = value;
 	_projectionChanged = true;
@@ -113,7 +113,7 @@ void Camera::SetFovYAngle( Float value )
 }
 
 
-void Camera::SetNearClipping( Float value )
+void Camera::SetNearClipping( float value )
 {
 	_nearClipping = value;
 	_projectionChanged = true;
@@ -124,7 +124,7 @@ void Camera::SetNearClipping( Float value )
 }
 
 
-void Camera::SetFarClipping( Float value )
+void Camera::SetFarClipping( float value )
 {
 	_farClipping = value;
 	_projectionChanged = true;
@@ -136,7 +136,7 @@ void Camera::SetFarClipping( Float value )
 }
 
 
-void Camera::SetAspectRatio( Float value )
+void Camera::SetAspectRatio( float value )
 {
 	_aspectRatio = value;
 	_projectionChanged = true;
@@ -148,7 +148,7 @@ void Camera::SetAspectRatio( Float value )
 }
 
 
-void CYRED::Camera::SetOrthoHeight( Float value )
+void CYRED::Camera::SetOrthoHeight( float value )
 {
 	_orthoSize.y = value;
 
@@ -161,7 +161,7 @@ void CYRED::Camera::SetOrthoHeight( Float value )
 }
 
 
-void CYRED::Camera::SetOrthoWidth( Float value )
+void CYRED::Camera::SetOrthoWidth( float value )
 {
 	_orthoSize.x = value;
 
@@ -192,7 +192,7 @@ void Camera::SetCameraType( CameraType type )
 }
 
 
-void Camera::SetCameraTypeString( const Char* type )
+void Camera::SetCameraTypeString( const char* type )
 {
 	String sType( type );
 

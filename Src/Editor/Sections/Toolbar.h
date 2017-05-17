@@ -20,13 +20,13 @@ namespace CYRED
 
 
 	public:
-		void A_PlayButton	( Bool checked );
-		void A_PauseButton	( Bool checked );
+		void A_PlayButton	( bool checked );
+		void A_PauseButton	( bool checked );
 
 
 	public:
-		void SetPlayButton	( Bool isActive );
-		void SetPauseButton	( Bool isActive );
+		void SetPlayButton	( bool isActive );
+		void SetPauseButton	( bool isActive );
 
 
 	protected:

@@ -44,7 +44,7 @@ void Script::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_SCRIPT );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Script>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -54,7 +54,7 @@ void Script::LoadUniqueID()
 
 void Script::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create path
@@ -64,7 +64,7 @@ void Script::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_SCRIPT );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Script>( fileData, this );
 
 	// free memory for file
@@ -94,7 +94,7 @@ Asset* Script::Clone()
 }
 
 
-const Char* CYRED::Script::GetExtension()
+const char* CYRED::Script::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_SCRIPT;
@@ -104,7 +104,7 @@ const Char* CYRED::Script::GetExtension()
 }
 
 
-void Script::CallFunction( const Char* funcName, GameObject* gameObject )
+void Script::CallFunction( const char* funcName, GameObject* gameObject )
 {
 	// call lua function if exists
 	if ( _luaFuncList.Has( funcName ) ) {
@@ -119,7 +119,7 @@ void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 		luabridge::setGlobal( L, goRef, GLOBAL_GAMEOBJECT );
 
 		// call all functions
-		for ( UInt i = 0; i < funcList.Size(); i++ ) {
+		for ( int i = 0; i < funcList.Size(); i++ ) {
 			// if is broken do not call
 			if ( !funcList[i].isBroken ) {
 				// try to call the function
@@ -139,7 +139,7 @@ void Script::CallFunction( const Char* funcName, GameObject* gameObject )
 }
 
 
-void Script::SetVariable( const Char* varName, DataUnion varValue )
+void Script::SetVariable( const char* varName, DataUnion varValue )
 {
 	_luaVarsList.Set( varName, varValue );
 
@@ -182,25 +182,25 @@ void Script::SetVariable( const Char* varName, DataUnion varValue )
 }
 
 
-Bool Script::RunsInEditor() const
+bool Script::RunsInEditor() const
 {
 	return _runsInEditor;
 }
 
 
-Bool Script::IsFirstUpdate() const
+bool Script::IsFirstUpdate() const
 {
 	return _isFirstUpdate;
 }
 
 
-UInt Script::GetPathsCount() const
+int Script::GetPathsCount() const
 {
 	return _filePaths.Size();
 }
 
 
-const Char* Script::GetFilePath( UInt index ) const
+const char* Script::GetFilePath( int index ) const
 {
 	ASSERT( index < _filePaths.Size() );
 	return _filePaths[index].GetChar();
@@ -219,7 +219,7 @@ Iterator<String, DataUnion> Script::GetVarsListIterator() const
 }
 
 
-void Script::SetRunInEditor( Bool value )
+void Script::SetRunInEditor( bool value )
 {
 	_runsInEditor = value;
 
@@ -229,14 +229,14 @@ void Script::SetRunInEditor( Bool value )
 }
 
 
-void Script::SetFirstUpdate( Bool value )
+void Script::SetFirstUpdate( bool value )
 {
 	_isFirstUpdate = value;
 	// does not emit event
 }
 
 
-void Script::SetFilePath( UInt index, const Char* filePath )
+void Script::SetFilePath( int index, const char* filePath )
 {
 	// fill array
 	while ( index >= _filePaths.Size() ) {
@@ -263,7 +263,7 @@ void Script::ClearFilePaths()
 }
 
 
-void Script::LoadLuaFiles( Bool clearVars )
+void Script::LoadLuaFiles( bool clearVars )
 {
 	// reset flag
 	_isFirstUpdate = TRUE;
@@ -282,11 +282,11 @@ void Script::LoadLuaFiles( Bool clearVars )
 	}
 
 	// load all lua files
-	for ( UInt i = 0; i < _filePaths.Size(); i++ ) {
+	for ( int i = 0; i < _filePaths.Size(); i++ ) {
 		// create path
 		FiniteString filePath( "%s%s", _dirPath.GetChar(), _filePaths[i].GetChar() );
 		// read file
-		Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+		char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 		// load lua
 		_LoadLuaData( fileData );
 		// free memory for file
@@ -294,7 +294,7 @@ void Script::LoadLuaFiles( Bool clearVars )
 	}
 }
 
-void Script::_LoadLuaData( const Char* luaData )
+void Script::_LoadLuaData( const char* luaData )
 {
 	// nothing to load
 	if ( luaData == NULL ) {
@@ -336,7 +336,7 @@ void Script::_LoadLuaData( const Char* luaData )
 }
 
 
-void Script::_AddLuaFunc( const Char* funcName )
+void Script::_AddLuaFunc( const char* funcName )
 {
 	// get lua state
 	lua_State* L = ScriptManager::Singleton()->GetLuaState();

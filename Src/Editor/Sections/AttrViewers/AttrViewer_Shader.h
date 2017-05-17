@@ -18,14 +18,14 @@ namespace CYRED
 	class AttrViewer_Shader : public AttrViewer
 	{
 	public:
-		const Char* TITLE				= "Shader";
+		const char* TITLE				= "Shader";
 
-		const Char* ATTR_NAME			= "Name";
-		const Char* ATTR_RENDERER		= "Renderer";
-		const Char* RENDERER_FORWARD	= "FORWARD";
-		const Char* ATTR_VERTEX			= "Vertex FilePath";
-		const Char* ATTR_GEOMETRY		= "Geometry FilePath";
-		const Char* ATTR_FRAGMENT		= "Fragment FilePath";
+		const char* ATTR_NAME			= "Name";
+		const char* ATTR_RENDERER		= "Renderer";
+		const char* RENDERER_FORWARD	= "FORWARD";
+		const char* ATTR_VERTEX			= "Vertex FilePath";
+		const char* ATTR_GEOMETRY		= "Geometry FilePath";
+		const char* ATTR_FRAGMENT		= "Fragment FilePath";
 
 
 	public:

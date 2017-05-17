@@ -27,7 +27,7 @@ void Prefab::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_PREFAB );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Prefab>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -37,7 +37,7 @@ void Prefab::LoadUniqueID()
 
 void Prefab::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create root
@@ -50,7 +50,7 @@ void Prefab::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_PREFAB );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Prefab>( fileData, this );
 
 	// free memory for file
@@ -83,7 +83,7 @@ Asset* Prefab::Clone()
 }
 
 
-const Char* Prefab::GetExtension()
+const char* Prefab::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_PREFAB;

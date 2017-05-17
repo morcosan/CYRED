@@ -16,7 +16,7 @@ namespace CYRED
 {
 	class DLL Mesh : public Asset
 	{
-		const Char* GLOBAL_THIS	= "MESH";
+		const char* GLOBAL_THIS	= "MESH";
 
 
 	public:
@@ -29,7 +29,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const Char*	GetExtension	() override;
+		const char*	GetExtension	() override;
 
 
 	public:
@@ -38,37 +38,37 @@ namespace CYRED
 
 		MeshType		GetMeshType				() const;		
 		MeshLoadType	GetLoadType				() const;		
-		UInt			GetVBO					() const;		
-		UInt			GetIBO					() const;			
-		UInt			GetNumIndices			() const;	
-		Bool			DoesClearBuffersOnBind	() const;
-		const Char*		GetExternalPath			() const;
+		int			GetVBO					() const;		
+		int			GetIBO					() const;			
+		int			GetNumIndices			() const;	
+		bool			DoesClearBuffersOnBind	() const;
+		const char*		GetExternalPath			() const;
 
 		void SetMeshType			( MeshType type );
 		void SetLoadType			( MeshLoadType type );
 		void SetVertices			( DataArray<Vertex>& vertices );
-		void SetIndices				( DataArray<UInt>& indices );
-		void SetClearBuffersOnBind	( Bool value );
-		void SetExternalPath		( const Char* filePath );
+		void SetIndices				( DataArray<int>& indices );
+		void SetClearBuffersOnBind	( bool value );
+		void SetExternalPath		( const char* filePath );
 
 		//script API
 		void ClearVertices	();
 		void AddVertex		( Vertex vertex );
 		void ClearIndices	();
-		void AddIndex		( UInt index );
+		void AddIndex		( int index );
 
 
 	protected:
-		UInt				_vbo;
-		UInt				_ibo;
-		UInt				_numIndices;
+		int				_vbo;
+		int				_ibo;
+		int				_numIndices;
 		MeshType			_meshType;
-		Bool				_clearBuffersOnBind;	//! when binding to GPU, clear image buffer
+		bool				_clearBuffersOnBind;	//! when binding to GPU, clear image buffer
 		
 		MeshLoadType		_loadType;
 		String				_externalPath;
 
 		DataArray<Vertex>	_vertices;
-		DataArray<UInt>		_indices;
+		DataArray<int>		_indices;
 	};
 }

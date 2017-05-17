@@ -30,24 +30,24 @@ namespace CYRED
 
 
 	public:
-		virtual Char*	ReadFile	( const Char* filePath, OUT Int& fileSize );
+		virtual char*	ReadFile	( const char* filePath, OUT int& fileSize );
 		/* returns TRUE on success */
-		virtual Bool	WriteFile	( const Char* filePath, const Char* buffer );
+		virtual bool	WriteFile	( const char* filePath, const char* buffer );
 		/* returns TRUE on success */
-		virtual Bool	DeleteFile	( const Char* filePath );
+		virtual bool	DeleteFile	( const char* filePath );
 		/* returns TRUE on success */
-		virtual Bool	CopyFile	( const Char* srcPath, const Char* dstPath );
+		virtual bool	CopyFile	( const char* srcPath, const char* dstPath );
 
 		/* returns TRUE on success */
-		virtual Bool	DeleteDir	( const Char* dirPath );
+		virtual bool	DeleteDir	( const char* dirPath );
 		/* returns TRUE on success */
-		virtual Bool	CreateDir	( const Char* parentPath, const Char* dirName );
+		virtual bool	CreateDir	( const char* parentPath, const char* dirName );
 
-		virtual UChar*	ReadImage	( const Char* filePath, OUT Int *width, 
-									  OUT Int *height, OUT Int *channels );
+		virtual uchar*	ReadImage	( const char* filePath, OUT int *width, 
+									  OUT int *height, OUT int *channels );
 		/* returns TRUE on success */
-		virtual Bool	WriteImage	( const Char* filePath, const UChar* imageBuffer, 
-									  Int width, Int height, Int channels,
+		virtual bool	WriteImage	( const char* filePath, const uchar* imageBuffer, 
+									  int width, int height, int channels,
 									  ImageType type );
 	};
 }

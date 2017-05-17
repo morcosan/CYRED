@@ -24,11 +24,11 @@ namespace CYRED
 		class ForwardTechnique : public Technique
 		{
 		public:
-			const Char* UNIFORM_IS_LOOPING	= "isLooping";
-			const Char* UNIFORM_LIFETIME	= "lifetime";
-			const Char* UNIFORM_DELTA_TIME	= "deltaTime";
+			const char* UNIFORM_IS_LOOPING	= "isLooping";
+			const char* UNIFORM_LIFETIME	= "lifetime";
+			const char* UNIFORM_DELTA_TIME	= "deltaTime";
 
-			const Char* UNIFORM_STATE_RATIO	= "stateRatio";
+			const char* UNIFORM_STATE_RATIO	= "stateRatio";
 
 
 		public:
@@ -37,8 +37,8 @@ namespace CYRED
 
 
 		public:
-			virtual void Render( UInt* buffers, Node* root, GameObject* cameraGO, 
-								 Bool useAllScenes )	override;
+			virtual void Render( int* buffers, Node* root, GameObject* cameraGO, 
+								 bool useAllScenes )	override;
 
 
 		protected:
@@ -46,15 +46,15 @@ namespace CYRED
 
 
 		protected:
-			UInt	_mainFramebufferID;
+			int	_mainFramebufferID;
 
 			Transform*	_cameraTran;
 			Camera*		_cameraComp;
 			Light*		_cameraLight;
 
-			void _RecRenderMesh		( GameObject* gameObject, Bool useAllScenes );
-			void _RecRenderMorph	( GameObject* gameObject, Bool useAllScenes );
-			void _RecRenderParticles( GameObject* gameObject, Bool useAllScenes );
+			void _RecRenderMesh		( GameObject* gameObject, bool useAllScenes );
+			void _RecRenderMorph	( GameObject* gameObject, bool useAllScenes );
+			void _RecRenderParticles( GameObject* gameObject, bool useAllScenes );
 
 			void _BindMaterial		( Material* material );
 		};

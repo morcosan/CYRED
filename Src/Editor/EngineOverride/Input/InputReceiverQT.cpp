@@ -25,7 +25,7 @@ void InputReceiverQT::OnKeyRelease( QKeyEvent* e )
 }
 
 
-void InputReceiverQT::OnMouseMove( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMouseMove( QMouseEvent* e, int windowIndex )
 {
 	DataUnion data;
 	data.SetVector2( Vector2( e->x(), e->y() ) );
@@ -33,7 +33,7 @@ void InputReceiverQT::OnMouseMove( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverQT::OnMousePress( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMousePress( QMouseEvent* e, int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->button() ) );
@@ -41,7 +41,7 @@ void InputReceiverQT::OnMousePress( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverQT::OnMouseRelease( QMouseEvent* e, Int windowIndex )
+void InputReceiverQT::OnMouseRelease( QMouseEvent* e, int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( ToKeyCode( e->button() ) );
@@ -49,7 +49,7 @@ void InputReceiverQT::OnMouseRelease( QMouseEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverQT::OnWheelMove( QWheelEvent* e, Int windowIndex )
+void InputReceiverQT::OnWheelMove( QWheelEvent* e, int windowIndex )
 {
 	DataUnion data;
 	data.SetInt( e->angleDelta().y() / 120 );
@@ -57,13 +57,13 @@ void InputReceiverQT::OnWheelMove( QWheelEvent* e, Int windowIndex )
 }
 
 
-void InputReceiverQT::OnFocusOut( Int windowIndex )
+void InputReceiverQT::OnFocusOut( int windowIndex )
 {
 	// TODO
 }
 
 
-KeyCode InputReceiverQT::ToKeyCode( Int qtKey )
+KeyCode InputReceiverQT::ToKeyCode( int qtKey )
 {
 	switch ( qtKey )
 	{

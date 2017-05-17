@@ -27,17 +27,17 @@ namespace CYRED
 		virtual void Finalize		()							PURE_VIRTUAL;
 		virtual void ProcessEvents	()							PURE_VIRTUAL;
 
-		virtual Bool KeyDown				( Int keyCode )	PURE_VIRTUAL;
-		virtual Bool KeyDownFirstTime		( Int keyCode )	PURE_VIRTUAL;
-		virtual Bool KeyUp					( Int keyCode )	PURE_VIRTUAL;
-		virtual Bool KeyUpFirstTime			( Int keyCode )	PURE_VIRTUAL;
+		virtual bool KeyDown				( int keyCode )	PURE_VIRTUAL;
+		virtual bool KeyDownFirstTime		( int keyCode )	PURE_VIRTUAL;
+		virtual bool KeyUp					( int keyCode )	PURE_VIRTUAL;
+		virtual bool KeyUpFirstTime			( int keyCode )	PURE_VIRTUAL;
 
 		virtual Vector2	CursorPosition		()				PURE_VIRTUAL;
 		virtual Vector2	CursorDeltaPosition	()				PURE_VIRTUAL;
-		virtual Int		ScrollWheel			()				PURE_VIRTUAL;
+		virtual int		ScrollWheel			()				PURE_VIRTUAL;
 
 		//! returns the index for the window where cursor is inside
-		virtual Int		GetWindowForCursor	()				PURE_VIRTUAL;
+		virtual int		GetWindowForCursor	()				PURE_VIRTUAL;
 
 	};
 }

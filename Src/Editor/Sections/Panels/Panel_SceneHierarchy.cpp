@@ -34,7 +34,7 @@ public:
 		// get old parent item
 		CustomTreeItem* prevParent = CAST_S( CustomTreeItem*, movedItem->parent() );
 		// get the order in the old hierarchy
-		UInt prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
+		int prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
 
 		// apply the drop event
 		QTreeWidget::dropEvent( e );	
@@ -45,7 +45,7 @@ public:
 		if ( newParent == NULL ) {
 			// if so, reset drop
 			// remove from tree
-			UInt tmpIndex = this->indexOfTopLevelItem( movedItem );
+			int tmpIndex = this->indexOfTopLevelItem( movedItem );
 			this->takeTopLevelItem( tmpIndex );
 			// add back to old position
 			prevParent->insertChild( prevIndexInHierarchy, movedItem );
@@ -59,7 +59,7 @@ public:
 		this->setCurrentItem( movedItem );
 
 		// get the order in the new hierarchy
-		UInt indexInHierarchy = newParent->indexOfChild( movedItem );
+		int indexInHierarchy = newParent->indexOfChild( movedItem );
 
 		// apply changes to gameobjects
 		if ( newParent != NULL ) {
@@ -176,7 +176,7 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 }
 
 
-CustomTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UInt uid )
+CustomTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( int uid )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
@@ -194,11 +194,11 @@ CustomTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( UInt uid )
 }
 
 
-CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( const Char* uid )
+CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( const char* uid )
 {
 	String temp( uid );
 
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
+	for ( int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->topLevelItem(i) );
 		Asset* scene = treeItem->asset;
 
@@ -240,7 +240,7 @@ void Panel_SceneHierarchy::_RecResetHierarchy( GameObject* gameObject, QTreeWidg
 						Qt::ItemIsEnabled );
 	parent->addChild( treeItem );
 
-	for ( UInt i = 0; i < gameObject->GetChildNodeCount(); ++i )
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i )
 	{
 		_RecResetHierarchy( CAST_S( GameObject*, gameObject->GetChildNodeAt(i) ), treeItem );
 	}
@@ -257,7 +257,7 @@ void Panel_SceneHierarchy::_ResetHierarchy()
 	// re-add all scenes
 	QTreeWidgetItem* rootItem = _qtTree->invisibleRootItem();
 
-	for ( UInt i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
+	for ( int i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
 		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
@@ -272,7 +272,7 @@ void Panel_SceneHierarchy::_ResetHierarchy()
 		rootItem->addChild( treeItem );
 		treeItem->setExpanded( TRUE );
 
-		for ( UInt j = 0; j < scene->GetRoot()->GetChildNodeCount(); ++j ) {
+		for ( int j = 0; j < scene->GetRoot()->GetChildNodeCount(); ++j ) {
 			_RecResetHierarchy( CAST_S( GameObject*, scene->GetRoot()->GetChildNodeAt(j) ), 
 								treeItem );
 		}

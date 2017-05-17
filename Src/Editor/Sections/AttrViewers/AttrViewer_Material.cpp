@@ -19,7 +19,7 @@ void AttrViewer_Material::_OnInitialize()
 	_CreateAttrBool		( ATTR_WIREFRAME,	ATTR_WIREFRAME );
 	_CreateAttrFloat	( ATTR_LINE_WIDTH,	ATTR_LINE_WIDTH );
 	
-	DataArray<const Char*> cullFaceTypes;
+	DataArray<const char*> cullFaceTypes;
 	cullFaceTypes.Add( "CULL_BACK" );
 	cullFaceTypes.Add( "CULL_FRONT" );
 	cullFaceTypes.Add( "CULL_NONE" );
@@ -92,13 +92,13 @@ void AttrViewer_Material::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	Shader* shader = _target->GetShader();
-	const Char* shaderName = (shader == NULL) ? Selector_Shader::OPTION_NULL : shader->GetName();
+	const char* shaderName = (shader == NULL) ? Selector_Shader::OPTION_NULL : shader->GetName();
 	_WriteAttrSelector( ATTR_SHADER,	 shader, shaderName );
 
 	_WriteAttrBool( ATTR_WIREFRAME,	_target->IsWireframe() );
 	_WriteAttrFloat( ATTR_LINE_WIDTH, _target->GetLineWidth() );
 
-	Int cullFaceIndex = 0;
+	int cullFaceIndex = 0;
 	switch ( _target->GetFaceCulling() )
 	{
 		case FaceCulling::CULL_BACK:
@@ -117,13 +117,13 @@ void AttrViewer_Material::_OnUpdateGUI()
 
 	{
 		DataUnion attrValue;
-		UInt totalProperties = _target->GetPropertiesCount();
-		UInt totalFloats	= 0;
-		UInt totalInts		= 0;
-		UInt totalVec2s		= 0;
-		UInt totalVec3s		= 0;
-		UInt totalVec4s		= 0;
-		UInt totalTexs		= 0;
+		int totalProperties = _target->GetPropertiesCount();
+		int totalFloats	= 0;
+		int totalInts		= 0;
+		int totalVec2s		= 0;
+		int totalVec3s		= 0;
+		int totalVec4s		= 0;
+		int totalTexs		= 0;
 
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 0 );
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 0 );
@@ -132,9 +132,9 @@ void AttrViewer_Material::_OnUpdateGUI()
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 0 );
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 0 );
 
-		for ( UInt i = 0; i < totalProperties; ++i )
+		for ( int i = 0; i < totalProperties; ++i )
 		{
-			const Char* name = _target->GetPropertyNameAt( i );
+			const char* name = _target->GetPropertyNameAt( i );
 
 			DataUnion& data = _target->GetPropertyDataAt( i );
 			switch ( data.GetValueType() )
@@ -208,7 +208,7 @@ void AttrViewer_Material::_OnUpdateGUI()
 											ATTR_PROP_NAME, attrValue.SetString( name ) );
 					
 					Texture* texture = CAST_S( Texture*, data.GetReference() );
-					const Char* textureName = (texture == NULL) ? 
+					const char* textureName = (texture == NULL) ? 
 												Selector_Texture::OPTION_NULL : 
 												texture->GetName();
 					_WriteAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE,
@@ -232,7 +232,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 	_target->SetLineWidth( _ReadAttrFloat( ATTR_LINE_WIDTH ) );
 
 	FaceCulling	faceCulling;
-	Int cullFaceIndex = _ReadAttrDropdown( ATTR_CULL_FACE );
+	int cullFaceIndex = _ReadAttrDropdown( ATTR_CULL_FACE );
 	switch ( cullFaceIndex )
 	{
 		case 0:
@@ -252,14 +252,14 @@ void AttrViewer_Material::_OnUpdateTarget()
 	{
 		_target->ClearProperties();
 
-		UInt totalFloats	= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT );
-		UInt totalInts		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT );
-		UInt totalVec2s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2 );
-		UInt totalVec3s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3 );
-		UInt totalVec4s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4 );
-		UInt totalTexs		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE );
+		int totalFloats	= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT );
+		int totalInts		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT );
+		int totalVec2s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2 );
+		int totalVec3s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3 );
+		int totalVec4s		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4 );
+		int totalTexs		= _ReadAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE );
 
-		for ( UInt i = 0; i < totalFloats; ++i ) {
+		for ( int i = 0; i < totalFloats; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_FLOAT, 
@@ -267,7 +267,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetFloat() );
 		}
 
-		for ( UInt i = 0; i < totalInts; ++i ) {
+		for ( int i = 0; i < totalInts; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_INT, 
@@ -275,7 +275,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetInt() );
 		}
 
-		for ( UInt i = 0; i < totalVec2s; ++i )	{
+		for ( int i = 0; i < totalVec2s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
@@ -283,7 +283,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector2() );
 		}
 
-		for ( UInt i = 0; i < totalVec3s; ++i )	{
+		for ( int i = 0; i < totalVec3s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
@@ -291,7 +291,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector3() );
 		}
 
-		for ( UInt i = 0; i < totalVec4s; ++i )	{
+		for ( int i = 0; i < totalVec4s; ++i )	{
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
@@ -299,7 +299,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector4() );
 		}
 
-		for ( UInt i = 0; i < totalTexs; ++i ) {
+		for ( int i = 0; i < totalTexs; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 

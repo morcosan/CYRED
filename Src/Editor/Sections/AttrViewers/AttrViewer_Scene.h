@@ -18,9 +18,9 @@ namespace CYRED
 	class AttrViewer_Scene : public AttrViewer
 	{
 	public:
-		const Char* TITLE				= "Scene";
+		const char* TITLE				= "Scene";
 
-		const Char* ATTR_NAME			= "Name";
+		const char* ATTR_NAME			= "Name";
 
 
 	public:

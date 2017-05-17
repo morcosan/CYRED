@@ -14,13 +14,13 @@ void AttrViewer_Texture::_OnInitialize()
 {
 	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	DataArray<const Char*> textureTypes;
+	DataArray<const char*> textureTypes;
 	textureTypes.Add( TYPE_TEXTURE_2D );
 	textureTypes.Add( TYPE_CUBE_MAP );
 	_CreateAttrDropdown	( ATTR_TEXTURE_TYPE, ATTR_TEXTURE_TYPE, textureTypes, AttrFlag::NONE, 
 						  CallbackGroup::GROUP_2 );
 
-	DataArray<const Char*> loadTypes;
+	DataArray<const char*> loadTypes;
 	loadTypes.Add( TYPE_SCRIPTED );
 	loadTypes.Add( TYPE_EXTERNAL );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes );
@@ -50,7 +50,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	{
-		Int typeIndex = 0;
+		int typeIndex = 0;
 		switch ( _target->GetTextureType() ) {
 			case TextureType::TEXTURE_2D:	typeIndex = 0;	break;
 			case TextureType::CUBE_MAP:		typeIndex = 1;	break;
@@ -58,7 +58,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 		_WriteAttrDropdown( ATTR_TEXTURE_TYPE, typeIndex );
 	}
 	{
-		Int typeIndex = 0;
+		int typeIndex = 0;
 		switch ( _target->GetLoadType() ) {
 			case TextureLoadType::SCRIPTED:	typeIndex = 0;	break;
 			case TextureLoadType::EXTERNAL:	typeIndex = 1;	break;
@@ -97,7 +97,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 
 	if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
 		TextureType textureType;
-		Int typeIndex = _ReadAttrDropdown( ATTR_TEXTURE_TYPE );
+		int typeIndex = _ReadAttrDropdown( ATTR_TEXTURE_TYPE );
 		switch ( typeIndex ) {
 			case 0:	textureType = TextureType::TEXTURE_2D;	break;
 			case 1:	textureType = TextureType::CUBE_MAP;	break;
@@ -108,7 +108,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 	}
 	else {
 		TextureLoadType loadType;
-		Int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
+		int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
 		switch ( typeIndex ) {
 			case 0:	loadType = TextureLoadType::SCRIPTED;	break;
 			case 1:	loadType = TextureLoadType::EXTERNAL;	break;

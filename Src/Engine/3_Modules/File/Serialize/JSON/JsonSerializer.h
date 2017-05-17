@@ -12,7 +12,7 @@ namespace CYRED
 {
 	class DLL JsonSerializer : public Serializer
 	{
-		const Char* const MSG_WARNING_LOADING = "Warning: Could not load json file.";
+		const char* const MSG_WARNING_LOADING = "Warning: Could not load json file.";
 
 
 	public:
@@ -22,7 +22,7 @@ namespace CYRED
 
 	public:
 		String		Serialize	( const void* object )		override;
-		void		Deserialize	( const Char* data, 
+		void		Deserialize	( const char* data, 
 								  OUT void* object,
 								  DeserFlag flag )			override;
 
@@ -30,9 +30,9 @@ namespace CYRED
 		String		SerializeVec3	( Vector3 value )		override;
 		String		SerializeVec4	( Vector4 value )		override;
 
-		Vector2		DeserializeVec2	( const Char* data )	override;
-		Vector3		DeserializeVec3	( const Char* data )	override;
-		Vector4		DeserializeVec4	( const Char* data )	override;
+		Vector2		DeserializeVec2	( const char* data )	override;
+		Vector3		DeserializeVec3	( const char* data )	override;
+		Vector4		DeserializeVec4	( const char* data )	override;
 
 
 	public:

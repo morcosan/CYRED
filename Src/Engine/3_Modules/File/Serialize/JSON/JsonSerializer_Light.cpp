@@ -66,7 +66,7 @@ void JsonSerializer_Light::FromJson( rapidjson::Value& json, OUT void* object, D
 {
 	Light* light = CAST_S( Light*, object );
 
-	Bool emitEvents = light->DoesEmitEvents();
+	bool emitEvents = light->DoesEmitEvents();
 	light->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( ENABLED ) ) {
@@ -92,18 +92,18 @@ void JsonSerializer_Light::FromJson( rapidjson::Value& json, OUT void* object, D
 		case LightType::POINT:
 			if ( json.HasMember( RANGE ) )
 			{
-				light->SetRange( CAST_S( Float, json[RANGE].GetDouble() ) );
+				light->SetRange( CAST_S( float, json[RANGE].GetDouble() ) );
 			}
 			break;
 
 		case LightType::SPOT:
 			if ( json.HasMember( RANGE ) )
 			{
-				light->SetRange( CAST_S( Float, json[RANGE].GetDouble() ) );
+				light->SetRange( CAST_S( float, json[RANGE].GetDouble() ) );
 			}
 			if ( json.HasMember( SPOT_ANGLE ) )
 			{
-				light->SetSpotAngle( CAST_S( Float, json[SPOT_ANGLE].GetDouble() ) );
+				light->SetSpotAngle( CAST_S( float, json[SPOT_ANGLE].GetDouble() ) );
 			}
 			break;
 	}
@@ -111,7 +111,7 @@ void JsonSerializer_Light::FromJson( rapidjson::Value& json, OUT void* object, D
 		light->SetColor(_FromJsonVec3( json[COLOR] ) );
 	}
 	if ( json.HasMember( INTENSITY ) ) {
-		light->SetIntensity( CAST_S( Float, json[INTENSITY].GetDouble() ) );
+		light->SetIntensity( CAST_S( float, json[INTENSITY].GetDouble() ) );
 	}
 
 	light->SetEmitEvents( emitEvents );

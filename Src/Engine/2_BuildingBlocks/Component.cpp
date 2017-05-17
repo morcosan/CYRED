@@ -19,7 +19,7 @@ Component::Component( GameObject* gameObject )
 }
 
 
-void Component::OnUpdate( Bool isRuntime )
+void Component::OnUpdate( bool isRuntime )
 {
 	// first update is considered OnStart
 	if ( _isFirstUpdate ) {
@@ -42,7 +42,7 @@ ComponentType Component::GetComponentType() const
 }
 
 
-const Char* Component::GetComponentSubtype() const
+const char* Component::GetComponentSubtype() const
 {
 	return _componentSubtype;
 }
@@ -54,26 +54,26 @@ GameObject* Component::GetGameObject() const
 }
 
 
-void Component::SetEnabled( Bool value )
+void Component::SetEnabled( bool value )
 {
 	_enabled = value;
 	_OnEnable();
 }
 
 
-void Component::SetEmitEvents( Bool value )
+void Component::SetEmitEvents( bool value )
 {
 	_emitEvents = value;
 }
 
 
-Bool Component::IsEnabled() const
+bool Component::IsEnabled() const
 {
 	return _enabled;
 }
 
 
-Bool Component::DoesEmitEvents() const
+bool Component::DoesEmitEvents() const
 {
 	return _emitEvents;
 }

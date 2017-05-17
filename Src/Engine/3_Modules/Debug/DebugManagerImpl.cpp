@@ -35,7 +35,7 @@ void DebugManagerImpl::Finalize()
 }
 
 
-void DebugManagerImpl::SetEnabled( Bool value )
+void DebugManagerImpl::SetEnabled( bool value )
 {
 	ASSERT( _isInitialized );
 
@@ -43,7 +43,7 @@ void DebugManagerImpl::SetEnabled( Bool value )
 }
 
 
-void DebugManagerImpl::Error( const Char* value )
+void DebugManagerImpl::Error( const char* value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -56,7 +56,7 @@ void DebugManagerImpl::Error( const Char* value )
 }
 
 
-void DebugManagerImpl::Log( const Char* value )
+void DebugManagerImpl::Log( const char* value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) {
@@ -68,7 +68,7 @@ void DebugManagerImpl::Log( const Char* value )
 }
 
 
-void DebugManagerImpl::LogInt( Int value )
+void DebugManagerImpl::LogInt( int value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) {
@@ -81,7 +81,7 @@ void DebugManagerImpl::LogInt( Int value )
 }
 
 
-void DebugManagerImpl::LogFloat( Float value )
+void DebugManagerImpl::LogFloat( float value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 

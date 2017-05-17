@@ -29,11 +29,11 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const Char*	GetExtension	() override;
+		const char*	GetExtension	() override;
 
 
 	public:
-		void	OnUpdate	( Bool isRuntime = TRUE );
+		void	OnUpdate	( bool isRuntime = TRUE );
 
 		Node*	GetRoot		() const;
 		void	ClearRoot	();

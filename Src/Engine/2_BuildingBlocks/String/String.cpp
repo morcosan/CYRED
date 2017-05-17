@@ -11,28 +11,28 @@ using namespace CYRED;
 
 
 String::String()
-	: _data( Memory::AllocArray<Char>(1) )
+	: _data( Memory::AllocArray<char>(1) )
 {
 	_data[0] = '\0';
 }
 
 
-String::String( const Char* other )
+String::String( const char* other )
 {
 	if ( other == NULL )
 	{
-		_data = Memory::AllocArray<Char>( 1 );
+		_data = Memory::AllocArray<char>( 1 );
 		_data[0] = '\0';
 		return;
 	}
 
-	_data = Memory::AllocArray<Char>( strlen( other ) + 1 );
+	_data = Memory::AllocArray<char>( strlen( other ) + 1 );
 	strcpy( _data, other );
 }
 
 
 String::String( const String& other )
-	: _data( Memory::AllocArray<Char>( other.GetLength() + 1 ) )
+	: _data( Memory::AllocArray<char>( other.GetLength() + 1 ) )
 {
 	strcpy( _data, other.GetChar() );
 }
@@ -52,33 +52,33 @@ void String::operator=( const String& other )
 	}
 
 	Memory::FreeArray( _data );
-	_data = Memory::AllocArray<Char>( other.GetLength() + 1 );
+	_data = Memory::AllocArray<char>( other.GetLength() + 1 );
 	strcpy( _data, other.GetChar() );
 }
 
 
-void String::operator=( const Char* other )
+void String::operator=( const char* other )
 {
 	if ( other == NULL )
 	{
-		_data = Memory::AllocArray<Char>( 1 );
+		_data = Memory::AllocArray<char>( 1 );
 		_data[0] = '\0';
 		return;
 	}
 
 	Memory::FreeArray( _data );
-	_data = Memory::AllocArray<Char>( strlen( other ) + 1 );
+	_data = Memory::AllocArray<char>( strlen( other ) + 1 );
 	strcpy( _data, other );
 }
 
 
-Bool String::operator==( const String& other ) const
+bool String::operator==( const String& other ) const
 {
 	return ( strcmp( _data, other.GetChar() ) == 0 );
 }
 
 
-Bool String::operator==( const Char* other ) const
+bool String::operator==( const char* other ) const
 {
 	if ( other == NULL )
 	{
@@ -89,25 +89,25 @@ Bool String::operator==( const Char* other ) const
 }
 
 
-Bool String::operator!=( const String& other ) const
+bool String::operator!=( const String& other ) const
 {
 	return !operator==( other );
 }
 
 
-Bool String::operator!=( const Char* other ) const
+bool String::operator!=( const char* other ) const
 {
 	return !operator==( other );
 }
 
 
-Bool String::operator<( const String& other ) const
+bool String::operator<( const String& other ) const
 {
 	return ( strcmp( _data, other.GetChar() ) < 0 );
 }
 
 
-Bool String::operator<( const Char* other ) const
+bool String::operator<( const char* other ) const
 {
 	if ( other == NULL )
 	{
@@ -118,13 +118,13 @@ Bool String::operator<( const Char* other ) const
 }
 
 
-const Char* String::GetChar() const
+const char* String::GetChar() const
 {
 	return _data;
 }
 
 
-UInt String::GetLength() const
+int String::GetLength() const
 {
 	return strlen( _data );
 }

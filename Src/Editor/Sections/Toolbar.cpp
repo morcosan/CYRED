@@ -51,7 +51,7 @@ Toolbar::Toolbar()
 }
 
 
-void Toolbar::A_PlayButton( Bool checked )
+void Toolbar::A_PlayButton( bool checked )
 {
 	// start / stop the play ode
 	if ( checked ) {
@@ -63,21 +63,21 @@ void Toolbar::A_PlayButton( Bool checked )
 }
 
 
-void Toolbar::A_PauseButton( Bool checked )
+void Toolbar::A_PauseButton( bool checked )
 {
 	// pause the play
 	EditorApp::Singleton()->SetPlayPaused( checked );
 }
 
 
-void Toolbar::SetPlayButton( Bool isActive )
+void Toolbar::SetPlayButton( bool isActive )
 {
 	// update button
 	_playButton->setChecked( isActive );
 }
 
 
-void Toolbar::SetPauseButton( Bool isActive )
+void Toolbar::SetPauseButton( bool isActive )
 {
 	// update button
 	_pauseButton->setChecked( isActive );

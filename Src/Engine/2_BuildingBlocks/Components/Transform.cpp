@@ -42,7 +42,7 @@ void Transform::_OnEnable()
 	if ( _parent != NULL ) {
 		_parent->OnHierarchyChange();
 	}
-	for ( UInt i = 0; i < _children.Size(); ++i ) {
+	for ( int i = 0; i < _children.Size(); ++i ) {
 		_children[i]->OnHierarchyChange();
 	}
 }
@@ -376,7 +376,7 @@ void Transform::_RecalculatePositionWorld()
 		_positionWorld = _positionLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i ) {
+	for ( int i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculatePositionWorld();
 	}
 }
@@ -393,7 +393,7 @@ void Transform::_RecalculateRotationWorld()
 		_rotationWorld = _rotationLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i ) {
+	for ( int i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculateRotationWorld();
 		_children[i]->_RecalculatePositionWorld();
 	}
@@ -413,7 +413,7 @@ void Transform::_RecalculateScaleWorld()
 		_scaleWorld = _scaleLocal;
 	}
 
-	for ( UInt i = 0; i < _children.Size(); ++i ) {
+	for ( int i = 0; i < _children.Size(); ++i ) {
 		_children[i]->_RecalculateScaleWorld();
 	}
 }
@@ -457,7 +457,7 @@ void Transform::_RecursiveFindFirstChildren( GameObject* currChildNode )
 	}
 
 
-	for ( UInt i = 0; i < currChildNode->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < currChildNode->GetChildNodeCount(); ++i ) {
 		GameObject* childNode = CAST_S( GameObject*, currChildNode->GetChildNodeAt(i) );
 		Transform* childTran = childNode->GetComponent<Transform>();
 

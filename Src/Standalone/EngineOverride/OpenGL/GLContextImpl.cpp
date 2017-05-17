@@ -29,8 +29,8 @@ void GLContextImpl::SwapBuffers()
 
 void GLContextImpl::OnResize()
 {
-	Int width;
-	Int height;
+	int width;
+	int height;
 	glfwGetWindowSize( _glfwWindow, &width, &height );
 
 	_width = width;

@@ -12,8 +12,8 @@ namespace CYRED
 {
 	class DLL Random
 	{
-		static const UInt UNIQUE_ID_SIZE;
-		static const Char ALPHA_NUM[];
+		static const int UNIQUE_ID_SIZE;
+		static const char ALPHA_NUM[];
         
 
 	private:
@@ -24,19 +24,19 @@ namespace CYRED
 	public:
 		static void		Initialize		();
 
-		static void		SetSeed			( UInt value );
+		static void		SetSeed			( int value );
 
-		static Float	FromRangeFloat	( Float min, Float max );	//! both inclusive
-		static Int		FromRangeInt	( Int min, Int max );		//! both inclusive
-		static Vector2	FromCircle		( Float radius );
-		static Vector2	FromCircleEdge	( Float radius );
-		static Vector3	FromSphere		( Float radius );
-		static Vector3	FromSphereEdge	( Float radius );
+		static float	FromRangeFloat	( float min, float max );	//! both inclusive
+		static int		FromRangeInt	( int min, int max );		//! both inclusive
+		static Vector2	FromCircle		( float radius );
+		static Vector2	FromCircleEdge	( float radius );
+		static Vector3	FromSphere		( float radius );
+		static Vector3	FromSphereEdge	( float radius );
 
 		static String	GenerateUniqueID();
-		static Bool		ValidateUniqueID( const Char* uniqueID );
+		static bool		ValidateUniqueID( const char* uniqueID );
 
 		// generate a new id similar to the uid, but constant giving same text
-		static String	GenerateConstantID( const Char* text );
+		static String	GenerateConstantID( const char* text );
 	};
 }

@@ -36,7 +36,7 @@ void ProjectBuilderImpl::Finalize()
 }
 
 
-void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
+void ProjectBuilderImpl::BuildWindows( const char* buildPath )
 {
 	ASSERT( _isInitialized );
 
@@ -56,49 +56,49 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 		ProjectSettings::appConfig.assetScripts.Clear();
 
 		// fill lists
-		for ( UInt i = 0; i < assetManager->GetMaterialCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetMaterialCount(); i++ ) {
 			Material* asset = assetManager->GetMaterialAt( i );
 			ProjectSettings::appConfig.assetMaterials.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetMeshCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetMeshCount(); i++ ) {
 			Mesh* asset = assetManager->GetMeshAt( i );
 			ProjectSettings::appConfig.assetMeshes.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetSceneCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetSceneCount(); i++ ) {
 			Scene* asset = assetManager->GetSceneAt( i );
 			ProjectSettings::appConfig.assetScenes.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetMorphCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetMorphCount(); i++ ) {
 			Morph* asset = assetManager->GetMorphAt( i );
 			ProjectSettings::appConfig.assetMorphs.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetTextureCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetTextureCount(); i++ ) {
 			Texture* asset = assetManager->GetTextureAt( i );
 			ProjectSettings::appConfig.assetTextures.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetShaderCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetShaderCount(); i++ ) {
 			Shader* asset = assetManager->GetShaderAt( i );
 			ProjectSettings::appConfig.assetShaders.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
 		}
-		for ( UInt i = 0; i < assetManager->GetScriptCount(); i++ ) {
+		for ( int i = 0; i < assetManager->GetScriptCount(); i++ ) {
 			Script* asset = assetManager->GetScriptAt( i );
 			ProjectSettings::appConfig.assetScripts.Add( AppConfig::AssetConfig {
 				asset->GetName(),
@@ -126,31 +126,31 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 
 	// copy assets to build dir
 	// copy materials
-	for ( UInt i = 0; i < assetManager->GetMaterialCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetMaterialCount(); i++ ) {
 		_BuildMaterialFile( assetManager->GetMaterialAt( i ) );
 	}
 	// copy meshes
-	for ( UInt i = 0; i < assetManager->GetMeshCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetMeshCount(); i++ ) {
 		_BuildMeshFile( assetManager->GetMeshAt( i ) );
 	}
 	// copy scenes
-	for ( UInt i = 0; i < assetManager->GetSceneCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetSceneCount(); i++ ) {
 		_BuildSceneFile( assetManager->GetSceneAt( i ) );
 	}
 	// copy morphs
-	for ( UInt i = 0; i < assetManager->GetMorphCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetMorphCount(); i++ ) {
 		_BuildMorphFile( assetManager->GetMorphAt( i ) );
 	}
 	// copy textures
-	for ( UInt i = 0; i < assetManager->GetTextureCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetTextureCount(); i++ ) {
 		_BuildTextureFile( assetManager->GetTextureAt( i ) );
 	}
 	// copy shaders
-	for ( UInt i = 0; i < assetManager->GetShaderCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetShaderCount(); i++ ) {
 		_BuildShaderFile( assetManager->GetShaderAt( i ) );
 	}
 	// copy scripts
-	for ( UInt i = 0; i < assetManager->GetScriptCount(); i++ ) {
+	for ( int i = 0; i < assetManager->GetScriptCount(); i++ ) {
 		_BuildScriptFile( assetManager->GetScriptAt( i ) );
 	}
 
@@ -159,7 +159,7 @@ void ProjectBuilderImpl::BuildWindows( const Char* buildPath )
 }
 
 
-void ProjectBuilderImpl::BuildAndroid( const Char* buildPath )
+void ProjectBuilderImpl::BuildAndroid( const char* buildPath )
 {
 	ASSERT( _isInitialized );
 }
@@ -197,7 +197,7 @@ void ProjectBuilderImpl::_BuildTextureFile( Texture* asset )
 	}
 	// cube texture
 	else {
-		for ( UInt i = 0; i < 6; i++ ) {
+		for ( int i = 0; i < 6; i++ ) {
 			// generate constant ids
 			FiniteString srcPath( "%s%s", asset->GetDirPath(), texture.GetImagePath(0) );
 			String fileCID = Random::GenerateConstantID( srcPath.GetChar() );
@@ -279,12 +279,12 @@ void ProjectBuilderImpl::_BuildMeshFile( Mesh* asset )
 
 	// load data
 	DataArray<Vertex>	vertices;
-	DataArray<UInt>		indices;
-	Int fileSize;
-	Char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
+	DataArray<int>		indices;
+	int fileSize;
+	char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
 	if ( fileData != NULL ) {
 		// try custom format first, then try import
-		Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
+		bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
 		if ( !isLoaded ) {
 			FileManager::Singleton()->ImportMesh( fileData, fileSize, vertices, indices );
 		}
@@ -325,19 +325,19 @@ void ProjectBuilderImpl::_BuildMorphFile( Morph* asset )
 	morph.SetDirPath( asset->GetDirPath() );
 	morph.LoadFullFile();
 
-	for ( UInt i = 0; i < morph.GetTotalStates(); i++ ) {
+	for ( int i = 0; i < morph.GetTotalStates(); i++ ) {
 		// generate constant ids
 		FiniteString srcPathFile( "%s%s", asset->GetDirPath(), morph.GetFilePath(i) );
 		String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
 
 		// load data
 		DataArray<Vertex>	vertices;
-		DataArray<UInt>		indices;
-		Int fileSize;
-		Char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
+		DataArray<int>		indices;
+		int fileSize;
+		char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
 		if ( fileData != NULL ) {
 			// try custom format first, then try import
-			Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
+			bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
 			if ( !isLoaded ) {
 				FileManager::Singleton()->ImportMesh( fileData, fileSize, vertices, indices );
 			}
@@ -379,9 +379,9 @@ void ProjectBuilderImpl::_BuildShaderFile( Shader* asset )
 	shader.SetDirPath( asset->GetDirPath() );
 	shader.LoadFullFile();
 
-	const Char* vertexFile;
-	const Char* geometryFile;
-	const Char* fragmentFile;
+	const char* vertexFile;
+	const char* geometryFile;
+	const char* fragmentFile;
 	// get shader files
 	shader.GetShaderFiles( "FORWARD", &vertexFile, &geometryFile, &fragmentFile );
 	FiniteString srcPathVertex( "%s%s", asset->GetDirPath(), vertexFile );
@@ -443,7 +443,7 @@ void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
 	script.SetDirPath( asset->GetDirPath() );
 	script.LoadFullFile();
 
-	for ( UInt i = 0; i < script.GetPathsCount(); i++ ) {
+	for ( int i = 0; i < script.GetPathsCount(); i++ ) {
 		// generate constant ids
 		FiniteString srcPathFile( "%s%s", asset->GetDirPath(), script.GetFilePath(i) );
 		String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
@@ -489,7 +489,7 @@ void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
 //			}
 //			else {
 //				// cube texture
-//				for ( UInt i = 0; i < 6; i++ ) {
+//				for ( int i = 0; i < 6; i++ ) {
 //					FiniteString srcPath( "%s%s", asset->GetDirPath(), texture->GetImagePath(i) );
 //					FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
 //													AppConfig::DIR_PATH_DATA, 

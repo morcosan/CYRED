@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const Char* const Selector_Scene::TYPE			= "Scene";
-const Char* const Selector_Scene::OPTION_NULL	= "NULL";
+const char* const Selector_Scene::TYPE			= "Scene";
+const char* const Selector_Scene::OPTION_NULL	= "NULL";
 
 
 void Selector_Scene::DisplayOptions( void* selected )
@@ -22,7 +22,7 @@ void Selector_Scene::DisplayOptions( void* selected )
 
 	_popup->SetSelected( 0 );
 
-	for ( UInt i = 0; i < AssetManager::Singleton()->GetSceneCount(); ++i )
+	for ( int i = 0; i < AssetManager::Singleton()->GetSceneCount(); ++i )
 	{
 		Scene* scene = AssetManager::Singleton()->GetSceneAt( i );
 

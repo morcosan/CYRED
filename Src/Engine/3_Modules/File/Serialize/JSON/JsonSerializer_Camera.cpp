@@ -59,7 +59,7 @@ void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
 {
 	Camera* camera = CAST_S( Camera*, object );
 
-	Bool emitEvents = camera->DoesEmitEvents();
+	bool emitEvents = camera->DoesEmitEvents();
 	camera->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( ENABLED ) )
@@ -85,7 +85,7 @@ void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
 		{
 			if ( json.HasMember( FOVY_ANGLE ) )
 			{
-				camera->SetFovYAngle( CAST_S( Float, json[FOVY_ANGLE].GetDouble() ) );
+				camera->SetFovYAngle( CAST_S( float, json[FOVY_ANGLE].GetDouble() ) );
 			}
 			break;
 		}
@@ -94,18 +94,18 @@ void JsonSerializer_Camera::FromJson( rapidjson::Value& json, OUT void* object, 
 		{
 			if ( json.HasMember( ORTHO_HEIGHT ) )
 			{
-				camera->SetOrthoHeight( CAST_S( Float, json[ORTHO_HEIGHT].GetDouble() ) );
+				camera->SetOrthoHeight( CAST_S( float, json[ORTHO_HEIGHT].GetDouble() ) );
 			}
 			break;
 		}
 	}
 	if ( json.HasMember( NEAR_CLIP ) )
 	{
-		camera->SetNearClipping( CAST_S( Float, json[NEAR_CLIP].GetDouble() ) );
+		camera->SetNearClipping( CAST_S( float, json[NEAR_CLIP].GetDouble() ) );
 	}
 	if ( json.HasMember( FAR_CLIP ) )
 	{
-		camera->SetFarClipping( CAST_S( Float, json[FAR_CLIP].GetDouble() ) );
+		camera->SetFarClipping( CAST_S( float, json[FAR_CLIP].GetDouble() ) );
 	}
 
 	camera->SetEmitEvents( emitEvents );

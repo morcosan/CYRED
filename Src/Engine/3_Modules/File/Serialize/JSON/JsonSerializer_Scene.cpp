@@ -33,7 +33,7 @@ rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 		JsonSerializer_GameObject serializer;
 		Node* sceneRoot = scene->GetRoot();
 
-		for ( UInt i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
+		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
 			GameObject* gameObject = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
 
 			if ( gameObject->GetParentNode() == sceneRoot )	{
@@ -53,7 +53,7 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Scene* scene = CAST_S( Scene*, object );
 
-	Bool emitEvents = scene->DoesEmitEvents();
+	bool emitEvents = scene->DoesEmitEvents();
 	scene->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) ) {
@@ -67,8 +67,8 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 	if ( json.HasMember( GAMEOBJECTS ) ) {
 		rapidjson::Value& gameObjects = json[GAMEOBJECTS];
 
-		for ( UInt i = 0; i < gameObjects.Size(); ++i )	{
-			UInt uid = SceneManager::Singleton()->NextGameObjectUID();
+		for ( int i = 0; i < gameObjects.Size(); ++i )	{
+			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
 			scene->GetRoot()->AddChildNode( gameObject );
 

@@ -35,7 +35,7 @@ rapidjson::Value JsonSerializer_Script::ToJson( const void* object )
 		rapidjson::Value arrayNode;
 		arrayNode.SetArray();
 		// add to list
-		for ( UInt i = 0; i < script->GetPathsCount(); ++i )
+		for ( int i = 0; i < script->GetPathsCount(); ++i )
 		{
 			arrayNode.PushBack( rapidjson::StringRef( script->GetFilePath( i ) ), _al );
 		}
@@ -54,7 +54,7 @@ void JsonSerializer_Script::FromJson( rapidjson::Value& json, OUT void* object,
 {
 	Script* script = CAST_S( Script*, object );
 
-	Bool emitEvents = script->DoesEmitEvents();
+	bool emitEvents = script->DoesEmitEvents();
 	script->SetEmitEvents( FALSE );
 
 	if ( json.HasMember( UNIQUE_ID ) ) {
@@ -72,7 +72,7 @@ void JsonSerializer_Script::FromJson( rapidjson::Value& json, OUT void* object,
 
 	if ( json.HasMember( FILE_PATHS ) ) {
 		rapidjson::Value& paths = json[FILE_PATHS];
-		for ( UInt i = 0; i < paths.Size(); ++i )
+		for ( int i = 0; i < paths.Size(); ++i )
 		{
 			script->SetFilePath( i, paths[i].GetString() );
 		}

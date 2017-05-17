@@ -37,7 +37,7 @@ void Scene::LoadUniqueID()
 	}
 
 	// read the file
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -47,7 +47,7 @@ void Scene::LoadUniqueID()
 
 void Scene::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// delete previous data
@@ -61,7 +61,7 @@ void Scene::LoadFullFile()
 	}
 
 	// read the file
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this );
 
 	// free memory for file
@@ -87,7 +87,7 @@ Asset* Scene::Clone()
 }
 
 
-const Char* CYRED::Scene::GetExtension()
+const char* CYRED::Scene::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_SCENE;
@@ -97,10 +97,10 @@ const Char* CYRED::Scene::GetExtension()
 }
 
 
-void Scene::OnUpdate( Bool isRuntime )
+void Scene::OnUpdate( bool isRuntime )
 {
 	// ask gameobjects to update 
-	for ( UInt i = 0; i < _root->GetChildNodeCount(); ++i ) {
+	for ( int i = 0; i < _root->GetChildNodeCount(); ++i ) {
 		_root->GetChildNodeAt( i )->OnUpdate( isRuntime );
 	}
 }

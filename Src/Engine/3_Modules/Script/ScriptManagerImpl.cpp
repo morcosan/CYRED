@@ -59,7 +59,7 @@ int ScriptManagerImpl::LuaFunc_Print( lua_State* L )
 {
 	// redirect lua print function to debug manager
 	int nargs = lua_gettop( L );
-	for ( Int i = 1; i <= nargs; ++i ) {
+	for ( int i = 1; i <= nargs; ++i ) {
 		int argType = lua_type( L, i );
 		switch ( argType ) {
 			case LUA_TNIL:
@@ -75,7 +75,7 @@ int ScriptManagerImpl::LuaFunc_Print( lua_State* L )
 				break;
 
 			case LUA_TNUMBER:
-				DebugManager::Singleton()->LogFloat( CAST_S( Float, lua_tonumber( L, i ) ) );
+				DebugManager::Singleton()->LogFloat( CAST_S( float, lua_tonumber( L, i ) ) );
 				break;
 
 			case LUA_TLIGHTUSERDATA:
@@ -317,51 +317,51 @@ void ScriptManagerImpl::_RegisterInputManager()
 	.endClass();
 
 	// bind keycodes as globals
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::A) ),				"KEY_A" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::B) ),				"KEY_B" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::C) ),				"KEY_C" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::D) ),				"KEY_D" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::E) ),				"KEY_E" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::F) ),				"KEY_F" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::G) ),				"KEY_G" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::H) ),				"KEY_H" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::I) ),				"KEY_I" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::J) ),				"KEY_J" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::K) ),				"KEY_K" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::L) ),				"KEY_L" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::M) ),				"KEY_M" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::N) ),				"KEY_N" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::O) ),				"KEY_O" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::P) ),				"KEY_P" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::Q) ),				"KEY_Q" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::R) ),				"KEY_R" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::S) ),				"KEY_S" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::T) ),				"KEY_T" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::V) ),				"KEY_V" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::W) ),				"KEY_W" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::X) ),				"KEY_X" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::Y) ),				"KEY_Y" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::Z) ),				"KEY_Z" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_0) ),			"KEY_0" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_1) ),			"KEY_1" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_2) ),			"KEY_2" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_3) ),			"KEY_3" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_4) ),			"KEY_4" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_5) ),			"KEY_5" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_6) ),			"KEY_6" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_7) ),			"KEY_7" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_8) ),			"KEY_8" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::NUM_9) ),			"KEY_9" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::ALT) ),				"KEY_ALT" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::CTRL) ),			"KEY_CTRL" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::SHIFT) ),			"KEY_SHIFT" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::ARROW_UP) ),		"KEY_ARROW_UP" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::ARROW_DOWN) ),		"KEY_ARROW_DOWN" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::ARROW_LEFT) ),		"KEY_ARROW_LEFT" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::ARROW_RIGHT) ),		"KEY_ARROW_RIGHT" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::MOUSE_LEFT) ),		"KEY_MOUSE_LEFT" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::MOUSE_MIDDLE) ),	"KEY_MOUSE_MIDDLE" );
-	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (Int)(KeyCode::MOUSE_RIGHT) ),		"KEY_MOUSE_RIGHT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::A) ),				"KEY_A" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::B) ),				"KEY_B" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::C) ),				"KEY_C" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::D) ),				"KEY_D" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::E) ),				"KEY_E" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::F) ),				"KEY_F" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::G) ),				"KEY_G" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::H) ),				"KEY_H" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::I) ),				"KEY_I" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::J) ),				"KEY_J" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::K) ),				"KEY_K" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::L) ),				"KEY_L" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::M) ),				"KEY_M" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::N) ),				"KEY_N" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::O) ),				"KEY_O" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::P) ),				"KEY_P" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::Q) ),				"KEY_Q" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::R) ),				"KEY_R" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::S) ),				"KEY_S" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::T) ),				"KEY_T" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::V) ),				"KEY_V" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::W) ),				"KEY_W" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::X) ),				"KEY_X" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::Y) ),				"KEY_Y" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::Z) ),				"KEY_Z" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_0) ),			"KEY_0" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_1) ),			"KEY_1" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_2) ),			"KEY_2" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_3) ),			"KEY_3" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_4) ),			"KEY_4" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_5) ),			"KEY_5" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_6) ),			"KEY_6" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_7) ),			"KEY_7" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_8) ),			"KEY_8" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::NUM_9) ),			"KEY_9" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::ALT) ),				"KEY_ALT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::CTRL) ),			"KEY_CTRL" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::SHIFT) ),			"KEY_SHIFT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::ARROW_UP) ),		"KEY_ARROW_UP" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::ARROW_DOWN) ),		"KEY_ARROW_DOWN" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::ARROW_LEFT) ),		"KEY_ARROW_LEFT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::ARROW_RIGHT) ),		"KEY_ARROW_RIGHT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::MOUSE_LEFT) ),		"KEY_MOUSE_LEFT" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::MOUSE_MIDDLE) ),	"KEY_MOUSE_MIDDLE" );
+	luabridge::setGlobal( _L, luabridge::LuaRef( _L, (int)(KeyCode::MOUSE_RIGHT) ),		"KEY_MOUSE_RIGHT" );
 
 	// set global
 	luabridge::LuaRef goRef( _L, InputManager::Singleton() );

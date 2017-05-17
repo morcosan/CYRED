@@ -40,17 +40,17 @@ namespace CYRED
 	public:
 		/* main function for starting the editor		*/
 		/* must be called only once from main()			*/
-		void	Run			( Int& argc, Char* argv[] );
+		void	Run			( int& argc, char* argv[] );
 
-		void	ShowStatus	( const Char* message );
+		void	ShowStatus	( const char* message );
 
-		void	ApplySkin	( const Char* skinName );
+		void	ApplySkin	( const char* skinName );
 
 		void	StartPlayMode	();				// called to start play mode
 		void	StopPlayMode	();				// called to exit play mode
-		void	SetPlayPaused	( Bool value );	// called to set the play mode flag
+		void	SetPlayPaused	( bool value );	// called to set the play mode flag
 
-		void	ShowSelectorPopup( const Char* type, void* qtSelectorPtr );
+		void	ShowSelectorPopup( const char* type, void* qtSelectorPtr );
 
 		/* returns the input receiver instance			*/
 		InputReceiverQT* GetInputReceiver();
@@ -68,12 +68,12 @@ namespace CYRED
 		SelectorPopup*	_selectorPopup;	/* popup window for selecting from a list	*/
 		Toolbar*		_toolbar;		// main toolbar for editor
 
-		Bool			_shouldExit;	/* flag that is used to exit the main loop	*/
-		Bool			_isPlayMode;	/* flag that indicates "play in editor"		*/
-		Bool			_shouldStopPlay;/* flag that is used to update play mode */
-		Bool			_isPlayPaused;	// flag for running the scripts in play mode
+		bool			_shouldExit;	/* flag that is used to exit the main loop	*/
+		bool			_isPlayMode;	/* flag that indicates "play in editor"		*/
+		bool			_shouldStopPlay;/* flag that is used to update play mode */
+		bool			_isPlayPaused;	// flag for running the scripts in play mode
 
-		Char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	
+		char*			_skinStylesheet;	/* stylesheet for customizing editor	*/	
 
 		DataMap<PanelType, Panel*>	_panels;
 		DataArray<GameObject*>		_cameras;
@@ -90,9 +90,9 @@ namespace CYRED
 		/* called continuously, every frame					*/
 		void _UpdateLoop			();
 
-		Panel*	_NewPanel	( PanelType type, UInt viewportIndex = -1 );
+		Panel*	_NewPanel	( PanelType type, int viewportIndex = -1 );
 		Panel*	_NewPanel	( PanelType type, PanelType splitFrom, PanelSplitType splitType,
-							  UInt viewportIndex = -1 );
+							  int viewportIndex = -1 );
 
 		/* create singletons for manager classes			*/
 		void _CreateManagers		();

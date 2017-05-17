@@ -52,7 +52,7 @@ namespace CYRED
 		
 
 	protected:
-		Bool	_isInitialized;	/* flag to check if panel was initialized */
+		bool	_isInitialized;	/* flag to check if panel was initialized */
 
 		/* handle for resize event */
 		virtual void _OnResize() {};

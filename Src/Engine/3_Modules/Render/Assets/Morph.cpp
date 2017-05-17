@@ -40,7 +40,7 @@ void Morph::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MORPH );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -50,7 +50,7 @@ void Morph::LoadUniqueID()
 
 void Morph::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create path
@@ -60,7 +60,7 @@ void Morph::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MORPH );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this );
 
 	// free memory for file
@@ -99,7 +99,7 @@ Asset* Morph::Clone()
 }
 
 
-const Char* CYRED::Morph::GetExtension()
+const char* CYRED::Morph::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MORPH;
@@ -112,15 +112,15 @@ const Char* CYRED::Morph::GetExtension()
 void Morph::BindToGPU()
 {
 	DataArray<MorphVertex>	vertices;
-	DataArray<UInt>			indices;
+	DataArray<int>			indices;
 	_activeStates = 0;
 
-	for ( UInt i = 0; i < _totalStates; ++i )
+	for ( int i = 0; i < _totalStates; ++i )
 	{
 		FiniteString filePath( "%s%s", _dirPath.GetChar(), _filePaths[i].GetChar() );
 
-		Int fileSize;
-		Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
+		int fileSize;
+		char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar(), fileSize );
 		if ( fileData == NULL )
 		{
 			break;
@@ -130,7 +130,7 @@ void Morph::BindToGPU()
 		indices.Clear();
 
 		// try custom format first, then try import
-		Bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, meshVertices, indices );
+		bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, meshVertices, indices );
 		if ( !isLoaded ) {
 			FileManager::Singleton()->ImportMesh( fileData, fileSize, meshVertices, indices );
 		}
@@ -141,7 +141,7 @@ void Morph::BindToGPU()
 		{
 			_numIndices = indices.Size();
 
-			for ( UInt j = 0; j < meshVertices.Size(); ++j )
+			for ( int j = 0; j < meshVertices.Size(); ++j )
 			{
 				vertices.Add( MorphVertex() );
 				vertices[j].color = meshVertices[j].color;
@@ -154,7 +154,7 @@ void Morph::BindToGPU()
 			break;
 		}
 
-		for ( UInt j = 0; j < meshVertices.Size(); ++j )
+		for ( int j = 0; j < meshVertices.Size(); ++j )
 		{
 			vertices[j].position[i] = meshVertices[j].position;
 			vertices[j].normal[i] = meshVertices[j].normal;
@@ -167,37 +167,37 @@ void Morph::BindToGPU()
 }
 
 
-UInt Morph::GetVBO() const
+int Morph::GetVBO() const
 {
 	return _vbo;
 }
 
 
-UInt Morph::GetIBO() const
+int Morph::GetIBO() const
 {
 	return _ibo;
 }
 
 
-UInt Morph::GetNumIndices() const
+int Morph::GetNumIndices() const
 {
 	return _numIndices;
 }
 
 
-UInt Morph::GetTotalStates() const
+int Morph::GetTotalStates() const
 {
 	return _totalStates;
 }
 
 
-UInt Morph::GetActiveStates() const
+int Morph::GetActiveStates() const
 {
 	return _activeStates;
 }
 
 
-const Char* Morph::GetFilePath( UInt index ) const
+const char* Morph::GetFilePath( int index ) const
 {
 	ASSERT( index < MORPH_LIMIT );
 
@@ -205,7 +205,7 @@ const Char* Morph::GetFilePath( UInt index ) const
 }
 
 
-void Morph::SetTotalStates( UInt value )
+void Morph::SetTotalStates( int value )
 {
 	ASSERT( value >= 0 );
 	ASSERT( value <= MORPH_LIMIT );
@@ -218,7 +218,7 @@ void Morph::SetTotalStates( UInt value )
 }
 
 
-void Morph::SetFilePath( UInt index, const Char* filePath )
+void Morph::SetFilePath( int index, const char* filePath )
 {
 	ASSERT( index < MORPH_LIMIT );
 

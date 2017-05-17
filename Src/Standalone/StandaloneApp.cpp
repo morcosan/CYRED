@@ -31,7 +31,7 @@ using namespace CYRED;
 DEFINE_REMOTE_SINGLETON_IMPL( StandaloneApp )
 
 
-void StandaloneApp::Run( Int& argc, Char* argv[] )
+void StandaloneApp::Run( int& argc, char* argv[] )
 {
 	_InitializeGLFW();
 
@@ -85,7 +85,7 @@ void StandaloneApp::_UpdateLoop()
 {
 	TimeManager* timeManager = TimeManager::Singleton();
 
-	Double realGameTime = glfwGetTime();
+	double realGameTime = glfwGetTime();
 	timeManager->RenderUpdate( realGameTime );
 
 	while ( timeManager->GetGameTime() < realGameTime ) {
@@ -95,8 +95,8 @@ void StandaloneApp::_UpdateLoop()
 		//! game update
 		//! update scripts
 		SceneManager* sceneManager = SceneManager::Singleton();
-		UInt totalScenes = sceneManager->CountLoadedScenes();
-		for ( UInt i = 0; i < totalScenes; ++i ) {
+		int totalScenes = sceneManager->CountLoadedScenes();
+		for ( int i = 0; i < totalScenes; ++i ) {
 			sceneManager->GetScene( i )->OnUpdate();
 		}
 	}
@@ -193,7 +193,7 @@ void StandaloneApp::_InitializeGLFW()
 
 void StandaloneApp::_ReadConfigFile()
 {
-	Char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
+	char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
 	FileManager::Singleton()->Deserialize<AppConfig>( fileData, &_appConfig );
 
 	// update managers
@@ -253,7 +253,7 @@ void StandaloneApp::_InitializeRenderer()
 	_glContext = Memory::Alloc<GLContextImpl>( _glfwWindow );
 	renderMngr->Initialize( _glContext, Memory::Alloc<GLImpl_3_0>() );
 
-	UInt techSlot = renderMngr->NewTechnique( TechniqueType::FORWARD_BASIC );
+	int techSlot = renderMngr->NewTechnique( TechniqueType::FORWARD_BASIC );
 	renderMngr->ChangeRenderer( 0, RendererType::GL_FORWARD );
 	renderMngr->ChangeTechnique( 0, techSlot );
 
@@ -288,14 +288,14 @@ void StandaloneApp::_RenderScene()
 		{
 			//! update camera size
 			Camera* cam = cameraGO->GetComponent<Camera>();
-			Float aspectRatio = CAST_S( Float, _appConfig.width ) / _appConfig.height;
-			Float height = cam->GetOrthoSize().y;
+			float aspectRatio = CAST_S( float, _appConfig.width ) / _appConfig.height;
+			float height = cam->GetOrthoSize().y;
 			cam->SetAspectRatio( aspectRatio );
 			cam->SetOrthoWidth( aspectRatio * height );
 
 			if ( sceneMngr->CountLoadedScenes() > 0 )
 			{
-				//for ( UInt i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
+				//for ( int i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
 				{
 					Scene* scene = sceneMngr->GetScene();
 					renderMngr->RenderScene( 0, scene, cameraGO );
@@ -310,7 +310,7 @@ void StandaloneApp::_RenderScene()
 }
 
 
-void StandaloneApp::GlfwErrorCallback( Int code, const Char * desc )
+void StandaloneApp::GlfwErrorCallback( int code, const char * desc )
 {
 	//char title[20];
 	//sprintf(title, "GLFW error code %d", code);

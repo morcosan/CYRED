@@ -24,27 +24,27 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const Char*	GetExtension	() override;
+		const char*	GetExtension	() override;
 
 
 	public:
-		void SetShaderFiles		( const Char* rendererType, const Char* vertexPath,
-								  const Char* geometryPath, const Char* fragmentPath );
+		void SetShaderFiles		( const char* rendererType, const char* vertexPath,
+								  const char* geometryPath, const char* fragmentPath );
 
-		void GetShaderFiles		( const Char* rendererType, OUT const Char** vertexPath,
-								  OUT const Char** geometryPath, 
-								  OUT const Char** fragmentPath ) const;
+		void GetShaderFiles		( const char* rendererType, OUT const char** vertexPath,
+								  OUT const char** geometryPath, 
+								  OUT const char** fragmentPath ) const;
 
 		//! must be called before using the shader
 		//! setting the same renderer, does a reload of shaders
-		void ChangeRenderer		( const Char* rendererType );
+		void ChangeRenderer		( const char* rendererType );
 		//! allows you to add the code directly
-		void ChangeRenderer		( const Char* vertexShader, const Char* geometryShader, 
-								  const Char* fragmentShader );
+		void ChangeRenderer		( const char* vertexShader, const char* geometryShader, 
+								  const char* fragmentShader );
 
 		// getters
-		Int	GetProgramID		()						const;
-		Int	GetUniformLocation	( const Char* uniform )	const;
+		int	GetProgramID		()						const;
+		int	GetUniformLocation	( const char* uniform )	const;
 
 
 	protected:
@@ -56,7 +56,7 @@ namespace CYRED
 		};
 
 		DataMap<String, _FilesPaths*>	_shaderFiles;
-		Int								_programID;
-		DataMap<String, Int>			_uniforms;
+		int								_programID;
+		DataMap<String, int>			_uniforms;
 	};
 }

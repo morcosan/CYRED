@@ -31,7 +31,7 @@ void Material::LoadUniqueID()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MATERIAL );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Material>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
@@ -41,7 +41,7 @@ void Material::LoadUniqueID()
 
 void Material::LoadFullFile()
 {
-	Bool oldEmitEvents = _emitEvents;
+	bool oldEmitEvents = _emitEvents;
 	_emitEvents = FALSE;
 
 	// create path
@@ -51,7 +51,7 @@ void Material::LoadFullFile()
 		filePath.Set( "%s%s", filePath.GetChar(), FileManager::FILE_FORMAT_MATERIAL );
 	}
 
-	Char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+	char* fileData = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 	FileManager::Singleton()->Deserialize<Material>( fileData, this );
 
 	// free memory for file
@@ -86,7 +86,7 @@ Asset* Material::Clone()
 }
 
 
-const Char* CYRED::Material::GetExtension()
+const char* CYRED::Material::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MATERIAL;
@@ -159,9 +159,9 @@ void Material::SetFaceCulling( FaceCulling value )
 }
 
 
-void Material::SetProperty( const Char* name, Int value )
+void Material::SetProperty( const char* name, int value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -181,9 +181,9 @@ void Material::SetProperty( const Char* name, Int value )
 }
 
 
-void Material::SetProperty( const Char* name, Float value )
+void Material::SetProperty( const char* name, float value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -203,9 +203,9 @@ void Material::SetProperty( const Char* name, Float value )
 }
 
 
-void Material::SetProperty( const Char* name, const Vector2& value )
+void Material::SetProperty( const char* name, const Vector2& value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -225,9 +225,9 @@ void Material::SetProperty( const Char* name, const Vector2& value )
 }
 
 
-void Material::SetProperty( const Char* name, const Vector3& value )
+void Material::SetProperty( const char* name, const Vector3& value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -247,9 +247,9 @@ void Material::SetProperty( const Char* name, const Vector3& value )
 }
 
 
-void Material::SetProperty( const Char* name, const Vector4& value )
+void Material::SetProperty( const char* name, const Vector4& value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -269,9 +269,9 @@ void Material::SetProperty( const Char* name, const Vector4& value )
 }
 
 
-void Material::SetProperty( const Char* name, Texture* value )
+void Material::SetProperty( const char* name, Texture* value )
 {
-	for ( UInt i = 0; i < _properties.Size(); ++i )
+	for ( int i = 0; i < _properties.Size(); ++i )
 	{
 		if ( _properties[i].name == name )
 		{
@@ -291,13 +291,13 @@ void Material::SetProperty( const Char* name, Texture* value )
 }
 
 
-UInt Material::GetPropertiesCount() const
+int Material::GetPropertiesCount() const
 {
 	return _properties.Size();
 }
 
 
-DataUnion& Material::GetPropertyDataAt( UInt index ) const
+DataUnion& Material::GetPropertyDataAt( int index ) const
 {
 	ASSERT( index < _properties.Size() );
 
@@ -305,7 +305,7 @@ DataUnion& Material::GetPropertyDataAt( UInt index ) const
 }
 
 
-const Char* Material::GetPropertyNameAt( UInt index ) const
+const char* Material::GetPropertyNameAt( int index ) const
 {
 	ASSERT( index < _properties.Size() );
 

@@ -15,7 +15,7 @@ DEFINE_LOCAL_SINGLETON_IMPL( TimeManagerImpl )
 
 
 
-void TimeManagerImpl::Initialize( UInt desiredFPS )
+void TimeManagerImpl::Initialize( int desiredFPS )
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
@@ -44,16 +44,16 @@ void TimeManagerImpl::Update()
 }
 
 
-void TimeManagerImpl::RenderUpdate( Double realTime )
+void TimeManagerImpl::RenderUpdate( double realTime )
 {
 	ASSERT( _isInitialized );
 
-	_renderDeltaTime = CAST_S( Float, realTime - _lastRenderTime );
+	_renderDeltaTime = CAST_S( float, realTime - _lastRenderTime );
 	_lastRenderTime = realTime;
 }
 
 
-Float TimeManagerImpl::GetDeltaTime()
+float TimeManagerImpl::GetDeltaTime()
 {
 	ASSERT( _isInitialized );
 
@@ -61,7 +61,7 @@ Float TimeManagerImpl::GetDeltaTime()
 }
 
 
-Float TimeManagerImpl::GetRenderDeltaTime()
+float TimeManagerImpl::GetRenderDeltaTime()
 {
 	ASSERT( _isInitialized );
 
@@ -69,7 +69,7 @@ Float TimeManagerImpl::GetRenderDeltaTime()
 }
 
 
-void TimeManagerImpl::SetDesiredFPS( UInt desiredFPS )
+void TimeManagerImpl::SetDesiredFPS( int desiredFPS )
 {
 	ASSERT( _isInitialized );
 
@@ -77,7 +77,7 @@ void TimeManagerImpl::SetDesiredFPS( UInt desiredFPS )
 }
 
 
-UInt TimeManagerImpl::GetDesiredFPS()
+int TimeManagerImpl::GetDesiredFPS()
 {
 	ASSERT( _isInitialized );
 
@@ -85,7 +85,7 @@ UInt TimeManagerImpl::GetDesiredFPS()
 }
 
 
-Double TimeManagerImpl::GetGameTime()
+double TimeManagerImpl::GetGameTime()
 {
 	ASSERT( _isInitialized );
 

@@ -341,7 +341,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 				Asset* asset = CAST_S( Asset*, eData );
 				ASSERT( asset != NULL );
 
-				const Char* attrViewerType = NULL;
+				const char* attrViewerType = NULL;
 
 				switch ( asset->GetAssetType() ) {
 					case AssetType::MATERIAL:
@@ -398,7 +398,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 			Asset* asset = CAST_S( Asset*, eData );
 			ASSERT( asset != NULL );
 
-			const Char* attrViewerType = NULL;
+			const char* attrViewerType = NULL;
 
 			switch ( asset->GetAssetType() ) {
 				case AssetType::MATERIAL:
@@ -458,7 +458,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 }
 
 
-void Panel_Attributes::SetAttrViewer( const Char* typeName, AttrViewer* viewer )
+void Panel_Attributes::SetAttrViewer( const char* typeName, AttrViewer* viewer )
 {
 	ASSERT( _isInitialized );
 
@@ -486,7 +486,7 @@ void Panel_Attributes::_ClearPanel()
 	ASSERT( _isInitialized );
 
 	// hide widgets
-	for ( Int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
+	for ( int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {
 		QTreeWidgetItem* item = _qtTree->topLevelItem( i );
 		item->setHidden( TRUE );
 	}

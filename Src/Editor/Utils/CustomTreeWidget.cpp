@@ -20,10 +20,10 @@ CustomTreeWidget::CustomTreeWidget()
 
 void CustomTreeWidget::A_CalculateHeight()
 {
-	Int h = 0;
-	Int topLevelCount = this->topLevelItemCount();
+	int h = 0;
+	int topLevelCount = this->topLevelItemCount();
 
-	for ( Int i = 0; i < topLevelCount; ++i )
+	for ( int i = 0; i < topLevelCount; ++i )
 	{
 		QTreeWidgetItem* item = this->topLevelItem(i);
 		h += _CalculateHeightRec( item );
@@ -45,7 +45,7 @@ void CustomTreeWidget::SetAttrViewer( AttrViewer* attrViewer )
 }
 
 
-Int CustomTreeWidget::_CalculateHeightRec( QTreeWidgetItem* item )
+int CustomTreeWidget::_CalculateHeightRec( QTreeWidgetItem* item )
 {
 	if ( item == NULL )
 	{
@@ -59,11 +59,11 @@ Int CustomTreeWidget::_CalculateHeightRec( QTreeWidgetItem* item )
 		return this->rowHeight( index );
 	}
 
-	Int h = this->rowHeight( index );
-	//Int h = item->sizeHint(0).height() + 2;
-	Int childCount = item->childCount();
+	int h = this->rowHeight( index );
+	//int h = item->sizeHint(0).height() + 2;
+	int childCount = item->childCount();
 
-	for ( Int i = 0; i < childCount; ++i )
+	for ( int i = 0; i < childCount; ++i )
 	{
 		h += _CalculateHeightRec( item->child(i) );
 	}

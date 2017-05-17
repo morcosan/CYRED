@@ -25,7 +25,7 @@ namespace CYRED
 
 
 		public:
-			void Render			( Node* root, GameObject* cameraGO, Bool useAllScenes )	override;
+			void Render			( Node* root, GameObject* cameraGO, bool useAllScenes )	override;
 			void OnResize		() override;
 			void DisplayOnScreen() override;
 
@@ -35,14 +35,14 @@ namespace CYRED
 
 
 		protected:
-			UInt _mainFramebufferID;
-			UInt _mainColorbufferID;
-			UInt _mainDepthbufferID;
+			int _mainFramebufferID;
+			int _mainColorbufferID;
+			int _mainDepthbufferID;
 
-			UInt _screenQuadID;
+			int _screenQuadID;
 
-			void _CreateMainBuffers	( UInt width, UInt height );
-			void _ResizeMainBuffers	( UInt width, UInt height );
+			void _CreateMainBuffers	( int width, int height );
+			void _ResizeMainBuffers	( int width, int height );
 			void _RenderScreenQuad	( Texture* texture, Shader* shader );
 			void _GenerateScreenQuad();
 		};

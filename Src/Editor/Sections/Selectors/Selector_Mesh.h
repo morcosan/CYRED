@@ -12,8 +12,8 @@ namespace CYRED
 	class Selector_Mesh : public Selector
 	{
 	public:
-		static const Char* const OPTION_NULL;
-		static const Char* const TYPE;
+		static const char* const OPTION_NULL;
+		static const char* const TYPE;
 
 
 	public:

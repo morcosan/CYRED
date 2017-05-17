@@ -12,13 +12,13 @@ namespace CYRED
 {
 	struct DLL Vector3
 	{
-		Float x;
-		Float y;
-		Float z;
+		float x;
+		float y;
+		float z;
 
 		Vector3();
 		Vector3( const Vector3& other );
-		Vector3( Float xx, Float yy, Float zz );
+		Vector3( float xx, float yy, float zz );
 
 		void	operator=	( const Vector3& other );
 		void	operator+=	( const Vector3& other );
@@ -26,12 +26,12 @@ namespace CYRED
 		void	operator/=	( const Vector3& other );
 
 		void	operator*=	( const Vector3& other );
-		void	operator*=	( Float other );
-		void	operator*=	( UInt other );
-		void	operator*=	( Int other );
+		void	operator*=	( float other );
+		void	operator*=	( int other );
+		void	operator*=	( int other );
 
-		Bool	operator==	( const Vector3& other )	const;
-		Bool	operator!=	( const Vector3& other )	const;
+		bool	operator==	( const Vector3& other )	const;
+		bool	operator!=	( const Vector3& other )	const;
 
 		Vector3 operator-	( const Vector3& other )	const;
 		Vector3 operator-	()							const;
@@ -39,15 +39,15 @@ namespace CYRED
 		Vector3 operator+	( const Vector3& other )	const;
 
 		Vector3 operator/	( const Vector3& other )	const;
-		Vector3 operator/	( Float other )				const;
-		Vector3 operator/	( UInt other )				const;
-		Vector3 operator/	( Int other )				const;
+		Vector3 operator/	( float other )				const;
+		Vector3 operator/	( int other )				const;
+		Vector3 operator/	( int other )				const;
 
 		Vector3 operator*	( const Vector3& other )	const;
-		Vector3 operator*	( Float other )				const;
-		Vector3 operator*	( UInt other )				const;
-		Vector3 operator*	( Int other )				const;
+		Vector3 operator*	( float other )				const;
+		Vector3 operator*	( int other )				const;
+		Vector3 operator*	( int other )				const;
 
-		const Float* Ptr();
+		const float* Ptr();
 	};
 }
