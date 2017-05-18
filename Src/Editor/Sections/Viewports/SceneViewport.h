@@ -38,17 +38,21 @@ namespace CYRED
 	protected:
 		static DataMap<TechniqueType, int>	_techSlots;
 
-		static int	GetSlotForTechnique( TechniqueType type );
-
 
 	protected:
 		QComboBox*		_qtCameraDropdown;
 		QPushButton*	_qtCameraButton;
 
+
+	protected:
 		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;
 		virtual void		_OnFinalize		() override;
 		virtual void		_OnUpdate		() override;
+
+
+	protected:
+		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 	};
 }

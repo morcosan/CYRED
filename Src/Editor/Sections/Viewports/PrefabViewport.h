@@ -41,8 +41,6 @@ namespace CYRED
 	protected:
 		static DataMap<TechniqueType, int>	_techSlots;
 
-		static int	GetSlotForTechnique( TechniqueType type );
-
 
 	protected:
 		Prefab* _targetPrefab;

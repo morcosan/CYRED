@@ -141,5 +141,5 @@ void Panel_Viewport::_CreateCanvasSlot()
 {
 	ASSERT( _isInitialized );
 
-	_canvasSlot = RenderManager::Singleton()->NewCanvas( _glContext );
+	_canvasSlot = RenderManager::Singleton()->CreateCanvas( _glContext );
 }

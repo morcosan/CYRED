@@ -59,7 +59,7 @@ namespace CYRED
 			void focusOutEvent		( QFocusEvent* e )	override;
 
 		protected:
-			int						_windowIndex;
+			int					_windowIndex;
 			InputReceiverQT*	_inputReceiver;
 		};
 
@@ -79,14 +79,16 @@ namespace CYRED
 	protected:
 		GLContext*		_glContext;
 		_QtWindow*		_qtWindow;
-		int			_canvasSlot;
+		int				_canvasSlot;
 		bool			_mustResize;
-		int			_panelIndex;
+		int				_panelIndex;
 		bool			_isFirstUpdate;
 		GameObject*		_cameraGO;
 
 		QHBoxLayout*	_qtTopBarLayout;
 
+
+	protected:
 		void	_CreateCanvasSlot();
 	};
 }

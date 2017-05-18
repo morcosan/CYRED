@@ -22,7 +22,7 @@ bool MeshLoaderWindows::ImportMesh( const char* data, int dataSize,
 		return FALSE;
 	}
 
-	for ( int i = 0; i < assimpScene->mNumMeshes; ++i )
+	for ( uint i = 0; i < assimpScene->mNumMeshes; ++i )
 	{
 		aiMesh* assimpMesh = assimpScene->mMeshes[i];
 
@@ -31,7 +31,7 @@ bool MeshLoaderWindows::ImportMesh( const char* data, int dataSize,
 		aiVector3D zero3D(0, 0, 0);
 		aiColor4D zero4D(0, 0, 0, 0);
 
-		for ( int j = 0; j < assimpMesh->mNumVertices; ++j ) 
+		for ( uint j = 0; j < assimpMesh->mNumVertices; ++j ) 
 		{
 			aiVector3D* assimpPos = assimpMesh->HasPositions() ? &(assimpMesh->mVertices[j]) : &zero3D;
 			aiColor4D* assimpColor = assimpMesh->HasVertexColors(0) ? &(assimpMesh->mColors[0][j]) : &zero4D;
@@ -59,7 +59,7 @@ bool MeshLoaderWindows::ImportMesh( const char* data, int dataSize,
 
 		if ( assimpMesh->HasFaces() )
 		{
-			for ( int j = 0; j < assimpMesh->mNumFaces; ++j ) 
+			for ( uint j = 0; j < assimpMesh->mNumFaces; ++j ) 
 			{
 				aiFace& assimpFace = assimpMesh->mFaces[j];
 				indices.Add( assimpFace.mIndices[0] );

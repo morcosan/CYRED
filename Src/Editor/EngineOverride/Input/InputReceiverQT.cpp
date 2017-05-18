@@ -203,6 +203,6 @@ KeyCode InputReceiverQT::ToKeyCode( int qtKey )
 			return KeyCode::MOUSE_RIGHT;
 	}
 
-	ASSERT( FALSE );	//! it should not enter here
+	//! it should not enter here
 	return KeyCode();
 }

@@ -54,9 +54,9 @@ namespace CYRED
 		virtual int			GetSceneIndex		( const char* sceneUID )	PURE_VIRTUAL;
 		virtual Scene*		GetScene			( const char* sceneUID )	PURE_VIRTUAL;
 		virtual Scene*		GetScene			( int sceneIndex = 0 )		PURE_VIRTUAL;
-		virtual int		CountLoadedScenes	()							PURE_VIRTUAL;
+		virtual int			CountLoadedScenes	()							PURE_VIRTUAL;
 
-		virtual	int		NextGameObjectUID	()							PURE_VIRTUAL;
+		virtual	int			NextGameObjectUID	()							PURE_VIRTUAL;
 	
 		virtual void		SetMainCamera	( GameObject* cameraGO )		PURE_VIRTUAL;
 		virtual GameObject*	GetMainCamera	()								PURE_VIRTUAL;

@@ -42,7 +42,7 @@ namespace CYRED
 		* 		lights		- the list of lights to be used
 		*/
 		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  GameObject** lights )	PURE_VIRTUAL;
+									  GameObject*const* lights )	PURE_VIRTUAL;
 
 		virtual void OnResize		()					PURE_VIRTUAL;
 		virtual void DisplayOnScreen()					PURE_VIRTUAL;

@@ -89,7 +89,12 @@ namespace CYRED
 			* @assert: canvas and renderer are set
 			*/
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-								  GameObject** lights )					override;
+								  GameObject*const* lights )			override;
+
+			/*****
+			* @desc: display the rendering
+			*/
+			void SwapBuffers	()										override;
 
 			/*****
 			* @desc: force resize for given canvas

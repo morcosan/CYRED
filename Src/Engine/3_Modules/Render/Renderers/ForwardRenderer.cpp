@@ -73,7 +73,7 @@ void ForwardRenderer::ClearScreen()
 * 		lights		- the list of lights to be used
 */
 void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
-							  GameObject** lights )
+							  GameObject*const* lights )
 {
 	// sanity check
 	if ( target == NULL || cameraGO == NULL ) { 
@@ -376,6 +376,7 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
 
 
 	// add lights if needed
+	if ( _currLights != NULL )
 	{
 		// check if shader contains light uniforms
 		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
@@ -535,6 +536,7 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject )
 
 
 	// add lights if needed
+	if ( _currLights != NULL )
 	{
 		// check if shader contains light uniforms
 		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );

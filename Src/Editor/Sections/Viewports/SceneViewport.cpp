@@ -36,19 +36,6 @@ void SceneViewport::A_CameraButton()
 }
 
 
-int SceneViewport::GetSlotForTechnique( TechniqueType type )
-{
-	if ( _techSlots.Has( type ) ) {
-		return _techSlots.Get( type );
-	}
-
-	int techSlot = RenderManager::Singleton()->NewTechnique( type );
-	_techSlots.Set( type, techSlot );
-
-	return techSlot;
-}
-
-
 const char* SceneViewport::_GetPanelTitle()
 {
 	return PANEL_TITLE;
@@ -91,12 +78,21 @@ void SceneViewport::_OnUpdate()
 	}
 
 	if ( _isFirstUpdate ) {
-		int techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
-		renderMngr->ChangeRenderer( _canvasSlot, RendererType::GL_FORWARD );
-		renderMngr->ChangeTechnique( _canvasSlot, techSlot );
+		// create renderer
+		renderMngr->SwitchCanvas( _canvasSlot );
+		renderMngr->CreateRenderer( RendererType::GL_FORWARD );
 	}
 
+	// set renderer
+	renderMngr->SwitchCanvas( _canvasSlot );
+	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
+	// clear screen
+	renderMngr->ClearScreen();
+
+	// exit if no camera
 	if ( _cameraGO == NULL ) {
+		// finish
+		renderMngr->SwapBuffers();
 		return;
 	}
 
@@ -108,15 +104,39 @@ void SceneViewport::_OnUpdate()
 	cam->SetOrthoWidth( aspectRatio * height );
 	
 	// render scenes
-	SceneManager* sceneMngr = SceneManager::Singleton();
-	if ( sceneMngr->CountLoadedScenes() > 0 ) {
-		//for ( int i = 0; i < sceneMngr->CountLoadedScenes(); ++i )
-		{
-			Scene* scene = sceneMngr->GetScene();
-			renderMngr->Render( _canvasSlot, scene->GetRoot(), _cameraGO, TRUE );
+	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
+		// get first scene's root
+		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+		// collect lights
+		DataArray<GameObject*> lightsGO;
+		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+			_RecCollectLights( CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)), lightsGO );
 		}
+
+		// render meshes
+		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO.Data() );
+		// render morphs
+		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO.Data() );
+		// render particles
+		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO.Data() );
 	}
-	else {
-		renderMngr->Render( _canvasSlot, NULL, _cameraGO, TRUE );
+
+	// finish
+	renderMngr->SwapBuffers();
+}
+
+
+void SceneViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+{
+	// check for light component
+	Light* light = gameObject->GetComponent<Light>();
+	if ( light != NULL ) {
+		lightsGO.Add( gameObject );
+	}
+
+	// parse children
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
+		_RecCollectLights( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 }

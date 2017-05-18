@@ -161,6 +161,9 @@ void RenderManagerImpl::ClearScreen()
 	// get renderer
 	ASSERT( canvas.renderers.Has( _currRenderer ) );
 	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+
+	// set context
+	canvas.glContext->MakeCurrent();
 	// clear screen
 	renderer->ClearScreen();
 }
@@ -176,7 +179,7 @@ void RenderManagerImpl::ClearScreen()
 * @assert: canvas and renderer are set
 */
 void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
-								GameObject** lights )
+								GameObject*const* lights )
 {
 	ASSERT( _isInitialized );
 
@@ -191,6 +194,18 @@ void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject
 	// render
 	renderer->Render( compType, target, cameraGO, lights );
 	renderer->DisplayOnScreen();
+}
+
+
+/*****
+* @desc: display the rendering
+*/
+void RenderManagerImpl::SwapBuffers()
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
 	// swap buffers
 	canvas.glContext->SwapBuffers();
 }

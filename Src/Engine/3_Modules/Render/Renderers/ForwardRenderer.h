@@ -50,7 +50,7 @@ namespace CYRED
 			* 		lights		- the list of lights to be used
 			*/
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-								  GameObject** lights )	override;
+								  GameObject*const* lights )	override;
 
 			void OnResize		()						override;
 			void DisplayOnScreen()						override;
@@ -71,9 +71,9 @@ namespace CYRED
 
 			uint _screenQuadID;
 
-			Transform*		_currCameraTran;
-			Camera*			_currCameraCam;
-			GameObject**	_currLights;
+			Transform*			_currCameraTran;
+			Camera*				_currCameraCam;
+			GameObject*const*	_currLights;
 
 
 		protected:

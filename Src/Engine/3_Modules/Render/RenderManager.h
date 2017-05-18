@@ -100,7 +100,7 @@ namespace CYRED
 		/*****
 		* @desc: clear the previous frame
 		*/
-		virtual void ClearScreen	()										PURE_VIRTUAL;
+		virtual void	ClearScreen		()									PURE_VIRTUAL;
 
 		/*****
 		* @desc: render the given component from given gameobject and its children
@@ -112,7 +112,12 @@ namespace CYRED
 		* @assert: canvas and renderer are set
 		*/
 		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  GameObject** lights )						PURE_VIRTUAL;
+									  GameObject*const* lights )				PURE_VIRTUAL;
+
+		/*****
+		* @desc: display the rendering
+		*/
+		virtual void	SwapBuffers		()										PURE_VIRTUAL;
 
 		/*****
 		* @desc: force resize for given canvas
@@ -120,7 +125,7 @@ namespace CYRED
 		* 		canvasID - id of canvas
 		* @assert: canvas exists
 		*/
-		virtual void OnResize		( int canvasID )						PURE_VIRTUAL;
+		virtual void OnResize		( int canvasID )							PURE_VIRTUAL;
 	};
 }
 

@@ -41,19 +41,6 @@ void PrefabViewport::SetCamera( GameObject* cameraGO )
 }
 
 
-int PrefabViewport::GetSlotForTechnique( TechniqueType type )
-{
-	if ( _techSlots.Has( type ) ) {
-		return _techSlots.Get( type );
-	}
-
-	int techSlot = RenderManager::Singleton()->NewTechnique( type );
-	_techSlots.Set( type, techSlot );
-
-	return techSlot;
-}
-
-
 const char* PrefabViewport::_GetPanelTitle()
 {
 	return PANEL_TITLE;
@@ -90,12 +77,21 @@ void PrefabViewport::_OnUpdate()
 	}
 
 	if ( _isFirstUpdate ) {
-		int techSlot = GetSlotForTechnique( TechniqueType::FORWARD_BASIC );
-		renderMngr->ChangeRenderer( _canvasSlot, RendererType::GL_FORWARD );
-		renderMngr->ChangeTechnique( _canvasSlot, techSlot );
+		// create renderer
+		renderMngr->SwitchCanvas( _canvasSlot );
+		renderMngr->CreateRenderer( RendererType::GL_FORWARD );
 	}
 
+	// set renderer
+	renderMngr->SwitchCanvas( _canvasSlot );
+	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
+	// clear screen
+	renderMngr->ClearScreen();
+
+	// exit if no camera
 	if ( _cameraGO == NULL ) {
+		// finish
+		renderMngr->SwapBuffers();
 		return;
 	}
 
@@ -108,9 +104,21 @@ void PrefabViewport::_OnUpdate()
 
 	// render prefab
 	if ( _targetPrefab != NULL ) {
-		renderMngr->Render( _canvasSlot, _targetPrefab->GetRoot(), _cameraGO, FALSE );
+		// get prefabs root
+		Node* prefabRoot = _targetPrefab->GetRoot();
+
+		// collect lights
+		DataArray<GameObject*> lightsGO;
+		lightsGO.Add( _cameraGO );
+
+		// render meshes
+		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO.Data() );
+		// render morphs
+		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO.Data() );
+		// render particles
+		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO.Data() );
 	}
-	else {
-		renderMngr->Render( _canvasSlot, NULL, _cameraGO, FALSE );
-	}
+
+	// finish
+	renderMngr->SwapBuffers();
 }

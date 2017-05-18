@@ -33,11 +33,9 @@
 #define NULL nullptr
 
 
-namespace CYRED
-{
-	typedef unsigned char	uchar;
-	typedef size_t			uint;
-}
+typedef unsigned char	uchar;
+typedef unsigned int	uint;
+
 
 #define TRUE	true
 #define FALSE	false
