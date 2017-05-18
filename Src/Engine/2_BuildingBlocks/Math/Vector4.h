@@ -33,11 +33,9 @@ namespace CYRED
 		Vector4 operator/( const Vector4& other )	const;
 		Vector4 operator/( float other )			const;
 		Vector4 operator/( int other )				const;
-		Vector4 operator/( int other )				const;
 
 		Vector4 operator*( const Vector4& other )	const;
 		Vector4 operator*( float other )			const;	
-		Vector4 operator*( int other )				const;
 		Vector4 operator*( int other )				const;
 
 		const float* Ptr();

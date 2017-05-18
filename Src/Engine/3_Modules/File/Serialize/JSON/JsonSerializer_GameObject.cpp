@@ -181,7 +181,7 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 	if ( json.HasMember( CHILD_NODES ) ) {
 		rapidjson::Value& childNodes = json[CHILD_NODES];
 
-		for ( int i = 0; i < childNodes.Size(); i++ ) {
+		for ( int i = 0; i < CAST_S(int, childNodes.Size()); i++ ) {
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* childObject = Memory::Alloc<GameObject>( NULL, uid );
 			gameObject->AddChildNode( childObject );

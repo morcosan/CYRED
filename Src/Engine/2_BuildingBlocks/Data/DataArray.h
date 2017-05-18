@@ -20,14 +20,14 @@ namespace CYRED
 
 	public:
 		void	operator=	( const DataArray& other );
-		TValue&	operator[]	( int index )				const;
+		TValue&	operator[]	( int index ) const;
 
 
 	public:
 		int		Add		( TValue value );
-		void		Insert	( int index, TValue value );
-		void		Erase	( int index );
-		int		Size	()					const;
+		void	Insert	( int index, TValue value );
+		void	Erase	( int index );
+		int		Size	() const;
 
 		//! remove all elements
 		void		Clear	();
@@ -90,7 +90,7 @@ namespace CYRED
 	template<typename TValue>
 	void DataArray<TValue>::Insert( int index, TValue value )
 	{
-		ASSERT( index <= _vector->size() );
+		ASSERT( index <= CAST_S(int, _vector->size()) );
 		_vector->insert( _vector->begin() + index, value );
 	}
 
@@ -98,7 +98,7 @@ namespace CYRED
 	template <typename TValue>
 	void DataArray<TValue>::Erase( int index )
 	{
-		ASSERT( index < _vector->size() );
+		ASSERT( index < CAST_S(int, _vector->size()) );
 		_vector->erase( _vector->begin() + index );
 	}
 
@@ -113,7 +113,7 @@ namespace CYRED
 	template <typename TValue>
 	TValue& DataArray<TValue>::operator[] ( int index ) const
 	{
-		ASSERT( index < _vector->size() );
+		ASSERT( index < CAST_S(int, _vector->size()) );
 		return (*_vector)[index];
 	}
 

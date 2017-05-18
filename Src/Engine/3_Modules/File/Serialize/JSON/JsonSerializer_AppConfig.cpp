@@ -314,7 +314,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load materials
 		if ( json[ASSETS].HasMember( ASSETS_MATERIALS ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_MATERIALS];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetMaterials.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -324,7 +324,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load textures
 		if ( json[ASSETS].HasMember( ASSETS_TEXTURES ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_TEXTURES];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetTextures.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -334,7 +334,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load meshes
 		if ( json[ASSETS].HasMember( ASSETS_MESHES ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_MESHES];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetMeshes.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -344,7 +344,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load morphs
 		if ( json[ASSETS].HasMember( ASSETS_MORPHS ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_MORPHS];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetMorphs.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -354,7 +354,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load scenes
 		if ( json[ASSETS].HasMember( ASSETS_SCENES ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_SCENES];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetScenes.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -364,7 +364,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load shaders
 		if ( json[ASSETS].HasMember( ASSETS_SHADERS ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_SHADERS];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetShaders.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
@@ -374,7 +374,7 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 		// load scripts
 		if ( json[ASSETS].HasMember( ASSETS_SCRIPTS ) ) {
 			rapidjson::Value& assets = json[ASSETS][ASSETS_SCRIPTS];
-			for ( int i = 0; i < assets.Size(); i++ ) {
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetScripts.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()

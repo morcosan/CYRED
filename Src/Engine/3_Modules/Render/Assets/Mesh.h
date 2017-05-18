@@ -59,9 +59,9 @@ namespace CYRED
 
 
 	protected:
-		int				_vbo;
-		int				_ibo;
-		int				_numIndices;
+		uint				_vbo;
+		uint				_ibo;
+		int					_numIndices;
 		MeshType			_meshType;
 		bool				_clearBuffersOnBind;	//! when binding to GPU, clear image buffer
 		

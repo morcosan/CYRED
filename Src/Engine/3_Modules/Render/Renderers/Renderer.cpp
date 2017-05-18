@@ -3,40 +3,36 @@
 
 
 #include "Renderer.h"
-#include "../Techniques/Technique.h"
 #include "../Assets/Shader.h"
 
 
 using namespace CYRED;
 
 
-
 Shader* Renderer::_screenQuadShader = NULL;
 
 
+/*****
+* @desc: prepare the renderer
+* @params: 
+* 		glAPI		- the global GL API
+* 		glContext	- the context of the canvas
+*/
 void Renderer::Initialize( GL* glAPI, GLContext* glContext )
 {
 	ASSERT( glAPI != NULL );
 	ASSERT( glContext != NULL );
 
+	// store data
 	_gl = glAPI;
 	_glContext = glContext;
 
-	if ( _screenQuadShader == NULL )
-	{
+	// prepare screen quad
+	if ( _screenQuadShader == NULL ) {
 		_screenQuadShader = Memory::Alloc<Shader>();
 	}
 
+	// call for specific initialization
 	_OnInitialize();
 }
-
-
-void Renderer::SetTechnique( Technique* technique )
-{
-	ASSERT( technique != NULL );
-
-	_technique = technique;
-	_technique->SetAPI( _gl );
-}
-
 

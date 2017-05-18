@@ -10,6 +10,10 @@ namespace CYRED
 {
 	class Texture;
 	class Shader;
+	class Material;
+	class Transform;
+	class Camera;
+	class Light;
 }
 
 
@@ -19,32 +23,70 @@ namespace CYRED
 	{
 		class ForwardRenderer : public Renderer
 		{
+			const char* UNIFORM_IS_LOOPING	= "isLooping";
+			const char* UNIFORM_LIFETIME	= "lifetime";
+			const char* UNIFORM_DELTA_TIME	= "deltaTime";
+
+			const char* UNIFORM_STATE_RATIO	= "stateRatio";
+
+
 		public:
 			ForwardRenderer() {}
 			virtual ~ForwardRenderer();
 
 
 		public:
-			void Render			( Node* root, GameObject* cameraGO, bool useAllScenes )	override;
-			void OnResize		() override;
-			void DisplayOnScreen() override;
+			/*****
+			* @desc: clear the previous frame
+			*/
+			void ClearScreen	()					override;
+
+			/*****
+			* @desc: render the given component from given gameobject and its children
+			* @params: 
+			* 		compType	- the component to render
+			* 		target		- the target gameobject
+			* 		cameraGO	- camera
+			* 		lights		- the list of lights to be used
+			*/
+			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+								  GameObject** lights )	override;
+
+			void OnResize		()						override;
+			void DisplayOnScreen()						override;
 
 
 		protected:
-			void _OnInitialize() override;
+			/*****
+			* @desc: apply specific initialization per renderer; 
+			*		 called at the end of Initialize()
+			*/
+			void _OnInitialize	() override;
 
 
 		protected:
-			int _mainFramebufferID;
-			int _mainColorbufferID;
-			int _mainDepthbufferID;
+			uint _mainFramebufferID;
+			uint _mainColorbufferID;
+			uint _mainDepthbufferID;
 
-			int _screenQuadID;
+			uint _screenQuadID;
 
+			Transform*		_currCameraTran;
+			Camera*			_currCameraCam;
+			GameObject**	_currLights;
+
+
+		protected:
 			void _CreateMainBuffers	( int width, int height );
 			void _ResizeMainBuffers	( int width, int height );
 			void _RenderScreenQuad	( Texture* texture, Shader* shader );
 			void _GenerateScreenQuad();
+
+			void _RecRenderMesh		( GameObject* gameObject );
+			void _RecRenderMorph	( GameObject* gameObject );
+			void _RecRenderParticles( GameObject* gameObject );
+
+			void _BindMaterial		( Material* material );
 		};
 	}
 }

@@ -8,8 +8,6 @@
 
 #include "Renderers\ForwardRenderer.h"
 
-#include "Techniques\ForwardTechnique.h"
-
 #include "../Debug/DebugManager.h"
 
 
@@ -19,46 +17,205 @@ using namespace NotAPI;
 
 //! deferred definition of RenderManager
 DEFINE_LOCAL_SINGLETON( RenderManager, RenderManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( RenderManagerImpl )
 
 
 
+/*****
+* @desc: initialize manager by creating first canvas, with id 0
+* @params: 
+* 		glContext	- the context of the main window
+* 		gl			- the OpenGL API
+*/
 void RenderManagerImpl::Initialize( GLContext* glContext, GL* gl )
 {
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
 
-	_SetMainCanvas( glContext );
-
-	_Canvas& canvas = _canvases[0];		// use the first canvas for initialization
+	// crate first canvas
+	_Canvas canvas;
+	canvas.glContext = glContext;
+	canvas.glContext->Create();
 	canvas.glContext->MakeCurrent();
 
+	// add to list
+	_canvases.Add( canvas );
+
+	// 0 is main
+	_currCanvas = 0;
+
+	// store API
 	_gl = gl;
+
 	// before calling it, a context must be active and the window must be displayed
 	_gl->Initialize();
 }
 
 
+/*****
+* @desc: destroy the manager
+* @assert: it was first initialized
+*/
 void RenderManagerImpl::Finalize()
 {
-	if ( !_isInitialized )
-	{
+	if ( !_isInitialized ) {
 		return;
 	}
 }
 
 
-void RenderManagerImpl::_SetMainCanvas( GLContext* glContext )
+/*****
+* @desc: create a new canvas and activate it
+* @params: 
+* 		glContext - the context of the window
+* @return: the index of the new canvas
+*/
+int RenderManagerImpl::CreateCanvas( GLContext* glContext )
 {
+	ASSERT( _isInitialized );
 	ASSERT( glContext != NULL );
 
 	_Canvas canvas;
 	canvas.glContext = glContext;
+	canvas.glContext->SetSharedContext( _canvases[0].glContext );
 	canvas.glContext->Create();
-	canvas.renderer = NULL;
 
-	_canvases.Add( canvas );
+	return _canvases.Add( canvas );
+}
+
+
+/*****
+* @desc: change the current canvas
+* @params: 
+* 		canvasID - id of the new canvas
+* @assert: canvas exists
+*/
+void RenderManagerImpl::SwitchCanvas( int canvasID )
+{
+	ASSERT( _isInitialized );
+	ASSERT( canvasID >= 0 && canvasID < _canvases.Size() );
+
+	_currCanvas = canvasID;
+}
+
+
+/*****
+* @desc: create a new renderer for current canvas
+* @params: 
+* 		rendererType - type of the renderer
+* @assert: canvas is set
+*/
+void RenderManagerImpl::CreateRenderer( RendererType rendererType )
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	ASSERT( !canvas.renderers.Has( rendererType ) );
+
+	// create new renderer
+	Renderer* renderer = NULL;
+	switch ( rendererType ) {
+		case RendererType::GL_FORWARD:
+			renderer = Memory::Alloc<ForwardRenderer>();
+			break;
+	}
+
+	// initialize renderer
+	renderer->Initialize( _gl, canvas.glContext );
+	// add to canvas
+	canvas.renderers.Set( rendererType, renderer );
+	// set as current
+	_currRenderer = rendererType;
+}
+
+
+/*****
+* @desc: change the current renderer
+* @params: 
+* 		rendererType - type of the renderer
+* @assert: canvas is set
+*/
+void RenderManagerImpl::SwitchRenderer( RendererType rendererType )
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	ASSERT( canvas.renderers.Has( rendererType ) );
+
+	// set as current
+	_currRenderer = rendererType;
+}
+
+
+/*****
+* @desc: clear the previous frame
+*/
+void RenderManagerImpl::ClearScreen()
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	// get renderer
+	ASSERT( canvas.renderers.Has( _currRenderer ) );
+	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+	// clear screen
+	renderer->ClearScreen();
+}
+
+
+/*****
+* @desc: render the given component from given gameobject and its children
+* @params: 
+* 		compType	- the component to render
+* 		target		- the target gameobject
+* 		cameraGO	- camera
+* 		lights		- the list of lights to be used
+* @assert: canvas and renderer are set
+*/
+void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
+								GameObject** lights )
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	// get renderer
+	ASSERT( canvas.renderers.Has( _currRenderer ) );
+	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+
+	// set context
+	canvas.glContext->MakeCurrent();
+	// render
+	renderer->Render( compType, target, cameraGO, lights );
+	renderer->DisplayOnScreen();
+	// swap buffers
+	canvas.glContext->SwapBuffers();
+}
+
+
+/*****
+* @desc: force resize for given canvas
+* @params: 
+* 		canvasID - id of canvas
+* @assert: canvas exists
+*/
+void RenderManagerImpl::OnResize( int canvasID )
+{
+	ASSERT( _isInitialized );
+	ASSERT( canvasID < _canvases.Size() );
+
+	// get canvas
+	_Canvas& canvas = _canvases[ canvasID ];
+	// call resize
+	canvas.glContext->OnResize();
+
+	/*if ( canvas.renderer != NULL )
+	{
+		canvas.renderer->OnResize();
+	}*/
 }
 
 
@@ -116,122 +273,7 @@ bool RenderManagerImpl::_IsProgramLinked( int programID ) const
 }
 
 
-int RenderManagerImpl::NewTechnique( TechniqueType techType )
-{
-	ASSERT( _isInitialized );
-
-	switch ( techType )
-	{
-	case TechniqueType::FORWARD_BASIC:
-		return NewTechnique( Memory::Alloc<ForwardTechnique>() );
-	}
-
-	ASSERT( false ); //! should never get here
-	return -1;
-}
-
-
-int RenderManagerImpl::NewTechnique( Technique* technique )
-{
-	ASSERT( _isInitialized );
-	ASSERT( technique != NULL );
-
-	return _techniques.Add( technique );
-}
-
-
-int RenderManagerImpl::NewCanvas( GLContext* glContext )
-{
-	ASSERT( _isInitialized );
-	ASSERT( glContext != NULL );
-
-	_Canvas canvas;
-	canvas.glContext = glContext;
-	canvas.glContext->SetSharedContext( _canvases[0].glContext );
-	canvas.glContext->Create();
-	canvas.renderer = NULL;
-
-	return _canvases.Add( canvas );
-}
-
-
-void RenderManagerImpl::ChangeRenderer( int canvasID, RendererType type )
-{
-	ASSERT( _isInitialized );
-
-	switch ( type )
-	{
-	case RendererType::GL_FORWARD:
-		ChangeRenderer( canvasID, Memory::Alloc<ForwardRenderer>() );
-		break;
-	}
-}
-
-
-void RenderManagerImpl::ChangeRenderer( int canvasID, Renderer* renderer )
-{
-	ASSERT( _isInitialized );
-	ASSERT( canvasID < _canvases.Size() );
-	ASSERT( renderer != NULL );
-
-	_Canvas& canvas = _canvases[canvasID];
-	Memory::Free( canvas.renderer );
-	canvas.renderer = renderer;
-	canvas.renderer->Initialize( _gl, canvas.glContext );
-}
-
-
-void RenderManagerImpl::ChangeTechnique( int canvasID, int techID )
-{
-	ASSERT( _isInitialized );
-	ASSERT( canvasID < _canvases.Size() );
-	ASSERT( techID < _techniques.Size() );
-
-	_Canvas& canvas = _canvases[canvasID];
-
-	ASSERT( canvas.renderer != NULL );
-
-	canvas.renderer->SetTechnique( _techniques[ techID ] );
-}
-
-
-void RenderManagerImpl::Render( int canvasID, Node* root, GameObject* cameraGO, bool useAllScenes )
-{
-	ASSERT( _isInitialized );
-	ASSERT( canvasID < _canvases.Size() );
-
-	_Canvas& canvas = _canvases[canvasID];
-
-	ASSERT( canvas.glContext != NULL );
-	ASSERT( canvas.renderer != NULL );
-
-	canvas.glContext->MakeCurrent();
-
-	canvas.renderer->Render( root, cameraGO, useAllScenes );
-	canvas.renderer->DisplayOnScreen();
-
-	canvas.glContext->SwapBuffers();
-}
-
-
-void RenderManagerImpl::OnResize( int canvasID )
-{
-	ASSERT( _isInitialized );
-	ASSERT( canvasID < _canvases.Size() );
-
-	_Canvas& canvas = _canvases[ canvasID ];
-
-	ASSERT( canvas.glContext != NULL );
-	canvas.glContext->OnResize();
-
-	if ( canvas.renderer != NULL )
-	{
-		canvas.renderer->OnResize();
-	}
-}
-
-
-void RenderManagerImpl::CreateMeshBuffers( OUT int& vbo, OUT int& ibo, 
+void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo, 
 										   DataArray<Vertex>& vertices, DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );
@@ -262,7 +304,7 @@ void RenderManagerImpl::CreateMeshBuffers( OUT int& vbo, OUT int& ibo,
 }
 
 
-void RenderManagerImpl::CreateMorphBuffers( OUT int& vbo, OUT int& ibo, 
+void RenderManagerImpl::CreateMorphBuffers( OUT uint& vbo, OUT uint& ibo, 
 										    DataArray<MorphVertex>& vertices, DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );
@@ -293,14 +335,14 @@ void RenderManagerImpl::CreateMorphBuffers( OUT int& vbo, OUT int& ibo,
 }
 
 
-void RenderManagerImpl::DeleteBuffers( int vbo, int ibo )
+void RenderManagerImpl::DeleteBuffers( uint vbo, uint ibo )
 {
 	_gl->DeleteBuffers( 1, &vbo );
 	_gl->DeleteBuffers( 1, &ibo );
 }
 
 
-void RenderManagerImpl::CreateParticleBuffers( OUT int& vbo, OUT int& ibo, 
+void RenderManagerImpl::CreateParticleBuffers( OUT uint& vbo, OUT uint& ibo, 
 											   DataArray<ParticleVertex>& vertices, 
 											   DataArray<int>& indices )
 {
@@ -450,7 +492,7 @@ void RenderManagerImpl::GetUniformInfo( int programID, int index, int buffSize,
 }
 
 
-void RenderManagerImpl::CreateTexture2D( OUT int& textureID, int width, int height, 
+void RenderManagerImpl::CreateTexture2D( OUT uint& textureID, int width, int height, 
 										 int channels, bool hasMipmap, 
 										 uchar* imageBuffer )
 {
@@ -498,7 +540,7 @@ void RenderManagerImpl::CreateTexture2D( OUT int& textureID, int width, int heig
 }
 
 
-void RenderManagerImpl::CreateCubeMapTexture( OUT int& textureID, int width, int height, 
+void RenderManagerImpl::CreateCubeMapTexture( OUT uint& textureID, int width, int height, 
 											  int channels, bool hasMipmap,
 											  uchar* imageBuffer_PosX, uchar* imageBuffer_NegX, 
 											  uchar* imageBuffer_PosY, uchar* imageBuffer_NegY, 
@@ -574,7 +616,7 @@ void RenderManagerImpl::CreateCubeMapTexture( OUT int& textureID, int width, int
 }
 
 
-void RenderManagerImpl::DeleteTexture( int textureID )
+void RenderManagerImpl::DeleteTexture( uint textureID )
 {
 	_gl->DeleteTextures( 1, &textureID );
 }

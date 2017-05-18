@@ -165,9 +165,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Render\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="3_Modules\Render\Renderers\Renderer.cpp" />
     <ClCompile Include="3_Modules\Render\RenderManagerImpl.cpp" />
-    <ClCompile Include="3_Modules\Render\Techniques\ForwardTechnique.cpp" />
     <ClCompile Include="3_Modules\Scene\Sections\Scene.cpp" />
-    <ClCompile Include="3_Modules\Render\Techniques\Technique.cpp" />
     <ClCompile Include="3_Modules\Scene\SceneManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Script\Assets\Script.cpp" />
     <ClCompile Include="3_Modules\Script\Components\Scripter.cpp" />
@@ -243,9 +241,6 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Render\Renderers\ForwardRenderer.h" />
     <ClInclude Include="3_Modules\Render\Renderers\Renderer.h" />
     <ClInclude Include="3_Modules\Render\RenderManagerImpl.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\ForwardBundle.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\ForwardTechnique.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\Technique.h" />
     <ClInclude Include="3_Modules\Scene\SceneManagerImpl.h" />
     <ClInclude Include="3_Modules\Script\Assets\Script.h" />
     <ClInclude Include="3_Modules\Script\ScriptManagerImpl.h" />

@@ -5,11 +5,11 @@
 #pragma once
 #include "../../../1_Required/Required.h"
 #include "../Assets/Shader.h"
+#include "../../../2_BuildingBlocks/Component.h"
 
 
 namespace CYRED
 {
-	class Technique;
 	class GL;
 	class GLContext;
 	class Node;
@@ -28,18 +28,44 @@ namespace CYRED
 
 		
 	public:
-		virtual void Render			( Node* root, GameObject* cameraGO, bool useAllScenes)	PURE_VIRTUAL;
-		virtual void OnResize		() PURE_VIRTUAL;
-		virtual void DisplayOnScreen() PURE_VIRTUAL;
+		/*****
+		* @desc: clear the previous frame
+		*/
+		virtual void ClearScreen	()					PURE_VIRTUAL;
+
+		/*****
+		* @desc: render the given component from given gameobject and its children
+		* @params: 
+		* 		compType	- the component to render
+		* 		target		- the target gameobject
+		* 		cameraGO	- camera
+		* 		lights		- the list of lights to be used
+		*/
+		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+									  GameObject** lights )	PURE_VIRTUAL;
+
+		virtual void OnResize		()					PURE_VIRTUAL;
+		virtual void DisplayOnScreen()					PURE_VIRTUAL;
 
 
 	public:
+		/*****
+		* @desc: prepare the renderer
+		* @params: 
+		* 		glAPI		- the global GL API
+		* 		glContext	- the context of the canvas
+		*/
 		void Initialize		( GL* glAPI, GLContext* glContext );
-		void SetTechnique	( Technique* technique );
 
 
 	protected:
-		virtual void _OnInitialize() PURE_VIRTUAL;
+		/*****
+		* @desc: apply specific initialization per renderer; 
+		*		 called at the end of Initialize()
+		*/
+		virtual void _OnInitialize	()					PURE_VIRTUAL;
+
+		
 
 
 	protected:
@@ -47,7 +73,6 @@ namespace CYRED
 
 
 	protected:
-		Technique*	_technique;
 		GL*			_gl;
 		GLContext*	_glContext;
 	};

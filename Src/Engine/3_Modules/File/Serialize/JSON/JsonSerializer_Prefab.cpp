@@ -67,7 +67,7 @@ void JsonSerializer_Prefab::FromJson( rapidjson::Value& json, OUT void* object, 
 	if ( json.HasMember( GAME_OBJECTS ) ) {
 		rapidjson::Value& gameObjects = json[GAME_OBJECTS];
 
-		for ( int i = 0; i < gameObjects.Size(); ++i )	{
+		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
 			prefab->GetRoot()->AddChildNode( gameObject );

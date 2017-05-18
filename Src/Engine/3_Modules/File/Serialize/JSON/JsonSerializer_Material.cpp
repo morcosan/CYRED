@@ -186,32 +186,25 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 		material->SetUniqueID( json[UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( SHADER ) )
-	{
-		if ( json[SHADER].IsNull() )
-		{
+	if ( json.HasMember( SHADER ) ) {
+		if ( json[SHADER].IsNull() ) {
 			material->SetShader( NULL );
 		}
-		else
-		{
+		else {
 			const char* uniqueID = json[SHADER].GetString();
 			Shader* shader = AssetManager::Singleton()->GetShader( uniqueID );
-			if ( shader == NULL )
-			{
+			if ( shader == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )
-				{
+				if ( isOk ) {
 					shader = Memory::Alloc<Shader>();
 					shader->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddShader( shader );
 				}
-				else
-				{
+				else {
 					Memory::Free( shader );
 					shader = NULL;
 				}
@@ -219,37 +212,29 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			material->SetShader( shader );
 		}
 	}
-	if ( json.HasMember( WIREFRAME ) )
-	{
+	if ( json.HasMember( WIREFRAME ) ) {
 		material->SetWireframe( json[WIREFRAME].GetBool() );
 	}
-	if ( json.HasMember( LINE_WIDTH ) )
-	{
+	if ( json.HasMember( LINE_WIDTH ) ) {
 		material->SetLineWidth( CAST_S( float, json[LINE_WIDTH].GetDouble() ) );
 	}
-	if ( json.HasMember( CULL_FACE ) )
-	{
+	if ( json.HasMember( CULL_FACE ) ) {
 		String cullFace( json[CULL_FACE].GetString() );
 
-		if ( cullFace == CULL_FACE_BACK )
-		{
+		if ( cullFace == CULL_FACE_BACK ) {
 			material->SetFaceCulling( FaceCulling::CULL_BACK );
 		}
-		else if ( cullFace == CULL_FACE_FRONT )
-		{
+		else if ( cullFace == CULL_FACE_FRONT ) {
 			material->SetFaceCulling( FaceCulling::CULL_FRONT );
 		}
-		else if ( cullFace == CULL_FACE_NONE )
-		{
+		else if ( cullFace == CULL_FACE_NONE ) {
 			material->SetFaceCulling( FaceCulling::CULL_NONE );
 		}
 	}
-	if ( json.HasMember( PROPERTIES ) )
-	{
+	if ( json.HasMember( PROPERTIES ) ) {
 		rapidjson::Value& properties = json[PROPERTIES];
 
-		for ( int i = 0; i < properties.Size(); ++i )
-		{
+		for ( int i = 0; i < CAST_S(int, properties.Size()); ++i ) {
 			rapidjson::Value& property = properties[i];
 
 			if ( property.HasMember( PROP_NAME ) &&
@@ -258,52 +243,41 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			{
 				String type( property[PROP_TYPE].GetString() );
 
-				if ( type == PROP_TYPE_FLOAT )
-				{
+				if ( type == PROP_TYPE_FLOAT ) {
 					material->SetProperty( property[PROP_NAME].GetString(),
 										   CAST_S( float, property[PROP_VALUE].GetDouble() ) );
 				}
-				else if ( type == PROP_TYPE_INT )
-				{
+				else if ( type == PROP_TYPE_INT ) {
 					material->SetProperty( property[PROP_NAME].GetString(),
 										   property[PROP_VALUE].GetInt() );
 				}
-				else if ( type == PROP_TYPE_VEC2 )
-				{
+				else if ( type == PROP_TYPE_VEC2 ) {
 					material->SetProperty( property[PROP_NAME].GetString(),
 										   _FromJsonVec2( property[PROP_VALUE] ) );
 				}
-				else if ( type == PROP_TYPE_VEC3 )
-				{
+				else if ( type == PROP_TYPE_VEC3 ) {
 					material->SetProperty( property[PROP_NAME].GetString(),
 										   _FromJsonVec3( property[PROP_VALUE] ) );
 				}
-				else if ( type == PROP_TYPE_VEC4 )
-				{
+				else if ( type == PROP_TYPE_VEC4 ) {
 					material->SetProperty( property[PROP_NAME].GetString(),
 										   _FromJsonVec4( property[PROP_VALUE] ) );
 				}
-				else if ( type == PROP_TYPE_TEX )
-				{
-					if ( property[PROP_VALUE].IsNull() )
-					{
+				else if ( type == PROP_TYPE_TEX ) {
+					if ( property[PROP_VALUE].IsNull() ) {
 						material->SetProperty( property[PROP_NAME].GetString(), NULL );
 					}
-					else
-					{
+					else {
 						const char* uniqueID = property[PROP_VALUE].GetString();
 						Texture* texture = AssetManager::Singleton()->GetTexture( uniqueID );
-						if ( texture == NULL )
-						{
+						if ( texture == NULL ) {
 							bool isOk = Random::ValidateUniqueID( uniqueID );
-							if ( isOk )
-							{
+							if ( isOk )	{
 								texture = Memory::Alloc<Texture>();
 								texture->SetUniqueID( uniqueID );
 								AssetManager::Singleton()->AddTexture( texture );
 							}
-							else
-							{
+							else {
 								Memory::Free( texture );
 								texture = NULL;
 							}

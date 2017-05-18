@@ -77,7 +77,7 @@ namespace CYRED
 
 
 	protected:
-		int 			_textureID;
+		uint 			_textureID;
 		TextureType		_textureType;
 		TextureLoadType	_loadType;
 		bool			_hasMipmap;

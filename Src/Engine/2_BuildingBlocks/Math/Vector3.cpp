@@ -85,14 +85,6 @@ void Vector3::operator*=( int other )
 }
 
 
-void Vector3::operator*=( int other )
-{
-	x *= other;
-	y *= other;
-	z *= other;
-}
-
-
 bool Vector3::operator==( const Vector3& other ) const
 {
 	glm::vec3 vec_self( x, y, z );
@@ -145,12 +137,6 @@ Vector3 Vector3::operator/( int value ) const
 }
 
 
-Vector3 Vector3::operator/( int value ) const
-{
-	return Vector3( x / value, y / value, z / value );
-}
-
-
 Vector3 Vector3::operator*( const Vector3& other ) const
 {
 	return Vector3( x * other.x, y * other.y, z * other.z );
@@ -158,12 +144,6 @@ Vector3 Vector3::operator*( const Vector3& other ) const
 
 
 Vector3 Vector3::operator*( float value ) const
-{
-	return Vector3( x * value, y * value, z * value );
-}
-
-
-Vector3 Vector3::operator*( int value ) const
 {
 	return Vector3( x * value, y * value, z * value );
 }

@@ -31,11 +31,9 @@ namespace CYRED
 		Vector2 operator/( const Vector2& other )	const;
 		Vector2 operator/( float other )			const;
 		Vector2 operator/( int other )				const;
-		Vector2 operator/( int other )				const;
 
 		Vector2 operator*( const Vector2& other )	const;
 		Vector2 operator*( float other )			const;
-		Vector2 operator*( int other )				const;
 		Vector2 operator*( int other )				const;
 
 		const float* Ptr();

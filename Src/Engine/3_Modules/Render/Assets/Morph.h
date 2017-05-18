@@ -31,26 +31,26 @@ namespace CYRED
 
 	public:
 		//! must be called in order for mesh to work
-		void			BindToGPU		();
+		void		BindToGPU		();
 
 		int			GetVBO			()				const;		
 		int			GetIBO			()				const;			
 		int			GetNumIndices	()				const;	
 		int			GetTotalStates	()				const;
 		int			GetActiveStates	()				const;
-		const char*		GetFilePath		( int index )	const;
+		const char*	GetFilePath		( int index )	const;
 
 		void SetTotalStates	( int value );
 		void SetFilePath	( int index, const char* filePath );
 
 
 	protected:
-		int					_vbo;
-		int					_ibo;
-		int					_numIndices;
+		uint	_vbo;
+		uint	_ibo;
+		int		_numIndices;
 		
-		int					_totalStates;
-		int					_activeStates;
-		String					_filePaths[MORPH_LIMIT];
+		int		_totalStates;
+		int		_activeStates;
+		String	_filePaths[MORPH_LIMIT];
 	};
 }

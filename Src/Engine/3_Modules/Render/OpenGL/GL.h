@@ -317,11 +317,11 @@ namespace CYRED
 		virtual void Initialize() PURE_VIRTUAL;
 
 		virtual void Viewport	( int x, int y, int width, int height )	PURE_VIRTUAL;
-		virtual void ClearColor	( float r, float g, float b, float a )		PURE_VIRTUAL;
+		virtual void ClearColor	( float r, float g, float b, float a )	PURE_VIRTUAL;
 		virtual void Clear		( int bitMask )							PURE_VIRTUAL;
 		
-		virtual void GenBuffers		( int n, OUT int* buffers )			PURE_VIRTUAL;
-		virtual void DeleteBuffers	( int n, int* buffers )				PURE_VIRTUAL;
+		virtual void GenBuffers		( int n, OUT uint* buffers )		PURE_VIRTUAL;
+		virtual void DeleteBuffers	( int n, uint* buffers )			PURE_VIRTUAL;
 		virtual void BindBuffer		( GLBuffer target, int buffer )		PURE_VIRTUAL;
 		virtual void BufferData		( GLBuffer target, int size, 
 									  const void* data, GLDrawType usage )	PURE_VIRTUAL;
@@ -335,29 +335,29 @@ namespace CYRED
 												  OUT int* params )					PURE_VIRTUAL;
 		virtual void	GetProgramInfoLog	( int program, int maxLength, 
 												  OUT int* size, OUT char* logs )	PURE_VIRTUAL;
-		virtual void	ValidateProgram		( int program )					PURE_VIRTUAL;
-		virtual int	CreateProgram		()									PURE_VIRTUAL;
-		virtual void	DeleteProgram		( int program )					PURE_VIRTUAL;
-		virtual int	CreateShader		( GLShader shaderType )				PURE_VIRTUAL;
-		virtual void	DeleteShader		( int shader )						PURE_VIRTUAL;
+		virtual void	ValidateProgram		( int program )							PURE_VIRTUAL;
+		virtual int	CreateProgram			()										PURE_VIRTUAL;
+		virtual void	DeleteProgram		( int program )							PURE_VIRTUAL;
+		virtual int	CreateShader			( GLShader shaderType )					PURE_VIRTUAL;
+		virtual void	DeleteShader		( int shader )							PURE_VIRTUAL;
 		virtual void	ShaderSource		( int shader, int count, const char** string, 
-												  const int* length  )				PURE_VIRTUAL;
-		virtual void	CompileShader		( int shader )						PURE_VIRTUAL;
-		virtual void	AttachShader		( int program, int shader )		PURE_VIRTUAL;
-		virtual void	DetachShader		( int program, int shader )		PURE_VIRTUAL;
-		virtual void	LinkProgram			( int program )					PURE_VIRTUAL;
-		virtual int		GetUniformLocation	( int program, const char* name )	PURE_VIRTUAL;
+											  const int* length  )					PURE_VIRTUAL;
+		virtual void	CompileShader		( int shader )							PURE_VIRTUAL;
+		virtual void	AttachShader		( int program, int shader )				PURE_VIRTUAL;
+		virtual void	DetachShader		( int program, int shader )				PURE_VIRTUAL;
+		virtual void	LinkProgram			( int program )							PURE_VIRTUAL;
+		virtual int		GetUniformLocation	( int program, const char* name )		PURE_VIRTUAL;
 		virtual void	GetActiveUniform	( int program, int index, int buffSize,
 											  OUT int* length, OUT int* size, OUT GLUniform& type, 
-											  OUT char* name )					PURE_VIRTUAL;
+											  OUT char* name )						PURE_VIRTUAL;
 	
-		virtual void	GenFramebuffers		( int size, OUT int* framebuffers )		PURE_VIRTUAL;
-		virtual void	DeleteFramebuffers	( int size, int* framebuffers )			PURE_VIRTUAL;
+		virtual void	GenFramebuffers		( int size, OUT uint* framebuffers )	PURE_VIRTUAL;
+		virtual void	DeleteFramebuffers	( int size, uint* framebuffers )		PURE_VIRTUAL;
 		virtual void	BindFramebuffer		( GLFrameBuffer target, int framebuffer )	PURE_VIRTUAL;
 		
-		virtual void	GenTextures			( int size, OUT int* textures )			PURE_VIRTUAL;
-		virtual void	DeleteTextures		( int size, int* textures )				PURE_VIRTUAL;
-		virtual void	BindTexture			( GLTexture target, int texture )			PURE_VIRTUAL;
+		virtual void	GenTextures			( int size, OUT uint* textures )		PURE_VIRTUAL;
+		virtual void	DeleteTextures		( int size, uint* textures )			PURE_VIRTUAL;
+		virtual void	BindTexture			( GLTexture target, int texture )		PURE_VIRTUAL;
 		virtual void	TexImage2D			( GLTextureImage target, int level, 
 											  GLTexInternal internalformat,
  											  int width, int height, int border, 

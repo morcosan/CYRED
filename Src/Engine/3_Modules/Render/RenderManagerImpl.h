@@ -28,38 +28,97 @@ namespace CYRED
 
 
 		public:
-			void Initialize		( GLContext* glContext, GL* gl )		override;
-			void Finalize		()										override;
-			int NewTechnique	( TechniqueType techType )				override;
-			int NewTechnique	( Technique* technique )				override;
-			int NewCanvas		( GLContext* glContext )				override;
-			void ChangeRenderer	( int canvasID, RendererType type )	override;
-			void ChangeRenderer	( int canvasID, Renderer* renderer )	override;
-			void ChangeTechnique( int canvasID, int techID )			override;
-			void Render			( int canvasID, Node* root, GameObject* cameraGO, 
-								  bool useAllScenes )					override;
+			/*****
+			* @desc: initialize manager by creating first canvas, with id 0
+			* @params: 
+			* 		glContext	- the context of the main window
+			* 		gl			- the OpenGL API
+			*/
+			void Initialize		( GLContext* glContext, GL* gl )	override;
+
+			/*****
+			* @desc: destroy the manager
+			* @assert: it was first initialized
+			*/
+			void Finalize		()									override;
+
+			/*****
+			* @desc: create a new canvas and activate it
+			* @params: 
+			* 		glContext - the context of the window
+			* @return: the index of the new canvas
+			*/
+			int  CreateCanvas	( GLContext* glContext )			override;
+
+			/*****
+			* @desc: change the current canvas
+			* @params: 
+			* 		canvasID - id of the new canvas
+			* @assert: canvas exists
+			*/
+			void SwitchCanvas	( int canvasID )					override;
+
+			/*****
+			* @desc: create a new renderer for current canvas
+			* @params: 
+			* 		rendererType - type of the renderer
+			* @assert: canvas is set
+			*/
+			void CreateRenderer	( RendererType rendererType )		override;
+
+			/*****
+			* @desc: change the current renderer
+			* @params: 
+			* 		rendererType - type of the renderer
+			* @assert: canvas is set
+			*/
+			void SwitchRenderer	( RendererType rendererType )		override;
+
+			/*****
+			* @desc: clear the previous frame
+			*/
+			void ClearScreen	()									override;
+
+			/*****
+			* @desc: render the given component from given gameobject and its children
+			* @params: 
+			* 		compType	- the component to render
+			* 		target		- the target gameobject
+			* 		cameraGO	- camera
+			* 		lights		- the list of lights to be used
+			* @assert: canvas and renderer are set
+			*/
+			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+								  GameObject** lights )					override;
+
+			/*****
+			* @desc: force resize for given canvas
+			* @params: 
+			* 		canvasID - id of canvas
+			* @assert: canvas exists
+			*/
 			void OnResize		( int canvasID )						override;
 
 
 		public:
-			void CreateMeshBuffers		( OUT int& vbo, OUT int& ibo,
+			void CreateMeshBuffers		( OUT uint& vbo, OUT uint& ibo,
 										  DataArray<Vertex>& vertices, DataArray<int>& indices );
-			void CreateMorphBuffers		( OUT int& vbo, OUT int& ibo,
+			void CreateMorphBuffers		( OUT uint& vbo, OUT uint& ibo,
 										  DataArray<MorphVertex>& vertices, DataArray<int>& indices );
-			void CreateParticleBuffers	( OUT int& vbo, OUT int& ibo,
+			void CreateParticleBuffers	( OUT uint& vbo, OUT uint& ibo,
 										  DataArray<ParticleVertex>& vertices, DataArray<int>& indices );
-			void DeleteBuffers			( int vbo, int ibo );
-			int CreateShaderProgram	( const char* vertexCode, const char* geometryCode,
+			void DeleteBuffers			( uint vbo, uint ibo );
+			int  CreateShaderProgram	( const char* vertexCode, const char* geometryCode,
 										  const char* fragmentCode );
 			void DeleteShaderProgram	( int programID );
-			int GetUniformLocation		( int programID, const char* uniform );
-			int GetUniformsCount		( int programID );
+			int  GetUniformLocation		( int programID, const char* uniform );
+			int  GetUniformsCount		( int programID );
 			void GetUniformInfo			( int programID, int index, int buffSize,
 										  OUT int* length, OUT char* name );
-			void CreateTexture2D		( OUT int& textureID, int width, int height, 
+			void CreateTexture2D		( OUT uint& textureID, int width, int height, 
 										  int channels, bool hasMipmap,
 										  uchar* imageBuffer );
-			void CreateCubeMapTexture	( OUT int& textureID, int width, int height, 
+			void CreateCubeMapTexture	( OUT uint& textureID, int width, int height, 
 										  int channels, bool hasMipmap,
 										  uchar* imageBuffer_PosX,
 										  uchar* imageBuffer_NegX,
@@ -67,21 +126,20 @@ namespace CYRED
 										  uchar* imageBuffer_NegY,
 										  uchar* imageBuffer_PosZ,
 										  uchar* imageBuffer_NegZ );
-			void DeleteTexture			( int textureID );
+			void DeleteTexture			( uint textureID );
 
 
 		protected:
 			struct _Canvas
 			{
-				GLContext*	glContext;
-				Renderer*	renderer;
+				GLContext*							glContext;	// encapsulation over window
+				DataMap<RendererType, Renderer*>	renderers;	// list of renderers
 			};
 
-			DataArray<_Canvas>		_canvases;
-			GL*						_gl;
-			DataArray<Technique*>	_techniques;
-
-			void _SetMainCanvas( GLContext* glContext );
+			int						_currCanvas;	// the id of current canvas
+			RendererType			_currRenderer;	// the current renderer for current canvas
+			DataArray<_Canvas>		_canvases;		// list of canvases
+			GL*						_gl;			// GL API
 
 			bool _IsShaderCompiled	( int shaderID )	const;
 			bool _IsProgramLinked	( int programID )	const;

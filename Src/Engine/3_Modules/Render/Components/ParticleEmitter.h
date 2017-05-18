@@ -92,15 +92,15 @@ namespace CYRED
 
 
 	protected:
-		int			_vbo;
-		int			_ibo;
+		uint		_vbo;
+		uint		_ibo;
 		int			_numIndices;
 
 		DataArray<ParticleVertex>	_vertices;
 		DataArray<int>				_indices;
 
 		//! simulation
-		int			_maxParticles;
+		int				_maxParticles;
 		float			_particleLifetime;
 		Vector3			_particleVelocity;
 		Vector3			_particleAcceleration;
@@ -109,7 +109,7 @@ namespace CYRED
 
 		//! spawning
 		float			_wavesPerSec;		
-		int			_particlesPerWave;		
+		int				_particlesPerWave;		
 		bool			_isLooping;
 		float			_spawnDuration;
 

@@ -72,7 +72,7 @@ void JsonSerializer_Script::FromJson( rapidjson::Value& json, OUT void* object,
 
 	if ( json.HasMember( FILE_PATHS ) ) {
 		rapidjson::Value& paths = json[FILE_PATHS];
-		for ( int i = 0; i < paths.Size(); ++i )
+		for ( int i = 0; i < CAST_S(int, paths.Size()); ++i )
 		{
 			script->SetFilePath( i, paths[i].GetString() );
 		}

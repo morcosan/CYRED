@@ -25,6 +25,7 @@
 #define CAST_D( Type, value )	dynamic_cast<Type>( value )
 #define NO_CONST( Type, value )	const_cast<Type>( value )
 
+#define ARRAY_SIZE( value )		sizeof( value ) / sizeof( value[0] );
 
 #ifdef NULL
 	#undef NULL
@@ -35,6 +36,7 @@
 namespace CYRED
 {
 	typedef unsigned char	uchar;
+	typedef size_t			uint;
 }
 
 #define TRUE	true

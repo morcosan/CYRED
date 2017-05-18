@@ -28,7 +28,6 @@ namespace CYRED
 		void	operator*=	( const Vector3& other );
 		void	operator*=	( float other );
 		void	operator*=	( int other );
-		void	operator*=	( int other );
 
 		bool	operator==	( const Vector3& other )	const;
 		bool	operator!=	( const Vector3& other )	const;
@@ -41,11 +40,9 @@ namespace CYRED
 		Vector3 operator/	( const Vector3& other )	const;
 		Vector3 operator/	( float other )				const;
 		Vector3 operator/	( int other )				const;
-		Vector3 operator/	( int other )				const;
 
 		Vector3 operator*	( const Vector3& other )	const;
 		Vector3 operator*	( float other )				const;
-		Vector3 operator*	( int other )				const;
 		Vector3 operator*	( int other )				const;
 
 		const float* Ptr();

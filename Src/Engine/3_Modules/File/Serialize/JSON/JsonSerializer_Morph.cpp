@@ -67,8 +67,7 @@ void JsonSerializer_Morph::FromJson( rapidjson::Value& json, OUT void* object,
 
 		morph->SetTotalStates( paths.Size() );
 
-		for ( int i = 0; i < paths.Size(); ++i )
-		{
+		for ( int i = 0; i < CAST_S(int, paths.Size()); ++i ) {
 			morph->SetFilePath( i, paths[i].GetString() );
 		}
 	}

@@ -49,14 +49,14 @@ void GLImpl_3_0::Clear( int bitMask )
 }
 
 
-void GLImpl_3_0::GenBuffers( int n, OUT int* buffers )
+void GLImpl_3_0::GenBuffers( int n, OUT uint* buffers )
 {
 	ASSERT( _qtGL != NULL );
 	_qtGL->glGenBuffers( n, buffers );
 }
 
 
-void GLImpl_3_0::DeleteBuffers( int n, int* buffers )
+void GLImpl_3_0::DeleteBuffers( int n, uint* buffers )
 {
 	ASSERT( _qtGL != NULL );
 
@@ -260,7 +260,7 @@ int GLImpl_3_0::GetUniformLocation( int program, const char* name )
 void GLImpl_3_0::GetActiveUniform( int program, int index, int buffSize, OUT int* length, 
 								   OUT int* size, OUT GLUniform& type, OUT char* name )
 {
-	int glType = GL_ZERO;
+	uint glType = GL_ZERO;
 
 	_qtGL->glGetActiveUniform( program, index, buffSize, length, size, &glType, name );
 
@@ -297,14 +297,14 @@ void GLImpl_3_0::GetActiveUniform( int program, int index, int buffSize, OUT int
 }
 
 
-void GLImpl_3_0::GenFramebuffers( int size, OUT int* framebuffers )
+void GLImpl_3_0::GenFramebuffers( int size, OUT uint* framebuffers )
 {
 	ASSERT( _qtGL != NULL );
 	_qtGL->glGenFramebuffers( size, framebuffers );
 }
 
 
-void GLImpl_3_0::DeleteFramebuffers( int size, int* framebuffers )
+void GLImpl_3_0::DeleteFramebuffers( int size, uint* framebuffers )
 {
 	ASSERT( _qtGL != NULL );
 	_qtGL->glDeleteFramebuffers( size, framebuffers );
@@ -324,7 +324,7 @@ void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, int framebuffer )
 }
 
 
-void GLImpl_3_0::GenTextures( int size, OUT int* textures )
+void GLImpl_3_0::GenTextures( int size, OUT uint* textures )
 {
 	ASSERT( _qtGL != NULL );
 
@@ -332,7 +332,7 @@ void GLImpl_3_0::GenTextures( int size, OUT int* textures )
 }
 
 
-void GLImpl_3_0::DeleteTextures( int size, int* textures )
+void GLImpl_3_0::DeleteTextures( int size, uint* textures )
 {
 	ASSERT( _qtGL != NULL );
 

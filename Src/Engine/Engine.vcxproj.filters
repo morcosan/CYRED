@@ -24,11 +24,9 @@
     <ClInclude Include="1_Required\CodingStyle.h" />
     <ClInclude Include="3_Modules\Render\Renderers\Renderer.h" />
     <ClInclude Include="3_Modules\Render\Renderers\ForwardRenderer.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\Technique.h" />
     <ClInclude Include="2_BuildingBlocks\Data\Iterator.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataMap.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataArray.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\ForwardTechnique.h" />
     <ClInclude Include="2_BuildingBlocks\Math\Vector2.h" />
     <ClInclude Include="2_BuildingBlocks\Composite\Node.h" />
     <ClInclude Include="3_Modules\Scene\SceneManagerImpl.h" />
@@ -56,7 +54,6 @@
     <ClInclude Include="3_Modules\Time\TimeManagerImpl.h" />
     <ClInclude Include="3_Modules\Time\TimeManager.h" />
     <ClInclude Include="2_BuildingBlocks\Components\Transform.h" />
-    <ClInclude Include="3_Modules\Render\Techniques\ForwardBundle.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\ParticleVertex.h" />
     <ClInclude Include="2_BuildingBlocks\Random\Random.h" />
     <ClInclude Include="3_Modules\Render\Components\ParticleEmitter.h" />
@@ -117,7 +114,6 @@
     <ClCompile Include="dll_main.cpp" />
     <ClCompile Include="3_Modules\Render\RenderManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Render\Renderers\ForwardRenderer.cpp" />
-    <ClCompile Include="3_Modules\Render\Techniques\ForwardTechnique.cpp" />
     <ClCompile Include="3_Modules\Render\OpenGL\GLContext.cpp" />
     <ClCompile Include="2_BuildingBlocks\Component.cpp" />
     <ClCompile Include="2_BuildingBlocks\GameObject.cpp" />
@@ -136,7 +132,6 @@
     <ClCompile Include="3_Modules\Render\Components\MeshRendering.cpp" />
     <ClCompile Include="3_Modules\Asset\AssetManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Render\Renderers\Renderer.cpp" />
-    <ClCompile Include="3_Modules\Render\Techniques\Technique.cpp" />
     <ClCompile Include="3_Modules\File\FileManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Material.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Mesh.cpp" />
