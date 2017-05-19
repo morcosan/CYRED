@@ -166,7 +166,11 @@ void Menu_AssetFolder::A_Create_Folder()
 	treeItem->setText( 0, folderName.GetChar() );
 	treeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	treeItem->setWhatsThis( 1, folderPath.GetChar() ); 
-	treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled | 
+						Qt::ItemIsDragEnabled |
+						Qt::ItemIsDropEnabled | 
+						Qt::ItemIsEditable );
 	treeItem->setIcon( 0, *EditorUtils::GetIcon( EditorUtils::ICON_FOLDER ) );
 
 	if ( parentItem != NULL ) {

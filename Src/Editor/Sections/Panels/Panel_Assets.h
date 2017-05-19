@@ -7,7 +7,6 @@
 #include "CyredBuildingBlocks.h"
 #include "../Panel.h"
 
-class QTreeWidget;
 class QTreeWidgetItem;
 class QMenu;
 class QFileSystemWatcher;
@@ -63,7 +62,9 @@ namespace CYRED
 
 
 	private:
-		QTreeWidget*			_qtTree;
+		class _QtTree;
+
+		_QtTree*				_qtTree;
 		QFileSystemWatcher*		_qtFileWatcher;
 
 		Menu_Asset*				_menuAsset;

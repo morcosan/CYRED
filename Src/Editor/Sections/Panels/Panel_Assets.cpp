@@ -31,6 +31,61 @@
 using namespace CYRED;
 
 
+class Panel_Assets::_QtTree : public QTreeWidget
+{
+public:
+	void dropEvent( QDropEvent* e )
+	{
+		// get moved item
+		CustomTreeItem* movedItem = CAST_S( CustomTreeItem*, this->currentItem() );
+		// get old parent item
+		CustomTreeItem* prevParent = CAST_S( CustomTreeItem*, movedItem->parent() );
+		// get the order in the old hierarchy
+		int prevIndexInHierarchy = prevParent->indexOfChild( movedItem );
+
+		// apply the drop event
+		QTreeWidget::dropEvent( e );	
+
+		// get new parent item
+		CustomTreeItem* newParent = CAST_S( CustomTreeItem*, movedItem->parent() );
+		// check if drop is outside root
+		if ( newParent == NULL ) {
+			// if so, reset drop
+			// remove from tree
+			int tmpIndex = this->indexOfTopLevelItem( movedItem );
+			this->takeTopLevelItem( tmpIndex );
+			// add back to old position
+			prevParent->insertChild( prevIndexInHierarchy, movedItem );
+			// select item
+			this->setCurrentItem( movedItem );
+			// exit
+			return;
+		}
+		// check if parent not folder
+		else if ( newParent->whatsThis(0).compare( EditorUtils::NAME_FOLDER ) != 0 ) {
+			// if so, reset drop
+			// remove from tree
+			int tmpIndex = newParent->indexOfChild( movedItem );
+			newParent->takeChild( tmpIndex );
+			// add back to old position
+			prevParent->insertChild( prevIndexInHierarchy, movedItem );
+			// select item
+			this->setCurrentItem( movedItem );
+			// exit
+			return;
+		}
+
+		// select item
+		this->setCurrentItem( movedItem );
+
+		// get the order in the new hierarchy
+		int indexInHierarchy = newParent->indexOfChild( movedItem );
+
+		// move file on disk
+	}
+};
+
+
 Panel_Assets::Panel_Assets()
 {
 	this->setWindowTitle( PANEL_TITLE );
@@ -52,8 +107,10 @@ Panel_Assets::Panel_Assets()
 	QWidget* topBarWidget = Memory::Alloc<QWidget>();
 	topBarWidget->setLayout( topBarLayout );
 
-	_qtTree = Memory::Alloc<QTreeWidget>();
+	_qtTree = Memory::Alloc<_QtTree>();
 	_qtTree->setHeaderHidden( true );
+	_qtTree->setDragEnabled( true );
+	_qtTree->setDragDropMode( QAbstractItemView::InternalMove );
 	_qtTree->setObjectName( EditorSkin::ASSET_TREE );
 	_qtTree->setEditTriggers( QAbstractItemView::NoEditTriggers );
 
@@ -253,8 +310,11 @@ void Panel_Assets::A_RightClickMenu( const QPoint& pos )
 			_menuAsset->Open( pos );
 		}
 		else if ( treeItem == NULL || treeItem->whatsThis(0).compare( EditorUtils::NAME_FOLDER ) == 0 ) {
-			// open folder menu
-			_menuAssetFolder->Open( pos );
+			// ignore root folders
+			if ( treeItem->parent() != NULL ) {
+				// open folder menu
+				_menuAssetFolder->Open( pos );
+			}
 		}
 		else {
 			// open unknown menu
@@ -314,7 +374,11 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 	FiniteString filePath( "%s%s%s", asset->GetDirPath(), asset->GetName(), asset->GetExtension() );
 	treeItem->asset = asset;
 	treeItem->setWhatsThis( 1, filePath.GetChar() ); 
-	treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled | 
+						Qt::ItemIsDragEnabled |
+						Qt::ItemIsDropEnabled | 
+						Qt::ItemIsEditable );
 	treeItem->setText( 0, asset->GetName() );
 	treeItem->setIcon( 0, *EditorUtils::GetIcon( icon ) );
 
@@ -331,7 +395,7 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 
 
 void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath, 
-								   QTreeWidgetItem* parentItem )
+								    QTreeWidgetItem* parentItem )
 {
 	ASSERT( _isInitialized );
 
@@ -340,7 +404,20 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 	dirTreeItem->setText( 0, dirName );
 	dirTreeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	dirTreeItem->setWhatsThis( 1, dirPath ); 
-	dirTreeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
+
+	if ( parentItem == _qtTree->invisibleRootItem() ) {
+		// root folder
+		dirTreeItem->setFlags( Qt::ItemIsDropEnabled | Qt::ItemIsEnabled );
+	}
+	else {
+		// normal folder
+		dirTreeItem->setFlags( Qt::ItemIsSelectable | 
+							   Qt::ItemIsEnabled | 
+							   Qt::ItemIsDragEnabled |
+							   Qt::ItemIsDropEnabled | 
+							   Qt::ItemIsEditable );
+	}
+	
 	dirTreeItem->setIcon( 0, *EditorUtils::GetIcon( EditorUtils::ICON_FOLDER ) );
 	// add to panel
 	parentItem->addChild( dirTreeItem );
@@ -575,7 +652,11 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 			CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 			treeItem->asset = asset;
 			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
-			treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
+			treeItem->setFlags( Qt::ItemIsSelectable | 
+								Qt::ItemIsEnabled |
+								Qt::ItemIsDragEnabled |
+								Qt::ItemIsDropEnabled | 
+								Qt::ItemIsEditable );
 			treeItem->setText( 0, fileName );
 			treeItem->setIcon( 0, icon );
 
