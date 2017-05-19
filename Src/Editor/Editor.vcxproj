@@ -105,6 +105,9 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Texture.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Transform.cpp" />
     <ClCompile Include="Sections\Builders\ProjectBuilderImpl.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_Asset.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_AssetFolder.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_AssetUnknown.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
@@ -165,6 +168,9 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Transform.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilder.h" />
     <ClInclude Include="Sections\Builders\ProjectBuilderImpl.h" />
+    <ClInclude Include="Sections\Menus\Menu_Asset.h" />
+    <ClInclude Include="Sections\Menus\Menu_AssetFolder.h" />
+    <ClInclude Include="Sections\Menus\Menu_AssetUnknown.h" />
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
     <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 Morco (www.morco.ro)
+// Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
 #pragma once
@@ -10,7 +10,7 @@
 namespace CYRED
 {
 	class GameObject;
-	class Scene;
+	class Asset;
 }
 
 
@@ -20,12 +20,17 @@ namespace CYRED
 	{
 	public:
 		CustomTreeItem() {}
-		virtual ~CustomTreeItem() {}
+		virtual ~CustomTreeItem()
+		{
+			while ( childCount() > 0 ) {
+				Memory::Free( takeChild(0) );
+			}
+		}
 
 
 	public:
 		Asset*		asset;
-		int		assetIndex;
+		int			assetIndex;
 		GameObject* gameObject;
 	};
 }

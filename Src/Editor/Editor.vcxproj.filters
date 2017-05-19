@@ -58,6 +58,9 @@
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
     <ClCompile Include="Sections\Viewports\PrefabViewport.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_AssetFolder.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_Asset.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_AssetUnknown.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -119,5 +122,8 @@
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
     <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
     <ClInclude Include="Sections\Viewports\PrefabViewport.h" />
+    <ClInclude Include="Sections\Menus\Menu_AssetFolder.h" />
+    <ClInclude Include="Sections\Menus\Menu_Asset.h" />
+    <ClInclude Include="Sections\Menus\Menu_AssetUnknown.h" />
   </ItemGroup>
 </Project>
