@@ -81,7 +81,36 @@ public:
 		// get the order in the new hierarchy
 		int indexInHierarchy = newParent->indexOfChild( movedItem );
 
-		// move file on disk
+		// move file on disk, also works for directories
+		QFileInfo fileInfo( movedItem->whatsThis(1) );
+		// create new path
+		QString newFilePath( newParent->whatsThis( 1 ) );
+		if ( fileInfo.isDir() ) {
+			newFilePath.append( movedItem->text(0) ).append("/");
+		}
+		else {
+			newFilePath.append( fileInfo.fileName() );
+		}
+
+		// move file
+		bool success = QDir().rename( movedItem->whatsThis(1), newFilePath );
+
+		if ( success ) {
+			// update file path
+			this->blockSignals( true );
+			movedItem->setWhatsThis( 1, newFilePath );
+			this->blockSignals( false );
+		}
+		else {
+			// reset drop
+			// remove from tree
+			int tmpIndex = newParent->indexOfChild( movedItem );
+			newParent->takeChild( tmpIndex );
+			// add back to old position
+			prevParent->insertChild( prevIndexInHierarchy, movedItem );
+			// select item
+			this->setCurrentItem( movedItem );
+		}
 	}
 };
 
@@ -404,6 +433,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 	dirTreeItem->setText( 0, dirName );
 	dirTreeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	dirTreeItem->setWhatsThis( 1, dirPath ); 
+	dirTreeItem->setIcon( 0, *EditorUtils::GetIcon( EditorUtils::ICON_FOLDER ) );
 
 	if ( parentItem == _qtTree->invisibleRootItem() ) {
 		// root folder
@@ -418,7 +448,6 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 							   Qt::ItemIsEditable );
 	}
 	
-	dirTreeItem->setIcon( 0, *EditorUtils::GetIcon( EditorUtils::ICON_FOLDER ) );
 	// add to panel
 	parentItem->addChild( dirTreeItem );
 
