@@ -17,14 +17,13 @@ namespace CYRED
 
 	public:
 		virtual void Create				()						PURE_VIRTUAL;
-
 		virtual void MakeCurrent		()						PURE_VIRTUAL;
 		virtual void SwapBuffers		()						PURE_VIRTUAL;
-
 		virtual void OnResize			()						PURE_VIRTUAL;
-
 		virtual void SetSharedContext	( GLContext* other )	PURE_VIRTUAL;
 
+
+	public:
 		int GetWidth	();
 		int GetHeight	();
 

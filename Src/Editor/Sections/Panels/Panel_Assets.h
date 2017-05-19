@@ -7,8 +7,6 @@
 #include "CyredBuildingBlocks.h"
 #include "../Panel.h"
 
-#include "QtGui\qicon.h"
-
 class QTreeWidget;
 class QTreeWidgetItem;
 class QMenu;
@@ -33,10 +31,6 @@ namespace CYRED
 
 		const char* const	BUTTON_RELOAD	= "Reload";
 
-		const char* const	TYPE_FOLDER		= "Folder";
-
-		const char* const	MENU_CREATE			= "Create";
-
 		const char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
 		const char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
 		const char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
@@ -56,33 +50,20 @@ namespace CYRED
 
 
 	public:
-		void A_ItemClicked		( QTreeWidgetItem* item, int column );
-		void A_Item2xClicked	( QTreeWidgetItem* item, int column );
-		void A_ItemRenamed		( QTreeWidgetItem* item, int column );
-		void A_RightClickMenu	( const QPoint& pos );
-
-		void A_Create_Folder	();
-		void A_Create_Mat_Empty	();
-		void A_Create_Mat_PS	();
-		void A_Create_Tex_2D	();
-		void A_Create_Tex_CM	();
-		void A_Create_Shader	();
-		void A_Create_Mesh		();
-		void A_Create_Morph		();
-		void A_Create_Script	();
-
-		void A_DirChanged		( const QString& path );
-
-		void A_ReloadAll		();
+		void			A_ItemClicked	( QTreeWidgetItem* item, int column );
+		void			A_Item2xClicked	( QTreeWidgetItem* item, int column );
+		void			A_ItemRenamed	( QTreeWidgetItem* item, int column );
+		void			A_RightClickMenu( const QPoint& pos );
+		void			A_DirChanged	( const QString& path );
+		void			A_ReloadAll		();
 
 		void			ReloadAllAssets	();
 		CustomTreeItem*	AddAssetToTree	( Asset* asset, QTreeWidgetItem* parentItem, 
 										  const char* icon );
 
 
-	protected:
+	private:
 		QTreeWidget*			_qtTree;
-		DataMap<String, QIcon>	_icons;
 		QFileSystemWatcher*		_qtFileWatcher;
 
 		Menu_Asset*				_menuAsset;
@@ -90,17 +71,11 @@ namespace CYRED
 		Menu_AssetUnknown*		_menuAssetUnknown;
 
 
-	protected:
-		void			_LoadIcons				();
+	private:
 		void			_ParseDirectory			( const char* dirName, const char* dirPath, 
 												  QTreeWidgetItem* parentItem );
-		Asset*			_AddNewAsset			( const char* dirPath, QTreeWidgetItem* parentItem,
-												  AssetType assetType );
 		void			_CreateRightClickMenu	();
-		void			_AddRightClickActions	( QTreeWidgetItem* item );
 		void			_SaveAssetToFile		( Asset* asset, const char* oldName );
-		
-
 		CustomTreeItem*	_FindTreeItem			( Asset* asset );
 		CustomTreeItem*	_FindFolderItem			( const char* dirPath );
 	};

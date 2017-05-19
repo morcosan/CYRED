@@ -35,16 +35,16 @@ namespace CYRED
 		void A_CameraButton();
 
 
-	protected:
+	private:
 		static DataMap<TechniqueType, int>	_techSlots;
 
 
-	protected:
+	private:
 		QComboBox*		_qtCameraDropdown;
 		QPushButton*	_qtCameraButton;
 
 
-	protected:
+	private:
 		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;
@@ -52,7 +52,7 @@ namespace CYRED
 		virtual void		_OnUpdate		() override;
 
 
-	protected:
+	private:
 		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 	};
 }

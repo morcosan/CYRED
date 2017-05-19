@@ -43,13 +43,13 @@ namespace CYRED
 		void	ClearScripts	();
 
 
-	protected:
+	private:
 		void _OnEnable	() override {}
 		void _OnStart	( bool isRuntime ) override;
 		void _OnUpdate	( bool isRuntime ) override;
 
 
-	protected:
+	private:
 		DataArray<Script*>	_scripts;
 		DataArray<Asset*>	_scriptsAsset;
 	};

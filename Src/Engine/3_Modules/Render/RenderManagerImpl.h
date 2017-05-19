@@ -134,7 +134,7 @@ namespace CYRED
 			void DeleteTexture			( uint textureID );
 
 
-		protected:
+		private:
 			struct _Canvas
 			{
 				GLContext*							glContext;	// encapsulation over window

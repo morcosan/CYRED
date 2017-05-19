@@ -82,7 +82,7 @@ namespace CYRED
 		void LoadLuaFiles	( bool clearVars = TRUE );
 
 
-	protected:
+	private:
 		bool				_runsInEditor;
 		bool				_isFirstUpdate;
 		DataArray<String>	_filePaths;
@@ -93,7 +93,7 @@ namespace CYRED
 		luabridge::LuaRef*					_luaVarsRef;
 
 
-	protected:
+	private:
 		void _LoadLuaData	( const char* luaData );
 		void _AddLuaFunc	( const char* funcName );
 		void _LoadLuaVars	();

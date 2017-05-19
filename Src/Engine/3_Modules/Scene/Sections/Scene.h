@@ -39,7 +39,7 @@ namespace CYRED
 		void	ClearRoot	();
 
 
-	protected:
+	private:
 		GameObject*	_mainCameraGO;
 		Node*		_root;
 	};

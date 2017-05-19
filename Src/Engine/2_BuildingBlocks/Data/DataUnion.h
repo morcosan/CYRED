@@ -61,7 +61,7 @@ namespace CYRED
 		ValueType	GetValueType() const;
 
 
-	protected:
+	private:
 		void*		_value;
 		ValueType	_type;
 	};

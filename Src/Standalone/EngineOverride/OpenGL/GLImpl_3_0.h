@@ -107,7 +107,7 @@ namespace CYRED
 							  int buffer )									override;
 
 
-	protected:
+	private:
 		bool _isInitialized;
 	};
 }

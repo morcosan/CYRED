@@ -33,7 +33,7 @@ namespace CYRED
 		void Run( int& argc, char* argv[] );
 
 
-	protected:
+	private:
 		GLFWwindow* _glfwWindow;
 		GLContext*	_glContext;
 
@@ -44,7 +44,7 @@ namespace CYRED
 		AppConfig	_appConfig;
 
 
-	protected:
+	private:
 		/* prepares the application for exit				*/
 		/* called once before closing the editor			*/
 		void _CleanUp			();

@@ -60,7 +60,7 @@ namespace CYRED
 		void RefreshPanel	();
 
 
-	protected:
+	private:
 		struct _AttrViewer
 		{
 			bool		needsRefresh;

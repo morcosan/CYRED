@@ -45,7 +45,7 @@ namespace CYRED
 		Iterator<TKey, TValue>	GetIterator() const;
 
 		
-	protected:
+	private:
 		std::map<TKey, TValue>* _map;
 	};
 

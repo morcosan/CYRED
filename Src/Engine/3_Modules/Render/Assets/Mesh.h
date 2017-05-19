@@ -58,7 +58,7 @@ namespace CYRED
 		void AddIndex		( int index );
 
 
-	protected:
+	private:
 		uint				_vbo;
 		uint				_ibo;
 		int					_numIndices;

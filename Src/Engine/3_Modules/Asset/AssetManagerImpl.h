@@ -77,7 +77,7 @@ namespace CYRED
 			Prefab*		GetPrefabAt		( int index )				override;
 
 
-		protected:
+		private:
 			DataArray<Material*>	_materials;
 			DataArray<Shader*>		_shaders;
 			DataArray<Mesh*>		_meshes;

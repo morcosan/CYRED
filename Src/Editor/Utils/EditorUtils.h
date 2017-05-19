@@ -3,12 +3,9 @@
 
 #pragma once
 #include "CyredRequired.h"
+#include "CyredBuildingBlocks.h"
 
-
-namespace CYRED
-{
-	class Asset;
-}
+class QIcon;
 
 
 namespace CYRED
@@ -42,8 +39,14 @@ namespace CYRED
 
 
 	public:
-		static void SetAvailableName	( Asset* asset );
-		static bool IsFilePathDuplicate	( Asset* asset );
+		static void		Initialize			();
+		static void		SetAvailableName	( Asset* asset );
+		static bool		IsFilePathDuplicate	( Asset* asset );
+		static QIcon*	GetIcon				( const char* iconName );
+
+
+	private:
+		static DataMap<String, QIcon*>	_icons;
 
 
 	private:

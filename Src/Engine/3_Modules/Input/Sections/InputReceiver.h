@@ -18,8 +18,7 @@ namespace CYRED
 
 	public:
 		void		ClearQueue		();
-
-		int		GetEventsCount	();
+		int			GetEventsCount	();
 		InputEvent&	GetEventAt		( int index );
 
 

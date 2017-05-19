@@ -67,7 +67,7 @@ namespace CYRED
 		void A_Magic();
 
 
-	protected:
+	private:
 		DataMap<MenuAction, QAction*> _menuActions;		/* only the default actions are stored */
 
 		void _AddMenu_Scene		();

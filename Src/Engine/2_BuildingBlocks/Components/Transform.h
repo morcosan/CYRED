@@ -88,11 +88,11 @@ namespace CYRED
 		void ScaleByConstant		( const Vector3& value );
 
 
-	protected:
+	private:
 		void _OnEnable() override;
 
 
-	protected:
+	private:
 		Vector3		_positionWorld;
 		Quaternion	_rotationWorld;
 		Vector3		_scaleWorld;

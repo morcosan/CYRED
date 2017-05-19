@@ -27,14 +27,14 @@ namespace CYRED
 		virtual ~AttrViewer_Camera() {}
 
 
-	protected:
+	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
 		void _OnUpdateGUI		()					override;
 		void _OnUpdateTarget	()					override;
 
 
-	protected:
+	private:
 		Camera*		_target;
 
 		DataArray<const char*>	_cameraTypes;

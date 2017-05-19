@@ -28,7 +28,7 @@ namespace CYRED
 			void EmitEvent			( EventType eType, void* eData )				override;
 
 
-		protected:
+		private:
 			DataArray< DataArray<IEventListener*> > _listeners;
 
 			//! eType is required int for the ALL case

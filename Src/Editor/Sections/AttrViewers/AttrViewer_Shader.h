@@ -33,14 +33,14 @@ namespace CYRED
 		virtual ~AttrViewer_Shader() {}
 
 
-	protected:
+	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
 		void _OnUpdateGUI		()					override;
 		void _OnUpdateTarget	()					override;
 
 
-	protected:
+	private:
 		Shader* _target;
 	};
 }

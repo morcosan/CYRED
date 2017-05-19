@@ -30,7 +30,7 @@ namespace CYRED
 			double	GetGameTime			()					override;
 
 
-		protected:
+		private:
 			int	_desiredFPS;
 			float	_deltaTime;
 			float	_renderDeltaTime;

@@ -46,12 +46,12 @@ namespace CYRED
 		void		SetIsPlaying			( bool value );
 
 
-	protected:
+	private:
 		void _OnEnable()				 override {}
 		void _OnUpdate( bool isRuntime ) override;
 
 
-	protected:
+	private:
 		Material*	_material;
 		Morph*		_morph;
 

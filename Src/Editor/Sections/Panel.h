@@ -54,6 +54,8 @@ namespace CYRED
 	protected:
 		bool	_isInitialized;	/* flag to check if panel was initialized */
 
+
+	protected:
 		/* handle for resize event */
 		virtual void _OnResize() {};
 	};

@@ -28,7 +28,7 @@ namespace CYRED
 			lua_State* GetLuaState() const override;
 
 
-		protected:
+		private:
 			lua_State*	_L;
 
 			void _OverrideLuaFunc();

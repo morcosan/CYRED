@@ -73,7 +73,7 @@ namespace CYRED
 		void		ClearProperties		();
 
 
-	protected:
+	private:
 		struct _Property
 		{
 			String		name;

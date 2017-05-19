@@ -33,7 +33,7 @@ namespace CYRED
 			int			GetWindowForCursor	()							override;
 
 
-		protected:
+		private:
 			InputReceiver*		_receiver;
 
 			DataMap<int, int>	_keyState;

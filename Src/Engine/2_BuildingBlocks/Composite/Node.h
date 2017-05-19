@@ -39,6 +39,8 @@ namespace CYRED
 		Node*				_parentNode;	//! the parent
 		DataArray<Node*>	_childNodes;	//! list of children
 
+
+	protected:
 		void _RemoveChildNode( Node* childNode );
 	};
 

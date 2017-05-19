@@ -65,8 +65,6 @@ namespace CYRED
 		*/
 		virtual void _OnInitialize	()					PURE_VIRTUAL;
 
-		
-
 
 	protected:
 		static Shader* _screenQuadShader;

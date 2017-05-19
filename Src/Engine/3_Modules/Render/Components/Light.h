@@ -59,11 +59,11 @@ namespace CYRED
 		void SetLightTypeString	( const char* value );
 
 
-	protected:
+	private:
 		void _OnEnable() override {}
 
 
-	protected:
+	private:
 		LightType	_lightType;
 		Vector3		_color;
 		float		_intensity;

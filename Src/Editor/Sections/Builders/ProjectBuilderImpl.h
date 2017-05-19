@@ -33,7 +33,7 @@ namespace CYRED
 		virtual void BuildAndroid( const char* buildPath )	override;
 
 
-	protected:
+	private:
 		void _BuildTextureFile	( Texture* asset );
 		void _BuildSceneFile	( Scene* asset );
 		void _BuildMaterialFile	( Material* asset );

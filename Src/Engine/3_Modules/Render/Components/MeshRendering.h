@@ -36,11 +36,11 @@ namespace CYRED
 		void		SetMesh		( Mesh* value );
 
 
-	protected:
+	private:
 		void _OnEnable() override {}
 
 
-	protected:
+	private:
 		Material*	_material;
 		Mesh*		_mesh;
 	};

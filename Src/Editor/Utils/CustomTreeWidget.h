@@ -28,7 +28,7 @@ namespace CYRED
 		void SetAttrViewer		( AttrViewer* attrViewer );
 
 
-	protected:
+	private:
 		AttrViewer* _attrViewer;
 
 		int _CalculateHeightRec( QTreeWidgetItem* item );

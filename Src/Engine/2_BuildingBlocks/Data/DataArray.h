@@ -36,7 +36,7 @@ namespace CYRED
 		const TValue* Data() const;
 
 
-	protected:
+	private:
 		std::vector<TValue>* _vector;	//! STL vector used under the hood
 	};
 

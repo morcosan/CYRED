@@ -15,9 +15,7 @@
 
 #include "Sections\MenuBar.h"
 #include "Sections\Toolbar.h"
-
 #include "Sections\Builders\ProjectBuilder.h"
-
 #include "Sections\Panels\Panel_SceneHierarchy.h"
 #include "Sections\Panels\Panel_Attributes.h"
 #include "Sections\Panels\Panel_Assets.h"
@@ -25,11 +23,12 @@
 #include "Sections\Panels\Panel_PrefabHierarchy.h"
 #include "Sections\Viewports\SceneViewport.h"
 #include "Sections\Viewports\PrefabViewport.h"
-
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
 #include "Sections\Serialize\JSON\JsonSerializer_CyredProj.h"
+
+#include "Utils\EditorUtils.h"
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
@@ -65,7 +64,7 @@ public:
 		_appImpl->Exit();
 	}
 
-protected:
+private:
 	EditorApp* _appImpl;
 };
 
@@ -378,6 +377,8 @@ void EditorApp::_CreateManagers()
 
 void EditorApp::_InitializeManagers()
 {
+	EditorUtils::Initialize();
+
 	_inputReceiver = Memory::Alloc<InputReceiverQT>();
 
 	EventManager::Singleton()->Initialize();

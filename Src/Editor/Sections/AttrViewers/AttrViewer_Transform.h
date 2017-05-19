@@ -40,14 +40,14 @@ namespace CYRED
 		virtual ~AttrViewer_Transform() {}
 
 
-	protected:
+	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
 		void _OnUpdateGUI		()					override;
 		void _OnUpdateTarget	()					override;
 
 
-	protected:
+	private:
 		Transform* _target;
 	};
 }

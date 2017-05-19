@@ -73,7 +73,7 @@ namespace CYRED
 			void		FindClosestLights( GameObject* target, OUT DataArray<GameObject*>& lightsGO );
 
 
-		protected:
+		private:
 			struct StoredScene
 			{
 				Scene* scene;
@@ -87,7 +87,7 @@ namespace CYRED
 			GameObject*				_mainCameraGO;
 
 
-		protected:
+		private:
 			GameObject* _RecFindActiveCamera( Node* parent );
 		};
 	}

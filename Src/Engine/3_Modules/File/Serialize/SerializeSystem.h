@@ -33,7 +33,7 @@ namespace CYRED
 		virtual Vector4		DeserializeVec4	( const char* data )	PURE_VIRTUAL;
 
 
-	protected:
+	private:
 		DataMap<TYPE_INDEX, Serializer*>	_serializers;
 	};
 

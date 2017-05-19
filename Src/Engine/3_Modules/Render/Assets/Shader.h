@@ -47,7 +47,7 @@ namespace CYRED
 		int	GetUniformLocation	( const char* uniform )	const;
 
 
-	protected:
+	private:
 		struct _FilesPaths
 		{
 			String vertex;

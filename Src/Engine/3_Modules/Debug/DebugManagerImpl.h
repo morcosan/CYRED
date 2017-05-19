@@ -33,7 +33,7 @@ namespace CYRED
 			void LogVec4	( const Vector4& value )		override;
 
 
-		protected:
+		private:
 			bool		_enabled;
 		};
 	}

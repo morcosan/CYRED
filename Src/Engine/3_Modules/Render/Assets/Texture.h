@@ -76,7 +76,7 @@ namespace CYRED
 		void SetPixel		( int bufferIndex, int pixelIndex, uchar pixelValue );
 
 
-	protected:
+	private:
 		uint 			_textureID;
 		TextureType		_textureType;
 		TextureLoadType	_loadType;

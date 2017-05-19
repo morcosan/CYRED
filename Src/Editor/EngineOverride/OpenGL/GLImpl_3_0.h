@@ -109,7 +109,7 @@ namespace CYRED
 							  int buffer )										override;
 
 
-	protected:
+	private:
 		QOpenGLFunctions_3_0*  _qtGL;
 	};
 }

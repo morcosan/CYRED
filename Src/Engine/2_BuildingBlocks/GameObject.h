@@ -58,7 +58,7 @@ namespace CYRED
 		template <class T> void	RemoveComponent	();
 
 
-	protected:
+	private:
 		String	_name;
 		bool	_enabled;
 		int	_uid;	// unique index

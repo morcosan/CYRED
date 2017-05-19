@@ -39,7 +39,7 @@ namespace CYRED
 		GLContext*	GetGLContext	();
 
 
-	protected:
+	private:
 		class _QtWindow : public QWindow
 		{
 		public:
@@ -49,7 +49,7 @@ namespace CYRED
 			{
 			} 
 
-		protected:
+		private:
 			void keyPressEvent		( QKeyEvent* e )	override;
 			void keyReleaseEvent	( QKeyEvent* e )	override;
 			void mouseMoveEvent		( QMouseEvent* e )	override;
@@ -58,17 +58,17 @@ namespace CYRED
 			void wheelEvent			( QWheelEvent* e )	override;
 			void focusOutEvent		( QFocusEvent* e )	override;
 
-		protected:
+		private:
 			int					_windowIndex;
 			InputReceiverQT*	_inputReceiver;
 		};
 
 
-	protected:
+	private:
 		void _OnResize() override;
 
 
-	protected:
+	private:
 		virtual const char*	_GetPanelTitle	() PURE_VIRTUAL;
 		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
 		virtual void		_OnInitialize	() PURE_VIRTUAL;
@@ -88,7 +88,7 @@ namespace CYRED
 		QHBoxLayout*	_qtTopBarLayout;
 
 
-	protected:
+	private:
 		void	_CreateCanvasSlot();
 	};
 }

@@ -56,7 +56,7 @@ namespace CYRED
 		InputReceiverQT* GetInputReceiver();
 
 
-	protected:
+	private:
 		class _QtMainWindow;	/* internal class wrapper for QMainWindow	*/
 		class _QtWindow;		/* internal class wrapper for QWindow		*/
 
@@ -82,7 +82,7 @@ namespace CYRED
 		InputReceiverQT*		_inputReceiver;	/* object for receiving input events	*/
 
 
-	protected:
+	private:
 		/* prepares the application for exit				*/
 		/* called once before closing the editor			*/
 		void _CleanUp				();

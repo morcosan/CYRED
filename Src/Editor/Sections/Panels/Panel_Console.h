@@ -37,11 +37,11 @@ namespace CYRED
 		void OnEvent	( EventType eType, void* eData )	override;
 
 
-	protected:
+	private:
 		QVBoxLayout* _logsLayout;
 
 
-	protected:
+	private:
 		void _AddLine( const char* messages, bool isError );
 	};
 }

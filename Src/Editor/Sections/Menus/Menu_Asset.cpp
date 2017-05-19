@@ -67,9 +67,6 @@ void Menu_Asset::Open( const QPoint& pos )
 	}
 
 	QAction* actionReload = this->addAction( MENU_RELOAD );
-
-	QObject::connect( actionReload, &QAction::triggered, this, &Menu_Asset::A_ReloadAsset );
-
 	QAction* actionRename = this->addAction( MENU_RENAME );
 
 	if ( asset != NULL ) {
@@ -88,9 +85,7 @@ void Menu_Asset::Open( const QPoint& pos )
 
 	QAction* actionDelete = this->addAction( MENU_DELETE );
 
-	// separator
-	this->addSeparator();
-
+	QObject::connect( actionReload,		&QAction::triggered, this, &Menu_Asset::A_ReloadAsset );
 	QObject::connect( actionRename,		&QAction::triggered, this, &Menu_Asset::A_Rename );
 	QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &Menu_Asset::A_OpenOnDisk );
 	QObject::connect( actionShowOnDisk, &QAction::triggered, this, &Menu_Asset::A_ShowOnDisk );
@@ -100,7 +95,6 @@ void Menu_Asset::Open( const QPoint& pos )
 	// display menu
 	this->popup( _qtTree->mapToGlobal(pos) );
 }
-
 
 
 void Menu_Asset::A_ReloadAsset()
@@ -162,6 +156,13 @@ void Menu_Asset::A_ReloadAsset()
 }
 
 
+void Menu_Asset::A_Rename()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+	_qtTree->editItem( item );
+}
+
+
 void Menu_Asset::A_OpenOnDisk()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
@@ -178,13 +179,6 @@ void Menu_Asset::A_ShowOnDisk()
 	QString filePath = item->whatsThis( 1 );
 	QFileInfo fileInfo( filePath );
 	QDesktopServices::openUrl( QUrl::fromLocalFile( fileInfo.dir().path() ) );
-}
-
-
-void Menu_Asset::A_Rename()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-	_qtTree->editItem( item );
 }
 
 

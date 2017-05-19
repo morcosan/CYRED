@@ -46,7 +46,7 @@ namespace CYRED
 			void SetSerializeSystem( SerializeSystem* serializeSystem )			override;
 
 
-		protected:
+		private:
 			FileSystem*	_fileSystem;
 			MeshLoader*	_meshLoader;
 		};

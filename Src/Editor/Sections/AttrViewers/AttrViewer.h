@@ -141,7 +141,7 @@ namespace CYRED
 
 	protected:
 		CallbackGroup	_activatedGroup;
-		int			_ignoreUpdateGUI;
+		int				_ignoreUpdateGUI;
 
 		void		_AddToPanel				( const char* title );
 		void		_UpdatePanel			();
@@ -245,14 +245,14 @@ namespace CYRED
 		Vector2		_ReadAttrVector2		( const char* name );
 		Vector3		_ReadAttrVector3		( const char* name );
 		Vector4		_ReadAttrVector4		( const char* name );
-		int		_ReadAttrDropdown		( const char* name );
+		int			_ReadAttrDropdown		( const char* name );
 		void*		_ReadAttrSelector		( const char* name );
 		DataUnion	_ReadAttrStruct			( const char* name, const char* elemName );
-		int		_ReadAttrListSize		( const char* name );
+		int			_ReadAttrListSize		( const char* name );
 		DataUnion	_ReadAttrListIndex		( const char* name, int index );
 		DataUnion	_ReadAttrListIndex		( const char* name, int index, 
 											  const char* elemName );
-		int		_ReadAttrStrListSize	( const char* name, const char* listName );
+		int			_ReadAttrStrListSize	( const char* name, const char* listName );
 		DataUnion	_ReadAttrStrListIndex	( const char* name, const char* listName, 
 											  int index );
 		DataUnion	_ReadAttrStrListIndex	( const char* name, const char* listName, 
@@ -328,7 +328,7 @@ namespace CYRED
 		Vector2		_ReadVector2		( QWidget* widget );
 		Vector3		_ReadVector3		( QWidget* widget );
 		Vector4		_ReadVector4		( QWidget* widget );
-		int		_ReadDropdown		( QWidget* widget );
+		int			_ReadDropdown		( QWidget* widget );
 		void*		_ReadSelector		( QWidget* widget );
 		DataUnion	_ReadListIndex		( QWidget* widget, int index, const char* elemName );
 

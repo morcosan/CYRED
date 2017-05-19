@@ -46,7 +46,7 @@ namespace CYRED
 		void A_RightClickMenu		( const QPoint& pos );
 
 
-	protected:
+	private:
 		class _QtTree;
 
 		_QtTree*			_qtTree;

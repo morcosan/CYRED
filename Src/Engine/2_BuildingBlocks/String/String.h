@@ -30,7 +30,7 @@ namespace CYRED
 		int		GetLength	() const;
 
 
-	protected:
+	private:
 		char*	_data;
 	};
 }

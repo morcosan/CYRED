@@ -30,7 +30,7 @@ namespace CYRED
 
 
 
-	protected:
+	private:
 		QWindow*			_qtWindow;
 		QOpenGLContext*		_qtContext;
 	};

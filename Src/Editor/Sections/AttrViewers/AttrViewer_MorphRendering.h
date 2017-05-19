@@ -36,14 +36,14 @@ namespace CYRED
 		virtual ~AttrViewer_MorphRendering() {}
 
 
-	protected:
+	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
 		void _OnUpdateGUI		()					override;
 		void _OnUpdateTarget	()					override;
 
 
-	protected:
+	private:
 		MorphRendering*	_target;
 	};
 }

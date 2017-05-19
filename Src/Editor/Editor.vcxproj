@@ -141,6 +141,7 @@
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
     <ClCompile Include="Utils\CustomTreeWidget.cpp" />
+    <ClCompile Include="Utils\EditorUtils.cpp" />
     <ClCompile Include="Utils\QtUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
+    <ClInclude Include="Utils\EditorUtils.h" />
     <ClInclude Include="Utils\QtUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

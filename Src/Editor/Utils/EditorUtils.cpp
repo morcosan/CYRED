@@ -9,7 +9,12 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_Script.h"
 
+#include "../Sections/Settings/EditorSettings.h"
+
 #include "QtCore/QString"
+#include "QtCore\qfileinfo.h"
+#include "QtGui\qicon.h"
+#include "QtCore\qdiriterator.h"
 
 
 using namespace CYRED;
@@ -38,6 +43,22 @@ const char* const EditorUtils::NAME_MESH		= "Mesh";
 const char* const EditorUtils::NAME_MORPH		= "Morph";
 const char* const EditorUtils::NAME_SCRIPT		= "Script";
 const char* const EditorUtils::NAME_SCENE		= "Scene";
+
+DataMap<String, QIcon*>	EditorUtils::_icons;
+
+
+void EditorUtils::Initialize()
+{
+	// load all icons
+	QDirIterator dirIterator( EditorSettings::DIR_PATH_ICONS_ASSETS, QDir::Files );
+	while ( dirIterator.hasNext() ) {
+		dirIterator.next();
+		QFileInfo& fileInfo = dirIterator.fileInfo();
+
+		_icons.Set( fileInfo.completeBaseName().toUtf8().data(), 
+					Memory::Alloc<QIcon>( fileInfo.filePath().toUtf8().data() ) );
+	}
+}
 
 
 void EditorUtils::SetAvailableName( Asset * asset )
@@ -216,4 +237,11 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 	}
 
 	return FALSE;
+}
+
+
+QIcon* EditorUtils::GetIcon( const char* iconName )
+{
+	ASSERT( _icons.Has( iconName ) );
+	return _icons.Get( iconName );
 }

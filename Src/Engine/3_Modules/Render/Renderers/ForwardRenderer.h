@@ -56,7 +56,7 @@ namespace CYRED
 			void DisplayOnScreen()						override;
 
 
-		protected:
+		private:
 			/*****
 			* @desc: apply specific initialization per renderer; 
 			*		 called at the end of Initialize()
@@ -64,7 +64,7 @@ namespace CYRED
 			void _OnInitialize	() override;
 
 
-		protected:
+		private:
 			uint _mainFramebufferID;
 			uint _mainColorbufferID;
 			uint _mainDepthbufferID;
@@ -76,7 +76,7 @@ namespace CYRED
 			GameObject*const*	_currLights;
 
 
-		protected:
+		private:
 			void _CreateMainBuffers	( int width, int height );
 			void _ResizeMainBuffers	( int width, int height );
 			void _RenderScreenQuad	( Texture* texture, Shader* shader );

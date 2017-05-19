@@ -36,7 +36,7 @@ namespace CYRED
 		void		CreateRoot		();
 
 
-	protected:
+	private:
 		Node* _root;
 	};
 }

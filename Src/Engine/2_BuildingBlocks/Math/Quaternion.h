@@ -39,7 +39,7 @@ namespace CYRED
 		Vector3 ApplyRotation	( const Vector3& other );
 
 
-	protected:
+	private:
 		glm::quat* _self;
 	};
 }

@@ -52,7 +52,7 @@ namespace CYRED
 		const float* Ptr();
 
 
-	protected:
+	private:
 		glm::mat4* _self;
 	};
 }

@@ -44,7 +44,7 @@ namespace CYRED
 		void SetFilePath	( int index, const char* filePath );
 
 
-	protected:
+	private:
 		uint	_vbo;
 		uint	_ibo;
 		int		_numIndices;

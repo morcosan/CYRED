@@ -29,7 +29,7 @@ namespace CYRED
 		void SetPauseButton	( bool isActive );
 
 
-	protected:
+	private:
 		QToolButton* _playButton;
 		QToolButton* _pauseButton;
 	};

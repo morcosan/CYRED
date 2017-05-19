@@ -16,11 +16,11 @@ namespace CYRED
 		virtual ~GameInitScript() {}
 
 
-	protected:
+	private:
 		void _OnStart( bool isRuntime ) override;
 
 
-	protected:
+	private:
 		AppConfig* _appConfig;
 
 		void _LoadAllAssets();

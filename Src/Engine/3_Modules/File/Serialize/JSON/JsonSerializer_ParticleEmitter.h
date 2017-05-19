@@ -46,7 +46,7 @@ namespace CYRED
 									  DeserFlag flag )							override;
 
 
-	protected:
+	private:
 		DataArray<EmitterShape>	_shapeEnums;
 		DataArray<String>	_shapeStrings;
 	};

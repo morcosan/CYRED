@@ -88,7 +88,7 @@ namespace CYRED
 		EventType		_eventType;
 
 
-	protected:
+	private:
 		GameObject*		_CreateGameObject	( Node* parentNode );
 		void			_DestroyGameObject	( GameObject* gameObject );
 	};

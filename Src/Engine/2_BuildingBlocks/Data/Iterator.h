@@ -23,7 +23,7 @@ namespace CYRED
 		void			Next();
 
 
-	protected:
+	private:
 		typename std::map<TKey, TValue>::iterator _curr;
 		typename std::map<TKey, TValue>::iterator _end;
 	};

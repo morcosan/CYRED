@@ -45,7 +45,7 @@ namespace CYRED
 		void SetPopupTitle	( const char* title );
 
 
-	protected:
+	private:
 		struct _ListItem : public QListWidgetItem
 		{
 			void* valueRef;

@@ -16,7 +16,7 @@ namespace CYRED
 		virtual ~FreeCameraControl() {}
 
 
-	protected:
+	private:
 		void _OnEnable	()					override {}
 		void _OnStart	( bool isRuntime )	override;
 		void _OnUpdate	( bool isRuntime )	override;
@@ -33,7 +33,7 @@ namespace CYRED
 		float				panSpeed;
 
 
-	protected:
+	private:
 		Transform*	_transform;
 	};
 }

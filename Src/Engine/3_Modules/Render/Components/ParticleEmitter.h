@@ -87,11 +87,11 @@ namespace CYRED
 		Vector2			GetParticleSizeEnd	() const;
 
 			
-	protected:
+	private:
 		void _OnEnable() override {}
 
 
-	protected:
+	private:
 		uint		_vbo;
 		uint		_ibo;
 		int			_numIndices;

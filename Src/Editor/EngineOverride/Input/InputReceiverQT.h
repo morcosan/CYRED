@@ -30,7 +30,7 @@ namespace CYRED
 		void OnFocusOut		( int windowIndex );
 
 
-	protected:
+	private:
 		KeyCode ToKeyCode( int qtKey );
 	};
 }

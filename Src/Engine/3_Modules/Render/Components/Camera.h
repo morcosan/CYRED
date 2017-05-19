@@ -63,11 +63,11 @@ namespace CYRED
 		void SetCameraTypeString( const char* type );
 
 
-	protected:
+	private:
 		void _OnEnable() override {}
 
 
-	protected:
+	private:
 		CameraType	_cameraType;
 		float		_fovYAngle;
 		float		_nearClipping;

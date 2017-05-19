@@ -24,7 +24,6 @@
 #include "QtCore\qfileinfo.h"
 #include "QtWidgets\qmenu.h"
 #include "QtCore\qurl.h"
-#include "QtWidgets\qlabel.h"
 #include "QtCore\qfilesystemwatcher.h"
 #include "QtWidgets\qpushbutton.h"
 
@@ -86,7 +85,6 @@ void Panel_Assets::Initialize()
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
 
-	_LoadIcons();
 	_CreateRightClickMenu();
 
 	// register events
@@ -252,176 +250,17 @@ void Panel_Assets::A_RightClickMenu( const QPoint& pos )
 	if ( treeItem != NULL ) {
 		if ( treeItem->asset != NULL ) {
 			// open asset menu
-			_menuAsset->Open( _qtTree->mapToGlobal(pos) );
+			_menuAsset->Open( pos );
 		}
-		else if ( treeItem == NULL || treeItem->whatsThis(0).compare( TYPE_FOLDER ) == 0 ) {
+		else if ( treeItem == NULL || treeItem->whatsThis(0).compare( EditorUtils::NAME_FOLDER ) == 0 ) {
 			// open folder menu
-			_menuAssetFolder->Open( _qtTree->mapToGlobal(pos) );
+			_menuAssetFolder->Open( pos );
 		}
 		else {
 			// open unknown menu
-			_menuAssetUnknown->Open( _qtTree->mapToGlobal(pos) );
+			_menuAssetUnknown->Open( pos );
 		}
 	}
-}
-
-
-void Panel_Assets::A_Create_Folder()
-{
-	QTreeWidgetItem* parentItem = _qtTree->currentItem();
-
-	QString dirPath = (parentItem != NULL) ? parentItem->whatsThis( 1 ).append( "/" ) 
-										   : ProjectSettings::dirPathAssets.GetChar();
-
-	// generate name
-	// find new name
-	int nextIndex = -1;
-	FiniteString folderName;
-	FiniteString folderPath;
-
-	do {
-		nextIndex++;
-		folderName.Set( "%s%d", EditorUtils::NAME_FOLDER, nextIndex );
-		folderPath.Set( "%s%s", dirPath.toUtf8().constData(), folderName.GetChar() );
-
-		// check if exists
-		QDir dir( folderPath.GetChar() );
-
-		// if not existing, create dir and break loop
-		if ( !dir.exists() ) {
-			dir.mkpath( "." );
-			break;
-		}
-	} 
-	while ( true );
-
-	// create folder
-	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
-	treeItem->setText( 0, folderName.GetChar() );
-	treeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
-	treeItem->setWhatsThis( 1, folderPath.GetChar() ); 
-	treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
-	treeItem->setIcon( 0, _icons.Get( EditorUtils::ICON_FOLDER ) );
-
-	if ( parentItem != NULL ) {
-		parentItem->addChild( treeItem );
-		parentItem->setExpanded( TRUE );
-	}
-	else {
-		_qtTree->addTopLevelItem( treeItem );
-	}
-
-	// select item
-	_qtTree->setCurrentItem( treeItem );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
-}
-
-
-void Panel_Assets::A_Create_Mat_Empty()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Mat_PS()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
-
-	Material* material = CAST_S( Material*, asset );
-	material->SetEmitEvents( FALSE );
-	material->SetProperty( "particleTexture", NULL );
-	material->SetProperty( "colorStart", Vector4(1, 1, 1, 1) );
-	material->SetProperty( "colorEnd", Vector4(1, 1, 1, 1) );
-	material->SetEmitEvents( TRUE );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Tex_2D()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Tex_CM()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
-
-	Texture* texture = CAST_S( Texture*, asset );
-	texture->SetEmitEvents( FALSE );
-	texture->SetTextureType( TextureType::CUBE_MAP );
-	texture->SetEmitEvents( TRUE );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Shader()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Mesh()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Morph()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
-}
-
-
-void Panel_Assets::A_Create_Script()
-{
-	QTreeWidgetItem* item = _qtTree->currentItem();
-
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-									   ProjectSettings::dirPathAssets.GetChar();
-	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
-
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
 
@@ -477,7 +316,7 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 	treeItem->setWhatsThis( 1, filePath.GetChar() ); 
 	treeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
 	treeItem->setText( 0, asset->GetName() );
-	treeItem->setIcon( 0, _icons.Get( icon ) );
+	treeItem->setIcon( 0, *EditorUtils::GetIcon( icon ) );
 
 	if ( parentItem != NULL ) {
 		parentItem->addChild( treeItem );
@@ -491,22 +330,6 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 }
 
 
-void Panel_Assets::_LoadIcons()
-{
-	ASSERT( _isInitialized );
-
-	// parse directory
-	QDirIterator dirIterator( EditorSettings::DIR_PATH_ICONS_ASSETS, QDir::Files );
-	while ( dirIterator.hasNext() ) {
-		dirIterator.next();
-		QFileInfo& fileInfo = dirIterator.fileInfo();
-
-		_icons.Set( fileInfo.completeBaseName().toUtf8().data(), 
-					QIcon( fileInfo.filePath().toUtf8().data() ) );
-	}
-}
-
-
 void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath, 
 								   QTreeWidgetItem* parentItem )
 {
@@ -515,10 +338,10 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 	// create folder in panel
 	CustomTreeItem* dirTreeItem = Memory::Alloc<CustomTreeItem>();
 	dirTreeItem->setText( 0, dirName );
-	dirTreeItem->setWhatsThis( 0, TYPE_FOLDER );  // we use this field to store data
+	dirTreeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	dirTreeItem->setWhatsThis( 1, dirPath ); 
 	dirTreeItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable );
-	dirTreeItem->setIcon( 0, _icons.Get( EditorUtils::ICON_FOLDER ) );
+	dirTreeItem->setIcon( 0, *EditorUtils::GetIcon( EditorUtils::ICON_FOLDER ) );
 	// add to panel
 	parentItem->addChild( dirTreeItem );
 
@@ -545,7 +368,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 
 
 			if ( fileFormat.compare( FileManager::FILE_FORMAT_SCENE ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_SCENE );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SCENE );
 
 				Scene* scene = Memory::Alloc<Scene>();
 				scene->SetEmitEvents( FALSE );
@@ -558,7 +381,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = scene; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MATERIAL ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_MATERIAL );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MATERIAL );
 
 				Material* material = Memory::Alloc<Material>();
 				material->SetEmitEvents( FALSE );
@@ -571,7 +394,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = material; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MESH ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_MESH );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MESH );
 				
 				Mesh* mesh = Memory::Alloc<Mesh>();
 				mesh->SetEmitEvents( FALSE );
@@ -584,7 +407,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = mesh; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MORPH ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_MORPH );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MORPH );
 				
 				Morph* morph = Memory::Alloc<Morph>();
 				morph->SetEmitEvents( FALSE );
@@ -597,7 +420,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = morph; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SHADER ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_SHADER );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SHADER );
 				
 				Shader* shader = Memory::Alloc<Shader>();
 				shader->SetEmitEvents( FALSE );
@@ -610,7 +433,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = shader; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_TEXTURE ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_TEXTURE );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_TEXTURE );
 				
 				Texture* texture = Memory::Alloc<Texture>();
 				texture->SetEmitEvents( FALSE );
@@ -623,7 +446,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = texture; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SCRIPT ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_SCRIPT );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SCRIPT );
 				
 				Script* script = Memory::Alloc<Script>();
 				script->SetEmitEvents( FALSE );
@@ -636,7 +459,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 				asset = script; // will be checked later
 			}
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_PREFAB ) == 0 ) {
-				icon = _icons.Get( EditorUtils::ICON_PREFAB );
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_PREFAB );
 
 				Prefab* prefab = Memory::Alloc<Prefab>();
 				prefab->SetEmitEvents( FALSE );
@@ -759,127 +582,10 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 			dirTreeItem->addChild( treeItem );
 
 			if ( isUnknown ) {
-				QLabel* fileLabel = Memory::Alloc<QLabel>( fileInfo.fileName() );
-				fileLabel->setObjectName( EditorSkin::ASSET_UNKNOWN );
-				_qtTree->setItemWidget( treeItem, 0, fileLabel );
+				treeItem->setText( 0, fileInfo.fileName() );
 			}
 		}
 	}
-}
-
-
-Asset* Panel_Assets::_AddNewAsset( const char* dirPath, QTreeWidgetItem* parentItem,
-								  AssetType assetType )
-{
-	Asset*		asset		= NULL;
-	const char* icon		= NULL;
-
-	switch ( assetType ) {
-		case AssetType::MATERIAL:
-		{
-			Material* material = Memory::Alloc<Material>();
-			material->SetEmitEvents( FALSE );
-			material->SetDirPath( dirPath );
-			material->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			material->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( material );
-			material->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddMaterial( material );
-
-			asset = material;
-			icon = EditorUtils::ICON_MATERIAL;
-			break;
-		}
-
-		case AssetType::MESH:
-		{
-			Mesh* mesh = Memory::Alloc<Mesh>();
-			mesh->SetEmitEvents( FALSE );
-			mesh->SetDirPath( dirPath );
-			mesh->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			mesh->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( mesh );
-			mesh->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddMesh( mesh );
-
-			asset = mesh;
-			icon = EditorUtils::ICON_MESH;
-			break;
-		}
-
-		case AssetType::MORPH:
-		{
-			Morph* morph = Memory::Alloc<Morph>();
-			morph->SetEmitEvents( FALSE );
-			morph->SetDirPath( dirPath );
-			morph->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			morph->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( morph );
-			morph->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddMorph( morph );
-
-			asset = morph;
-			icon = EditorUtils::ICON_MORPH;
-			break;
-		}
-
-		case AssetType::SCRIPT:
-		{
-			Script* script = Memory::Alloc<Script>();
-			script->SetEmitEvents( FALSE );
-			script->SetDirPath( dirPath );
-			script->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			script->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( script );
-			script->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddScript( script );
-
-			asset = script;
-			icon = EditorUtils::ICON_SCRIPT;
-			break;
-		}
-
-		case AssetType::SHADER:
-		{
-			Shader* shader = Memory::Alloc<Shader>();
-			shader->SetEmitEvents( FALSE );
-			shader->SetDirPath( dirPath );
-			shader->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			shader->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( shader );
-			shader->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddShader( shader );
-
-			asset = shader;
-			icon = EditorUtils::ICON_SHADER;
-			break;
-		}
-
-		case AssetType::TEXTURE:
-		{
-			Texture* texture = Memory::Alloc<Texture>();
-			texture->SetEmitEvents( FALSE );
-			texture->SetDirPath( dirPath );
-			texture->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-			texture->SetIsTemporary( FALSE );
-			EditorUtils::SetAvailableName( texture );
-			texture->SetEmitEvents( TRUE );
-			AssetManager::Singleton()->AddTexture( texture );
-
-			asset = texture;
-			icon = EditorUtils::ICON_TEXTURE;
-			break;
-		}
-	}
-
-	// add to tree
-	QTreeWidgetItem* newItem = AddAssetToTree( asset, parentItem, icon );
-
-	// select item
-	_qtTree->setCurrentItem( newItem );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, asset );
-
-	return asset;
 }
 
 
@@ -889,53 +595,12 @@ void Panel_Assets::_CreateRightClickMenu()
 
 	// create menus
 	_menuAsset			= Memory::Alloc<Menu_Asset>( _qtTree, this );
-	_menuAssetFolder	= Memory::Alloc<Menu_AssetFolder>( _qtTree );
+	_menuAssetFolder	= Memory::Alloc<Menu_AssetFolder>( _qtTree, this );
 	_menuAssetUnknown	= Memory::Alloc<Menu_AssetUnknown>( _qtTree );
 
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
 	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
 					  this, &Panel_Assets::A_RightClickMenu );
-}
-
-
-void Panel_Assets::_AddRightClickActions( QTreeWidgetItem* item )
-{
-	ASSERT( _isInitialized );
-
-	if ( item != NULL ) {
-		// show asset menu
-	}
-
-	if ( item == NULL || item->whatsThis(0).compare( TYPE_FOLDER ) == 0 ) {
-		QMenu* menuCreate = _qtRightClickMenu->addMenu( MENU_CREATE );
-
-		QAction* actionFolder = menuCreate->addAction( EditorUtils::NAME_FOLDER );
-		menuCreate->addSeparator();
-
-		QMenu* menuMaterial = menuCreate->addMenu( EditorUtils::NAME_MATERIAL );
-
-		QAction* actionMatEmpty = menuMaterial->addAction( EditorUtils::NAME_MAT_EMPTY );
-		QAction* actionMatPS = menuMaterial->addAction( EditorUtils::NAME_MAT_PS );
-
-		QMenu* menuTexture = menuCreate->addMenu( EditorUtils::NAME_TEXTURE );
-		QAction* actionTex2D = menuTexture->addAction( EditorUtils::NAME_TEX_2D );
-		QAction* actionTexCM = menuTexture->addAction( EditorUtils::NAME_TEX_CM );
-
-		QAction* actionShader	= menuCreate->addAction( EditorUtils::NAME_SHADER );
-		QAction* actionMesh		= menuCreate->addAction( EditorUtils::NAME_MESH );
-		QAction* actionMorph	= menuCreate->addAction( EditorUtils::NAME_MORPH );
-		QAction* actionScript	= menuCreate->addAction( EditorUtils::NAME_SCRIPT );
-
-		QObject::connect( actionFolder,		&QAction::triggered, this, &Panel_Assets::A_Create_Folder );
-		QObject::connect( actionMatEmpty,	&QAction::triggered, this, &Panel_Assets::A_Create_Mat_Empty );
-		QObject::connect( actionMatPS,		&QAction::triggered, this, &Panel_Assets::A_Create_Mat_PS );
-		QObject::connect( actionTex2D,		&QAction::triggered, this, &Panel_Assets::A_Create_Tex_2D );
-		QObject::connect( actionTexCM,		&QAction::triggered, this, &Panel_Assets::A_Create_Tex_CM );
-		QObject::connect( actionShader,		&QAction::triggered, this, &Panel_Assets::A_Create_Shader );
-		QObject::connect( actionMesh,		&QAction::triggered, this, &Panel_Assets::A_Create_Mesh );
-		QObject::connect( actionMorph,		&QAction::triggered, this, &Panel_Assets::A_Create_Morph );
-		QObject::connect( actionScript,		&QAction::triggered, this, &Panel_Assets::A_Create_Script );
-	}
 }
 
 

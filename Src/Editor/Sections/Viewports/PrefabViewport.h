@@ -38,15 +38,15 @@ namespace CYRED
 		void SetCamera( GameObject* cameraGO );
 
 
-	protected:
+	private:
 		static DataMap<TechniqueType, int>	_techSlots;
 
 
-	protected:
+	private:
 		Prefab* _targetPrefab;
 
 
-	protected:
+	private:
 		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 		virtual void		_OnInitialize	() override;

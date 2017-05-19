@@ -25,7 +25,7 @@ namespace CYRED
 		void SetSharedContext( GLContext* other ) override;
 
 
-	protected:
+	private:
 		GLFWwindow* _glfwWindow;
 	};
 }
