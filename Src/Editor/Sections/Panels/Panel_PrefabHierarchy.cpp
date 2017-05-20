@@ -129,6 +129,13 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 			_targetPrefab = CAST_S( Prefab*, eData );
 			_ResetHierarchy();
 			break;
+
+		case EventType::CLOSE_PREFAB:
+			if ( _targetPrefab == eData ) {
+				_targetPrefab = NULL;
+				_ResetHierarchy();
+			}
+			break;
 		
 		case EventType::CHANGE_PREFAB_HIERARCHY:
 			_ResetHierarchy();

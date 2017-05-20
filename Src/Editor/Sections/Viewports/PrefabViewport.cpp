@@ -31,6 +31,12 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 		case EventType::OPEN_PREFAB:
 			_targetPrefab = CAST_S( Prefab*, eData );
 			break;
+
+		case EventType::CLOSE_PREFAB:
+			if ( _targetPrefab == eData ) {
+				_targetPrefab = NULL;
+			}
+			break;
 	}
 }
 
@@ -72,6 +78,7 @@ void PrefabViewport::_OnInitialize()
 {
 	// register events
 	EventManager::Singleton()->RegisterListener( EventType::OPEN_PREFAB, this );
+	EventManager::Singleton()->RegisterListener( EventType::CLOSE_PREFAB, this );
 }
 
 
@@ -79,6 +86,7 @@ void PrefabViewport::_OnFinalize()
 {
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::OPEN_PREFAB, this );
+	EventManager::Singleton()->UnregisterListener( EventType::CLOSE_PREFAB, this );
 }
 
 

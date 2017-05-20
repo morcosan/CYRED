@@ -1,8 +1,8 @@
 {
-    "uid": "pT3dFBGopLRaWGfIo7PlxFqyilC0B3o5",
+    "uid": "zkMRJZtUbQ2nJkP4zOGUylXr4WQONffq",
     "game_objects": [
         {
-            "name": "Grid",
+            "name": "PointLight",
             "enabled": true,
             "components": {
                 "transform": {

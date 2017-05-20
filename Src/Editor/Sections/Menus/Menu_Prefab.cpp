@@ -90,7 +90,7 @@ void Menu_Prefab::A_SavePrefabAs()
 	ASSERT( prefab != NULL );
 
 	// set file filter
-	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_SCENE );
+	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
 	// open explorer popup
 	QString newPath = QFileDialog::getSaveFileName( this, 
 													MSG_SAVE_PREFAB, 
@@ -119,7 +119,8 @@ void Menu_Prefab::A_SavePrefabAs()
 	// clone gameobjects to new prefab
 	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
 		GameObject* newObject = _CreateGameObject( newPrefab->GetRoot() );
-		treeItem->gameObject->Clone( newObject );
+		GameObject* prevObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+		prevObject->Clone( newObject );
 	}
 	
 	newPrefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -131,7 +132,7 @@ void Menu_Prefab::A_SavePrefabAs()
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newPrefab );
 
 	// reload hierarchy
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_PREFAB_HIERARCHY, newPrefab );
+	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, newPrefab );
 
 
 	// update hierarchy panel

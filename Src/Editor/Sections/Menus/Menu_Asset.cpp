@@ -307,6 +307,8 @@ void Menu_Asset::A_Delete()
 
 			case AssetType::PREFAB:
 				AssetManager::Singleton()->RemovePrefab( CAST_S( Prefab*, asset ) );
+				// send event
+				EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, asset );
 				break;
 		}
 	}
