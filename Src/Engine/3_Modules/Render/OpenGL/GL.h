@@ -314,98 +314,96 @@ namespace CYRED
 		GL() {}
 		virtual ~GL() {};
 
-		virtual void Initialize() PURE_VIRTUAL;
+		virtual void Initialize			()												PURE_VIRTUAL;
 
-		virtual void Viewport	( int x, int y, int width, int height )	PURE_VIRTUAL;
-		virtual void ClearColor	( float r, float g, float b, float a )	PURE_VIRTUAL;
-		virtual void Clear		( int bitMask )							PURE_VIRTUAL;
+		virtual void Viewport			( int x, int y, int width, int height )			PURE_VIRTUAL;
+		virtual void ClearColor			( float r, float g, float b, float a )			PURE_VIRTUAL;
+		virtual void Clear				( int bitMask )									PURE_VIRTUAL;
 		
-		virtual void GenBuffers		( int n, OUT uint* buffers )		PURE_VIRTUAL;
-		virtual void DeleteBuffers	( int n, uint* buffers )			PURE_VIRTUAL;
-		virtual void BindBuffer		( GLBuffer target, int buffer )		PURE_VIRTUAL;
-		virtual void BufferData		( GLBuffer target, int size, 
-									  const void* data, GLDrawType usage )	PURE_VIRTUAL;
+		virtual void GenBuffers			( int n, OUT uint* buffers )					PURE_VIRTUAL;
+		virtual void DeleteBuffers		( int n, uint* buffers )						PURE_VIRTUAL;
+		virtual void BindBuffer			( GLBuffer target, int buffer )					PURE_VIRTUAL;
+		virtual void BufferData			( GLBuffer target, int size, 
+										  const void* data, GLDrawType usage )			PURE_VIRTUAL;
 
 		virtual void GetShaderiv		( int shader, GLShaderInfo pname, 
-											  int* params )							PURE_VIRTUAL;
+										  int* params )									PURE_VIRTUAL;
 		virtual void GetShaderInfoLog	( int shader, int maxLength, 
-											  OUT int* size, OUT char* logs )		PURE_VIRTUAL;
+										  OUT int* size, OUT char* logs )				PURE_VIRTUAL;
 	
-		virtual void	GetProgramiv		( int program, GLProgramInfo pname, 
-												  OUT int* params )					PURE_VIRTUAL;
-		virtual void	GetProgramInfoLog	( int program, int maxLength, 
-												  OUT int* size, OUT char* logs )	PURE_VIRTUAL;
-		virtual void	ValidateProgram		( int program )							PURE_VIRTUAL;
-		virtual int	CreateProgram			()										PURE_VIRTUAL;
-		virtual void	DeleteProgram		( int program )							PURE_VIRTUAL;
-		virtual int	CreateShader			( GLShader shaderType )					PURE_VIRTUAL;
-		virtual void	DeleteShader		( int shader )							PURE_VIRTUAL;
-		virtual void	ShaderSource		( int shader, int count, const char** string, 
-											  const int* length  )					PURE_VIRTUAL;
-		virtual void	CompileShader		( int shader )							PURE_VIRTUAL;
-		virtual void	AttachShader		( int program, int shader )				PURE_VIRTUAL;
-		virtual void	DetachShader		( int program, int shader )				PURE_VIRTUAL;
-		virtual void	LinkProgram			( int program )							PURE_VIRTUAL;
-		virtual int		GetUniformLocation	( int program, const char* name )		PURE_VIRTUAL;
-		virtual void	GetActiveUniform	( int program, int index, int buffSize,
-											  OUT int* length, OUT int* size, OUT GLUniform& type, 
-											  OUT char* name )						PURE_VIRTUAL;
+		virtual void GetProgramiv		( int program, GLProgramInfo pname, 
+										  OUT int* params )								PURE_VIRTUAL;
+		virtual void GetProgramInfoLog	( int program, int maxLength, 
+										  OUT int* size, OUT char* logs )				PURE_VIRTUAL;
+		virtual void ValidateProgram	( int program )									PURE_VIRTUAL;
+		virtual int	 CreateProgram		()												PURE_VIRTUAL;
+		virtual void DeleteProgram		( int program )									PURE_VIRTUAL;
+		virtual int	 CreateShader		( GLShader shaderType )							PURE_VIRTUAL;
+		virtual void DeleteShader		( int shader )									PURE_VIRTUAL;
+		virtual void ShaderSource		( int shader, int count, const char** string, 
+										  const int* length  )							PURE_VIRTUAL;
+		virtual void CompileShader		( int shader )									PURE_VIRTUAL;
+		virtual void AttachShader		( int program, int shader )						PURE_VIRTUAL;
+		virtual void DetachShader		( int program, int shader )						PURE_VIRTUAL;
+		virtual void LinkProgram		( int program )									PURE_VIRTUAL;
+		virtual int	 GetUniformLocation	( int program, const char* name )				PURE_VIRTUAL;
+		virtual void GetActiveUniform	( int program, int index, int buffSize,
+										  OUT int* length, OUT int* size, OUT GLUniform& type, 
+										  OUT char* name )								PURE_VIRTUAL;
 	
-		virtual void	GenFramebuffers		( int size, OUT uint* framebuffers )	PURE_VIRTUAL;
-		virtual void	DeleteFramebuffers	( int size, uint* framebuffers )		PURE_VIRTUAL;
-		virtual void	BindFramebuffer		( GLFrameBuffer target, int framebuffer )	PURE_VIRTUAL;
+		virtual void GenFramebuffers	( int size, OUT uint* framebuffers )			PURE_VIRTUAL;
+		virtual void DeleteFramebuffers	( int size, uint* framebuffers )				PURE_VIRTUAL;
+		virtual void BindFramebuffer	( GLFrameBuffer target, int framebuffer )		PURE_VIRTUAL;
 		
-		virtual void	GenTextures			( int size, OUT uint* textures )		PURE_VIRTUAL;
-		virtual void	DeleteTextures		( int size, uint* textures )			PURE_VIRTUAL;
-		virtual void	BindTexture			( GLTexture target, int texture )		PURE_VIRTUAL;
-		virtual void	TexImage2D			( GLTextureImage target, int level, 
-											  GLTexInternal internalformat,
- 											  int width, int height, int border, 
-											  GLTexFormat format, 
-											  GLVarType type, const void * data )		PURE_VIRTUAL;
-		virtual void	TexParameteri		( GLTexture target, GLTexParamType name, 
-											  GLTexParamValue param )					PURE_VIRTUAL;
-		virtual void	GenerateMipmap		( GLTexture target )						PURE_VIRTUAL;
-		virtual void	PixelStorei			( GLAlignType type, GLAlignValue value )	PURE_VIRTUAL;
+		virtual void GenTextures		( int size, OUT uint* textures )				PURE_VIRTUAL;
+		virtual void DeleteTextures		( int size, uint* textures )					PURE_VIRTUAL;
+		virtual void BindTexture		( GLTexture target, int texture )				PURE_VIRTUAL;
+		virtual void TexImage2D			( GLTextureImage target, int level, GLTexInternal internalformat,
+ 										  int width, int height, int border, GLTexFormat format, 
+										  GLVarType type, const void * data )			PURE_VIRTUAL;
+		virtual void TexParameteri		( GLTexture target, GLTexParamType name, 
+										  GLTexParamValue param )						PURE_VIRTUAL;
+		virtual void GenerateMipmap		( GLTexture target )							PURE_VIRTUAL;
+		virtual void PixelStorei		( GLAlignType type, GLAlignValue value )		PURE_VIRTUAL;
 
-		virtual void	FramebufferTexture2D( GLFrameBuffer target, GLBufferAttachment attachment,	
-											  GLTexture textarget, int texture, 
-											  int level )								PURE_VIRTUAL;
+		virtual void FramebufferTexture2D( GLFrameBuffer target, GLBufferAttachment attachment,	
+										  GLTexture textarget, int texture, 
+										  int level )									PURE_VIRTUAL;
 		
-		virtual GLBufferStatus CheckFramebufferStatus( GLFrameBuffer target )	PURE_VIRTUAL;
+		virtual GLBufferStatus CheckFramebufferStatus( GLFrameBuffer target )			PURE_VIRTUAL;
 
-
-		virtual void UseProgram				( int programID )					PURE_VIRTUAL;
-		virtual void EnableVertexAttribArray( int index )						PURE_VIRTUAL;
+		virtual void UseProgram				( int programID )							PURE_VIRTUAL;
+		virtual void EnableVertexAttribArray( int index )								PURE_VIRTUAL;
 		virtual void VertexAttribPointer	( int index, int size, GLVarType type, bool normalized, 
-											  int stride, const void* data  )	PURE_VIRTUAL;
+											  int stride, const void* data  )			PURE_VIRTUAL;
 		
-		virtual void Uniform1i	( int location, int value )						PURE_VIRTUAL;
-		virtual void Uniform1f	( int location, float value )					PURE_VIRTUAL;
-		virtual void Uniform2fv	( int location, int size, const float* value )	PURE_VIRTUAL;
-		virtual void Uniform3fv	( int location, int size, const float* value )	PURE_VIRTUAL;
-		virtual void Uniform4fv	( int location, int size, const float* value )	PURE_VIRTUAL;
+		virtual void Uniform1i			( int location, int value )						PURE_VIRTUAL;
+		virtual void Uniform1f			( int location, float value )					PURE_VIRTUAL;
+		virtual void Uniform2fv			( int location, int size, const float* value )	PURE_VIRTUAL;
+		virtual void Uniform3fv			( int location, int size, const float* value )	PURE_VIRTUAL;
+		virtual void Uniform4fv			( int location, int size, const float* value )	PURE_VIRTUAL;
 		virtual void UniformMatrix4fv	( int location, int count, bool transpose,
- 											  const float *value )					PURE_VIRTUAL;
-		virtual void ActiveTexture	( int index )									PURE_VIRTUAL;
+ 										  const float *value )							PURE_VIRTUAL;
+		virtual void ActiveTexture		( int index )									PURE_VIRTUAL;
 
-		virtual void PolygonMode	( GLPolygonFace face, GLPolygonMode mode )		PURE_VIRTUAL;
-		virtual void Enable			( GLCapability capability )						PURE_VIRTUAL;
-		virtual void Disable		( GLCapability capability )						PURE_VIRTUAL;
-		virtual void CullFace		( GLCullFace mode )								PURE_VIRTUAL;
+		virtual void PolygonMode		( GLPolygonFace face, GLPolygonMode mode )		PURE_VIRTUAL;
+		virtual void LineWidth			( float value )									PURE_VIRTUAL;
+		virtual void Enable				( GLCapability capability )						PURE_VIRTUAL;
+		virtual void Disable			( GLCapability capability )						PURE_VIRTUAL;
+		virtual void CullFace			( GLCullFace mode )								PURE_VIRTUAL;
 		
-		virtual void BlendEquation	( GLBlendMode mode )							PURE_VIRTUAL;
-		virtual void BlendFunc		( GLBlendFactor src, GLBlendFactor dst )		PURE_VIRTUAL;
+		virtual void BlendEquation		( GLBlendMode mode )							PURE_VIRTUAL;
+		virtual void BlendFunc			( GLBlendFactor src, GLBlendFactor dst )		PURE_VIRTUAL;
 
-		virtual void DrawArrays		( GLDrawMode mode, int first, int size )		PURE_VIRTUAL;
-		virtual void DrawElements	( GLDrawMode mode, int count, GLVarType type, 
-									  const void* indices )							PURE_VIRTUAL;
+		virtual void DrawArrays			( GLDrawMode mode, int first, int size )		PURE_VIRTUAL;
+		virtual void DrawElements		( GLDrawMode mode, int count, GLVarType type, 
+										  const void* indices )							PURE_VIRTUAL;
 	
-		virtual void DepthFunc		( GLDepthFunc func )							PURE_VIRTUAL;
-		virtual void DepthMask		( bool flag )									PURE_VIRTUAL;
+		virtual void DepthFunc			( GLDepthFunc func )							PURE_VIRTUAL;
+		virtual void DepthMask			( bool flag )									PURE_VIRTUAL;
 
-		virtual void BindBufferBase	( GLBaseBuffer target, int index, 
-									  int buffer )									PURE_VIRTUAL;
+		virtual void BindBufferBase		( GLBaseBuffer target, int index, 
+										  int buffer )									PURE_VIRTUAL;
 	};
 }
 

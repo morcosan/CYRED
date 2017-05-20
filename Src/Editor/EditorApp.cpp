@@ -132,6 +132,16 @@ void EditorApp::Run( int& argc, char* argv[] )
 		assetsPanel->ReloadAllAssets();
 	}
 
+	// load gizmo
+	Iterator<PanelType, Panel*> iter = _panels.GetIterator();
+	while ( iter.HasNext() ) {
+		Panel_Viewport* viewportPanel = CAST_D( Panel_Viewport*, iter.GetValue() );
+		if ( viewportPanel != NULL ) {
+			viewportPanel->LoadGizmo();
+		}
+		iter.Next();
+	}
+
 	// must be called after all scenes assets are loaded
 	_ReadProjectFile();
 

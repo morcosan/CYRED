@@ -2,10 +2,12 @@
 // MIT License
 
 #include "Panel_Viewport.h"
+#include "CyredModule_Render.h"
+
 #include "../../EngineOverride/OpenGL/GLContextImpl.h"
 #include "../../EngineOverride/Input/InputReceiverQT.h"
 #include "../../EditorApp.h"
-#include "CyredModule_Render.h"
+#include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QVBoxLayout"
 
@@ -79,13 +81,13 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	_qtWindow = Memory::Alloc<_QtWindow>( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );
 	_qtWindow->setSurfaceType( QWindow::OpenGLSurface );
 
-	QWidget *container = QWidget::createWindowContainer( _qtWindow );
+	QWidget* container = QWidget::createWindowContainer( _qtWindow );
 
 	_qtTopBarLayout = Memory::Alloc<QHBoxLayout>();
 	_qtTopBarLayout->setAlignment( Qt::AlignLeft );
 	_qtTopBarLayout->setSpacing( 3 );
 
-	QVBoxLayout *vLayout = new QVBoxLayout();
+	QVBoxLayout* vLayout = new QVBoxLayout();
 	vLayout->setSpacing(0);
 	vLayout->setContentsMargins( 0, 0, 0, 0 );
 	vLayout->addLayout( _qtTopBarLayout );

@@ -29,24 +29,41 @@ Menu_AssetFolder::Menu_AssetFolder( QTreeWidget* qtTree, Panel_Assets* panel )
 	, _qtTree( qtTree )
 	, _panel( panel )
 {
-	// add actions
+}
 
-	QAction* actionRename = this->addAction( MENU_RENAME );
 
-	// separator
-	this->addSeparator();
+void Menu_AssetFolder::Open( const QPoint& pos )
+{
+	// create custom menu
+	this->clear();
 
-	QAction* actionOpenOnDisk = this->addAction( MENU_OPEN_DISK );
-	QAction* actionShowOnDisk = this->addAction( MENU_SHOW_DISK );
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->itemAt( pos ) );
+	// check if root folder
+	if ( treeItem->parent() != NULL ) {
+		QAction* actionRename = this->addAction( MENU_RENAME );
 
-	// separator
-	this->addSeparator();
+		// separator
+		this->addSeparator();
 
-	QAction* actionDelete = this->addAction( MENU_DELETE );
+		QAction* actionOpenOnDisk = this->addAction( MENU_OPEN_DISK );
+		QAction* actionShowOnDisk = this->addAction( MENU_SHOW_DISK );
 
-	// separator
-	this->addSeparator();
-	
+		// separator
+		this->addSeparator();
+
+		QAction* actionDelete = this->addAction( MENU_DELETE );
+
+		// separator
+		this->addSeparator();
+
+
+		QObject::connect( actionRename,		&QAction::triggered, this, &Menu_AssetFolder::A_Rename );
+		QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &Menu_AssetFolder::A_OpenOnDisk );
+		QObject::connect( actionShowOnDisk, &QAction::triggered, this, &Menu_AssetFolder::A_ShowOnDisk );
+		QObject::connect( actionDelete,		&QAction::triggered, this, &Menu_AssetFolder::A_Delete );
+	}
+
+
 	QMenu* menuCreate = this->addMenu( MENU_CREATE );
 
 	QAction* actionFolder = menuCreate->addAction( EditorUtils::NAME_FOLDER );
@@ -67,10 +84,6 @@ Menu_AssetFolder::Menu_AssetFolder( QTreeWidget* qtTree, Panel_Assets* panel )
 	QAction* actionScript	= menuCreate->addAction( EditorUtils::NAME_SCRIPT );
 
 	
-	QObject::connect( actionRename,		&QAction::triggered, this, &Menu_AssetFolder::A_Rename );
-	QObject::connect( actionOpenOnDisk, &QAction::triggered, this, &Menu_AssetFolder::A_OpenOnDisk );
-	QObject::connect( actionShowOnDisk, &QAction::triggered, this, &Menu_AssetFolder::A_ShowOnDisk );
-	QObject::connect( actionDelete,		&QAction::triggered, this, &Menu_AssetFolder::A_Delete );
 	QObject::connect( actionFolder,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Folder );
 	QObject::connect( actionMatEmpty,	&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mat_Empty );
 	QObject::connect( actionMatPS,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mat_PS );
@@ -80,11 +93,8 @@ Menu_AssetFolder::Menu_AssetFolder( QTreeWidget* qtTree, Panel_Assets* panel )
 	QObject::connect( actionMesh,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mesh );
 	QObject::connect( actionMorph,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Morph );
 	QObject::connect( actionScript,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Script );
-}
 
 
-void Menu_AssetFolder::Open( const QPoint& pos )
-{
 	// display menu
 	this->popup( _qtTree->mapToGlobal(pos) );
 }

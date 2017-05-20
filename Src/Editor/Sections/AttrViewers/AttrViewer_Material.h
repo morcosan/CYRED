@@ -50,5 +50,8 @@ namespace CYRED
 
 	private:
 		Material*	_target;
+
+	private:
+		void _ChangeVisibility	();
 	};
 }

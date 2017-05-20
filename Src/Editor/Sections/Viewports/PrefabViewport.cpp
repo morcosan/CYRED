@@ -35,6 +35,21 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 }
 
 
+void PrefabViewport::LoadGizmo()
+{
+	FiniteString prefabName( GIZMO_GRID );
+	// parse prefabs and find gizmo grid
+	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
+		Prefab* prefab = AssetManager::Singleton()->GetPrefabAt( i );
+		if ( prefabName == prefab->GetName() ) {
+			// found
+			_gizmoGrid = prefab;
+			break;
+		}
+	}
+}
+
+
 void PrefabViewport::SetCamera( GameObject* cameraGO )
 {
 	_cameraGO = cameraGO;
@@ -106,6 +121,11 @@ void PrefabViewport::_OnUpdate()
 	if ( _targetPrefab != NULL ) {
 		// get prefabs root
 		Node* prefabRoot = _targetPrefab->GetRoot();
+
+		// render gizmo grid
+		if ( _gizmoGrid != NULL ) {
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), _cameraGO, NULL );
+		}
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;

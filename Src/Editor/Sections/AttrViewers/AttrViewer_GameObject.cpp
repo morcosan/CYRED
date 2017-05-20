@@ -33,9 +33,9 @@ void AttrViewer_GameObject::_OnUpdateGUI()
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
-
-		_Colorize( _target->IsEnabled(), TRUE );
 	}
+
+	_Colorize( _target->IsEnabled(), TRUE );
 }
 
 

@@ -37,35 +37,6 @@
                         "transform": {
                             "enabled": true,
                             "position_world": {
-                                "x": 2.0,
-                                "y": 0.0,
-                                "z": 0.0
-                            },
-                            "rotation_world": {
-                                "x": 0.0,
-                                "y": 0.0,
-                                "z": 0.0
-                            },
-                            "scale_world": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            }
-                        },
-                        "mesh_rendering": {
-                            "enabled": true,
-                            "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
-                            "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
-                        }
-                    }
-                },
-                {
-                    "name": "w2",
-                    "enabled": true,
-                    "components": {
-                        "transform": {
-                            "enabled": true,
-                            "position_world": {
                                 "x": 4.0,
                                 "y": 0.0,
                                 "z": 0.0
@@ -89,6 +60,35 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "w2",
+            "enabled": false,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 2.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                    "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
+                }
+            }
         }
     ]
 }

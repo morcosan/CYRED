@@ -36,6 +36,8 @@ void AttrViewer_CyredProj::_OnInitialize()
 
 void AttrViewer_CyredProj::_OnChangeTarget( void* target )
 {
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 

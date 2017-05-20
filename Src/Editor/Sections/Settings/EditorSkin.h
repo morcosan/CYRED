@@ -27,7 +27,8 @@ namespace CYRED
 		static const char* const ASSET_UNKNOWN;	
 
 		static const char* const VIEWPORT_BUTTON;	/* a button of viewport panel			*/
-
+		static const char* const VIEWPORT_VIEW;
+		
 		static const char* const PANEL_LAYOUT;		/* the layout inside a panel			*/
 		
 		static const char* const CONSOLE_LAYOUT;	/* the layout of the console			*/

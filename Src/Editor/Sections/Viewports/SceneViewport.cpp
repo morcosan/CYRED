@@ -4,6 +4,7 @@
 #include "SceneViewport.h"
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
+#include "CyredModule_Asset.h"
 #include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
@@ -21,6 +22,21 @@ DataMap<TechniqueType, int> SceneViewport::_techSlots;
 SceneViewport::SceneViewport( int panelIndex )
 	: Panel_Viewport( panelIndex )
 {
+}
+
+
+void SceneViewport::LoadGizmo()
+{
+	FiniteString prefabName( GIZMO_GRID );
+	// parse prefabs and find gizmo grid
+	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
+		Prefab* prefab = AssetManager::Singleton()->GetPrefabAt( i );
+		if ( prefabName == prefab->GetName() ) {
+			// found
+			_gizmoGrid = prefab;
+			break;
+		}
+	}
 }
 
 
@@ -102,11 +118,16 @@ void SceneViewport::_OnUpdate()
 	float height = cam->GetOrthoSize().y;
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
-	
+
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
 		// get first scene's root
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+		// render gizmo grid
+		if ( _gizmoGrid != NULL ) {
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), _cameraGO, NULL );
+		}
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
@@ -140,3 +161,4 @@ void SceneViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObj
 		_RecCollectLights( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 }
+

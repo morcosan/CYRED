@@ -24,6 +24,7 @@ const char* const EditorSkin::ASSET_BUTTON			= "AssetButton";
 const char* const EditorSkin::ASSET_UNKNOWN			= "UnknownAsset";
 
 const char* const EditorSkin::VIEWPORT_BUTTON		= "ViewportButton";
+const char* const EditorSkin::VIEWPORT_VIEW			= "ViewportView";
 
 const char* const EditorSkin::PANEL_LAYOUT			= "PanelLayout";
 

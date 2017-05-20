@@ -85,77 +85,47 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	_currCameraCam		= cameraGO->GetComponent<Camera>();
 	_currLights			= lights;
 
+	// prepare for rendering
 	switch ( compType ) {
 		case ComponentType::MESH_RENDERING:
-		{
-			// prepare for rendering
-			_gl->Enable( GLCapability::BLEND );
-			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
-			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA );
-			_gl->Enable( GLCapability::DEPTH_TEST );
-			_gl->DepthFunc( GLDepthFunc::LEQUAL );
-			_gl->DepthMask( TRUE );
-
-			// check if target is gameobject
-			GameObject* targetGO = CAST_D( GameObject*, target );
-			if ( targetGO != NULL ) {
-				_RecRenderMesh( targetGO );
-			}
-			else {
-				// render children
-				for ( int i = 0; i < target->GetChildNodeCount(); ++i ) {
-					_RecRenderMesh( CAST_S(GameObject*, target->GetChildNodeAt(i)) );
-				}
-			}
-
-			break;
-		}
-
 		case ComponentType::MORPH_RENDERING:
 		{
-			// prepare for rendering
 			_gl->Enable( GLCapability::BLEND );
 			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
 			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA );
 			_gl->Enable( GLCapability::DEPTH_TEST );
 			_gl->DepthFunc( GLDepthFunc::LEQUAL );
 			_gl->DepthMask( TRUE );
-
-			// check if target is gameobject
-			GameObject* targetGO = CAST_D( GameObject*, target );
-			if ( targetGO != NULL ) {
-				_RecRenderMorph( targetGO );
-			}
-			else {
-				// render children
-				for ( int i = 0; i < target->GetChildNodeCount(); ++i ) {
-					_RecRenderMorph( CAST_S(GameObject*, target->GetChildNodeAt(i)) );
-				}
-			}
-
 			break;
 		}
 
 		case ComponentType::PARTICLE_EMITTER:
 		{
-			// prepare for rendering
 			_gl->Enable( GLCapability::BLEND );
 			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE );
 			_gl->DepthMask( FALSE );
-
-			// check if target is gameobject
-			GameObject* targetGO = CAST_D( GameObject*, target );
-			if ( targetGO != NULL ) {
-				_RecRenderParticles( targetGO );
-			}
-			else {
-				// render children
-				for ( int i = 0; i < target->GetChildNodeCount(); ++i ) {
-					_RecRenderParticles( CAST_S(GameObject*, target->GetChildNodeAt(i)) );
-				}
-			}
-
 			break;
+		}
+	}
+
+	// check if target is gameobject
+	GameObject* targetGO = CAST_D( GameObject*, target );
+	if ( targetGO != NULL ) {
+		switch ( compType ) {
+			case ComponentType::MESH_RENDERING:		_RecRenderMesh( targetGO );			break;
+			case ComponentType::MORPH_RENDERING:	_RecRenderMorph( targetGO );		break;
+			case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( targetGO );	break;
+		}
+	}
+	else {
+		// render children
+		for ( int i = 0; i < target->GetChildNodeCount(); ++i ) {
+			GameObject* gameObject = CAST_S(GameObject*, target->GetChildNodeAt(i));
+			switch ( compType ) {
+				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject );		break;
+				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject );		break;
+				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );	break;
+			}
 		}
 	}
 }
@@ -759,7 +729,7 @@ void ForwardRenderer::_BindMaterial( Material* material )
 
 	if ( material->IsWireframe() ) {
 		_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::LINE );
-		//_gl->glLineWidth( material->GetLineWidth() );  TODO
+		_gl->LineWidth( material->GetLineWidth() );
 		_gl->Disable( GLCapability::CULL_FACE );
 	}
 	else {

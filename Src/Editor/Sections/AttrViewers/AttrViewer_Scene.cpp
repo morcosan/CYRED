@@ -21,6 +21,9 @@ void AttrViewer_Scene::_OnInitialize()
 void AttrViewer_Scene::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Scene*, target );
+
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 

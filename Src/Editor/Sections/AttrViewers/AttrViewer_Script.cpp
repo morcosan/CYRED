@@ -102,6 +102,9 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 	}
 	_CloseGroup();
 
+	// reset colorize
+	_Colorize( TRUE, TRUE );
+
 	// update panel
 	_UpdatePanel();
 }

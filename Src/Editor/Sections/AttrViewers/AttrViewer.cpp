@@ -211,8 +211,9 @@ void AttrViewer::Initialize( Panel_Attributes* panel, QTreeWidget* panelTree )
 
 void AttrViewer::ChangeTarget( void* target )
 {
+	// change target
 	_OnChangeTarget( target );
-
+	// refresh panel
 	RefreshPanel();
 }
 
@@ -309,11 +310,8 @@ void AttrViewer::_AddToPanel( const char* title )
 		QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
 		boxLayout->setAlignment( Qt::AlignLeft );
 
-		{
-			if ( _innerAttributes.Has( InnerAttrType::ENABLED ) )
-			{
-				boxLayout->addWidget( _innerAttributes.Get( InnerAttrType::ENABLED ).valueWidget );
-			}
+		if ( _innerAttributes.Has( InnerAttrType::ENABLED ) ) {
+			boxLayout->addWidget( _innerAttributes.Get( InnerAttrType::ENABLED ).valueWidget );
 		}
 
 		QLabel* titleLabel = Memory::Alloc<QLabel>( title );
@@ -1354,12 +1352,10 @@ void AttrViewer::_Colorize( bool enabled, bool colorizeAll )
 {
 	ASSERT( _panelTree != NULL );
 
-	if ( colorizeAll )
-	{
+	if ( colorizeAll ) {
 		_panelTree->setProperty( EditorSkin::FLAG_DISABLED, !enabled );
 	}
-	else
-	{
+	else {
 		_titleWidget->setProperty( EditorSkin::FLAG_DISABLED, !enabled );
 		_childWidget->setProperty( EditorSkin::FLAG_DISABLED, !enabled );
 	}

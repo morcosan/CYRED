@@ -29,6 +29,9 @@ void AttrViewer_Shader::_OnInitialize()
 void AttrViewer_Shader::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Shader*, target );
+
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 

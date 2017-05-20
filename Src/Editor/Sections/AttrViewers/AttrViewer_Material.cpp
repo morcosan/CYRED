@@ -84,6 +84,9 @@ void AttrViewer_Material::_OnInitialize()
 void AttrViewer_Material::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Material*, target );
+
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 
@@ -99,19 +102,10 @@ void AttrViewer_Material::_OnUpdateGUI()
 	_WriteAttrFloat( ATTR_LINE_WIDTH, _target->GetLineWidth() );
 
 	int cullFaceIndex = 0;
-	switch ( _target->GetFaceCulling() )
-	{
-		case FaceCulling::CULL_BACK:
-			cullFaceIndex = 0;
-			break;
-
-		case FaceCulling::CULL_FRONT:
-			cullFaceIndex = 1;
-			break;
-
-		case FaceCulling::CULL_NONE:
-			cullFaceIndex = 2;
-			break;
+	switch ( _target->GetFaceCulling() ) {
+		case FaceCulling::CULL_BACK:	cullFaceIndex = 0;	break;
+		case FaceCulling::CULL_FRONT:	cullFaceIndex = 1;	break;
+		case FaceCulling::CULL_NONE:	cullFaceIndex = 2;	break;
 	}
 	_WriteAttrDropdown( ATTR_CULL_FACE,	cullFaceIndex );
 
@@ -132,13 +126,11 @@ void AttrViewer_Material::_OnUpdateGUI()
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 0 );
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 0 );
 
-		for ( int i = 0; i < totalProperties; ++i )
-		{
+		for ( int i = 0; i < totalProperties; ++i ) {
 			const char* name = _target->GetPropertyNameAt( i );
 
 			DataUnion& data = _target->GetPropertyDataAt( i );
-			switch ( data.GetValueType() )
-			{
+			switch ( data.GetValueType() ) {
 				case DataUnion::INT:
 				{
 					++totalInts;
@@ -218,6 +210,9 @@ void AttrViewer_Material::_OnUpdateGUI()
 			}
 		}
 	}
+
+	// change ui based on options
+	_ChangeVisibility();
 }
 
 
@@ -233,19 +228,10 @@ void AttrViewer_Material::_OnUpdateTarget()
 
 	FaceCulling	faceCulling;
 	int cullFaceIndex = _ReadAttrDropdown( ATTR_CULL_FACE );
-	switch ( cullFaceIndex )
-	{
-		case 0:
-			faceCulling = FaceCulling::CULL_BACK;
-			break;
-
-		case 1:
-			faceCulling = FaceCulling::CULL_FRONT;
-			break;
-
-		case 2:
-			faceCulling = FaceCulling::CULL_NONE;
-			break;
+	switch ( cullFaceIndex ) {
+		case 0:	faceCulling = FaceCulling::CULL_BACK;	break;
+		case 1:	faceCulling = FaceCulling::CULL_FRONT;	break;
+		case 2:	faceCulling = FaceCulling::CULL_NONE;	break;
 	}
 	_target->SetFaceCulling( faceCulling );
 
@@ -275,7 +261,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetInt() );
 		}
 
-		for ( int i = 0; i < totalVec2s; ++i )	{
+		for ( int i = 0; i < totalVec2s; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR2, 
@@ -283,7 +269,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector2() );
 		}
 
-		for ( int i = 0; i < totalVec3s; ++i )	{
+		for ( int i = 0; i < totalVec3s; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR3, 
@@ -291,7 +277,7 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), propValue.GetVector3() );
 		}
 
-		for ( int i = 0; i < totalVec4s; ++i )	{
+		for ( int i = 0; i < totalVec4s; ++i ) {
 			DataUnion& propName = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
 														  i, ATTR_PROP_NAME );
 			DataUnion& propValue = _ReadAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_VECTOR4, 
@@ -308,9 +294,27 @@ void AttrViewer_Material::_OnUpdateTarget()
 		}
 	}
 
+	// change ui based on options
+	_ChangeVisibility();
+
 	_target->SetEmitEvents( TRUE );
 
 	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, _target );
+}
+
+
+void AttrViewer_Material::_ChangeVisibility()
+{
+	if ( _target->IsWireframe() ) {
+		_SetAttrVisibility( ATTR_LINE_WIDTH, TRUE );
+		_SetAttrVisibility( ATTR_CULL_FACE, FALSE );
+	}
+	else {
+		_SetAttrVisibility( ATTR_LINE_WIDTH, FALSE );
+		_SetAttrVisibility( ATTR_CULL_FACE, TRUE );
+	}
+
+	_UpdateVisibility();
 }
 

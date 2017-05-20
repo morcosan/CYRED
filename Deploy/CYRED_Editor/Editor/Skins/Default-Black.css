@@ -9,7 +9,7 @@
 /*** general main window ***/
 QMainWindow
 {
-	background-color: #222;
+	background-color: #111;
 }
 /*** general main window ***/
 
@@ -50,7 +50,8 @@ QDockWidget
 QDockWidget:title
 {
 	padding: 5px;
-	background-color: #555;
+	background-color: #444;
+	border: 1px solid #000;
 }
 QTabBar::tab
 {
@@ -132,6 +133,7 @@ QMenuBar, QMenuBar::item
 	background-color: #333;
 	border: 0;
 	outline: 0;
+	border: 1px solid #000;
 }
 #AttrCompTree::item:hover
 {
@@ -250,6 +252,11 @@ QComboBox QAbstractItemView
 
 
 /*** viewport panel ***/
+#ViewportView
+{
+	background-color: #f00;
+	border: 1px solid #000;
+}
 #ViewportButton
 {
 	color: #ddd;
@@ -344,7 +351,7 @@ QScrollBar::right-arrow
 	background-color: #333;
 	color: #ddd;
 	outline: 0;
-	border: 0;
+	border: 1px solid #000;
 }
 #HierarchyTree::item:hover
 {
@@ -365,8 +372,8 @@ QScrollBar::right-arrow
 	background-color: #333;
 	color: #ddd;
 	outline: 0;
-	border: 0;
 	padding-top: 5px;
+	border: 1px solid #000;
 }
 #AssetTree::item:hover
 {

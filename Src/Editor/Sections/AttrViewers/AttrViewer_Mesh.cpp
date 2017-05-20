@@ -35,6 +35,9 @@ void AttrViewer_Mesh::_OnInitialize()
 void AttrViewer_Mesh::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Mesh*, target );
+
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 

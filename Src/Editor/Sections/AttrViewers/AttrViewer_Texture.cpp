@@ -42,6 +42,9 @@ void AttrViewer_Texture::_OnInitialize()
 void AttrViewer_Texture::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Texture*, target );
+
+	// reset colorize
+	_Colorize( TRUE, TRUE );
 }
 
 
@@ -69,8 +72,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 	_WriteAttrBool( ATTR_HAS_MIPMAP, _target->HasMipmap() );
 	_WriteAttrBool( ATTR_CLEAR_BUFFER, _target->DoesClearBufferOnBind() );
 
-	switch ( _target->GetTextureType() )
-	{
+	switch ( _target->GetTextureType() ) {
 		case TextureType::TEXTURE_2D:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetImagePath(0) );
 			break;
@@ -85,6 +87,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 			break;
 	}
 
+	// change ui based on options
 	_ChangeVisibility();
 }
 
@@ -104,6 +107,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 		}
 		_target->SetTextureType( textureType );
 
+		// change ui based on options
 		_ChangeVisibility();
 	}
 	else {
@@ -144,8 +148,7 @@ void AttrViewer_Texture::_OnUpdateTarget()
 
 void AttrViewer_Texture::_ChangeVisibility()
 {
-	switch ( _target->GetTextureType() )
-	{
+	switch ( _target->GetTextureType() ) {
 		case TextureType::TEXTURE_2D:
 			_SetAttrVisibility( ATTR_FILE_PATH, TRUE );
 			_SetAttrVisibility( ATTR_FILE_PATH_POSX, FALSE );

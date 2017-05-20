@@ -29,17 +29,33 @@ namespace CYRED
 
 
 	public:
-		void Initialize	() override;
-		void Finalize	() override;
-		void Update		() override;
+		void Initialize			() override;
+		void Finalize			() override;
+		void Update				() override;
 
 
 	public:
-		void		Initialize		( bool isPrimary );
-		GLContext*	GetGLContext	();
+		virtual void LoadGizmo	() {}
+
+
+	public:
+		void		Initialize	( bool isPrimary );
+		GLContext*	GetGLContext();
 
 
 	private:
+		void _OnResize() override;
+
+
+	private:
+		virtual const char*	_GetPanelTitle	() PURE_VIRTUAL;
+		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
+		virtual void		_OnInitialize	() PURE_VIRTUAL;
+		virtual void		_OnFinalize		() PURE_VIRTUAL;
+		virtual void		_OnUpdate		() PURE_VIRTUAL;
+
+
+	protected:
 		class _QtWindow : public QWindow
 		{
 		public:
@@ -63,20 +79,6 @@ namespace CYRED
 			InputReceiverQT*	_inputReceiver;
 		};
 
-
-	private:
-		void _OnResize() override;
-
-
-	private:
-		virtual const char*	_GetPanelTitle	() PURE_VIRTUAL;
-		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
-		virtual void		_OnInitialize	() PURE_VIRTUAL;
-		virtual void		_OnFinalize		() PURE_VIRTUAL;
-		virtual void		_OnUpdate		() PURE_VIRTUAL;
-
-
-	protected:
 		GLContext*		_glContext;
 		_QtWindow*		_qtWindow;
 		int				_canvasSlot;

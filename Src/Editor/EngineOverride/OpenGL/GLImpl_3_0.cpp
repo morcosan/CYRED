@@ -750,6 +750,12 @@ void GLImpl_3_0::PolygonMode( GLPolygonFace face, GLPolygonMode mode )
 }
 
 
+void GLImpl_3_0::LineWidth( float value )
+{
+	_qtGL->glLineWidth( value );
+}
+
+
 void GLImpl_3_0::Enable( GLCapability capability )
 {
 	switch ( capability )
@@ -775,61 +781,31 @@ void GLImpl_3_0::Enable( GLCapability capability )
 
 void GLImpl_3_0::Disable( GLCapability capability )
 {
-	switch ( capability )
-	{
-		case GLCapability::ALPHA_TEST:
-			_qtGL->glDisable( GL_ALPHA_TEST );
-			break;
-
-		case GLCapability::BLEND:
-			_qtGL->glDisable( GL_BLEND );
-			break;
-
-		case GLCapability::CULL_FACE:
-			_qtGL->glDisable( GL_CULL_FACE );
-			break;
-
-		case GLCapability::DEPTH_TEST:
-			_qtGL->glDisable( GL_DEPTH_TEST );
-			break;
+	switch ( capability ) {
+		case GLCapability::ALPHA_TEST:	_qtGL->glDisable( GL_ALPHA_TEST );	break;
+		case GLCapability::BLEND:		_qtGL->glDisable( GL_BLEND );		break;
+		case GLCapability::CULL_FACE:	_qtGL->glDisable( GL_CULL_FACE );	break;
+		case GLCapability::DEPTH_TEST:	_qtGL->glDisable( GL_DEPTH_TEST );	break;
 	}
 }
 
 
 void GLImpl_3_0::CullFace( GLCullFace mode )
 {
-	switch ( mode )
-	{
-		case GLCullFace::BACK:
-			_qtGL->glCullFace( GL_BACK );
-			break;
-
-		case GLCullFace::FRONT:
-			_qtGL->glCullFace( GL_FRONT );
-			break;
-
-		case GLCullFace::FRONT_AND_BACK:
-			_qtGL->glCullFace( GL_FRONT_AND_BACK );
-			break;
+	switch ( mode ) {
+		case GLCullFace::BACK:				_qtGL->glCullFace( GL_BACK );			break;
+		case GLCullFace::FRONT:				_qtGL->glCullFace( GL_FRONT );			break;
+		case GLCullFace::FRONT_AND_BACK:	_qtGL->glCullFace( GL_FRONT_AND_BACK );	break;
 	}
 }
 
 
 void GLImpl_3_0::BlendEquation( GLBlendMode mode )
 {
-	switch ( mode )
-	{
-		case GLBlendMode::FUNC_ADD:
-			_qtGL->glBlendEquation( GL_FUNC_ADD );
-			break;
-
-		case GLBlendMode::FUNC_REVERSE_SUBTRACT:
-			_qtGL->glBlendEquation( GL_FUNC_REVERSE_SUBTRACT );
-			break;
-
-		case GLBlendMode::FUNC_SUBTRACT:
-			_qtGL->glBlendEquation( GL_FUNC_SUBTRACT );
-			break;
+	switch ( mode ) {
+		case GLBlendMode::FUNC_ADD:					_qtGL->glBlendEquation( GL_FUNC_ADD );				break;
+		case GLBlendMode::FUNC_REVERSE_SUBTRACT:	_qtGL->glBlendEquation( GL_FUNC_REVERSE_SUBTRACT );	break;
+		case GLBlendMode::FUNC_SUBTRACT:			_qtGL->glBlendEquation( GL_FUNC_SUBTRACT );			break;
 	}
 }
 
@@ -839,90 +815,30 @@ void GLImpl_3_0::BlendFunc( GLBlendFactor src, GLBlendFactor dst )
 	int glSrc = 0;
 	int glDst = 0;
 
-	switch ( src )
-	{
-		case GLBlendFactor::DST_ALPHA:
-			glSrc = GL_DST_ALPHA;
-			break;
-
-		case GLBlendFactor::DST_COLOR:
-			glSrc = GL_DST_COLOR;
-			break;
-
-		case GLBlendFactor::ONE:
-			glSrc = GL_ONE;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_DST_ALPHA:
-			glSrc = GL_ONE_MINUS_DST_ALPHA;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_DST_COLOR:
-			glSrc = GL_ONE_MINUS_DST_COLOR;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_SRC_ALPHA:
-			glSrc = GL_ONE_MINUS_SRC_ALPHA;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_SRC_COLOR:
-			glSrc = GL_ONE_MINUS_SRC_COLOR;
-			break;
-
-		case GLBlendFactor::SRC_ALPHA:
-			glSrc = GL_SRC_ALPHA;
-			break;
-
-		case GLBlendFactor::SRC_COLOR:
-			glSrc = GL_SRC_COLOR;
-			break;
-
-		case GLBlendFactor::ZERO:
-			glSrc = GL_ZERO;
-			break;
+	switch ( src ) {
+		case GLBlendFactor::DST_ALPHA:				glSrc = GL_DST_ALPHA;			break;
+		case GLBlendFactor::DST_COLOR:				glSrc = GL_DST_COLOR;			break;
+		case GLBlendFactor::ONE:					glSrc = GL_ONE;					break;
+		case GLBlendFactor::ONE_MINUS_DST_ALPHA:	glSrc = GL_ONE_MINUS_DST_ALPHA;	break;
+		case GLBlendFactor::ONE_MINUS_DST_COLOR:	glSrc = GL_ONE_MINUS_DST_COLOR;	break;
+		case GLBlendFactor::ONE_MINUS_SRC_ALPHA:	glSrc = GL_ONE_MINUS_SRC_ALPHA;	break;
+		case GLBlendFactor::ONE_MINUS_SRC_COLOR:	glSrc = GL_ONE_MINUS_SRC_COLOR;	break;
+		case GLBlendFactor::SRC_ALPHA:				glSrc = GL_SRC_ALPHA;			break;
+		case GLBlendFactor::SRC_COLOR:				glSrc = GL_SRC_COLOR;			break;
+		case GLBlendFactor::ZERO:					glSrc = GL_ZERO;				break;
 	}
 
-	switch ( dst )
-	{
-		case GLBlendFactor::DST_ALPHA:
-			glDst = GL_DST_ALPHA;
-			break;
-
-		case GLBlendFactor::DST_COLOR:
-			glDst = GL_DST_COLOR;
-			break;
-
-		case GLBlendFactor::ONE:
-			glDst = GL_ONE;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_DST_ALPHA:
-			glDst = GL_ONE_MINUS_DST_ALPHA;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_DST_COLOR:
-			glDst = GL_ONE_MINUS_DST_COLOR;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_SRC_ALPHA:
-			glDst = GL_ONE_MINUS_SRC_ALPHA;
-			break;
-
-		case GLBlendFactor::ONE_MINUS_SRC_COLOR:
-			glDst = GL_ONE_MINUS_SRC_COLOR;
-			break;
-
-		case GLBlendFactor::SRC_ALPHA:
-			glDst = GL_SRC_ALPHA;
-			break;
-
-		case GLBlendFactor::SRC_COLOR:
-			glDst = GL_SRC_COLOR;
-			break;
-
-		case GLBlendFactor::ZERO:
-			glDst = GL_ZERO;
-			break;
+	switch ( dst ) {
+		case GLBlendFactor::DST_ALPHA:				glDst = GL_DST_ALPHA;			break;
+		case GLBlendFactor::DST_COLOR:				glDst = GL_DST_COLOR;			break;
+		case GLBlendFactor::ONE:					glDst = GL_ONE;					break;
+		case GLBlendFactor::ONE_MINUS_DST_ALPHA:	glDst = GL_ONE_MINUS_DST_ALPHA;	break;
+		case GLBlendFactor::ONE_MINUS_DST_COLOR:	glDst = GL_ONE_MINUS_DST_COLOR;	break;
+		case GLBlendFactor::ONE_MINUS_SRC_ALPHA:	glDst = GL_ONE_MINUS_SRC_ALPHA;	break;
+		case GLBlendFactor::ONE_MINUS_SRC_COLOR:	glDst = GL_ONE_MINUS_SRC_COLOR;	break;
+		case GLBlendFactor::SRC_ALPHA:				glDst = GL_SRC_ALPHA;			break;
+		case GLBlendFactor::SRC_COLOR:				glDst = GL_SRC_COLOR;			break;
+		case GLBlendFactor::ZERO:					glDst = GL_ZERO;				break;	
 	}
 
 	_qtGL->glBlendFunc( glSrc, glDst );
@@ -931,11 +847,8 @@ void GLImpl_3_0::BlendFunc( GLBlendFactor src, GLBlendFactor dst )
 
 void GLImpl_3_0::DrawArrays( GLDrawMode mode, int first, int size )
 {
-	switch ( mode )
-	{
-		case GLDrawMode::TRIANGLES:
-			_qtGL->glDrawArrays( GL_TRIANGLES, first, size );
-			break;
+	switch ( mode )	{
+		case GLDrawMode::TRIANGLES:	_qtGL->glDrawArrays( GL_TRIANGLES, first, size );	break;
 	}
 }
 
@@ -945,26 +858,14 @@ void GLImpl_3_0::DrawElements( GLDrawMode mode, int count, GLVarType type, const
 	int glMode = 0;
 	int glType = 0;
 
-	switch ( mode )
-	{
-		case GLDrawMode::TRIANGLES:
-			glMode = GL_TRIANGLES;
-			break;
-
-		case GLDrawMode::LINES:
-			glMode = GL_LINES;
-			break;
-
-		case GLDrawMode::POINTS:
-			glMode = GL_POINTS;
-			break;
+	switch ( mode ) {
+		case GLDrawMode::TRIANGLES:	glMode = GL_TRIANGLES;	break;
+		case GLDrawMode::LINES:		glMode = GL_LINES;		break;
+		case GLDrawMode::POINTS:	glMode = GL_POINTS;		break;
 	}
 
-	switch ( type )
-	{
-		case GLVarType::UNSIGNED_INT:
-			glType = GL_UNSIGNED_INT;
-			break;
+	switch ( type ) {
+		case GLVarType::UNSIGNED_INT:	glType = GL_UNSIGNED_INT;	break;
 	}
 
 	_qtGL->glDrawElements( glMode, count, glType, indices );
@@ -973,39 +874,15 @@ void GLImpl_3_0::DrawElements( GLDrawMode mode, int count, GLVarType type, const
 
 void GLImpl_3_0::DepthFunc( GLDepthFunc func )
 {
-	switch ( func )
-	{
-		case GLDepthFunc::ALWAYS:
-			_qtGL->glDepthFunc( GL_ALWAYS );
-			break;
-
-		case GLDepthFunc::EQUAL:
-			_qtGL->glDepthFunc( GL_EQUAL );
-			break;
-
-		case GLDepthFunc::GEQUAL:
-			_qtGL->glDepthFunc( GL_GEQUAL );
-			break;
-
-		case GLDepthFunc::GREATER:
-			_qtGL->glDepthFunc( GL_GREATER );
-			break;
-
-		case GLDepthFunc::LEQUAL:
-			_qtGL->glDepthFunc( GL_LEQUAL );
-			break;
-
-		case GLDepthFunc::LESS:
-			_qtGL->glDepthFunc( GL_LESS );
-			break;
-
-		case GLDepthFunc::NEVER:
-			_qtGL->glDepthFunc( GL_NEVER );
-			break;
-
-		case GLDepthFunc::NOTEQUAL:
-			_qtGL->glDepthFunc( GL_NOTEQUAL );
-			break;
+	switch ( func ) {
+		case GLDepthFunc::ALWAYS:	_qtGL->glDepthFunc( GL_ALWAYS );	break;
+		case GLDepthFunc::EQUAL:	_qtGL->glDepthFunc( GL_EQUAL );		break;
+		case GLDepthFunc::GEQUAL:	_qtGL->glDepthFunc( GL_GEQUAL );	break;
+		case GLDepthFunc::GREATER:	_qtGL->glDepthFunc( GL_GREATER );	break;
+		case GLDepthFunc::LEQUAL:	_qtGL->glDepthFunc( GL_LEQUAL );	break;
+		case GLDepthFunc::LESS:		_qtGL->glDepthFunc( GL_LESS );		break;
+		case GLDepthFunc::NEVER:	_qtGL->glDepthFunc( GL_NEVER );		break;
+		case GLDepthFunc::NOTEQUAL:	_qtGL->glDepthFunc( GL_NOTEQUAL );	break;
 	}
 }
 
@@ -1018,8 +895,7 @@ void GLImpl_3_0::DepthMask( bool flag )
 
 void GLImpl_3_0::BindBufferBase( GLBaseBuffer target, int index, int buffer )
 {
-	switch ( target )
-	{
+	switch ( target ) {
 		case GLBaseBuffer::SHADER_STORAGE_BUFFER:
 			_qtGL->glBindBufferBase( GL_SHADER_STORAGE_BUFFER, index, buffer );
 			break;

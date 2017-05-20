@@ -50,7 +50,7 @@ Panel_Attributes::Panel_Attributes()
 
 	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
 	vLayout->setSpacing( 15 );
-	vLayout->setContentsMargins( 0, 0, 0, 10 );
+	vLayout->setContentsMargins( 0, 0, 0, 0 );
 	vLayout->addWidget( _qtTree );
 
 	QWidget* layoutWidget = Memory::Alloc<QWidget>();

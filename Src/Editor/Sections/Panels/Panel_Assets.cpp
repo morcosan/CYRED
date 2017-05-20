@@ -86,7 +86,7 @@ public:
 		// create new path
 		QString newFilePath( newParent->whatsThis( 1 ) );
 		if ( fileInfo.isDir() ) {
-			newFilePath.append( movedItem->text(0) ).append("/");
+			newFilePath.append( movedItem->text(0) ).append("//");
 		}
 		else {
 			newFilePath.append( fileInfo.fileName() );
@@ -339,11 +339,8 @@ void Panel_Assets::A_RightClickMenu( const QPoint& pos )
 			_menuAsset->Open( pos );
 		}
 		else if ( treeItem == NULL || treeItem->whatsThis(0).compare( EditorUtils::NAME_FOLDER ) == 0 ) {
-			// ignore root folders
-			if ( treeItem->parent() != NULL ) {
-				// open folder menu
-				_menuAssetFolder->Open( pos );
-			}
+			// open folder menu
+			_menuAssetFolder->Open( pos );
 		}
 		else {
 			// open unknown menu

@@ -53,6 +53,8 @@ namespace CYRED
 	private:
 		Texture*	_target;
 
+
+	private:
 		void _ChangeVisibility	();
 	};
 }

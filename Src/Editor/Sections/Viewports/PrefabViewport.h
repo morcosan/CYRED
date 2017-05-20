@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "CyredModule_Render.h"
@@ -21,8 +20,9 @@ namespace CYRED
 	class PrefabViewport : public Panel_Viewport, public IEventListener
 	{
 	public:
-		const char*		PANEL_TITLE = "Prefab Viewport";
-		const Vector2	MIN_SIZE	= Vector2( 400, 200 );
+		const char* const	PANEL_TITLE = "Prefab Viewport";
+		const Vector2		MIN_SIZE	= Vector2( 400, 200 );
+		const char* const	GIZMO_GRID	= "GizmoGrid";
 
 
 	public:
@@ -31,7 +31,8 @@ namespace CYRED
 
 
 	public:
-		void OnEvent( EventType eType, void* eData )	override;
+		void OnEvent	( EventType eType, void* eData )	override;
+		void LoadGizmo	()									override;
 
 
 	public:
@@ -44,7 +45,7 @@ namespace CYRED
 
 	private:
 		Prefab* _targetPrefab;
-
+		Prefab*	_gizmoGrid;
 
 	private:
 		virtual const char*	_GetPanelTitle	() override;
