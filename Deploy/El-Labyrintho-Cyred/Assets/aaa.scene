@@ -8,7 +8,7 @@
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": 0.0,
+                        "x": -2.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -28,38 +28,36 @@
                     "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
                     "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
                 }
-            },
-            "child_nodes": [
-                {
-                    "name": "w2",
+            }
+        },
+        {
+            "name": "w2",
+            "enabled": true,
+            "components": {
+                "transform": {
                     "enabled": true,
-                    "components": {
-                        "transform": {
-                            "enabled": true,
-                            "position_world": {
-                                "x": 2.0,
-                                "y": 0.0,
-                                "z": 0.0
-                            },
-                            "rotation_world": {
-                                "x": 0.0,
-                                "y": 0.0,
-                                "z": 0.0
-                            },
-                            "scale_world": {
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
-                            }
-                        },
-                        "mesh_rendering": {
-                            "enabled": true,
-                            "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
-                            "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
-                        }
+                    "position_world": {
+                        "x": 2.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
                     }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                    "material": "e3ZfJHn7EwXbGFUvp6gVZMLrerNRemLM"
                 }
-            ]
+            }
         },
         {
             "name": "Light",
@@ -92,6 +90,41 @@
                         "z": 1.0
                     },
                     "intensity": 1.0
+                }
+            }
+        },
+        {
+            "name": "PointLight",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 1.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "light": {
+                    "enabled": true,
+                    "light_type": "POINT",
+                    "range": 3.0,
+                    "color": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "intensity": 2.0
                 }
             }
         }

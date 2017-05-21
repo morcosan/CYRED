@@ -24,16 +24,16 @@ namespace CYRED
 
 
 	public:
-		int		Add		( TValue value );
-		void	Insert	( int index, TValue value );
-		void	Erase	( int index );
-		int		Size	() const;
+		int				Add		( TValue value );
+		void			Insert	( int index, TValue value );
+		void			Erase	( int index );
+		int				Size	() const;
 
 		//! remove all elements
-		void		Clear	();
+		void			Clear	();
 
 		//! returns a pointer-like list
-		const TValue* Data() const;
+		const TValue*	Data	() const;
 
 
 	private:
@@ -119,7 +119,7 @@ namespace CYRED
 
 
 	template<typename TValue>
-	const TValue * DataArray<TValue>::Data() const
+	const TValue* DataArray<TValue>::Data() const
 	{
 		return (*_vector).data();
 	}

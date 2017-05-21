@@ -85,11 +85,11 @@ namespace CYRED
 			* 		compType	- the component to render
 			* 		target		- the target gameobject
 			* 		cameraGO	- camera
-			* 		lights		- the list of lights to be used
+			* 		lightsGO	- the list of lights to be used
 			* @assert: canvas and renderer are set
 			*/
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-								  GameObject*const* lights )			override;
+								  DataArray<GameObject*>& lightsGO )	override;
 
 			/*****
 			* @desc: display the rendering

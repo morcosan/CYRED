@@ -175,11 +175,11 @@ void RenderManagerImpl::ClearScreen()
 * 		compType	- the component to render
 * 		target		- the target gameobject
 * 		cameraGO	- camera
-* 		lights		- the list of lights to be used
+* 		lightsGO	- the list of lights to be used
 * @assert: canvas and renderer are set
 */
 void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
-								GameObject*const* lights )
+								DataArray<GameObject*>& lightsGO )
 {
 	ASSERT( _isInitialized );
 
@@ -192,7 +192,7 @@ void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject
 	// set context
 	canvas.glContext->MakeCurrent();
 	// render
-	renderer->Render( compType, target, cameraGO, lights );
+	renderer->Render( compType, target, cameraGO, lightsGO );
 	renderer->DisplayOnScreen();
 }
 

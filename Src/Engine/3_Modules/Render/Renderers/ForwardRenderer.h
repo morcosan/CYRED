@@ -47,10 +47,10 @@ namespace CYRED
 			* 		compType	- the component to render
 			* 		target		- the target gameobject
 			* 		cameraGO	- camera
-			* 		lights		- the list of lights to be used
+			* 		lightsGO	- the list of lights to be used
 			*/
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-								  GameObject*const* lights )	override;
+								  DataArray<GameObject*>& lightsGO )	override;
 
 			void OnResize		()						override;
 			void DisplayOnScreen()						override;
@@ -71,9 +71,8 @@ namespace CYRED
 
 			uint _screenQuadID;
 
-			Transform*			_currCameraTran;
-			Camera*				_currCameraCam;
-			GameObject*const*	_currLights;
+			Transform*				_currCameraTran;
+			Camera*					_currCameraCam;
 
 
 		private:
@@ -82,8 +81,8 @@ namespace CYRED
 			void _RenderScreenQuad	( Texture* texture, Shader* shader );
 			void _GenerateScreenQuad();
 
-			void _RecRenderMesh		( GameObject* gameObject );
-			void _RecRenderMorph	( GameObject* gameObject );
+			void _RecRenderMesh		( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
+			void _RecRenderMorph	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderParticles( GameObject* gameObject );
 
 			void _BindMaterial		( Material* material );

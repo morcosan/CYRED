@@ -4,8 +4,9 @@
 
 #pragma once
 #include "../../../1_Required/Required.h"
-#include "../Assets/Shader.h"
 #include "../../../2_BuildingBlocks/Component.h"
+#include "../../../2_BuildingBlocks/Data/DataArray.h"
+#include "../Assets/Shader.h"
 
 
 namespace CYRED
@@ -39,10 +40,10 @@ namespace CYRED
 		* 		compType	- the component to render
 		* 		target		- the target gameobject
 		* 		cameraGO	- camera
-		* 		lights		- the list of lights to be used
+		* 		lightsGO	- the list of lights to be used
 		*/
 		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  GameObject*const* lights )	PURE_VIRTUAL;
+									  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
 
 		virtual void OnResize		()					PURE_VIRTUAL;
 		virtual void DisplayOnScreen()					PURE_VIRTUAL;

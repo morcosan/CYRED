@@ -1,8 +1,8 @@
 {
-    "uid": "zkMRJZtUbQ2nJkP4zOGUylXr4WQONffq",
+    "uid": "ZRCNwyFQMFgU6h1vc5geArIbntn1X5tL",
     "game_objects": [
         {
-            "name": "PointLight",
+            "name": "Mesh",
             "enabled": true,
             "components": {
                 "transform": {
@@ -25,8 +25,8 @@
                 },
                 "mesh_rendering": {
                     "enabled": true,
-                    "mesh": "SHkAElkERKYKTYL8E2rjsSIPDiWbiV6H",
-                    "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+                    "mesh": "YbqU8CFAy2okmP1Hxdm1IeSNs9yKsSRB",
+                    "material": "fNWEA7c2A5KgQDtDHAXsB8i0AC3e97Fh"
                 }
             }
         }

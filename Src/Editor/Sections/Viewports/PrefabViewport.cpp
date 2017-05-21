@@ -21,6 +21,8 @@ DataMap<TechniqueType, int> PrefabViewport::_techSlots;
 
 PrefabViewport::PrefabViewport( int panelIndex )
 	: Panel_Viewport( panelIndex )
+	, _targetPrefab( NULL )
+	, _selectedGO( NULL )
 {
 }
 
@@ -37,20 +39,41 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 				_targetPrefab = NULL;
 			}
 			break;
+
+		case EventType::SELECT_GAMEOBJECT:
+		{
+			if ( _targetPrefab != NULL ) {
+				GameObject* gameObject = CAST_S( GameObject*, eData );
+				// check if is displayed
+				_selectedGO = NULL;
+				for ( int i = 0; i < _targetPrefab->GetRoot()->GetChildNodeCount(); i++ ) {
+					if ( gameObject == _targetPrefab->GetRoot()->GetChildNodeAt( i ) ) {
+						// found
+						_selectedGO = gameObject;
+					}
+				}
+			}
+			break;
+		}
 	}
 }
 
 
 void PrefabViewport::LoadGizmo()
 {
-	FiniteString prefabName( GIZMO_GRID );
+	FiniteString gizmoGrid( GIZMO_GRID );
+	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
+
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
 		Prefab* prefab = AssetManager::Singleton()->GetPrefabAt( i );
-		if ( prefabName == prefab->GetName() ) {
-			// found
+
+		// check name
+		if ( gizmoGrid == prefab->GetName() ) {
 			_gizmoGrid = prefab;
-			break;
+		}
+		else if ( gizmoPointLight == prefab->GetName() ) {
+			_gizmoPointLight = prefab;
 		}
 	}
 }
@@ -79,6 +102,7 @@ void PrefabViewport::_OnInitialize()
 	// register events
 	EventManager::Singleton()->RegisterListener( EventType::OPEN_PREFAB, this );
 	EventManager::Singleton()->RegisterListener( EventType::CLOSE_PREFAB, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
@@ -87,6 +111,7 @@ void PrefabViewport::_OnFinalize()
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::OPEN_PREFAB, this );
 	EventManager::Singleton()->UnregisterListener( EventType::CLOSE_PREFAB, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
@@ -130,23 +155,72 @@ void PrefabViewport::_OnUpdate()
 		// get prefabs root
 		Node* prefabRoot = _targetPrefab->GetRoot();
 
+		// empty lights list
+		DataArray<GameObject*> noLightsGO;
+
 		// render gizmo grid
 		if ( _gizmoGrid != NULL ) {
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), _cameraGO, NULL );
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
+								_cameraGO, noLightsGO );
+		}
+
+		// render selected object gizmo
+		if ( _selectedGO != NULL ) {
+			Light*		light		= _selectedGO->GetComponent<Light>();
+			Transform*	transform	= _selectedGO->GetComponent<Transform>();
+
+			// gizmo point light
+			if ( _gizmoPointLight != NULL && light != NULL ) {
+				if ( light->GetLightType() == LightType::POINT ) {
+					// update transform
+					Node* root = _gizmoPointLight->GetRoot();
+					for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+						GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+						Transform* childTran = childGO->GetComponent<Transform>();
+						childTran->SetEmitEvents( FALSE );
+						childTran->SetPositionWorld( transform->GetPositionWorld() );
+						childTran->SetRotationWorld( transform->GetRotationWorld() );
+						float range = light->GetRange();
+						childTran->SetScaleWorld( Vector3( range, range, range ) );
+						childTran->SetEmitEvents( TRUE );
+					}
+
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+										_cameraGO, noLightsGO );
+				}
+			}
 		}
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
+		for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
+			_RecCollectLights( CAST_S(GameObject*, prefabRoot->GetChildNodeAt(i)), lightsGO );
+		}
 
 		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
 		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
 		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
 	}
 
 	// finish
 	renderMngr->SwapBuffers();
+}
+
+
+void PrefabViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+{
+	// check for light component
+	Light* light = gameObject->GetComponent<Light>();
+	if ( light != NULL ) {
+		lightsGO.Add( gameObject );
+	}
+
+	// parse children
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
+		_RecCollectLights( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
+	}
 }

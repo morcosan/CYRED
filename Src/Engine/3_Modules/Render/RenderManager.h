@@ -6,6 +6,7 @@
 #include "../../1_Required/Required.h"
 
 #include "../../2_BuildingBlocks/Component.h"
+#include "../../2_BuildingBlocks/Data/DataArray.h"
 
 
 namespace CYRED
@@ -108,11 +109,11 @@ namespace CYRED
 		* 		compType	- the component to render
 		* 		target		- the target gameobject
 		* 		cameraGO	- camera
-		* 		lights		- the list of lights to be used
+		* 		lightsGO	- the list of lights to be used
 		* @assert: canvas and renderer are set
 		*/
 		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  GameObject*const* lights )				PURE_VIRTUAL;
+									  DataArray<GameObject*>& lightsGO )		PURE_VIRTUAL;
 
 		/*****
 		* @desc: display the rendering

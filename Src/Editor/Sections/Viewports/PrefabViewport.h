@@ -20,9 +20,10 @@ namespace CYRED
 	class PrefabViewport : public Panel_Viewport, public IEventListener
 	{
 	public:
-		const char* const	PANEL_TITLE = "Prefab Viewport";
-		const Vector2		MIN_SIZE	= Vector2( 400, 200 );
-		const char* const	GIZMO_GRID	= "GizmoGrid";
+		const char* const	PANEL_TITLE			= "Prefab Viewport";
+		const Vector2		MIN_SIZE			= Vector2( 400, 200 );
+		const char* const	GIZMO_GRID			= "GizmoGrid";
+		const char* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
 
 
 	public:
@@ -44,8 +45,11 @@ namespace CYRED
 
 
 	private:
-		Prefab* _targetPrefab;
-		Prefab*	_gizmoGrid;
+		Prefab*		_targetPrefab;
+		GameObject*	_selectedGO;
+		Prefab*		_gizmoGrid;
+		Prefab*		_gizmoPointLight;
+
 
 	private:
 		virtual const char*	_GetPanelTitle	() override;
@@ -53,5 +57,9 @@ namespace CYRED
 		virtual void		_OnInitialize	() override;
 		virtual void		_OnFinalize		() override;
 		virtual void		_OnUpdate		() override;
+
+
+	private:
+		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 	};
 }

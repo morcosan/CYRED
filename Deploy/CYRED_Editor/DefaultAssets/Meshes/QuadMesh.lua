@@ -7,7 +7,6 @@ MESH:AddVertex( Vertex( Vector3( 0.5,  0.5, 0), Vector4(0,0,1,1), Vector3(0,0,1)
 MESH:AddVertex( Vertex( Vector3(-0.5,  0.5, 0), Vector4(1,0,0,1), Vector3(0,0,1), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0) ) )
 
 
-
 -- add indices
 MESH:ClearIndices()
 

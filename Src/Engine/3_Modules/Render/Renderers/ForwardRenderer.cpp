@@ -70,10 +70,10 @@ void ForwardRenderer::ClearScreen()
 * 		compType	- the component to render
 * 		target		- the target gameobject
 * 		cameraGO	- camera
-* 		lights		- the list of lights to be used
+* 		lightsGO	- the list of lights to be used
 */
 void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
-							  GameObject*const* lights )
+							  DataArray<GameObject*>& lightsGO )
 {
 	// sanity check
 	if ( target == NULL || cameraGO == NULL ) { 
@@ -83,7 +83,6 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	// store data
 	_currCameraTran		= cameraGO->GetComponent<Transform>();
 	_currCameraCam		= cameraGO->GetComponent<Camera>();
-	_currLights			= lights;
 
 	// prepare for rendering
 	switch ( compType ) {
@@ -112,9 +111,9 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	GameObject* targetGO = CAST_D( GameObject*, target );
 	if ( targetGO != NULL ) {
 		switch ( compType ) {
-			case ComponentType::MESH_RENDERING:		_RecRenderMesh( targetGO );			break;
-			case ComponentType::MORPH_RENDERING:	_RecRenderMorph( targetGO );		break;
-			case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( targetGO );	break;
+			case ComponentType::MESH_RENDERING:		_RecRenderMesh( targetGO, lightsGO );	break;
+			case ComponentType::MORPH_RENDERING:	_RecRenderMorph( targetGO, lightsGO );	break;
+			case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( targetGO );		break;
 		}
 	}
 	else {
@@ -122,9 +121,9 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 		for ( int i = 0; i < target->GetChildNodeCount(); ++i ) {
 			GameObject* gameObject = CAST_S(GameObject*, target->GetChildNodeAt(i));
 			switch ( compType ) {
-				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject );		break;
-				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject );		break;
-				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );	break;
+				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject, lightsGO );		break;
+				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject, lightsGO );	break;
+				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );			break;
 			}
 		}
 	}
@@ -266,7 +265,7 @@ void ForwardRenderer::_GenerateScreenQuad()
 }
 
 
-void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
+void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -274,7 +273,7 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
 
 	// render children
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
-		_RecRenderMesh( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+		_RecRenderMesh( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 
 
@@ -346,7 +345,7 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
 
 
 	// add lights if needed
-	if ( _currLights != NULL )
+	if ( lightsGO.Size() > 0 )
 	{
 		// check if shader contains light uniforms
 		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
@@ -356,13 +355,12 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
 		// check if lights needed
 		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
 			// add lights count
-			int lightsCount = ARRAY_SIZE( _currLights );
-			_gl->Uniform1i( lightsCountUniform, lightsCount );
+			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
 
 			// bind each light
-			for ( int i = 0; i < lightsCount && i < Uniform::MAX_LIGHTS; i++ ) {
-				Light* light = _currLights[i]->GetComponent<Light>();
-				Transform* transform = _currLights[i]->GetComponent<Transform>();
+			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
+				Light* light = lightsGO[i]->GetComponent<Light>();
+				Transform* transform = lightsGO[i]->GetComponent<Transform>();
 				FiniteString uniformName;
 				int uniform;
 
@@ -417,7 +415,7 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject )
 }
 
 
-void ForwardRenderer::_RecRenderMorph( GameObject* gameObject )
+void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -425,7 +423,7 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject )
 
 	// render child nodes
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
-		_RecRenderMorph( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+		_RecRenderMorph( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 
 
@@ -506,7 +504,7 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject )
 
 
 	// add lights if needed
-	if ( _currLights != NULL )
+	if ( lightsGO.Size() > 0 )
 	{
 		// check if shader contains light uniforms
 		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
@@ -516,13 +514,12 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject )
 		// check if lights needed
 		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
 			// add lights count
-			int lightsCount = ARRAY_SIZE( _currLights );
-			_gl->Uniform1i( lightsCountUniform, lightsCount );
+			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
 
 			// bind each light
-			for ( int i = 0; i < lightsCount && i < Uniform::MAX_LIGHTS; i++ ) {
-				Light* light = _currLights[i]->GetComponent<Light>();
-				Transform* transform = _currLights[i]->GetComponent<Transform>();
+			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
+				Light* light = lightsGO[i]->GetComponent<Light>();
+				Transform* transform = lightsGO[i]->GetComponent<Transform>();
 				FiniteString uniformName;
 				int uniform;
 

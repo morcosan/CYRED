@@ -21,20 +21,52 @@ DataMap<TechniqueType, int> SceneViewport::_techSlots;
 
 SceneViewport::SceneViewport( int panelIndex )
 	: Panel_Viewport( panelIndex )
+	, _selectedGO( NULL )
 {
+}
+
+
+void SceneViewport::OnEvent( EventType eType, void* eData )
+{
+	switch ( eType ) {
+		case EventType::SELECT_GAMEOBJECT:
+		{
+			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
+				GameObject* gameObject = CAST_S( GameObject*, eData );
+
+				// get first scene's root
+				Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+				// check if is displayed
+				_selectedGO = NULL;
+				for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+					if ( gameObject == sceneRoot->GetChildNodeAt( i ) ) {
+						// found
+						_selectedGO = gameObject;
+					}
+				}
+			}
+			break;
+		}
+	}
 }
 
 
 void SceneViewport::LoadGizmo()
 {
-	FiniteString prefabName( GIZMO_GRID );
+	FiniteString gizmoGrid( GIZMO_GRID );
+	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
+
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
 		Prefab* prefab = AssetManager::Singleton()->GetPrefabAt( i );
-		if ( prefabName == prefab->GetName() ) {
-			// found
+
+		// check name
+		if ( gizmoGrid == prefab->GetName() ) {
 			_gizmoGrid = prefab;
-			break;
+		}
+		else if ( gizmoPointLight == prefab->GetName() ) {
+			_gizmoPointLight = prefab;
 		}
 	}
 }
@@ -76,11 +108,16 @@ void SceneViewport::_OnInitialize()
 
 	_qtTopBarLayout->addWidget( _qtCameraDropdown );
 	_qtTopBarLayout->addWidget( _qtCameraButton );
+
+	// register events
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
 void SceneViewport::_OnFinalize()
 {
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
 }
 
 
@@ -124,9 +161,40 @@ void SceneViewport::_OnUpdate()
 		// get first scene's root
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
 
+		// empty lights list
+		DataArray<GameObject*> noLightsGO;
+
 		// render gizmo grid
 		if ( _gizmoGrid != NULL ) {
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), _cameraGO, NULL );
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
+								_cameraGO, noLightsGO );
+		}
+
+		// render selected object gizmo
+		if ( _selectedGO != NULL ) {
+			Light*		light		= _selectedGO->GetComponent<Light>();
+			Transform*	transform	= _selectedGO->GetComponent<Transform>();
+
+			// gizmo point light
+			if ( _gizmoPointLight != NULL && light != NULL ) {
+				if ( light->GetLightType() == LightType::POINT ) {
+					// update transform
+					Node* root = _gizmoPointLight->GetRoot();
+					for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+						GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+						Transform* childTran = childGO->GetComponent<Transform>();
+						childTran->SetEmitEvents( FALSE );
+						childTran->SetPositionWorld( transform->GetPositionWorld() );
+						childTran->SetRotationWorld( transform->GetRotationWorld() );
+						float range = light->GetRange();
+						childTran->SetScaleWorld( Vector3( range, range, range ) );
+						childTran->SetEmitEvents( TRUE );
+					}
+
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+										_cameraGO, noLightsGO );
+				}
+			}
 		}
 
 		// collect lights
@@ -136,11 +204,11 @@ void SceneViewport::_OnUpdate()
 		}
 
 		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
 		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
 		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO.Data() );
+		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
 	}
 
 	// finish

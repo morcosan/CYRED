@@ -4,6 +4,8 @@
 #pragma once
 #include "CyredRequired.h"
 #include "CyredModule_Render.h"
+#include "CyredModule_Event.h"
+
 #include "../Panels/Panel_Viewport.h"
 
 class QHBoxLayout;
@@ -18,12 +20,13 @@ namespace CYRED
 
 namespace CYRED
 {
-	class SceneViewport : public Panel_Viewport
+	class SceneViewport : public Panel_Viewport, public IEventListener
 	{
 	public:
-		const char*	const	PANEL_TITLE = "Scene Viewport";
-		const Vector2		MIN_SIZE	= Vector2( 400, 200 );
-		const char* const	GIZMO_GRID	= "GizmoGrid";
+		const char*	const	PANEL_TITLE			= "Scene Viewport";
+		const Vector2		MIN_SIZE			= Vector2( 400, 200 );
+		const char* const	GIZMO_GRID			= "GizmoGrid";
+		const char* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
 
 
 	public:
@@ -32,7 +35,8 @@ namespace CYRED
 
 
 	public:
-		void LoadGizmo	() override;
+		void OnEvent	( EventType eType, void* eData )	override;
+		void LoadGizmo	()									override;
 
 
 	public:
@@ -50,7 +54,10 @@ namespace CYRED
 	private:
 		QComboBox*		_qtCameraDropdown;
 		QPushButton*	_qtCameraButton;
+
+		GameObject*		_selectedGO;
 		Prefab*			_gizmoGrid;
+		Prefab*			_gizmoPointLight;
 
 
 	private:
