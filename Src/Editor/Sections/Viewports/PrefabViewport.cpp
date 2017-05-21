@@ -62,6 +62,7 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 void PrefabViewport::LoadGizmo()
 {
 	FiniteString gizmoGrid( GIZMO_GRID );
+	FiniteString gizmoBackground( GIZMO_BACKGROUND );
 	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
 
 	// parse prefabs and find gizmo grid
@@ -71,6 +72,9 @@ void PrefabViewport::LoadGizmo()
 		// check name
 		if ( gizmoGrid == prefab->GetName() ) {
 			_gizmoGrid = prefab;
+		}
+		else if ( gizmoBackground == prefab->GetName() ) {
+			_gizmoBackground = prefab;
 		}
 		else if ( gizmoPointLight == prefab->GetName() ) {
 			_gizmoPointLight = prefab;
@@ -157,6 +161,12 @@ void PrefabViewport::_OnUpdate()
 
 		// empty lights list
 		DataArray<GameObject*> noLightsGO;
+
+		// render gizmo background
+		if ( _gizmoBackground != NULL ) {
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
+								_cameraGO, noLightsGO );
+		}
 
 		// render gizmo grid
 		if ( _gizmoGrid != NULL ) {

@@ -43,6 +43,7 @@ const char* const EditorUtils::NAME_MESH		= "Mesh";
 const char* const EditorUtils::NAME_MORPH		= "Morph";
 const char* const EditorUtils::NAME_SCRIPT		= "Script";
 const char* const EditorUtils::NAME_SCENE		= "Scene";
+const char* const EditorUtils::NAME_PREFAB		= "Prefab";
 
 DataMap<String, QIcon*>	EditorUtils::_icons;
 
@@ -101,6 +102,11 @@ void EditorUtils::SetAvailableName( Asset * asset )
 		case AssetType::TEXTURE:
 			baseName = NAME_TEXTURE;
 			extension = FileManager::FILE_FORMAT_TEXTURE;
+			break;
+
+		case AssetType::PREFAB:
+			baseName = NAME_PREFAB;
+			extension = FileManager::FILE_FORMAT_PREFAB;
 			break;
 	}
 

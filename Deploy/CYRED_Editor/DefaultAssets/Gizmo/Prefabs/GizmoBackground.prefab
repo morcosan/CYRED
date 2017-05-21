@@ -1,8 +1,8 @@
 {
-    "uid": "ZRCNwyFQMFgU6h1vc5geArIbntn1X5tL",
+    "uid": "ICoCQNX7meM9AW3AFZK8jq0EpUjcdJzT",
     "game_objects": [
         {
-            "name": "Mesh",
+            "name": "Background",
             "enabled": true,
             "components": {
                 "transform": {

@@ -23,6 +23,7 @@ namespace CYRED
 		const char* const	PANEL_TITLE			= "Prefab Viewport";
 		const Vector2		MIN_SIZE			= Vector2( 400, 200 );
 		const char* const	GIZMO_GRID			= "GizmoGrid";
+		const char* const	GIZMO_BACKGROUND	= "GizmoBackground";
 		const char* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
 
 
@@ -49,6 +50,7 @@ namespace CYRED
 		GameObject*	_selectedGO;
 		Prefab*		_gizmoGrid;
 		Prefab*		_gizmoPointLight;
+		Prefab*		_gizmoBackground;
 
 
 	private:

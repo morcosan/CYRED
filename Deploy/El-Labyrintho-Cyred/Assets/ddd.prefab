@@ -115,13 +115,13 @@
                 "light": {
                     "enabled": true,
                     "light_type": "POINT",
-                    "range": 5.0,
+                    "range": 3.0,
                     "color": {
                         "x": 1.0,
                         "y": 0.5,
                         "z": 0.5
                     },
-                    "intensity": 10.0
+                    "intensity": 1.0
                 }
             }
         }

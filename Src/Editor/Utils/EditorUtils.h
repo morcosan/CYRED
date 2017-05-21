@@ -36,6 +36,7 @@ namespace CYRED
 		static const char* const	NAME_MORPH;
 		static const char* const	NAME_SCRIPT;
 		static const char* const	NAME_SCENE;
+		static const char* const	NAME_PREFAB;
 
 
 	public:
