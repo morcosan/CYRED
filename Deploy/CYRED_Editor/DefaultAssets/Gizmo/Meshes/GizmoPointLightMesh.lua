@@ -16,7 +16,7 @@ for i = 0, vertices - 1, 1 do
 	local x = radius * math.cos( i * angle )
 	local y = radius * math.sin( i * angle )
 	-- add vertex
-	MESH:AddVertex( Vertex( Vector3(x, y, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) );
+	MESH:AddVertex( Vertex( Vector3(x, y, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
 	-- add indices
 	MESH:AddIndex( lastIndex + i )
 	MESH:AddIndex( lastIndex + (i + 1) % vertices )
@@ -30,7 +30,7 @@ for i = 0, vertices - 1, 1 do
 	local x = radius * math.cos( i * angle )
 	local z = radius * math.sin( i * angle )
 	-- add vertex
-	MESH:AddVertex( Vertex( Vector3(x, 0, z), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) );
+	MESH:AddVertex( Vertex( Vector3(x, 0, z), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
 	-- add indices
 	MESH:AddIndex( lastIndex + i )
 	MESH:AddIndex( lastIndex + (i + 1) % vertices )
@@ -44,7 +44,7 @@ for i = 0, vertices - 1, 1 do
 	local y = radius * math.cos( i * angle )
 	local z = radius * math.sin( i * angle )
 	-- add vertex
-	MESH:AddVertex( Vertex( Vector3(0, y, z), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) );
+	MESH:AddVertex( Vertex( Vector3(0, y, z), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
 	-- add indices
 	MESH:AddIndex( lastIndex + i )
 	MESH:AddIndex( lastIndex + (i + 1) % vertices )
