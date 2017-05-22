@@ -60,6 +60,8 @@ void SceneViewport::LoadGizmo()
 	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
 	FiniteString gizmoDirLight( GIZMO_DIR_LIGHT );
 	FiniteString gizmoSpotLight( GIZMO_SPOT_LIGHT );
+	FiniteString gizmoOrthoCamera( GIZMO_ORTHO_CAMERA );
+	FiniteString gizmoPerspCamera( GIZMO_PERSP_CAMERA );
 
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
@@ -83,6 +85,12 @@ void SceneViewport::LoadGizmo()
 		}
 		else if ( gizmoSpotLight == prefab->GetName() ) {
 			_gizmoSpotLight = prefab;
+		}
+		else if ( gizmoOrthoCamera == prefab->GetName() ) {
+			_gizmoOrthoCamera = prefab;
+		}
+		else if ( gizmoPerspCamera == prefab->GetName() ) {
+			_gizmoPerspCamera = prefab;
 		}
 	}
 }
@@ -177,53 +185,8 @@ void SceneViewport::_OnUpdate()
 		// get first scene's root
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
 
-		// empty lights list
-		DataArray<GameObject*> noLightsGO;
-
-		// render gizmo background
-		if ( _gizmoBackground != NULL ) {
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
-								_cameraGO, noLightsGO );
-		}
-
-		// render gizmo grid
-		if ( _gizmoGrid != NULL ) {
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
-								_cameraGO, noLightsGO );
-		}
-
-		// render gizmo axis
-		if ( _gizmoAxis != NULL ) {
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
-								_cameraGO, noLightsGO );
-		}
-
-		// render selected object gizmo
-		if ( _selectedGO != NULL ) {
-			Light*		light		= _selectedGO->GetComponent<Light>();
-			Transform*	transform	= _selectedGO->GetComponent<Transform>();
-
-			// gizmo point light
-			if ( _gizmoPointLight != NULL && light != NULL ) {
-				if ( light->GetLightType() == LightType::POINT ) {
-					// update transform
-					Node* root = _gizmoPointLight->GetRoot();
-					for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-						GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
-						Transform* childTran = childGO->GetComponent<Transform>();
-						childTran->SetEmitEvents( FALSE );
-						childTran->SetPositionWorld( transform->GetPositionWorld() );
-						childTran->SetRotationWorld( transform->GetRotationWorld() );
-						float range = light->GetRange();
-						childTran->SetScaleWorld( Vector3( range, range, range ) );
-						childTran->SetEmitEvents( TRUE );
-					}
-
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
-										_cameraGO, noLightsGO );
-				}
-			}
-		}
+		// render gizmo
+		_RenderGizmo();
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
@@ -255,6 +218,145 @@ void SceneViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObj
 	// parse children
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
 		_RecCollectLights( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
+	}
+}
+
+
+void SceneViewport::_RenderGizmo()
+{
+	RenderManager* renderMngr = RenderManager::Singleton();
+
+	// empty lights list
+	DataArray<GameObject*> noLightsGO;
+
+	// render gizmo background
+	if ( _gizmoBackground != NULL ) {
+		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
+							_cameraGO, noLightsGO );
+	}
+
+	// render gizmo grid
+	if ( _gizmoGrid != NULL ) {
+		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
+							_cameraGO, noLightsGO );
+	}
+
+	// render gizmo axis
+	if ( _gizmoAxis != NULL ) {
+		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
+							_cameraGO, noLightsGO );
+	}
+
+	// render selected object gizmo
+	if ( _selectedGO != NULL ) {
+		Light*		light		= _selectedGO->GetComponent<Light>();
+		Camera*		camera		= _selectedGO->GetComponent<Camera>();
+		Transform*	transform	= _selectedGO->GetComponent<Transform>();
+
+		if ( light != NULL ) {
+			// gizmo point light
+			if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
+				// update transform
+				Node* root = _gizmoPointLight->GetRoot();
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+					Transform* childTran = childGO->GetComponent<Transform>();
+					childTran->SetEmitEvents( FALSE );
+
+					childTran->SetPositionWorld( transform->GetPositionWorld() );
+					childTran->SetRotationWorld( transform->GetRotationWorld() );
+					float range = light->GetRange();
+					childTran->SetScaleWorld( Vector3( range, range, range ) );
+
+					childTran->SetEmitEvents( TRUE );
+				}
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+									_cameraGO, noLightsGO );
+			}
+
+			// gizmo directional light
+			if ( _gizmoDirLight != NULL && light->GetLightType() == LightType::DIRECTIONAL ) {
+				// update transform
+				Node* root = _gizmoDirLight->GetRoot();
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+					Transform* childTran = childGO->GetComponent<Transform>();
+					childTran->SetEmitEvents( FALSE );
+
+					childTran->SetPositionWorld( transform->GetPositionWorld() );
+					childTran->SetRotationWorld( transform->GetRotationWorld() );
+
+					childTran->SetEmitEvents( TRUE );
+				}
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
+									_cameraGO, noLightsGO );
+			}
+
+			// gizmo spot light
+			if ( _gizmoSpotLight != NULL && light->GetLightType() == LightType::SPOT ) {
+				// update transform
+				Node* root = _gizmoSpotLight->GetRoot();
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+					Transform* childTran = childGO->GetComponent<Transform>();
+					childTran->SetEmitEvents( FALSE );
+
+					childTran->SetPositionWorld( transform->GetPositionWorld() );
+					childTran->SetRotationWorld( transform->GetRotationWorld() );
+					float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
+					float range = light->GetRange();
+					float scaleBase = range * tan;
+					childTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+
+					childTran->SetEmitEvents( TRUE );
+				}
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
+									_cameraGO, noLightsGO );
+			}
+		}
+
+		if ( camera != NULL ) {
+			// gizmo ortho camera
+			if ( _gizmoOrthoCamera != NULL && camera->GetCameraType() == CameraType::ORTHOGRAPHIC ) {
+				// update transform
+				Node* root = _gizmoOrthoCamera->GetRoot();
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+					Transform* childTran = childGO->GetComponent<Transform>();
+					childTran->SetEmitEvents( FALSE );
+
+					childTran->SetPositionWorld( transform->GetPositionWorld() );
+					childTran->SetRotationWorld( transform->GetRotationWorld() );
+
+					childTran->SetEmitEvents( TRUE );
+				}
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
+									_cameraGO, noLightsGO );
+			}
+
+			// gizmo perspective camera
+			if ( _gizmoPerspCamera != NULL && camera->GetCameraType() == CameraType::PERSPECTIVE ) {
+				// update transform
+				Node* root = _gizmoPerspCamera->GetRoot();
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+					Transform* childTran = childGO->GetComponent<Transform>();
+					childTran->SetEmitEvents( FALSE );
+
+					childTran->SetPositionWorld( transform->GetPositionWorld() );
+					childTran->SetRotationWorld( transform->GetRotationWorld() );
+
+					childTran->SetEmitEvents( TRUE );
+				}
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
+									_cameraGO, noLightsGO );
+			}
+		}
 	}
 }
 

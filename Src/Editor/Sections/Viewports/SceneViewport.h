@@ -31,6 +31,8 @@ namespace CYRED
 		const char* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
 		const char* const	GIZMO_DIR_LIGHT		= "GizmoDirLight";
 		const char* const	GIZMO_SPOT_LIGHT	= "GizmoSpotLight";
+		const char* const	GIZMO_ORTHO_CAMERA	= "GizmoOrthoCamera";
+		const char* const	GIZMO_PERSP_CAMERA	= "GizmoPerspCamera";
 
 
 	public:
@@ -62,10 +64,12 @@ namespace CYRED
 		GameObject*		_selectedGO;
 		Prefab*			_gizmoGrid;
 		Prefab*			_gizmoAxis;
+		Prefab*			_gizmoBackground;
 		Prefab*			_gizmoPointLight;
 		Prefab*			_gizmoDirLight;
 		Prefab*			_gizmoSpotLight;
-		Prefab*			_gizmoBackground;
+		Prefab*			_gizmoOrthoCamera;
+		Prefab*			_gizmoPerspCamera;
 
 
 	private:
@@ -78,5 +82,6 @@ namespace CYRED
 
 	private:
 		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
+		void _RenderGizmo		();
 	};
 }

@@ -7,8 +7,8 @@ MESH:ClearIndices()
 
 local range 		= 1
 local baseCount 	= 36
-local heightCount 	= 4
-local angle 		= 360 / baseCount
+local heightCount 	= 12
+local angle 		= 2 * math.pi / baseCount
 local color 		= Vector4( 1, 1, 0.5, 1 )
 
 -- create base

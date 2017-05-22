@@ -1,0 +1,34 @@
+{
+    "uid": "lbGaf5aW5OMNm0G0VnQ0wdpgLmN7Ad9C",
+    "game_objects": [
+        {
+            "name": "OrthoCamera",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "sDPQS7zKZ5B8lz4z7IuahNBxnCW2DktQ",
+                    "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+                }
+            }
+        }
+    ]
+}

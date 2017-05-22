@@ -8,7 +8,7 @@ MESH:ClearIndices()
 local radius 	= 0.1
 local length 	= 1
 local vertices 	= 12
-local angle 	= 360 / vertices
+local angle 	= 2 * math.pi / vertices
 local offet		= -(length - 2 * radius)
 local color 	= Vector4( 1, 1, 0.5, 1 )
 

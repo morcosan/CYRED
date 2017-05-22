@@ -1,0 +1,7 @@
+{
+    "uid": "3ma7MFovgams2FqmspV3hTCxH5jPZMfj",
+    "mesh_type": "LINE",
+    "load_type": "SCRIPTED",
+    "file_path": "GizmoSpotLightMesh.lua",
+    "clear_buffers_on_bind": true
+}
