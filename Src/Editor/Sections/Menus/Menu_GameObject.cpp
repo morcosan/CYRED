@@ -113,6 +113,7 @@ void Menu_GameObject::A_Duplicate()
 
 		// send event
 		EventManager::Singleton()->EmitEvent( _eventType, NULL );
+		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, clone );
 	}
 }
 
@@ -127,6 +128,7 @@ void Menu_GameObject::A_Delete()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, NULL );
 }
 
 

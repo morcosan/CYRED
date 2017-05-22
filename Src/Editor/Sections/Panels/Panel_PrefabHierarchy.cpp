@@ -159,9 +159,11 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 
 		case EventType::SELECT_GAMEOBJECT:
 		{
-			GameObject* gameObject = CAST_S( GameObject*, eData );
-			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
-			_qtTree->setCurrentItem( treeItem );
+			if ( eData != NULL ) {
+				GameObject* gameObject = CAST_S( GameObject*, eData );
+				CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+				_qtTree->setCurrentItem( treeItem );
+			}
 			break;
 		}
 

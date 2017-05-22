@@ -2,10 +2,10 @@
 
 layout(location = 0) out vec4 OUT_color;
 
-uniform vec4 diffuseColor;
+in vec4 INTER_fragColor;
 
 
 void main()
 {
-	OUT_color = diffuseColor;
+	OUT_color = INTER_fragColor;
 }

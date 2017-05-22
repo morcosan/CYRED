@@ -276,7 +276,6 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 		_RecRenderMesh( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 
-
 	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
 	if ( meshRender == NULL || objTran == NULL || !meshRender->IsEnabled() || !objTran->IsEnabled() ) {

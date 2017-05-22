@@ -17,6 +17,7 @@ namespace CYRED
 	class Menu_Asset;
 	class Menu_AssetFolder;
 	class Menu_AssetUnknown;
+	class Prefab;
 }
 
 
@@ -70,6 +71,7 @@ namespace CYRED
 		Menu_Asset*				_menuAsset;
 		Menu_AssetFolder*		_menuAssetFolder;
 		Menu_AssetUnknown*		_menuAssetUnknown;
+		Prefab*					_openedPrefab;
 
 
 	private:

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "Math.h"
 
 #define GLM_FORCE_RADIANS
@@ -12,6 +11,7 @@
 using namespace CYRED;
 
 
+const float Math::INF		= INFINITY;
 const float Math::PI		= glm::pi<float>();
 const float Math::HALF_PI	= glm::pi<float>() / 2;
 
@@ -84,5 +84,3 @@ float Math::Clamp( float value, float min, float max )
 {
 	return ( (value < min) ? min : ( (value > max) ? max : value) );
 }
-
-

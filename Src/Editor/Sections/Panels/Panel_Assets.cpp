@@ -116,6 +116,7 @@ public:
 
 
 Panel_Assets::Panel_Assets()
+	: _openedPrefab( NULL )
 {
 	this->setWindowTitle( PANEL_TITLE );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -194,6 +195,16 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 		case EventType::SELECT_PREFAB:
 		case EventType::SELECT_GAMEOBJECT:
 			_qtTree->setCurrentItem( NULL );
+			break;
+
+		case EventType::OPEN_PREFAB:
+			_openedPrefab = CAST_S( Prefab*, eData );
+			break;
+
+		case EventType::CLOSE_PREFAB:
+			if ( _openedPrefab == eData ) {
+				_openedPrefab = NULL;
+			}
 			break;
 
 		case EventType::CHANGE_ASSET:
@@ -358,6 +369,9 @@ void Panel_Assets::A_DirChanged( const QString& path )
 
 void Panel_Assets::A_ReloadAll()
 {
+	// close prefab first
+	EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, _openedPrefab );
+
 	ReloadAllAssets();
 }
 

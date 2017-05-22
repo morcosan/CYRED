@@ -525,7 +525,7 @@ void EditorApp::_CreateCameras()
 		Camera* cameraComp1 = cameraGO->AddComponent<Camera>();
 		cameraComp1->SetFovYAngle( 60 );
 		cameraComp1->SetNearClipping( 0.1f );
-		cameraComp1->SetFarClipping( 200.0f );
+		cameraComp1->SetFarClipping( 500.0f );
 
 		FreeCameraControl* freeCamera = cameraGO->AddComponent<FreeCameraControl>();
 		freeCamera->panSpeed	= 1.5f;

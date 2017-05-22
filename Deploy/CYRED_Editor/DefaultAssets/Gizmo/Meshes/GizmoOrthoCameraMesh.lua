@@ -1,15 +1,17 @@
 -- add vertices
 MESH:ClearVertices()
 
-MESH:AddVertex( Vertex( Vector3(-1, -1, -1), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1, -1, -1), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1,  1, -1), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3(-1,  1, -1), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+local color = Vector4( 0.5, 0.5, 1, 1 )
 
-MESH:AddVertex( Vertex( Vector3(-1, -1, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1, -1, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1,  1, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3(-1,  1, 0), Vector4(0,0,0,0), Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3(-1, -1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3( 1, -1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3( 1,  1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3(-1,  1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+
+MESH:AddVertex( Vertex( Vector3(-1, -1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3( 1, -1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3( 1,  1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3(-1,  1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
 
 
 -- add indices

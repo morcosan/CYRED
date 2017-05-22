@@ -32,11 +32,13 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 	switch ( eType ) {
 		case EventType::OPEN_PREFAB:
 			_targetPrefab = CAST_S( Prefab*, eData );
+			_selectedGO = NULL;
 			break;
 
 		case EventType::CLOSE_PREFAB:
 			if ( _targetPrefab == eData ) {
 				_targetPrefab = NULL;
+				_selectedGO = NULL;
 			}
 			break;
 
@@ -62,8 +64,11 @@ void PrefabViewport::OnEvent( EventType eType, void* eData )
 void PrefabViewport::LoadGizmo()
 {
 	FiniteString gizmoGrid( GIZMO_GRID );
+	FiniteString gizmoAxis( GIZMO_AXIS );
 	FiniteString gizmoBackground( GIZMO_BACKGROUND );
 	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
+	FiniteString gizmoDirLight( GIZMO_DIR_LIGHT );
+	FiniteString gizmoSpotLight( GIZMO_SPOT_LIGHT );
 
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
@@ -73,11 +78,20 @@ void PrefabViewport::LoadGizmo()
 		if ( gizmoGrid == prefab->GetName() ) {
 			_gizmoGrid = prefab;
 		}
+		else if ( gizmoAxis == prefab->GetName() ) {
+			_gizmoAxis = prefab;
+		}
 		else if ( gizmoBackground == prefab->GetName() ) {
 			_gizmoBackground = prefab;
 		}
 		else if ( gizmoPointLight == prefab->GetName() ) {
 			_gizmoPointLight = prefab;
+		}
+		else if ( gizmoDirLight == prefab->GetName() ) {
+			_gizmoDirLight = prefab;
+		}
+		else if ( gizmoSpotLight == prefab->GetName() ) {
+			_gizmoSpotLight = prefab;
 		}
 	}
 }
@@ -171,6 +185,12 @@ void PrefabViewport::_OnUpdate()
 		// render gizmo grid
 		if ( _gizmoGrid != NULL ) {
 			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
+								_cameraGO, noLightsGO );
+		}
+
+		// render gizmo axis
+		if ( _gizmoAxis != NULL ) {
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
 								_cameraGO, noLightsGO );
 		}
 

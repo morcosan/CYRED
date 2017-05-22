@@ -148,6 +148,9 @@ void Menu_Asset::A_ReloadAsset()
 
 		case AssetType::PREFAB:
 		{
+			// close prefab first
+			EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, asset );
+
 			Prefab* prefab = CAST_S( Prefab*, asset );
 			prefab->LoadFullFile();
 			break;

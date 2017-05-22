@@ -1,0 +1,7 @@
+{
+    "uid": "HIFbVNDCCY9q18q4kmXGyIlefoqrp3cQ",
+    "mesh_type": "LINE",
+    "load_type": "SCRIPTED",
+    "file_path": "GizmoAxisMesh.lua",
+    "clear_buffers_on_bind": true
+}

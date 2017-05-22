@@ -18,8 +18,9 @@ namespace CYRED
 	class DLL Math
 	{
 	public: 
-		static const float PI;			//! the value of PI (180 degrees)
-		static const float HALF_PI;		//! the value of PI / 2 (90 degrees)
+		static const float INF;			// infinity
+		static const float PI;			// the value of PI (180 degrees)
+		static const float HALF_PI;		// the value of PI / 2 (90 degrees)
 
 
 	private:
@@ -28,33 +29,33 @@ namespace CYRED
 
 
 	public:
-		static	//! returns the dot produc of 2 vectors
-		float		Dot			( const Vector3& firstVec, const Vector3& secondVec );
+		// returns the dot produc of 2 vectors
+		static float	Dot			( const Vector3& firstVec, const Vector3& secondVec );
 		
-		static	//! transforms each value of vector from radians to degrees
-		Vector3		ToDegrees	( const Vector3& vec );
-		static	//! transforms from radians to degrees
-		float		ToDegrees	( float value );
+		// transforms each value of vector from radians to degrees
+		static Vector3	ToDegrees	( const Vector3& vec );
+		// transforms from radians to degrees
+		static float	ToDegrees	( float value );
 
-		static	//! transforms each value of vector from degrees to radians
-		Vector3		ToRadians	( const Vector3& vec );
-		static	//! transforms from degrees to radians
-		float		ToRadians	( float value );
+		// transforms each value of vector from degrees to radians
+		static Vector3	ToRadians	( const Vector3& vec );
+		// transforms from degrees to radians
+		static float	ToRadians	( float value );
 
-		static	//! returns tangent of the given angle in radians
-		float		Tan			( float value );
-		static	//! returns cosinus of the given angle in radians
-		float		Cos			( float value );
-		static	//! returns sinus of the given angle in radians
-		float		Sin			( float value );
+		// returns tangent of the given angle in radians
+		static float	Tan			( float value );
+		// returns cosinus of the given angle in radians
+		static float	Cos			( float value );
+		// returns sinus of the given angle in radians
+		static float	Sin			( float value );
 
-		static	//! returns the max between the 2 values
-		float		Max			( float value1, float value2 );
-		static	//! returns the min between the 2 values
-		float		Min			( float value1, float value2 );
+		// returns the max between the 2 values
+		static float	Max			( float value1, float value2 );
+		// returns the min between the 2 values
+		static float	Min			( float value1, float value2 );
 		
-		static	//! returns the value given, but no smaller than min or bigger than max
-		float		Clamp		( float value, float min, float max );
+		// returns the value given, but no smaller than min or bigger than max
+		static float	Clamp		( float value, float min, float max );
 	};
 }
 
