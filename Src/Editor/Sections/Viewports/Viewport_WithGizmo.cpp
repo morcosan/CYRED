@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-#include "SceneViewport.h"
-#include "CyredModule_Event.h"
+#include "Viewport_WithGizmo.h"
+#include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "../Settings/EditorSkin.h"
@@ -15,44 +15,22 @@
 using namespace CYRED;
 
 
-
-DataMap<TechniqueType, int> SceneViewport::_techSlots;
-
-
-SceneViewport::SceneViewport( int panelIndex )
+Viewport_WithGizmo::Viewport_WithGizmo( int panelIndex )
 	: Panel_Viewport( panelIndex )
 	, _selectedGO( NULL )
+	, _gizmoGrid( NULL )
+	, _gizmoAxis( NULL )
+	, _gizmoBackground( NULL )
+	, _gizmoPointLight( NULL )
+	, _gizmoDirLight( NULL )
+	, _gizmoSpotLight( NULL )
+	, _gizmoOrthoCamera( NULL )
+	, _gizmoPerspCamera( NULL )
 {
 }
 
 
-void SceneViewport::OnEvent( EventType eType, void* eData )
-{
-	switch ( eType ) {
-		case EventType::SELECT_GAMEOBJECT:
-		{
-			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
-				GameObject* gameObject = CAST_S( GameObject*, eData );
-
-				// get first scene's root
-				Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
-
-				// check if is displayed
-				_selectedGO = NULL;
-				for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
-					if ( gameObject == sceneRoot->GetChildNodeAt( i ) ) {
-						// found
-						_selectedGO = gameObject;
-					}
-				}
-			}
-			break;
-		}
-	}
-}
-
-
-void SceneViewport::LoadGizmo()
+void Viewport_WithGizmo::LoadGizmo()
 {
 	FiniteString gizmoGrid( GIZMO_GRID );
 	FiniteString gizmoAxis( GIZMO_AXIS );
@@ -96,56 +74,25 @@ void SceneViewport::LoadGizmo()
 }
 
 
-void SceneViewport::SetCamera( GameObject* cameraGO )
+void Viewport_WithGizmo::SetCamera( GameObject* cameraGO )
 {
 	_cameraGO = cameraGO;
 }
 
 
-void SceneViewport::A_CameraButton()
-{
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, _cameraGO );
-}
-
-
-const char* SceneViewport::_GetPanelTitle()
+const char* Viewport_WithGizmo::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
 
 
-Vector2 SceneViewport::_GetPanelMinSize()
+Vector2 Viewport_WithGizmo::_GetPanelMinSize()
 {
 	return MIN_SIZE;
 }
 
 
-void SceneViewport::_OnInitialize()
-{
-	_qtCameraDropdown = Memory::Alloc<QComboBox>();
-
-	_qtCameraButton =  Memory::Alloc<QPushButton>();
-	_qtCameraButton->setText( "C" );
-	_qtCameraButton->setMaximumWidth( 30 );
-	_qtCameraButton->setObjectName( EditorSkin::VIEWPORT_BUTTON );
-	QObject::connect( _qtCameraButton,	&QPushButton::pressed, this, &SceneViewport::A_CameraButton );
-
-	_qtTopBarLayout->addWidget( _qtCameraDropdown );
-	_qtTopBarLayout->addWidget( _qtCameraButton );
-
-	// register events
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
-}
-
-
-void SceneViewport::_OnFinalize()
-{
-	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
-}
-
-
-void SceneViewport::_OnUpdate()
+bool Viewport_WithGizmo::_IsRenderingReady()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
@@ -170,7 +117,7 @@ void SceneViewport::_OnUpdate()
 	if ( _cameraGO == NULL ) {
 		// finish
 		renderMngr->SwapBuffers();
-		return;
+		return FALSE;
 	}
 
 	//! update camera size
@@ -180,34 +127,11 @@ void SceneViewport::_OnUpdate()
 	cam->SetAspectRatio( aspectRatio );
 	cam->SetOrthoWidth( aspectRatio * height );
 
-	// render scenes
-	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
-		// get first scene's root
-		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
-
-		// render gizmo
-		_RenderGizmo();
-
-		// collect lights
-		DataArray<GameObject*> lightsGO;
-		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
-			_RecCollectLights( CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)), lightsGO );
-		}
-
-		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
-		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
-		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
-	}
-
-	// finish
-	renderMngr->SwapBuffers();
+	return TRUE;
 }
 
 
-void SceneViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+void Viewport_WithGizmo::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
 	// check for light component
 	Light* light = gameObject->GetComponent<Light>();
@@ -222,7 +146,7 @@ void SceneViewport::_RecCollectLights( GameObject* gameObject, DataArray<GameObj
 }
 
 
-void SceneViewport::_RenderGizmo()
+void Viewport_WithGizmo::_RenderGizmo()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 

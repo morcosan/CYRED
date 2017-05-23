@@ -29,15 +29,7 @@ namespace CYRED
 			GL_DEFERRED
 		};
 	}
-	namespace Enums_TechniqueType
-	{
-		enum E
-		{
-			FORWARD_BASIC
-		};
-	}
 	typedef Enums_RendererType::E	RendererType;
-	typedef Enums_TechniqueType::E	TechniqueType;
 }
 
 

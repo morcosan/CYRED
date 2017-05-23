@@ -134,12 +134,13 @@
     <ClCompile Include="Sections\Serialize\JSON\JsonSerializer_EditorConfig.cpp" />
     <ClCompile Include="Sections\Settings\ProjectSettings.cpp" />
     <ClCompile Include="Sections\Toolbar.cpp" />
-    <ClCompile Include="Sections\Viewports\PrefabViewport.cpp" />
-    <ClCompile Include="Sections\Viewports\SceneViewport.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Prefab.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Scene.cpp" />
     <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_WithGizmo.cpp" />
     <ClCompile Include="Utils\CustomTreeWidget.cpp" />
     <ClCompile Include="Utils\EditorUtils.cpp" />
     <ClCompile Include="Utils\QtUtils.cpp" />
@@ -194,8 +195,8 @@
     <ClInclude Include="Sections\Serialize\JSON\JsonSerializer_CyredProj.h" />
     <ClInclude Include="Sections\Settings\ProjectSettings.h" />
     <ClInclude Include="Sections\Toolbar.h" />
-    <ClInclude Include="Sections\Viewports\PrefabViewport.h" />
-    <ClInclude Include="Sections\Viewports\SceneViewport.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Prefab.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Scene.h" />
     <ClInclude Include="Sections\MenuBar.h" />
     <ClInclude Include="Sections\Panel.h" />
     <ClInclude Include="Sections\Panels\Panel_Attributes.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="InternalAssets\FreeCameraControl.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_WithGizmo.h" />
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
     <ClInclude Include="Utils\EditorUtils.h" />

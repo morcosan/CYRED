@@ -39,7 +39,6 @@
     <ClCompile Include="Sections\Settings\EditorSettings.cpp" />
     <ClCompile Include="Sections\Settings\EditorSkin.cpp" />
     <ClCompile Include="Sections\Settings\ProjectSettings.cpp" />
-    <ClCompile Include="Sections\Viewports\SceneViewport.cpp" />
     <ClCompile Include="Sections\MenuBar.cpp" />
     <ClCompile Include="Sections\Panel.cpp" />
     <ClCompile Include="Sections\SelectorPopup.cpp" />
@@ -57,11 +56,13 @@
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
-    <ClCompile Include="Sections\Viewports\PrefabViewport.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetFolder.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Asset.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetUnknown.cpp" />
     <ClCompile Include="Utils\EditorUtils.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_WithGizmo.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Scene.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Prefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -103,7 +104,6 @@
     <ClInclude Include="Sections\Settings\EditorSettings.h" />
     <ClInclude Include="Sections\Settings\EditorSkin.h" />
     <ClInclude Include="Sections\Settings\ProjectSettings.h" />
-    <ClInclude Include="Sections\Viewports\SceneViewport.h" />
     <ClInclude Include="Sections\MenuBar.h" />
     <ClInclude Include="Sections\Panel.h" />
     <ClInclude Include="Sections\SelectorPopup.h" />
@@ -122,10 +122,12 @@
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
     <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
-    <ClInclude Include="Sections\Viewports\PrefabViewport.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetFolder.h" />
     <ClInclude Include="Sections\Menus\Menu_Asset.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetUnknown.h" />
     <ClInclude Include="Utils\EditorUtils.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_WithGizmo.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Scene.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Prefab.h" />
   </ItemGroup>
 </Project>

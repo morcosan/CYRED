@@ -1,0 +1,34 @@
+{
+    "uid": "45NtJgWbh8zZ9Jrgt0tnxfbC438jeMDU",
+    "game_objects": [
+        {
+            "name": "Pivot",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "HIFbVNDCCY9q18q4kmXGyIlefoqrp3cQ",
+                    "material": "tgu2lRu5bPud2pdUYkXVbWWUaRVfby2F"
+                }
+            }
+        }
+    ]
+}

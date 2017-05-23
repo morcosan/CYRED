@@ -21,8 +21,8 @@
 #include "Sections\Panels\Panel_Assets.h"
 #include "Sections\Panels\Panel_Console.h"
 #include "Sections\Panels\Panel_PrefabHierarchy.h"
-#include "Sections\Viewports\SceneViewport.h"
-#include "Sections\Viewports\PrefabViewport.h"
+#include "Sections\Viewports\Viewport_Scene.h"
+#include "Sections\Viewports\Viewport_Prefab.h"
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
@@ -255,7 +255,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 		case PanelType::SCENE_VIEWPORT:
 		{
-			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( viewportIndex );
+			Viewport_Scene* viewportPanel = Memory::Alloc<Viewport_Scene>( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -264,7 +264,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 		case PanelType::PREFAB_VIEWPORT:
 		{
-			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( viewportIndex );
+			Viewport_Prefab* viewportPanel = Memory::Alloc<Viewport_Prefab>( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -318,7 +318,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelType::SCENE_VIEWPORT:
 		{
-			SceneViewport* viewportPanel = Memory::Alloc<SceneViewport>( viewportIndex );
+			Viewport_Scene* viewportPanel = Memory::Alloc<Viewport_Scene>( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			viewportPanel->SetCamera( _cameras[ 0 ] );
 			panel = viewportPanel;
@@ -327,7 +327,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelType::PREFAB_VIEWPORT:
 		{
-			PrefabViewport* viewportPanel = Memory::Alloc<PrefabViewport>( viewportIndex );
+			Viewport_Prefab* viewportPanel = Memory::Alloc<Viewport_Prefab>( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			viewportPanel->SetCamera( _cameras[ 1 ] );
 			panel = viewportPanel;

@@ -3,28 +3,23 @@
 
 #pragma once
 #include "CyredRequired.h"
-#include "CyredModule_Render.h"
-#include "CyredModule_Event.h"
 
 #include "../Panels/Panel_Viewport.h"
 
-class QHBoxLayout;
-class QComboBox;
-class QPushButton;
-
 namespace CYRED
 {
+	class GameObject;
 	class Prefab;
 }
 
 
 namespace CYRED
 {
-	class SceneViewport : public Panel_Viewport, public IEventListener
+	ABSTRACT class Viewport_WithGizmo : public Panel_Viewport
 	{
 	public:
 		const char*	const	PANEL_TITLE			= "Scene Viewport";
-		const Vector2		MIN_SIZE			= Vector2( 400, 200 );
+		const Vector2		MIN_SIZE			= Vector2( 400, 250 );
 		const char* const	GIZMO_GRID			= "GizmoGrid";
 		const char* const	GIZMO_AXIS			= "GizmoAxis";
 		const char* const	GIZMO_BACKGROUND	= "GizmoBackground";
@@ -36,31 +31,19 @@ namespace CYRED
 
 
 	public:
-		SceneViewport( int panelIndex );
-		virtual ~SceneViewport() {}
+		Viewport_WithGizmo( int panelIndex );
+		virtual ~Viewport_WithGizmo() {}
 
 
 	public:
-		void OnEvent	( EventType eType, void* eData )	override;
-		void LoadGizmo	()									override;
+		void LoadGizmo	() override;
 
 
 	public:
 		void SetCamera( GameObject* cameraGO );
 
 
-	public:
-		void A_CameraButton();
-
-
-	private:
-		static DataMap<TechniqueType, int>	_techSlots;
-
-
-	private:
-		QComboBox*		_qtCameraDropdown;
-		QPushButton*	_qtCameraButton;
-
+	protected:
 		GameObject*		_selectedGO;
 		Prefab*			_gizmoGrid;
 		Prefab*			_gizmoAxis;
@@ -75,12 +58,10 @@ namespace CYRED
 	private:
 		virtual const char*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
-		virtual void		_OnInitialize	() override;
-		virtual void		_OnFinalize		() override;
-		virtual void		_OnUpdate		() override;
 
 
-	private:
+	protected:
+		bool _IsRenderingReady	();
 		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 		void _RenderGizmo		();
 	};
