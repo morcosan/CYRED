@@ -26,6 +26,7 @@ Viewport_WithGizmo::Viewport_WithGizmo( int panelIndex )
 	, _gizmoSpotLight( NULL )
 	, _gizmoOrthoCamera( NULL )
 	, _gizmoPerspCamera( NULL )
+	, _gizmoPivot( NULL )
 {
 }
 
@@ -40,6 +41,7 @@ void Viewport_WithGizmo::LoadGizmo()
 	FiniteString gizmoSpotLight( GIZMO_SPOT_LIGHT );
 	FiniteString gizmoOrthoCamera( GIZMO_ORTHO_CAMERA );
 	FiniteString gizmoPerspCamera( GIZMO_PERSP_CAMERA );
+	FiniteString gizmoPivot( GIZMO_PIVOT );
 
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
@@ -69,6 +71,9 @@ void Viewport_WithGizmo::LoadGizmo()
 		}
 		else if ( gizmoPerspCamera == prefab->GetName() ) {
 			_gizmoPerspCamera = prefab;
+		}
+		else if ( gizmoPivot == prefab->GetName() ) {
+			_gizmoPivot = prefab;
 		}
 	}
 }
@@ -177,7 +182,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 		Camera*		camera		= _selectedGO->GetComponent<Camera>();
 		Transform*	transform	= _selectedGO->GetComponent<Transform>();
 
-		if ( light != NULL ) {
+		if ( light != NULL && transform != NULL ) {
 			// gizmo point light
 			if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
 				// update transform
@@ -280,6 +285,25 @@ void Viewport_WithGizmo::_RenderGizmo()
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
 									_cameraGO, noLightsGO );
 			}
+		}
+
+		// render pivot
+		if ( transform != NULL && _gizmoPivot != NULL ) {
+			// update transform
+			Node* root = _gizmoPivot->GetRoot();
+			for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+				GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
+				Transform* childTran = childGO->GetComponent<Transform>();
+				childTran->SetEmitEvents( FALSE );
+
+				childTran->SetPositionWorld( transform->GetPositionWorld() );
+				childTran->SetRotationWorld( transform->GetRotationWorld() );
+
+				childTran->SetEmitEvents( TRUE );
+			}
+			// render gizmo
+			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
+								_cameraGO, noLightsGO );
 		}
 	}
 }

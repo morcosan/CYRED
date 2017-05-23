@@ -28,6 +28,7 @@ namespace CYRED
 		const char* const	GIZMO_SPOT_LIGHT	= "GizmoSpotLight";
 		const char* const	GIZMO_ORTHO_CAMERA	= "GizmoOrthoCamera";
 		const char* const	GIZMO_PERSP_CAMERA	= "GizmoPerspCamera";
+		const char* const	GIZMO_PIVOT			= "GizmoPivot";
 
 
 	public:
@@ -53,6 +54,7 @@ namespace CYRED
 		Prefab*			_gizmoSpotLight;
 		Prefab*			_gizmoOrthoCamera;
 		Prefab*			_gizmoPerspCamera;
+		Prefab*			_gizmoPivot;
 
 
 	private:
