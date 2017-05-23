@@ -7,6 +7,7 @@
 #include "OpenGL\GLContext.h"
 
 #include "Renderers\ForwardRenderer.h"
+#include "Renderers\PickingRenderer.h"
 
 #include "../Debug/DebugManager.h"
 
@@ -116,9 +117,8 @@ void RenderManagerImpl::CreateRenderer( RendererType rendererType )
 	// create new renderer
 	Renderer* renderer = NULL;
 	switch ( rendererType ) {
-		case RendererType::GL_FORWARD:
-			renderer = Memory::Alloc<ForwardRenderer>();
-			break;
+		case RendererType::GL_FORWARD:	renderer = Memory::Alloc<ForwardRenderer>();	break;
+		case RendererType::GL_PICKING:	renderer = Memory::Alloc<PickingRenderer>();	break;
 	}
 
 	// initialize renderer
@@ -245,10 +245,12 @@ void RenderManagerImpl::OnResize( int canvasID )
 	// call resize
 	canvas.glContext->OnResize();
 
-	/*if ( canvas.renderer != NULL )
-	{
-		canvas.renderer->OnResize();
-	}*/
+	// resize all renderers
+	Iterator<RendererType, Renderer*> iter = canvas.renderers.GetIterator();
+	while ( iter.HasNext() ) {
+		iter.GetValue()->OnResize();
+		iter.Next();
+	}
 }
 
 
@@ -277,13 +279,11 @@ bool RenderManagerImpl::_IsProgramLinked( int programID ) const
 	{
 		_gl->GetProgramiv( programID, GLProgramInfo::LINK_STATUS, &status );
 
-		if( status == FALSE )
-		{
+		if( status == FALSE ) {
 			char description[512];
 			_gl->GetProgramInfoLog( programID, sizeof(description), 0, &description[0] );
 
 			DebugManager::Singleton()->Log( description );
-
 			return FALSE;
 		}
 	}
@@ -291,17 +291,14 @@ bool RenderManagerImpl::_IsProgramLinked( int programID ) const
 		_gl->ValidateProgram( programID );
 		_gl->GetProgramiv( programID, GLProgramInfo::VALIDATE_STATUS, &status );
   	
-		if( status == FALSE )
-		{
+		if( status == FALSE ) {
 			char description[256];
 			_gl->GetProgramInfoLog( programID, sizeof(description), 0, &description[0] );
 
 			DebugManager::Singleton()->Log( description );
-		
 			return FALSE;
 		}
 	}
-
 	return TRUE;
 }
 
@@ -311,21 +308,18 @@ void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo,
 {
 	ASSERT( _isInitialized );
 
-	if ( vertices.Size() == 0 || indices.Size() == 0 )
-	{
+	if ( vertices.Size() == 0 || indices.Size() == 0 ) {
 		return;
 	}
 
-	if ( vbo == EMPTY_BUFFER )
-	{
+	if ( vbo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &vbo );
 	}
   	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, vbo );
 	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(Vertex) * vertices.Size(), vertices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
-	if ( ibo == EMPTY_BUFFER )
-	{
+	if ( ibo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
@@ -342,21 +336,18 @@ void RenderManagerImpl::CreateMorphBuffers( OUT uint& vbo, OUT uint& ibo,
 {
 	ASSERT( _isInitialized );
 
-	if ( vertices.Size() == 0 || indices.Size() == 0 )
-	{
+	if ( vertices.Size() == 0 || indices.Size() == 0 ) {
 		return;
 	}
 
-	if ( vbo == EMPTY_BUFFER )
-	{
+	if ( vbo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &vbo );
 	}
   	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, vbo );
 	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(MorphVertex) * vertices.Size(), vertices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
-	if ( ibo == EMPTY_BUFFER )
-	{
+	if ( ibo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
@@ -381,21 +372,18 @@ void RenderManagerImpl::CreateParticleBuffers( OUT uint& vbo, OUT uint& ibo,
 {
 	ASSERT( _isInitialized );
 
-	if ( vertices.Size() == 0 || indices.Size() == 0 )
-	{
+	if ( vertices.Size() == 0 || indices.Size() == 0 ) {
 		return;
 	}
 
-	if ( vbo == EMPTY_BUFFER )
-	{
+	if ( vbo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &vbo );
 	}
   	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, vbo );
 	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(ParticleVertex) * vertices.Size(), vertices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
-	if ( ibo == EMPTY_BUFFER )
-	{
+	if ( ibo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
@@ -426,43 +414,36 @@ int RenderManagerImpl::CreateShaderProgram( const char* vertexCode,
 		_gl->ShaderSource( vertexShader, 1, &vertexCode, NULL );
 		_gl->CompileShader( vertexShader );
 
-		if ( !_IsShaderCompiled( vertexShader ) )
-		{
+		if ( !_IsShaderCompiled( vertexShader ) ) {
 			isOk = FALSE;
 		}
 	}
 
-	if ( isOk )
-	{
+	if ( isOk ) {
 		_gl->ShaderSource( geometryShader, 1, &geometryCode, NULL );
 		_gl->CompileShader( geometryShader );
 
-		if ( !_IsShaderCompiled( geometryShader ) )
-		{
+		if ( !_IsShaderCompiled( geometryShader ) ) {
 			isOk = FALSE;
 		}
 	}
 
-	if ( isOk )
-	{
+	if ( isOk ) {
 		_gl->ShaderSource( fragmentShader, 1, &fragmentCode, NULL );
 		_gl->CompileShader( fragmentShader );
 
-		if ( !_IsShaderCompiled( fragmentShader ) )
-		{
+		if ( !_IsShaderCompiled( fragmentShader ) ) {
 			isOk = FALSE;
 		}
 	}
 
-	if ( isOk )
-	{
+	if ( isOk ) {
 		_gl->AttachShader( programID, vertexShader );
 		_gl->AttachShader( programID, geometryShader );
 		_gl->AttachShader( programID, fragmentShader );
 
 		_gl->LinkProgram( programID );
-		if ( !_IsProgramLinked( programID ) )
-		{
+		if ( !_IsProgramLinked( programID ) ) {
 			isOk = FALSE;
 		}
 
@@ -477,12 +458,10 @@ int RenderManagerImpl::CreateShaderProgram( const char* vertexCode,
 	_gl->DeleteShader( geometryShader );
 	_gl->DeleteShader( fragmentShader );
 
-	if ( isOk )
-	{
+	if ( isOk ) {
 		return programID;
 	}
-	else
-	{
+	else {
 		_gl->DeleteProgram( programID );
 		return INVALID_SHADER;
 	}

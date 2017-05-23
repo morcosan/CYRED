@@ -1,7 +1,7 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-#include "ForwardRenderer.h"
+#include "PickingRenderer.h"
 
 #include "../../../2_BuildingBlocks/Components/Transform.h"
 #include "../../../2_BuildingBlocks/GameObject.h"
@@ -33,15 +33,20 @@ using namespace NotAPI;
 
 
 
-ForwardRenderer::~ForwardRenderer()
+PickingRenderer::~PickingRenderer()
 {
+	_gl->DeleteFramebuffers	( 1, &_frameBufferID );
+	_gl->DeleteTextures		( 1, &_colorBufferID );
+	_gl->DeleteTextures		( 1, &_depthBufferID );
+
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
 }
 
 
 /*****
 * @desc: clear the previous frame
 */
-void ForwardRenderer::ClearScreen( float r, float g, float b )
+void PickingRenderer::ClearScreen( float r, float g, float b )
 {
 	ASSERT( _gl != NULL );
 
@@ -51,13 +56,17 @@ void ForwardRenderer::ClearScreen( float r, float g, float b )
 	_gl->ClearColor( r, g, b, 1 );
 	_gl->DepthMask( TRUE );
 	_gl->Clear( GLBufferBit::COLOR_BUFFER_BIT | GLBufferBit::DEPTH_BUFFER_BIT );
+
+	//_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _mainFramebufferID );
+	//_gl->ClearColor( 0, 0, 0, 0 );
+	//   _gl->Clear( GLFlag::COLOR_BUFFER_BIT | GLFlag::DEPTH_BUFFER_BIT );
 }
 
 
 /*****
 * @desc: clear the depth buffer; new rendering goes over anything before
 */
-void ForwardRenderer::ResetDepth()
+void PickingRenderer::ResetDepth()
 {
 	ASSERT( _gl != NULL );
 
@@ -75,7 +84,7 @@ void ForwardRenderer::ResetDepth()
 * 		cameraGO	- camera
 * 		lightsGO	- the list of lights to be used
 */
-void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
+void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
 							  DataArray<GameObject*>& lightsGO )
 {
 	// sanity check
@@ -133,23 +142,140 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 }
 
 
-void ForwardRenderer::OnResize()
+void PickingRenderer::OnResize()
 {
 	// resize buffers here
 }
 
 
-void ForwardRenderer::DisplayOnScreen()
+void PickingRenderer::DisplayOnScreen()
 {
+	//_gl->Enable( GLCapability::BLEND );
+	//_gl->BlendEquation( GLBlendMode::FUNC_ADD );
+	//_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA );
+	//_gl->Disable( GLCapability::DEPTH_TEST );
+
+	//_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );
+	//_gl->Enable( GLCapability::CULL_FACE );
+	//_gl->CullFace( GLCullFace::BACK );
+
+	//_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
+
+	//_RenderScreenQuad( NULL, _screenQuadShader );
 }
 
 
-void ForwardRenderer::_OnInitialize()
+void PickingRenderer::_OnInitialize()
 {
+	_CreateBuffers( _glContext->GetWidth(), _glContext->GetHeight() );
+
+	_GenerateScreenQuad();
 }
 
 
-void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+void PickingRenderer::_CreateBuffers( int width, int height )
+{
+	_gl->GenFramebuffers( 1, &_frameBufferID );
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
+
+
+	_gl->GenTextures( 1, &_colorBufferID );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
+					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S,		GLTexParamValue::CLAMP_TO_EDGE );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T,		GLTexParamValue::CLAMP_TO_EDGE );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER,	GLTexParamValue::NEAREST );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER,	GLTexParamValue::NEAREST );
+	_gl->FramebufferTexture2D( GLFrameBuffer::FRAMEBUFFER, GLBufferAttachment::COLOR_ATTACHMENT0, 
+							   GLTexture::TEXTURE_2D, _colorBufferID, 0 );
+
+	_gl->GenTextures( 1, &_depthBufferID );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, _depthBufferID );
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::DEPTH_COMPONENT16, width, height, 0, 
+					 GLTexFormat::DEPTH_COMPONENT, GLVarType::UNSIGNED_SHORT, NULL );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S, GLTexParamValue::CLAMP_TO_EDGE );
+	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T, GLTexParamValue::CLAMP_TO_EDGE );
+	_gl->FramebufferTexture2D( GLFrameBuffer::FRAMEBUFFER, GLBufferAttachment::DEPTH_ATTACHMENT, 
+							   GLTexture::TEXTURE_2D, _depthBufferID, 0 ); 
+
+
+	GLBufferStatus status = _gl->CheckFramebufferStatus( GLFrameBuffer::FRAMEBUFFER );
+
+	// unbind
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, EMPTY_BUFFER );
+}
+
+
+void PickingRenderer::_ResizeBuffers( int width, int height )
+{
+	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
+					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
+
+	_gl->BindTexture( GLTexture::TEXTURE_2D, _depthBufferID );
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::DEPTH_COMPONENT16, width, height, 0, 
+					 GLTexFormat::DEPTH_COMPONENT, GLVarType::UNSIGNED_SHORT, NULL );
+}
+
+
+void PickingRenderer::_RenderScreenQuad( Texture* texture, Shader* shader )
+{
+	ASSERT( shader != NULL );
+
+	int programID = shader->GetProgramID();
+	_gl->UseProgram( programID );
+
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
+
+	//! set shader variables
+	_gl->EnableVertexAttribArray( 0 );
+	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, position)) );
+	_gl->EnableVertexAttribArray( 3 );
+	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, uv)) );
+
+	//int screenSizeLoc = shader->GetUniformLocation( "ME3D_screenSize" );
+	//_gl->Uniform2fv( screenSizeLoc, 1, _contextSize.Ptr() );
+
+
+	_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );
+	_gl->Enable( GLCapability::CULL_FACE );
+	_gl->CullFace( GLCullFace::BACK );
+
+	// TODO
+	_gl->Disable( GLCapability::CULL_FACE );
+
+
+
+	_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
+
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+	_gl->UseProgram( EMPTY_SHADER );
+}
+
+
+void PickingRenderer::_GenerateScreenQuad()
+{
+	DataArray<Vertex> vertices;
+
+	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );             
+	vertices.Add( Vertex( Vector3( 1, -1, 0), Vector2(1, 0) ) ); 
+	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
+
+	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );  
+	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
+	vertices.Add( Vertex( Vector3(-1,  1, 0), Vector2(0, 1) ) );
+
+	_gl->GenBuffers( 1, &_screenQuadID );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
+	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(Vertex) * vertices.Size(), 
+					 vertices.Data(), GLDrawType::STATIC_DRAW );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+}
+
+
+void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -298,7 +424,7 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 }
 
 
-void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+void PickingRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -449,7 +575,7 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 }
 
 
-void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
+void PickingRenderer::_RecRenderParticles( GameObject* gameObject )
 {
 	if ( !gameObject->IsEnabled() ) {
 		return;
@@ -543,7 +669,7 @@ void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
 }
 
 
-void ForwardRenderer::_BindMaterial( Material* material )
+void PickingRenderer::_BindMaterial( Material* material )
 {
 	Shader* shader = material->GetShader();
 

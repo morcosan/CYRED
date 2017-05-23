@@ -26,6 +26,7 @@ namespace CYRED
 		enum E
 		{
 			GL_FORWARD,
+			GL_PICKING,
 			GL_DEFERRED
 		};
 	}

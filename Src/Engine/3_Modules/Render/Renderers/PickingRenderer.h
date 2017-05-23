@@ -21,7 +21,7 @@ namespace CYRED
 {
 	namespace NotAPI
 	{
-		class ForwardRenderer : public Renderer
+		class PickingRenderer : public Renderer
 		{
 			const char* UNIFORM_IS_LOOPING	= "isLooping";
 			const char* UNIFORM_LIFETIME	= "lifetime";
@@ -31,8 +31,8 @@ namespace CYRED
 
 
 		public:
-			ForwardRenderer() {}
-			virtual ~ForwardRenderer();
+			PickingRenderer() {}
+			virtual ~PickingRenderer();
 
 
 		public:
@@ -70,11 +70,22 @@ namespace CYRED
 
 
 		private:
+			uint		_frameBufferID;
+			uint		_colorBufferID;
+			uint		_depthBufferID;
+
+			uint		_screenQuadID;
+
 			Transform*	_currCameraTran;
 			Camera*		_currCameraCam;
 
 
 		private:
+			void _CreateBuffers		( int width, int height );
+			void _ResizeBuffers		( int width, int height );
+			void _RenderScreenQuad	( Texture* texture, Shader* shader );
+			void _GenerateScreenQuad();
+
 			void _RecRenderMesh		( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderMorph	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderParticles( GameObject* gameObject );
