@@ -39,7 +39,12 @@ namespace CYRED
 			/*****
 			* @desc: clear the previous frame
 			*/
-			void ClearScreen	()					override;
+			void ClearScreen	( float r, float g, float b )			override;
+
+			/*****
+			* @desc: clear the depth buffer; new rendering goes over anything before
+			*/
+			void ResetDepth		()										override;
 
 			/*****
 			* @desc: render the given component from given gameobject and its children
@@ -52,8 +57,8 @@ namespace CYRED
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
 								  DataArray<GameObject*>& lightsGO )	override;
 
-			void OnResize		()						override;
-			void DisplayOnScreen()						override;
+			void OnResize		()										override;
+			void DisplayOnScreen()										override;
 
 
 		private:

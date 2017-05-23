@@ -152,7 +152,7 @@ void RenderManagerImpl::SwitchRenderer( RendererType rendererType )
 /*****
 * @desc: clear the previous frame
 */
-void RenderManagerImpl::ClearScreen()
+void RenderManagerImpl::ClearScreen( float r, float g, float b )
 {
 	ASSERT( _isInitialized );
 
@@ -165,7 +165,25 @@ void RenderManagerImpl::ClearScreen()
 	// set context
 	canvas.glContext->MakeCurrent();
 	// clear screen
-	renderer->ClearScreen();
+	renderer->ClearScreen( r, g, b );
+}
+
+
+/*****
+* @desc: clear the depth buffer; new rendering goes over anything before
+*/
+void RenderManagerImpl::ResetDepth()
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	// get renderer
+	ASSERT( canvas.renderers.Has( _currRenderer ) );
+	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+
+	// clear screen
+	renderer->ResetDepth();
 }
 
 

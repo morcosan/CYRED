@@ -32,7 +32,12 @@ namespace CYRED
 		/*****
 		* @desc: clear the previous frame
 		*/
-		virtual void ClearScreen	()					PURE_VIRTUAL;
+		virtual void ClearScreen	( float r, float g, float b )	PURE_VIRTUAL;
+
+		/*****
+		* @desc: clear the depth buffer; new rendering goes over anything before
+		*/
+		virtual void ResetDepth		()								PURE_VIRTUAL;
 
 		/*****
 		* @desc: render the given component from given gameobject and its children

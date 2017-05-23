@@ -13,7 +13,7 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": 0.0,
+                        "x": 45.000,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -42,7 +42,7 @@
                                 "z": 0.0
                             },
                             "rotation_world": {
-                                "x": 0.0,
+                                "x": 45.000,
                                 "y": 0.0,
                                 "z": 0.0
                             },
@@ -63,12 +63,12 @@
         },
         {
             "name": "w2",
-            "enabled": false,
+            "enabled": true,
             "components": {
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": 2.0,
+                        "x": 2.200,
                         "y": 0.0,
                         "z": 0.0
                     },

@@ -116,7 +116,7 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 	renderMngr->SwitchCanvas( _canvasSlot );
 	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
 	// clear screen
-	renderMngr->ClearScreen();
+	renderMngr->ClearScreen( 0.3f, 0.3f, 0.3f );
 
 	// exit if no camera
 	if ( _cameraGO == NULL ) {
@@ -151,29 +151,26 @@ void Viewport_WithGizmo::_RecCollectLights( GameObject* gameObject, DataArray<Ga
 }
 
 
-void Viewport_WithGizmo::_RenderGizmo()
+void Viewport_WithGizmo::_RenderGizmoBefore()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
-
-	// empty lights list
-	DataArray<GameObject*> noLightsGO;
 
 	// render gizmo background
 	if ( _gizmoBackground != NULL ) {
 		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
-							_cameraGO, noLightsGO );
+							_cameraGO, _noLightsGO );
 	}
 
 	// render gizmo grid
 	if ( _gizmoGrid != NULL ) {
 		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
-							_cameraGO, noLightsGO );
+							_cameraGO, _noLightsGO );
 	}
 
 	// render gizmo axis
 	if ( _gizmoAxis != NULL ) {
 		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
-							_cameraGO, noLightsGO );
+							_cameraGO, _noLightsGO );
 	}
 
 	// render selected object gizmo
@@ -201,7 +198,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
-									_cameraGO, noLightsGO );
+									_cameraGO, _noLightsGO );
 			}
 
 			// gizmo directional light
@@ -220,7 +217,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
-									_cameraGO, noLightsGO );
+									_cameraGO, _noLightsGO );
 			}
 
 			// gizmo spot light
@@ -243,7 +240,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
-									_cameraGO, noLightsGO );
+									_cameraGO, _noLightsGO );
 			}
 		}
 
@@ -264,7 +261,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
-									_cameraGO, noLightsGO );
+									_cameraGO, _noLightsGO );
 			}
 
 			// gizmo perspective camera
@@ -283,9 +280,23 @@ void Viewport_WithGizmo::_RenderGizmo()
 				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
-									_cameraGO, noLightsGO );
+									_cameraGO, _noLightsGO );
 			}
 		}
+	}
+}
+
+
+void Viewport_WithGizmo::_RenderGizmoAfter()
+{
+	RenderManager* renderMngr = RenderManager::Singleton();
+
+	// reset depth
+	renderMngr->ResetDepth();
+	
+	// render selected object gizmo
+	if ( _selectedGO != NULL ) {
+		Transform*	transform	= _selectedGO->GetComponent<Transform>();
 
 		// render pivot
 		if ( transform != NULL && _gizmoPivot != NULL ) {
@@ -303,7 +314,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 			}
 			// render gizmo
 			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
-								_cameraGO, noLightsGO );
+								_cameraGO, _noLightsGO );
 		}
 	}
 }

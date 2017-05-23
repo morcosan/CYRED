@@ -77,7 +77,12 @@ namespace CYRED
 			/*****
 			* @desc: clear the previous frame
 			*/
-			void ClearScreen	()									override;
+			void ClearScreen	( float r, float g, float b )		override;
+
+			/*****
+			* @desc: clear the depth buffer; new rendering goes over anything before
+			*/
+			void ResetDepth		()									override;
 
 			/*****
 			* @desc: render the given component from given gameobject and its children
@@ -94,7 +99,7 @@ namespace CYRED
 			/*****
 			* @desc: display the rendering
 			*/
-			void SwapBuffers	()										override;
+			void SwapBuffers	()									override;
 
 			/*****
 			* @desc: force resize for given canvas
@@ -102,7 +107,7 @@ namespace CYRED
 			* 		canvasID - id of canvas
 			* @assert: canvas exists
 			*/
-			void OnResize		( int canvasID )						override;
+			void OnResize		( int canvasID )					override;
 
 
 		public:

@@ -45,16 +45,18 @@ namespace CYRED
 
 
 	protected:
-		GameObject*		_selectedGO;
-		Prefab*			_gizmoGrid;
-		Prefab*			_gizmoAxis;
-		Prefab*			_gizmoBackground;
-		Prefab*			_gizmoPointLight;
-		Prefab*			_gizmoDirLight;
-		Prefab*			_gizmoSpotLight;
-		Prefab*			_gizmoOrthoCamera;
-		Prefab*			_gizmoPerspCamera;
-		Prefab*			_gizmoPivot;
+		DataArray<GameObject*>	_noLightsGO;	// empty lights list
+
+		GameObject*				_selectedGO;
+		Prefab*					_gizmoGrid;
+		Prefab*					_gizmoAxis;
+		Prefab*					_gizmoBackground;
+		Prefab*					_gizmoPointLight;
+		Prefab*					_gizmoDirLight;
+		Prefab*					_gizmoSpotLight;
+		Prefab*					_gizmoOrthoCamera;
+		Prefab*					_gizmoPerspCamera;
+		Prefab*					_gizmoPivot;
 
 
 	private:
@@ -65,6 +67,7 @@ namespace CYRED
 	protected:
 		bool _IsRenderingReady	();
 		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
-		void _RenderGizmo		();
+		void _RenderGizmoBefore	();
+		void _RenderGizmoAfter	();
 	};
 }

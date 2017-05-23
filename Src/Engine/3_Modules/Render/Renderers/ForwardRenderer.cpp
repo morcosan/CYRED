@@ -47,20 +47,33 @@ ForwardRenderer::~ForwardRenderer()
 /*****
 * @desc: clear the previous frame
 */
-void ForwardRenderer::ClearScreen()
+void ForwardRenderer::ClearScreen( float r, float g, float b )
 {
 	ASSERT( _gl != NULL );
 
 	_gl->Viewport( 0, 0, _glContext->GetWidth(), _glContext->GetHeight() );
 
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
-	_gl->ClearColor( 0.3f, 0.3f, 0.3f, 1 );
+	_gl->ClearColor( r, g, b, 1 );
 	_gl->DepthMask( TRUE );
 	_gl->Clear( GLBufferBit::COLOR_BUFFER_BIT | GLBufferBit::DEPTH_BUFFER_BIT );
 
 	//_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _mainFramebufferID );
 	//_gl->ClearColor( 0, 0, 0, 0 );
 	//   _gl->Clear( GLFlag::COLOR_BUFFER_BIT | GLFlag::DEPTH_BUFFER_BIT );
+}
+
+
+/*****
+* @desc: clear the depth buffer; new rendering goes over anything before
+*/
+void ForwardRenderer::ResetDepth()
+{
+	ASSERT( _gl != NULL );
+
+	// clear depth buffer
+	_gl->DepthMask( TRUE );
+	_gl->Clear( GLBufferBit::DEPTH_BUFFER_BIT );
 }
 
 

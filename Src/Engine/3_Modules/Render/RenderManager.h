@@ -93,7 +93,12 @@ namespace CYRED
 		/*****
 		* @desc: clear the previous frame
 		*/
-		virtual void	ClearScreen		()									PURE_VIRTUAL;
+		virtual void	ClearScreen		( float r, float g, float b )		PURE_VIRTUAL;
+
+		/*****
+		* @desc: clear the depth buffer; new rendering goes over anything before
+		*/
+		virtual void	ResetDepth		()									PURE_VIRTUAL;
 
 		/*****
 		* @desc: render the given component from given gameobject and its children
@@ -104,8 +109,8 @@ namespace CYRED
 		* 		lightsGO	- the list of lights to be used
 		* @assert: canvas and renderer are set
 		*/
-		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  DataArray<GameObject*>& lightsGO )		PURE_VIRTUAL;
+		virtual void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+										  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
 
 		/*****
 		* @desc: display the rendering
@@ -118,7 +123,7 @@ namespace CYRED
 		* 		canvasID - id of canvas
 		* @assert: canvas exists
 		*/
-		virtual void OnResize		( int canvasID )							PURE_VIRTUAL;
+		virtual void	OnResize		( int canvasID )						PURE_VIRTUAL;
 	};
 }
 
