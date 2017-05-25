@@ -18,17 +18,17 @@ namespace CYRED
 	ABSTRACT class Viewport_WithGizmo : public Panel_Viewport
 	{
 	public:
-		const char*	const	PANEL_TITLE			= "Scene Viewport";
+		cchar*	const	PANEL_TITLE			= "Scene Viewport";
 		const Vector2		MIN_SIZE			= Vector2( 400, 250 );
-		const char* const	GIZMO_GRID			= "GizmoGrid";
-		const char* const	GIZMO_AXIS			= "GizmoAxis";
-		const char* const	GIZMO_BACKGROUND	= "GizmoBackground";
-		const char* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
-		const char* const	GIZMO_DIR_LIGHT		= "GizmoDirLight";
-		const char* const	GIZMO_SPOT_LIGHT	= "GizmoSpotLight";
-		const char* const	GIZMO_ORTHO_CAMERA	= "GizmoOrthoCamera";
-		const char* const	GIZMO_PERSP_CAMERA	= "GizmoPerspCamera";
-		const char* const	GIZMO_PIVOT			= "GizmoPivot";
+		cchar* const	GIZMO_GRID			= "GizmoGrid";
+		cchar* const	GIZMO_AXIS			= "GizmoAxis";
+		cchar* const	GIZMO_BACKGROUND	= "GizmoBackground";
+		cchar* const	GIZMO_POINT_LIGHT	= "GizmoPointLight";
+		cchar* const	GIZMO_DIR_LIGHT		= "GizmoDirLight";
+		cchar* const	GIZMO_SPOT_LIGHT	= "GizmoSpotLight";
+		cchar* const	GIZMO_ORTHO_CAMERA	= "GizmoOrthoCamera";
+		cchar* const	GIZMO_PERSP_CAMERA	= "GizmoPerspCamera";
+		cchar* const	GIZMO_PIVOT			= "GizmoPivot";
 
 
 	public:
@@ -60,7 +60,7 @@ namespace CYRED
 
 
 	private:
-		virtual const char*	_GetPanelTitle	() override;
+		virtual cchar*	_GetPanelTitle	() override;
 		virtual Vector2		_GetPanelMinSize() override;
 
 

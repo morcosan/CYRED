@@ -18,7 +18,7 @@ namespace CYRED
 
 	public:
 		// import mesh from classic formats
-		virtual bool	ImportMesh( const char* data, int dataSize, 
+		virtual bool	ImportMesh( cchar* data, int dataSize, 
 									OUT DataArray<Vertex>& vertices, 
 									OUT DataArray<int>& indices )	override;
 	};

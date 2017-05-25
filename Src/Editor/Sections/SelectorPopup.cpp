@@ -65,7 +65,7 @@ void SelectorPopup::A_Apply( QListWidgetItem* item )
 }
 
 
-void SelectorPopup::DisplayPopup( const char* type, void* qtSelectorPtr )
+void SelectorPopup::DisplayPopup( cchar* type, void* qtSelectorPtr )
 {
 	if ( _selectors.Has( type ) )
 	{
@@ -91,7 +91,7 @@ void SelectorPopup::Initialize()
 }
 
 
-void SelectorPopup::AddSelector( const char* type, Selector* selector )
+void SelectorPopup::AddSelector( cchar* type, Selector* selector )
 {
 	if ( _selectors.Has( type ) )
 	{
@@ -107,7 +107,7 @@ void SelectorPopup::ClearList()
 }
 
 
-void SelectorPopup::AddToList( const char* itemName, void* itemRef )
+void SelectorPopup::AddToList( cchar* itemName, void* itemRef )
 {
 	_ListItem* listItem = Memory::Alloc<_ListItem>();
 	listItem->setText( itemName );
@@ -123,7 +123,7 @@ void SelectorPopup::SetSelected( int index )
 }
 
 
-void SelectorPopup::SetPopupTitle( const char* title )
+void SelectorPopup::SetPopupTitle( cchar* title )
 {
 	this->setWindowTitle( title );
 }

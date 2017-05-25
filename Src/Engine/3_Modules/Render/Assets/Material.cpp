@@ -86,7 +86,7 @@ Asset* Material::Clone()
 }
 
 
-const char* CYRED::Material::GetExtension()
+cchar* CYRED::Material::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MATERIAL;
@@ -159,7 +159,7 @@ void Material::SetFaceCulling( FaceCulling value )
 }
 
 
-void Material::SetProperty( const char* name, int value )
+void Material::SetProperty( cchar* name, int value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -181,7 +181,7 @@ void Material::SetProperty( const char* name, int value )
 }
 
 
-void Material::SetProperty( const char* name, float value )
+void Material::SetProperty( cchar* name, float value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -203,7 +203,7 @@ void Material::SetProperty( const char* name, float value )
 }
 
 
-void Material::SetProperty( const char* name, const Vector2& value )
+void Material::SetProperty( cchar* name, const Vector2& value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -225,7 +225,7 @@ void Material::SetProperty( const char* name, const Vector2& value )
 }
 
 
-void Material::SetProperty( const char* name, const Vector3& value )
+void Material::SetProperty( cchar* name, const Vector3& value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -247,7 +247,7 @@ void Material::SetProperty( const char* name, const Vector3& value )
 }
 
 
-void Material::SetProperty( const char* name, const Vector4& value )
+void Material::SetProperty( cchar* name, const Vector4& value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -269,7 +269,7 @@ void Material::SetProperty( const char* name, const Vector4& value )
 }
 
 
-void Material::SetProperty( const char* name, Texture* value )
+void Material::SetProperty( cchar* name, Texture* value )
 {
 	for ( int i = 0; i < _properties.Size(); ++i )
 	{
@@ -305,7 +305,7 @@ DataUnion& Material::GetPropertyDataAt( int index ) const
 }
 
 
-const char* Material::GetPropertyNameAt( int index ) const
+cchar* Material::GetPropertyNameAt( int index ) const
 {
 	ASSERT( index < _properties.Size() );
 

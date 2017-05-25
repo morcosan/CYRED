@@ -13,7 +13,7 @@ using namespace CYRED;
 
 
 const int Random::UNIQUE_ID_SIZE	= 32;		// same as Unity
-const char Random::ALPHA_NUM[]		= "0123456789"
+cchar Random::ALPHA_NUM[]		= "0123456789"
 									  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 									  "abcdefghijklmnopqrstuvwxyz";
 
@@ -123,7 +123,7 @@ String Random::GenerateUniqueID()
 }
 
 
-bool Random::ValidateUniqueID( const char* uniqueID )
+bool Random::ValidateUniqueID( cchar* uniqueID )
 {
 	if ( strlen( uniqueID ) != UNIQUE_ID_SIZE )
 	{
@@ -153,7 +153,7 @@ bool Random::ValidateUniqueID( const char* uniqueID )
 }
 
 
-String Random::GenerateConstantID( const char* text )
+String Random::GenerateConstantID( cchar* text )
 {
 	// get available chars
 	int totalAlphanum = sizeof( ALPHA_NUM );

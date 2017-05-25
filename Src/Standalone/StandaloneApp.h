@@ -26,7 +26,7 @@ namespace CYRED
 		void Exit() override;
 
 	public:
-		static void GlfwErrorCallback( int code, const char* desc );
+		static void GlfwErrorCallback( int code, cchar* desc );
 
 
 	public:

@@ -175,7 +175,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 	{
 		for ( int i = 0; i < _shapeEnums.Size(); ++i )
 		{
-			const char* value = json[EMITTER_SHAPE].GetString();
+			cchar* value = json[EMITTER_SHAPE].GetString();
 
 			if ( _shapeStrings[i] == value )
 			{
@@ -201,7 +201,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 		}
 		else
 		{
-			const char* uniqueID = json[MATERIAL].GetString();
+			cchar* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{

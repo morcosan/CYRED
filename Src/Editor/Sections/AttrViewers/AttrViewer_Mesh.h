@@ -18,17 +18,17 @@ namespace CYRED
 	class AttrViewer_Mesh : public AttrViewer
 	{
 	public:
-		const char* TITLE					= "Mesh";
+		cchar* TITLE					= "Mesh";
 
-		const char* ATTR_NAME				= "Name";
-		const char* ATTR_MESH_TYPE			= "Mesh Type";
-		const char* MESH_TYPE_LINE			= "LINE";
-		const char* MESH_TYPE_POLYGON		= "POLYGON";
-		const char* ATTR_LOAD_TYPE			= "Load Type";
-		const char* LOAD_TYPE_EXTERNAL		= "EXTERNAL";
-		const char* LOAD_TYPE_SCRIPTED		= "SCRIPTED";
-		const char* ATTR_FILE_PATH			= "File Path";
-		const char* ATTR_CLEAR_BUFFER		= "Clear Buffers On Bind";
+		cchar* ATTR_NAME				= "Name";
+		cchar* ATTR_MESH_TYPE			= "Mesh Type";
+		cchar* MESH_TYPE_LINE			= "LINE";
+		cchar* MESH_TYPE_POLYGON		= "POLYGON";
+		cchar* ATTR_LOAD_TYPE			= "Load Type";
+		cchar* LOAD_TYPE_EXTERNAL		= "EXTERNAL";
+		cchar* LOAD_TYPE_SCRIPTED		= "SCRIPTED";
+		cchar* ATTR_FILE_PATH			= "File Path";
+		cchar* ATTR_CLEAR_BUFFER		= "Clear Buffers On Bind";
 
 
 	public:

@@ -21,7 +21,7 @@ void GLImpl_3_0::Initialize()
 	GLenum glewError = glewInit();
 	if ( glewError != GLEW_OK )
 	{
-		//( "glew init error", (const char*) glewGetErrorString( glewError) );
+		//( "glew init error", (cchar*) glewGetErrorString( glewError) );
 	}
 
 	_isInitialized = TRUE;
@@ -227,7 +227,7 @@ void GLImpl_3_0::DeleteShader( int shader )
 }
 
 
-void GLImpl_3_0::ShaderSource( int shader, int count, const char** string, const int* length )
+void GLImpl_3_0::ShaderSource( int shader, int count, cchar** string, const int* length )
 {
 	ASSERT( _isInitialized );
 	glShaderSource( shader, count, string, length );
@@ -262,7 +262,7 @@ void GLImpl_3_0::LinkProgram( int program )
 }
 
 
-int GLImpl_3_0::GetUniformLocation( int program, const char* name )
+int GLImpl_3_0::GetUniformLocation( int program, cchar* name )
 {
 	ASSERT( _isInitialized );
 	return glGetUniformLocation( program, name );

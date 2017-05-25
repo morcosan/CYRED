@@ -10,21 +10,21 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Scripter : public JsonSerializer
 	{
-		const char* const ENABLED			= "enabled";
-		const char* const SCRIPTS			= "scripts";
-		const char* const SCRIPT_UID		= "uid";
-		const char* const SCRIPT_VARS		= "variables";
-		const char* const VAR_NAME			= "name";
-		const char* const VAR_TYPE			= "type";
-		const char* const VAR_VALUE			= "value";
-		const char* const VAR_TYPE_FLOAT	= "FLOAT";
-		const char* const VAR_TYPE_INT		= "INT";
-		const char* const VAR_TYPE_BOOL		= "BOOL";
-		const char* const VAR_TYPE_STRING	= "STRING";
-		const char* const VAR_TYPE_VEC2		= "VECTOR2";
-		const char* const VAR_TYPE_VEC3		= "VECTOR3";
-		const char* const VAR_TYPE_VEC4		= "VECTOR4";
-		const char* const VAR_TYPE_PREFAB	= "PREFAB";
+		cchar* const ENABLED			= "enabled";
+		cchar* const SCRIPTS			= "scripts";
+		cchar* const SCRIPT_UID		= "uid";
+		cchar* const SCRIPT_VARS		= "variables";
+		cchar* const VAR_NAME			= "name";
+		cchar* const VAR_TYPE			= "type";
+		cchar* const VAR_VALUE			= "value";
+		cchar* const VAR_TYPE_FLOAT	= "FLOAT";
+		cchar* const VAR_TYPE_INT		= "INT";
+		cchar* const VAR_TYPE_BOOL		= "BOOL";
+		cchar* const VAR_TYPE_STRING	= "STRING";
+		cchar* const VAR_TYPE_VEC2		= "VECTOR2";
+		cchar* const VAR_TYPE_VEC3		= "VECTOR3";
+		cchar* const VAR_TYPE_VEC4		= "VECTOR4";
+		cchar* const VAR_TYPE_PREFAB	= "PREFAB";
 
 
 	public:

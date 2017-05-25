@@ -103,14 +103,14 @@ void Menu_Scene::A_SaveSceneAs()
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
 	// get selected path
-	const char* paths = newPath.toUtf8().constData();
+	cchar* paths = newPath.toUtf8().constData();
 	QFileInfo filePath( newPath );
 	// open directory
 	QDir dir;
 	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
 	dirPath.append( "/" );
 	// create new asset
-	const char* newName = filePath.completeBaseName().toUtf8().constData();
+	cchar* newName = filePath.completeBaseName().toUtf8().constData();
 	Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
 															  newName,
 															  dirPath.toUtf8().constData() );

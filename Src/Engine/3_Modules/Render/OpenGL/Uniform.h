@@ -10,14 +10,14 @@ namespace CYRED
 	struct Uniform
 	{
 	public:
-		static const char*	WORLD;
-		static const char*	VIEW;
-		static const char*	PROJECTION;
-		static const char*	CAMERA_POS_WORLD;
+		static cchar*	WORLD;
+		static cchar*	VIEW;
+		static cchar*	PROJECTION;
+		static cchar*	CAMERA_POS_WORLD;
 
 		static const int	MAX_LIGHTS;
-		static const char*	LIGHTS;
-		static const char*	LIGHTS_COUNT;
-		static const char*	AMBIENT_COLOR;
+		static cchar*	LIGHTS;
+		static cchar*	LIGHTS_COUNT;
+		static cchar*	AMBIENT_COLOR;
 	};
 }

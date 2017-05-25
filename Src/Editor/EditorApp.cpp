@@ -480,7 +480,7 @@ void EditorApp::_CreateMenuBar()
 	_menuBar->Initialize();
 
 	// add editor skins
-	DataArray<const char*> skinsName;
+	DataArray<cchar*> skinsName;
 	skinsName.Add( EditorSettings::SKIN_DEFAULT_BLACK );
 	skinsName.Add( EditorSettings::SKIN_DEFAULT_WHITE );
 	_menuBar->AddSkins( skinsName, 0 );
@@ -572,14 +572,14 @@ void EditorApp::_ReadProjectFile()
 }
 
 
-void EditorApp::ShowStatus( const char* message )
+void EditorApp::ShowStatus( cchar* message )
 {
 	_qtStatusBar->showMessage( message, 0 );
 }
 
 
 // the skin must exist in skins directory
-void EditorApp::ApplySkin( const char* skinName )
+void EditorApp::ApplySkin( cchar* skinName )
 {
 	FiniteString filePath( "%s%s%s", EditorSettings::DIR_PATH_SKINS,
 									 skinName,
@@ -639,7 +639,7 @@ void EditorApp::SetPlayPaused( bool value )
 }
 
 
-void EditorApp::ShowSelectorPopup( const char* type, void* qtSelectorPtr )
+void EditorApp::ShowSelectorPopup( cchar* type, void* qtSelectorPtr )
 {
 	_selectorPopup->DisplayPopup( type, qtSelectorPtr );
 }

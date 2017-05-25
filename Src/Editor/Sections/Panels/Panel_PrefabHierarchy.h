@@ -24,7 +24,7 @@ namespace CYRED
 {
 	class Panel_PrefabHierarchy : public Panel, public IEventListener
 	{
-		const char*	const	PANEL_TITLE			= "Prefab Hierarchy";
+		cchar*	const	PANEL_TITLE			= "Prefab Hierarchy";
 		const Vector2		MIN_SIZE			= Vector2( 200, 200 );
 		const Vector2		MAX_SIZE			= Vector2( 300, 1000 );
 
@@ -55,7 +55,7 @@ namespace CYRED
 		Prefab*				_targetPrefab;
 
 		CustomTreeItem*		_FindGameObjectItem		( int uid );
-		CustomTreeItem*		_FindPrefabItem			( const char* uid );
+		CustomTreeItem*		_FindPrefabItem			( cchar* uid );
 		void				_CreateRightClickMenu	();
 		void				_ResetHierarchy			();
 		void				_RecResetHierarchy		( GameObject* gameObject, QTreeWidgetItem* parent );

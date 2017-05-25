@@ -109,7 +109,7 @@ Asset* Mesh::Clone()
 }
 
 
-const char* Mesh::GetExtension()
+cchar* Mesh::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MESH;
@@ -240,7 +240,7 @@ bool Mesh::DoesClearBuffersOnBind() const
 }
 
 
-const char* Mesh::GetExternalPath() const
+cchar* Mesh::GetExternalPath() const
 {
 	return _externalPath.GetChar();
 }
@@ -306,7 +306,7 @@ void Mesh::SetClearBuffersOnBind( bool value )
 }
 
 
-void Mesh::SetExternalPath( const char* filePath )
+void Mesh::SetExternalPath( cchar* filePath )
 {
 	_externalPath = filePath;
 

@@ -12,8 +12,8 @@ namespace CYRED
 	class Selector_Shader : public Selector
 	{
 	public:
-		static const char* const OPTION_NULL;
-		static const char* const TYPE;
+		static cchar* const OPTION_NULL;
+		static cchar* const TYPE;
 
 
 	public:

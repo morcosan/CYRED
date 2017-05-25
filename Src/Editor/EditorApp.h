@@ -42,15 +42,15 @@ namespace CYRED
 		/* must be called only once from main()			*/
 		void	Run			( int& argc, char* argv[] );
 
-		void	ShowStatus	( const char* message );
+		void	ShowStatus	( cchar* message );
 
-		void	ApplySkin	( const char* skinName );
+		void	ApplySkin	( cchar* skinName );
 
 		void	StartPlayMode	();				// called to start play mode
 		void	StopPlayMode	();				// called to exit play mode
 		void	SetPlayPaused	( bool value );	// called to set the play mode flag
 
-		void	ShowSelectorPopup( const char* type, void* qtSelectorPtr );
+		void	ShowSelectorPopup( cchar* type, void* qtSelectorPtr );
 
 		/* returns the input receiver instance			*/
 		InputReceiverQT* GetInputReceiver();

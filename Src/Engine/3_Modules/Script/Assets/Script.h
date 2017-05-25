@@ -25,20 +25,20 @@ namespace CYRED
 {
 	class DLL Script : public Asset
 	{
-		const char* GLOBAL_VARS			= "VARS";
-		const char* GLOBAL_GAMEOBJECT	= "GAMEOBJECT";
-		const char* FUNC_ONSTART		= "OnStart";
-		const char* FUNC_ONUPDATE		= "OnUpdate";
-		const char* TYPE_INT			= "INT";
-		const char* TYPE_FLOAT			= "FLOAT";
-		const char* TYPE_BOOL			= "BOOL";
-		const char* TYPE_VECTOR2		= "VECTOR2";
-		const char* TYPE_VECTOR3		= "VECTOR3";
-		const char* TYPE_VECTOR4		= "VECTOR4";
-		const char* TYPE_STRING			= "STRING";
-		const char* TYPE_PREFAB			= "PREFAB";
+		cchar* GLOBAL_VARS			= "VARS";
+		cchar* GLOBAL_GAMEOBJECT	= "GAMEOBJECT";
+		cchar* FUNC_ONSTART		= "OnStart";
+		cchar* FUNC_ONUPDATE		= "OnUpdate";
+		cchar* TYPE_INT			= "INT";
+		cchar* TYPE_FLOAT			= "FLOAT";
+		cchar* TYPE_BOOL			= "BOOL";
+		cchar* TYPE_VECTOR2		= "VECTOR2";
+		cchar* TYPE_VECTOR3		= "VECTOR3";
+		cchar* TYPE_VECTOR4		= "VECTOR4";
+		cchar* TYPE_STRING			= "STRING";
+		cchar* TYPE_PREFAB			= "PREFAB";
 
-		const char* ERROR_UNKNOWN_TYPE	= "Unknown variable type: %.";
+		cchar* ERROR_UNKNOWN_TYPE	= "Unknown variable type: %.";
 
 
 	public:
@@ -59,24 +59,24 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const char*	GetExtension	() override;
+		cchar*	GetExtension	() override;
 
 
 	public:
-		void CallFunction	( const char* funcName, GameObject* gameObject );
-		void SetVariable	( const char* varName, DataUnion varValue );
+		void CallFunction	( cchar* funcName, GameObject* gameObject );
+		void SetVariable	( cchar* varName, DataUnion varValue );
 
 		bool		RunsInEditor	()				const;
 		bool		IsFirstUpdate	()				const;
 		int		GetPathsCount	()				const;
-		const char*	GetFilePath		( int index )	const;
+		cchar*	GetFilePath		( int index )	const;
 
 		Iterator<String, DataArray<LuaFunc>>	GetFuncListIterator() const;
 		Iterator<String, DataUnion>				GetVarsListIterator() const;
 
 		void SetRunInEditor	( bool value );
 		void SetFirstUpdate	( bool value );
-		void SetFilePath	( int index, const char* filePath );
+		void SetFilePath	( int index, cchar* filePath );
 		void ClearFilePaths	();
 
 		void LoadLuaFiles	( bool clearVars = TRUE );
@@ -94,8 +94,8 @@ namespace CYRED
 
 
 	private:
-		void _LoadLuaData	( const char* luaData );
-		void _AddLuaFunc	( const char* funcName );
+		void _LoadLuaData	( cchar* luaData );
+		void _AddLuaFunc	( cchar* funcName );
 		void _LoadLuaVars	();
 	};
 }

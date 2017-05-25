@@ -109,6 +109,7 @@
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.h" />
     <ClInclude Include="3_Modules\Asset\Assets\Prefab.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.h" />
+    <ClInclude Include="3_Modules\Render\Renderers\PickingRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -178,5 +179,6 @@
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.cpp" />
     <ClCompile Include="3_Modules\Asset\Assets\Prefab.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.cpp" />
+    <ClCompile Include="3_Modules\Render\Renderers\PickingRenderer.cpp" />
   </ItemGroup>
 </Project>

@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Morph::TYPE			= "Morph";
-const char* const Selector_Morph::OPTION_NULL	= "NULL";
+cchar* const Selector_Morph::TYPE			= "Morph";
+cchar* const Selector_Morph::OPTION_NULL	= "NULL";
 
 
 void Selector_Morph::DisplayOptions( void* selected )

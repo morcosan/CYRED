@@ -21,17 +21,17 @@ namespace CYRED
 	class AttrViewer_Transform : public AttrViewer
 	{
 	public:
-		const char* TITLE				= "Transform";
+		cchar* TITLE				= "Transform";
 
-		const char* ATTR_LOCAL_POS		= "L.Position";
-		const char* ATTR_LOCAL_ROT		= "L.Rotation";
-		const char* ATTR_LOCAL_SCALE	= "L.Scale";
-		const char* ATTR_WORLD_POS		= "W.Position";
-		const char* ATTR_WORLD_ROT		= "W.Rotation";
-		const char* ATTR_WORLD_SCALE	= "W.Scale";
+		cchar* ATTR_LOCAL_POS		= "L.Position";
+		cchar* ATTR_LOCAL_ROT		= "L.Rotation";
+		cchar* ATTR_LOCAL_SCALE	= "L.Scale";
+		cchar* ATTR_WORLD_POS		= "W.Position";
+		cchar* ATTR_WORLD_ROT		= "W.Rotation";
+		cchar* ATTR_WORLD_SCALE	= "W.Scale";
 
-		const char* GROUP_LOCAL			= "Local";
-		const char* GROUP_WORLD			= "World";
+		cchar* GROUP_LOCAL			= "Local";
+		cchar* GROUP_WORLD			= "World";
 
 
 

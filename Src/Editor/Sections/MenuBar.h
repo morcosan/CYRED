@@ -27,21 +27,21 @@ namespace CYRED
 	class MenuBar : public QMenuBar
 	{
 	public:
-		const char*	const SCENE_MENU				= "Scene";
-		const char*	const SCENE_OPEN_NEW			= "Open New";
-		const char*	const SCENE_LOAD_NEW			= "Load New";
-		const char*	const SCENE_SAVE_ALL			= "Save All";
-		const char*	const SCENE_CLOSE_ALL			= "Close All";
+		cchar*	const SCENE_MENU				= "Scene";
+		cchar*	const SCENE_OPEN_NEW			= "Open New";
+		cchar*	const SCENE_LOAD_NEW			= "Load New";
+		cchar*	const SCENE_SAVE_ALL			= "Save All";
+		cchar*	const SCENE_CLOSE_ALL			= "Close All";
 
-		const char*	const PROJECT_MENU				= "Project";
-		const char*	const PROJECT_SETTINGS			= "Settings";
-		const char*	const PROJECT_BUILD_WIN			= "Build Windows";
+		cchar*	const PROJECT_MENU				= "Project";
+		cchar*	const PROJECT_SETTINGS			= "Settings";
+		cchar*	const PROJECT_BUILD_WIN			= "Build Windows";
 
-		const char* const STATUS_OPEN_NEW_SCENE		= "New scene opened.";
-		const char* const STATUS_LOAD_NEW_SCENE		= "New scene loaded.";
-		const char* const STATUS_CLOSE_ALL_SCENES	= "All scenes closed.";
+		cchar* const STATUS_OPEN_NEW_SCENE		= "New scene opened.";
+		cchar* const STATUS_LOAD_NEW_SCENE		= "New scene loaded.";
+		cchar* const STATUS_CLOSE_ALL_SCENES	= "All scenes closed.";
 
-		const char* const SKINS_MENU				= "Skins";
+		cchar* const SKINS_MENU				= "Skins";
 
 
 	public:
@@ -51,7 +51,7 @@ namespace CYRED
 
 	public:
 		void Initialize();
-		void AddSkins( const DataArray<const char*>& skinsName, int defaultIndex );
+		void AddSkins( const DataArray<cchar*>& skinsName, int defaultIndex );
 
 		void A_Scene_OpenNew	();
 		void A_Scene_LoadNew	();

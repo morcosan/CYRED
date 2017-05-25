@@ -9,17 +9,17 @@ namespace CYRED
 {
 	class JsonSerializer_CyredProj : public JsonSerializer
 	{
-		const char* const APP_CONFIG	= "app_config";
-		const char* const APP_NAME		= "app_name";
-		const char* const FULLSCREEN	= "fullscreen";
-		const char* const WIDTH			= "width";
-		const char* const HEIGHT		= "height";
-		const char* const POS_X			= "pos_x";
-		const char* const POS_Y			= "pos_y";
-		const char* const FPS			= "fps";
-		const char* const START_SCENE	= "start_scene";
-		const char* const BUILD_WINDOWS	= "build_dir_windows";
-		const char* const BUILD_ANDROID	= "build_dir_android";
+		cchar* const APP_CONFIG	= "app_config";
+		cchar* const APP_NAME		= "app_name";
+		cchar* const FULLSCREEN	= "fullscreen";
+		cchar* const WIDTH			= "width";
+		cchar* const HEIGHT		= "height";
+		cchar* const POS_X			= "pos_x";
+		cchar* const POS_Y			= "pos_y";
+		cchar* const FPS			= "fps";
+		cchar* const START_SCENE	= "start_scene";
+		cchar* const BUILD_WINDOWS	= "build_dir_windows";
+		cchar* const BUILD_ANDROID	= "build_dir_android";
 
 
 	public:

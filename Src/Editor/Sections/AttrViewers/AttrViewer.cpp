@@ -44,8 +44,8 @@ struct AttrViewer::_ListWidget : public QWidget
 	int					flagMask;
 	CallbackGroup			callbackGroup;
 
-	const char*				selectorDataType;
-	DataArray<const char*>  dropdownValues;
+	cchar*				selectorDataType;
+	DataArray<cchar*>  dropdownValues;
 	DataArray<AttrStruct>	structScheme;
 
 
@@ -274,7 +274,7 @@ void AttrViewer::QtSelector::A_OnOpenSelector()
 }
 
 
-void AttrViewer::QtSelector::OnChangeSelection( void* ref, const char* name )
+void AttrViewer::QtSelector::OnChangeSelection( void* ref, cchar* name )
 {
 	this->selected = ref;
 
@@ -294,7 +294,7 @@ void AttrViewer::QtSelector::OnChangeSelection( void* ref, const char* name )
 }
 
 
-void AttrViewer::_AddToPanel( const char* title )
+void AttrViewer::_AddToPanel( cchar* title )
 {
 	_titleItem = Memory::Alloc<QTreeWidgetItem>();
 	_titleItem->setFlags( Qt::ItemIsEnabled );
@@ -558,7 +558,7 @@ void AttrViewer::_ResetViewer()
 }
 
 
-void AttrViewer::_OpenGroup( const char* name )
+void AttrViewer::_OpenGroup( cchar* name )
 {
 	_groups.Add( _Group{ name, _attributes.Size(), 0 } );
 }
@@ -573,104 +573,104 @@ void AttrViewer::_CloseGroup()
 }
 
 
-void AttrViewer::_CreateAttrLabel( const char* name, const char* label )
+void AttrViewer::_CreateAttrLabel( cchar* name, cchar* label )
 {
 	_SetAttribute( name, label, NULL, AttrType::NONE );
 }
 
 
-void AttrViewer::_CreateAttrString( const char* name, const char* label )
+void AttrViewer::_CreateAttrString( cchar* name, cchar* label )
 {
 	_CreateAttrString( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrBool( const char* name, const char* label )
+void AttrViewer::_CreateAttrBool( cchar* name, cchar* label )
 {
 	_CreateAttrBool( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrInt( const char* name, const char* label )
+void AttrViewer::_CreateAttrInt( cchar* name, cchar* label )
 {
 	_CreateAttrInt( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrFloat( const char* name, const char* label )
+void AttrViewer::_CreateAttrFloat( cchar* name, cchar* label )
 {
 	_CreateAttrFloat( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector2( const char* name, const char* label )
+void AttrViewer::_CreateAttrVector2( cchar* name, cchar* label )
 {
 	_CreateAttrVector2( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector3( const char* name, const char* label )
+void AttrViewer::_CreateAttrVector3( cchar* name, cchar* label )
 {
 	_CreateAttrVector3( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrVector4( const char* name, const char* label )
+void AttrViewer::_CreateAttrVector4( cchar* name, cchar* label )
 {
 	_CreateAttrVector4( name, label, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrDropdown( const char* name, const char* label, 
-									  DataArray<const char*>& valueList )
+void AttrViewer::_CreateAttrDropdown( cchar* name, cchar* label, 
+									  DataArray<cchar*>& valueList )
 {
 	_CreateAttrDropdown( name, label, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrSelector( const char* name, const char* label, 
-									  const char* dataType )
+void AttrViewer::_CreateAttrSelector( cchar* name, cchar* label, 
+									  cchar* dataType )
 {
 	_CreateAttrSelector( name, label, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrStruct( const char* name, const char* label, 
+void AttrViewer::_CreateAttrStruct( cchar* name, cchar* label, 
 									DataArray<AttrStruct>& structScheme )
 {
 	_CreateAttrStruct( name, label, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrList( const char* name, const char* label, 
+void AttrViewer::_CreateAttrList( cchar* name, cchar* label, 
 								  AttrType elementType )
 {
 	_CreateAttrList( name, label, elementType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListSelector( const char* name, const char* label, 
-										  const char* dataType )
+void AttrViewer::_CreateAttrListSelector( cchar* name, cchar* label, 
+										  cchar* dataType )
 {
 	_CreateAttrListSelector( name, label, dataType, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListDropdown( const char* name, const char* label, 
-										  DataArray<const char*>& valueList )
+void AttrViewer::_CreateAttrListDropdown( cchar* name, cchar* label, 
+										  DataArray<cchar*>& valueList )
 {
 	_CreateAttrListDropdown( name, label, valueList, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrListStruct( const char* name, const char* label, 
+void AttrViewer::_CreateAttrListStruct( cchar* name, cchar* label, 
 										DataArray<AttrStruct>& structScheme )
 {
 	_CreateAttrListStruct( name, label, structScheme, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 }
 
 
-void AttrViewer::_CreateAttrString( const char* name, const char* label, 
+void AttrViewer::_CreateAttrString( cchar* name, cchar* label, 
 									int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateString( flagMask, group );
@@ -678,7 +678,7 @@ void AttrViewer::_CreateAttrString( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrBool( const char* name, const char* label, 
+void AttrViewer::_CreateAttrBool( cchar* name, cchar* label, 
 								  int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateBool( flagMask, group );
@@ -686,7 +686,7 @@ void AttrViewer::_CreateAttrBool( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrInt( const char* name, const char* label, 
+void AttrViewer::_CreateAttrInt( cchar* name, cchar* label, 
 								 int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateInt( flagMask, group );
@@ -694,7 +694,7 @@ void AttrViewer::_CreateAttrInt( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrFloat( const char* name, const char* label, 
+void AttrViewer::_CreateAttrFloat( cchar* name, cchar* label, 
 								   int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateFloat( flagMask, group );
@@ -702,7 +702,7 @@ void AttrViewer::_CreateAttrFloat( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrVector2( const char* name, const char* label, 
+void AttrViewer::_CreateAttrVector2( cchar* name, cchar* label, 
 									 int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector2( flagMask, group );
@@ -710,7 +710,7 @@ void AttrViewer::_CreateAttrVector2( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrVector3( const char* name, const char* label, 
+void AttrViewer::_CreateAttrVector3( cchar* name, cchar* label, 
 									 int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector3( flagMask, group );
@@ -718,7 +718,7 @@ void AttrViewer::_CreateAttrVector3( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrVector4( const char* name, const char* label, 
+void AttrViewer::_CreateAttrVector4( cchar* name, cchar* label, 
 									 int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateVector4( flagMask, group );
@@ -726,8 +726,8 @@ void AttrViewer::_CreateAttrVector4( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrDropdown( const char* name, const char* label, 
-									  DataArray<const char*>& valueList, 
+void AttrViewer::_CreateAttrDropdown( cchar* name, cchar* label, 
+									  DataArray<cchar*>& valueList, 
 									  int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateDropdown( valueList, flagMask, group );
@@ -735,7 +735,7 @@ void AttrViewer::_CreateAttrDropdown( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrSelector( const char* name, const char* label, const char* dataType, 
+void AttrViewer::_CreateAttrSelector( cchar* name, cchar* label, cchar* dataType, 
 									  int flagMask, CallbackGroup group )
 {
 	QWidget* widget = CreateSelector( dataType, flagMask, group );
@@ -743,7 +743,7 @@ void AttrViewer::_CreateAttrSelector( const char* name, const char* label, const
 }
 
 
-void AttrViewer::_CreateAttrStruct( const char* name, const char* label, 
+void AttrViewer::_CreateAttrStruct( cchar* name, cchar* label, 
 									DataArray<AttrStruct>& structScheme, 
 									int flagMask, CallbackGroup group )
 {
@@ -758,7 +758,7 @@ void AttrViewer::_CreateAttrStruct( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrList( const char* name, const char* label, AttrType elementType, 
+void AttrViewer::_CreateAttrList( cchar* name, cchar* label, AttrType elementType, 
 								  int flagMask, CallbackGroup group )
 {
 	ASSERT( elementType != AttrType::SELECTOR );
@@ -771,8 +771,8 @@ void AttrViewer::_CreateAttrList( const char* name, const char* label, AttrType 
 }
 
 
-void AttrViewer::_CreateAttrListSelector( const char* name, const char* label, 
-										  const char* dataType, 
+void AttrViewer::_CreateAttrListSelector( cchar* name, cchar* label, 
+										  cchar* dataType, 
 										  int flagMask, CallbackGroup group )
 {
 	QWidget* widget = _CreateListSelector( dataType, flagMask, group );
@@ -780,8 +780,8 @@ void AttrViewer::_CreateAttrListSelector( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrListDropdown( const char* name, const char* label, 
-										  DataArray<const char*>& valueList, 
+void AttrViewer::_CreateAttrListDropdown( cchar* name, cchar* label, 
+										  DataArray<cchar*>& valueList, 
 										  int flagMask, CallbackGroup group )
 {
 	QWidget* widget = _CreateListDropdown( valueList, flagMask, group );
@@ -789,7 +789,7 @@ void AttrViewer::_CreateAttrListDropdown( const char* name, const char* label,
 }
 
 
-void AttrViewer::_CreateAttrListStruct( const char* name, const char* label, 
+void AttrViewer::_CreateAttrListStruct( cchar* name, cchar* label, 
 										DataArray<AttrStruct>& structScheme, 
 										int flagMask, CallbackGroup group )
 {
@@ -798,7 +798,7 @@ void AttrViewer::_CreateAttrListStruct( const char* name, const char* label,
 }
 
 
-void AttrViewer::_WriteAttrString( const char* name, const char* value )
+void AttrViewer::_WriteAttrString( cchar* name, cchar* value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -809,7 +809,7 @@ void AttrViewer::_WriteAttrString( const char* name, const char* value )
 }
 
 
-void AttrViewer::_WriteAttrFloat( const char* name, float value )
+void AttrViewer::_WriteAttrFloat( cchar* name, float value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -820,7 +820,7 @@ void AttrViewer::_WriteAttrFloat( const char* name, float value )
 }
 
 
-void AttrViewer::_WriteAttrInt( const char* name, int value )
+void AttrViewer::_WriteAttrInt( cchar* name, int value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -831,7 +831,7 @@ void AttrViewer::_WriteAttrInt( const char* name, int value )
 }
 
 
-void AttrViewer::_WriteAttrBool( const char* name, bool value )
+void AttrViewer::_WriteAttrBool( cchar* name, bool value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -842,7 +842,7 @@ void AttrViewer::_WriteAttrBool( const char* name, bool value )
 }
 
 
-void AttrViewer::_WriteAttrVector2( const char* name, const Vector2& value )
+void AttrViewer::_WriteAttrVector2( cchar* name, const Vector2& value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -853,7 +853,7 @@ void AttrViewer::_WriteAttrVector2( const char* name, const Vector2& value )
 }
 
 
-void AttrViewer::_WriteAttrVector3( const char* name, const Vector3& value )
+void AttrViewer::_WriteAttrVector3( cchar* name, const Vector3& value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -864,7 +864,7 @@ void AttrViewer::_WriteAttrVector3( const char* name, const Vector3& value )
 }
 
 
-void AttrViewer::_WriteAttrVector4( const char* name, const Vector4& value )
+void AttrViewer::_WriteAttrVector4( cchar* name, const Vector4& value )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -875,7 +875,7 @@ void AttrViewer::_WriteAttrVector4( const char* name, const Vector4& value )
 }
 
 
-void AttrViewer::_WriteAttrDropdown( const char* name, int valueIndex )
+void AttrViewer::_WriteAttrDropdown( cchar* name, int valueIndex )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -886,7 +886,7 @@ void AttrViewer::_WriteAttrDropdown( const char* name, int valueIndex )
 }
 
 
-void AttrViewer::_WriteAttrSelector( const char* name, void* valueRef, const char* valueName )
+void AttrViewer::_WriteAttrSelector( cchar* name, void* valueRef, cchar* valueName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -897,8 +897,8 @@ void AttrViewer::_WriteAttrSelector( const char* name, void* valueRef, const cha
 }
 
 
-void AttrViewer::_WriteAttrStruct( const char* name, const char* elemName, 
-								   const DataUnion& elemValue, const char* valueName )
+void AttrViewer::_WriteAttrStruct( cchar* name, cchar* elemName, 
+								   const DataUnion& elemValue, cchar* valueName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -951,7 +951,7 @@ void AttrViewer::_WriteAttrStruct( const char* name, const char* elemName,
 }
 
 
-void AttrViewer::_WriteAttrListSize( const char* name, int size )
+void AttrViewer::_WriteAttrListSize( cchar* name, int size )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -969,15 +969,15 @@ void AttrViewer::_WriteAttrListSize( const char* name, int size )
 }
 
 
-void AttrViewer::_WriteAttrListIndex( const char* name, int index, DataUnion& elemValue,
-									  const char* valueName )
+void AttrViewer::_WriteAttrListIndex( cchar* name, int index, DataUnion& elemValue,
+									  cchar* valueName )
 {
 	_WriteAttrListIndex( name, index, NULL, elemValue, valueName );
 }
 
 
-void AttrViewer::_WriteAttrListIndex( const char* name, int index, const char* elemName, 
-									  DataUnion& elemValue, const char* valueName )
+void AttrViewer::_WriteAttrListIndex( cchar* name, int index, cchar* elemName, 
+									  DataUnion& elemValue, cchar* valueName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -988,7 +988,7 @@ void AttrViewer::_WriteAttrListIndex( const char* name, int index, const char* e
 }
 
 
-void AttrViewer::_WriteAttrStrListSize( const char* name, const char* listName, int size )
+void AttrViewer::_WriteAttrStrListSize( cchar* name, cchar* listName, int size )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1013,16 +1013,16 @@ void AttrViewer::_WriteAttrStrListSize( const char* name, const char* listName, 
 }
 
 
-void AttrViewer::_WriteAttrStrListIndex( const char* name, const char* listName, int index, 
-										 DataUnion& elemValue, const char* valueName )
+void AttrViewer::_WriteAttrStrListIndex( cchar* name, cchar* listName, int index, 
+										 DataUnion& elemValue, cchar* valueName )
 {
 	_WriteAttrStrListIndex( name, listName, index, NULL, elemValue, valueName );
 }
 
 
-void AttrViewer::_WriteAttrStrListIndex( const char* name, const char* listName, int index, 
-										 const char* elemName, DataUnion& elemValue, 
-										 const char* valueName )
+void AttrViewer::_WriteAttrStrListIndex( cchar* name, cchar* listName, int index, 
+										 cchar* elemName, DataUnion& elemValue, 
+										 cchar* valueName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1042,7 +1042,7 @@ void AttrViewer::_WriteAttrStrListIndex( const char* name, const char* listName,
 }
 
 
-String AttrViewer::_ReadAttrString( const char* name )
+String AttrViewer::_ReadAttrString( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1053,7 +1053,7 @@ String AttrViewer::_ReadAttrString( const char* name )
 }
 
 
-float AttrViewer::_ReadAttrFloat( const char* name )
+float AttrViewer::_ReadAttrFloat( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1064,7 +1064,7 @@ float AttrViewer::_ReadAttrFloat( const char* name )
 }
 
 
-int AttrViewer::_ReadAttrInt( const char* name )
+int AttrViewer::_ReadAttrInt( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1075,7 +1075,7 @@ int AttrViewer::_ReadAttrInt( const char* name )
 }
 
 
-bool AttrViewer::_ReadAttrBool( const char* name )
+bool AttrViewer::_ReadAttrBool( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1086,7 +1086,7 @@ bool AttrViewer::_ReadAttrBool( const char* name )
 }
 
 
-Vector2 AttrViewer::_ReadAttrVector2( const char* name )
+Vector2 AttrViewer::_ReadAttrVector2( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1097,7 +1097,7 @@ Vector2 AttrViewer::_ReadAttrVector2( const char* name )
 }
 
 
-Vector3 AttrViewer::_ReadAttrVector3( const char* name )
+Vector3 AttrViewer::_ReadAttrVector3( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1108,7 +1108,7 @@ Vector3 AttrViewer::_ReadAttrVector3( const char* name )
 }
 
 
-Vector4 AttrViewer::_ReadAttrVector4( const char* name )
+Vector4 AttrViewer::_ReadAttrVector4( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1119,7 +1119,7 @@ Vector4 AttrViewer::_ReadAttrVector4( const char* name )
 }
 
 
-int AttrViewer::_ReadAttrDropdown( const char* name )
+int AttrViewer::_ReadAttrDropdown( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1130,7 +1130,7 @@ int AttrViewer::_ReadAttrDropdown( const char* name )
 }
 
 
-void* AttrViewer::_ReadAttrSelector( const char* name )
+void* AttrViewer::_ReadAttrSelector( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1141,7 +1141,7 @@ void* AttrViewer::_ReadAttrSelector( const char* name )
 }
 
 
-DataUnion AttrViewer::_ReadAttrStruct( const char* name, const char* elemName )
+DataUnion AttrViewer::_ReadAttrStruct( cchar* name, cchar* elemName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1197,7 +1197,7 @@ DataUnion AttrViewer::_ReadAttrStruct( const char* name, const char* elemName )
 }
 
 
-int AttrViewer::_ReadAttrListSize( const char* name )
+int AttrViewer::_ReadAttrListSize( cchar* name )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1212,7 +1212,7 @@ int AttrViewer::_ReadAttrListSize( const char* name )
 }
 
 
-DataUnion AttrViewer::_ReadAttrListIndex( const char* name, int index )
+DataUnion AttrViewer::_ReadAttrListIndex( cchar* name, int index )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1223,7 +1223,7 @@ DataUnion AttrViewer::_ReadAttrListIndex( const char* name, int index )
 }
 
 
-DataUnion AttrViewer::_ReadAttrListIndex( const char* name, int index, const char* elemName )
+DataUnion AttrViewer::_ReadAttrListIndex( cchar* name, int index, cchar* elemName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1234,7 +1234,7 @@ DataUnion AttrViewer::_ReadAttrListIndex( const char* name, int index, const cha
 }
 
 
-int AttrViewer::_ReadAttrStrListSize( const char* name, const char* listName )
+int AttrViewer::_ReadAttrStrListSize( cchar* name, cchar* listName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1256,14 +1256,14 @@ int AttrViewer::_ReadAttrStrListSize( const char* name, const char* listName )
 }
 
 
-DataUnion AttrViewer::_ReadAttrStrListIndex( const char* name, const char* listName, int index )
+DataUnion AttrViewer::_ReadAttrStrListIndex( cchar* name, cchar* listName, int index )
 {
 	return _ReadAttrStrListIndex( name, listName, index, NULL );
 }
 
 
-DataUnion AttrViewer::_ReadAttrStrListIndex( const char* name, const char* listName, int index, 
-											 const char* elemName )
+DataUnion AttrViewer::_ReadAttrStrListIndex( cchar* name, cchar* listName, int index, 
+											 cchar* elemName )
 {
 	_Attribute attr;
 	bool doesExist = _GetAttribute( name, attr );
@@ -1333,7 +1333,7 @@ void AttrViewer::_WriteInnerAttribute( InnerAttrType innerType, DataUnion& attrV
 }
 
 
-void AttrViewer::_SetAttrVisibility( const char* name, bool value )
+void AttrViewer::_SetAttrVisibility( cchar* name, bool value )
 {
 	for ( int i = 0; i < _attributes.Size(); ++i )
 	{
@@ -1363,7 +1363,7 @@ void AttrViewer::_Colorize( bool enabled, bool colorizeAll )
 }
 
 
-void AttrViewer::_SetAttribute( const char* name, const char* label, QWidget* widget, AttrType type )
+void AttrViewer::_SetAttribute( cchar* name, cchar* label, QWidget* widget, AttrType type )
 {
 	for ( int i = 0; i < _attributes.Size(); ++i )
 	{
@@ -1381,7 +1381,7 @@ void AttrViewer::_SetAttribute( const char* name, const char* label, QWidget* wi
 }
 
 
-bool AttrViewer::_GetAttribute( const char* name, OUT _Attribute& attribute)
+bool AttrViewer::_GetAttribute( cchar* name, OUT _Attribute& attribute)
 {
 	for ( int i = 0; i < _attributes.Size(); ++i )
 	{
@@ -1567,7 +1567,7 @@ QWidget* AttrViewer::CreateVector4( int flagMask, CallbackGroup group )
 }
 
 
-QWidget* AttrViewer::CreateDropdown( DataArray<const char*>& valueList, int flagMask,
+QWidget* AttrViewer::CreateDropdown( DataArray<cchar*>& valueList, int flagMask,
 									  CallbackGroup group )
 {
 	QStringList stringList;
@@ -1598,7 +1598,7 @@ QWidget* AttrViewer::CreateDropdown( DataArray<const char*>& valueList, int flag
 }
 
 
-QWidget* AttrViewer::CreateSelector( const char* dataType, int flagMask, CallbackGroup group )
+QWidget* AttrViewer::CreateSelector( cchar* dataType, int flagMask, CallbackGroup group )
 {
 	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
 	boxLayout->setAlignment( Qt::AlignLeft );
@@ -1689,7 +1689,7 @@ QWidget* AttrViewer::_CreateList( AttrType elementType, int flagMask, CallbackGr
 }
 
 
-QWidget* AttrViewer::_CreateListDropdown( DataArray<const char*>& valueList, int flagMask, 
+QWidget* AttrViewer::_CreateListDropdown( DataArray<cchar*>& valueList, int flagMask, 
 										  CallbackGroup group )
 {
 	QWidget* widget = _CreateList( AttrType::DROPDOWN, flagMask, group );
@@ -1701,7 +1701,7 @@ QWidget* AttrViewer::_CreateListDropdown( DataArray<const char*>& valueList, int
 }
 
 
-QWidget* AttrViewer::_CreateListSelector( const char* dataType, int flagMask, 
+QWidget* AttrViewer::_CreateListSelector( cchar* dataType, int flagMask, 
 										  CallbackGroup group )
 {
 	QWidget* widget = _CreateList( AttrType::SELECTOR, flagMask, group );
@@ -1725,7 +1725,7 @@ QWidget* AttrViewer::_CreateListStruct( DataArray<AttrStruct>& structScheme, int
 }
 
 
-QWidget* AttrViewer::_FindStructElem( _StructWidget* structWidget, const char* elemName, 
+QWidget* AttrViewer::_FindStructElem( _StructWidget* structWidget, cchar* elemName, 
 									  OUT int& elemIndex )
 {
 	QTreeWidgetItem* rootItem = structWidget->rootItem;
@@ -1747,7 +1747,7 @@ QWidget* AttrViewer::_FindStructElem( _StructWidget* structWidget, const char* e
 }
 
 
-void AttrViewer::_WriteString( QWidget* widget, const char* value )
+void AttrViewer::_WriteString( QWidget* widget, cchar* value )
 {
 	QLineEdit* textWidget = CAST_S( QLineEdit*, widget );
 	textWidget->blockSignals( TRUE );
@@ -1858,7 +1858,7 @@ void AttrViewer::_WriteDropdown( QWidget* widget, int valueIndex )
 }
 
 
-void AttrViewer::_WriteSelector( QWidget* widget, void* valueRef, const char* valueName )
+void AttrViewer::_WriteSelector( QWidget* widget, void* valueRef, cchar* valueName )
 {
 	widget->blockSignals( TRUE );
 
@@ -1872,8 +1872,8 @@ void AttrViewer::_WriteSelector( QWidget* widget, void* valueRef, const char* va
 }
 
 
-void AttrViewer::_WriteListIndex( QWidget* widget, int index, const char* elemName, 
-								  DataUnion& elemValue, const char* valueName )
+void AttrViewer::_WriteListIndex( QWidget* widget, int index, cchar* elemName, 
+								  DataUnion& elemValue, cchar* valueName )
 {
 	_ListWidget* listWidget = CAST_S( _ListWidget*, widget );
 
@@ -2030,7 +2030,7 @@ void* AttrViewer::_ReadSelector( QWidget* widget )
 }
 
 
-DataUnion AttrViewer::_ReadListIndex( QWidget* widget, int index, const char* elemName )
+DataUnion AttrViewer::_ReadListIndex( QWidget* widget, int index, cchar* elemName )
 {
 	_ListWidget* listWidget = CAST_S( _ListWidget*, widget );
 

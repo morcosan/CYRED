@@ -22,7 +22,7 @@ FiniteString::~FiniteString()
 }
 
 
-FiniteString::FiniteString( const char* format, ... )
+FiniteString::FiniteString( cchar* format, ... )
 {
 	va_list args;
 	va_start( args, format );
@@ -31,7 +31,7 @@ FiniteString::FiniteString( const char* format, ... )
 }
 
 
-void FiniteString::Set( const char* format, ... )
+void FiniteString::Set( cchar* format, ... )
 {
 	va_list args;
 	va_start( args, format );
@@ -40,7 +40,7 @@ void FiniteString::Set( const char* format, ... )
 }
 
 
-bool FiniteString::operator==( const char* other ) const
+bool FiniteString::operator==( cchar* other ) const
 {
 	if ( other == NULL )
 	{
@@ -51,13 +51,13 @@ bool FiniteString::operator==( const char* other ) const
 }
 
 
-bool FiniteString::operator!=( const char* other ) const
+bool FiniteString::operator!=( cchar* other ) const
 {
 	return !operator==( other );
 }
 
 
-bool FiniteString::operator<( const char* other ) const
+bool FiniteString::operator<( cchar* other ) const
 {
 	if ( other == NULL )
 	{
@@ -68,7 +68,7 @@ bool FiniteString::operator<( const char* other ) const
 }
 
 
-const char* FiniteString::GetChar() const
+cchar* FiniteString::GetChar() const
 {
 	return _data;
 }

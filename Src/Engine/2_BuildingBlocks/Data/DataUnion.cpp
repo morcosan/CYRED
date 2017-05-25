@@ -108,7 +108,7 @@ void DataUnion::operator=( const DataUnion& other )
 }
 
 
-DataUnion& DataUnion::SetString( const char* value )
+DataUnion& DataUnion::SetString( cchar* value )
 {
 	if ( _type != REFERENCE )
 	{
@@ -212,7 +212,7 @@ DataUnion& DataUnion::SetReference( void* value )
 }
 
 
-const char* DataUnion::GetString() const
+cchar* DataUnion::GetString() const
 {
 	ASSERT( _value != NULL );
 	ASSERT( _type == ValueType::STRING );

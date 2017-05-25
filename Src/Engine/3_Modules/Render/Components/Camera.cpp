@@ -10,8 +10,8 @@
 using namespace CYRED;
 
 
-const char* const Camera::TYPE_PERSPECTIVE	= "PERSPECTIVE";
-const char* const Camera::TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
+cchar* const Camera::TYPE_PERSPECTIVE	= "PERSPECTIVE";
+cchar* const Camera::TYPE_ORTHOGRAPHIC	= "ORTHOGRAPHIC";
 
 
 Camera::Camera( GameObject * gameObject )
@@ -89,7 +89,7 @@ CameraType Camera::GetCameraType() const
 }
 
 
-const char* Camera::GetCameraTypeString() const
+cchar* Camera::GetCameraTypeString() const
 {
 	if ( _cameraType == CameraType::ORTHOGRAPHIC ) {
 		return TYPE_ORTHOGRAPHIC;
@@ -192,7 +192,7 @@ void Camera::SetCameraType( CameraType type )
 }
 
 
-void Camera::SetCameraTypeString( const char* type )
+void Camera::SetCameraTypeString( cchar* type )
 {
 	String sType( type );
 

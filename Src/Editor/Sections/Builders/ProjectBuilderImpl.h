@@ -29,8 +29,8 @@ namespace CYRED
 		virtual void Initialize	()	override;
 		virtual void Finalize	()	override;
 
-		virtual void BuildWindows( const char* buildPath )	override;
-		virtual void BuildAndroid( const char* buildPath )	override;
+		virtual void BuildWindows( cchar* buildPath )	override;
+		virtual void BuildAndroid( cchar* buildPath )	override;
 
 
 	private:

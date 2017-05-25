@@ -41,7 +41,7 @@ namespace CYRED
 	public:
 		virtual void			OnHierarchyChange	() {};
 		virtual ComponentType	GetComponentType	() const;
-		virtual const char*		GetComponentSubtype	() const;
+		virtual cchar*		GetComponentSubtype	() const;
 
 
 	public:
@@ -70,7 +70,7 @@ namespace CYRED
 		bool			_enabled;
 		bool			_emitEvents;
 		ComponentType	_componentType;
-		const char*		_componentSubtype;
+		cchar*		_componentSubtype;
 		bool			_isFirstUpdate;
 	};
 }

@@ -42,21 +42,21 @@ namespace CYRED
 		virtual void		LoadFullFile	() PURE_VIRTUAL;
 		virtual void		ClearAsset		() PURE_VIRTUAL;
 		virtual Asset*		Clone			() PURE_VIRTUAL;
-		virtual const char*	GetExtension	() PURE_VIRTUAL;
+		virtual cchar*	GetExtension	() PURE_VIRTUAL;
 
 
 	public:
-		const char*	GetName			()	const;
-		const char*	GetDirPath		()	const;
+		cchar*	GetName			()	const;
+		cchar*	GetDirPath		()	const;
 		AssetType	GetAssetType	()	const;
-		const char* GetUniqueID		()	const;
+		cchar* GetUniqueID		()	const;
 		bool		IsTemporary		()	const;
 		bool		DoesEmitEvents	()	const;
 
-		void		SetName			( const char* name, bool useExtension = TRUE );
-		void		SetDirPath		( const char* dirPath );
+		void		SetName			( cchar* name, bool useExtension = TRUE );
+		void		SetDirPath		( cchar* dirPath );
 		void		SetEmitEvents	( bool value );
-		void		SetUniqueID		( const char* uniqueID );
+		void		SetUniqueID		( cchar* uniqueID );
 		void		SetIsTemporary	( bool value );
 
 

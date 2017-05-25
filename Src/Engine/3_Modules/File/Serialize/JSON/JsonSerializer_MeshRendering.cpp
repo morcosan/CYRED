@@ -80,7 +80,7 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 		}
 		else
 		{
-			const char* uniqueID = json[MESH].GetString();
+			cchar* uniqueID = json[MESH].GetString();
 			Mesh* mesh = AssetManager::Singleton()->GetMesh( uniqueID );
 			if ( mesh == NULL )
 			{
@@ -104,7 +104,7 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 		}
 		else
 		{
-			const char* uniqueID = json[MATERIAL].GetString();
+			cchar* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{

@@ -32,7 +32,7 @@ void MenuBar::Initialize()
 }
 
 
-void MenuBar::AddSkins( const DataArray<const char*>& skinsName, int defaultIndex )
+void MenuBar::AddSkins( const DataArray<cchar*>& skinsName, int defaultIndex )
 {
 	QMenu* menu = this->addMenu( SKINS_MENU );
 

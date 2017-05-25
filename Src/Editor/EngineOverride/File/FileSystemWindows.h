@@ -17,7 +17,7 @@ namespace CYRED
 
 
 	public:
-		bool	DeleteDir	( const char* dirPath )							override;
-		bool	CreateDir	( const char* parentPath, const char* dirName )	override;
+		bool	DeleteDir	( cchar* dirPath )							override;
+		bool	CreateDir	( cchar* parentPath, cchar* dirName )	override;
 	};
 }

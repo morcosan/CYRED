@@ -52,14 +52,10 @@ void PickingRenderer::ClearScreen( float r, float g, float b )
 
 	_gl->Viewport( 0, 0, _glContext->GetWidth(), _glContext->GetHeight() );
 
-	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
 	_gl->ClearColor( r, g, b, 1 );
 	_gl->DepthMask( TRUE );
 	_gl->Clear( GLBufferBit::COLOR_BUFFER_BIT | GLBufferBit::DEPTH_BUFFER_BIT );
-
-	//_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _mainFramebufferID );
-	//_gl->ClearColor( 0, 0, 0, 0 );
-	//   _gl->Clear( GLFlag::COLOR_BUFFER_BIT | GLFlag::DEPTH_BUFFER_BIT );
 }
 
 
@@ -101,9 +97,7 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 		case ComponentType::MESH_RENDERING:
 		case ComponentType::MORPH_RENDERING:
 		{
-			_gl->Enable( GLCapability::BLEND );
-			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
-			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA );
+			_gl->Disable( GLCapability::BLEND );
 			_gl->Enable( GLCapability::DEPTH_TEST );
 			_gl->DepthFunc( GLDepthFunc::LEQUAL );
 			_gl->DepthMask( TRUE );
@@ -112,8 +106,7 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 
 		case ComponentType::PARTICLE_EMITTER:
 		{
-			_gl->Enable( GLCapability::BLEND );
-			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE );
+			_gl->Disable( GLCapability::BLEND );
 			_gl->DepthMask( FALSE );
 			break;
 		}
@@ -144,7 +137,8 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 
 void PickingRenderer::OnResize()
 {
-	// resize buffers here
+	// resize buffers
+	_ResizeBuffers( _glContext->GetWidth(), _glContext->GetHeight() );
 }
 
 
@@ -680,7 +674,7 @@ void PickingRenderer::_BindMaterial( Material* material )
 	int totalProperties = material->GetPropertiesCount();
 
 	for ( int i = 0; i < totalProperties; ++i ) {
-		const char* uniformName = material->GetPropertyNameAt( i );
+		cchar* uniformName = material->GetPropertyNameAt( i );
 		int location = shader->GetUniformLocation( uniformName );
 		DataUnion& data = material->GetPropertyDataAt( i );
 

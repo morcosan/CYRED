@@ -99,7 +99,7 @@ Asset* Morph::Clone()
 }
 
 
-const char* CYRED::Morph::GetExtension()
+cchar* CYRED::Morph::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_MORPH;
@@ -197,7 +197,7 @@ int Morph::GetActiveStates() const
 }
 
 
-const char* Morph::GetFilePath( int index ) const
+cchar* Morph::GetFilePath( int index ) const
 {
 	ASSERT( index < MORPH_LIMIT );
 
@@ -218,7 +218,7 @@ void Morph::SetTotalStates( int value )
 }
 
 
-void Morph::SetFilePath( int index, const char* filePath )
+void Morph::SetFilePath( int index, cchar* filePath )
 {
 	ASSERT( index < MORPH_LIMIT );
 

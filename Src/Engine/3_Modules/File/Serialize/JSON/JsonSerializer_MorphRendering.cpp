@@ -90,7 +90,7 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 		else
 		{
-			const char* uniqueID = json[MORPH].GetString();
+			cchar* uniqueID = json[MORPH].GetString();
 			Morph* morph = AssetManager::Singleton()->GetMorph( uniqueID );
 			if ( morph == NULL )
 			{
@@ -114,7 +114,7 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 		else
 		{
-			const char* uniqueID = json[MATERIAL].GetString();
+			cchar* uniqueID = json[MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( material == NULL )
 			{

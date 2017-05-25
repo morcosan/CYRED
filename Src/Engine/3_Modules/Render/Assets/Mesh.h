@@ -16,7 +16,7 @@ namespace CYRED
 {
 	class DLL Mesh : public Asset
 	{
-		const char* GLOBAL_THIS	= "MESH";
+		cchar* GLOBAL_THIS	= "MESH";
 
 
 	public:
@@ -29,7 +29,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const char*	GetExtension	() override;
+		cchar*	GetExtension	() override;
 
 
 	public:
@@ -42,14 +42,14 @@ namespace CYRED
 		int			GetIBO					() const;			
 		int			GetNumIndices			() const;	
 		bool			DoesClearBuffersOnBind	() const;
-		const char*		GetExternalPath			() const;
+		cchar*		GetExternalPath			() const;
 
 		void SetMeshType			( MeshType type );
 		void SetLoadType			( MeshLoadType type );
 		void SetVertices			( DataArray<Vertex>& vertices );
 		void SetIndices				( DataArray<int>& indices );
 		void SetClearBuffersOnBind	( bool value );
-		void SetExternalPath		( const char* filePath );
+		void SetExternalPath		( cchar* filePath );
 
 		//script API
 		void ClearVertices	();

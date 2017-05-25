@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Texture::TYPE		= "Texture";
-const char* const Selector_Texture::OPTION_NULL	= "NULL";
+cchar* const Selector_Texture::TYPE		= "Texture";
+cchar* const Selector_Texture::OPTION_NULL	= "NULL";
 
 
 void Selector_Texture::DisplayOptions( void* selected )

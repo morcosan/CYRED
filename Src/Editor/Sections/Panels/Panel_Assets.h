@@ -25,16 +25,16 @@ namespace CYRED
 {
 	class Panel_Assets : public Panel, public IEventListener
 	{
-		const char* const	PANEL_TITLE		= "Assets";
+		cchar* const	PANEL_TITLE		= "Assets";
 		const Vector2		MIN_SIZE		= Vector2( 200, 100 );
 		const Vector2		MAX_SIZE		= Vector2( 300, 1000 );
 
-		const char* const	BUTTON_RELOAD	= "Reload";
+		cchar* const	BUTTON_RELOAD	= "Reload";
 
-		const char* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
-		const char* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
-		const char* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
-		const char* const	DEBUG_FOLDER_NOT_FOUND		= "ERROR: Directory %s not found.";
+		cchar* const	DEBUG_EXISTING_ASSET		= "WARNING: Asset %s%s not loaded. Already existing.";
+		cchar* const	DEBUG_INVALID_UID			= "WARNING: Asset %s%s has invalid UID. New UID generated.";
+		cchar* const	DEBUG_DUPLICATED_FILE_PATH	= "WARNING: File rename failed. File path already exists.";
+		cchar* const	DEBUG_FOLDER_NOT_FOUND		= "ERROR: Directory %s not found.";
 
 
 	public:
@@ -59,7 +59,7 @@ namespace CYRED
 
 		void			ReloadAllAssets	();
 		CustomTreeItem*	AddAssetToTree	( Asset* asset, QTreeWidgetItem* parentItem, 
-										  const char* icon );
+										  cchar* icon );
 
 
 	private:
@@ -75,11 +75,11 @@ namespace CYRED
 
 
 	private:
-		void			_ParseDirectory			( const char* dirName, const char* dirPath, 
+		void			_ParseDirectory			( cchar* dirName, cchar* dirPath, 
 												  QTreeWidgetItem* parentItem );
 		void			_CreateRightClickMenu	();
-		void			_SaveAssetToFile		( Asset* asset, const char* oldName );
+		void			_SaveAssetToFile		( Asset* asset, cchar* oldName );
 		CustomTreeItem*	_FindTreeItem			( Asset* asset );
-		CustomTreeItem*	_FindFolderItem			( const char* dirPath );
+		CustomTreeItem*	_FindFolderItem			( cchar* dirPath );
 	};
 }

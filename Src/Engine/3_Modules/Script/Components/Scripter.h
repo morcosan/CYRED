@@ -39,7 +39,7 @@ namespace CYRED
 		Script* GetScript		( int index )	const;
 		int	GetScriptsCount	()				const;
 
-		void	SetScript		( int index, const char* scriptUID );
+		void	SetScript		( int index, cchar* scriptUID );
 		void	ClearScripts	();
 
 

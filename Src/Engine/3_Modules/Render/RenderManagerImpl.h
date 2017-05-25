@@ -118,10 +118,10 @@ namespace CYRED
 			void CreateParticleBuffers	( OUT uint& vbo, OUT uint& ibo,
 										  DataArray<ParticleVertex>& vertices, DataArray<int>& indices );
 			void DeleteBuffers			( uint vbo, uint ibo );
-			int  CreateShaderProgram	( const char* vertexCode, const char* geometryCode,
-										  const char* fragmentCode );
+			int  CreateShaderProgram	( cchar* vertexCode, cchar* geometryCode,
+										  cchar* fragmentCode );
 			void DeleteShaderProgram	( int programID );
-			int  GetUniformLocation		( int programID, const char* uniform );
+			int  GetUniformLocation		( int programID, cchar* uniform );
 			int  GetUniformsCount		( int programID );
 			void GetUniformInfo			( int programID, int index, int buffSize,
 										  OUT int* length, OUT char* name );

@@ -9,14 +9,14 @@
 using namespace CYRED;
 
 
-bool FileSystemWindows::DeleteDir( const char* dirPath )
+bool FileSystemWindows::DeleteDir( cchar* dirPath )
 {
 	QDir directory( dirPath );
 	return directory.removeRecursively();
 }
 
 
-bool FileSystemWindows::CreateDir( const char* parentPath, const char* dirName )
+bool FileSystemWindows::CreateDir( cchar* parentPath, cchar* dirName )
 {
 	QDir directory( parentPath );
 	return directory.mkdir( dirName );

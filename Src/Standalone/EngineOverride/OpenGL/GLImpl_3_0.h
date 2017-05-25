@@ -40,13 +40,13 @@ namespace CYRED
 		void	DeleteProgram		( int program )					override;
 		int	CreateShader		( GLShader shaderType )				override;
 		void	DeleteShader		( int shader )						override;
-		void	ShaderSource		( int shader, int count, const char** string, 
+		void	ShaderSource		( int shader, int count, cchar** string, 
 									  const int* length  )				override;
 		void	CompileShader		( int shader )						override;
 		void	AttachShader		( int program, int shader )		override;
 		void	DetachShader		( int program, int shader )		override;
 		void	LinkProgram			( int program )					override;
-		int		GetUniformLocation	( int program, const char* name )	override;
+		int		GetUniformLocation	( int program, cchar* name )	override;
 		void	GetActiveUniform	( int program, int index, int buffSize,
 										OUT int* length, OUT int* size, OUT GLUniform& type, 
 										OUT char* name )					override;

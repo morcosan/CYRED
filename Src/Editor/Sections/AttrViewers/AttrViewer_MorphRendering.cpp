@@ -39,11 +39,11 @@ void AttrViewer_MorphRendering::_OnChangeTarget( void* target )
 void AttrViewer_MorphRendering::_OnUpdateGUI()
 {
 	Morph* morph = _target->GetMorph();
-	const char* morphName = (morph == NULL) ? Selector_Morph::OPTION_NULL : morph->GetName();
+	cchar* morphName = (morph == NULL) ? Selector_Morph::OPTION_NULL : morph->GetName();
 	_WriteAttrSelector( ATTR_MORPH, morph, morphName );
 
 	Material* material = _target->GetMaterial();
-	const char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
+	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector( ATTR_MATERIAL, material, matName );
 
 	_WriteAttrFloat	( ATTR_DUR_STATE,			_target->GetDurationState() );

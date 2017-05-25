@@ -10,8 +10,8 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Scene : public JsonSerializer
 	{
-		const char* const UNIQUE_ID		= "uid";
-		const char* const GAMEOBJECTS	= "game_objects";
+		cchar* const UNIQUE_ID		= "uid";
+		cchar* const GAMEOBJECTS	= "game_objects";
 
 
 	public:

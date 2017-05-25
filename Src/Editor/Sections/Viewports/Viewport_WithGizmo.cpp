@@ -85,7 +85,7 @@ void Viewport_WithGizmo::SetCamera( GameObject* cameraGO )
 }
 
 
-const char* Viewport_WithGizmo::_GetPanelTitle()
+cchar* Viewport_WithGizmo::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
@@ -107,8 +107,9 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 	}
 
 	if ( _isFirstUpdate ) {
-		// create renderer
+		// create renderers
 		renderMngr->SwitchCanvas( _canvasSlot );
+		renderMngr->CreateRenderer( RendererType::GL_PICKING );
 		renderMngr->CreateRenderer( RendererType::GL_FORWARD );
 	}
 

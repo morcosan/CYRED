@@ -116,7 +116,7 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 	DataUnion attrValue;
 	for ( int i = 0; i < _target->GetScriptsCount(); ++i ) {
 		Script* script = _target->GetScript( i );
-		const char* scriptName = (script == NULL) ? Selector_Script::OPTION_NULL : script->GetName();
+		cchar* scriptName = (script == NULL) ? Selector_Script::OPTION_NULL : script->GetName();
 		_WriteAttrListIndex( ATTR_SCRIPTS, i, attrValue.SetReference( script ), scriptName );
 	}
 

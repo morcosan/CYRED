@@ -64,14 +64,14 @@ namespace CYRED
 		virtual void RemoveScript	( Script* script )		PURE_VIRTUAL;
 		virtual void RemovePrefab	( Prefab* prefab )		PURE_VIRTUAL;
 
-		virtual Mesh*		GetMesh			( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Morph*		GetMorph		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Material*	GetMaterial		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Shader*		GetShader		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Texture*	GetTexture		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Scene*		GetScene		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Script*		GetScript		( const char* uniqueID )	PURE_VIRTUAL;
-		virtual Prefab*		GetPrefab		( const char* uniqueID )	PURE_VIRTUAL;
+		virtual Mesh*		GetMesh			( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Morph*		GetMorph		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Material*	GetMaterial		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Shader*		GetShader		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Texture*	GetTexture		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Scene*		GetScene		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Script*		GetScript		( cchar* uniqueID )	PURE_VIRTUAL;
+		virtual Prefab*		GetPrefab		( cchar* uniqueID )	PURE_VIRTUAL;
 
 		virtual int		GetMaterialCount()				PURE_VIRTUAL;
 		virtual Material*	GetMaterialAt	( int index )	PURE_VIRTUAL;

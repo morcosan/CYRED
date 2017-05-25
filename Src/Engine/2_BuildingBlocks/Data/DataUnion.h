@@ -40,7 +40,7 @@ namespace CYRED
 
 		void operator=( const DataUnion& other );
 
-		DataUnion& SetString	( const char* value );
+		DataUnion& SetString	( cchar* value );
 		DataUnion& SetFloat		( float value );
 		DataUnion& SetInt		( int value );
 		DataUnion& SetBool		( bool value );
@@ -49,7 +49,7 @@ namespace CYRED
 		DataUnion& SetVector4	( const Vector4& value );
 		DataUnion& SetReference	( void* value );
 
-		const char*	GetString		()	const;
+		cchar*	GetString		()	const;
 		float		GetFloat		()	const;
 		int			GetInt			()	const;
 		bool		GetBool			()	const;

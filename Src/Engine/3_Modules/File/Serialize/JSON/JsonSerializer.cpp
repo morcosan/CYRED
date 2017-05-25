@@ -27,7 +27,7 @@ String JsonSerializer::Serialize( const void* object )
 }
 
 
-void JsonSerializer::Deserialize( const char* data, OUT void* object, DeserFlag flag )
+void JsonSerializer::Deserialize( cchar* data, OUT void* object, DeserFlag flag )
 {
 	rapidjson::Document json;
 	json.Parse<0>( data );
@@ -79,7 +79,7 @@ String JsonSerializer::SerializeVec4( Vector4 value )
 }
 
 
-Vector2 JsonSerializer::DeserializeVec2( const char * data )
+Vector2 JsonSerializer::DeserializeVec2( cchar * data )
 {
 	rapidjson::Document json;
 	json.Parse<0>( data );
@@ -93,7 +93,7 @@ Vector2 JsonSerializer::DeserializeVec2( const char * data )
 }
 
 
-Vector3 JsonSerializer::DeserializeVec3( const char * data )
+Vector3 JsonSerializer::DeserializeVec3( cchar * data )
 {
 	rapidjson::Document json;
 	json.Parse<0>( data );
@@ -107,7 +107,7 @@ Vector3 JsonSerializer::DeserializeVec3( const char * data )
 }
 
 
-Vector4 JsonSerializer::DeserializeVec4( const char * data )
+Vector4 JsonSerializer::DeserializeVec4( cchar * data )
 {
 	rapidjson::Document json;
 	json.Parse<0>( data );

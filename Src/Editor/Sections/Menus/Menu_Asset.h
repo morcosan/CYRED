@@ -20,19 +20,19 @@ namespace CYRED
 {
 	class Menu_Asset : public QMenu
 	{
-		const char* const	MENU_RELOAD			= "Reload Asset";
+		cchar* const	MENU_RELOAD			= "Reload Asset";
 
-		const char* const	MENU_RENAME			= "Rename";
-		const char* const	MENU_OPEN_DISK		= "Open On Disk";
-		const char* const	MENU_SHOW_DISK		= "Show On Disk";
-		const char* const	MENU_DUPLICATE		= "Duplicate";
-		const char* const	MENU_DELETE			= "Delete";
+		cchar* const	MENU_RENAME			= "Rename";
+		cchar* const	MENU_OPEN_DISK		= "Open On Disk";
+		cchar* const	MENU_SHOW_DISK		= "Show On Disk";
+		cchar* const	MENU_DUPLICATE		= "Duplicate";
+		cchar* const	MENU_DELETE			= "Delete";
 
-		const char* const	MENU_OPEN_SCENE		= "Open Scene";
-		const char* const	MENU_LOAD_SCENE		= "Load Scene";
+		cchar* const	MENU_OPEN_SCENE		= "Open Scene";
+		cchar* const	MENU_LOAD_SCENE		= "Load Scene";
 
-		const char* const	MENU_PREFAB_EDIT	= "Edit";
-		const char* const	MENU_PREFAB_INST	= "Instantiate";
+		cchar* const	MENU_PREFAB_EDIT	= "Edit";
+		cchar* const	MENU_PREFAB_INST	= "Instantiate";
 
 
 	public:

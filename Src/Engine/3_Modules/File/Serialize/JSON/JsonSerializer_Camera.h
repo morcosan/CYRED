@@ -10,12 +10,12 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Camera : public JsonSerializer
 	{
-		const char* const ENABLED			= "enabled";
-		const char* const CAMERA_TYPE		= "camera_type";
-		const char* const FOVY_ANGLE		= "fovy_angle";
-		const char* const ORTHO_HEIGHT		= "ortho_height";
-		const char* const NEAR_CLIP			= "near_clipping";
-		const char* const FAR_CLIP			= "far_clipping";
+		cchar* const ENABLED			= "enabled";
+		cchar* const CAMERA_TYPE		= "camera_type";
+		cchar* const FOVY_ANGLE		= "fovy_angle";
+		cchar* const ORTHO_HEIGHT		= "ortho_height";
+		cchar* const NEAR_CLIP			= "near_clipping";
+		cchar* const FAR_CLIP			= "far_clipping";
 
 
 	public:

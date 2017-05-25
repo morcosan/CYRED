@@ -93,21 +93,21 @@ String JsonSerializeSystem::SerializeVec4( Vector4 value )
 }
 
 
-Vector2 JsonSerializeSystem::DeserializeVec2( const char* data )
+Vector2 JsonSerializeSystem::DeserializeVec2( cchar* data )
 {
 	JsonSerializer serializer;
 	return serializer.DeserializeVec2( data );
 }
 
 
-Vector3 JsonSerializeSystem::DeserializeVec3( const char * data )
+Vector3 JsonSerializeSystem::DeserializeVec3( cchar * data )
 {
 	JsonSerializer serializer;
 	return serializer.DeserializeVec3( data );
 }
 
 
-Vector4 JsonSerializeSystem::DeserializeVec4( const char * data )
+Vector4 JsonSerializeSystem::DeserializeVec4( cchar * data )
 {
 	JsonSerializer serializer;
 	return serializer.DeserializeVec4( data );

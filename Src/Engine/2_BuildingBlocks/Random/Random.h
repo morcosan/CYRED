@@ -13,7 +13,7 @@ namespace CYRED
 	class DLL Random
 	{
 		static const int UNIQUE_ID_SIZE;
-		static const char ALPHA_NUM[];
+		static cchar ALPHA_NUM[];
         
 
 	private:
@@ -34,9 +34,9 @@ namespace CYRED
 		static Vector3	FromSphereEdge	( float radius );
 
 		static String	GenerateUniqueID();
-		static bool		ValidateUniqueID( const char* uniqueID );
+		static bool		ValidateUniqueID( cchar* uniqueID );
 
 		// generate a new id similar to the uid, but constant giving same text
-		static String	GenerateConstantID( const char* text );
+		static String	GenerateConstantID( cchar* text );
 	};
 }

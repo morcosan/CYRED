@@ -10,15 +10,15 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Mesh : public JsonSerializer
 	{
-		const char* const UNIQUE_ID				= "uid";
-		const char* const MESH_TYPE				= "mesh_type";
-		const char* const MESH_TYPE_LINE		= "LINE";
-		const char* const MESH_TYPE_POLY		= "POLYGON";
-		const char* const LOAD_TYPE				= "load_type";
-		const char* const LOAD_TYPE_EXTERNAL	= "EXTERNAL";
-		const char* const LOAD_TYPE_SCRIPTED	= "SCRIPTED";
-		const char* const FILE_PATH				= "file_path";
-		const char* const CLEAR_BUFFER			= "clear_buffers_on_bind";
+		cchar* const UNIQUE_ID				= "uid";
+		cchar* const MESH_TYPE				= "mesh_type";
+		cchar* const MESH_TYPE_LINE		= "LINE";
+		cchar* const MESH_TYPE_POLY		= "POLYGON";
+		cchar* const LOAD_TYPE				= "load_type";
+		cchar* const LOAD_TYPE_EXTERNAL	= "EXTERNAL";
+		cchar* const LOAD_TYPE_SCRIPTED	= "SCRIPTED";
+		cchar* const FILE_PATH				= "file_path";
+		cchar* const CLEAR_BUFFER			= "clear_buffers_on_bind";
 
 
 	public:

@@ -341,7 +341,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 				Asset* asset = CAST_S( Asset*, eData );
 				ASSERT( asset != NULL );
 
-				const char* attrViewerType = NULL;
+				cchar* attrViewerType = NULL;
 
 				switch ( asset->GetAssetType() ) {
 					case AssetType::MATERIAL:
@@ -398,7 +398,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 			Asset* asset = CAST_S( Asset*, eData );
 			ASSERT( asset != NULL );
 
-			const char* attrViewerType = NULL;
+			cchar* attrViewerType = NULL;
 
 			switch ( asset->GetAssetType() ) {
 				case AssetType::MATERIAL:
@@ -458,7 +458,7 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 }
 
 
-void Panel_Attributes::SetAttrViewer( const char* typeName, AttrViewer* viewer )
+void Panel_Attributes::SetAttrViewer( cchar* typeName, AttrViewer* viewer )
 {
 	ASSERT( _isInitialized );
 

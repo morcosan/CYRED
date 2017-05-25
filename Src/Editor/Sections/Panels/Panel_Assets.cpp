@@ -228,7 +228,7 @@ void Panel_Assets::OnEvent( EventType eType, void* eData )
 					}
 
 					// get icon
-					const char* icon = NULL;
+					cchar* icon = NULL;
 					switch ( asset->GetAssetType() ) {
 						case AssetType::MATERIAL:	icon = EditorUtils::ICON_MATERIAL;	break;
 						case AssetType::MESH:		icon = EditorUtils::ICON_MESH;		break;
@@ -405,7 +405,7 @@ void Panel_Assets::ReloadAllAssets()
 
 
 CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* parentItem, 
-											  const char* icon )
+											  cchar* icon )
 {
 	// create item
 	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
@@ -434,7 +434,7 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 }
 
 
-void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath, 
+void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath, 
 								    QTreeWidgetItem* parentItem )
 {
 	ASSERT( _isInitialized );
@@ -617,7 +617,7 @@ void Panel_Assets::_ParseDirectory( const char* dirName, const char* dirPath,
 					{
 						// if temporary, reload the temporary one and delete this one
 						Asset* other = NULL;
-						const char* uid = asset->GetUniqueID();
+						cchar* uid = asset->GetUniqueID();
 
 						switch ( asset->GetAssetType() ) {
 							case AssetType::MATERIAL:
@@ -725,7 +725,7 @@ void Panel_Assets::_CreateRightClickMenu()
 }
 
 
-void Panel_Assets::_SaveAssetToFile( Asset* asset, const char* oldName )
+void Panel_Assets::_SaveAssetToFile( Asset* asset, cchar* oldName )
 {
 	ASSERT( asset != NULL );
 
@@ -733,7 +733,7 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, const char* oldName )
 	// this way, if writing fails, you still got old file
 
 	FiniteString filePath;
-	const char* fileFormat = NULL;
+	cchar* fileFormat = NULL;
 	String data;
 
 	switch ( asset->GetAssetType() ) {
@@ -841,7 +841,7 @@ CustomTreeItem* Panel_Assets::_FindTreeItem( Asset* asset )
 }
 
 
-CustomTreeItem* Panel_Assets::_FindFolderItem( const char* dirPath )
+CustomTreeItem* Panel_Assets::_FindFolderItem( cchar* dirPath )
 {
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {

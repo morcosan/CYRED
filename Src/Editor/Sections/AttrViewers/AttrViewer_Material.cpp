@@ -19,7 +19,7 @@ void AttrViewer_Material::_OnInitialize()
 	_CreateAttrBool		( ATTR_WIREFRAME,	ATTR_WIREFRAME );
 	_CreateAttrFloat	( ATTR_LINE_WIDTH,	ATTR_LINE_WIDTH );
 	
-	DataArray<const char*> cullFaceTypes;
+	DataArray<cchar*> cullFaceTypes;
 	cullFaceTypes.Add( "CULL_BACK" );
 	cullFaceTypes.Add( "CULL_FRONT" );
 	cullFaceTypes.Add( "CULL_NONE" );
@@ -95,7 +95,7 @@ void AttrViewer_Material::_OnUpdateGUI()
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
 	Shader* shader = _target->GetShader();
-	const char* shaderName = (shader == NULL) ? Selector_Shader::OPTION_NULL : shader->GetName();
+	cchar* shaderName = (shader == NULL) ? Selector_Shader::OPTION_NULL : shader->GetName();
 	_WriteAttrSelector( ATTR_SHADER,	 shader, shaderName );
 
 	_WriteAttrBool( ATTR_WIREFRAME,	_target->IsWireframe() );
@@ -127,7 +127,7 @@ void AttrViewer_Material::_OnUpdateGUI()
 		_WriteAttrStrListSize( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE, 0 );
 
 		for ( int i = 0; i < totalProperties; ++i ) {
-			const char* name = _target->GetPropertyNameAt( i );
+			cchar* name = _target->GetPropertyNameAt( i );
 
 			DataUnion& data = _target->GetPropertyDataAt( i );
 			switch ( data.GetValueType() ) {
@@ -200,7 +200,7 @@ void AttrViewer_Material::_OnUpdateGUI()
 											ATTR_PROP_NAME, attrValue.SetString( name ) );
 					
 					Texture* texture = CAST_S( Texture*, data.GetReference() );
-					const char* textureName = (texture == NULL) ? 
+					cchar* textureName = (texture == NULL) ? 
 												Selector_Texture::OPTION_NULL : 
 												texture->GetName();
 					_WriteAttrStrListIndex( ATTR_PROPERTIES, ATTR_PROP_TYPE_TEXTURE,

@@ -48,7 +48,7 @@ namespace CYRED
 
 
 	private:
-		virtual const char*	_GetPanelTitle	() PURE_VIRTUAL;
+		virtual cchar*	_GetPanelTitle	() PURE_VIRTUAL;
 		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
 		virtual void		_OnInitialize	() PURE_VIRTUAL;
 		virtual void		_OnFinalize		() PURE_VIRTUAL;

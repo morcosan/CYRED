@@ -441,7 +441,7 @@ void AssetManagerImpl::RemovePrefab( Prefab* prefab )
 }
 
 
-Mesh* AssetManagerImpl::GetMesh( const char* uniqueID )
+Mesh* AssetManagerImpl::GetMesh( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -456,7 +456,7 @@ Mesh* AssetManagerImpl::GetMesh( const char* uniqueID )
 	return NULL;
 }
 
-Morph* AssetManagerImpl::GetMorph( const char* uniqueID )
+Morph* AssetManagerImpl::GetMorph( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -472,7 +472,7 @@ Morph* AssetManagerImpl::GetMorph( const char* uniqueID )
 }
 
 
-Material* AssetManagerImpl::GetMaterial( const char* uniqueID )
+Material* AssetManagerImpl::GetMaterial( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -488,7 +488,7 @@ Material* AssetManagerImpl::GetMaterial( const char* uniqueID )
 }
 
 
-Shader* AssetManagerImpl::GetShader( const char* uniqueID )
+Shader* AssetManagerImpl::GetShader( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -504,7 +504,7 @@ Shader* AssetManagerImpl::GetShader( const char* uniqueID )
 }
 
 
-Texture* AssetManagerImpl::GetTexture( const char* uniqueID )
+Texture* AssetManagerImpl::GetTexture( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -520,7 +520,7 @@ Texture* AssetManagerImpl::GetTexture( const char* uniqueID )
 }
 
 
-Scene* AssetManagerImpl::GetScene( const char* uniqueID )
+Scene* AssetManagerImpl::GetScene( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -536,7 +536,7 @@ Scene* AssetManagerImpl::GetScene( const char* uniqueID )
 }
 
 
-Script* AssetManagerImpl::GetScript( const char * uniqueID )
+Script* AssetManagerImpl::GetScript( cchar * uniqueID )
 {
 	ASSERT( _isInitialized );
 
@@ -552,7 +552,7 @@ Script* AssetManagerImpl::GetScript( const char * uniqueID )
 }
 
 
-Prefab* AssetManagerImpl::GetPrefab( const char* uniqueID )
+Prefab* AssetManagerImpl::GetPrefab( cchar* uniqueID )
 {
 	ASSERT( _isInitialized );
 

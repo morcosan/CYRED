@@ -20,25 +20,25 @@ namespace CYRED
 			void Initialize		( FileSystem* fileSystem, MeshLoader* meshLoader )	override;
 			void Finalize		() override;
 
-			char*	ReadFile	( const char* filePath, OUT int& fileSize )		override;
-			char*	ReadFile	( const char* filePath )						override;
-			bool	WriteFile	( const char* filePath, const char* buffer )	override;
-			bool	DeleteFile	( const char* filePath )						override;
-			bool	CopyFile	( const char* srcPath, const char* dstPath )	override;
+			char*	ReadFile	( cchar* filePath, OUT int& fileSize )		override;
+			char*	ReadFile	( cchar* filePath )						override;
+			bool	WriteFile	( cchar* filePath, cchar* buffer )	override;
+			bool	DeleteFile	( cchar* filePath )						override;
+			bool	CopyFile	( cchar* srcPath, cchar* dstPath )	override;
 			
-			bool	DeleteDir	( const char* dirPath )							override;
-			bool	CreateDir	( const char* parentPath, const char* dirName )	override;
+			bool	DeleteDir	( cchar* dirPath )							override;
+			bool	CreateDir	( cchar* parentPath, cchar* dirName )	override;
 
-			uchar*	ReadImage	( const char* filePath, OUT int *width, 
+			uchar*	ReadImage	( cchar* filePath, OUT int *width, 
 								  OUT int *height, OUT int *channels )			override;
-			bool	WriteImage	( const char* filePath, const uchar* imageBuffer, 
+			bool	WriteImage	( cchar* filePath, const uchar* imageBuffer, 
 								  int width, int height, int channels,
 								  ImageType type )								override;
 			
-			bool	ImportMesh	( const char* data, int dataSize, 
+			bool	ImportMesh	( cchar* data, int dataSize, 
 								  OUT DataArray<Vertex>& vertices, 
 								  OUT DataArray<int>& indices )					override;
-			bool	LoadMesh	( const char* data, OUT DataArray<Vertex>& vertices, 
+			bool	LoadMesh	( cchar* data, OUT DataArray<Vertex>& vertices, 
 								  OUT DataArray<int>& indices )					override;
 			String	SaveMesh	( DataArray<Vertex>& vertices, 
 								  DataArray<int>& indices )						override;

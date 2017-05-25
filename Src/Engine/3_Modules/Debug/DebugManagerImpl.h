@@ -23,9 +23,9 @@ namespace CYRED
 				  
 			void SetEnabled	( bool value )					override;
 
-			void Error		( const char* value )			override;
+			void Error		( cchar* value )			override;
 
-			void Log		( const char* value )			override;
+			void Log		( cchar* value )			override;
 			void LogInt		( int value )					override;
 			void LogFloat	( float value )					override;
 			void LogVec2	( const Vector2& value )		override;

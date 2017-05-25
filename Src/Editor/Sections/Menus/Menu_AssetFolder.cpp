@@ -306,11 +306,11 @@ void Menu_AssetFolder::A_Create_Script()
 
 
 
-Asset* Menu_AssetFolder::_AddNewAsset( const char* dirPath, QTreeWidgetItem* parentItem,
+Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentItem,
 									   AssetType assetType )
 {
 	Asset*		asset		= NULL;
-	const char* icon		= NULL;
+	cchar* icon		= NULL;
 
 	switch ( assetType ) {
 		case AssetType::MATERIAL:

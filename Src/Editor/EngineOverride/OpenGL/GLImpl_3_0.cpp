@@ -215,7 +215,7 @@ void GLImpl_3_0::DeleteShader( int shader )
 }
 
 
-void GLImpl_3_0::ShaderSource( int shader, int count, const char** string, const int* length )
+void GLImpl_3_0::ShaderSource( int shader, int count, cchar** string, const int* length )
 {
 	ASSERT( _qtGL != NULL );
 	_qtGL->glShaderSource( shader, count, string, length );
@@ -250,7 +250,7 @@ void GLImpl_3_0::LinkProgram( int program )
 }
 
 
-int GLImpl_3_0::GetUniformLocation( int program, const char* name )
+int GLImpl_3_0::GetUniformLocation( int program, cchar* name )
 {
 	ASSERT( _qtGL != NULL );
 	return _qtGL->glGetUniformLocation( program, name );

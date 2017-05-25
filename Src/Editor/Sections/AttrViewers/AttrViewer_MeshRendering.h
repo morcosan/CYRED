@@ -22,10 +22,10 @@ namespace CYRED
 	class AttrViewer_MeshRendering : public AttrViewer
 	{
 	public:
-		const char* TITLE			= "MeshRendering";
+		cchar* TITLE			= "MeshRendering";
 
-		const char* ATTR_MESH		= "Mesh";
-		const char* ATTR_MATERIAL	= "Material";
+		cchar* ATTR_MESH		= "Mesh";
+		cchar* ATTR_MATERIAL	= "Material";
 
 
 	public:

@@ -14,13 +14,13 @@ void AttrViewer_Texture::_OnInitialize()
 {
 	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	DataArray<const char*> textureTypes;
+	DataArray<cchar*> textureTypes;
 	textureTypes.Add( TYPE_TEXTURE_2D );
 	textureTypes.Add( TYPE_CUBE_MAP );
 	_CreateAttrDropdown	( ATTR_TEXTURE_TYPE, ATTR_TEXTURE_TYPE, textureTypes, AttrFlag::NONE, 
 						  CallbackGroup::GROUP_2 );
 
-	DataArray<const char*> loadTypes;
+	DataArray<cchar*> loadTypes;
 	loadTypes.Add( TYPE_SCRIPTED );
 	loadTypes.Add( TYPE_EXTERNAL );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes );

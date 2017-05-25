@@ -213,7 +213,7 @@ void Menu_Asset::A_Duplicate()
 	clone->SetEmitEvents( TRUE );
 
 	// add to asset pool and get icon
-	const char* icon = NULL;
+	cchar* icon = NULL;
 
 	switch ( asset->GetAssetType() ) {
 		case AssetType::MATERIAL:

@@ -310,7 +310,7 @@ void StandaloneApp::_RenderScene()
 }
 
 
-void StandaloneApp::GlfwErrorCallback( int code, const char * desc )
+void StandaloneApp::GlfwErrorCallback( int code, cchar * desc )
 {
 	//char title[20];
 	//sprintf(title, "GLFW error code %d", code);

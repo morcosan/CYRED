@@ -340,13 +340,13 @@ namespace CYRED
 		virtual void DeleteProgram		( int program )									PURE_VIRTUAL;
 		virtual int	 CreateShader		( GLShader shaderType )							PURE_VIRTUAL;
 		virtual void DeleteShader		( int shader )									PURE_VIRTUAL;
-		virtual void ShaderSource		( int shader, int count, const char** string, 
+		virtual void ShaderSource		( int shader, int count, cchar** string, 
 										  const int* length  )							PURE_VIRTUAL;
 		virtual void CompileShader		( int shader )									PURE_VIRTUAL;
 		virtual void AttachShader		( int program, int shader )						PURE_VIRTUAL;
 		virtual void DetachShader		( int program, int shader )						PURE_VIRTUAL;
 		virtual void LinkProgram		( int program )									PURE_VIRTUAL;
-		virtual int	 GetUniformLocation	( int program, const char* name )				PURE_VIRTUAL;
+		virtual int	 GetUniformLocation	( int program, cchar* name )				PURE_VIRTUAL;
 		virtual void GetActiveUniform	( int program, int index, int buffSize,
 										  OUT int* length, OUT int* size, OUT GLUniform& type, 
 										  OUT char* name )								PURE_VIRTUAL;

@@ -20,30 +20,30 @@
 using namespace CYRED;
 
 
-const char* const EditorUtils::ICON_SCENE		= "scene";
-const char* const EditorUtils::ICON_FOLDER		= "folder";
-const char* const EditorUtils::ICON_MATERIAL	= "material";
-const char* const EditorUtils::ICON_MESH		= "mesh";
-const char* const EditorUtils::ICON_MORPH		= "morph";
-const char* const EditorUtils::ICON_TEXTURE		= "texture";
-const char* const EditorUtils::ICON_SHADER		= "shader";
-const char* const EditorUtils::ICON_SCRIPT		= "script";
-const char* const EditorUtils::ICON_PREFAB		= "prefab";
-const char* const EditorUtils::ICON_UNKNOWN		= "unknown";
+cchar* const EditorUtils::ICON_SCENE		= "scene";
+cchar* const EditorUtils::ICON_FOLDER		= "folder";
+cchar* const EditorUtils::ICON_MATERIAL	= "material";
+cchar* const EditorUtils::ICON_MESH		= "mesh";
+cchar* const EditorUtils::ICON_MORPH		= "morph";
+cchar* const EditorUtils::ICON_TEXTURE		= "texture";
+cchar* const EditorUtils::ICON_SHADER		= "shader";
+cchar* const EditorUtils::ICON_SCRIPT		= "script";
+cchar* const EditorUtils::ICON_PREFAB		= "prefab";
+cchar* const EditorUtils::ICON_UNKNOWN		= "unknown";
 
-const char* const EditorUtils::NAME_FOLDER		= "Folder";
-const char* const EditorUtils::NAME_MATERIAL	= "Material";
-const char* const EditorUtils::NAME_MAT_EMPTY	= "Empty";
-const char* const EditorUtils::NAME_MAT_PS		= "Particles";
-const char* const EditorUtils::NAME_TEXTURE		= "Texture";
-const char* const EditorUtils::NAME_TEX_2D		= "Texture2D";
-const char* const EditorUtils::NAME_TEX_CM		= "CubeMap";
-const char* const EditorUtils::NAME_SHADER		= "Shader";
-const char* const EditorUtils::NAME_MESH		= "Mesh";
-const char* const EditorUtils::NAME_MORPH		= "Morph";
-const char* const EditorUtils::NAME_SCRIPT		= "Script";
-const char* const EditorUtils::NAME_SCENE		= "Scene";
-const char* const EditorUtils::NAME_PREFAB		= "Prefab";
+cchar* const EditorUtils::NAME_FOLDER		= "Folder";
+cchar* const EditorUtils::NAME_MATERIAL	= "Material";
+cchar* const EditorUtils::NAME_MAT_EMPTY	= "Empty";
+cchar* const EditorUtils::NAME_MAT_PS		= "Particles";
+cchar* const EditorUtils::NAME_TEXTURE		= "Texture";
+cchar* const EditorUtils::NAME_TEX_2D		= "Texture2D";
+cchar* const EditorUtils::NAME_TEX_CM		= "CubeMap";
+cchar* const EditorUtils::NAME_SHADER		= "Shader";
+cchar* const EditorUtils::NAME_MESH		= "Mesh";
+cchar* const EditorUtils::NAME_MORPH		= "Morph";
+cchar* const EditorUtils::NAME_SCRIPT		= "Script";
+cchar* const EditorUtils::NAME_SCENE		= "Scene";
+cchar* const EditorUtils::NAME_PREFAB		= "Prefab";
 
 DataMap<String, QIcon*>	EditorUtils::_icons;
 
@@ -65,8 +65,8 @@ void EditorUtils::Initialize()
 void EditorUtils::SetAvailableName( Asset * asset )
 {
 	// get base name and extension according to type
-	const char* baseName = NULL;
-	const char* extension = NULL;
+	cchar* baseName = NULL;
+	cchar* extension = NULL;
 
 	switch ( asset->GetAssetType() ) {
 		case AssetType::MATERIAL:
@@ -246,7 +246,7 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 }
 
 
-QIcon* EditorUtils::GetIcon( const char* iconName )
+QIcon* EditorUtils::GetIcon( cchar* iconName )
 {
 	ASSERT( _icons.Has( iconName ) );
 	return _icons.Get( iconName );

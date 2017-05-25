@@ -12,7 +12,7 @@
 using namespace CYRED;
 
 
-bool MeshLoader::LoadMesh( const char* data, OUT DataArray<Vertex>& vertices, 
+bool MeshLoader::LoadMesh( cchar* data, OUT DataArray<Vertex>& vertices, 
 						   OUT DataArray<int>& indices )
 {
 	int headerIndex = strncmp( data, HEADER, strlen( HEADER ) );

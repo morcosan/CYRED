@@ -122,7 +122,7 @@ void Panel_Console::OnEvent( EventType eType, void* eData )
 }
 
 
-void Panel_Console::_AddLine( const char* message, bool isError )
+void Panel_Console::_AddLine( cchar* message, bool isError )
 {
 	// create layout
 	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();

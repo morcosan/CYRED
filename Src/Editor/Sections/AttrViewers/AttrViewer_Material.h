@@ -18,22 +18,22 @@ namespace CYRED
 	class AttrViewer_Material : public AttrViewer
 	{
 	public:
-		const char* TITLE				= "Material";
+		cchar* TITLE				= "Material";
 
-		const char* ATTR_NAME				= "Name";
-		const char* ATTR_SHADER				= "Shader";
-		const char* ATTR_WIREFRAME			= "Wireframe";
-		const char* ATTR_LINE_WIDTH			= "Line Width";
-		const char* ATTR_CULL_FACE			= "Cull Face";
-		const char* ATTR_PROPERTIES			= "Properties";
-		const char* ATTR_PROP_TYPE_INT		= "Integers";
-		const char* ATTR_PROP_TYPE_FLOAT	= "Floats";
-		const char* ATTR_PROP_TYPE_VECTOR2	= "Vector2s";
-		const char* ATTR_PROP_TYPE_VECTOR3	= "Vector3s";
-		const char* ATTR_PROP_TYPE_VECTOR4	= "Vector4s";
-		const char* ATTR_PROP_TYPE_TEXTURE	= "Textures";
-		const char* ATTR_PROP_NAME			= "Name";
-		const char* ATTR_PROP_VALUE			= "Value";
+		cchar* ATTR_NAME				= "Name";
+		cchar* ATTR_SHADER				= "Shader";
+		cchar* ATTR_WIREFRAME			= "Wireframe";
+		cchar* ATTR_LINE_WIDTH			= "Line Width";
+		cchar* ATTR_CULL_FACE			= "Cull Face";
+		cchar* ATTR_PROPERTIES			= "Properties";
+		cchar* ATTR_PROP_TYPE_INT		= "Integers";
+		cchar* ATTR_PROP_TYPE_FLOAT	= "Floats";
+		cchar* ATTR_PROP_TYPE_VECTOR2	= "Vector2s";
+		cchar* ATTR_PROP_TYPE_VECTOR3	= "Vector3s";
+		cchar* ATTR_PROP_TYPE_VECTOR4	= "Vector4s";
+		cchar* ATTR_PROP_TYPE_TEXTURE	= "Textures";
+		cchar* ATTR_PROP_NAME			= "Name";
+		cchar* ATTR_PROP_VALUE			= "Value";
 
 
 	public:

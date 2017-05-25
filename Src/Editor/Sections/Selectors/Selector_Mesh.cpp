@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Mesh::TYPE			= "Mesh";
-const char* const Selector_Mesh::OPTION_NULL	= "NULL";
+cchar* const Selector_Mesh::TYPE			= "Mesh";
+cchar* const Selector_Mesh::OPTION_NULL	= "NULL";
 
 
 void Selector_Mesh::DisplayOptions( void* selected )

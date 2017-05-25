@@ -42,7 +42,7 @@ ComponentType Component::GetComponentType() const
 }
 
 
-const char* Component::GetComponentSubtype() const
+cchar* Component::GetComponentSubtype() const
 {
 	return _componentSubtype;
 }

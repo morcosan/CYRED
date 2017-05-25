@@ -63,7 +63,7 @@ int Scripter::GetScriptsCount() const
 }
 
 
-void Scripter::SetScript( int index, const char* scriptUID )
+void Scripter::SetScript( int index, cchar* scriptUID )
 {
 	// fill array
 	while ( index >= _scripts.Size() ) {

@@ -45,7 +45,7 @@ void SceneManagerImpl::Finalize()
 }
 
 
-Scene* SceneManagerImpl::OpenScene( const char* sceneUID )
+Scene* SceneManagerImpl::OpenScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -79,7 +79,7 @@ Scene* SceneManagerImpl::OpenNewScene()
 }
 
 
-Scene* SceneManagerImpl::LoadScene( const char* sceneUID )
+Scene* SceneManagerImpl::LoadScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -116,7 +116,7 @@ Scene* SceneManagerImpl::LoadNewScene()
 }
 
 
-void SceneManagerImpl::SaveScene( const char* sceneUID )
+void SceneManagerImpl::SaveScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -132,8 +132,8 @@ void SceneManagerImpl::SaveScene( const char* sceneUID )
 }
 
 
-Scene* SceneManagerImpl::SaveSceneAs( const char* sceneUID, const char* newSceneName, 
-									  const char* dirPath )
+Scene* SceneManagerImpl::SaveSceneAs( cchar* sceneUID, cchar* newSceneName, 
+									  cchar* dirPath )
 {
 	ASSERT( _isInitialized );
 
@@ -190,7 +190,7 @@ void SceneManagerImpl::SaveAllScenes()
 }
 
 
-void SceneManagerImpl::CloseScene( const char* sceneUID )
+void SceneManagerImpl::CloseScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -278,7 +278,7 @@ GameObject* SceneManagerImpl::NewGameObject( int sceneIndex )
 }
 
 
-GameObject* SceneManagerImpl::NewGameObject( const char* sceneUID )
+GameObject* SceneManagerImpl::NewGameObject( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 	
@@ -343,7 +343,7 @@ GameObject* SceneManagerImpl::Duplicate( const GameObject* object )
 }
 
 
-GameObject* SceneManagerImpl::Search( const char* objectName, const char* sceneUID )
+GameObject* SceneManagerImpl::Search( cchar* objectName, cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -383,7 +383,7 @@ void SceneManagerImpl::Destroy( GameObject* object )
 }
 
 
-int SceneManagerImpl::GetSceneIndex( const char* sceneUID )
+int SceneManagerImpl::GetSceneIndex( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
@@ -401,7 +401,7 @@ int SceneManagerImpl::GetSceneIndex( const char* sceneUID )
 }
 
 
-Scene* SceneManagerImpl::GetScene( const char* sceneUID )
+Scene* SceneManagerImpl::GetScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 

@@ -11,7 +11,7 @@
 using namespace CYRED;
 
 
-bool MeshLoaderWindows::ImportMesh( const char* data, int dataSize, 
+bool MeshLoaderWindows::ImportMesh( cchar* data, int dataSize, 
 									OUT DataArray<Vertex>& vertices, OUT DataArray<int>& indices )
 {
 	Assimp::Importer assimpImporter;

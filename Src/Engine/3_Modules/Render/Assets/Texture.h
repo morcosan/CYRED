@@ -35,7 +35,7 @@ namespace CYRED
 {
 	class DLL Texture : public Asset
 	{
-		const char* GLOBAL_THIS	= "TEXTURE";
+		cchar* GLOBAL_THIS	= "TEXTURE";
 
 
 	public:
@@ -49,7 +49,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const char*	GetExtension	() override;
+		cchar*	GetExtension	() override;
 
 
 	public:
@@ -62,14 +62,14 @@ namespace CYRED
 		bool			HasMipmap				()				const;
 		bool			DoesClearBufferOnBind	()				const;
 		uchar*			GetImageBuffer			( int index )	const;
-		const char*		GetImagePath			( int index )	const;
+		cchar*		GetImagePath			( int index )	const;
 
 		void SetTextureType			( TextureType type );
 		void SetLoadType			( TextureLoadType type );
 		void SetHasMipmap			( bool value );
 		void SetClearBufferOnBind	( bool value );
 		void SetImageBuffer			( int index, uchar* buffer );
-		void SetImagePath			( int index, const char* path );
+		void SetImagePath			( int index, cchar* path );
 
 		//script API
 		void SetImageData	( int bufferIndex, int width, int height, int channels );

@@ -10,8 +10,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Prefab::TYPE			= "Prefab";
-const char* const Selector_Prefab::OPTION_NULL	= "NULL";
+cchar* const Selector_Prefab::TYPE			= "Prefab";
+cchar* const Selector_Prefab::OPTION_NULL	= "NULL";
 
 
 void Selector_Prefab::DisplayOptions( void* selected )

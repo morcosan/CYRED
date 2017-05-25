@@ -11,19 +11,19 @@ namespace CYRED
 	class AttrViewer_CyredProj : public AttrViewer
 	{
 	public:
-		const char* TITLE				= "Project Settings";
+		cchar* TITLE				= "Project Settings";
 
-		const char* ATTR_APP_CONFIG		= "AppConfig";
-		const char* ATTR_APP_NAME		= "AppName";
-		const char* ATTR_FULLSCREEN		= "Fullscreen";
-		const char* ATTR_WIDTH			= "Width";
-		const char* ATTR_HEIGHT			= "Height";
-		const char* ATTR_POS_X			= "Pos X";
-		const char* ATTR_POS_Y			= "Pos Y";
-		const char* ATTR_FPS			= "FPS";
-		const char* ATTR_START_SCENE	= "Start Scene";
-		const char* ATTR_BUILD_WINDOWS	= "Build Windows";
-		const char* ATTR_BUILD_ANDROID	= "Build Android";
+		cchar* ATTR_APP_CONFIG		= "AppConfig";
+		cchar* ATTR_APP_NAME		= "AppName";
+		cchar* ATTR_FULLSCREEN		= "Fullscreen";
+		cchar* ATTR_WIDTH			= "Width";
+		cchar* ATTR_HEIGHT			= "Height";
+		cchar* ATTR_POS_X			= "Pos X";
+		cchar* ATTR_POS_Y			= "Pos Y";
+		cchar* ATTR_FPS			= "FPS";
+		cchar* ATTR_START_SCENE	= "Start Scene";
+		cchar* ATTR_BUILD_WINDOWS	= "Build Windows";
+		cchar* ATTR_BUILD_ANDROID	= "Build Android";
 
 
 	public:

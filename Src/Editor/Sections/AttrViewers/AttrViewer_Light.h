@@ -13,13 +13,13 @@ namespace CYRED
 	class AttrViewer_Light : public AttrViewer
 	{
 	public:
-		const char* TITLE				= "Light";
+		cchar* TITLE				= "Light";
 
-		const char* ATTR_LIGHT_TYPE		= "Light Type";
-		const char* ATTR_INTENSITY		= "Intensity";
-		const char* ATTR_COLOR			= "Color";
-		const char* ATTR_RANGE			= "Range";
-		const char* ATTR_SPOT_ANGLE		= "Spot Angle";
+		cchar* ATTR_LIGHT_TYPE		= "Light Type";
+		cchar* ATTR_INTENSITY		= "Intensity";
+		cchar* ATTR_COLOR			= "Color";
+		cchar* ATTR_RANGE			= "Range";
+		cchar* ATTR_SPOT_ANGLE		= "Spot Angle";
 
 
 	public:
@@ -37,7 +37,7 @@ namespace CYRED
 	private:
 		Light* _target;
 
-		DataArray<const char*>	_lightTypes;
+		DataArray<cchar*>	_lightTypes;
 
 		int			_GetIndexForType	( LightType type );
 		LightType	_GetTypeForIndex	( int index );

@@ -145,14 +145,14 @@ void Menu_GameObject::A_CreatePrefab()
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
 	// get selected path
-	const char* paths = newPath.toUtf8().constData();
+	cchar* paths = newPath.toUtf8().constData();
 	QFileInfo filePath( newPath );
 	// open directory
 	QDir dir;
 	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
 	dirPath.append( "/" );
 	// write file
-	const char* newName = filePath.completeBaseName().toUtf8().constData();
+	cchar* newName = filePath.completeBaseName().toUtf8().constData();
 	// create new prefab asset
 	Prefab* prefab = Memory::Alloc<Prefab>();
 	prefab->SetEmitEvents( FALSE );

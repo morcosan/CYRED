@@ -76,7 +76,11 @@ void Shader::ClearAsset()
 
 	_isTemporary = TRUE;
 
-	_shaderFiles.Clear();
+	// clear file paths
+	_vertexFilePath == "";
+	_geometryFilePath == "";
+	_fragmentFilePath == "";
+	// clear uniforms
 	_uniforms.Clear();
 
 	if ( _emitEvents ) {
@@ -91,7 +95,7 @@ Asset* Shader::Clone()
 }
 
 
-const char* CYRED::Shader::GetExtension()
+cchar* CYRED::Shader::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_SHADER;
@@ -101,25 +105,11 @@ const char* CYRED::Shader::GetExtension()
 }
 
 
-void Shader::SetShaderFiles( const char* rendererType, const char* vertexPath,
-							 const char* geometryPath, const char* fragmentPath )
+void Shader::SetShaderFiles( cchar* vertexPath, cchar* geometryPath, cchar* fragmentPath )
 {
-	if ( _shaderFiles.Has( rendererType ) )
-	{
-		_FilesPaths* paths = _shaderFiles.Get( rendererType );
-		paths->vertex	= vertexPath;
-		paths->geometry = geometryPath;
-		paths->fragment = fragmentPath;
-	}
-	else
-	{
-		_FilesPaths* paths = Memory::Alloc<_FilesPaths>();
-		paths->vertex	= vertexPath;
-		paths->geometry = geometryPath;
-		paths->fragment = fragmentPath;
-
-		_shaderFiles.Set( rendererType, paths );
-	}
+	_vertexFilePath		= vertexPath;
+	_geometryFilePath	= geometryPath;
+	_fragmentFilePath	= fragmentPath;
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
@@ -127,81 +117,59 @@ void Shader::SetShaderFiles( const char* rendererType, const char* vertexPath,
 }
 
 
-void Shader::GetShaderFiles( const char* rendererType, OUT const char** vertexPath, 
-							 OUT const char** geometryPath, OUT const char** fragmentPath ) const
+void Shader::GetShaderFiles( OUT cchar** vertexPath, OUT cchar** geometryPath, 
+							 OUT cchar** fragmentPath ) const
 {
-	if ( _shaderFiles.Has( rendererType ) )
-	{
-		_FilesPaths* paths = _shaderFiles.Get( rendererType );
-		*vertexPath = paths->vertex.GetChar();
-		*geometryPath = paths->geometry.GetChar();
-		*fragmentPath = paths->fragment.GetChar();
-	}
+	*vertexPath		= _vertexFilePath.GetChar();
+	*geometryPath	= _geometryFilePath.GetChar();
+	*fragmentPath	= _fragmentFilePath.GetChar();
 }
 
 
-void Shader::ChangeRenderer( const char* rendererType )
+void Shader::LoadShaderProgram()
 {
-	if ( _shaderFiles.Has( rendererType ) )
-	{
-		_FilesPaths* paths = _shaderFiles.Get( rendererType );
+	FiniteString vertexPath( "%s%s", _dirPath.GetChar(), _vertexFilePath.GetChar() );
+	FiniteString geometryPath( "%s%s", _dirPath.GetChar(), _geometryFilePath.GetChar() );
+	FiniteString fragmentPath( "%s%s", _dirPath.GetChar(), _fragmentFilePath.GetChar() );
 
-		FiniteString vertexPath( "%s%s", _dirPath.GetChar(), paths->vertex.GetChar() );
+	char* vertexCode	= FileManager::Singleton()->ReadFile( vertexPath.GetChar() );
+	char* geometryCode	= FileManager::Singleton()->ReadFile( geometryPath.GetChar() );
+	char* fragmentCode	= FileManager::Singleton()->ReadFile( fragmentPath.GetChar() );
 
-		FiniteString geometryPath( "%s%s", _dirPath.GetChar(), paths->geometry.GetChar() );
+	// sanity check
+	if ( vertexCode != NULL && geometryCode != NULL && fragmentCode != NULL ) {
+		NotAPI::RenderManagerImpl* manager = NotAPI::RenderManagerImpl::Singleton();
+		// delete old program
+		manager->DeleteShaderProgram( _programID );
+		// create nw program
+		_programID = manager->CreateShaderProgram( vertexCode, geometryCode, fragmentCode );
+		// clear uniforms
+		_uniforms.Clear();
 
-		FiniteString fragmentPath( "%s%s", _dirPath.GetChar(), paths->fragment.GetChar() );
+		// add uniforms
+		if ( _programID != INVALID_SHADER )	{
+			int total = manager->GetUniformsCount( _programID );
 
-		char* vertexCode	= FileManager::Singleton()->ReadFile( vertexPath.GetChar() );
-		char* geometryCode	= FileManager::Singleton()->ReadFile( geometryPath.GetChar() );
-		char* fragmentCode	= FileManager::Singleton()->ReadFile( fragmentPath.GetChar() );
-
-		ChangeRenderer( vertexCode,	geometryCode, fragmentCode );
-
-		Memory::Free( vertexCode );
-		Memory::Free( geometryCode );
-		Memory::Free( fragmentCode );
-	}
-}
-
-
-void Shader::ChangeRenderer( const char* vertexShader, const char* geometryShader, 
-							 const char* fragmentShader )
-{
-	if ( vertexShader == NULL || geometryShader == NULL || fragmentShader == NULL )
-	{
-		return;
-	}
-
-	NotAPI::RenderManagerImpl* manager = NotAPI::RenderManagerImpl::Singleton();
-
-	// delete old program
-	manager->DeleteShaderProgram( _programID );
-
-	_programID = manager->CreateShaderProgram( vertexShader, geometryShader, fragmentShader );
-	
-	_uniforms.Clear();
-
-	//! add uniforms
-	if ( _programID != INVALID_SHADER )
-	{
-		int total = manager->GetUniformsCount( _programID );
-
-		for( int i = 0; i < total; ++i ) 
-		{
-			int nameLength = -1;
-			char name[100]; // 100 char max, supposedly enough
-
-			manager->GetUniformInfo( _programID, i, sizeof( name ) - 1, &nameLength, name );
-			name[nameLength] = 0;
-
-			int location = manager->GetUniformLocation( _programID, name );
-			if ( location != INVALID_UNIFORM )
+			for( int i = 0; i < total; ++i ) 
 			{
-				_uniforms.Set( name, location );
+				int nameLength = -1;
+				char name[100]; // 100 char max, supposedly enough
+
+				manager->GetUniformInfo( _programID, i, sizeof( name ) - 1, &nameLength, name );
+				name[nameLength] = 0;
+
+				int location = manager->GetUniformLocation( _programID, name );
+				if ( location != INVALID_UNIFORM )
+				{
+					_uniforms.Set( name, location );
+				}
 			}
 		}
 	}
+
+	Memory::Free( vertexCode );
+	Memory::Free( geometryCode );
+	Memory::Free( fragmentCode );
 }
 
 
@@ -211,7 +179,7 @@ int Shader::GetProgramID() const
 }
 
 
-int Shader::GetUniformLocation( const char* uniform ) const
+int Shader::GetUniformLocation( cchar* uniform ) const
 {
 	if ( _programID != INVALID_SHADER )
 	{

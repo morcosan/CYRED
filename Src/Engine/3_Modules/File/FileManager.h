@@ -24,51 +24,51 @@ namespace CYRED
 
 
 	public:
-		static const char* const FILE_FORMAT_MESH;
-		static const char* const FILE_FORMAT_MORPH;
-		static const char* const FILE_FORMAT_MATERIAL;
-		static const char* const FILE_FORMAT_SHADER;
-		static const char* const FILE_FORMAT_TEXTURE;
-		static const char* const FILE_FORMAT_SCENE;
-		static const char* const FILE_FORMAT_SCRIPT;
-		static const char* const FILE_FORMAT_PREFAB;
+		static cchar* const FILE_FORMAT_MESH;
+		static cchar* const FILE_FORMAT_MORPH;
+		static cchar* const FILE_FORMAT_MATERIAL;
+		static cchar* const FILE_FORMAT_SHADER;
+		static cchar* const FILE_FORMAT_TEXTURE;
+		static cchar* const FILE_FORMAT_SCENE;
+		static cchar* const FILE_FORMAT_SCRIPT;
+		static cchar* const FILE_FORMAT_PREFAB;
 		
-		static const char* const DIR_ASSETS;		
+		static cchar* const DIR_ASSETS;		
 
 
 	public:
 		virtual void	Initialize	( FileSystem* fileSystem, MeshLoader* meshLoader )	PURE_VIRTUAL;
 		virtual void	Finalize	() PURE_VIRTUAL;
 
-		virtual char*	ReadFile	( const char* filePath, OUT int& fileSize )		PURE_VIRTUAL;
-		virtual char*	ReadFile	( const char* filePath )						PURE_VIRTUAL;
+		virtual char*	ReadFile	( cchar* filePath, OUT int& fileSize )		PURE_VIRTUAL;
+		virtual char*	ReadFile	( cchar* filePath )						PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	WriteFile	( const char* filePath, const char* buffer )	PURE_VIRTUAL;
+		virtual bool	WriteFile	( cchar* filePath, cchar* buffer )	PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	DeleteFile	( const char* filePath )						PURE_VIRTUAL;
+		virtual bool	DeleteFile	( cchar* filePath )						PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	CopyFile	( const char* srcPath, const char* dstPath )	PURE_VIRTUAL;
+		virtual bool	CopyFile	( cchar* srcPath, cchar* dstPath )	PURE_VIRTUAL;
 
 
 		/* returns TRUE on success */
-		virtual bool	DeleteDir	( const char* dirPath )							PURE_VIRTUAL;
+		virtual bool	DeleteDir	( cchar* dirPath )							PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	CreateDir	( const char* parentPath, const char* dirName )	PURE_VIRTUAL;
+		virtual bool	CreateDir	( cchar* parentPath, cchar* dirName )	PURE_VIRTUAL;
 
 
-		virtual uchar*	ReadImage	( const char* filePath, OUT int *width, 
+		virtual uchar*	ReadImage	( cchar* filePath, OUT int *width, 
 									  OUT int *height, OUT int *channels )			PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	WriteImage	( const char* filePath, const uchar* imageBuffer, 
+		virtual bool	WriteImage	( cchar* filePath, const uchar* imageBuffer, 
 									  int width, int height, int channels,
 									  ImageType type )								PURE_VIRTUAL;
 		
 		/* returns TRUE on success */
-		virtual bool	ImportMesh	( const char* data, int dataSize, 
+		virtual bool	ImportMesh	( cchar* data, int dataSize, 
 									  OUT DataArray<Vertex>& vertices, 
 									  OUT DataArray<int>& indices )				PURE_VIRTUAL;
 		/* returns TRUE on success */
-		virtual bool	LoadMesh	( const char* data, OUT DataArray<Vertex>& vertices, 
+		virtual bool	LoadMesh	( cchar* data, OUT DataArray<Vertex>& vertices, 
 									  OUT DataArray<int>& indices )				PURE_VIRTUAL;
 		virtual String	SaveMesh	( DataArray<Vertex>& vertices, 
 									  DataArray<int>& indices )					PURE_VIRTUAL;
@@ -79,7 +79,7 @@ namespace CYRED
 		/* requires a SerializeSystem assigned */
 		template <class T> String	Serialize	( const T* object );
 		/* requires a SerializeSystem assigned */
-		template <class T> void		Deserialize	( const char* data, OUT T* object,
+		template <class T> void		Deserialize	( cchar* data, OUT T* object,
 												  DeserFlag flag = DeserFlag::FULL );	
 	
 
@@ -99,7 +99,7 @@ namespace CYRED
 
 
 	template<class T>
-	void FileManager::Deserialize( const char* data, OUT T* object,
+	void FileManager::Deserialize( cchar* data, OUT T* object,
 								   DeserFlag flag )
 	{
 		ASSERT( _serializeSystem != NULL );

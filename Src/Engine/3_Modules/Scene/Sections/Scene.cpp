@@ -87,7 +87,7 @@ Asset* Scene::Clone()
 }
 
 
-const char* CYRED::Scene::GetExtension()
+cchar* CYRED::Scene::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_SCENE;

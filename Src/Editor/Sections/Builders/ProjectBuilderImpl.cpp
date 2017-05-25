@@ -36,7 +36,7 @@ void ProjectBuilderImpl::Finalize()
 }
 
 
-void ProjectBuilderImpl::BuildWindows( const char* buildPath )
+void ProjectBuilderImpl::BuildWindows( cchar* buildPath )
 {
 	ASSERT( _isInitialized );
 
@@ -159,7 +159,7 @@ void ProjectBuilderImpl::BuildWindows( const char* buildPath )
 }
 
 
-void ProjectBuilderImpl::BuildAndroid( const char* buildPath )
+void ProjectBuilderImpl::BuildAndroid( cchar* buildPath )
 {
 	ASSERT( _isInitialized );
 }
@@ -379,11 +379,11 @@ void ProjectBuilderImpl::_BuildShaderFile( Shader* asset )
 	shader.SetDirPath( asset->GetDirPath() );
 	shader.LoadFullFile();
 
-	const char* vertexFile;
-	const char* geometryFile;
-	const char* fragmentFile;
+	cchar* vertexFile;
+	cchar* geometryFile;
+	cchar* fragmentFile;
 	// get shader files
-	shader.GetShaderFiles( "FORWARD", &vertexFile, &geometryFile, &fragmentFile );
+	shader.GetShaderFiles( &vertexFile, &geometryFile, &fragmentFile );
 	FiniteString srcPathVertex( "%s%s", asset->GetDirPath(), vertexFile );
 	FiniteString srcPathGeometry( "%s%s", asset->GetDirPath(), geometryFile );
 	FiniteString srcPathFragment( "%s%s", asset->GetDirPath(), fragmentFile );
@@ -416,7 +416,7 @@ void ProjectBuilderImpl::_BuildShaderFile( Shader* asset )
 	}
 
 	// replace shader files in asset
-	shader.SetShaderFiles( "FORWARD", vertexCID.GetChar(), geometryCID.GetChar(), fragmentCID.GetChar() );
+	shader.SetShaderFiles( vertexCID.GetChar(), geometryCID.GetChar(), fragmentCID.GetChar() );
 
 	// write asset file
 	FiniteString dstPathAsset( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),

@@ -14,15 +14,15 @@ DEFINE_LOCAL_SINGLETON( FileManager, FileManagerImpl )
 DEFINE_LOCAL_SINGLETON_IMPL( FileManagerImpl )
 
 
-const char* const FileManager::FILE_FORMAT_MESH		= ".mesh";
-const char* const FileManager::FILE_FORMAT_MORPH	= ".morph";
-const char* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
-const char* const FileManager::FILE_FORMAT_SHADER	= ".shader";
-const char* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
-const char* const FileManager::FILE_FORMAT_SCENE	= ".scene";
-const char* const FileManager::FILE_FORMAT_SCRIPT	= ".script";
-const char* const FileManager::FILE_FORMAT_PREFAB	= ".prefab";
-const char* const FileManager::DIR_ASSETS			= "Assets/";
+cchar* const FileManager::FILE_FORMAT_MESH		= ".mesh";
+cchar* const FileManager::FILE_FORMAT_MORPH	= ".morph";
+cchar* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
+cchar* const FileManager::FILE_FORMAT_SHADER	= ".shader";
+cchar* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
+cchar* const FileManager::FILE_FORMAT_SCENE	= ".scene";
+cchar* const FileManager::FILE_FORMAT_SCRIPT	= ".script";
+cchar* const FileManager::FILE_FORMAT_PREFAB	= ".prefab";
+cchar* const FileManager::DIR_ASSETS			= "Assets/";
 
 
 void FileManagerImpl::Initialize( FileSystem* fileSystem, MeshLoader* meshLoader )
@@ -58,14 +58,14 @@ void FileManagerImpl::SetSerializeSystem( SerializeSystem* serializeSystem )
 }
 
 
-char* FileManagerImpl::ReadFile( const char* filePath, OUT int& fileSize )
+char* FileManagerImpl::ReadFile( cchar* filePath, OUT int& fileSize )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->ReadFile( filePath, fileSize );
 }
 
 
-char* FileManagerImpl::ReadFile( const char* filePath )
+char* FileManagerImpl::ReadFile( cchar* filePath )
 {
 	ASSERT( _isInitialized );
 	int fileSize;
@@ -73,42 +73,42 @@ char* FileManagerImpl::ReadFile( const char* filePath )
 }
 
 
-bool FileManagerImpl::WriteFile( const char* filePath, const char* buffer )
+bool FileManagerImpl::WriteFile( cchar* filePath, cchar* buffer )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->WriteFile( filePath, buffer );
 }
 
 
-bool FileManagerImpl::DeleteFile( const char* filePath )
+bool FileManagerImpl::DeleteFile( cchar* filePath )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->DeleteFile( filePath );
 }
 
 
-bool FileManagerImpl::CopyFile( const char* srcPath, const char* dstPath )
+bool FileManagerImpl::CopyFile( cchar* srcPath, cchar* dstPath )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->CopyFile( srcPath, dstPath );
 }
 
 
-bool FileManagerImpl::DeleteDir( const char* dirPath )
+bool FileManagerImpl::DeleteDir( cchar* dirPath )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->DeleteDir( dirPath );
 }
 
 
-bool FileManagerImpl::CreateDir( const char* parentPath, const char* dirName )
+bool FileManagerImpl::CreateDir( cchar* parentPath, cchar* dirName )
 {
 	ASSERT( _isInitialized );
 	return _fileSystem->CreateDir( parentPath, dirName );
 }
 
 
-uchar* FileManagerImpl::ReadImage( const char* filePath, OUT int* width, OUT int* height, 
+uchar* FileManagerImpl::ReadImage( cchar* filePath, OUT int* width, OUT int* height, 
 								   OUT int* channels )
 {
 	ASSERT( _isInitialized );
@@ -116,7 +116,7 @@ uchar* FileManagerImpl::ReadImage( const char* filePath, OUT int* width, OUT int
 }
 
 
-bool FileManagerImpl::WriteImage( const char* filePath, const uchar* imageBuffer, 
+bool FileManagerImpl::WriteImage( cchar* filePath, const uchar* imageBuffer, 
 								  int width, int height, int channels, ImageType type )
 {
 	ASSERT( _isInitialized );
@@ -124,7 +124,7 @@ bool FileManagerImpl::WriteImage( const char* filePath, const uchar* imageBuffer
 }
 
 
-bool FileManagerImpl::ImportMesh( const char* data, int dataSize, 
+bool FileManagerImpl::ImportMesh( cchar* data, int dataSize, 
 								  OUT DataArray<Vertex>& vertices, 
 								  OUT DataArray<int>& indices )
 {
@@ -133,7 +133,7 @@ bool FileManagerImpl::ImportMesh( const char* data, int dataSize,
 }
 
 
-bool FileManagerImpl::LoadMesh( const char* data, OUT DataArray<Vertex>& vertices, 
+bool FileManagerImpl::LoadMesh( cchar* data, OUT DataArray<Vertex>& vertices, 
 								OUT DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );

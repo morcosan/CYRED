@@ -26,7 +26,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const char*	GetExtension	() override;
+		cchar*	GetExtension	() override;
 
 
 	public:
@@ -38,10 +38,10 @@ namespace CYRED
 		int			GetNumIndices	()				const;	
 		int			GetTotalStates	()				const;
 		int			GetActiveStates	()				const;
-		const char*	GetFilePath		( int index )	const;
+		cchar*	GetFilePath		( int index )	const;
 
 		void SetTotalStates	( int value );
-		void SetFilePath	( int index, const char* filePath );
+		void SetFilePath	( int index, cchar* filePath );
 
 
 	private:

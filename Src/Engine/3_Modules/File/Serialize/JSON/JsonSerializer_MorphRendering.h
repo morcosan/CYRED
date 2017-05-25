@@ -10,12 +10,12 @@ namespace CYRED
 {
 	class DLL JsonSerializer_MorphRendering : public JsonSerializer
 	{
-		const char* const ENABLED		= "enabled";
-		const char* const MORPH			= "morph";
-		const char* const MATERIAL		= "material";
-		const char* const DUR_STATE		= "duration_state";
-		const char* const DUR_CHANGE	= "duration_state_change";
-		const char* const IS_PLAYING	= "is_playing";
+		cchar* const ENABLED		= "enabled";
+		cchar* const MORPH			= "morph";
+		cchar* const MATERIAL		= "material";
+		cchar* const DUR_STATE		= "duration_state";
+		cchar* const DUR_CHANGE	= "duration_state_change";
+		cchar* const IS_PLAYING	= "is_playing";
 
 
 	public:

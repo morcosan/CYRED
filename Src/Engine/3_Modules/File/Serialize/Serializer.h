@@ -33,14 +33,14 @@ namespace CYRED
 
 	public:
 		virtual String		Serialize	( const void* object )		PURE_VIRTUAL;
-		virtual void		Deserialize	( const char* data, OUT void* object,
+		virtual void		Deserialize	( cchar* data, OUT void* object,
 										  DeserFlag flag )			PURE_VIRTUAL;
 
 		virtual String		SerializeVec2	( Vector2 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec3	( Vector3 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec4	( Vector4 value )		PURE_VIRTUAL;
-		virtual Vector2		DeserializeVec2	( const char* data )	PURE_VIRTUAL;
-		virtual Vector3		DeserializeVec3	( const char* data )	PURE_VIRTUAL;
-		virtual Vector4		DeserializeVec4	( const char* data )	PURE_VIRTUAL;
+		virtual Vector2		DeserializeVec2	( cchar* data )	PURE_VIRTUAL;
+		virtual Vector3		DeserializeVec3	( cchar* data )	PURE_VIRTUAL;
+		virtual Vector4		DeserializeVec4	( cchar* data )	PURE_VIRTUAL;
 	};
 }

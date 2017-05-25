@@ -18,13 +18,13 @@ namespace CYRED
 	class AttrViewer_Script : public AttrViewer
 	{
 	public:
-		const char* TITLE					= "Script";
+		cchar* TITLE					= "Script";
 
-		const char* ATTR_NAME				= "Name";
-		const char* ATTR_RUN_EDITOR			= "Run in Editor";
-		const char* ATTR_FILE_PATHS			= "File Paths";
-		const char* GROUP_VARIABLES			= "Variables";
-		const char* GROUP_FUNCTIONS			= "Functions";
+		cchar* ATTR_NAME				= "Name";
+		cchar* ATTR_RUN_EDITOR			= "Run in Editor";
+		cchar* ATTR_FILE_PATHS			= "File Paths";
+		cchar* GROUP_VARIABLES			= "Variables";
+		cchar* GROUP_FUNCTIONS			= "Functions";
 
 
 	public:

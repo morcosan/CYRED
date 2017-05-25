@@ -160,7 +160,7 @@ Asset* Texture::Clone()
 }
 
 
-const char* CYRED::Texture::GetExtension()
+cchar* CYRED::Texture::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_TEXTURE;
@@ -314,7 +314,7 @@ uchar* Texture::GetImageBuffer( int index ) const
 }
 
 
-const char* Texture::GetImagePath( int index ) const
+cchar* Texture::GetImagePath( int index ) const
 {
 	ASSERT( index < 6 );
 
@@ -374,7 +374,7 @@ void Texture::SetImageBuffer( int index, uchar* buffer )
 }
 
 
-void Texture::SetImagePath( int index, const char* path )
+void Texture::SetImagePath( int index, cchar* path )
 {
 	ASSERT( index < 6 );
 

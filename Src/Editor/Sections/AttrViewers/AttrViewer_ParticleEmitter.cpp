@@ -83,7 +83,7 @@ void AttrViewer_ParticleEmitter::_OnUpdateGUI()
 	_WriteAttrVector2	( ATTR_SIZE_END,			_target->GetParticleSizeEnd() );
 
 	Material* material = _target->GetMaterial();
-	const char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
+	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector	( ATTR_MATERIAL,			material, matName );
 
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )

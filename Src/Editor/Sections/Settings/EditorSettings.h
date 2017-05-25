@@ -26,23 +26,23 @@ namespace CYRED
 {
 	struct EditorSettings
 	{
-		static const char* const EDITOR_NAME;			/* main title of editor			*/
+		static cchar* const EDITOR_NAME;			/* main title of editor			*/
 
-		static const char* const FILE_PATH_CONFIG;		
+		static cchar* const FILE_PATH_CONFIG;		
 
-		static const char* const DIR_PATH_SKINS;		/* directory for skins			*/
-		static const char* const DIR_PATH_ICONS_ASSETS;		
-		static const char* const DIR_PATH_ICONS_LAYOUT;		
+		static cchar* const DIR_PATH_SKINS;		/* directory for skins			*/
+		static cchar* const DIR_PATH_ICONS_ASSETS;		
+		static cchar* const DIR_PATH_ICONS_LAYOUT;		
 
-		static const char* const DIR_DEFALUT_ASSETS;		
-		static const char* const DIR_PATH_DEFALUT_ASSETS;		
+		static cchar* const DIR_DEFALUT_ASSETS;		
+		static cchar* const DIR_PATH_DEFALUT_ASSETS;		
 
-		static const char* const MSG_EDITOR_STARTED;	/* message when editor starts	*/
+		static cchar* const MSG_EDITOR_STARTED;	/* message when editor starts	*/
 
-		static const char* const SKIN_DEFAULT_BLACK;	/* name of the file for skin	*/
-		static const char* const SKIN_DEFAULT_WHITE;	/* name of the file for skin	*/
+		static cchar* const SKIN_DEFAULT_BLACK;	/* name of the file for skin	*/
+		static cchar* const SKIN_DEFAULT_WHITE;	/* name of the file for skin	*/
 
-		static const char* const FILE_FORMAT_SKINS;		/* the format of the skin file	*/
+		static cchar* const FILE_FORMAT_SKINS;		/* the format of the skin file	*/
 
 		struct PanelData
 		{

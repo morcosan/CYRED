@@ -15,11 +15,11 @@ namespace CYRED
 {
 	ABSTRACT class Panel_Console : public Panel, public IEventListener
 	{
-		const char* const	PANEL_TITLE = "Console";
+		cchar* const	PANEL_TITLE = "Console";
 		const Vector2		MIN_SIZE	= Vector2( 100, 100 );
 
-		const char* const	ICON_INFO	= "info_icon.png";
-		const char* const	ICON_ERROR	= "error_icon.png";
+		cchar* const	ICON_INFO	= "info_icon.png";
+		cchar* const	ICON_ERROR	= "error_icon.png";
 
 
 	public:
@@ -42,6 +42,6 @@ namespace CYRED
 
 
 	private:
-		void _AddLine( const char* messages, bool isError );
+		void _AddLine( cchar* messages, bool isError );
 	};
 }

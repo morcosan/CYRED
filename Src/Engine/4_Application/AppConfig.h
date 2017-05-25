@@ -22,8 +22,8 @@ namespace CYRED
 
 
 	public:
-		static const char* const FILE_PATH_CONFIG;	
-		static const char* const DIR_PATH_DATA;	
+		static cchar* const FILE_PATH_CONFIG;	
+		static cchar* const DIR_PATH_DATA;	
 
 
 	public:

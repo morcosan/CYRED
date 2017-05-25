@@ -28,8 +28,8 @@ namespace CYRED
 	class DLL Camera : public Component
 	{
 	public:
-		static const char* const TYPE_PERSPECTIVE;
-		static const char* const TYPE_ORTHOGRAPHIC;
+		static cchar* const TYPE_PERSPECTIVE;
+		static cchar* const TYPE_ORTHOGRAPHIC;
 
 
 	public:
@@ -50,7 +50,7 @@ namespace CYRED
 		float		GetAspectRatio		()	const;
 		Vector2		GetOrthoSize		()	const;
 		CameraType	GetCameraType		()	const;
-		const char*	GetCameraTypeString	()	const;
+		cchar*	GetCameraTypeString	()	const;
 
 		void SetFovYAngle		( float value );
 		void SetNearClipping	( float value );
@@ -60,7 +60,7 @@ namespace CYRED
 		void SetOrthoWidth		( float value );
 		void SetOrthoSize		( const Vector2& value );
 		void SetCameraType		( CameraType type );
-		void SetCameraTypeString( const char* type );
+		void SetCameraTypeString( cchar* type );
 
 
 	private:

@@ -46,7 +46,7 @@ namespace CYRED
 		void		LoadFullFile	() override;
 		void		ClearAsset		() override;
 		Asset*		Clone			() override;
-		const char*	GetExtension	() override;
+		cchar*	GetExtension	() override;
 
 
 	public:
@@ -60,16 +60,16 @@ namespace CYRED
 		void		SetLineWidth	( float value );		
 		void		SetFaceCulling	( FaceCulling value );
 
-		void		SetProperty		( const char* name, int value );
-		void		SetProperty		( const char* name, float value );
-		void		SetProperty		( const char* name, const Vector2& value );
-		void		SetProperty		( const char* name, const Vector3& value );
-		void		SetProperty		( const char* name, const Vector4& value );
-		void		SetProperty		( const char* name, Texture* value );
+		void		SetProperty		( cchar* name, int value );
+		void		SetProperty		( cchar* name, float value );
+		void		SetProperty		( cchar* name, const Vector2& value );
+		void		SetProperty		( cchar* name, const Vector3& value );
+		void		SetProperty		( cchar* name, const Vector4& value );
+		void		SetProperty		( cchar* name, Texture* value );
 
 		int		GetPropertiesCount	() const;
 		DataUnion&	GetPropertyDataAt	( int index ) const;
-		const char*	GetPropertyNameAt	( int index ) const;
+		cchar*	GetPropertyNameAt	( int index ) const;
 		void		ClearProperties		();
 
 

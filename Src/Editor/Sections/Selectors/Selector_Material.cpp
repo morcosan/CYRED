@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Material::TYPE			= "Material";
-const char* const Selector_Material::OPTION_NULL	= "NULL";
+cchar* const Selector_Material::TYPE			= "Material";
+cchar* const Selector_Material::OPTION_NULL	= "NULL";
 
 
 void Selector_Material::DisplayOptions( void* selected )

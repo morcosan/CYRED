@@ -34,11 +34,11 @@ void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
 void AttrViewer_MeshRendering::_OnUpdateGUI()
 {
 	Mesh* mesh = _target->GetMesh();
-	const char* meshName = (mesh == NULL) ? Selector_Mesh::OPTION_NULL : mesh->GetName();
+	cchar* meshName = (mesh == NULL) ? Selector_Mesh::OPTION_NULL : mesh->GetName();
 	_WriteAttrSelector( ATTR_MESH, mesh, meshName );
 
 	Material* material = _target->GetMaterial();
-	const char* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
+	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector( ATTR_MATERIAL, material, matName );
 
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )

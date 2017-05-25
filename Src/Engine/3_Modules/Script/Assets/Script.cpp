@@ -94,7 +94,7 @@ Asset* Script::Clone()
 }
 
 
-const char* CYRED::Script::GetExtension()
+cchar* CYRED::Script::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_SCRIPT;
@@ -104,7 +104,7 @@ const char* CYRED::Script::GetExtension()
 }
 
 
-void Script::CallFunction( const char* funcName, GameObject* gameObject )
+void Script::CallFunction( cchar* funcName, GameObject* gameObject )
 {
 	// call lua function if exists
 	if ( _luaFuncList.Has( funcName ) ) {
@@ -139,7 +139,7 @@ void Script::CallFunction( const char* funcName, GameObject* gameObject )
 }
 
 
-void Script::SetVariable( const char* varName, DataUnion varValue )
+void Script::SetVariable( cchar* varName, DataUnion varValue )
 {
 	_luaVarsList.Set( varName, varValue );
 
@@ -200,7 +200,7 @@ int Script::GetPathsCount() const
 }
 
 
-const char* Script::GetFilePath( int index ) const
+cchar* Script::GetFilePath( int index ) const
 {
 	ASSERT( index < _filePaths.Size() );
 	return _filePaths[index].GetChar();
@@ -236,7 +236,7 @@ void Script::SetFirstUpdate( bool value )
 }
 
 
-void Script::SetFilePath( int index, const char* filePath )
+void Script::SetFilePath( int index, cchar* filePath )
 {
 	// fill array
 	while ( index >= _filePaths.Size() ) {
@@ -294,7 +294,7 @@ void Script::LoadLuaFiles( bool clearVars )
 	}
 }
 
-void Script::_LoadLuaData( const char* luaData )
+void Script::_LoadLuaData( cchar* luaData )
 {
 	// nothing to load
 	if ( luaData == NULL ) {
@@ -336,7 +336,7 @@ void Script::_LoadLuaData( const char* luaData )
 }
 
 
-void Script::_AddLuaFunc( const char* funcName )
+void Script::_AddLuaFunc( cchar* funcName )
 {
 	// get lua state
 	lua_State* L = ScriptManager::Singleton()->GetLuaState();

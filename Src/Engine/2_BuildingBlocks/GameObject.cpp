@@ -27,7 +27,7 @@ GameObject::GameObject( int uid )
 {
 }
 
-GameObject::GameObject( const char* name, int uid )
+GameObject::GameObject( cchar* name, int uid )
 	: _name( name )
 	, _uid( uid )
 	, _enabled ( TRUE )
@@ -111,13 +111,13 @@ void GameObject::SetEnabled( bool value )
 }
 
 
-const char* GameObject::GetName() const
+cchar* GameObject::GetName() const
 {
 	return _name.GetChar();
 }
 
 
-void GameObject::SetName( const char* name )
+void GameObject::SetName( cchar* name )
 {
 	_name = name;
 

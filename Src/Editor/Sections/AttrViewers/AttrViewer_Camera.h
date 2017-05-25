@@ -13,13 +13,13 @@ namespace CYRED
 	class AttrViewer_Camera : public AttrViewer
 	{
 	public:
-		const char* TITLE				= "Camera";
+		cchar* TITLE				= "Camera";
 
-		const char* ATTR_TYPE			= "Camera Type";
-		const char* ATTR_FOVY_ANGLE		= "FovY Angle";
-		const char* ATTR_NEAR_CLIPPING	= "Near Clipping";
-		const char* ATTR_FAR_CLIPPING	= "Far Clipping";
-		const char* ATTR_ORTH_HEIGHT	= "Ortho Height";
+		cchar* ATTR_TYPE			= "Camera Type";
+		cchar* ATTR_FOVY_ANGLE		= "FovY Angle";
+		cchar* ATTR_NEAR_CLIPPING	= "Near Clipping";
+		cchar* ATTR_FAR_CLIPPING	= "Far Clipping";
+		cchar* ATTR_ORTH_HEIGHT	= "Ortho Height";
 
 
 	public:
@@ -37,7 +37,7 @@ namespace CYRED
 	private:
 		Camera*		_target;
 
-		DataArray<const char*>	_cameraTypes;
+		DataArray<cchar*>	_cameraTypes;
 
 		int			_GetIndexForType	( CameraType type );
 		CameraType	_GetTypeForIndex	( int index );

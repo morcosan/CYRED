@@ -33,16 +33,16 @@ namespace CYRED
 	public:
 		void A_Apply		( QListWidgetItem* item );
 
-		void DisplayPopup	( const char* type, void* qtSelector );
+		void DisplayPopup	( cchar* type, void* qtSelector );
 		void Initialize		();
 
 		/* it takes ownership of objects */
-		void AddSelector	( const char* type, Selector* selector );
+		void AddSelector	( cchar* type, Selector* selector );
 
 		void ClearList		();
-		void AddToList		( const char* itemName, void* itemRef );
+		void AddToList		( cchar* itemName, void* itemRef );
 		void SetSelected	( int index );
-		void SetPopupTitle	( const char* title );
+		void SetPopupTitle	( cchar* title );
 
 
 	private:

@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Scene::TYPE			= "Scene";
-const char* const Selector_Scene::OPTION_NULL	= "NULL";
+cchar* const Selector_Scene::TYPE			= "Scene";
+cchar* const Selector_Scene::OPTION_NULL	= "NULL";
 
 
 void Selector_Scene::DisplayOptions( void* selected )

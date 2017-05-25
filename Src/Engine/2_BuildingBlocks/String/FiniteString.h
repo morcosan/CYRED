@@ -15,18 +15,18 @@ namespace CYRED
 
 	public:
 		FiniteString();
-		FiniteString( const char* format, ... );
+		FiniteString( cchar* format, ... );
 		virtual ~FiniteString();
 
-		bool	operator==	( const char* other )	const;
-		bool	operator!=	( const char* other )	const;
-		bool	operator<	( const char* other )	const;
+		bool	operator==	( cchar* other )	const;
+		bool	operator!=	( cchar* other )	const;
+		bool	operator<	( cchar* other )	const;
 
 
 	public:
-		void		Set			( const char* format, ... );
+		void		Set			( cchar* format, ... );
 
-		const char*	GetChar		() const;
+		cchar*	GetChar		() const;
 		int		GetLength	() const;
 
 

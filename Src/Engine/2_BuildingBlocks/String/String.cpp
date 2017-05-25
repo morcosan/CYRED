@@ -17,7 +17,7 @@ String::String()
 }
 
 
-String::String( const char* other )
+String::String( cchar* other )
 {
 	if ( other == NULL )
 	{
@@ -57,7 +57,7 @@ void String::operator=( const String& other )
 }
 
 
-void String::operator=( const char* other )
+void String::operator=( cchar* other )
 {
 	if ( other == NULL )
 	{
@@ -78,7 +78,7 @@ bool String::operator==( const String& other ) const
 }
 
 
-bool String::operator==( const char* other ) const
+bool String::operator==( cchar* other ) const
 {
 	if ( other == NULL )
 	{
@@ -95,7 +95,7 @@ bool String::operator!=( const String& other ) const
 }
 
 
-bool String::operator!=( const char* other ) const
+bool String::operator!=( cchar* other ) const
 {
 	return !operator==( other );
 }
@@ -107,7 +107,7 @@ bool String::operator<( const String& other ) const
 }
 
 
-bool String::operator<( const char* other ) const
+bool String::operator<( cchar* other ) const
 {
 	if ( other == NULL )
 	{
@@ -118,7 +118,7 @@ bool String::operator<( const char* other ) const
 }
 
 
-const char* String::GetChar() const
+cchar* String::GetChar() const
 {
 	return _data;
 }

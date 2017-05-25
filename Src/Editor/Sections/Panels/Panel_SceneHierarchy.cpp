@@ -196,7 +196,7 @@ CustomTreeItem* Panel_SceneHierarchy::_FindGameObjectItem( int uid )
 }
 
 
-CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( const char* uid )
+CustomTreeItem* Panel_SceneHierarchy::_FindSceneItem( cchar* uid )
 {
 	String temp( uid );
 

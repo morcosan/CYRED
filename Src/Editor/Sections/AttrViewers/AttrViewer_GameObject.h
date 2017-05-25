@@ -18,9 +18,9 @@ namespace CYRED
 	class AttrViewer_GameObject : public AttrViewer
 	{
 	public:
-		const char* TITLE		= "GameObject";
-		const char* ATTR_NAME	= "Name";
-		const char* ATTR_UID	= "UID";
+		cchar* TITLE		= "GameObject";
+		cchar* ATTR_NAME	= "Name";
+		cchar* ATTR_UID	= "UID";
 
 
 	public:

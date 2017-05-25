@@ -207,7 +207,7 @@ CustomTreeItem* Panel_PrefabHierarchy::_FindGameObjectItem( int uid )
 }
 
 
-CustomTreeItem* Panel_PrefabHierarchy::_FindPrefabItem( const char* uid )
+CustomTreeItem* Panel_PrefabHierarchy::_FindPrefabItem( cchar* uid )
 {
 	String temp( uid );
 

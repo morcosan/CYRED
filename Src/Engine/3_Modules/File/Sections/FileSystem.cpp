@@ -16,7 +16,7 @@ using namespace CYRED;
 
 
 
-char* FileSystem::ReadFile( const char* filePath, OUT int& fileSize )
+char* FileSystem::ReadFile( cchar* filePath, OUT int& fileSize )
 {
 	// open file
 	FILE* file;
@@ -42,7 +42,7 @@ char* FileSystem::ReadFile( const char* filePath, OUT int& fileSize )
 }
 
 
-bool FileSystem::WriteFile( const char* filePath, const char* buffer )
+bool FileSystem::WriteFile( cchar* filePath, cchar* buffer )
 {
 	// open file
 	FILE* file;
@@ -60,14 +60,14 @@ bool FileSystem::WriteFile( const char* filePath, const char* buffer )
 }
 
 
-bool FileSystem::DeleteFile( const char* filePath )
+bool FileSystem::DeleteFile( cchar* filePath )
 {
 	int fail = std::remove( filePath );
 	return (fail == 0);
 }
 
 
-bool FileSystem::CopyFile( const char* srcPath, const char* dstPath )
+bool FileSystem::CopyFile( cchar* srcPath, cchar* dstPath )
 {
 	// try to open src
 	std::ifstream ifs( srcPath, std::ios::binary );
@@ -91,26 +91,26 @@ bool FileSystem::CopyFile( const char* srcPath, const char* dstPath )
 }
 
 
-bool FileSystem::DeleteDir( const char* dirPath )
+bool FileSystem::DeleteDir( cchar* dirPath )
 {
 	return FALSE;
 }
 
 
-bool FileSystem::CreateDir( const char* parentPath, const char* dirName )
+bool FileSystem::CreateDir( cchar* parentPath, cchar* dirName )
 {
 	return FALSE;
 }
 
 
-uchar* FileSystem::ReadImage( const char* filePath, OUT int* width, OUT int* height, 
+uchar* FileSystem::ReadImage( cchar* filePath, OUT int* width, OUT int* height, 
 							  OUT int* channels )
 {
 	return stbi_load( filePath, width, height, channels, 0 );
 }
 
 
-bool FileSystem::WriteImage( const char* filePath, const uchar* imageBuffer, 
+bool FileSystem::WriteImage( cchar* filePath, const uchar* imageBuffer, 
 								    int width, int height, int channels, ImageType type )
 {
 	int success = 0; // 0 = fail

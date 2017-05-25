@@ -22,14 +22,11 @@ rapidjson::Value JsonSerializer_Shader::ToJson( const void* object )
 	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
 					rapidjson::StringRef( shader->GetUniqueID() ),
 					_al );
-	json.AddMember( rapidjson::StringRef( RENDERER ),
-					rapidjson::StringRef( RENDERER_FORWARD ),
-					_al );
 
-	const char* vertexPath = NULL;
-	const char* geometryPath = NULL;
-	const char* fragmentPath = NULL;
-	shader->GetShaderFiles( RENDERER_FORWARD, &vertexPath, &geometryPath, &fragmentPath );
+	cchar* vertexPath = NULL;
+	cchar* geometryPath = NULL;
+	cchar* fragmentPath = NULL;
+	shader->GetShaderFiles( &vertexPath, &geometryPath, &fragmentPath );
 
 	json.AddMember( rapidjson::StringRef( VERTEX_FILE_PATH ),
 					( vertexPath != NULL ) ? rapidjson::StringRef( vertexPath ) : "",
@@ -45,39 +42,29 @@ rapidjson::Value JsonSerializer_Shader::ToJson( const void* object )
 }
 
 
-void JsonSerializer_Shader::FromJson( rapidjson::Value& json, OUT void* object,
-									  DeserFlag flag )
+void JsonSerializer_Shader::FromJson( rapidjson::Value& json, OUT void* object, DeserFlag flag )
 {
 	Shader* shader = CAST_S( Shader*, object );
 
 	bool emitEvents = shader->DoesEmitEvents();
 	shader->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
+	if ( json.HasMember( UNIQUE_ID ) ) {
 		shader->SetUniqueID( json[UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( RENDERER ) &&
-		 json.HasMember( VERTEX_FILE_PATH ) &&
+	if ( json.HasMember( VERTEX_FILE_PATH ) && 
 		 json.HasMember( GEOMETRY_FILE_PATH ) &&
 		 json.HasMember( FRAGMENT_FILE_PATH ) )
 	{
-		String renderer( json[RENDERER].GetString() );
-
-		if ( renderer == RENDERER_FORWARD )
-		{
-			shader->SetShaderFiles( RENDERER_FORWARD,
-									json[VERTEX_FILE_PATH].GetString(),
-									json[GEOMETRY_FILE_PATH].GetString(),
-									json[FRAGMENT_FILE_PATH].GetString() );
-			shader->ChangeRenderer( RENDERER_FORWARD );
-		}
+		shader->SetShaderFiles( json[VERTEX_FILE_PATH].GetString(),
+								json[GEOMETRY_FILE_PATH].GetString(),
+								json[FRAGMENT_FILE_PATH].GetString() );
+		shader->LoadShaderProgram();
 	}
 
 	shader->SetEmitEvents( emitEvents );

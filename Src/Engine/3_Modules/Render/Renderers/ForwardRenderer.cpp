@@ -554,7 +554,7 @@ void ForwardRenderer::_BindMaterial( Material* material )
 	int totalProperties = material->GetPropertiesCount();
 
 	for ( int i = 0; i < totalProperties; ++i ) {
-		const char* uniformName = material->GetPropertyNameAt( i );
+		cchar* uniformName = material->GetPropertyNameAt( i );
 		int location = shader->GetUniformLocation( uniformName );
 		DataUnion& data = material->GetPropertyDataAt( i );
 

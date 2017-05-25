@@ -26,40 +26,40 @@ namespace CYRED
 
 
 		public:
-			const char* const NEW_SCENE			= "NewScene";
-			const char* const EMPTY_GAMEOBJECT	= "EmptyGameObject";
+			cchar* const NEW_SCENE			= "NewScene";
+			cchar* const EMPTY_GAMEOBJECT	= "EmptyGameObject";
 
 
 		public:
 			void		Initialize		()	override;
 			void		Finalize		()	override;
 
-			Scene*		OpenScene		( const char* sceneUID )		override;
+			Scene*		OpenScene		( cchar* sceneUID )		override;
 			Scene*		OpenNewScene	()								override;
-			Scene*		LoadScene		( const char* sceneUID )		override;
+			Scene*		LoadScene		( cchar* sceneUID )		override;
 			Scene*		LoadNewScene	()								override;
-			void		SaveScene		( const char* sceneUID )		override;
-			Scene*		SaveSceneAs		( const char* sceneUID, 
-										  const char* newSceneName,
-										  const char* dirPath )			override;
+			void		SaveScene		( cchar* sceneUID )		override;
+			Scene*		SaveSceneAs		( cchar* sceneUID, 
+										  cchar* newSceneName,
+										  cchar* dirPath )			override;
 			void		SaveAllScenes	()								override;
-			void		CloseScene		( const char* sceneUID )		override;
+			void		CloseScene		( cchar* sceneUID )		override;
 			void		CloseAllScenes	()								override;
 
 			void		StoreScenes		()								override;
 			void		RestoreScenes	()								override;
 			
 			GameObject*	NewGameObject	( int sceneIndex = 0 )			override;
-			GameObject*	NewGameObject	( const char* sceneUID )		override;
+			GameObject*	NewGameObject	( cchar* sceneUID )		override;
 			GameObject*	Instantiate		( const Prefab* prefab,
 										  int sceneIndex = 0  )		override;
 			GameObject*	Duplicate		( const GameObject* object )	override;
-			GameObject*	Search			( const char* objectName, 
-										  const char* sceneUID = NULL )	override;
+			GameObject*	Search			( cchar* objectName, 
+										  cchar* sceneUID = NULL )	override;
 			void		Destroy			( GameObject* object )			override;
 			
-			int			GetSceneIndex		( const char* sceneUID )	override;
-			Scene*		GetScene			( const char* sceneUID )	override;
+			int			GetSceneIndex		( cchar* sceneUID )	override;
+			Scene*		GetScene			( cchar* sceneUID )	override;
 			Scene*		GetScene			( int sceneIndex = 0 )		override;
 			int		CountLoadedScenes	()							override;
 

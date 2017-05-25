@@ -395,9 +395,9 @@ void RenderManagerImpl::CreateParticleBuffers( OUT uint& vbo, OUT uint& ibo,
 }
 
 
-int RenderManagerImpl::CreateShaderProgram( const char* vertexCode, 
-											 const char* geometryCode, 
-											 const char* fragmentCode )
+int RenderManagerImpl::CreateShaderProgram( cchar* vertexCode, 
+											 cchar* geometryCode, 
+											 cchar* fragmentCode )
 {
 	ASSERT( _isInitialized );
 	ASSERT( vertexCode != NULL );
@@ -474,7 +474,7 @@ void RenderManagerImpl::DeleteShaderProgram( int programID )
 }
 
 
-int RenderManagerImpl::GetUniformLocation( int programID, const char * uniform )
+int RenderManagerImpl::GetUniformLocation( int programID, cchar * uniform )
 {
 	ASSERT( _isInitialized );
 	return _gl->GetUniformLocation( programID, uniform );

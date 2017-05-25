@@ -83,7 +83,7 @@ Asset* Prefab::Clone()
 }
 
 
-const char* Prefab::GetExtension()
+cchar* Prefab::GetExtension()
 {
 	if ( _useExtension ) {
 		return FileManager::FILE_FORMAT_PREFAB;

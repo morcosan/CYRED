@@ -10,9 +10,9 @@
 using namespace CYRED;
 
 
-const char* const Light::TYPE_DIRECTIONAL	= "DIRECTIONAL";
-const char* const Light::TYPE_POINT			= "POINT";
-const char* const Light::TYPE_SPOT			= "SPOT";
+cchar* const Light::TYPE_DIRECTIONAL	= "DIRECTIONAL";
+cchar* const Light::TYPE_POINT			= "POINT";
+cchar* const Light::TYPE_SPOT			= "SPOT";
 
 
 Light::Light( GameObject * gameObject )
@@ -62,7 +62,7 @@ float Light::GetSpotAngle() const
 }
 
 
-const char* Light::GetLightTypeString() const
+cchar* Light::GetLightTypeString() const
 {
 	if ( _lightType == LightType::DIRECTIONAL ) {
 		return TYPE_DIRECTIONAL;
@@ -128,7 +128,7 @@ void Light::SetSpotAngle( float value )
 }
 
 
-void Light::SetLightTypeString( const char* value )
+void Light::SetLightTypeString( cchar* value )
 {
 	String sType( value );
 

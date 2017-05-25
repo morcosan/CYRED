@@ -43,14 +43,14 @@ namespace CYRED
 			void RemoveScript	( Script* script )		override;
 			void RemovePrefab	( Prefab* prefab )		override;
 
-			Mesh*		GetMesh			( const char* uniqueID )	override;
-			Morph*		GetMorph		( const char* uniqueID )	override;
-			Material*	GetMaterial		( const char* uniqueID )	override;
-			Shader*		GetShader		( const char* uniqueID )	override;
-			Texture*	GetTexture		( const char* uniqueID )	override;
-			Scene*		GetScene		( const char* uniqueID )	override;
-			Script*		GetScript		( const char* uniqueID )	override;
-			Prefab*		GetPrefab		( const char* uniqueID )	override;
+			Mesh*		GetMesh			( cchar* uniqueID )	override;
+			Morph*		GetMorph		( cchar* uniqueID )	override;
+			Material*	GetMaterial		( cchar* uniqueID )	override;
+			Shader*		GetShader		( cchar* uniqueID )	override;
+			Texture*	GetTexture		( cchar* uniqueID )	override;
+			Scene*		GetScene		( cchar* uniqueID )	override;
+			Script*		GetScript		( cchar* uniqueID )	override;
+			Prefab*		GetPrefab		( cchar* uniqueID )	override;
 
 			int		GetMaterialCount()							override;
 			Material*	GetMaterialAt	( int index )				override;

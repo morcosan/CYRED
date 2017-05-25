@@ -43,7 +43,7 @@ void DebugManagerImpl::SetEnabled( bool value )
 }
 
 
-void DebugManagerImpl::Error( const char* value )
+void DebugManagerImpl::Error( cchar* value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) 
@@ -56,7 +56,7 @@ void DebugManagerImpl::Error( const char* value )
 }
 
 
-void DebugManagerImpl::Log( const char* value )
+void DebugManagerImpl::Log( cchar* value )
 {
 	ASSERT( _isInitialized );
 	if ( !_enabled ) {

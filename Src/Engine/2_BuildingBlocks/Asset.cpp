@@ -18,13 +18,13 @@ Asset::Asset( AssetType type )
 }
 
 
-const char* Asset::GetName() const
+cchar* Asset::GetName() const
 {
 	return _name.GetChar();
 }
 
 
-const char* Asset::GetDirPath() const
+cchar* Asset::GetDirPath() const
 {
 	return _dirPath.GetChar();
 }
@@ -36,7 +36,7 @@ AssetType Asset::GetAssetType() const
 }
 
 
-const char* Asset::GetUniqueID() const
+cchar* Asset::GetUniqueID() const
 {
 	return _uniqueID.GetChar();
 }
@@ -54,7 +54,7 @@ bool Asset::DoesEmitEvents() const
 }
 
 
-void Asset::SetName( const char* name, bool useExtension )
+void Asset::SetName( cchar* name, bool useExtension )
 {
 	_name = name;
 	_useExtension = useExtension;
@@ -66,7 +66,7 @@ void Asset::SetName( const char* name, bool useExtension )
 }
 
 
-void Asset::SetDirPath( const char* dirPath )
+void Asset::SetDirPath( cchar* dirPath )
 {
 	_dirPath = dirPath;
 
@@ -83,7 +83,7 @@ void Asset::SetEmitEvents( bool value )
 }
 
 
-void Asset::SetUniqueID( const char* uniqueID )
+void Asset::SetUniqueID( cchar* uniqueID )
 {
 	// this should not emit events
 	_uniqueID = uniqueID;

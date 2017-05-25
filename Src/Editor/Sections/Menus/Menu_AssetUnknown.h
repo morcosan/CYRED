@@ -15,11 +15,11 @@ namespace CYRED
 {
 	class Menu_AssetUnknown : public QMenu
 	{
-		const char* const	MENU_RENAME		= "Rename";
-		const char* const	MENU_OPEN_DISK	= "Open On Disk";
-		const char* const	MENU_SHOW_DISK	= "Show On Disk";
-		const char* const	MENU_DUPLICATE	= "Duplicate";
-		const char* const	MENU_DELETE		= "Delete";
+		cchar* const	MENU_RENAME		= "Rename";
+		cchar* const	MENU_OPEN_DISK	= "Open On Disk";
+		cchar* const	MENU_SHOW_DISK	= "Show On Disk";
+		cchar* const	MENU_DUPLICATE	= "Duplicate";
+		cchar* const	MENU_DELETE		= "Delete";
 
 
 	public:

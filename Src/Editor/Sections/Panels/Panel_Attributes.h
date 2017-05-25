@@ -19,26 +19,26 @@ namespace CYRED
 
 	class Panel_Attributes : public Panel, public IEventListener
 	{
-		const char* const	ATTR_GAMEOBJECT			= "GameObject";
-		const char* const	ATTR_TRANSFORM			= "Transform";
-		const char* const	ATTR_CAMERA				= "Camera";
-		const char* const	ATTR_LIGHT				= "Light";
-		const char* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
-		const char* const	ATTR_MESH_RENDERING		= "MeshRendering";
-		const char* const	ATTR_MORPH_RENDERING	= "MorphRendering";
-		const char* const	ATTR_SCRIPTER			= "Scripter";
-		const char* const	ATTR_MATERIAL			= "Material";
-		const char* const	ATTR_MESH				= "Mesh";
-		const char* const	ATTR_MORPH				= "Morph";
-		const char* const	ATTR_TEXTURE			= "Texture";
-		const char* const	ATTR_SCRIPT				= "Script";
-		const char* const	ATTR_PREFAB				= "Prefab";
-		const char* const	ATTR_SHADER				= "Shader";
-		const char* const	ATTR_SCENE				= "Scene";
-		const char* const	ATTR_CYRED_PROJ			= "CyredProj";
+		cchar* const	ATTR_GAMEOBJECT			= "GameObject";
+		cchar* const	ATTR_TRANSFORM			= "Transform";
+		cchar* const	ATTR_CAMERA				= "Camera";
+		cchar* const	ATTR_LIGHT				= "Light";
+		cchar* const	ATTR_PARTICLES_EMITTER	= "ParticleEmitter";
+		cchar* const	ATTR_MESH_RENDERING		= "MeshRendering";
+		cchar* const	ATTR_MORPH_RENDERING	= "MorphRendering";
+		cchar* const	ATTR_SCRIPTER			= "Scripter";
+		cchar* const	ATTR_MATERIAL			= "Material";
+		cchar* const	ATTR_MESH				= "Mesh";
+		cchar* const	ATTR_MORPH				= "Morph";
+		cchar* const	ATTR_TEXTURE			= "Texture";
+		cchar* const	ATTR_SCRIPT				= "Script";
+		cchar* const	ATTR_PREFAB				= "Prefab";
+		cchar* const	ATTR_SHADER				= "Shader";
+		cchar* const	ATTR_SCENE				= "Scene";
+		cchar* const	ATTR_CYRED_PROJ			= "CyredProj";
 
-		const char*	const	PANEL_TITLE				= "Attributes";
-		const char*	const	ADD_COMPONENT_BUTTON	= "Add Component";
+		cchar*	const	PANEL_TITLE				= "Attributes";
+		cchar*	const	ADD_COMPONENT_BUTTON	= "Add Component";
 		const Vector2 		MIN_SIZE				= Vector2( 300, 100 );
 
 
@@ -56,7 +56,7 @@ namespace CYRED
 
 	public:
 		//! it will take ownership of the viewers
-		void SetAttrViewer	( const char* typeName, AttrViewer* viewer );
+		void SetAttrViewer	( cchar* typeName, AttrViewer* viewer );
 		void RefreshPanel	();
 
 

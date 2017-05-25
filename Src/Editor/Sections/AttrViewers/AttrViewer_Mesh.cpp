@@ -14,12 +14,12 @@ void AttrViewer_Mesh::_OnInitialize()
 {
 	_CreateAttrString	( ATTR_NAME, ATTR_NAME, AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
-	DataArray<const char*> meshTypes;
+	DataArray<cchar*> meshTypes;
 	meshTypes.Add( MESH_TYPE_LINE );
 	meshTypes.Add( MESH_TYPE_POLYGON );
 	_CreateAttrDropdown	( ATTR_MESH_TYPE, ATTR_MESH_TYPE, meshTypes, AttrFlag::NONE, CallbackGroup::GROUP_1 );
 
-	DataArray<const char*> loadTypes;
+	DataArray<cchar*> loadTypes;
 	loadTypes.Add( LOAD_TYPE_EXTERNAL );
 	loadTypes.Add( LOAD_TYPE_SCRIPTED );
 	_CreateAttrDropdown	( ATTR_LOAD_TYPE, ATTR_LOAD_TYPE, loadTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );

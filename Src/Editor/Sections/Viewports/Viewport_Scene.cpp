@@ -6,6 +6,7 @@
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
+#include "CyredModule_Input.h"
 #include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
@@ -72,6 +73,26 @@ void Viewport_Scene::_OnUpdate()
 	if ( !_IsRenderingReady() ) {
 		return;
 	}
+
+	// check input for mouse down
+	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+		// use picking rederer
+		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
+		// clear screen
+		renderMngr->ClearScreen( 0, 0, 0 );
+
+		// render scenes
+		if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
+			// get first scene's root
+			Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+			// render meshes
+			renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
+		}
+
+		return;
+	}
+
 
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {

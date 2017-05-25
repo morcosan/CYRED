@@ -11,8 +11,8 @@
 using namespace CYRED;
 
 
-const char* const Selector_Shader::TYPE			= "Shader";
-const char* const Selector_Shader::OPTION_NULL	= "NULL";
+cchar* const Selector_Shader::TYPE			= "Shader";
+cchar* const Selector_Shader::OPTION_NULL	= "NULL";
 
 
 void Selector_Shader::DisplayOptions( void* selected )

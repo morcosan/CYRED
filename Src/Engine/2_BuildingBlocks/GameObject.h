@@ -27,7 +27,7 @@ namespace CYRED
 		GameObject();
 
 		GameObject( int uid );
-		GameObject( const char* name, int uid );
+		GameObject( cchar* name, int uid );
 		virtual ~GameObject();
 
 
@@ -37,7 +37,7 @@ namespace CYRED
 
 
 	public:
-		const char*	GetName				()						const;
+		cchar*	GetName				()						const;
 		bool		IsEnabled			()						const;
 		int		GetUniqueID			()						const;
 		bool		DoesEmitEvents		()						const;
@@ -46,7 +46,7 @@ namespace CYRED
 		Component*	GetComponentAt		( int index )			const;
 
 		void		SetEnabled			( bool value );
-		void		SetName				( const char* name );
+		void		SetName				( cchar* name );
 		void		SetEmitEvents		( bool value );
 
 		void		Clone				( GameObject* clone )	const;

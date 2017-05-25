@@ -7,5 +7,5 @@
 using namespace CYRED;
 
 
-const char* const AppConfig::FILE_PATH_CONFIG	= "app.config";
-const char* const AppConfig::DIR_PATH_DATA		= "Data/";
+cchar* const AppConfig::FILE_PATH_CONFIG	= "app.config";
+cchar* const AppConfig::DIR_PATH_DATA		= "Data/";

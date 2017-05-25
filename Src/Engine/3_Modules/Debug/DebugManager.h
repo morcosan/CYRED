@@ -16,7 +16,7 @@ namespace CYRED
 
 	struct DebugInfo
 	{
-		const char* message;
+		cchar* message;
 	};
 }
 
@@ -34,9 +34,9 @@ namespace CYRED
 
 		virtual void SetEnabled		( bool value )					PURE_VIRTUAL;
 
-		virtual void Error			( const char* value )			PURE_VIRTUAL;
+		virtual void Error			( cchar* value )			PURE_VIRTUAL;
 
-		virtual void Log			( const char* value )			PURE_VIRTUAL;
+		virtual void Log			( cchar* value )			PURE_VIRTUAL;
 		virtual void LogInt			( int value )					PURE_VIRTUAL;
 		virtual void LogFloat		( float value )					PURE_VIRTUAL;
 		virtual void LogVec2		( const Vector2& value )		PURE_VIRTUAL;

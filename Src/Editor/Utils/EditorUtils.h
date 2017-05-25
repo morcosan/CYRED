@@ -13,37 +13,37 @@ namespace CYRED
 	class EditorUtils
 	{
 	public:
-		static const char* const	ICON_SCENE;
-		static const char* const	ICON_FOLDER;
-		static const char* const	ICON_MATERIAL;
-		static const char* const	ICON_MESH;
-		static const char* const	ICON_MORPH;
-		static const char* const	ICON_TEXTURE;
-		static const char* const	ICON_SHADER;
-		static const char* const	ICON_SCRIPT;
-		static const char* const	ICON_PREFAB;
-		static const char* const	ICON_UNKNOWN;
+		static cchar* const	ICON_SCENE;
+		static cchar* const	ICON_FOLDER;
+		static cchar* const	ICON_MATERIAL;
+		static cchar* const	ICON_MESH;
+		static cchar* const	ICON_MORPH;
+		static cchar* const	ICON_TEXTURE;
+		static cchar* const	ICON_SHADER;
+		static cchar* const	ICON_SCRIPT;
+		static cchar* const	ICON_PREFAB;
+		static cchar* const	ICON_UNKNOWN;
 		
-		static const char* const	NAME_FOLDER;
-		static const char* const	NAME_MATERIAL;
-		static const char* const	NAME_MAT_EMPTY;
-		static const char* const	NAME_MAT_PS;
-		static const char* const	NAME_TEXTURE;
-		static const char* const	NAME_TEX_2D;
-		static const char* const	NAME_TEX_CM;
-		static const char* const	NAME_SHADER;
-		static const char* const	NAME_MESH;
-		static const char* const	NAME_MORPH;
-		static const char* const	NAME_SCRIPT;
-		static const char* const	NAME_SCENE;
-		static const char* const	NAME_PREFAB;
+		static cchar* const	NAME_FOLDER;
+		static cchar* const	NAME_MATERIAL;
+		static cchar* const	NAME_MAT_EMPTY;
+		static cchar* const	NAME_MAT_PS;
+		static cchar* const	NAME_TEXTURE;
+		static cchar* const	NAME_TEX_2D;
+		static cchar* const	NAME_TEX_CM;
+		static cchar* const	NAME_SHADER;
+		static cchar* const	NAME_MESH;
+		static cchar* const	NAME_MORPH;
+		static cchar* const	NAME_SCRIPT;
+		static cchar* const	NAME_SCENE;
+		static cchar* const	NAME_PREFAB;
 
 
 	public:
 		static void		Initialize			();
 		static void		SetAvailableName	( Asset* asset );
 		static bool		IsFilePathDuplicate	( Asset* asset );
-		static QIcon*	GetIcon				( const char* iconName );
+		static QIcon*	GetIcon				( cchar* iconName );
 
 
 	private:
