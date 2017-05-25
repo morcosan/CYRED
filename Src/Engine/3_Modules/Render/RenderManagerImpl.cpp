@@ -146,6 +146,8 @@ void RenderManagerImpl::SwitchRenderer( RendererType rendererType )
 
 	// set as current
 	_currRenderer = rendererType;
+	// set context
+	canvas.glContext->MakeCurrent();
 }
 
 
@@ -162,8 +164,6 @@ void RenderManagerImpl::ClearScreen( float r, float g, float b )
 	ASSERT( canvas.renderers.Has( _currRenderer ) );
 	Renderer* renderer = canvas.renderers.Get( _currRenderer );
 
-	// set context
-	canvas.glContext->MakeCurrent();
 	// clear screen
 	renderer->ClearScreen( r, g, b );
 }
@@ -207,8 +207,6 @@ void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject
 	ASSERT( canvas.renderers.Has( _currRenderer ) );
 	Renderer* renderer = canvas.renderers.Get( _currRenderer );
 
-	// set context
-	canvas.glContext->MakeCurrent();
 	// render
 	renderer->Render( compType, target, cameraGO, lightsGO );
 	renderer->DisplayOnScreen();
@@ -251,6 +249,28 @@ void RenderManagerImpl::OnResize( int canvasID )
 		iter.GetValue()->OnResize();
 		iter.Next();
 	}
+}
+
+
+/*****
+* @desc: read the pixel from renderer at given location
+* @params: 
+* 		x - location on x axis
+* 		y - location on y axis
+* @assert: canvas and renderer are set
+*/
+Vector4 RenderManagerImpl::ReadPixel( int x, int y )
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	// get renderer
+	ASSERT( canvas.renderers.Has( _currRenderer ) );
+	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+
+	// read pixel
+	return renderer->ReadPixel( x, y );
 }
 
 
@@ -303,7 +323,7 @@ bool RenderManagerImpl::_IsProgramLinked( int programID ) const
 }
 
 
-void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo, 
+void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo,
 										   DataArray<Vertex>& vertices, DataArray<int>& indices )
 {
 	ASSERT( _isInitialized );

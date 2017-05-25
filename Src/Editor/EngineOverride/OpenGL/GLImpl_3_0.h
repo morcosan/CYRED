@@ -105,6 +105,9 @@ namespace CYRED
 
 		void BindBufferBase			( GLBaseBuffer target, int index, int buffer )	override;
 
+		void ReadPixels				( int x, int y, int width, int height, GLPixelFormat format, 
+									  GLVarType type, void* data )					override;
+
 
 	private:
 		QOpenGLFunctions_3_0*  _qtGL;

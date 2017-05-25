@@ -90,6 +90,13 @@ void Viewport_Scene::_OnUpdate()
 			renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
 		}
 
+		// get pixel from mouse position
+		Vector2 mousePos = InputManager::Singleton()->CursorPosition();
+		Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
+
+		// get object uid
+		int uid = pixel.x;
+
 		return;
 	}
 

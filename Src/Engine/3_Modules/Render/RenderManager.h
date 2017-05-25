@@ -1,13 +1,12 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../1_Required/Required.h"
 
 #include "../../2_BuildingBlocks/Component.h"
 #include "../../2_BuildingBlocks/Data/DataArray.h"
-
+#include "../../2_BuildingBlocks/Math/Vector4.h"
 
 namespace CYRED
 {
@@ -125,6 +124,15 @@ namespace CYRED
 		* @assert: canvas exists
 		*/
 		virtual void	OnResize		( int canvasID )						PURE_VIRTUAL;
+
+		/*****
+		* @desc: read the pixel from renderer at given location
+		* @params: 
+		* 		x - location on x axis
+		* 		y - location on y axis
+		* @assert: canvas and renderer are set
+		*/
+		virtual Vector4	ReadPixel		( int x, int y )						PURE_VIRTUAL;
 	};
 }
 

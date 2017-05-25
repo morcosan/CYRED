@@ -133,6 +133,19 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 }
 
 
+/*****
+* @desc: read the pixel from renderer at given location
+* @params: 
+* 		x - location on x axis
+* 		y - location on y axis
+* @assert: canvas and renderer are set
+*/
+Vector4 ForwardRenderer::ReadPixel( int x, int y )
+{
+	return Vector4();
+}
+
+
 void ForwardRenderer::OnResize()
 {
 	// resize buffers here
@@ -189,25 +202,28 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
 
 
+	// bind vertex data
 	_gl->EnableVertexAttribArray( 0 );
 	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, position)) );
+									(const void*) (offsetof(Vertex, position)) );
 	_gl->EnableVertexAttribArray( 1 );
 	_gl->VertexAttribPointer( 1, 4, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, color)) );
+									(const void*) (offsetof(Vertex, color)) );
 	_gl->EnableVertexAttribArray( 2 );
 	_gl->VertexAttribPointer( 2, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, normal)) );
+									(const void*) (offsetof(Vertex, normal)) );
 	_gl->EnableVertexAttribArray( 3 );
 	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, uv)) );
+									(const void*) (offsetof(Vertex, uv)) );
 	_gl->EnableVertexAttribArray( 4 );
 	_gl->VertexAttribPointer( 4, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, tangent)) );
+									(const void*) (offsetof(Vertex, tangent)) );
 	_gl->EnableVertexAttribArray( 5 );
 	_gl->VertexAttribPointer( 5, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, bitangent)) );
+									(const void*) (offsetof(Vertex, bitangent)) );
 
+
+	// bind main 3 matrix
 	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
 	int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
 	int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
@@ -220,14 +236,17 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
+
+	// bind camera
 	int cameraPosWorldUniform = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
 	_gl->Uniform3fv( cameraPosWorldUniform,	1, _currCameraTran->GetPositionWorld().Ptr() );
 
-	// add material
+
+	// bind material
 	_BindMaterial( material );
 
 
-	// add lights if needed
+	// bind lights if needed
 	if ( lightsGO.Size() > 0 )
 	{
 		// check if shader contains light uniforms

@@ -409,6 +409,10 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 			glInternalformat = GL_RGBA;
 			break;
 
+		case GLTexInternal::RGBA32F:
+			glInternalformat = GL_RGBA32F;
+			break;
+
 		case GLTexInternal::DEPTH_COMPONENT16:
 			glInternalformat = GL_DEPTH_COMPONENT16;
 			break;
@@ -900,6 +904,25 @@ void GLImpl_3_0::BindBufferBase( GLBaseBuffer target, int index, int buffer )
 			_qtGL->glBindBufferBase( GL_SHADER_STORAGE_BUFFER, index, buffer );
 			break;
 	}
+}
+
+
+void GLImpl_3_0::ReadPixels( int x, int y, int width, int height, GLPixelFormat format, 
+							 GLVarType type, void* data )
+{
+	int glFormat = 0;
+	int glType = 0;
+
+	switch ( format ) {
+		case GLPixelFormat::RGB:	glFormat = GL_RGB;		break;
+		case GLPixelFormat::RGBA:	glFormat = GL_RGBA;		break;
+	}
+
+	switch ( type ) {
+		case GLVarType::FLOAT:			glType = GL_FLOAT;			break;
+	}
+
+	_qtGL->glReadPixels( x, y, width, height, glFormat, glType, data );
 }
 
 

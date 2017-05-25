@@ -57,6 +57,15 @@ namespace CYRED
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
 								  DataArray<GameObject*>& lightsGO )	override;
 
+			/*****
+			* @desc: read the pixel from renderer at given location
+			* @params: 
+			* 		x - location on x axis
+			* 		y - location on y axis
+			* @assert: canvas and renderer are set
+			*/
+			Vector4	ReadPixel	( int x, int y )						override;
+
 			void OnResize		()										override;
 			void DisplayOnScreen()										override;
 
@@ -74,7 +83,7 @@ namespace CYRED
 			uint		_colorBufferID;
 			uint		_depthBufferID;
 
-			uint		_screenQuadID;
+			//uint		_screenQuadID;
 
 			Transform*	_currCameraTran;
 			Camera*		_currCameraCam;
@@ -83,8 +92,8 @@ namespace CYRED
 		private:
 			void _CreateBuffers		( int width, int height );
 			void _ResizeBuffers		( int width, int height );
-			void _RenderScreenQuad	( Texture* texture, Shader* shader );
-			void _GenerateScreenQuad();
+			//void _RenderScreenQuad	( Texture* texture, Shader* shader );
+			//void _GenerateScreenQuad();
 
 			void _RecRenderMesh		( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderMorph	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );

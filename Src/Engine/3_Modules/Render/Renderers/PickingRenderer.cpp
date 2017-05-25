@@ -135,6 +135,29 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 }
 
 
+/*****
+* @desc: read the pixel from renderer at given location
+* @params: 
+* 		x - location on x axis
+* 		y - location on y axis
+* @assert: canvas and renderer are set
+*/
+Vector4 PickingRenderer::ReadPixel( int x, int y )
+{
+	ASSERT( _gl != NULL );
+
+	// prepare buffer
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
+	// swap x
+	y = _glContext->GetHeight() - 1 - y;
+	// read pixel
+	Vector4 pixel;
+	_gl->ReadPixels( x, y, 1, 1, GLPixelFormat::RGB, GLVarType::FLOAT, &pixel );
+
+	return pixel;
+}
+
+
 void PickingRenderer::OnResize()
 {
 	// resize buffers
@@ -162,8 +185,7 @@ void PickingRenderer::DisplayOnScreen()
 void PickingRenderer::_OnInitialize()
 {
 	_CreateBuffers( _glContext->GetWidth(), _glContext->GetHeight() );
-
-	_GenerateScreenQuad();
+	//_GenerateScreenQuad();
 }
 
 
@@ -175,7 +197,7 @@ void PickingRenderer::_CreateBuffers( int width, int height )
 
 	_gl->GenTextures( 1, &_colorBufferID );
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
-	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA32F, width, height, 0, 
 					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S,		GLTexParamValue::CLAMP_TO_EDGE );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T,		GLTexParamValue::CLAMP_TO_EDGE );
@@ -205,7 +227,7 @@ void PickingRenderer::_CreateBuffers( int width, int height )
 void PickingRenderer::_ResizeBuffers( int width, int height )
 {
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
-	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA, width, height, 0, 
+	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA32F, width, height, 0, 
 					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
 
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _depthBufferID );
@@ -214,59 +236,59 @@ void PickingRenderer::_ResizeBuffers( int width, int height )
 }
 
 
-void PickingRenderer::_RenderScreenQuad( Texture* texture, Shader* shader )
-{
-	ASSERT( shader != NULL );
+//void PickingRenderer::_RenderScreenQuad( Texture* texture, Shader* shader )
+//{
+//	ASSERT( shader != NULL );
+//
+//	int programID = shader->GetProgramID();
+//	_gl->UseProgram( programID );
+//
+//	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
+//
+//	//! set shader variables
+//	_gl->EnableVertexAttribArray( 0 );
+//	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, position)) );
+//	_gl->EnableVertexAttribArray( 3 );
+//	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, uv)) );
+//
+//	//int screenSizeLoc = shader->GetUniformLocation( "ME3D_screenSize" );
+//	//_gl->Uniform2fv( screenSizeLoc, 1, _contextSize.Ptr() );
+//
+//
+//	_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );
+//	_gl->Enable( GLCapability::CULL_FACE );
+//	_gl->CullFace( GLCullFace::BACK );
+//
+//	// TODO
+//	_gl->Disable( GLCapability::CULL_FACE );
+//
+//
+//
+//	_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
+//
+//	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+//	_gl->UseProgram( EMPTY_SHADER );
+//}
 
-	int programID = shader->GetProgramID();
-	_gl->UseProgram( programID );
 
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
-
-	//! set shader variables
-	_gl->EnableVertexAttribArray( 0 );
-	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, position)) );
-	_gl->EnableVertexAttribArray( 3 );
-	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), (const void*) (offsetof(Vertex, uv)) );
-
-	//int screenSizeLoc = shader->GetUniformLocation( "ME3D_screenSize" );
-	//_gl->Uniform2fv( screenSizeLoc, 1, _contextSize.Ptr() );
-
-
-	_gl->PolygonMode( GLPolygonFace::FRONT_AND_BACK, GLPolygonMode::FILL );
-	_gl->Enable( GLCapability::CULL_FACE );
-	_gl->CullFace( GLCullFace::BACK );
-
-	// TODO
-	_gl->Disable( GLCapability::CULL_FACE );
-
-
-
-	_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
-
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
-	_gl->UseProgram( EMPTY_SHADER );
-}
-
-
-void PickingRenderer::_GenerateScreenQuad()
-{
-	DataArray<Vertex> vertices;
-
-	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );             
-	vertices.Add( Vertex( Vector3( 1, -1, 0), Vector2(1, 0) ) ); 
-	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
-
-	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );  
-	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
-	vertices.Add( Vertex( Vector3(-1,  1, 0), Vector2(0, 1) ) );
-
-	_gl->GenBuffers( 1, &_screenQuadID );
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
-	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(Vertex) * vertices.Size(), 
-					 vertices.Data(), GLDrawType::STATIC_DRAW );
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
-}
+//void PickingRenderer::_GenerateScreenQuad()
+//{
+//	DataArray<Vertex> vertices;
+//
+//	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );             
+//	vertices.Add( Vertex( Vector3( 1, -1, 0), Vector2(1, 0) ) ); 
+//	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
+//
+//	vertices.Add( Vertex( Vector3(-1, -1, 0), Vector2(0, 0) ) );  
+//	vertices.Add( Vertex( Vector3( 1,  1, 0), Vector2(1, 1) ) ); 
+//	vertices.Add( Vertex( Vector3(-1,  1, 0), Vector2(0, 1) ) );
+//
+//	_gl->GenBuffers( 1, &_screenQuadID );
+//	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _screenQuadID );
+//	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(Vertex) * vertices.Size(), 
+//					 vertices.Data(), GLDrawType::STATIC_DRAW );
+//	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+//}
 
 
 void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
@@ -292,7 +314,12 @@ void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 		return;
 	}
 
-	Shader* shader = material->GetShader();
+	Material* pickingProxy = material->GetPickingProxy();
+	if ( pickingProxy == NULL ) {
+		return;
+	}
+
+	Shader* shader = pickingProxy->GetShader();
 	if ( shader == NULL ) {
 		return;
 	}
@@ -308,26 +335,13 @@ void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
 
-
+	// bind vertex data
 	_gl->EnableVertexAttribArray( 0 );
 	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, position)) );
-	_gl->EnableVertexAttribArray( 1 );
-	_gl->VertexAttribPointer( 1, 4, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, color)) );
-	_gl->EnableVertexAttribArray( 2 );
-	_gl->VertexAttribPointer( 2, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, normal)) );
-	_gl->EnableVertexAttribArray( 3 );
-	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, uv)) );
-	_gl->EnableVertexAttribArray( 4 );
-	_gl->VertexAttribPointer( 4, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, tangent)) );
-	_gl->EnableVertexAttribArray( 5 );
-	_gl->VertexAttribPointer( 5, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, bitangent)) );
+									(const void*) (offsetof(Vertex, position)) );
 
+
+	// bind main 3 matrix
 	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
 	int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
 	int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
@@ -340,64 +354,14 @@ void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
-	int cameraPosWorldUniform = shader->GetUniformLocation( Uniform::CAMERA_POS_WORLD );
-	_gl->Uniform3fv( cameraPosWorldUniform,	1, _currCameraTran->GetPositionWorld().Ptr() );
 
-	// add material
-	_BindMaterial( material );
+	// bind unique id uniform
+	int uidUniform = shader->GetUniformLocation( Uniform::UID );
+	_gl->Uniform1i( uidUniform, gameObject->GetUniqueID() );
 
 
-	// add lights if needed
-	if ( lightsGO.Size() > 0 )
-	{
-		// check if shader contains light uniforms
-		int lightsUniform		= shader->GetUniformLocation( Uniform::LIGHTS );
-		int lightsCountUniform	= shader->GetUniformLocation( Uniform::LIGHTS_COUNT );
-		int ambientColorUniform	= shader->GetUniformLocation( Uniform::AMBIENT_COLOR );
-
-		// check if lights needed
-		if ( lightsUniform != -1 || lightsCountUniform != -1 ) {
-			// add lights count
-			_gl->Uniform1i( lightsCountUniform, lightsGO.Size() );
-
-			// bind each light
-			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
-				Light* light = lightsGO[i]->GetComponent<Light>();
-				Transform* transform = lightsGO[i]->GetComponent<Transform>();
-				FiniteString uniformName;
-				int uniform;
-
-				uniformName.Set( "DEFAULT_lights[%d].type", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1i( uniform, light->GetLightType() );
-
-				uniformName.Set( "DEFAULT_lights[%d].color", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, light->GetColor().Ptr() );
-
-				uniformName.Set( "DEFAULT_lights[%d].intensity", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetIntensity() );
-
-				uniformName.Set( "DEFAULT_lights[%d].spotAngle", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, Math::ToRadians( light->GetSpotAngle() ) );
-
-				uniformName.Set( "DEFAULT_lights[%d].range", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetRange() );
-
-				uniformName.Set( "DEFAULT_lights[%d].positionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, transform->GetPositionWorld().Ptr() );
-
-				uniformName.Set( "DEFAULT_lights[%d].directionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				Vector3 direction = transform->GetRotationWorld().ApplyRotation( Vector3(0, 0, -1) );
-				_gl->Uniform3fv( uniform, 1, direction.Ptr() );
-			}
-		}
-	}
+	// bind material
+	_BindMaterial( pickingProxy );
 
 
 	// draw

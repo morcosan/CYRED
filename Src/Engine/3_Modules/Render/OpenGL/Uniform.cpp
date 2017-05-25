@@ -10,6 +10,7 @@ cchar* Uniform::WORLD				= "DEFAULT_world";
 cchar* Uniform::VIEW				= "DEFAULT_view";
 cchar* Uniform::PROJECTION			= "DEFAULT_projection";
 cchar* Uniform::CAMERA_POS_WORLD	= "DEFAULT_cameraPosWorld";
+cchar* Uniform::UID					= "DEFAULT_uid";
 
 const int	Uniform::MAX_LIGHTS			= 8;
 cchar* Uniform::LIGHTS				= "DEFAULT_lights";

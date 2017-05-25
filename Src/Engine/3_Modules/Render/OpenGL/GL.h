@@ -54,6 +54,7 @@ namespace CYRED
 		{
 			RGB
 			, RGBA
+			, RGBA32F
 			, DEPTH_COMPONENT16
 			, LUMINANCE
 		};
@@ -275,6 +276,15 @@ namespace CYRED
 			, VALUE_8
 		};
 	}
+	namespace Enum_GLPixelFormat
+	{
+		enum Enum
+		{
+			RGB
+			, RGBA
+		};
+	}
+
 	typedef Enum_GLBuffer::Enum				GLBuffer;
 	typedef Enum_GLDrawType::Enum			GLDrawType;
 	typedef Enum_GLVarType::Enum			GLVarType;
@@ -303,6 +313,7 @@ namespace CYRED
 	typedef Enum_GLAlignType::Enum			GLAlignType;
 	typedef Enum_GLAlignValue::Enum			GLAlignValue;
 	typedef	Enum_GLBaseBuffer::Enum			GLBaseBuffer;
+	typedef	Enum_GLPixelFormat::Enum		GLPixelFormat;
 }
 
 
@@ -404,6 +415,10 @@ namespace CYRED
 
 		virtual void BindBufferBase		( GLBaseBuffer target, int index, 
 										  int buffer )									PURE_VIRTUAL;
+
+		virtual void ReadPixels			( int x, int y, int width, int height, GLPixelFormat format, 
+										  GLVarType type, void* data )					PURE_VIRTUAL;
+
 	};
 }
 

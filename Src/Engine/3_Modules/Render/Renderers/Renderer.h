@@ -1,13 +1,12 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Component.h"
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
+#include "../../../2_BuildingBlocks/Math/Vector4.h"
 #include "../Assets/Shader.h"
-
 
 namespace CYRED
 {
@@ -50,8 +49,17 @@ namespace CYRED
 		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
 									  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
 
-		virtual void OnResize		()					PURE_VIRTUAL;
-		virtual void DisplayOnScreen()					PURE_VIRTUAL;
+		/*****
+		* @desc: read the pixel from renderer at given location
+		* @params: 
+		* 		x - location on x axis
+		* 		y - location on y axis
+		* @assert: canvas and renderer are set
+		*/
+		virtual Vector4	ReadPixel	( int x, int y )				PURE_VIRTUAL;
+
+		virtual void OnResize		()								PURE_VIRTUAL;
+		virtual void DisplayOnScreen()								PURE_VIRTUAL;
 
 
 	public:

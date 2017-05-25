@@ -57,6 +57,15 @@ namespace CYRED
 			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
 								  DataArray<GameObject*>& lightsGO )	override;
 
+			/*****
+			* @desc: read the pixel from renderer at given location
+			* @params: 
+			* 		x - location on x axis
+			* 		y - location on y axis
+			* @assert: canvas and renderer are set
+			*/
+			Vector4	ReadPixel	( int x, int y )						override;
+
 			void OnResize		()										override;
 			void DisplayOnScreen()										override;
 

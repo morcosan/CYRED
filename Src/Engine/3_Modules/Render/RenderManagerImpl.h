@@ -99,7 +99,7 @@ namespace CYRED
 			/*****
 			* @desc: display the rendering
 			*/
-			void SwapBuffers	()									override;
+			void SwapBuffers	()										override;
 
 			/*****
 			* @desc: force resize for given canvas
@@ -107,7 +107,16 @@ namespace CYRED
 			* 		canvasID - id of canvas
 			* @assert: canvas exists
 			*/
-			void OnResize		( int canvasID )					override;
+			void OnResize		( int canvasID )						override;
+
+			/*****
+			* @desc: read the pixel from renderer at given location
+			* @params: 
+			* 		x - location on x axis
+			* 		y - location on y axis
+			* @assert: canvas and renderer are set
+			*/
+			virtual Vector4	ReadPixel	( int x, int y )				override;
 
 
 		public:
