@@ -8,5 +8,5 @@ uniform int DEFAULT_uid;
 
 void main()
 {
-	OUT_color = vec4( DEFAULT_uid, 0.0, 0.0, 1.0);
+	OUT_color = vec4( DEFAULT_uid, 1.0, 1.0, 1.0 );
 }

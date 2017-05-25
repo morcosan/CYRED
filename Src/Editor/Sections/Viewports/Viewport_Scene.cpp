@@ -140,10 +140,10 @@ bool Viewport_Scene::_IsPickingInput()
 	InputManager* inputMngr = InputManager::Singleton();
 
 	// check target window
-	int targetCanvas = inputMngr->GetWindowForCursor();
+	int targetWindow = inputMngr->GetWindowForCursor();
 
 	// check input for mouse down
-	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetCanvas == _canvasSlot ) {
+	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetWindow == _panelIndex ) {
 		// use picking rederer
 		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
 		// clear screen

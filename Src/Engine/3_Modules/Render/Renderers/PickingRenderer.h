@@ -24,9 +24,8 @@ namespace CYRED
 		class PickingRenderer : public Renderer
 		{
 			cchar* UNIFORM_IS_LOOPING	= "isLooping";
-			cchar* UNIFORM_LIFETIME	= "lifetime";
+			cchar* UNIFORM_LIFETIME		= "lifetime";
 			cchar* UNIFORM_DELTA_TIME	= "deltaTime";
-
 			cchar* UNIFORM_STATE_RATIO	= "stateRatio";
 
 

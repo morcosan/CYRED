@@ -155,7 +155,7 @@ Vector4 PickingRenderer::ReadPixel( int x, int y )
 	y = _glContext->GetHeight() - 1 - y;
 	// read pixel
 	Vector4 pixel;
-	_gl->ReadPixels( x, y, 1, 1, GLPixelFormat::RGB, GLVarType::FLOAT, &pixel );
+	_gl->ReadPixels( x, y, 1, 1, GLPixelFormat::RGBA, GLVarType::FLOAT, &pixel );
 
 	return pixel;
 }
@@ -197,11 +197,10 @@ void PickingRenderer::_CreateBuffers( int width, int height )
 	_gl->GenFramebuffers( 1, &_frameBufferID );
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
 
-
 	_gl->GenTextures( 1, &_colorBufferID );
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
 	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA32F, width, height, 0, 
-					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
+					 GLTexFormat::RGBA, GLVarType::FLOAT, NULL );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S,		GLTexParamValue::CLAMP_TO_EDGE );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T,		GLTexParamValue::CLAMP_TO_EDGE );
 	_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER,	GLTexParamValue::NEAREST );
@@ -229,13 +228,19 @@ void PickingRenderer::_CreateBuffers( int width, int height )
 
 void PickingRenderer::_ResizeBuffers( int width, int height )
 {
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
+
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _colorBufferID );
 	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RGBA32F, width, height, 0, 
-					 GLTexFormat::RGBA, GLVarType::UNSIGNED_BYTE, NULL );
+					 GLTexFormat::RGBA, GLVarType::FLOAT, NULL );
 
 	_gl->BindTexture( GLTexture::TEXTURE_2D, _depthBufferID );
 	_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::DEPTH_COMPONENT16, width, height, 0, 
 					 GLTexFormat::DEPTH_COMPONENT, GLVarType::UNSIGNED_SHORT, NULL );
+
+	// unbind
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, EMPTY_BUFFER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, EMPTY_BUFFER );
 }
 
 

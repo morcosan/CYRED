@@ -121,6 +121,8 @@ void RenderManagerImpl::CreateRenderer( RendererType rendererType )
 		case RendererType::GL_PICKING:	renderer = Memory::Alloc<PickingRenderer>();	break;
 	}
 
+	// set context
+	canvas.glContext->MakeCurrent();
 	// initialize renderer
 	renderer->Initialize( _gl, canvas.glContext );
 	// add to canvas

@@ -368,88 +368,36 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 	int glFormat = 0;
 	int glType = 0;
 
-	switch ( target )
-	{
-		case GLTextureImage::TEXTURE_2D:
-			glTarget = GL_TEXTURE_2D;
-			break;
-
-		case GLTextureImage::CUBE_MAP_POSITIVE_X:
-			glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-			break;
-
-		case GLTextureImage::CUBE_MAP_NEGATIVE_X:
-			glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-			break;
-
-		case GLTextureImage::CUBE_MAP_POSITIVE_Y:
-			glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-			break;
-
-		case GLTextureImage::CUBE_MAP_NEGATIVE_Y:
-			glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-			break;
-
-		case GLTextureImage::CUBE_MAP_POSITIVE_Z:
-			glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
-			break;
-
-		case GLTextureImage::CUBE_MAP_NEGATIVE_Z:
-			glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-			break;
+	switch ( target ) {
+		case GLTextureImage::TEXTURE_2D:			glTarget = GL_TEXTURE_2D;					break;
+		case GLTextureImage::CUBE_MAP_POSITIVE_X:	glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_X;	break;
+		case GLTextureImage::CUBE_MAP_NEGATIVE_X:	glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_X;	break;
+		case GLTextureImage::CUBE_MAP_POSITIVE_Y:	glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_Y;	break;
+		case GLTextureImage::CUBE_MAP_NEGATIVE_Y:	glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;	break;
+		case GLTextureImage::CUBE_MAP_POSITIVE_Z:	glTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_Z;	break;
+		case GLTextureImage::CUBE_MAP_NEGATIVE_Z:	glTarget = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;	break;
 	}
 
-	switch ( internalformat )
-	{
-		case GLTexInternal::RGB:
-			glInternalformat = GL_RGB;
-			break;
-
-		case GLTexInternal::RGBA:
-			glInternalformat = GL_RGBA;
-			break;
-
-		case GLTexInternal::RGBA32F:
-			glInternalformat = GL_RGBA32F;
-			break;
-
-		case GLTexInternal::DEPTH_COMPONENT16:
-			glInternalformat = GL_DEPTH_COMPONENT16;
-			break;
-
-		case GLTexInternal::LUMINANCE:
-			glInternalformat = GL_LUMINANCE;
-			break;
+	switch ( internalformat ) {
+		case GLTexInternal::RGB:				glInternalformat = GL_RGB;					break;
+		case GLTexInternal::RGBA:				glInternalformat = GL_RGBA;					break;
+		case GLTexInternal::RGBA32F:			glInternalformat = GL_RGBA32F;				break;
+		case GLTexInternal::DEPTH_COMPONENT16:	glInternalformat = GL_DEPTH_COMPONENT16;	break;
+		case GLTexInternal::LUMINANCE:			glInternalformat = GL_LUMINANCE;			break;
 	}
 
-	switch ( format )
-	{
-		case GLTexFormat::RGB:
-			glFormat = GL_RGB;
-			break;
-
-		case GLTexFormat::RGBA:
-			glFormat = GL_RGBA;
-			break;
-
-		case GLTexFormat::DEPTH_COMPONENT:
-			glFormat = GL_DEPTH_COMPONENT;
-			break;
-
-		case GLTexFormat::LUMINANCE:
-			glFormat = GL_LUMINANCE;
-			break;
+	switch ( format ) {
+		case GLTexFormat::RGB:				glFormat = GL_RGB;				break;
+		case GLTexFormat::RGBA:				glFormat = GL_RGBA;				break;		
+		case GLTexFormat::DEPTH_COMPONENT:	glFormat = GL_DEPTH_COMPONENT;	break;
+		case GLTexFormat::LUMINANCE:		glFormat = GL_LUMINANCE;		break;
 	}
 
-	switch ( type )
-	{
-		case GLVarType::UNSIGNED_BYTE:
-			glType = GL_UNSIGNED_BYTE;
-			break;
-
-		case GLVarType::UNSIGNED_SHORT:
-			glType = GL_UNSIGNED_SHORT;
-			break;
+	switch ( type )	{
+		case GLVarType::FLOAT:			glType = GL_FLOAT;			break;
+		case GLVarType::UNSIGNED_BYTE:	glType = GL_UNSIGNED_BYTE;	break;
+		case GLVarType::UNSIGNED_SHORT:	glType = GL_UNSIGNED_SHORT;	break;
+		case GLVarType::UNSIGNED_INT:	glType = GL_UNSIGNED_INT;	break;
 	}
 
 	_qtGL->glTexImage2D( glTarget, level, glInternalformat, width, height, border, 
@@ -919,7 +867,7 @@ void GLImpl_3_0::ReadPixels( int x, int y, int width, int height, GLPixelFormat 
 	}
 
 	switch ( type ) {
-		case GLVarType::FLOAT:			glType = GL_FLOAT;			break;
+		case GLVarType::FLOAT:		glType = GL_FLOAT;		break;
 	}
 
 	_qtGL->glReadPixels( x, y, width, height, glFormat, glType, data );

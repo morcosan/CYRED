@@ -131,9 +131,6 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 }
 
 
-
-
-
 void Viewport_WithGizmo::_RecCollectLights( GameObject* root, DataArray<GameObject*>& lightsGO )
 {
 	if ( root == NULL ) {

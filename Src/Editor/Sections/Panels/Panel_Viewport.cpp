@@ -112,16 +112,20 @@ void Panel_Viewport::Update()
 {
 	ASSERT( _isInitialized );
 
+	// check if window is visible
 	if ( !_qtWindow->isExposed() ) {
 		return;
 	}
 
+	// chekc if canvas exists
 	if ( _canvasSlot == INVALID_CANVAS_SLOT ) {
 		_CreateCanvasSlot();
 	}
 
+	// render
 	_OnUpdate();
 
+	// mark flag
 	_isFirstUpdate = FALSE;
 }
 
