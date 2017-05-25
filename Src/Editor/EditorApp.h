@@ -77,7 +77,6 @@ namespace CYRED
 
 		DataMap<PanelType, Panel*>	_panels;
 		DataArray<GameObject*>		_cameras;
-		Panel_Viewport*				_mainViewport;
 
 		InputReceiverQT*		_inputReceiver;	/* object for receiving input events	*/
 

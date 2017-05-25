@@ -134,21 +134,21 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 
 
 
-void Viewport_WithGizmo::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
+void Viewport_WithGizmo::_RecCollectLights( GameObject* root, DataArray<GameObject*>& lightsGO )
 {
-	if ( gameObject == NULL ) {
+	if ( root == NULL ) {
 		return;
 	}
 
 	// check for light component
-	Light* light = gameObject->GetComponent<Light>();
+	Light* light = root->GetComponent<Light>();
 	if ( light != NULL ) {
-		lightsGO.Add( gameObject );
+		lightsGO.Add( root );
 	}
 
 	// parse children
-	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
-		_RecCollectLights( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
+	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+		_RecCollectLights( CAST_S(GameObject*, root->GetChildNodeAt(i)), lightsGO );
 	}
 }
 
@@ -322,26 +322,50 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 }
 
 
-GameObject* Viewport_WithGizmo::_RecSearchByUID( int uid, GameObject* gameObject )
+GameObject* Viewport_WithGizmo::_RecSearchByUID( int uid, GameObject* root )
 {
-	if ( gameObject == NULL ) {
+	if ( root == NULL ) {
 		return NULL;
 	}
 
 	// check uid
-	if ( gameObject->GetUniqueID() == uid ) {
-		return gameObject;
+	if ( root->GetUniqueID() == uid ) {
+		return root;
 	}
 	
 	// parse children
-	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
-		GameObject* found = _RecSearchByUID( uid, CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+		GameObject* found = _RecSearchByUID( uid, CAST_S(GameObject*, root->GetChildNodeAt(i)) );
 		if ( found != NULL ) {
-			return NULL;
+			return found;
 		}
 	}
 
 	// not found
 	return NULL;
+}
+
+
+bool Viewport_WithGizmo::_RecIsFound( GameObject* target, GameObject* root )
+{
+	if ( root == NULL ) {
+		return false;
+	}
+
+	// check root
+	if ( target == root ) {
+		return true;
+	}
+
+	// parse children
+	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+		bool found = _RecIsFound( target, CAST_S(GameObject*, root->GetChildNodeAt(i)) );
+		if ( found) {
+			return true;
+		}
+	}
+
+	// not found
+	return false;
 }
 

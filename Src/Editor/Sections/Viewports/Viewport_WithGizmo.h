@@ -63,9 +63,10 @@ namespace CYRED
 
 	protected:
 		bool		_IsRenderingReady	();
-		void		_RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
+		void		_RecCollectLights	( GameObject* root, DataArray<GameObject*>& lightsGO );
 		void		_RenderGizmoBefore	();
 		void		_RenderGizmoAfter	();
-		GameObject*	_RecSearchByUID		( int uid, GameObject* gameObject );
+		GameObject*	_RecSearchByUID		( int uid, GameObject* root );
+		bool		_RecIsFound			( GameObject* target, GameObject* root );
 	};
 }

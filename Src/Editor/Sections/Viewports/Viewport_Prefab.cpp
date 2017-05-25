@@ -40,8 +40,14 @@ void Viewport_Prefab::OnEvent( EventType eType, void* eData )
 				GameObject* gameObject = CAST_S( GameObject*, eData );
 				// check if is displayed
 				_selectedGO = NULL;
-				for ( int i = 0; i < _targetPrefab->GetRoot()->GetChildNodeCount(); i++ ) {
-					if ( gameObject == _targetPrefab->GetRoot()->GetChildNodeAt( i ) ) {
+
+				// get prefab root
+				Node* prefabRoot = _targetPrefab->GetRoot();
+
+				// search for gameobject
+				for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
+					GameObject* root = CAST_S( GameObject*, prefabRoot->GetChildNodeAt(i) );
+					if ( _RecIsFound( gameObject, root ) ) {
 						// found
 						_selectedGO = gameObject;
 					}
@@ -142,9 +148,13 @@ void Viewport_Prefab::_OnUpdate()
 bool Viewport_Prefab::_IsPickingInput()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
+	InputManager* inputMngr = InputManager::Singleton();
+
+	// check target window
+	int targetCanvas = inputMngr->GetWindowForCursor();
 
 	// check input for mouse down
-	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetCanvas == _canvasSlot ) {
 		// use picking rederer
 		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
 		// clear screen
@@ -159,7 +169,7 @@ bool Viewport_Prefab::_IsPickingInput()
 			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
 
 			// get pixel from mouse position
-			Vector2 mousePos = InputManager::Singleton()->CursorPosition();
+			Vector2 mousePos = inputMngr->CursorPosition();
 			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
 
 			// get object uid

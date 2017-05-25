@@ -263,37 +263,40 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
 				Light* light = lightsGO[i]->GetComponent<Light>();
 				Transform* transform = lightsGO[i]->GetComponent<Transform>();
-				FiniteString uniformName;
-				int uniform;
 
-				uniformName.Set( "DEFAULT_lights[%d].type", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1i( uniform, light->GetLightType() );
+				if ( light != NULL && transform != NULL ) {
+					FiniteString uniformName;
+					int uniform;
 
-				uniformName.Set( "DEFAULT_lights[%d].color", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, light->GetColor().Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].type", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1i( uniform, light->GetLightType() );
 
-				uniformName.Set( "DEFAULT_lights[%d].intensity", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetIntensity() );
+					uniformName.Set( "DEFAULT_lights[%d].color", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform3fv( uniform, 1, light->GetColor().Ptr() );
 
-				uniformName.Set( "DEFAULT_lights[%d].spotAngle", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, Math::ToRadians( light->GetSpotAngle() ) );
+					uniformName.Set( "DEFAULT_lights[%d].intensity", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, light->GetIntensity() );
 
-				uniformName.Set( "DEFAULT_lights[%d].range", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetRange() );
+					uniformName.Set( "DEFAULT_lights[%d].spotAngle", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, Math::ToRadians( light->GetSpotAngle() ) );
 
-				uniformName.Set( "DEFAULT_lights[%d].positionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, transform->GetPositionWorld().Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].range", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, light->GetRange() );
 
-				uniformName.Set( "DEFAULT_lights[%d].directionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				Vector3 direction = transform->GetRotationWorld().ApplyRotation( Vector3(0, 0, -1) );
-				_gl->Uniform3fv( uniform, 1, direction.Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].positionWorld", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform3fv( uniform, 1, transform->GetPositionWorld().Ptr() );
+
+					uniformName.Set( "DEFAULT_lights[%d].directionWorld", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					Vector3 direction = transform->GetRotationWorld().ApplyRotation( Vector3(0, 0, -1) );
+					_gl->Uniform3fv( uniform, 1, direction.Ptr() );
+				}
 			}
 		}
 	}
@@ -422,37 +425,40 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 			for ( int i = 0; i < lightsGO.Size() && i < Uniform::MAX_LIGHTS; i++ ) {
 				Light* light = lightsGO[i]->GetComponent<Light>();
 				Transform* transform = lightsGO[i]->GetComponent<Transform>();
-				FiniteString uniformName;
-				int uniform;
 
-				uniformName.Set( "DEFAULT_lights[%d].type", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1i( uniform, light->GetLightType() );
+				if ( light != NULL && transform != NULL ) {
+					FiniteString uniformName;
+					int uniform;
 
-				uniformName.Set( "DEFAULT_lights[%d].color", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, light->GetColor().Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].type", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1i( uniform, light->GetLightType() );
 
-				uniformName.Set( "DEFAULT_lights[%d].intensity", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetIntensity() );
+					uniformName.Set( "DEFAULT_lights[%d].color", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform3fv( uniform, 1, light->GetColor().Ptr() );
 
-				uniformName.Set( "DEFAULT_lights[%d].spotAngle", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, Math::ToRadians( light->GetSpotAngle() ) );
+					uniformName.Set( "DEFAULT_lights[%d].intensity", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, light->GetIntensity() );
 
-				uniformName.Set( "DEFAULT_lights[%d].range", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform1f( uniform, light->GetRange() );
+					uniformName.Set( "DEFAULT_lights[%d].spotAngle", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, Math::ToRadians( light->GetSpotAngle() ) );
 
-				uniformName.Set( "DEFAULT_lights[%d].positionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				_gl->Uniform3fv( uniform, 1, transform->GetPositionWorld().Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].range", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform1f( uniform, light->GetRange() );
 
-				uniformName.Set( "DEFAULT_lights[%d].directionWorld", i );
-				uniform = shader->GetUniformLocation( uniformName.GetChar() );
-				Vector3 direction = transform->GetRotationWorld().ApplyRotation( Vector3(0, 0, -1) );
-				_gl->Uniform3fv( uniform, 1, direction.Ptr() );
+					uniformName.Set( "DEFAULT_lights[%d].positionWorld", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					_gl->Uniform3fv( uniform, 1, transform->GetPositionWorld().Ptr() );
+
+					uniformName.Set( "DEFAULT_lights[%d].directionWorld", i );
+					uniform = shader->GetUniformLocation( uniformName.GetChar() );
+					Vector3 direction = transform->GetRotationWorld().ApplyRotation( Vector3( 0, 0, -1 ) );
+					_gl->Uniform3fv( uniform, 1, direction.Ptr() );
+				}
 			}
 		}
 	}

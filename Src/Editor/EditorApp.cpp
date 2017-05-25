@@ -95,6 +95,9 @@ void EditorApp::Run( int& argc, char* argv[] )
 	_CreateCameras();
 	_CreateSelectorPopup();
 
+	// a viewport is needed t initialize rendering
+	Panel_Viewport*	mainViewport = NULL;
+
 	// create panels
 	for ( int i = 0; i < EditorSettings::panels.Size(); i++ ) {
 		Panel* panel = NULL;
@@ -108,7 +111,7 @@ void EditorApp::Run( int& argc, char* argv[] )
 		}
 
 		if ( EditorSettings::panels[i].viewportIndex == 0 ) {
-			_mainViewport = CAST_S( Panel_Viewport*, panel );
+			mainViewport = CAST_S( Panel_Viewport*, panel );
 		}
 	}
 
@@ -123,8 +126,8 @@ void EditorApp::Run( int& argc, char* argv[] )
 	_qtApp->processEvents();
 
 	// it requires to be initialized after viewport is shown
-	ASSERT( _mainViewport != NULL );
-	RenderManager::Singleton()->Initialize( _mainViewport->GetGLContext(), Memory::Alloc<GLImpl_3_0>() );
+	ASSERT( mainViewport != NULL );
+	RenderManager::Singleton()->Initialize( mainViewport->GetGLContext(), Memory::Alloc<GLImpl_3_0>() );
 
 	// load assets, after GL init
 	if ( _panels.Has( PanelType::ASSETS ) ) {
@@ -320,7 +323,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 		{
 			Viewport_Scene* viewportPanel = Memory::Alloc<Viewport_Scene>( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
-			viewportPanel->SetCamera( _cameras[ 0 ] );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
 			break;
 		}
@@ -329,7 +332,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 		{
 			Viewport_Prefab* viewportPanel = Memory::Alloc<Viewport_Prefab>( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
-			viewportPanel->SetCamera( _cameras[ 1 ] );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
 			break;
 		}

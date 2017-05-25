@@ -35,8 +35,11 @@ void Viewport_Scene::OnEvent( EventType eType, void* eData )
 
 				// check if is displayed
 				_selectedGO = NULL;
+
+				// search for gameobject
 				for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
-					if ( gameObject == sceneRoot->GetChildNodeAt( i ) ) {
+					GameObject* root = CAST_S( GameObject*, sceneRoot->GetChildNodeAt(i) );
+					if ( _RecIsFound( gameObject, root ) ) {
 						// found
 						_selectedGO = gameObject;
 					}
@@ -134,9 +137,13 @@ void Viewport_Scene::_OnUpdate()
 bool Viewport_Scene::_IsPickingInput()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
+	InputManager* inputMngr = InputManager::Singleton();
+
+	// check target window
+	int targetCanvas = inputMngr->GetWindowForCursor();
 
 	// check input for mouse down
-	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetCanvas == _canvasSlot ) {
 		// use picking rederer
 		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
 		// clear screen
@@ -151,7 +158,7 @@ bool Viewport_Scene::_IsPickingInput()
 			renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
 
 			// get pixel from mouse position
-			Vector2 mousePos = InputManager::Singleton()->CursorPosition();
+			Vector2 mousePos = inputMngr->CursorPosition();
 			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
 
 			// get object uid
