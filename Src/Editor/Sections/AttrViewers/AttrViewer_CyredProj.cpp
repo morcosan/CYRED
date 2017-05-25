@@ -41,7 +41,7 @@ void AttrViewer_CyredProj::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_CyredProj::_OnUpdateGUI()
+void AttrViewer_CyredProj::_UpdateGUI()
 {
 	AppConfig& appConfig = ProjectSettings::appConfig;
 
@@ -66,7 +66,7 @@ void AttrViewer_CyredProj::_OnUpdateGUI()
 }
 
 
-void AttrViewer_CyredProj::_OnUpdateTarget()
+void AttrViewer_CyredProj::_UpdateTarget()
 {
 	AppConfig& appConfig = ProjectSettings::appConfig;
 

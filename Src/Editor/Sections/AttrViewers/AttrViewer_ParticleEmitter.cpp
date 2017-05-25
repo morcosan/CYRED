@@ -61,7 +61,7 @@ void AttrViewer_ParticleEmitter::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_ParticleEmitter::_OnUpdateGUI()
+void AttrViewer_ParticleEmitter::_UpdateGUI()
 {
 	_WriteAttrInt		( ATTR_MAX_PARTICLES,		_target->GetMaxParticles() );
 	_WriteAttrFloat		( ATTR_PARTICLE_LIFETIME,	_target->GetParticleLifetime() );
@@ -96,7 +96,7 @@ void AttrViewer_ParticleEmitter::_OnUpdateGUI()
 }
 
 
-void AttrViewer_ParticleEmitter::_OnUpdateTarget()
+void AttrViewer_ParticleEmitter::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

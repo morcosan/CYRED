@@ -93,7 +93,7 @@ namespace CYRED
 			String					attrName;
 			AttrType				attrType;
 			String					selectorDataType;	// for single selector and list of selector
-			DataArray<cchar*>  dropdownValues;		// for single dropdown and list of dropdown
+			DataArray<cchar*>		dropdownValues;		// for single dropdown and list of dropdown
 			DataArray<AttrStruct>	structScheme;		// for list of struct
 			AttrType				listType;			// for struct of list
 		};
@@ -135,8 +135,8 @@ namespace CYRED
 	protected:
 		virtual void _OnInitialize		()					PURE_VIRTUAL;	// it should create the attributes
 		virtual void _OnChangeTarget	( void* target )	PURE_VIRTUAL;	// it should reset target
-		virtual void _OnUpdateGUI		()					PURE_VIRTUAL;	// we should update the GUI
-		virtual void _OnUpdateTarget	()					PURE_VIRTUAL;	// we should update the target
+		virtual void _UpdateGUI			()					PURE_VIRTUAL;	// we should update the GUI
+		virtual void _UpdateTarget		()					PURE_VIRTUAL;	// we should update the target
 
 
 	protected:

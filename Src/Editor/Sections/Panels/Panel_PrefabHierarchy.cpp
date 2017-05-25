@@ -134,6 +134,9 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 			if ( _targetPrefab == eData ) {
 				_targetPrefab = NULL;
 				_ResetHierarchy();
+
+				// send event
+				EventManager::Singleton()->EmitEvent( EventType::SELECT_PREFAB, NULL );
 			}
 			break;
 		

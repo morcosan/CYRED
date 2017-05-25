@@ -28,14 +28,12 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 					_al );
 	{
 		Shader* shader = material->GetShader();
-		if ( shader == NULL )
-		{
+		if ( shader == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
 			json.AddMember( rapidjson::StringRef( SHADER ), nullNode, _al );
 		}
-		else
-		{
+		else {
 			json.AddMember( rapidjson::StringRef( SHADER ),
 							rapidjson::StringRef( shader->GetUniqueID() ),
 							_al );
@@ -49,20 +47,17 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 					_al );
 	{
 		FaceCulling faceCulling = material->GetFaceCulling();
-		if ( faceCulling == FaceCulling::CULL_BACK )
-		{
+		if ( faceCulling == FaceCulling::CULL_BACK ) {
 			json.AddMember( rapidjson::StringRef( CULL_FACE ),
 							rapidjson::StringRef( CULL_FACE_BACK ),
 							_al );
 		}
-		else if ( faceCulling == FaceCulling::CULL_FRONT )
-		{
+		else if ( faceCulling == FaceCulling::CULL_FRONT ) {
 			json.AddMember( rapidjson::StringRef( CULL_FACE ),
 							rapidjson::StringRef( CULL_FACE_FRONT ),
 							_al );
 		}
-		else if ( faceCulling == FaceCulling::CULL_NONE )
-		{
+		else if ( faceCulling == FaceCulling::CULL_NONE ) {
 			json.AddMember( rapidjson::StringRef( CULL_FACE ),
 							rapidjson::StringRef( CULL_FACE_NONE ),
 							_al );
@@ -74,8 +69,7 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 
 		int totalProperties = material->GetPropertiesCount();
 
-		for ( int i = 0; i < totalProperties; ++i )
-		{
+		for ( int i = 0; i < totalProperties; ++i ) {
 			cchar* name = material->GetPropertyNameAt( i );
 			DataUnion& data = material->GetPropertyDataAt( i );
 
@@ -86,8 +80,7 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 								  rapidjson::StringRef( name ),
 								  _al );
 
-			switch ( data.GetValueType() )
-			{
+			switch ( data.GetValueType() ) {
 				case DataUnion::INT:
 					objectNode.AddMember( rapidjson::StringRef( PROP_TYPE ),
 										  rapidjson::StringRef( PROP_TYPE_INT ),
@@ -134,28 +127,26 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 					break;
 
 				case DataUnion::REFERENCE:
-					{
-						objectNode.AddMember( rapidjson::StringRef( PROP_TYPE ),
-											  rapidjson::StringRef( PROP_TYPE_TEX ),
-											  _al );
+				{
+					objectNode.AddMember( rapidjson::StringRef( PROP_TYPE ),
+											rapidjson::StringRef( PROP_TYPE_TEX ),
+											_al );
 
-						Texture* texture = CAST_S( Texture*, data.GetReference() );
-						if ( texture == NULL )
-						{
-							rapidjson::Value nullNode;
-							nullNode.SetNull();
-							objectNode.AddMember( rapidjson::StringRef( PROP_VALUE ), 
-												  nullNode,
-												  _al );
-						}
-						else
-						{
-							objectNode.AddMember( rapidjson::StringRef( PROP_VALUE ),
-												  rapidjson::StringRef( texture->GetUniqueID() ),
-												  _al );
-						}
+					Texture* texture = CAST_S( Texture*, data.GetReference() );
+					if ( texture == NULL ) {
+						rapidjson::Value nullNode;
+						nullNode.SetNull();
+						objectNode.AddMember( rapidjson::StringRef( PROP_VALUE ), 
+												nullNode,
+												_al );
+					}
+					else {
+						objectNode.AddMember( rapidjson::StringRef( PROP_VALUE ),
+												rapidjson::StringRef( texture->GetUniqueID() ),
+												_al );
 					}
 					break;
+				}
 			}
 
 			arrayNode.PushBack( objectNode, _al );
@@ -164,6 +155,20 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 		json.AddMember( rapidjson::StringRef( PROPERTIES ),
 						arrayNode,
 						_al );
+	}
+
+	{
+		Material* pickingProxy = material->GetPickingProxy();
+		if ( pickingProxy == NULL ) {
+			rapidjson::Value nullNode;
+			nullNode.SetNull();
+			json.AddMember( rapidjson::StringRef( PICKING_PROXY ), nullNode, _al );
+		}
+		else {
+			json.AddMember( rapidjson::StringRef( PICKING_PROXY ),
+							rapidjson::StringRef( pickingProxy->GetUniqueID() ),
+							_al );
+		}
 	}
 
 	return json;
@@ -181,8 +186,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 
 	material->ClearProperties();
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
+	if ( json.HasMember( UNIQUE_ID ) ) {
 		material->SetUniqueID( json[UNIQUE_ID].GetString() );
 	}
 
@@ -212,12 +216,15 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			material->SetShader( shader );
 		}
 	}
+
 	if ( json.HasMember( WIREFRAME ) ) {
 		material->SetWireframe( json[WIREFRAME].GetBool() );
 	}
+
 	if ( json.HasMember( LINE_WIDTH ) ) {
 		material->SetLineWidth( CAST_S( float, json[LINE_WIDTH].GetDouble() ) );
 	}
+
 	if ( json.HasMember( CULL_FACE ) ) {
 		String cullFace( json[CULL_FACE].GetString() );
 
@@ -231,6 +238,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			material->SetFaceCulling( FaceCulling::CULL_NONE );
 		}
 	}
+
 	if ( json.HasMember( PROPERTIES ) ) {
 		rapidjson::Value& properties = json[PROPERTIES];
 
@@ -286,6 +294,29 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 					}
 				}
 			}
+		}
+	}
+
+	if ( json.HasMember( PICKING_PROXY ) ) {
+		if ( json[PICKING_PROXY].IsNull() ) {
+			material->SetPickingProxy( NULL );
+		}
+		else {
+			cchar* uniqueID = json[PICKING_PROXY].GetString();
+			Material* pickingProxy = AssetManager::Singleton()->GetMaterial( uniqueID );
+			if ( pickingProxy == NULL ) {
+				bool isOk = Random::ValidateUniqueID( uniqueID );
+				if ( isOk ) {
+					pickingProxy = Memory::Alloc<Material>();
+					pickingProxy->SetUniqueID( uniqueID );
+					AssetManager::Singleton()->AddMaterial( pickingProxy );
+				}
+				else {
+					Memory::Free( pickingProxy );
+					pickingProxy = NULL;
+				}
+			}
+			material->SetPickingProxy( pickingProxy );
 		}
 	}
 

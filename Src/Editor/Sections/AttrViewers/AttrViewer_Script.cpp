@@ -110,7 +110,7 @@ void AttrViewer_Script::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Script::_OnUpdateGUI()
+void AttrViewer_Script::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -125,7 +125,7 @@ void AttrViewer_Script::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Script::_OnUpdateTarget()
+void AttrViewer_Script::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

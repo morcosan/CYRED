@@ -42,34 +42,36 @@ namespace CYRED
 
 
 	public:
-		void		LoadUniqueID	() override;
-		void		LoadFullFile	() override;
-		void		ClearAsset		() override;
-		Asset*		Clone			() override;
-		cchar*	GetExtension	() override;
+		void		LoadUniqueID		() override;
+		void		LoadFullFile		() override;
+		void		ClearAsset			() override;
+		Asset*		Clone				() override;
+		cchar*		GetExtension		() override;
 
 
 	public:
-		Shader*		GetShader		() const;
-		bool		IsWireframe		() const;
-		float		GetLineWidth	() const;
-		FaceCulling	GetFaceCulling	() const;
+		Shader*		GetShader			() const;
+		bool		IsWireframe			() const;
+		float		GetLineWidth		() const;
+		FaceCulling	GetFaceCulling		() const;
+		Material*	GetPickingProxy		() const;
+	
+		void		SetShader			( Shader* shader );		
+		void		SetWireframe		( bool value );		
+		void		SetLineWidth		( float value );		
+		void		SetFaceCulling		( FaceCulling value );
+		void		SetPickingProxy		( Material* value );
 
-		void		SetShader		( Shader* shader );		
-		void		SetWireframe	( bool value );		
-		void		SetLineWidth	( float value );		
-		void		SetFaceCulling	( FaceCulling value );
-
-		void		SetProperty		( cchar* name, int value );
-		void		SetProperty		( cchar* name, float value );
-		void		SetProperty		( cchar* name, const Vector2& value );
-		void		SetProperty		( cchar* name, const Vector3& value );
-		void		SetProperty		( cchar* name, const Vector4& value );
-		void		SetProperty		( cchar* name, Texture* value );
-
-		int		GetPropertiesCount	() const;
+		void		SetProperty			( cchar* name, int value );
+		void		SetProperty			( cchar* name, float value );
+		void		SetProperty			( cchar* name, const Vector2& value );
+		void		SetProperty			( cchar* name, const Vector3& value );
+		void		SetProperty			( cchar* name, const Vector4& value );
+		void		SetProperty			( cchar* name, Texture* value );
+	
+		int			GetPropertiesCount	() const;
 		DataUnion&	GetPropertyDataAt	( int index ) const;
-		cchar*	GetPropertyNameAt	( int index ) const;
+		cchar*		GetPropertyNameAt	( int index ) const;
 		void		ClearProperties		();
 
 
@@ -86,5 +88,7 @@ namespace CYRED
 		FaceCulling		_faceCulling;
 
 		DataArray<_Property> _properties;
+
+		Material*		_pickingProxy;
 	};
 }

@@ -6,6 +6,7 @@
 #include "CyredModule_Event.h"
 #include "../Selectors/Selector_Shader.h"
 #include "../Selectors/Selector_Texture.h"
+#include "../Selectors/Selector_Material.h"
 
 
 using namespace CYRED;
@@ -76,6 +77,9 @@ void AttrViewer_Material::_OnInitialize()
 
 		_CreateAttrStruct( ATTR_PROPERTIES, ATTR_PROPERTIES, propertiesScheme );
 	}
+
+	_CreateAttrSelector	( ATTR_PICKING_PROXY, ATTR_PICKING_PROXY, Selector_Material::TYPE );
+
 	
 	_AddToPanel( TITLE );
 }
@@ -90,7 +94,7 @@ void AttrViewer_Material::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Material::_OnUpdateGUI()
+void AttrViewer_Material::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -211,12 +215,16 @@ void AttrViewer_Material::_OnUpdateGUI()
 		}
 	}
 
+	Material* pickingProxy = _target->GetPickingProxy();
+	cchar* proxyName = (pickingProxy == NULL) ? Selector_Material::OPTION_NULL : pickingProxy->GetName();
+	_WriteAttrSelector( ATTR_PICKING_PROXY, pickingProxy, proxyName );
+
 	// change ui based on options
 	_ChangeVisibility();
 }
 
 
-void AttrViewer_Material::_OnUpdateTarget()
+void AttrViewer_Material::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
@@ -293,6 +301,9 @@ void AttrViewer_Material::_OnUpdateTarget()
 			_target->SetProperty( propName.GetString(), CAST_S( Texture*, propValue.GetReference() ) );
 		}
 	}
+
+	_target->SetPickingProxy( CAST_S( Material*, _ReadAttrSelector(ATTR_PICKING_PROXY) ) );
+
 
 	// change ui based on options
 	_ChangeVisibility();

@@ -18,6 +18,7 @@ Material::Material()
 	, _isWireframe( FALSE )
 	, _lineWidth( 1.0f )
 	, _faceCulling( FaceCulling::CULL_BACK )
+	, _pickingProxy( NULL )
 {
 }
 
@@ -119,6 +120,12 @@ FaceCulling Material::GetFaceCulling() const
 }
 
 
+Material* Material::GetPickingProxy() const
+{
+	return _pickingProxy;
+}
+
+
 void Material::SetShader( Shader* shader )
 {
 	_shader = shader;
@@ -158,13 +165,16 @@ void Material::SetFaceCulling( FaceCulling value )
 	}
 }
 
+void Material::SetPickingProxy( Material* value )
+{
+	_pickingProxy = value;
+}
+
 
 void Material::SetProperty( cchar* name, int value )
 {
-	for ( int i = 0; i < _properties.Size(); ++i )
-	{
-		if ( _properties[i].name == name )
-		{
+	for ( int i = 0; i < _properties.Size(); ++i ) {
+		if ( _properties[i].name == name ) {
 			_properties[i].data.SetInt( value );
 			return;
 		}
@@ -183,10 +193,8 @@ void Material::SetProperty( cchar* name, int value )
 
 void Material::SetProperty( cchar* name, float value )
 {
-	for ( int i = 0; i < _properties.Size(); ++i )
-	{
-		if ( _properties[i].name == name )
-		{
+	for ( int i = 0; i < _properties.Size(); ++i ) {
+		if ( _properties[i].name == name ) {
 			_properties[i].data.SetFloat( value );
 			return;
 		}
@@ -205,10 +213,8 @@ void Material::SetProperty( cchar* name, float value )
 
 void Material::SetProperty( cchar* name, const Vector2& value )
 {
-	for ( int i = 0; i < _properties.Size(); ++i )
-	{
-		if ( _properties[i].name == name )
-		{
+	for ( int i = 0; i < _properties.Size(); ++i ) {
+		if ( _properties[i].name == name ) {
 			_properties[i].data.SetVector2( value );
 			return;
 		}

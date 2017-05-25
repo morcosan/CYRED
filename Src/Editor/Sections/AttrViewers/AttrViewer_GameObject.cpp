@@ -25,7 +25,7 @@ void AttrViewer_GameObject::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_GameObject::_OnUpdateGUI()
+void AttrViewer_GameObject::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 	_WriteAttrInt( ATTR_UID, _target->GetUniqueID() );
@@ -39,7 +39,7 @@ void AttrViewer_GameObject::_OnUpdateGUI()
 }
 
 
-void AttrViewer_GameObject::_OnUpdateTarget()
+void AttrViewer_GameObject::_UpdateTarget()
 {
 	++_ignoreUpdateGUI;
 	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );

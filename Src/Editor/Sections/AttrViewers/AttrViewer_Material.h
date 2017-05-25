@@ -18,7 +18,7 @@ namespace CYRED
 	class AttrViewer_Material : public AttrViewer
 	{
 	public:
-		cchar* TITLE				= "Material";
+		cchar* TITLE					= "Material";
 
 		cchar* ATTR_NAME				= "Name";
 		cchar* ATTR_SHADER				= "Shader";
@@ -27,13 +27,14 @@ namespace CYRED
 		cchar* ATTR_CULL_FACE			= "Cull Face";
 		cchar* ATTR_PROPERTIES			= "Properties";
 		cchar* ATTR_PROP_TYPE_INT		= "Integers";
-		cchar* ATTR_PROP_TYPE_FLOAT	= "Floats";
+		cchar* ATTR_PROP_TYPE_FLOAT		= "Floats";
 		cchar* ATTR_PROP_TYPE_VECTOR2	= "Vector2s";
 		cchar* ATTR_PROP_TYPE_VECTOR3	= "Vector3s";
 		cchar* ATTR_PROP_TYPE_VECTOR4	= "Vector4s";
 		cchar* ATTR_PROP_TYPE_TEXTURE	= "Textures";
 		cchar* ATTR_PROP_NAME			= "Name";
 		cchar* ATTR_PROP_VALUE			= "Value";
+		cchar* ATTR_PICKING_PROXY		= "Picking Proxy";
 
 
 	public:
@@ -42,10 +43,10 @@ namespace CYRED
 
 
 	private:
-		void _OnInitialize		()					override;
-		void _OnChangeTarget	( void* target )	override;
-		void _OnUpdateGUI		()					override;
-		void _OnUpdateTarget	()					override;
+		void _OnInitialize	()					override;
+		void _OnChangeTarget( void* target )	override;
+		void _UpdateGUI		()					override;
+		void _UpdateTarget	()					override;
 
 
 	private:

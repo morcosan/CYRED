@@ -38,7 +38,7 @@ void AttrViewer_Camera::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Camera::_OnUpdateGUI()
+void AttrViewer_Camera::_UpdateGUI()
 {
 	_WriteAttrDropdown( ATTR_TYPE, _GetIndexForType( _target->GetCameraType() ) );
 	_WriteAttrFloat( ATTR_FOVY_ANGLE, _target->GetFovYAngle() );
@@ -58,7 +58,7 @@ void AttrViewer_Camera::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Camera::_OnUpdateTarget()
+void AttrViewer_Camera::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

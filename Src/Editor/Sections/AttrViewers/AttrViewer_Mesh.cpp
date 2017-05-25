@@ -41,7 +41,7 @@ void AttrViewer_Mesh::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Mesh::_OnUpdateGUI()
+void AttrViewer_Mesh::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -86,7 +86,7 @@ void AttrViewer_Mesh::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Mesh::_OnUpdateTarget()
+void AttrViewer_Mesh::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

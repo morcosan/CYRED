@@ -26,7 +26,7 @@ void AttrViewer_Morph::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Morph::_OnUpdateGUI()
+void AttrViewer_Morph::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -40,7 +40,7 @@ void AttrViewer_Morph::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Morph::_OnUpdateTarget()
+void AttrViewer_Morph::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

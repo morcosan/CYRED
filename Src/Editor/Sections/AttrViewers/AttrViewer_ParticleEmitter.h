@@ -58,8 +58,8 @@ namespace CYRED
 	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
-		void _OnUpdateGUI		()					override;
-		void _OnUpdateTarget	()					override;
+		void _UpdateGUI		()					override;
+		void _UpdateTarget	()					override;
 
 
 	private:

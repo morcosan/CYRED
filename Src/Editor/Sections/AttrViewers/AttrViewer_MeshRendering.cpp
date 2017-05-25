@@ -31,7 +31,7 @@ void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_MeshRendering::_OnUpdateGUI()
+void AttrViewer_MeshRendering::_UpdateGUI()
 {
 	Mesh* mesh = _target->GetMesh();
 	cchar* meshName = (mesh == NULL) ? Selector_Mesh::OPTION_NULL : mesh->GetName();
@@ -51,7 +51,7 @@ void AttrViewer_MeshRendering::_OnUpdateGUI()
 }
 
 
-void AttrViewer_MeshRendering::_OnUpdateTarget()
+void AttrViewer_MeshRendering::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

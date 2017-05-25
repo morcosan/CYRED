@@ -46,13 +46,13 @@ void AttrViewer_Prefab::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Prefab::_OnUpdateGUI()
+void AttrViewer_Prefab::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 }
 
 
-void AttrViewer_Prefab::_OnUpdateTarget()
+void AttrViewer_Prefab::_UpdateTarget()
 {
 	++_ignoreUpdateGUI;
 	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );

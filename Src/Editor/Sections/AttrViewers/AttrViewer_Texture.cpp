@@ -48,7 +48,7 @@ void AttrViewer_Texture::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Texture::_OnUpdateGUI()
+void AttrViewer_Texture::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -92,7 +92,7 @@ void AttrViewer_Texture::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Texture::_OnUpdateTarget()
+void AttrViewer_Texture::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

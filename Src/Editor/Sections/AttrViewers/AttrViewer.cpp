@@ -226,7 +226,7 @@ void AttrViewer::UpdateGUI()
 		return;
 	}
 
-	_OnUpdateGUI();
+	_UpdateGUI();
 }
 
 
@@ -257,14 +257,14 @@ void AttrViewer::ShowViewer()
 void AttrViewer::A_OnChange_Group1()
 {
 	_activatedGroup = CallbackGroup::GROUP_1;
-	_OnUpdateTarget();
+	_UpdateTarget();
 }
 
 
 void AttrViewer::A_OnChange_Group2()
 {
 	_activatedGroup = CallbackGroup::GROUP_2;
-	_OnUpdateTarget();
+	_UpdateTarget();
 }
 
 

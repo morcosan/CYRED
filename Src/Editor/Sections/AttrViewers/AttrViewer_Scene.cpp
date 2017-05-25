@@ -27,13 +27,13 @@ void AttrViewer_Scene::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Scene::_OnUpdateGUI()
+void AttrViewer_Scene::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 }
 
 
-void AttrViewer_Scene::_OnUpdateTarget()
+void AttrViewer_Scene::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

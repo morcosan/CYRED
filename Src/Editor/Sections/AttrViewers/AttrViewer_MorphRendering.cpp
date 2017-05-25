@@ -36,7 +36,7 @@ void AttrViewer_MorphRendering::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_MorphRendering::_OnUpdateGUI()
+void AttrViewer_MorphRendering::_UpdateGUI()
 {
 	Morph* morph = _target->GetMorph();
 	cchar* morphName = (morph == NULL) ? Selector_Morph::OPTION_NULL : morph->GetName();
@@ -60,7 +60,7 @@ void AttrViewer_MorphRendering::_OnUpdateGUI()
 }
 
 
-void AttrViewer_MorphRendering::_OnUpdateTarget()
+void AttrViewer_MorphRendering::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

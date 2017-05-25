@@ -30,7 +30,7 @@ void AttrViewer_Scripter::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Scripter::_OnUpdateGUI()
+void AttrViewer_Scripter::_UpdateGUI()
 {
 	// reset viewer
 	_ResetViewer();
@@ -130,7 +130,7 @@ void AttrViewer_Scripter::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Scripter::_OnUpdateTarget()
+void AttrViewer_Scripter::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

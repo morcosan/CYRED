@@ -39,7 +39,7 @@ void AttrViewer_Light::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Light::_OnUpdateGUI()
+void AttrViewer_Light::_UpdateGUI()
 {
 	_WriteAttrDropdown( ATTR_LIGHT_TYPE, _GetIndexForType( _target->GetLightType() ) );
 	_WriteAttrVector3( ATTR_COLOR,		_target->GetColor() );
@@ -58,7 +58,7 @@ void AttrViewer_Light::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Light::_OnUpdateTarget()
+void AttrViewer_Light::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

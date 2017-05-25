@@ -36,7 +36,7 @@ void AttrViewer_Transform::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Transform::_OnUpdateGUI()
+void AttrViewer_Transform::_UpdateGUI()
 {
 	_WriteAttrVector3( ATTR_LOCAL_POS,		_target->GetPositionLocal() );
 	_WriteAttrVector3( ATTR_LOCAL_ROT,		_target->GetEulerRotationLocal() );
@@ -56,7 +56,7 @@ void AttrViewer_Transform::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Transform::_OnUpdateTarget()
+void AttrViewer_Transform::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 

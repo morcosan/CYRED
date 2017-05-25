@@ -31,7 +31,7 @@ void AttrViewer_Shader::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_Shader::_OnUpdateGUI()
+void AttrViewer_Shader::_UpdateGUI()
 {
 	_WriteAttrString( ATTR_NAME, _target->GetName() );
 
@@ -45,7 +45,7 @@ void AttrViewer_Shader::_OnUpdateGUI()
 }
 
 
-void AttrViewer_Shader::_OnUpdateTarget()
+void AttrViewer_Shader::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
