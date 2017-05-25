@@ -17,9 +17,7 @@ namespace CYRED
 {
 	ABSTRACT class Viewport_WithGizmo : public Panel_Viewport
 	{
-	public:
-		cchar*	const	PANEL_TITLE			= "Scene Viewport";
-		const Vector2		MIN_SIZE			= Vector2( 400, 250 );
+		const Vector2	MIN_SIZE			= Vector2( 400, 250 );
 		cchar* const	GIZMO_GRID			= "GizmoGrid";
 		cchar* const	GIZMO_AXIS			= "GizmoAxis";
 		cchar* const	GIZMO_BACKGROUND	= "GizmoBackground";
@@ -60,14 +58,14 @@ namespace CYRED
 
 
 	private:
-		virtual cchar*	_GetPanelTitle	() override;
-		virtual Vector2		_GetPanelMinSize() override;
+		virtual Vector2	_GetPanelMinSize() override;
 
 
 	protected:
-		bool _IsRenderingReady	();
-		void _RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
-		void _RenderGizmoBefore	();
-		void _RenderGizmoAfter	();
+		bool		_IsRenderingReady	();
+		void		_RecCollectLights	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
+		void		_RenderGizmoBefore	();
+		void		_RenderGizmoAfter	();
+		GameObject*	_RecSearchByUID		( int uid, GameObject* gameObject );
 	};
 }

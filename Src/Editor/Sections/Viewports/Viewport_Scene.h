@@ -19,6 +19,9 @@ namespace CYRED
 {
 	class Viewport_Scene : public Viewport_WithGizmo, public IEventListener
 	{
+		cchar* const PANEL_TITLE = "Scene Viewport";
+
+
 	public:
 		Viewport_Scene( int panelIndex );
 		virtual ~Viewport_Scene() {}
@@ -29,12 +32,17 @@ namespace CYRED
 
 
 	private:
+		virtual cchar*	_GetPanelTitle	() override;
+		virtual void	_OnInitialize	() override;
+		virtual void	_OnFinalize		() override;
+		virtual void	_OnUpdate		() override;
+
+	private:
 		QComboBox*		_qtCameraDropdown;
 
 
 	private:
-		virtual void _OnInitialize	() override;
-		virtual void _OnFinalize	() override;
-		virtual void _OnUpdate		() override;
+		bool _IsPickingInput();
+
 	};
 }

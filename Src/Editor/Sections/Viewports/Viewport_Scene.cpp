@@ -44,7 +44,23 @@ void Viewport_Scene::OnEvent( EventType eType, void* eData )
 			}
 			break;
 		}
+
+		case EventType::SELECT_ASSET:
+		case EventType::SELECT_PREFAB:
+		case EventType::SELECT_SCENE:
+		{
+			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
+				// unselect
+				_selectedGO = NULL;
+			}
+			break;
+		}
 	}
+}
+
+cchar* Viewport_Scene::_GetPanelTitle()
+{
+	return PANEL_TITLE;
 }
 
 
@@ -55,6 +71,9 @@ void Viewport_Scene::_OnInitialize()
 
 	// register events
 	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_PREFAB, this );
 }
 
 
@@ -62,6 +81,9 @@ void Viewport_Scene::_OnFinalize()
 {
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_PREFAB, this );
 }
 
 
@@ -74,32 +96,10 @@ void Viewport_Scene::_OnUpdate()
 		return;
 	}
 
-	// check input for mouse down
-	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
-		// use picking rederer
-		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
-		// clear screen
-		renderMngr->ClearScreen( 0, 0, 0 );
-
-		// render scenes
-		if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
-			// get first scene's root
-			Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
-
-			// render meshes
-			renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
-		}
-
-		// get pixel from mouse position
-		Vector2 mousePos = InputManager::Singleton()->CursorPosition();
-		Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
-
-		// get object uid
-		int uid = pixel.x;
-
+	// check picking
+	if ( _IsPickingInput() ) {
 		return;
 	}
-
 
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
@@ -128,4 +128,50 @@ void Viewport_Scene::_OnUpdate()
 
 	// finish
 	renderMngr->SwapBuffers();
+}
+
+
+bool Viewport_Scene::_IsPickingInput()
+{
+	RenderManager* renderMngr = RenderManager::Singleton();
+
+	// check input for mouse down
+	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+		// use picking rederer
+		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
+		// clear screen
+		renderMngr->ClearScreen( 0, 0, 0 );
+
+		// render scenes
+		if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
+			// get first scene's root
+			Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+			// render meshes
+			renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
+
+			// get pixel from mouse position
+			Vector2 mousePos = InputManager::Singleton()->CursorPosition();
+			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
+
+			// get object uid
+			int uid = pixel.x;
+			// find gameobject by uid
+			GameObject* gameObject;
+			for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+				gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)) );
+				// if found
+				if ( gameObject != NULL ) {
+					// send event
+					EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
+
+					break;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	return false;
 }

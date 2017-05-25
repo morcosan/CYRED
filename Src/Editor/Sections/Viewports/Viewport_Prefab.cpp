@@ -6,6 +6,7 @@
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
+#include "CyredModule_Input.h"
 
 
 using namespace CYRED;
@@ -48,7 +49,24 @@ void Viewport_Prefab::OnEvent( EventType eType, void* eData )
 			}
 			break;
 		}
+
+		case EventType::SELECT_ASSET:
+		case EventType::SELECT_PREFAB:
+		case EventType::SELECT_SCENE:
+		{
+			if ( _targetPrefab != NULL ) {
+				// unselect
+				_selectedGO = NULL;
+			}
+			break;
+		}
 	}
+}
+
+
+cchar* Viewport_Prefab::_GetPanelTitle()
+{
+	return PANEL_TITLE;
 }
 
 
@@ -58,6 +76,9 @@ void Viewport_Prefab::_OnInitialize()
 	EventManager::Singleton()->RegisterListener( EventType::OPEN_PREFAB, this );
 	EventManager::Singleton()->RegisterListener( EventType::CLOSE_PREFAB, this );
 	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->RegisterListener( EventType::SELECT_PREFAB, this );
 }
 
 
@@ -67,6 +88,9 @@ void Viewport_Prefab::_OnFinalize()
 	EventManager::Singleton()->UnregisterListener( EventType::OPEN_PREFAB, this );
 	EventManager::Singleton()->UnregisterListener( EventType::CLOSE_PREFAB, this );
 	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
+	EventManager::Singleton()->UnregisterListener( EventType::SELECT_PREFAB, this );
 }
 
 
@@ -76,6 +100,11 @@ void Viewport_Prefab::_OnUpdate()
 
 	// prepare rendering
 	if ( !_IsRenderingReady() ) {
+		return;
+	}
+
+	// check picking
+	if ( _IsPickingInput() ) {
 		return;
 	}
 
@@ -107,4 +136,50 @@ void Viewport_Prefab::_OnUpdate()
 
 	// finish
 	renderMngr->SwapBuffers();
+}
+
+
+bool Viewport_Prefab::_IsPickingInput()
+{
+	RenderManager* renderMngr = RenderManager::Singleton();
+
+	// check input for mouse down
+	if ( InputManager::Singleton()->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+		// use picking rederer
+		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
+		// clear screen
+		renderMngr->ClearScreen( 0, 0, 0 );
+
+		// render prefab
+		if ( _targetPrefab != NULL ) {
+			// get prefabs root
+			Node* prefabRoot = _targetPrefab->GetRoot();
+
+			// render meshes
+			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
+
+			// get pixel from mouse position
+			Vector2 mousePos = InputManager::Singleton()->CursorPosition();
+			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
+
+			// get object uid
+			int uid = pixel.x;
+			// find gameobject by uid
+			GameObject* gameObject;
+			for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
+				gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, prefabRoot->GetChildNodeAt(i)) );
+				// if found
+				if ( gameObject != NULL ) {
+					// send event
+					EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
+
+					break;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	return false;
 }

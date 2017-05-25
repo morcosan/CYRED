@@ -88,6 +88,9 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 		return;
 	}
 
+	// prepare buffer
+	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
+
 	// store data
 	_currCameraTran		= cameraGO->GetComponent<Transform>();
 	_currCameraCam		= cameraGO->GetComponent<Camera>();

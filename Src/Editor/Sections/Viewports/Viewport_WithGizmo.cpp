@@ -85,12 +85,6 @@ void Viewport_WithGizmo::SetCamera( GameObject* cameraGO )
 }
 
 
-cchar* Viewport_WithGizmo::_GetPanelTitle()
-{
-	return PANEL_TITLE;
-}
-
-
 Vector2 Viewport_WithGizmo::_GetPanelMinSize()
 {
 	return MIN_SIZE;
@@ -137,8 +131,15 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 }
 
 
+
+
+
 void Viewport_WithGizmo::_RecCollectLights( GameObject* gameObject, DataArray<GameObject*>& lightsGO )
 {
+	if ( gameObject == NULL ) {
+		return;
+	}
+
 	// check for light component
 	Light* light = gameObject->GetComponent<Light>();
 	if ( light != NULL ) {
@@ -318,5 +319,29 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 								_cameraGO, _noLightsGO );
 		}
 	}
+}
+
+
+GameObject* Viewport_WithGizmo::_RecSearchByUID( int uid, GameObject* gameObject )
+{
+	if ( gameObject == NULL ) {
+		return NULL;
+	}
+
+	// check uid
+	if ( gameObject->GetUniqueID() == uid ) {
+		return gameObject;
+	}
+	
+	// parse children
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); i++ ) {
+		GameObject* found = _RecSearchByUID( uid, CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+		if ( found != NULL ) {
+			return NULL;
+		}
+	}
+
+	// not found
+	return NULL;
 }
 

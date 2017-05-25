@@ -19,6 +19,9 @@ namespace CYRED
 {
 	class Viewport_Prefab : public Viewport_WithGizmo, public IEventListener
 	{
+		cchar* const PANEL_TITLE = "Prefab Viewport";
+
+
 	public:
 		Viewport_Prefab( int panelIndex );
 		virtual ~Viewport_Prefab() {}
@@ -29,12 +32,17 @@ namespace CYRED
 
 
 	private:
+		virtual cchar*	_GetPanelTitle	() override;
+		virtual void	_OnInitialize	() override;
+		virtual void	_OnFinalize		() override;
+		virtual void	_OnUpdate		() override;
+
+
+	private:
 		Prefab*		_targetPrefab;
 
 
 	private:
-		virtual void		_OnInitialize	() override;
-		virtual void		_OnFinalize		() override;
-		virtual void		_OnUpdate		() override;
+		bool _IsPickingInput();
 	};
 }
