@@ -38,6 +38,7 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	this->addSeparator();
 
 	QMenu* menu_AddComp				= this->addMenu( MENU_ADD_COMPONENT );
+	QAction* actionComp_Transform	= menu_AddComp->addAction( MENU_COMP_TRANSFORM );
 	QAction* actionComp_Camera		= menu_AddComp->addAction( MENU_COMP_CAMERA );
 	QAction* actionComp_Light		= menu_AddComp->addAction( MENU_COMP_LIGHT );
 	QAction* actionComp_MeshRen		= menu_AddComp->addAction( MENU_COMP_MESH_REN );
@@ -68,6 +69,7 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	// add callbacks
 	QObject::connect( actionRename,			&QAction::triggered, this, &Menu_GameObject::A_Rename );
 	QObject::connect( actionDuplicate,		&QAction::triggered, this, &Menu_GameObject::A_Duplicate );
+	QObject::connect( actionComp_Transform,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Transform );
 	QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Camera );
 	QObject::connect( actionComp_Light,		&QAction::triggered, this, &Menu_GameObject::A_AddComp_Light );
 	QObject::connect( actionComp_MeshRen,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_MeshRendering );
@@ -300,6 +302,16 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
 	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+}
+
+
+void Menu_GameObject::A_AddComp_Transform()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->gameObject != NULL );
+
+	// add transform component
+	treeItem->gameObject->AddComponent<Transform>();
 }
 
 

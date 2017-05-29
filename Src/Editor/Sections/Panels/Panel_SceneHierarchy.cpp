@@ -140,6 +140,7 @@ void Panel_SceneHierarchy::OnEvent( EventType eType, void* eData )
 {
 	switch ( eType ) {
 		case EventType::CHANGE_SCENE_HIERARCHY:
+		case EventType::CHANGE_GAMEOBJECT:
 			_ResetHierarchy();
 			break;
 

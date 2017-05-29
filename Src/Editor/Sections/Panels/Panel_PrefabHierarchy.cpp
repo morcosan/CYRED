@@ -154,6 +154,7 @@ void Panel_PrefabHierarchy::OnEvent( EventType eType, void* eData )
 			break;
 		
 		case EventType::CHANGE_PREFAB_HIERARCHY:
+		case EventType::CHANGE_GAMEOBJECT:
 			_ResetHierarchy();
 			break;
 

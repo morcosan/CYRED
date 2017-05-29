@@ -23,7 +23,7 @@ function OnStart()
 	-- get map holder
 	local map = SCENE:FindGameObject( "Map" )
 	-- clear prev map
-	
+	map:DeleteAllChildNodes()
 
 	-- create level
 	for ln = 1, height do
@@ -37,7 +37,7 @@ function OnStart()
 				gameObject = SCENE:Instantiate( VARS.floor, 0 )
 			elseif c == 's' then
 				gameObject = SCENE:Instantiate( VARS.startFloor, 0 )
-			elseif c == 'e' then
+			elseif c == 'e' or c == '-' then
 				gameObject = SCENE:Instantiate( VARS.endFloor, 0 )
 			end
 

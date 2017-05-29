@@ -3,6 +3,8 @@
 
 #include "Toolbar.h"
 
+#include "CyredModule_Event.h"
+
 #include "../EditorApp.h"
 
 #include "QtWidgets\qlayout.h"
@@ -60,6 +62,9 @@ void Toolbar::A_PlayButton( bool checked )
 	else {
 		EditorApp::Singleton()->StopPlayMode();
 	}
+
+	// unselect everything
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
 }
 
 

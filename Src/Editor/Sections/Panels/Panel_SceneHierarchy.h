@@ -25,9 +25,9 @@ namespace CYRED
 {
 	class Panel_SceneHierarchy : public Panel, public IEventListener
 	{
-		cchar*	const	PANEL_TITLE			= "Scene Hierarchy";
-		const Vector2		MIN_SIZE			= Vector2( 200, 200 );
-		const Vector2		MAX_SIZE			= Vector2( 300, 1000 );
+		cchar*	const	PANEL_TITLE	= "Scene Hierarchy";
+		const Vector2	MIN_SIZE	= Vector2( 200, 200 );
+		const Vector2	MAX_SIZE	= Vector2( 300, 1000 );
 
 
 	public:

@@ -34,6 +34,8 @@ namespace CYRED
 		int		GetChildNodeCount	()							const;
 		Node*	GetChildNodeAt		( int index )				const;
 
+		void	DeleteAllChildNodes	();
+
 
 	protected:
 		Node*				_parentNode;	//! the parent

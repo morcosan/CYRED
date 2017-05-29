@@ -203,12 +203,13 @@ void ScriptManagerImpl::_RegisterNode()
 {
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<Node>( "Node" )
-		.addProperty( "parentNode",			&Node::GetParentNode,	&Node::SetParentNode )
-		.addProperty( "childNodeCount",		&Node::GetChildNodeCount )
-
-		.addFunction( "AddChildNode",		&Node::AddChildNode )
-		.addFunction( "InsertChildNode",	&Node::InsertChildNode )
-		.addFunction( "GetChildNodeAt",		&Node::GetChildNodeAt )
+		.addProperty( "parentNode",				&Node::GetParentNode,	&Node::SetParentNode )
+		.addProperty( "childNodeCount",			&Node::GetChildNodeCount )
+	
+		.addFunction( "AddChildNode",			&Node::AddChildNode )
+		.addFunction( "InsertChildNode",		&Node::InsertChildNode )
+		.addFunction( "GetChildNodeAt",			&Node::GetChildNodeAt )
+		.addFunction( "DeleteAllChildNodes",	&Node::DeleteAllChildNodes )
 	.endClass();
 }
 

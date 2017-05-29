@@ -43,6 +43,7 @@ namespace CYRED
 		cchar*	const	MENU_GO_PS_EMITTER		= "Emitter";
 
 		cchar* const	MENU_ADD_COMPONENT		= "Add Component";
+		cchar* const	MENU_COMP_TRANSFORM		= "Transform";
 		cchar* const	MENU_COMP_CAMERA		= "Camera";
 		cchar* const	MENU_COMP_LIGHT			= "Light";
 		cchar* const	MENU_COMP_MESH_REN		= "Mesh Rendering";
@@ -75,6 +76,7 @@ namespace CYRED
 		void A_GO_Create3D_Morph		();
 		void A_GO_Particles_Emitter		();
 
+		void A_AddComp_Transform		();
 		void A_AddComp_Camera			();
 		void A_AddComp_Light			();
 		void A_AddComp_MeshRendering	();

@@ -38,8 +38,7 @@ GameObject::GameObject( cchar* name, int uid )
 
 GameObject::~GameObject()
 {
-	for ( int i = 0; i < _components.Size(); ++i )
-	{
+	for ( int i = 0; i < _components.Size(); ++i ) {
 		Memory::Free( _components[i] );
 	}
 
@@ -49,9 +48,13 @@ GameObject::~GameObject()
 
 void GameObject::OnHierarchyChange()
 {
-	for ( int i = 0; i < _components.Size(); ++i )
-	{
+	// anounce components
+	for ( int i = 0; i < _components.Size(); ++i ) {
 		_components[i]->OnHierarchyChange();
+	}
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_GAMEOBJECT, this );
 	}
 }
 
@@ -59,12 +62,12 @@ void GameObject::OnHierarchyChange()
 void GameObject::OnUpdate( bool isRuntime )
 {
 	// update components
-	for ( int i = 0; i < _components.Size(); ++i )	{
+	for ( int i = 0; i < _components.Size(); ++i ) {
 		_components[i]->OnUpdate( isRuntime );
 	}
 
 	// update child gameobjects
-	for ( int i = 0; i < _childNodes.Size(); ++i )	{
+	for ( int i = 0; i < _childNodes.Size(); ++i ) {
 		_childNodes[i]->OnUpdate( isRuntime );
 	}
 }

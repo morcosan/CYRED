@@ -15,10 +15,8 @@ Node::Node()
 
 Node::~Node()
 {
-	// the child will remove itself from parent
-	while ( _childNodes.Size() > 0 ) {
-		Memory::Free( _childNodes[0] );
-	}
+	// delete child nodes
+	DeleteAllChildNodes();
 
 	// should have no children by now
 	if ( _parentNode != NULL ) {
@@ -106,6 +104,15 @@ Node* Node::GetChildNodeAt( int index ) const
 	ASSERT( index < _childNodes.Size() );
 
 	return _childNodes[index];
+}
+
+
+void Node::DeleteAllChildNodes()
+{
+	// the child will remove itself from parent
+	while ( _childNodes.Size() > 0 ) {
+		Memory::Free( _childNodes[0] );
+	}
 }
 
 
