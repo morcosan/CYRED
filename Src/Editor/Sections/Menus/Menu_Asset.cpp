@@ -336,6 +336,10 @@ void Menu_Asset::A_EditPrefab()
 	Asset* asset = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( asset->GetAssetType() == AssetType::PREFAB );
 
+	// reload prefab data
+	asset->LoadFullFile();
+
+	// send event
 	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, asset );
 }
 

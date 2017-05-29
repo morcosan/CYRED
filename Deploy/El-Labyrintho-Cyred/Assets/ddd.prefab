@@ -133,7 +133,7 @@
                     "enabled": true,
                     "position_world": {
                         "x": -2.0,
-                        "y": 2.0,
+                        "y": 5.0,
                         "z": 0.0
                     },
                     "rotation_world": {

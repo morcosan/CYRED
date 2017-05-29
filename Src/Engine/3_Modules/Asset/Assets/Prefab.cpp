@@ -100,5 +100,8 @@ Node* Prefab::GetRoot() const
 
 void Prefab::CreateRoot()
 {
+	// delete root
+	Memory::Free( _root );
+
 	_root = Memory::Alloc<Node>();
 }
