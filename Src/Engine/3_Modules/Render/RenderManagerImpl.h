@@ -147,6 +147,9 @@ namespace CYRED
 										  uchar* imageBuffer_NegZ );
 			void DeleteTexture			( uint textureID );
 
+			void CalculateTanBitangents	( DataArray<Vertex>& vertices, DataArray<int>& indices );
+
+
 
 		private:
 			struct _Canvas

@@ -655,3 +655,42 @@ void RenderManagerImpl::DeleteTexture( uint textureID )
 	_gl->DeleteTextures( 1, &textureID );
 }
 
+
+void RenderManagerImpl::CalculateTanBitangents( DataArray<Vertex>& vertices, DataArray<int>& indices )
+{
+	for ( int i = 0 ; i < indices.Size() ; i += 3 ) 
+	{
+		Vertex& v0 = vertices[indices[i]];
+		Vertex& v1 = vertices[indices[i+1]];
+		Vertex& v2 = vertices[indices[i+2]];
+
+		Vector3 edge1 = v1.position - v0.position;
+		Vector3 edge2 = v2.position - v0.position;
+
+		float deltaU1 = v1.uv.x - v0.uv.x;
+		float deltaV1 = v1.uv.y - v0.uv.y;
+		float deltaU2 = v2.uv.x - v0.uv.x;
+		float deltaV2 = v2.uv.y - v0.uv.y;
+
+		float f = 1.0f / (deltaU1 * deltaV2 - deltaU2 * deltaV1);
+
+		Vector3 tangent, bitangent;
+
+		tangent.x = f * (deltaV2 * edge1.x - deltaV1 * edge2.x);
+		tangent.y = f * (deltaV2 * edge1.y - deltaV1 * edge2.y);
+		tangent.z = f * (deltaV2 * edge1.z - deltaV1 * edge2.z);
+
+		bitangent.x = f * (-deltaU2 * edge1.x - deltaU1 * edge2.x);
+		bitangent.y = f * (-deltaU2 * edge1.y - deltaU1 * edge2.y);
+		bitangent.z = f * (-deltaU2 * edge1.z - deltaU1 * edge2.z);
+
+		v0.tangent += tangent;
+		v1.tangent += tangent;
+		v2.tangent += tangent;
+
+		v0.bitangent += bitangent;
+		v1.bitangent += bitangent;
+		v2.bitangent += bitangent;
+	}
+}
+

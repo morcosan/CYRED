@@ -49,13 +49,13 @@ void main()
 
 	// prepare textures
 	vec4 textureMap 	= texture( diffuseTexture, INTER_fragUV );
-	vec3 specularMap 	= texture( specularTexture, INTER_fragUV ).xyz;
+	vec4 specularMap 	= texture( specularTexture, INTER_fragUV );
 	vec4 normalMap 		= texture( normalTexture, INTER_fragUV );
 
 	// Gramm-Schmidt process
 	tangent 			= normalize( tangent - dot(tangent, normal) * normal );
 	bitangent 			= normalize( bitangent - dot(bitangent, normal) * normal );
-	mat3 TBN 			= mat3(tangent, bitangent, normal);
+	mat3 TBN 			= mat3( tangent, bitangent, normal );
 	vec3 bumpColor 		= 2.0f * normalMap.xyz - 1.0f;
 	vec3 bumpNormal 	= normalize( TBN * bumpColor );
 
@@ -75,7 +75,7 @@ void main()
 		// calculate based on light's type
 		if ( DEFAULT_lights[i].type == 0 ) {
 			rayDirection = normalize( DEFAULT_lights[i].directionWorld );
-			diffuseFactor = dot(normal, - rayDirection);
+			diffuseFactor = dot(bumpNormal, - rayDirection);
 			angleAttenuation = max(0, diffuseFactor);
 			lightFactor += 	DEFAULT_lights[i].color * 
 							DEFAULT_lights[i].intensity * 
@@ -146,7 +146,5 @@ void main()
 
 	// create final color
 	OUT_color = diffuseColor * textureMap * vec4( lightFactor, 1.0f ) 
-		 		+ vec4( specularColor * specularMap, 0.0f );
-
-	OUT_color = diffuseColor * textureMap * vec4( lightFactor, 1.0f ) ;
+		 		+ vec4( specularColor * specularMap.xyz, 0.0f );
 }

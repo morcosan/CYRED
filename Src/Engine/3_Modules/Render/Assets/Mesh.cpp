@@ -194,6 +194,11 @@ void Mesh::BindToGPU()
 		}
 	}
 
+	// calculate tan and bitan for triangles
+	if ( _numIndices % 3 == 0 ) {
+		NotAPI::RenderManagerImpl::Singleton()->CalculateTanBitangents( _vertices, _indices );
+	}
+
 	// create buffers
 	NotAPI::RenderManagerImpl::Singleton()->CreateMeshBuffers( _vbo, _ibo, _vertices, _indices );
 
