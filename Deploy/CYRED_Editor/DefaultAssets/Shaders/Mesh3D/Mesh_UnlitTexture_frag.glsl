@@ -10,6 +10,6 @@ in vec2 INTER_fragUV;
 
 void main()
 {
-	vec4 textureColor = texture( diffuseTexture, INTER_fragUV );
-	OUT_color = diffuseColor * textureColor;
+	vec4 textureMap = texture( diffuseTexture, INTER_fragUV );
+	OUT_color = diffuseColor * textureMap;
 }
