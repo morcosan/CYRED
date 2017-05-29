@@ -27,7 +27,20 @@ using namespace CYRED;
 class Panel_SceneHierarchy::_QtTree : public QTreeWidget
 {
 public:
-	void dropEvent( QDropEvent* e )
+	void mousePressEvent( QMouseEvent* event ) override
+	{
+		QModelIndex item = indexAt( event->pos() );
+		bool selected = selectionModel()->isSelected( indexAt( event->pos() ) );
+		QTreeView::mousePressEvent( event );
+		if ( (item.row() == -1 && item.column() == -1) || selected ) {
+			this->clearSelection();
+			// send event
+			EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, NULL );
+		}
+	}
+
+
+	void dropEvent( QDropEvent* e ) override
 	{
 		// get moved item
 		CustomTreeItem* movedItem = CAST_S( CustomTreeItem*, this->currentItem() );

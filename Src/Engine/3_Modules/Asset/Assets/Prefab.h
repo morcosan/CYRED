@@ -24,16 +24,16 @@ namespace CYRED
 
 
 	public:
-		void		LoadUniqueID	() override;
-		void		LoadFullFile	() override;
-		void		ClearAsset		() override;
-		Asset*		Clone			() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 		cchar*	GetExtension	() override;
 
 
 	public:
-		Node*		GetRoot			() const;
-		void		CreateRoot		();
+		Node*	GetRoot			() const;
+		void	CreateRoot		();
 
 
 	private:

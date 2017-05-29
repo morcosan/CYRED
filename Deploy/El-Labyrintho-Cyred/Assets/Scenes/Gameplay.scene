@@ -9,13 +9,13 @@
                     "enabled": true,
                     "position_world": {
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": 5.0,
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": -45.0,
+                        "x": -45.000,
                         "y": 29.999,
-                        "z": 0.0
+                        "z": 9.856
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -46,20 +46,35 @@
                             "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
                             "variables": [
                                 {
+                                    "name": "endFloor",
+                                    "type": "PREFAB",
+                                    "value": "0M9B3lkwsz9IjkkEjZ59hDLqBOlsa91c"
+                                },
+                                {
                                     "name": "floor",
                                     "type": "PREFAB",
-                                    "value": "NMTqp8lPruZl1s6AHyXusd8c1S5lT8SM"
+                                    "value": "WkZ2MicqahU9SPBogWuoWbTJGOzN2ccx"
+                                },
+                                {
+                                    "name": "startFloor",
+                                    "type": "PREFAB",
+                                    "value": "89gCmozBDqT24Syw1g8sIIDUsvsQac9z"
                                 },
                                 {
                                     "name": "wall",
                                     "type": "PREFAB",
-                                    "value": "q5YUeHOC6t3QLYfqYYv5oMi2w6lYzUhQ"
+                                    "value": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm"
                                 }
                             ]
                         }
                     ]
                 }
             }
+        },
+        {
+            "name": "Map",
+            "enabled": true,
+            "components": {}
         }
     ]
 }

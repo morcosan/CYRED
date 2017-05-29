@@ -367,6 +367,21 @@ GameObject* SceneManagerImpl::Search( cchar* objectName, cchar* sceneUID )
 }
 
 
+GameObject* SceneManagerImpl::FindGameObject( cchar* objectName )
+{
+	// search in all opened scenes
+	for ( int i = 0; i < _currScenes.Size(); i++ ) {
+		GameObject* found = Search( objectName, _currScenes[i]->GetUniqueID() );
+		if ( found != NULL ) {
+			return found;
+		}
+	}
+
+	// not found
+	return NULL;
+}
+
+
 void SceneManagerImpl::Destroy( GameObject* object )
 {
 	ASSERT( _isInitialized );

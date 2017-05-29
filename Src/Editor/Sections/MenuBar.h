@@ -33,6 +33,9 @@ namespace CYRED
 		cchar*	const SCENE_SAVE_ALL			= "Save All";
 		cchar*	const SCENE_CLOSE_ALL			= "Close All";
 
+		cchar*	const PREFAB_MENU				= "Prefab";
+		cchar*	const PREFAB_NEW				= "New Prefab";
+
 		cchar*	const PROJECT_MENU				= "Project";
 		cchar*	const PROJECT_SETTINGS			= "Settings";
 		cchar*	const PROJECT_BUILD_WIN			= "Build Windows";
@@ -58,6 +61,8 @@ namespace CYRED
 		void A_Scene_SaveAll	();
 		void A_Scene_CloseAll	();
 
+		void A_Prefab_New		();
+
 		void A_Project_Settings	();
 		void A_Project_BuildWin	();
 
@@ -71,6 +76,7 @@ namespace CYRED
 		DataMap<MenuAction, QAction*> _menuActions;		/* only the default actions are stored */
 
 		void _AddMenu_Scene		();
+		void _AddMenu_Prefab	();
 		void _AddMenu_Project	();
 	};
 }

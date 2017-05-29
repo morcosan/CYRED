@@ -31,39 +31,39 @@ namespace CYRED
 
 
 		public:
-			void		Initialize		()	override;
-			void		Finalize		()	override;
+			void		Initialize			()							override;
+			void		Finalize			()							override;
+	
+			Scene*		OpenScene			( cchar* sceneUID )			override;
+			Scene*		OpenNewScene		()							override;
+			Scene*		LoadScene			( cchar* sceneUID )			override;
+			Scene*		LoadNewScene		()							override;
+			void		SaveScene			( cchar* sceneUID )			override;
+			Scene*		SaveSceneAs			( cchar* sceneUID, cchar* newSceneName,
+											  cchar* dirPath )			override;
+			void		SaveAllScenes		()							override;
+			void		CloseScene			( cchar* sceneUID )			override;
+			void		CloseAllScenes		()							override;
 
-			Scene*		OpenScene		( cchar* sceneUID )		override;
-			Scene*		OpenNewScene	()								override;
-			Scene*		LoadScene		( cchar* sceneUID )		override;
-			Scene*		LoadNewScene	()								override;
-			void		SaveScene		( cchar* sceneUID )		override;
-			Scene*		SaveSceneAs		( cchar* sceneUID, 
-										  cchar* newSceneName,
-										  cchar* dirPath )			override;
-			void		SaveAllScenes	()								override;
-			void		CloseScene		( cchar* sceneUID )		override;
-			void		CloseAllScenes	()								override;
-
-			void		StoreScenes		()								override;
-			void		RestoreScenes	()								override;
+			void		StoreScenes			()							override;
+			void		RestoreScenes		()							override;
 			
-			GameObject*	NewGameObject	( int sceneIndex = 0 )			override;
-			GameObject*	NewGameObject	( cchar* sceneUID )		override;
-			GameObject*	Instantiate		( const Prefab* prefab,
-										  int sceneIndex = 0  )		override;
-			GameObject*	Duplicate		( const GameObject* object )	override;
-			GameObject*	Search			( cchar* objectName, 
-										  cchar* sceneUID = NULL )	override;
-			void		Destroy			( GameObject* object )			override;
+			GameObject*	NewGameObject		( int sceneIndex = 0 )		override;
+			GameObject*	NewGameObject		( cchar* sceneUID )			override;
+			GameObject*	Instantiate			( const Prefab* prefab,
+											  int sceneIndex = 0  )		override;
+			GameObject*	Duplicate			( const GameObject* object )override;
+			GameObject*	Search				( cchar* objectName, 
+											  cchar* sceneUID = NULL )	override;
+			GameObject*	FindGameObject		( cchar* objectName )		override;
+			void		Destroy				( GameObject* object )		override;
 			
-			int			GetSceneIndex		( cchar* sceneUID )	override;
-			Scene*		GetScene			( cchar* sceneUID )	override;
+			int			GetSceneIndex		( cchar* sceneUID )			override;
+			Scene*		GetScene			( cchar* sceneUID )			override;
 			Scene*		GetScene			( int sceneIndex = 0 )		override;
-			int		CountLoadedScenes	()							override;
+			int			CountLoadedScenes	()							override;
 
-			int		NextGameObjectUID	()							override;
+			int			NextGameObjectUID	()							override;
 
 			void		SetMainCamera		( GameObject* cameraGO )	override;
 			GameObject*	GetMainCamera		()							override;
@@ -83,7 +83,7 @@ namespace CYRED
 			DataArray<Scene*>		_currScenes;
 			DataArray<StoredScene>	_storedScenes;
 
-			int					_generatedUID;
+			int						_generatedUID;
 			GameObject*				_mainCameraGO;
 
 

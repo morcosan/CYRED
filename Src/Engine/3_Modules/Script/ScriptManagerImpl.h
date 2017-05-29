@@ -35,6 +35,7 @@ namespace CYRED
 
 			void _RegisterApplication();
 
+			void _RegisterNode();
 			void _RegisterGameObject();
 
 			void _RegisterComponent();

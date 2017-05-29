@@ -26,6 +26,7 @@
 #include "QtCore\qurl.h"
 #include "QtCore\qfilesystemwatcher.h"
 #include "QtWidgets\qpushbutton.h"
+#include "QtGui\qevent.h"
 
 
 using namespace CYRED;
@@ -34,7 +35,20 @@ using namespace CYRED;
 class Panel_Assets::_QtTree : public QTreeWidget
 {
 public:
-	void dropEvent( QDropEvent* e )
+	void mousePressEvent( QMouseEvent* event ) override
+	{
+		QModelIndex item = indexAt( event->pos() );
+		bool selected = selectionModel()->isSelected( indexAt( event->pos() ) );
+		QTreeView::mousePressEvent( event );
+		if ( (item.row() == -1 && item.column() == -1) || selected ) {
+			this->clearSelection();
+			// send event
+			EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+		}
+	}
+
+
+	void dropEvent( QDropEvent* e ) override
 	{
 		// get moved item
 		CustomTreeItem* movedItem = CAST_S( CustomTreeItem*, this->currentItem() );

@@ -24,41 +24,42 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize	()	PURE_VIRTUAL;
-		virtual void Finalize	()	PURE_VIRTUAL;
+		virtual void		Initialize			()								PURE_VIRTUAL;
+		virtual void		Finalize			()								PURE_VIRTUAL;
 
-		virtual Scene*	OpenScene		( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*	OpenNewScene	()							PURE_VIRTUAL;
-		virtual Scene*	LoadScene		( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*	LoadNewScene	()							PURE_VIRTUAL;
-		virtual void	SaveScene		( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*	SaveSceneAs		( cchar* sceneUID, 
-										  cchar* newSceneName,
-										  cchar* dirPath )		PURE_VIRTUAL;
-		virtual void	SaveAllScenes	()							PURE_VIRTUAL;
-		virtual void	CloseScene		( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual void	CloseAllScenes	()							PURE_VIRTUAL;
+		virtual Scene*		OpenScene			( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual Scene*		OpenNewScene		()								PURE_VIRTUAL;
+		virtual Scene*		LoadScene			( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual Scene*		LoadNewScene		()								PURE_VIRTUAL;
+		virtual void		SaveScene			( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual Scene*		SaveSceneAs			( cchar* sceneUID, cchar* newSceneName,
+												  cchar* dirPath )				PURE_VIRTUAL;
+		virtual void		SaveAllScenes		()								PURE_VIRTUAL;
+		virtual void		CloseScene			( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual void		CloseAllScenes		()								PURE_VIRTUAL;
+			
+		virtual void		StoreScenes			()								PURE_VIRTUAL;
+		virtual void		RestoreScenes		()								PURE_VIRTUAL;
 
-		virtual void	StoreScenes		()							PURE_VIRTUAL;
-		virtual void	RestoreScenes	()							PURE_VIRTUAL;
+		virtual GameObject*	NewGameObject		( int sceneIndex = 0 )			PURE_VIRTUAL;
+		virtual GameObject*	NewGameObject		( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual GameObject*	Instantiate			( const Prefab* prefab,
+												  int sceneIndex = 0 )			PURE_VIRTUAL;
+		virtual GameObject*	Duplicate			( const GameObject* object )	PURE_VIRTUAL;
+		virtual GameObject*	Search				( cchar* objectName, 
+												  cchar* sceneUID = NULL )		PURE_VIRTUAL;
+		virtual GameObject*	FindGameObject		( cchar* objectName )			PURE_VIRTUAL;
 
-		virtual GameObject*	NewGameObject	( int sceneIndex = 0 )			PURE_VIRTUAL;
-		virtual GameObject*	NewGameObject	( cchar* sceneUID )		PURE_VIRTUAL;
-		virtual GameObject*	Instantiate		( const Prefab* prefab,
-											  int sceneIndex = 0 )			PURE_VIRTUAL;
-		virtual GameObject*	Duplicate		( const GameObject* object )	PURE_VIRTUAL;
-		virtual GameObject*	Search			( cchar* objectName, 
-											  cchar* sceneUID = NULL )	PURE_VIRTUAL;
-		virtual void		Destroy			( GameObject* object )			PURE_VIRTUAL;
+		virtual void		Destroy				( GameObject* object )			PURE_VIRTUAL;
 
-		virtual int			GetSceneIndex		( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*		GetScene			( cchar* sceneUID )	PURE_VIRTUAL;
-		virtual Scene*		GetScene			( int sceneIndex = 0 )		PURE_VIRTUAL;
-		virtual int			CountLoadedScenes	()							PURE_VIRTUAL;
-
-		virtual	int			NextGameObjectUID	()							PURE_VIRTUAL;
+		virtual int			GetSceneIndex		( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual Scene*		GetScene			( cchar* sceneUID )				PURE_VIRTUAL;
+		virtual Scene*		GetScene			( int sceneIndex = 0 )			PURE_VIRTUAL;
+		virtual int			CountLoadedScenes	()								PURE_VIRTUAL;
 	
-		virtual void		SetMainCamera	( GameObject* cameraGO )		PURE_VIRTUAL;
-		virtual GameObject*	GetMainCamera	()								PURE_VIRTUAL;
+		virtual	int			NextGameObjectUID	()								PURE_VIRTUAL;
+	
+		virtual void		SetMainCamera		( GameObject* cameraGO )		PURE_VIRTUAL;
+		virtual GameObject*	GetMainCamera		()								PURE_VIRTUAL;
 	};
 }

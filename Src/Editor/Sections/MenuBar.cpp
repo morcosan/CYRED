@@ -23,6 +23,7 @@ void MenuBar::Initialize()
 	this->setNativeMenuBar( true );
 
 	_AddMenu_Scene();
+	_AddMenu_Prefab();
 	_AddMenu_Project();
 
 	// TODO
@@ -73,6 +74,16 @@ void MenuBar::_AddMenu_Scene()
 }
 
 
+void MenuBar::_AddMenu_Prefab()
+{
+	QMenu* menu = this->addMenu( PREFAB_MENU );
+
+	QAction* actionNew = menu->addAction( PREFAB_NEW );
+
+	QObject::connect( actionNew, &QAction::triggered, this, &MenuBar::A_Prefab_New );
+}
+
+
 void MenuBar::_AddMenu_Project()
 {
 	QMenu* menu = this->addMenu( PROJECT_MENU );
@@ -110,6 +121,20 @@ void MenuBar::A_Scene_CloseAll()
 {
 	SceneManager::Singleton()->CloseAllScenes();
 	EditorApp::Singleton()->ShowStatus( STATUS_CLOSE_ALL_SCENES );
+}
+
+
+void MenuBar::A_Prefab_New()
+{
+	// create temporary prefab
+	Prefab* prefab = Memory::Alloc<Prefab>();
+	prefab->CreateRoot();
+	prefab->SetEmitEvents( FALSE );
+	prefab->SetName( PREFAB_MENU );
+	prefab->SetEmitEvents( TRUE );
+
+	// send event
+	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, prefab );
 }
 
 

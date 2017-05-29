@@ -119,6 +119,7 @@ void ScriptManagerImpl::Initialize()
 	// register lua classes
 	_RegisterApplication();
 
+	_RegisterNode();
 	_RegisterGameObject();
 
 	_RegisterComponent();
@@ -198,13 +199,33 @@ void ScriptManagerImpl::_RegisterApplication()
 }
 
 
+void ScriptManagerImpl::_RegisterNode()
+{
+	luabridge::getGlobalNamespace( _L )
+	.beginClass<Node>( "Node" )
+		.addProperty( "parentNode",			&Node::GetParentNode,	&Node::SetParentNode )
+		.addProperty( "childNodeCount",		&Node::GetChildNodeCount )
+
+		.addFunction( "AddChildNode",		&Node::AddChildNode )
+		.addFunction( "InsertChildNode",	&Node::InsertChildNode )
+		.addFunction( "GetChildNodeAt",		&Node::GetChildNodeAt )
+	.endClass();
+}
+
+
 void ScriptManagerImpl::_RegisterGameObject()
 {
 	luabridge::getGlobalNamespace( _L )
-	.beginClass<GameObject>( "GameObject" )
-		.addProperty( "name",			&GameObject::GetName,	&GameObject::SetName )
-		.addProperty( "enabled",		&GameObject::IsEnabled,	&GameObject::SetEnabled )
-		.addFunction( "GetUniqueID",	&GameObject::GetUniqueID )
+	.deriveClass<GameObject, Node>( "GameObject" )
+		.addProperty( "name",				&GameObject::GetName,	&GameObject::SetName )
+		.addProperty( "enabled",			&GameObject::IsEnabled,	&GameObject::SetEnabled )
+		.addFunction( "GetUniqueID",		&GameObject::GetUniqueID )
+
+		.addFunction( "AddComponent_Transform",			&GameObject::AddComponent<Transform> )
+		.addFunction( "AddComponent_Camera",			&GameObject::AddComponent<Camera> )
+		.addFunction( "AddComponent_MeshRendering",		&GameObject::AddComponent<MeshRendering> )
+		.addFunction( "AddComponent_MorphRendering",	&GameObject::AddComponent<MorphRendering> )
+		.addFunction( "AddComponent_ParticleEmitter",	&GameObject::AddComponent<ParticleEmitter> )
 
 		.addFunction( "GetComponent_Transform",			&GameObject::GetComponent<Transform> )
 		.addFunction( "GetComponent_Camera",			&GameObject::GetComponent<Camera> )
@@ -408,7 +429,7 @@ void ScriptManagerImpl::_RegisterSceneManager()
 {
 	luabridge::getGlobalNamespace( _L )
 	.beginClass<SceneManager>( "SceneManager" )
-		.addFunction( "Search",			&SceneManager::Search )
+		.addFunction( "FindGameObject",	&SceneManager::FindGameObject )
 		.addFunction( "Instantiate",	&SceneManager::Instantiate )
 	.endClass();
 

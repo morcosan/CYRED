@@ -1,5 +1,5 @@
 {
-    "uid": "BxTFYR4SKJTcYpgM1tPSXjQLDPyLG9Vg",
+    "uid": "4a9RsIEcEKKqTgnYEp1DmmwaqLF8AyeS",
     "shader": "qYgaWilUh1KooYAHpNSpjqW8UTMG81pC",
     "wireframe": false,
     "line_width": 1.0,
@@ -9,9 +9,9 @@
             "name": "diffuseColor",
             "type": "VEC4",
             "value": {
-                "x": 1.0,
+                "x": 0.5,
                 "y": 1.0,
-                "z": 1.0,
+                "z": 0.5,
                 "w": 1.0
             }
         },

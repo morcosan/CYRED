@@ -4,5 +4,6 @@
     "wireframe": false,
     "line_width": 1.0,
     "cull_face": "CULL_BACK",
-    "properties": []
+    "properties": [],
+    "picking_proxy": null
 }

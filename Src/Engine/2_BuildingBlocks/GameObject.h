@@ -37,12 +37,12 @@ namespace CYRED
 
 
 	public:
-		cchar*	GetName				()						const;
+		cchar*		GetName				()						const;
 		bool		IsEnabled			()						const;
-		int		GetUniqueID			()						const;
+		int			GetUniqueID			()						const;
 		bool		DoesEmitEvents		()						const;
 
-		int		GetComponentCount	()						const;
+		int			GetComponentCount	()						const;
 		Component*	GetComponentAt		( int index )			const;
 
 		void		SetEnabled			( bool value );
@@ -61,7 +61,7 @@ namespace CYRED
 	private:
 		String	_name;
 		bool	_enabled;
-		int	_uid;	// unique index
+		int		_uid;	// unique index
 		bool	_emitEvents;
 
 		DataArray<Component*>	_components;

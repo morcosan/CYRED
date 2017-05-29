@@ -77,8 +77,14 @@ void Menu_Prefab::A_SavePrefab()
 	Asset* prefab = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
 	ASSERT( prefab != NULL );
 
+	// a new prefab
+	if ( prefab->IsTemporary() )	{
+		A_SavePrefabAs();
+	}
+	else {
 	// save file
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+	}
 }
 
 

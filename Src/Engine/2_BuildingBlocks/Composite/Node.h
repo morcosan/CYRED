@@ -26,13 +26,13 @@ namespace CYRED
 
 
 	public:
-		Node*	GetParentNode	()					const;
-		void	SetParentNode	( Node* newNode );
-		void	AddChildNode	( Node* newNode );
-		void	InsertChildNode	( int index, Node* newNode );
+		Node*	GetParentNode		()							const;
+		void	SetParentNode		( Node* newNode );
+		void	AddChildNode		( Node* newNode );
+		void	InsertChildNode		( int index, Node* newNode );
 
-		int	GetChildNodeCount	()				const;
-		Node*	GetChildNodeAt		( int index )	const;
+		int		GetChildNodeCount	()							const;
+		Node*	GetChildNodeAt		( int index )				const;
 
 
 	protected:
