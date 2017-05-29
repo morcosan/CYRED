@@ -68,6 +68,7 @@ void Prefab::ClearAsset()
 {
 	// delete root
 	Memory::Free( _root );
+	_root = NULL;
 
 	_isTemporary = TRUE; 
 
@@ -102,6 +103,7 @@ void Prefab::CreateRoot()
 {
 	// delete root
 	Memory::Free( _root );
+	_root = NULL;
 
 	_root = Memory::Alloc<Node>();
 }

@@ -67,6 +67,7 @@ void Menu_AssetFolder::Open( const QPoint& pos )
 	QMenu* menuCreate = this->addMenu( MENU_CREATE );
 
 	QAction* actionFolder = menuCreate->addAction( EditorUtils::NAME_FOLDER );
+	QAction* actionEmptyFile = menuCreate->addAction( MENU_EMPTY_FILE );
 	menuCreate->addSeparator();
 
 	QMenu* menuMaterial = menuCreate->addMenu( EditorUtils::NAME_MATERIAL );
@@ -85,6 +86,7 @@ void Menu_AssetFolder::Open( const QPoint& pos )
 
 	
 	QObject::connect( actionFolder,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Folder );
+	QObject::connect( actionEmptyFile,	&QAction::triggered, this, &Menu_AssetFolder::A_Create_EmptyFile );
 	QObject::connect( actionMatEmpty,	&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mat_Empty );
 	QObject::connect( actionMatPS,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mat_PS );
 	QObject::connect( actionTex2D,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Tex_2D );
@@ -197,14 +199,50 @@ void Menu_AssetFolder::A_Create_Folder()
 }
 
 
+void Menu_AssetFolder::A_Create_EmptyFile()
+{
+	// get path
+	QTreeWidgetItem* parentItem = _qtTree->currentItem();
+	QString dirPath = (parentItem != NULL) ? parentItem->whatsThis( 1 ).append( "/" ) 
+										   : ProjectSettings::dirPathAssets.GetChar();
+	dirPath.append( MENU_EMPTY_FILE );
+
+	// create empty file
+	FileManager::Singleton()->WriteFile( dirPath.toUtf8().constData(), "" );
+
+	// add tree item
+	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+	treeItem->setText( 0, MENU_EMPTY_FILE );
+	treeItem->setWhatsThis( 1, dirPath ); 
+	treeItem->setFlags( Qt::ItemIsSelectable | 
+						Qt::ItemIsEnabled | 
+						Qt::ItemIsDragEnabled |
+						Qt::ItemIsDropEnabled | 
+		dirPath				Qt::ItemIsEditable );
+
+	if ( parentItem != NULL ) {
+		parentItem->addChild( treeItem );
+		parentItem->setExpanded( TRUE );
+	}
+	else {
+		_qtTree->addTopLevelItem( treeItem );
+	}
+
+	// select item
+	_qtTree->setCurrentItem( treeItem );
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+}
+
+
 void Menu_AssetFolder::A_Create_Mat_Empty()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -213,8 +251,8 @@ void Menu_AssetFolder::A_Create_Mat_PS()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
 	Material* material = CAST_S( Material*, asset );
@@ -224,6 +262,7 @@ void Menu_AssetFolder::A_Create_Mat_PS()
 	material->SetProperty( "colorEnd", Vector4(1, 1, 1, 1) );
 	material->SetEmitEvents( TRUE );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -232,10 +271,11 @@ void Menu_AssetFolder::A_Create_Tex_2D()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -244,8 +284,8 @@ void Menu_AssetFolder::A_Create_Tex_CM()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
 	Texture* texture = CAST_S( Texture*, asset );
@@ -253,6 +293,7 @@ void Menu_AssetFolder::A_Create_Tex_CM()
 	texture->SetTextureType( TextureType::CUBE_MAP );
 	texture->SetEmitEvents( TRUE );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -261,8 +302,8 @@ void Menu_AssetFolder::A_Create_Shader()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
 
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
@@ -273,10 +314,11 @@ void Menu_AssetFolder::A_Create_Mesh()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -285,8 +327,8 @@ void Menu_AssetFolder::A_Create_Morph()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
 
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
@@ -297,10 +339,11 @@ void Menu_AssetFolder::A_Create_Script()
 {
 	QTreeWidgetItem* item = _qtTree->currentItem();
 
-	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) : 
-		ProjectSettings::dirPathAssets.GetChar();
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
 
+	// refresh panel
 	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
 }
 
@@ -309,7 +352,7 @@ void Menu_AssetFolder::A_Create_Script()
 Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentItem,
 									   AssetType assetType )
 {
-	Asset*		asset		= NULL;
+	Asset* asset	= NULL;
 	cchar* icon		= NULL;
 
 	switch ( assetType ) {

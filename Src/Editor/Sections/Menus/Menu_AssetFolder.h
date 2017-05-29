@@ -28,6 +28,7 @@ namespace CYRED
 		cchar* const	MENU_DUPLICATE	= "Duplicate";
 		cchar* const	MENU_DELETE		= "Delete";
 		cchar* const	MENU_CREATE		= "Create";
+		cchar* const	MENU_EMPTY_FILE	= "EmptyFile.txt";
 
 
 	public:
@@ -46,6 +47,7 @@ namespace CYRED
 		void A_Delete			();
 
 		void A_Create_Folder	();
+		void A_Create_EmptyFile	();
 		void A_Create_Mat_Empty	();
 		void A_Create_Mat_PS	();
 		void A_Create_Tex_2D	();
