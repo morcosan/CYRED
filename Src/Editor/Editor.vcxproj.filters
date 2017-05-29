@@ -63,6 +63,7 @@
     <ClCompile Include="Sections\Viewports\Viewport_WithGizmo.cpp" />
     <ClCompile Include="Sections\Viewports\Viewport_Scene.cpp" />
     <ClCompile Include="Sections\Viewports\Viewport_Prefab.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -129,5 +130,6 @@
     <ClInclude Include="Sections\Viewports\Viewport_WithGizmo.h" />
     <ClInclude Include="Sections\Viewports\Viewport_Scene.h" />
     <ClInclude Include="Sections\Viewports\Viewport_Prefab.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Game.h" />
   </ItemGroup>
 </Project>

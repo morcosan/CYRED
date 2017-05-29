@@ -49,10 +49,10 @@ namespace CYRED
 
 	private:
 		virtual cchar*	_GetPanelTitle	() PURE_VIRTUAL;
-		virtual Vector2		_GetPanelMinSize() PURE_VIRTUAL;
-		virtual void		_OnInitialize	() PURE_VIRTUAL;
-		virtual void		_OnFinalize		() PURE_VIRTUAL;
-		virtual void		_OnUpdate		() PURE_VIRTUAL;
+		virtual Vector2	_GetPanelMinSize() PURE_VIRTUAL;
+		virtual void	_OnInitialize	() PURE_VIRTUAL;
+		virtual void	_OnFinalize		() PURE_VIRTUAL;
+		virtual void	_OnUpdate		() PURE_VIRTUAL;
 
 
 	protected:
@@ -81,6 +81,7 @@ namespace CYRED
 
 		GLContext*		_glContext;
 		_QtWindow*		_qtWindow;
+		QWidget*		_qtContainer;
 		int				_canvasSlot;
 		bool			_mustResize;
 		int				_panelIndex;

@@ -81,7 +81,7 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	_qtWindow = Memory::Alloc<_QtWindow>( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );
 	_qtWindow->setSurfaceType( QWindow::OpenGLSurface );
 
-	QWidget* container = QWidget::createWindowContainer( _qtWindow );
+	_qtContainer = QWidget::createWindowContainer( _qtWindow );
 
 	_qtTopBarLayout = Memory::Alloc<QHBoxLayout>();
 	_qtTopBarLayout->setAlignment( Qt::AlignLeft );
@@ -91,7 +91,7 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	vLayout->setSpacing(0);
 	vLayout->setContentsMargins( 0, 0, 0, 0 );
 	vLayout->addLayout( _qtTopBarLayout );
-	vLayout->addWidget( container );
+	vLayout->addWidget( _qtContainer );
 
 	QWidget* layoutWidget = new QWidget();
 	layoutWidget->setLayout( vLayout );
@@ -113,7 +113,7 @@ void Panel_Viewport::Update()
 	ASSERT( _isInitialized );
 
 	// check if window is visible
-	if ( !_qtWindow->isExposed() ) {
+	if ( !_qtWindow->isExposed() || _qtContainer->visibleRegion().isEmpty() ) {
 		return;
 	}
 

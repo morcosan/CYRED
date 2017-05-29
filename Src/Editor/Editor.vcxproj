@@ -134,6 +134,7 @@
     <ClCompile Include="Sections\Serialize\JSON\JsonSerializer_EditorConfig.cpp" />
     <ClCompile Include="Sections\Settings\ProjectSettings.cpp" />
     <ClCompile Include="Sections\Toolbar.cpp" />
+    <ClCompile Include="Sections\Viewports\Viewport_Game.cpp" />
     <ClCompile Include="Sections\Viewports\Viewport_Prefab.cpp" />
     <ClCompile Include="Sections\Viewports\Viewport_Scene.cpp" />
     <ClCompile Include="InternalAssets\FreeCameraControl.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Sections\Serialize\JSON\JsonSerializer_CyredProj.h" />
     <ClInclude Include="Sections\Settings\ProjectSettings.h" />
     <ClInclude Include="Sections\Toolbar.h" />
+    <ClInclude Include="Sections\Viewports\Viewport_Game.h" />
     <ClInclude Include="Sections\Viewports\Viewport_Prefab.h" />
     <ClInclude Include="Sections\Viewports\Viewport_Scene.h" />
     <ClInclude Include="Sections\MenuBar.h" />

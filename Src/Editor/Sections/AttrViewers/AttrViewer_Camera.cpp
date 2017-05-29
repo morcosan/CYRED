@@ -46,8 +46,7 @@ void AttrViewer_Camera::_UpdateGUI()
 	_WriteAttrFloat( ATTR_FAR_CLIPPING, _target->GetFarClipping() );
 	_WriteAttrFloat( ATTR_ORTH_HEIGHT, _target->GetOrthoSize().y );
 	
-	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
-	{
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
@@ -62,22 +61,19 @@ void AttrViewer_Camera::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 
-	if ( _activatedGroup == CallbackGroup::GROUP_2 )
-	{
+	if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
 		_target->SetCameraType( _GetTypeForIndex( _ReadAttrDropdown( ATTR_TYPE ) ) );
 
 		_ChangeVisibility();
 	}
-	else
-	{
+	else {
 		_target->SetFovYAngle( _ReadAttrFloat( ATTR_FOVY_ANGLE ) );
 		_target->SetNearClipping( _ReadAttrFloat( ATTR_NEAR_CLIPPING ) );
 		_target->SetFarClipping( _ReadAttrFloat( ATTR_FAR_CLIPPING ) );
 		_target->SetOrthoHeight( _ReadAttrFloat( ATTR_ORTH_HEIGHT ) );
 		
 		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
-		if ( _target->IsEnabled() != newValue )
-		{
+		if ( _target->IsEnabled() != newValue ) {
 			_target->SetEnabled( newValue );
 
 			_Colorize( _target->IsEnabled() );

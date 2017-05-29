@@ -14,8 +14,8 @@
                     },
                     "rotation_world": {
                         "x": -45.000,
-                        "y": 29.999,
-                        "z": 9.856
+                        "y": 29.998,
+                        "z": 9.853
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -68,6 +68,37 @@
                             ]
                         }
                     ]
+                }
+            }
+        },
+        {
+            "name": "Camera",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 5.0,
+                        "y": 6.0,
+                        "z": 7.0
+                    },
+                    "rotation_world": {
+                        "x": -60.000,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "camera": {
+                    "enabled": true,
+                    "camera_type": "PERSPECTIVE",
+                    "fovy_angle": 60.0,
+                    "near_clipping": 0.100,
+                    "far_clipping": 400.0
                 }
             }
         },

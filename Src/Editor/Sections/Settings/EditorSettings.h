@@ -16,6 +16,7 @@ namespace CYRED
 		{
 			HORIZONTAL
 			, VERTICAL
+			, NEW_TAB
 		};
 	}
 	typedef Enum_PanelSplitType::Enum	PanelSplitType;

@@ -218,7 +218,7 @@ void Menu_AssetFolder::A_Create_EmptyFile()
 						Qt::ItemIsEnabled | 
 						Qt::ItemIsDragEnabled |
 						Qt::ItemIsDropEnabled | 
-		dirPath				Qt::ItemIsEditable );
+						Qt::ItemIsEditable );
 
 	if ( parentItem != NULL ) {
 		parentItem->addChild( treeItem );

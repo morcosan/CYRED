@@ -23,6 +23,7 @@
 #include "Sections\Panels\Panel_PrefabHierarchy.h"
 #include "Sections\Viewports\Viewport_Scene.h"
 #include "Sections\Viewports\Viewport_Prefab.h"
+#include "Sections\Viewports\Viewport_Game.h"
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
@@ -337,6 +338,14 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 			break;
 		}
 
+		case PanelType::GAME_VIEWPORT:
+		{
+			Viewport_Game* viewportPanel = Memory::Alloc<Viewport_Game>( viewportIndex );
+			viewportPanel->Initialize( (viewportIndex == 0) );
+			panel = viewportPanel;
+			break;
+		}
+
 		case PanelType::ASSETS:
 			panel = Memory::Alloc<Panel_Assets>();
 			panel->Initialize();
@@ -364,6 +373,10 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelSplitType::VERTICAL:
 			_qtMainWindow->splitDockWidget( panelFrom, panel, Qt::Vertical );
+			break;
+
+		case PanelSplitType::NEW_TAB:
+			_qtMainWindow->tabifyDockWidget( panelFrom, panel );
 			break;
 	}
 
@@ -548,7 +561,7 @@ void EditorApp::_UpdateCameras()
 {
 	for ( int i = 0; i < _cameras.Size(); i++ ) {
 		FreeCameraControl* freeCamera = _cameras[i]->GetComponent<FreeCameraControl>();
-		freeCamera->OnUpdate( _isPlayMode );
+		freeCamera->OnUpdate( FALSE );
 	}
 }
 

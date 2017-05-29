@@ -19,7 +19,7 @@ namespace CYRED
 		cchar* ATTR_FOVY_ANGLE		= "FovY Angle";
 		cchar* ATTR_NEAR_CLIPPING	= "Near Clipping";
 		cchar* ATTR_FAR_CLIPPING	= "Far Clipping";
-		cchar* ATTR_ORTH_HEIGHT	= "Ortho Height";
+		cchar* ATTR_ORTH_HEIGHT		= "Ortho Height";
 
 
 	public:
@@ -30,8 +30,8 @@ namespace CYRED
 	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
-		void _UpdateGUI		()					override;
-		void _UpdateTarget	()					override;
+		void _UpdateGUI			()					override;
+		void _UpdateTarget		()					override;
 
 
 	private:
@@ -39,9 +39,10 @@ namespace CYRED
 
 		DataArray<cchar*>	_cameraTypes;
 
+
+	private:
 		int			_GetIndexForType	( CameraType type );
 		CameraType	_GetTypeForIndex	( int index );
-
 		void		_ChangeVisibility	();
 	};
 }

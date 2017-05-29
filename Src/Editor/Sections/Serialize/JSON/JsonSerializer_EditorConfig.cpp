@@ -85,6 +85,9 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 			else if ( type == P_SCENE_VIEWPORT ) {
 				panel.type = PanelType::SCENE_VIEWPORT;
 			}
+			else if ( type == P_GAME_VIEWPORT ) {
+				panel.type = PanelType::GAME_VIEWPORT;
+			}
 			
 
 			// add split from
@@ -119,11 +122,14 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 			// add split type
 			if ( panels[i].HasMember( PANELS_SPLIT_TYPE ) ) {
 				String splitType( panels[i][PANELS_SPLIT_TYPE].GetString() );
-				if ( splitType == HORIZONTAL ) {
+				if ( splitType == SPLIT_HORIZONTAL ) {
 					panel.splitType = PanelSplitType::HORIZONTAL;
 				}
-				else if ( splitType == VERTICAL ) {
+				else if ( splitType == SPLIT_VERTICAL ) {
 					panel.splitType = PanelSplitType::VERTICAL;
+				}
+				else if ( splitType == SPLIT_NEW_TAB ) {
+					panel.splitType = PanelSplitType::NEW_TAB;
 				}
 			}
 
