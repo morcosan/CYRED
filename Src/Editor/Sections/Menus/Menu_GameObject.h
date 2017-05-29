@@ -25,6 +25,10 @@ namespace CYRED
 		cchar* const	MENU_RENAME				= "Rename";
 		cchar* const	MENU_DUPLICATE			= "Duplicate";
 		cchar* const	MENU_DELETE				= "Delete";
+
+		cchar* const	MENU_SAVE_PREFAB		= "Save Prefab";
+		cchar* const	MENU_SAVE_PREFAB_AS		= "Save Prefab As..";
+		cchar* const	MENU_CLOSE_PREFAB		= "Close Prefab";
 	
 		cchar* const	MSG_SAVE_PREFAB			= "Save Prefab";
 		cchar* const	FILE_FILTER_PREFAB		= "Prefab (*%s)";
@@ -58,10 +62,14 @@ namespace CYRED
 
 
 	public:
-		void Open( const QPoint& pos );
+		void Open( const QPoint& pos, bool isPrefab );
 
 		
 	public:
+		void A_SavePrefab				();
+		void A_SavePrefabAs				();
+		void A_ClosePrefab				();
+
 		void A_Rename					();
 		void A_Duplicate				();
 		void A_Delete					();

@@ -98,36 +98,37 @@ void Menu_Scene::A_SaveSceneAs()
 	// set file filter
 	FiniteString fileFilter( FILE_FILTER_SCENE, FileManager::FILE_FORMAT_SCENE );
 	// open explorer popup
-	QString newPath = QFileDialog::getSaveFileName( this, 
-													MSG_SAVE_SCENE, 
+	QString newPath = QFileDialog::getSaveFileName( this, MSG_SAVE_SCENE, 
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
+	if ( newPath != NULL ) {
 	// get selected path
-	cchar* paths = newPath.toUtf8().constData();
-	QFileInfo filePath( newPath );
-	// open directory
-	QDir dir;
-	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
-	dirPath.append( "/" );
-	// create new asset
-	cchar* newName = filePath.completeBaseName().toUtf8().constData();
-	Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
-															  newName,
-															  dirPath.toUtf8().constData() );
-	// add new scene to manager
-	AssetManager::Singleton()->AddScene( newScene );
+		cchar* paths = newPath.toUtf8().constData();
+		QFileInfo filePath( newPath );
+		// open directory
+		QDir dir;
+		QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
+		dirPath.append( "/" );
+		// create new asset
+		cchar* newName = filePath.completeBaseName().toUtf8().constData();
+		Scene* newScene = SceneManager::Singleton()->SaveSceneAs( scene->GetUniqueID(),
+																  newName,
+																  dirPath.toUtf8().constData() );
+		// add new scene to manager
+		AssetManager::Singleton()->AddScene( newScene );
 
-	// update assets panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
+		// update assets panel
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
 
-	// use new scene
-	treeItem->asset = newScene;
-	SceneManager::Singleton()->OpenScene( newScene->GetUniqueID() );
+		// use new scene
+		treeItem->asset = newScene;
+		SceneManager::Singleton()->OpenScene( newScene->GetUniqueID() );
 
-	// update hierarchy panel
-	_qtTree->blockSignals( true );
-	treeItem->setText( 0, newScene->GetName() );
-	_qtTree->blockSignals( false );
+		// update hierarchy panel
+		_qtTree->blockSignals( true );
+		treeItem->setText( 0, newScene->GetName() );
+		_qtTree->blockSignals( false );
+	}
 }
 
 

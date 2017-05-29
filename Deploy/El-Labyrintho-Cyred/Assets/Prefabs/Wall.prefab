@@ -1,34 +1,32 @@
 {
     "uid": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm",
-    "game_objects": [
-        {
-            "name": "Mesh",
-            "enabled": true,
-            "components": {
-                "transform": {
-                    "enabled": true,
-                    "position_world": {
-                        "x": 0.0,
-                        "y": 0.5,
-                        "z": 0.0
-                    },
-                    "rotation_world": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale_world": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
+    "root": {
+        "name": "Wall",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.5,
+                    "z": 0.0
                 },
-                "mesh_rendering": {
-                    "enabled": true,
-                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
-                    "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
             }
         }
-    ]
+    }
 }

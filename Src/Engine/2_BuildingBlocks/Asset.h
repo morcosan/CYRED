@@ -38,18 +38,18 @@ namespace CYRED
 
 
 	public:
-		virtual void		LoadUniqueID	() PURE_VIRTUAL;
-		virtual void		LoadFullFile	() PURE_VIRTUAL;
-		virtual void		ClearAsset		() PURE_VIRTUAL;
-		virtual Asset*		Clone			() PURE_VIRTUAL;
+		virtual void	LoadUniqueID	() PURE_VIRTUAL;
+		virtual void	LoadFullFile	() PURE_VIRTUAL;
+		virtual void	ClearAsset		() PURE_VIRTUAL;
+		virtual Asset*	Clone			() PURE_VIRTUAL;
 		virtual cchar*	GetExtension	() PURE_VIRTUAL;
 
 
 	public:
-		cchar*	GetName			()	const;
-		cchar*	GetDirPath		()	const;
+		cchar*		GetName			()	const;
+		cchar*		GetDirPath		()	const;
 		AssetType	GetAssetType	()	const;
-		cchar* GetUniqueID		()	const;
+		cchar*		GetUniqueID		()	const;
 		bool		IsTemporary		()	const;
 		bool		DoesEmitEvents	()	const;
 
@@ -58,6 +58,10 @@ namespace CYRED
 		void		SetEmitEvents	( bool value );
 		void		SetUniqueID		( cchar* uniqueID );
 		void		SetIsTemporary	( bool value );
+
+
+	protected:
+		virtual void _OnRename() {}
 
 
 	protected:

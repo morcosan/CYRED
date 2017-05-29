@@ -59,8 +59,10 @@ void Asset::SetName( cchar* name, bool useExtension )
 	_name = name;
 	_useExtension = useExtension;
 
-	if ( _emitEvents )
-	{
+	// on rename callback
+	_OnRename();
+
+	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
 	}
 }

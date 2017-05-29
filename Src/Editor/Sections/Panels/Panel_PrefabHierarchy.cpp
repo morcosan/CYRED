@@ -12,7 +12,6 @@
 #include "../Settings/EditorSettings.h"
 #include "../../Utils/CustomTreeItem.h"
 #include "../Menus/Menu_GameObject.h"
-#include "../Menus/Menu_Prefab.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -247,7 +246,6 @@ void Panel_PrefabHierarchy::_CreateRightClickMenu()
 
 	// create menus
 	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, EventType::CHANGE_PREFAB_HIERARCHY );
-	_menuPrefab		= Memory::Alloc<Menu_Prefab>( _qtTree );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -291,6 +289,7 @@ void Panel_PrefabHierarchy::_ResetHierarchy()
 	if ( _targetPrefab != NULL ) {
 		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
 		treeItem->asset = _targetPrefab;
+		treeItem->gameObject = _targetPrefab->GetRoot();
 
 		treeItem->setText( 0, _targetPrefab->GetName() );
 		treeItem->setFlags( Qt::ItemIsSelectable | 
@@ -312,12 +311,8 @@ void Panel_PrefabHierarchy::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
-	if ( treeItem->gameObject != NULL ) {
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
-	}
-	else if ( treeItem->asset != NULL ) {
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_PREFAB, treeItem->asset );
-	}
+	// show gameobject attributes
+	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->gameObject );
 }
 
 
@@ -325,10 +320,11 @@ void Panel_PrefabHierarchy::A_ItemRenamed( QTreeWidgetItem* item, int column )
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
-	if ( treeItem->gameObject != NULL ) {
-		treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
-	}
-	else if ( treeItem->asset != NULL ) {
+	// update gameobject name
+	treeItem->gameObject->SetName( item->text( 0 ).toUtf8().data() );
+
+	// update prefab name
+	if ( treeItem->asset != NULL ) {
 		FiniteString newName( item->text(0).toUtf8().constData() );
 
 		_qtTree->blockSignals( true );
@@ -345,13 +341,7 @@ void Panel_PrefabHierarchy::A_RightClickMenu( const QPoint& pos )
 	// get tree item
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->itemAt( pos ) );
 	if ( treeItem != NULL ) {
-		if ( treeItem->gameObject != NULL ) {
-			// open gameobject menu
-			_menuGameObject->Open( pos );
-		}
-		else if ( treeItem->asset != NULL ) {
-			// open prefab menu
-			_menuPrefab->Open( pos );
-		}
+		// open menu
+		_menuGameObject->Open( pos, (treeItem->asset != NULL) );
 	}
 }

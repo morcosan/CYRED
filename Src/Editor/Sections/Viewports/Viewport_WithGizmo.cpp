@@ -182,19 +182,14 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 			// gizmo point light
 			if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
 				// update transform
-				Node* root = _gizmoPointLight->GetRoot();
-				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
-					Transform* childTran = childGO->GetComponent<Transform>();
-					childTran->SetEmitEvents( FALSE );
+				Transform* rootTran = _gizmoPointLight->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				float range = light->GetRange();
+				rootTran->SetScaleWorld( Vector3( range, range, range ) );
+				rootTran->SetEmitEvents( TRUE );
 
-					childTran->SetPositionWorld( transform->GetPositionWorld() );
-					childTran->SetRotationWorld( transform->GetRotationWorld() );
-					float range = light->GetRange();
-					childTran->SetScaleWorld( Vector3( range, range, range ) );
-
-					childTran->SetEmitEvents( TRUE );
-				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
 									_cameraGO, _noLightsGO );
@@ -203,17 +198,12 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 			// gizmo directional light
 			if ( _gizmoDirLight != NULL && light->GetLightType() == LightType::DIRECTIONAL ) {
 				// update transform
-				Node* root = _gizmoDirLight->GetRoot();
-				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
-					Transform* childTran = childGO->GetComponent<Transform>();
-					childTran->SetEmitEvents( FALSE );
+				Transform* rootTran = _gizmoDirLight->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				rootTran->SetEmitEvents( TRUE );
 
-					childTran->SetPositionWorld( transform->GetPositionWorld() );
-					childTran->SetRotationWorld( transform->GetRotationWorld() );
-
-					childTran->SetEmitEvents( TRUE );
-				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
 									_cameraGO, _noLightsGO );
@@ -222,21 +212,16 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 			// gizmo spot light
 			if ( _gizmoSpotLight != NULL && light->GetLightType() == LightType::SPOT ) {
 				// update transform
-				Node* root = _gizmoSpotLight->GetRoot();
-				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
-					Transform* childTran = childGO->GetComponent<Transform>();
-					childTran->SetEmitEvents( FALSE );
+				Transform* rootTran = _gizmoSpotLight->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
+				float range = light->GetRange();
+				float scaleBase = range * tan;
+				rootTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+				rootTran->SetEmitEvents( TRUE );
 
-					childTran->SetPositionWorld( transform->GetPositionWorld() );
-					childTran->SetRotationWorld( transform->GetRotationWorld() );
-					float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
-					float range = light->GetRange();
-					float scaleBase = range * tan;
-					childTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
-
-					childTran->SetEmitEvents( TRUE );
-				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
 									_cameraGO, _noLightsGO );
@@ -247,17 +232,12 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 			// gizmo ortho camera
 			if ( _gizmoOrthoCamera != NULL && camera->GetCameraType() == CameraType::ORTHOGRAPHIC ) {
 				// update transform
-				Node* root = _gizmoOrthoCamera->GetRoot();
-				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
-					Transform* childTran = childGO->GetComponent<Transform>();
-					childTran->SetEmitEvents( FALSE );
-
-					childTran->SetPositionWorld( transform->GetPositionWorld() );
-					childTran->SetRotationWorld( transform->GetRotationWorld() );
-
-					childTran->SetEmitEvents( TRUE );
-				}
+				Transform* rootTran = _gizmoOrthoCamera->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				rootTran->SetEmitEvents( TRUE );
+				
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
 									_cameraGO, _noLightsGO );
@@ -266,17 +246,12 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 			// gizmo perspective camera
 			if ( _gizmoPerspCamera != NULL && camera->GetCameraType() == CameraType::PERSPECTIVE ) {
 				// update transform
-				Node* root = _gizmoPerspCamera->GetRoot();
-				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-					GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
-					Transform* childTran = childGO->GetComponent<Transform>();
-					childTran->SetEmitEvents( FALSE );
+				Transform* rootTran = _gizmoPerspCamera->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				rootTran->SetEmitEvents( TRUE );
 
-					childTran->SetPositionWorld( transform->GetPositionWorld() );
-					childTran->SetRotationWorld( transform->GetRotationWorld() );
-
-					childTran->SetEmitEvents( TRUE );
-				}
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
 									_cameraGO, _noLightsGO );
@@ -295,22 +270,17 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 	
 	// render selected object gizmo
 	if ( _selectedGO != NULL ) {
-		Transform*	transform	= _selectedGO->GetComponent<Transform>();
+		Transform* transform = _selectedGO->GetComponent<Transform>();
 
 		// render pivot
 		if ( transform != NULL && _gizmoPivot != NULL ) {
 			// update transform
-			Node* root = _gizmoPivot->GetRoot();
-			for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-				GameObject* childGO = CAST_S( GameObject*, root->GetChildNodeAt(i) );
-				Transform* childTran = childGO->GetComponent<Transform>();
-				childTran->SetEmitEvents( FALSE );
+			Transform* rootTran = _gizmoPivot->GetRoot()->GetComponent<Transform>();
+			rootTran->SetEmitEvents( FALSE );
+			rootTran->SetPositionWorld( transform->GetPositionWorld() );
+			rootTran->SetRotationWorld( transform->GetRotationWorld() );
+			rootTran->SetEmitEvents( TRUE );
 
-				childTran->SetPositionWorld( transform->GetPositionWorld() );
-				childTran->SetRotationWorld( transform->GetRotationWorld() );
-
-				childTran->SetEmitEvents( TRUE );
-			}
 			// render gizmo
 			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
 								_cameraGO, _noLightsGO );

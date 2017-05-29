@@ -55,7 +55,6 @@
     <ClCompile Include="Sections\Panels\Panel_PrefabHierarchy.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
-    <ClCompile Include="Sections\Menus\Menu_Prefab.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetFolder.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Asset.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetUnknown.cpp" />
@@ -122,7 +121,6 @@
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
-    <ClInclude Include="Sections\Menus\Menu_Prefab.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetFolder.h" />
     <ClInclude Include="Sections\Menus\Menu_Asset.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetUnknown.h" />

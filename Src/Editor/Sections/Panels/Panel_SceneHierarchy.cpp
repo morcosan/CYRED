@@ -335,7 +335,7 @@ void Panel_SceneHierarchy::A_RightClickMenu( const QPoint& pos )
 	if ( treeItem != NULL ) {
 		if ( treeItem->gameObject != NULL ) {
 			// open gameobject menu
-			_menuGameObject->Open( pos );
+			_menuGameObject->Open( pos, FALSE );
 		}
 		else if ( treeItem->asset != NULL ) {
 			// open gameobject menu

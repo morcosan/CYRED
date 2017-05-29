@@ -4,8 +4,9 @@
 #include "Prefab.h"
 #include "../../File/FileManager.h"
 #include "../../Event/EventManager.h"
+#include "../../Scene/SceneManager.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
-#include "../../../2_BuildingBlocks/Composite/Node.h"
+#include "../../../2_BuildingBlocks/GameObject.h"
 
 
 using namespace CYRED;
@@ -93,7 +94,7 @@ cchar* Prefab::GetExtension()
 }
 
 
-Node* Prefab::GetRoot() const
+GameObject* Prefab::GetRoot() const
 {
 	return _root;
 }
@@ -105,5 +106,14 @@ void Prefab::CreateRoot()
 	Memory::Free( _root );
 	_root = NULL;
 
-	_root = Memory::Alloc<Node>();
+	_root = Memory::Alloc<GameObject>( _name.GetChar(), SceneManager::Singleton()->NextGameObjectUID() );
+}
+
+
+void Prefab::_OnRename()
+{
+	// update gameobject name
+	if ( _root != NULL ) {
+		_root->SetName( _name.GetChar() );
+	}
 }

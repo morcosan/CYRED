@@ -42,15 +42,12 @@ void Viewport_Prefab::OnEvent( EventType eType, void* eData )
 				_selectedGO = NULL;
 
 				// get prefab root
-				Node* prefabRoot = _targetPrefab->GetRoot();
+				GameObject* prefabRoot = _targetPrefab->GetRoot();
 
 				// search for gameobject
-				for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
-					GameObject* root = CAST_S( GameObject*, prefabRoot->GetChildNodeAt(i) );
-					if ( _RecIsFound( gameObject, root ) ) {
-						// found
-						_selectedGO = gameObject;
-					}
+				if ( _RecIsFound( gameObject, prefabRoot ) ) {
+					// found
+					_selectedGO = gameObject;
 				}
 			}
 			break;
@@ -117,7 +114,7 @@ void Viewport_Prefab::_OnUpdate()
 	// render prefab
 	if ( _targetPrefab != NULL ) {
 		// get prefabs root
-		Node* prefabRoot = _targetPrefab->GetRoot();
+		GameObject* prefabRoot = _targetPrefab->GetRoot();
 
 		// render gizmo before
 		_RenderGizmoBefore();
@@ -125,9 +122,7 @@ void Viewport_Prefab::_OnUpdate()
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
-		for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
-			_RecCollectLights( CAST_S(GameObject*, prefabRoot->GetChildNodeAt(i)), lightsGO );
-		}
+		_RecCollectLights( prefabRoot, lightsGO );
 
 		// render meshes
 		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
@@ -163,7 +158,7 @@ bool Viewport_Prefab::_IsPickingInput()
 		// render prefab
 		if ( _targetPrefab != NULL ) {
 			// get prefabs root
-			Node* prefabRoot = _targetPrefab->GetRoot();
+			GameObject* prefabRoot = _targetPrefab->GetRoot();
 
 			// render meshes
 			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
@@ -175,16 +170,11 @@ bool Viewport_Prefab::_IsPickingInput()
 			// get object uid
 			int uid = pixel.x;
 			// find gameobject by uid
-			GameObject* gameObject;
-			for ( int i = 0; i < prefabRoot->GetChildNodeCount(); i++ ) {
-				gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, prefabRoot->GetChildNodeAt(i)) );
-				// if found
-				if ( gameObject != NULL ) {
-					// send event
-					EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
-
-					break;
-				}
+			GameObject* gameObject = _RecSearchByUID( uid, prefabRoot );
+			// if found
+			if ( gameObject != NULL ) {
+				// send event
+				EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
 			}
 		}
 

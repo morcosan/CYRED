@@ -1,34 +1,32 @@
 {
     "uid": "OcMJcqPJDotXfJkaFyeuyzRx62YOalvb",
-    "game_objects": [
-        {
-            "name": "SpotLight",
-            "enabled": true,
-            "components": {
-                "transform": {
-                    "enabled": true,
-                    "position_world": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation_world": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale_world": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
+    "root": {
+        "name": "SpotLight",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
-                "mesh_rendering": {
-                    "enabled": true,
-                    "mesh": "3ma7MFovgams2FqmspV3hTCxH5jPZMfj",
-                    "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "3ma7MFovgams2FqmspV3hTCxH5jPZMfj",
+                "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
             }
         }
-    ]
+    }
 }

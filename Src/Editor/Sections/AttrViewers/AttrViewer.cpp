@@ -212,6 +212,8 @@ void AttrViewer::Initialize( Panel_Attributes* panel, QTreeWidget* panelTree )
 
 void AttrViewer::ChangeTarget( void* target )
 {
+	// reset group
+	_activatedGroup = CallbackGroup::NONE;
 	// change target
 	_OnChangeTarget( target );
 	// refresh panel

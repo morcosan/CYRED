@@ -26,16 +26,43 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	, _qtTree( qtTree )
 	, _eventType( eventType )
 {
+	
+}
+
+
+void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
+{
+	// create custom menu
+	this->clear();
+
 	// add actions
 
+	if ( isPrefab ) {
+		QAction* actionSaveScene		= this->addAction( MENU_SAVE_PREFAB );
+		QAction* actionSaveSceneAs		= this->addAction( MENU_SAVE_PREFAB_AS );
+		QAction* actionCloseScene		= this->addAction( MENU_CLOSE_PREFAB );
+
+		this->addSeparator();
+
+		// add callbacks
+		QObject::connect( actionSaveScene,	&QAction::triggered, this, &Menu_GameObject::A_SavePrefab );
+		QObject::connect( actionSaveSceneAs,&QAction::triggered, this, &Menu_GameObject::A_SavePrefabAs );
+		QObject::connect( actionCloseScene,	&QAction::triggered, this, &Menu_GameObject::A_ClosePrefab );
+	}
+
 	QAction* actionRename			= this->addAction( MENU_RENAME );
-	QAction* actionDuplicate		= this->addAction( MENU_DUPLICATE );
+	if ( !isPrefab ) {
+		QAction* actionDuplicate = this->addAction( MENU_DUPLICATE );
+		QObject::connect( actionDuplicate, &QAction::triggered, this, &Menu_GameObject::A_Duplicate );
+	}
 
 	this->addSeparator();
 
-	QAction* actionCreatePrefab		= this->addAction( MENU_CREATE_PREFAB );
-
-	this->addSeparator();
+	if ( !isPrefab ) {
+		QAction* actionCreatePrefab = this->addAction( MENU_CREATE_PREFAB );
+		this->addSeparator();
+		QObject::connect( actionCreatePrefab, &QAction::triggered, this, &Menu_GameObject::A_CreatePrefab );
+	}
 
 	QMenu* menu_AddComp				= this->addMenu( MENU_ADD_COMPONENT );
 	QAction* actionComp_Transform	= menu_AddComp->addAction( MENU_COMP_TRANSFORM );
@@ -61,14 +88,14 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	QMenu* menuGO_PS				= menuGO->addMenu( MENU_GO_PS );
 	QAction* actionGO_PS_Emitter	= menuGO_PS->addAction( MENU_GO_PS_EMITTER );
 
-	this->addSeparator();
+	if ( !isPrefab ) {
+		this->addSeparator();
+		QAction* actionDelete = this->addAction( MENU_DELETE );
+		QObject::connect( actionDelete,	&QAction::triggered, this, &Menu_GameObject::A_Delete );
+	}
 
-	QAction* actionDelete			= this->addAction( MENU_DELETE );
-
-	
 	// add callbacks
 	QObject::connect( actionRename,			&QAction::triggered, this, &Menu_GameObject::A_Rename );
-	QObject::connect( actionDuplicate,		&QAction::triggered, this, &Menu_GameObject::A_Duplicate );
 	QObject::connect( actionComp_Transform,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Transform );
 	QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Camera );
 	QObject::connect( actionComp_Light,		&QAction::triggered, this, &Menu_GameObject::A_AddComp_Light );
@@ -76,8 +103,6 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_MorphRendering );
 	QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_ParticlesEmitter );
 	QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Scripter );
-	QObject::connect( actionCreatePrefab,	&QAction::triggered, this, &Menu_GameObject::A_CreatePrefab );
-	QObject::connect( actionDelete,			&QAction::triggered, this, &Menu_GameObject::A_Delete );
 	QObject::connect( actionGO_Empty,		&QAction::triggered, this, &Menu_GameObject::A_GO_CreateEmpty );
 	QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Pivot );
 	QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Camera );
@@ -85,13 +110,97 @@ Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
 	QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Mesh );
 	QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Morph );
 	QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &Menu_GameObject::A_GO_Particles_Emitter );
+
+	// display menu
+	this->popup( _qtTree->mapToGlobal(pos) );
 }
 
 
-void Menu_GameObject::Open( const QPoint& pos )
+
+void Menu_GameObject::A_SavePrefab()
 {
-	// display menu
-	this->popup( _qtTree->mapToGlobal(pos) );
+	Asset* prefab = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
+	ASSERT( prefab != NULL );
+
+	// a new prefab
+	if ( prefab->IsTemporary() )	{
+		A_SavePrefabAs();
+	}
+	else {
+		// save file
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+	}
+}
+
+
+void Menu_GameObject::A_SavePrefabAs()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+
+	Asset* prefab = treeItem->asset;
+	ASSERT( prefab != NULL );
+
+	// set file filter
+	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
+	// open explorer popup
+	QString newPath = QFileDialog::getSaveFileName( this, MSG_SAVE_PREFAB, 
+													ProjectSettings::dirPathAssets.GetChar(), 
+													fileFilter.GetChar() );
+	if ( newPath != NULL ) {
+		// get selected path
+		cchar* paths = newPath.toUtf8().constData();
+		QFileInfo filePath( newPath );
+		// open directory
+		QDir dir;
+		QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
+		dirPath.append( "/" );
+		// create new asset
+		cchar* newName = filePath.completeBaseName().toUtf8().constData();
+
+
+		// create new prefab asset
+		Prefab* newPrefab = Memory::Alloc<Prefab>();
+		newPrefab->SetEmitEvents( FALSE );
+		newPrefab->SetName( newName );
+		newPrefab->SetDirPath( dirPath.toUtf8().constData() );
+		newPrefab->CreateRoot();
+
+		// get root of prefab
+		Node* root = CAST_S( Prefab*, prefab )->GetRoot();
+		// clone gameobjects to new prefab
+		for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+			GameObject* newObject = _CreateGameObject( newPrefab->GetRoot() );
+			GameObject* prevObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
+			prevObject->Clone( newObject );
+		}
+
+		newPrefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+		newPrefab->SetIsTemporary( FALSE );
+		newPrefab->SetEmitEvents( TRUE );
+		// add to manager
+		AssetManager::Singleton()->AddPrefab( newPrefab );
+		// save file
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newPrefab );
+
+		// reload hierarchy
+		EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, newPrefab );
+
+
+		// update hierarchy panel
+		_qtTree->blockSignals( true );
+		treeItem->setText( 0, newPrefab->GetName() );
+		_qtTree->blockSignals( false );
+	}
+}
+
+
+void Menu_GameObject::A_ClosePrefab()
+{
+	Asset* prefab = CAST_S( CustomTreeItem*, _qtTree->currentItem() )->asset;
+	ASSERT( prefab != NULL );
+
+	// reload hierarchy
+	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, NULL );
 }
 
 
@@ -142,37 +251,38 @@ void Menu_GameObject::A_CreatePrefab()
 	// set file filter
 	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
 	// open explorer popup
-	QString newPath = QFileDialog::getSaveFileName( this, 
-													MSG_SAVE_PREFAB, 
+	QString newPath = QFileDialog::getSaveFileName( this, MSG_SAVE_PREFAB, 
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
-	// get selected path
-	cchar* paths = newPath.toUtf8().constData();
-	QFileInfo filePath( newPath );
-	// open directory
-	QDir dir;
-	QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
-	dirPath.append( "/" );
-	// write file
-	cchar* newName = filePath.completeBaseName().toUtf8().constData();
-	// create new prefab asset
-	Prefab* prefab = Memory::Alloc<Prefab>();
-	prefab->SetEmitEvents( FALSE );
-	prefab->SetName( newName );
-	prefab->SetDirPath( dirPath.toUtf8().constData() );
-	prefab->CreateRoot();
+	if ( newPath != NULL ) {
+		// get selected path
+		cchar* paths = newPath.toUtf8().constData();
+		QFileInfo filePath( newPath );
+		// open directory
+		QDir dir;
+		QString dirPath = dir.relativeFilePath( filePath.absolutePath() );
+		dirPath.append( "/" );
+		// write file
+		cchar* newName = filePath.completeBaseName().toUtf8().constData();
+		// create new prefab asset
+		Prefab* prefab = Memory::Alloc<Prefab>();
+		prefab->SetEmitEvents( FALSE );
+		prefab->SetName( newName );
+		prefab->SetDirPath( dirPath.toUtf8().constData() );
+		prefab->CreateRoot();
 
-	// clone gameobject to prefab
-	GameObject* prefabObject = _CreateGameObject( prefab->GetRoot() );
-	treeItem->gameObject->Clone( prefabObject );
+		// clone gameobject to prefab
+		GameObject* prefabObject = _CreateGameObject( prefab->GetRoot() );
+		treeItem->gameObject->Clone( prefabObject );
 
-	prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
-	prefab->SetIsTemporary( FALSE );
-	prefab->SetEmitEvents( TRUE );
-	// add to manager
-	AssetManager::Singleton()->AddPrefab( prefab );
-	// save file
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+		prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+		prefab->SetIsTemporary( FALSE );
+		prefab->SetEmitEvents( TRUE );
+		// add to manager
+		AssetManager::Singleton()->AddPrefab( prefab );
+		// save file
+		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+	}
 }
 
 

@@ -26,24 +26,9 @@ rapidjson::Value JsonSerializer_Prefab::ToJson( const void* object )
 					rapidjson::StringRef( prefab->GetUniqueID() ),
 					_al );
 
-	{
-		rapidjson::Value arrayNode;
-		arrayNode.SetArray();
-
-		JsonSerializer_GameObject serializer;
-		Node* root = prefab->GetRoot();
-
-		for ( int i = 0; i < root->GetChildNodeCount(); ++i ) {
-			GameObject* gameObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
-
-			if ( gameObject->GetParentNode() == root )	{
-				arrayNode.PushBack( serializer.ToJson( gameObject ), _al );
-			}
-		}
-
-		json.AddMember( rapidjson::StringRef( GAME_OBJECTS ), arrayNode, _al );
-	}
-
+	JsonSerializer_GameObject serializer;
+	GameObject* root = prefab->GetRoot();
+	json.AddMember( rapidjson::StringRef( ROOT ), serializer.ToJson( root ), _al );
 
 	return json;
 }
@@ -64,17 +49,17 @@ void JsonSerializer_Prefab::FromJson( rapidjson::Value& json, OUT void* object, 
 		return;
 	}
 
-	if ( json.HasMember( GAME_OBJECTS ) ) {
-		rapidjson::Value& gameObjects = json[GAME_OBJECTS];
+	if ( json.HasMember( ROOT ) ) {
+		rapidjson::Value& gameObjects = json[ROOT];
 
-		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
-			int uid = SceneManager::Singleton()->NextGameObjectUID();
-			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
-			prefab->GetRoot()->AddChildNode( gameObject );
-
-			JsonSerializer_GameObject serializer;
-			serializer.FromJson( gameObjects[i], gameObject, DeserFlag::FULL );
-		}
+		// create root
+		prefab->CreateRoot();
+		GameObject* root = prefab->GetRoot();
+		// deserialize data
+		JsonSerializer_GameObject serializer;
+		serializer.FromJson( json[ROOT], root, DeserFlag::FULL );
+		// set name as prefab
+		root->SetName( prefab->GetName() );
 	}
 
 	prefab->SetEmitEvents( emitEvents );

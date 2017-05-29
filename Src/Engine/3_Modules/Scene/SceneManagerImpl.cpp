@@ -303,24 +303,15 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, int sceneIndex 
 		ASSERT( scene != NULL );
 
 		// create game object for root
-		Node* root = prefab->GetRoot();
+		GameObject* root = prefab->GetRoot();
+		// create object
 		GameObject* rootObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
-		rootObject->SetName( prefab->GetName() );
+		// clone from prefab
+		root->Clone( rootObject );
+		// add to scene
 		scene->GetRoot()->AddChildNode( rootObject );
 
-		// add all game objects to it
-		for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
-			GameObject* prefabObject = CAST_S( GameObject*, root->GetChildNodeAt( i ) );
-
-			// create object
-			GameObject* newObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
-			// clone from prefab
-			prefabObject->Clone( newObject );
-			// add to scene
-			rootObject->AddChildNode( newObject );
-		}
-		
-		// send event
+		// update hierarchy
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_SCENE_HIERARCHY, NULL );
 
 		return rootObject;
