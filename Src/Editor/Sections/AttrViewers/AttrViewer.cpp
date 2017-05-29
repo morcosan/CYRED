@@ -197,6 +197,7 @@ struct AttrViewer::_ListWidget : public QWidget
 AttrViewer::AttrViewer()
 	: _panelTree( NULL )
 	, _ignoreUpdateGUI( 0 )
+	, _activatedGroup( CallbackGroup::NONE )
 {
 }
 
@@ -281,15 +282,9 @@ void AttrViewer::QtSelector::OnChangeSelection( void* ref, cchar* name )
 	QLineEdit* textWidget = CAST_S( QLineEdit*, this->layout()->itemAt( 0 )->widget() );
 	textWidget->setText( name );
 
-	switch ( this->callbackGroup )
-	{
-		case CallbackGroup::GROUP_1:
-			this->attrViewer->A_OnChange_Group1();
-			break;
-
-		case CallbackGroup::GROUP_2:
-			this->attrViewer->A_OnChange_Group2();
-			break;
+	switch ( this->callbackGroup ) {
+		case CallbackGroup::GROUP_1:	this->attrViewer->A_OnChange_Group1();	break;
+		case CallbackGroup::GROUP_2:	this->attrViewer->A_OnChange_Group2();	break;
 	}
 }
 
@@ -1404,26 +1399,22 @@ QWidget* AttrViewer::CreateString( int flagMask, CallbackGroup group )
 	switch ( group )
 	{
 		case CallbackGroup::GROUP_1:
-			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 )
-			{
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
 				QObject::connect( widget, &QLineEdit::editingFinished, 
 								  this, &AttrViewer::A_OnChange_Group1 );
 			}
-			else
-			{
+			else {
 				QObject::connect( widget, &QLineEdit::textEdited, 
 								  this, &AttrViewer::A_OnChange_Group1 );
 			}
 			break;
 
 		case CallbackGroup::GROUP_2:
-			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 )
-			{
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
 				QObject::connect( widget, &QLineEdit::editingFinished, 
 								  this, &AttrViewer::A_OnChange_Group2 );
 			}
-			else
-			{
+			else {
 				QObject::connect( widget, &QLineEdit::textEdited, 
 								  this, &AttrViewer::A_OnChange_Group2 );
 			}

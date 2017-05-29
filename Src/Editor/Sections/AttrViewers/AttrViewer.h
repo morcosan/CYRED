@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "CyredBuildingBlocks.h"
@@ -18,7 +17,6 @@ namespace CYRED
 	class CustomTreeWidget;
 	class Panel_Attributes;
 }
-
 
 namespace CYRED
 {
@@ -53,7 +51,8 @@ namespace CYRED
 	{
 		enum Enum
 		{
-			GROUP_1
+			NONE
+			, GROUP_1
 			, GROUP_2
 		};
 	}
@@ -297,16 +296,18 @@ namespace CYRED
 		DataArray<_Attribute>					_attributes;
 		DataMap<InnerAttrType, _InnerAttribute>	_innerAttributes;
 
-		Panel_Attributes*		_panel;
+		Panel_Attributes*	_panel;
 		QTreeWidget*		_panelTree;
 		QTreeWidgetItem*	_titleItem;
 
 		QWidget*			_titleWidget;
 		QWidget*			_childWidget;
 
-		void		_SetAttribute	( cchar* name, cchar* label, 
-									  QWidget* widget, AttrType type );
-		bool		_GetAttribute	( cchar* name, OUT _Attribute& attribute );
+
+	private:
+		void		_SetAttribute		( cchar* name, cchar* label, 
+										  QWidget* widget, AttrType type );
+		bool		_GetAttribute		( cchar* name, OUT _Attribute& attribute );
 		
 		void		_WriteString		( QWidget* widget, cchar* value );
 		void		_WriteFloat			( QWidget* widget, float value );
