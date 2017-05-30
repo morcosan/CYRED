@@ -2,12 +2,12 @@
 // MIT License
 
 #include "Viewport_Scene.h"
+
 #include "CyredModule_Render.h"
 #include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Input.h"
-#include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
 #include "QtWidgets\QHBoxLayout"

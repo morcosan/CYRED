@@ -28,7 +28,6 @@
     <ClInclude Include="2_BuildingBlocks\Data\DataMap.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataArray.h" />
     <ClInclude Include="2_BuildingBlocks\Math\Vector2.h" />
-    <ClInclude Include="2_BuildingBlocks\Composite\Node.h" />
     <ClInclude Include="3_Modules\Scene\SceneManagerImpl.h" />
     <ClInclude Include="2_BuildingBlocks\Math\Vector3.h" />
     <ClInclude Include="2_BuildingBlocks\Math\Vector4.h" />
@@ -110,6 +109,7 @@
     <ClInclude Include="3_Modules\Asset\Assets\Prefab.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.h" />
     <ClInclude Include="3_Modules\Render\Renderers\PickingRenderer.h" />
+    <ClInclude Include="2_BuildingBlocks\Node.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -118,7 +118,6 @@
     <ClCompile Include="3_Modules\Render\OpenGL\GLContext.cpp" />
     <ClCompile Include="2_BuildingBlocks\Component.cpp" />
     <ClCompile Include="2_BuildingBlocks\GameObject.cpp" />
-    <ClCompile Include="2_BuildingBlocks\Composite\Node.cpp" />
     <ClCompile Include="3_Modules\Scene\SceneManagerImpl.cpp" />
     <ClCompile Include="2_BuildingBlocks\Math\Vector2.cpp" />
     <ClCompile Include="2_BuildingBlocks\Math\Vector3.cpp" />
@@ -180,5 +179,6 @@
     <ClCompile Include="3_Modules\Asset\Assets\Prefab.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.cpp" />
     <ClCompile Include="3_Modules\Render\Renderers\PickingRenderer.cpp" />
+    <ClCompile Include="2_BuildingBlocks\Node.cpp" />
   </ItemGroup>
 </Project>

@@ -1,16 +1,15 @@
-#include "Scene.h"
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
 #include "Scene.h"
+
 #include "../../File/FileManager.h"
-#include "../../../2_BuildingBlocks/Composite/Node.h"
+#include "../../../2_BuildingBlocks/Node.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../Event/EventManager.h"
 
 
 using namespace CYRED;
-
 
 
 Scene::Scene()

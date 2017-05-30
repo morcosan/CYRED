@@ -1,15 +1,10 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../1_Required/Required.h"
 
-#include "String\String.h"
-#include "Data\DataArray.h"
-
-#include "Composite\Node.h"
-
+#include "Node.h"
 
 namespace CYRED
 {
@@ -37,7 +32,6 @@ namespace CYRED
 
 
 	public:
-		cchar*		GetName				()						const;
 		bool		IsEnabled			()						const;
 		int			GetUniqueID			()						const;
 		bool		DoesEmitEvents		()						const;
@@ -46,7 +40,6 @@ namespace CYRED
 		Component*	GetComponentAt		( int index )			const;
 
 		void		SetEnabled			( bool value );
-		void		SetName				( cchar* name );
 		void		SetEmitEvents		( bool value );
 
 		void		Clone				( GameObject* clone )	const;
@@ -58,8 +51,11 @@ namespace CYRED
 		template <class T> void	RemoveComponent	();
 
 
+	protected:
+		void _OnRename() override;
+
+
 	private:
-		String	_name;
 		bool	_enabled;
 		int		_uid;	// unique index
 		bool	_emitEvents;

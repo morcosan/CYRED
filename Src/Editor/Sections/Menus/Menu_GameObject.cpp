@@ -214,13 +214,13 @@ void Menu_GameObject::A_Rename()
 void Menu_GameObject::A_Duplicate()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	if ( treeItem->gameObject != NULL ) {
+	if ( treeItem->node != NULL ) {
 		// create gameobject
-		GameObject* clone = _CreateGameObject( treeItem->gameObject->GetParentNode() );
+		GameObject* clone = _CreateGameObject( treeItem->node->GetParentNode() );
 		// do the cloning
-		treeItem->gameObject->Clone( clone );
+		CAST_S(GameObject*, treeItem->node)->Clone( clone );
 		// update name
-		clone->SetName( treeItem->gameObject->GetName() );
+		clone->SetName( treeItem->node->GetName() );
 
 		// send event
 		EventManager::Singleton()->EmitEvent( _eventType, NULL );
@@ -232,10 +232,10 @@ void Menu_GameObject::A_Duplicate()
 void Menu_GameObject::A_Delete()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// destroy object
-	_DestroyGameObject( treeItem->gameObject );
+	_DestroyGameObject( CAST_S( GameObject*, treeItem->node ) );
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
@@ -246,7 +246,7 @@ void Menu_GameObject::A_Delete()
 void Menu_GameObject::A_CreatePrefab()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// set file filter
 	FiniteString fileFilter( FILE_FILTER_PREFAB, FileManager::FILE_FORMAT_PREFAB );
@@ -273,7 +273,7 @@ void Menu_GameObject::A_CreatePrefab()
 
 		// clone gameobject to prefab
 		GameObject* prefabObject = _CreateGameObject( prefab->GetRoot() );
-		treeItem->gameObject->Clone( prefabObject );
+		CAST_S( GameObject*, treeItem->node )->Clone( prefabObject );
 
 		prefab->SetUniqueID( Random::GenerateUniqueID().GetChar() );
 		prefab->SetIsTemporary( FALSE );
@@ -289,10 +289,10 @@ void Menu_GameObject::A_CreatePrefab()
 void Menu_GameObject::A_GO_CreateEmpty()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
@@ -303,10 +303,10 @@ void Menu_GameObject::A_GO_CreateEmpty()
 void Menu_GameObject::A_GO_Create3D_Pivot()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
@@ -320,10 +320,10 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 void Menu_GameObject::A_GO_Create3D_Camera()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 	newObject->SetName( MENU_GO_3D_CAMERA );
@@ -342,10 +342,10 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 void Menu_GameObject::A_GO_Create3D_Light()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_LIGHT );
@@ -361,10 +361,10 @@ void Menu_GameObject::A_GO_Create3D_Light()
 void Menu_GameObject::A_GO_Create3D_Mesh()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MESH );
@@ -380,10 +380,10 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 void Menu_GameObject::A_GO_Create3D_Morph()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 0) );
 	newObject->SetName( MENU_GO_3D_MORPH );
@@ -399,10 +399,10 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 void Menu_GameObject::A_GO_Particles_Emitter()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// create gameobject
-	GameObject* newObject = _CreateGameObject( treeItem->gameObject );
+	GameObject* newObject = _CreateGameObject( treeItem->node );
 	// add transform
 	newObject->AddComponent<Transform>()->RotateByWorld( Vector3( 90, 0, 0 ) );
 	newObject->SetName( MENU_GO_PS_EMITTER );
@@ -418,70 +418,70 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 void Menu_GameObject::A_AddComp_Transform()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add transform component
-	treeItem->gameObject->AddComponent<Transform>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<Transform>();
 }
 
 
 void Menu_GameObject::A_AddComp_Camera()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add camera component
-	treeItem->gameObject->AddComponent<Camera>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<Camera>();
 }
 
 
 void Menu_GameObject::A_AddComp_Light()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add light component
-	treeItem->gameObject->AddComponent<Light>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<Light>();
 }
 
 
 void Menu_GameObject::A_AddComp_MeshRendering()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add mesh rendering component
-	treeItem->gameObject->AddComponent<MeshRendering>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<MeshRendering>();
 }
 
 
 void Menu_GameObject::A_AddComp_MorphRendering()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add morph rendering component
-	treeItem->gameObject->AddComponent<MorphRendering>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<MorphRendering>();
 }
 
 
 void Menu_GameObject::A_AddComp_ParticlesEmitter()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add particles emitter component
-	treeItem->gameObject->AddComponent<ParticleEmitter>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<ParticleEmitter>();
 }
 
 
 void Menu_GameObject::A_AddComp_Scripter()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
-	ASSERT( treeItem->gameObject != NULL );
+	ASSERT( treeItem->node != NULL );
 
 	// add scripter component
-	treeItem->gameObject->AddComponent<Scripter>();
+	CAST_S( GameObject*, treeItem->node )->AddComponent<Scripter>();
 }
 
 

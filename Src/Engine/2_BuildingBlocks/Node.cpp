@@ -13,6 +13,12 @@ Node::Node()
 }
 
 
+Node::Node( cchar* name ) 
+	: _name( name )
+{
+}
+
+
 Node::~Node()
 {
 	// delete child nodes
@@ -126,4 +132,17 @@ void Node::_RemoveChildNode( Node* childNode )
 			return;
 		}
 	}
+}
+
+
+cchar* Node::GetName() const
+{
+	return _name.GetChar();
+}
+
+
+void Node::SetName( cchar* name )
+{
+	_name = name;
+	_OnRename();
 }

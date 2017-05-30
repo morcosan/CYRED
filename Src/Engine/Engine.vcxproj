@@ -110,7 +110,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="2_BuildingBlocks\Asset.cpp" />
     <ClCompile Include="2_BuildingBlocks\Component.cpp" />
     <ClCompile Include="2_BuildingBlocks\Components\Transform.cpp" />
-    <ClCompile Include="2_BuildingBlocks\Composite\Node.cpp" />
+    <ClCompile Include="2_BuildingBlocks\Node.cpp" />
     <ClCompile Include="2_BuildingBlocks\Data\DataUnion.cpp" />
     <ClCompile Include="2_BuildingBlocks\GameObject.cpp" />
     <ClCompile Include="2_BuildingBlocks\Math\Math.cpp" />
@@ -181,7 +181,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="1_Required\Required.h" />
     <ClInclude Include="2_BuildingBlocks\Asset.h" />
     <ClInclude Include="2_BuildingBlocks\Component.h" />
-    <ClInclude Include="2_BuildingBlocks\Composite\Node.h" />
+    <ClInclude Include="2_BuildingBlocks\Node.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataArray.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataMap.h" />
     <ClInclude Include="2_BuildingBlocks\Data\DataUnion.h" />

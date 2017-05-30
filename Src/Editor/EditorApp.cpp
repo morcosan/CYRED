@@ -16,14 +16,14 @@
 #include "Sections\MenuBar.h"
 #include "Sections\Toolbar.h"
 #include "Sections\Builders\ProjectBuilder.h"
-#include "Sections\Panels\Panel_SceneHierarchy.h"
 #include "Sections\Panels\Panel_Attributes.h"
 #include "Sections\Panels\Panel_Assets.h"
 #include "Sections\Panels\Panel_Console.h"
-#include "Sections\Panels\Panel_PrefabHierarchy.h"
-#include "Sections\Viewports\Viewport_Scene.h"
-#include "Sections\Viewports\Viewport_Prefab.h"
-#include "Sections\Viewports\Viewport_Game.h"
+#include "Sections\Panels\Hierarchies\Hierarchy_Scene.h"
+#include "Sections\Panels\Hierarchies\Hierarchy_Prefab.h"
+#include "Sections\Panels\Viewports\Viewport_Scene.h"
+#include "Sections\Panels\Viewports\Viewport_Prefab.h"
+#include "Sections\Panels\Viewports\Viewport_Game.h"
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
@@ -248,7 +248,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 	switch ( type ) {
 		case PanelType::SCENE_HIERARCHY:
-			panel = Memory::Alloc<Panel_SceneHierarchy>();
+			panel = Memory::Alloc<Hierarchy_Scene>();
 			panel->Initialize();
 			break;
 
@@ -286,7 +286,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 			break;
 
 		case PanelType::PREFAB_HIERARCHY:
-			panel = Memory::Alloc<Panel_PrefabHierarchy>();
+			panel = Memory::Alloc<Hierarchy_Prefab>();
 			panel->Initialize();
 			break;
 	}
@@ -311,7 +311,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 	switch ( type ) {
 		case PanelType::SCENE_HIERARCHY:
-			panel = Memory::Alloc<Panel_SceneHierarchy>();
+			panel = Memory::Alloc<Hierarchy_Scene>();
 			panel->Initialize();
 			break;
 
@@ -357,7 +357,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 			break;
 
 		case PanelType::PREFAB_HIERARCHY:
-			panel = Memory::Alloc<Panel_PrefabHierarchy>();
+			panel = Memory::Alloc<Hierarchy_Prefab>();
 			panel->Initialize();
 			break;
 	}

@@ -6,10 +6,9 @@
 
 #include "QtWidgets\qtreewidget.h"
 
-
 namespace CYRED
 {
-	class GameObject;
+	class Node;
 	class Asset;
 }
 
@@ -29,8 +28,8 @@ namespace CYRED
 
 
 	public:
-		Asset*		asset;
-		int			assetIndex;
-		GameObject* gameObject;
+		Asset*	asset;
+		int		assetIndex;
+		Node*	node;
 	};
 }

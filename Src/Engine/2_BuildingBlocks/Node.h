@@ -1,12 +1,11 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
-#include "../../1_Required/Required.h"
+#include "../1_Required/Required.h"
 
-#include "../Data/DataArray.h"
-#include "../String/String.h"
+#include "Data/DataArray.h"
+#include "String/String.h"
 
 
 namespace CYRED
@@ -16,6 +15,7 @@ namespace CYRED
 	{
 	public:
 		Node();
+		Node( cchar* name );
 		virtual ~Node();
 
 
@@ -26,8 +26,12 @@ namespace CYRED
 
 
 	public:
+		cchar*	GetName				()							const;
 		Node*	GetParentNode		()							const;
+
+		void	SetName				( cchar* name );
 		void	SetParentNode		( Node* newNode );
+
 		void	AddChildNode		( Node* newNode );
 		void	InsertChildNode		( int index, Node* newNode );
 
@@ -38,6 +42,11 @@ namespace CYRED
 
 
 	protected:
+		virtual void _OnRename() {}
+
+
+	protected:
+		String				_name;
 		Node*				_parentNode;	//! the parent
 		DataArray<Node*>	_childNodes;	//! list of children
 

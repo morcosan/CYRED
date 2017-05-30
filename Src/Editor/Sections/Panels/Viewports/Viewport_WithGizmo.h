@@ -4,7 +4,7 @@
 #pragma once
 #include "CyredRequired.h"
 
-#include "../Panels/Panel_Viewport.h"
+#include "../Panel_Viewport.h"
 
 namespace CYRED
 {
@@ -17,7 +17,6 @@ namespace CYRED
 {
 	ABSTRACT class Viewport_WithGizmo : public Panel_Viewport
 	{
-		const Vector2	MIN_SIZE			= Vector2( 400, 250 );
 		cchar* const	GIZMO_GRID			= "GizmoGrid";
 		cchar* const	GIZMO_AXIS			= "GizmoAxis";
 		cchar* const	GIZMO_BACKGROUND	= "GizmoBackground";
@@ -55,10 +54,6 @@ namespace CYRED
 		Prefab*					_gizmoOrthoCamera;
 		Prefab*					_gizmoPerspCamera;
 		Prefab*					_gizmoPivot;
-
-
-	private:
-		virtual Vector2	_GetPanelMinSize() override;
 
 
 	protected:

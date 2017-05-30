@@ -136,7 +136,6 @@ Panel_Assets::Panel_Assets()
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
-	this->setMaximumSize( MAX_SIZE.x, MAX_SIZE.y );
 
 	QPushButton* reloadBtn = Memory::Alloc<QPushButton>( this );
 	reloadBtn->setText( BUTTON_RELOAD );

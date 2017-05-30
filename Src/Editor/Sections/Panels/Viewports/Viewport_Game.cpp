@@ -2,10 +2,10 @@
 // MIT License
 
 #include "Viewport_Game.h"
+
 #include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
-#include "../Settings/EditorSkin.h"
 
 
 using namespace CYRED;
@@ -20,12 +20,6 @@ Viewport_Game::Viewport_Game( int panelIndex )
 cchar* Viewport_Game::_GetPanelTitle()
 {
 	return PANEL_TITLE;
-}
-
-
-Vector2 Viewport_Game::_GetPanelMinSize()
-{
-	return MIN_SIZE;
 }
 
 

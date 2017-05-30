@@ -2,10 +2,10 @@
 // MIT License
 
 #include "Viewport_WithGizmo.h"
+
 #include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
-#include "../Settings/EditorSkin.h"
 
 #include "QtWidgets\QComboBox"
 #include "QtWidgets\QHBoxLayout"
@@ -82,12 +82,6 @@ void Viewport_WithGizmo::LoadGizmo()
 void Viewport_WithGizmo::SetCamera( GameObject* cameraGO )
 {
 	_cameraGO = cameraGO;
-}
-
-
-Vector2 Viewport_WithGizmo::_GetPanelMinSize()
-{
-	return MIN_SIZE;
 }
 
 

@@ -26,8 +26,7 @@ namespace CYRED
 	class Panel_Assets : public Panel, public IEventListener
 	{
 		cchar* const	PANEL_TITLE		= "Assets";
-		const Vector2	MIN_SIZE		= Vector2( 200, 100 );
-		const Vector2	MAX_SIZE		= Vector2( 300, 1000 );
+		const Vector2	MIN_SIZE		= Vector2( 150, 100 );
 
 		cchar* const	BUTTON_RELOAD	= "Reload";
 

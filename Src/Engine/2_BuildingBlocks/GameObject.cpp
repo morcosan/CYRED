@@ -28,7 +28,7 @@ GameObject::GameObject( int uid )
 }
 
 GameObject::GameObject( cchar* name, int uid )
-	: _name( name )
+	: Node( name )
 	, _uid( uid )
 	, _enabled ( TRUE )
 	, _emitEvents( TRUE )
@@ -114,22 +114,6 @@ void GameObject::SetEnabled( bool value )
 }
 
 
-cchar* GameObject::GetName() const
-{
-	return _name.GetChar();
-}
-
-
-void GameObject::SetName( cchar* name )
-{
-	_name = name;
-
-	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::RENAME_GAMEOBJECT, this );
-	}
-}
-
-
 void GameObject::SetEmitEvents( bool value )
 {
 	_emitEvents = value;
@@ -142,6 +126,14 @@ void GameObject::Clone( GameObject* clone ) const
 	String& fileData = FileManager::Singleton()->Serialize<GameObject>( this );
 	// deserialize into clone
 	FileManager::Singleton()->Deserialize<GameObject>( fileData.GetChar(), clone );
+}
+
+
+void GameObject::_OnRename()
+{
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::RENAME_GAMEOBJECT, this );
+	}
 }
 
 

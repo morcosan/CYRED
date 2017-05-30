@@ -23,6 +23,9 @@ namespace CYRED
 {
 	ABSTRACT class Panel_Viewport : public Panel
 	{
+		const Vector2	MIN_SIZE = Vector2( 200, 200 );
+
+
 	public:
 		Panel_Viewport( int panelIndex );
 		virtual ~Panel_Viewport() {}
@@ -49,7 +52,6 @@ namespace CYRED
 
 	private:
 		virtual cchar*	_GetPanelTitle	() PURE_VIRTUAL;
-		virtual Vector2	_GetPanelMinSize() PURE_VIRTUAL;
 		virtual void	_OnInitialize	() PURE_VIRTUAL;
 		virtual void	_OnFinalize		() PURE_VIRTUAL;
 		virtual void	_OnUpdate		() PURE_VIRTUAL;

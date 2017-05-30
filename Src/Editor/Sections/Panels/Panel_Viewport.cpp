@@ -75,8 +75,7 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	this->setWindowTitle( _GetPanelTitle() );
 	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
 	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
-	Vector2 minSize = _GetPanelMinSize();
-	this->setMinimumSize( minSize.x, minSize.y );
+	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	_qtWindow = Memory::Alloc<_QtWindow>( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );
 	_qtWindow->setSurfaceType( QWindow::OpenGLSurface );
