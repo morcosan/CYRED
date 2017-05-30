@@ -12,6 +12,7 @@
 
 #include "../../Utils/CustomTreeItem.h"
 #include "../Settings/ProjectSettings.h"
+#include "../Panels/Panel_Hierarchy.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -20,9 +21,10 @@
 using namespace CYRED;
 
 
-Menu_Scene::Menu_Scene( QTreeWidget* qtTree )
+Menu_Scene::Menu_Scene( QTreeWidget* qtTree, Panel_Hierarchy* panel )
 	: QMenu( qtTree )
 	, _qtTree( qtTree )
+	, _panel( panel )
 {
 	// add actions
 
@@ -84,6 +86,9 @@ void Menu_Scene::A_SaveScene()
 	else {
 		// write file
 		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
+
+		// colorize panel
+		_panel->ColorizePanel( FALSE );
 	}
 }
 
@@ -102,7 +107,7 @@ void Menu_Scene::A_SaveSceneAs()
 													ProjectSettings::dirPathAssets.GetChar(), 
 													fileFilter.GetChar() );
 	if ( newPath != NULL ) {
-	// get selected path
+		// get selected path
 		cchar* paths = newPath.toUtf8().constData();
 		QFileInfo filePath( newPath );
 		// open directory
@@ -128,6 +133,9 @@ void Menu_Scene::A_SaveSceneAs()
 		_qtTree->blockSignals( true );
 		treeItem->setText( 0, newScene->GetName() );
 		_qtTree->blockSignals( false );
+
+		// colorize panel
+		_panel->ColorizePanel( FALSE );
 	}
 }
 

@@ -6,7 +6,7 @@
 #include "../Settings/EditorSkin.h"
 #include "../../Utils/CustomTree.h"
 #include "../../Utils/CustomTreeItem.h"
-
+#include "../../EditorApp.h"
 
 using namespace CYRED;
 
@@ -52,6 +52,26 @@ void Panel_Hierarchy::_RecResetHierarchy( Node* node, QTreeWidgetItem* parentIte
 
 	for ( int i = 0; i < node->GetChildNodeCount(); ++i ) {
 		_RecResetHierarchy( node->GetChildNodeAt(i), treeItem );
+	}
+}
+
+
+void Panel_Hierarchy::ColorizePanel( bool needsSave )
+{
+	FiniteString currObjectName( _qtTree->objectName().toUtf8().constData() );
+
+	if ( needsSave && currObjectName != EditorSkin::HIERARCHY_TREE_SAVE ) {
+		// colorize panel
+		_qtTree->setObjectName( EditorSkin::HIERARCHY_TREE_SAVE );
+		// refresh style
+		EditorApp::Singleton()->ApplySkin( NULL );
+	}
+
+	if ( !needsSave && currObjectName != EditorSkin::HIERARCHY_TREE ) {
+		// colorize panel
+		_qtTree->setObjectName( EditorSkin::HIERARCHY_TREE );
+		// refresh style
+		EditorApp::Singleton()->ApplySkin( NULL );
 	}
 }
 

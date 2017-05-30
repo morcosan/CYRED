@@ -15,6 +15,7 @@ namespace CYRED
 {
 	class GameObject;
 	class Node;
+	class Panel_Hierarchy;
 }
 
 
@@ -57,7 +58,7 @@ namespace CYRED
 
 
 	public:
-		Menu_GameObject( QTreeWidget* qtTree, EventType eventType );
+		Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, EventType eventType );
 		virtual ~Menu_GameObject() {}
 
 
@@ -94,8 +95,9 @@ namespace CYRED
 
 
 	private:
-		QTreeWidget*	_qtTree;
-		EventType		_eventType;
+		QTreeWidget*		_qtTree;
+		EventType			_eventType;
+		Panel_Hierarchy*	_panel;
 
 
 	private:

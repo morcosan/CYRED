@@ -36,12 +36,16 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 		case EventType::OPEN_PREFAB:
 			_targetPrefab = CAST_S( Prefab*, eData );
 			_ResetHierarchy();
+			// change color
+			ColorizePanel( FALSE );
 			break;
 
 		case EventType::CLOSE_PREFAB:
 			if ( _targetPrefab == eData ) {
 				_targetPrefab = NULL;
 				_ResetHierarchy();
+				// change color
+				ColorizePanel( FALSE );
 
 				// send event
 				EventManager::Singleton()->EmitEvent( EventType::SELECT_PREFAB, NULL );
@@ -50,8 +54,34 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 		
 		case EventType::CHANGE_PREFAB_HIERARCHY:
 		case EventType::CHANGE_GAMEOBJECT:
+		{
+			// check state
+			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
+			// update 
 			_ResetHierarchy();
+			// change color
+			ColorizePanel( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
 			break;
+		}
+
+		case EventType::CHANGE_CAMERA:
+		case EventType::CHANGE_LIGHT:
+		case EventType::CHANGE_MESH_RENDERING:
+		case EventType::CHANGE_MORPH_RENDERING:
+		case EventType::CHANGE_PARTICLE_EMITTER:
+		case EventType::CHANGE_SCRIPTER:
+		case EventType::CHANGE_TRANSFORM:
+		{
+			Component* component = CAST_S( Component*, eData );
+			if ( component != NULL ) {
+				CustomTreeItem* treeItem = _FindGameObjectItem( component->GetGameObject()->GetUniqueID() );
+				if ( treeItem != NULL ) {
+					// change color
+					ColorizePanel( TRUE );
+				}
+			}
+			break;
+		}
 
 		case EventType::RENAME_GAMEOBJECT:
 		{
@@ -59,8 +89,10 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
-			}
 
+				// change color
+				ColorizePanel( TRUE );
+			}
 			break;
 		}
 
@@ -70,21 +102,18 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 			break;
 
 		case EventType::SELECT_GAMEOBJECT:
-		{
 			if ( eData != NULL ) {
 				GameObject* gameObject = CAST_S( GameObject*, eData );
 				CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 				_qtTree->setCurrentItem( treeItem );
 			}
 			break;
-		}
 
 		case EventType::CHANGE_ASSET:
 		{
 			_qtTree->setCurrentItem( NULL );
 
 			Asset* asset = CAST_S( Asset*, eData );
-
 			if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
 				CustomTreeItem* treeItem = _FindPrefabItem( asset->GetUniqueID() );
 
@@ -94,7 +123,6 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 					_qtTree->blockSignals( false );
 				}
 			}
-
 			break;
 		}
 	}
@@ -141,7 +169,7 @@ void Hierarchy_Prefab::_CreateRightClickMenu()
 	ASSERT( _isInitialized );
 
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, EventType::CHANGE_PREFAB_HIERARCHY );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::CHANGE_PREFAB_HIERARCHY );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );

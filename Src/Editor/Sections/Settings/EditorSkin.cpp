@@ -19,6 +19,7 @@ cchar* const EditorSkin::ATTR_COMP_SETTINGS		= "AttrCompSettings";
 cchar* const EditorSkin::SELECTOR_POPUP			= "SelectorPopup";
 
 cchar* const EditorSkin::HIERARCHY_TREE			= "HierarchyTree";
+cchar* const EditorSkin::HIERARCHY_TREE_SAVE	= "HierarchyTreeSave";
 
 cchar* const EditorSkin::ASSET_TREE				= "AssetTree";
 cchar* const EditorSkin::ASSET_BUTTON			= "AssetButton";

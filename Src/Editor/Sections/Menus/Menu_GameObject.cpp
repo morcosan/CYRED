@@ -13,6 +13,7 @@
 #include "../../EditorApp.h"
 #include "../../Utils/CustomTreeItem.h"
 #include "../Settings/ProjectSettings.h"
+#include "../Panels/Panel_Hierarchy.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -21,12 +22,12 @@
 using namespace CYRED;
 
 
-Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, EventType eventType )
+Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, EventType eventType )
 	: QMenu( qtTree )
 	, _qtTree( qtTree )
 	, _eventType( eventType )
+	, _panel( panel )
 {
-	
 }
 
 
@@ -129,6 +130,9 @@ void Menu_GameObject::A_SavePrefab()
 	else {
 		// save file
 		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+
+		// colorize panel
+		_panel->ColorizePanel( FALSE );
 	}
 }
 
@@ -190,6 +194,10 @@ void Menu_GameObject::A_SavePrefabAs()
 		_qtTree->blockSignals( true );
 		treeItem->setText( 0, newPrefab->GetName() );
 		_qtTree->blockSignals( false );
+
+
+		// colorize panel
+		_panel->ColorizePanel( FALSE );
 	}
 }
 

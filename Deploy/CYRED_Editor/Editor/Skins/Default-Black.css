@@ -347,22 +347,29 @@ QScrollBar::right-arrow
 
 
 /*** hierarchy panel ***/
-#HierarchyTree
+#HierarchyTree,
+#HierarchyTreeSave
 {
 	background-color: #333;
 	color: #ddd;
 	outline: 0;
 	border: 1px solid #000;
 }
-#HierarchyTree::item:hover
+#HierarchyTree::item:hover,
+#HierarchyTreeSave::item:hover
 {
 	background-color: #0cc;
 	color: #fff;
 }
-#HierarchyTree::item:selected
+#HierarchyTree::item:selected,
+#HierarchyTreeSave::item:selected
 {
 	background-color: #191919;
 	color: #ddd;
+}
+#HierarchyTreeSave
+{
+	background-color: #522;
 }
 /*** hierarchy panel ***/
 

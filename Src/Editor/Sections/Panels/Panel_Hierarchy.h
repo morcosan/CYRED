@@ -21,7 +21,7 @@ namespace CYRED
 {
 	ABSTRACT class Panel_Hierarchy : public Panel
 	{
-		const Vector2 MIN_SIZE = Vector2( 150, 200 );
+		const Vector2	MIN_SIZE			= Vector2( 150, 200 );
 
 
 	public:
@@ -39,6 +39,8 @@ namespace CYRED
 
 
 	public:
+		void ColorizePanel	( bool needsSave );
+
 		void A_ItemRenamed	( QTreeWidgetItem* item, int column );
 
 

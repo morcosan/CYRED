@@ -36,17 +36,45 @@ void Hierarchy_Scene::OnEvent( EventType eType, void* eData )
 	switch ( eType ) {
 		case EventType::CHANGE_SCENE_HIERARCHY:
 		case EventType::CHANGE_GAMEOBJECT:
+		{
+			// check state
+			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
+			// update 
 			_ResetHierarchy();
+			// change color
+			ColorizePanel( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
 			break;
-
+		}
+			
 		case EventType::RENAME_GAMEOBJECT:
 		{
 			GameObject* gameObject = CAST_S( GameObject*, eData );
 			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
-			}
 
+				// change color
+				ColorizePanel( TRUE );
+			}
+			break;
+		}
+
+		case EventType::CHANGE_CAMERA:
+		case EventType::CHANGE_LIGHT:
+		case EventType::CHANGE_MESH_RENDERING:
+		case EventType::CHANGE_MORPH_RENDERING:
+		case EventType::CHANGE_PARTICLE_EMITTER:
+		case EventType::CHANGE_SCRIPTER:
+		case EventType::CHANGE_TRANSFORM:
+		{
+			Component* component = CAST_S( Component*, eData );
+			if ( component != NULL ) {
+				CustomTreeItem* treeItem = _FindGameObjectItem( component->GetGameObject()->GetUniqueID() );
+				if ( treeItem != NULL ) {
+					// change color
+					ColorizePanel( TRUE );
+				}
+			}
 			break;
 		}
 		
@@ -127,8 +155,8 @@ void Hierarchy_Scene::_CreateRightClickMenu()
 	ASSERT( _isInitialized );
 
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, EventType::CHANGE_SCENE_HIERARCHY );
-	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::CHANGE_SCENE_HIERARCHY );
+	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );

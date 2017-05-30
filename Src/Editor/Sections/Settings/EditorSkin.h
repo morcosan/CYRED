@@ -22,6 +22,7 @@ namespace CYRED
 		static cchar* const SELECTOR_POPUP;			/* selector window					*/
 
 		static cchar* const HIERARCHY_TREE;			/* the QTree of hierarchy panel			*/
+		static cchar* const HIERARCHY_TREE_SAVE;	
 		
 		static cchar* const ASSET_TREE;
 		static cchar* const ASSET_BUTTON;

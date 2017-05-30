@@ -49,9 +49,9 @@ namespace CYRED
 
 
 	private:
-		CustomTreeItem*		_FindGameObjectItem		( int uid );
-		CustomTreeItem*		_FindSceneItem			( cchar* uid );
-		void				_CreateRightClickMenu	();
-		void				_ResetHierarchy			();
+		CustomTreeItem*	_FindGameObjectItem		( int uid );
+		CustomTreeItem*	_FindSceneItem			( cchar* uid );
+		void			_CreateRightClickMenu	();
+		void			_ResetHierarchy			();
 	};
 }

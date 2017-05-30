@@ -1,14 +1,17 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 
 #include "QtWidgets\qmenu.h"
 
-
 class QTreeWidget;
+
+namespace CYRED
+{
+	class Panel_Hierarchy;
+}
 
 
 namespace CYRED
@@ -37,7 +40,7 @@ namespace CYRED
 
 
 	public:
-		Menu_Scene( QTreeWidget* qtTree );
+		Menu_Scene( QTreeWidget* qtTree, Panel_Hierarchy* panel );
 		virtual ~Menu_Scene() {}
 
 
@@ -62,6 +65,7 @@ namespace CYRED
 
 
 	private:
-		QTreeWidget*	_qtTree;
+		QTreeWidget*		_qtTree;
+		Panel_Hierarchy*	_panel;
 	};
 }

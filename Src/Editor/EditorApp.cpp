@@ -597,20 +597,24 @@ void EditorApp::ShowStatus( cchar* message )
 // the skin must exist in skins directory
 void EditorApp::ApplySkin( cchar* skinName )
 {
-	FiniteString filePath( "%s%s%s", EditorSettings::DIR_PATH_SKINS,
-									 skinName,
-									 EditorSettings::FILE_FORMAT_SKINS );
+	if ( skinName != NULL ) {
+		FiniteString filePath( "%s%s%s", EditorSettings::DIR_PATH_SKINS, skinName,
+							   EditorSettings::FILE_FORMAT_SKINS );
 
-	char* stylesheet = FileManager::Singleton()->ReadFile( filePath.GetChar() );
+		char* stylesheet = FileManager::Singleton()->ReadFile( filePath.GetChar() );
 
-	// apply skin to all elements
-	if ( stylesheet != NULL )
-	{
-		// remove old skin
-		Memory::FreeArray( _skinStylesheet );
-
-		_skinStylesheet = stylesheet;
-
+		// apply skin to all elements
+		if ( stylesheet != NULL ) {
+			// remove old skin
+			Memory::FreeArray( _skinStylesheet );
+			// change stylesheet
+			_skinStylesheet = stylesheet;
+			// apply style
+			_qtMainWindow->setStyleSheet( _skinStylesheet );
+		}
+	}
+	else {
+		// just refresh
 		_qtMainWindow->setStyleSheet( _skinStylesheet );
 	}
 }
