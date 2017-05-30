@@ -117,8 +117,7 @@ void Panel_Attributes::Update()
 {
 	ASSERT( _isInitialized );
 
-	if ( _needsRefresh )
-	{
+	if ( _needsRefresh ) {
 		_needsRefresh = FALSE;
 
 		// show active viewers

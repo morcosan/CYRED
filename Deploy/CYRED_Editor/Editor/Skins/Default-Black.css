@@ -153,6 +153,15 @@ QMenuBar, QMenuBar::item
 	max-width: 20px;
 	max-height: 20px;
 }
+#AttrCompSettings
+{
+	color: #ddd;
+	background-color: #444;
+	min-width: 20px;
+	min-height: 20px;
+	max-width: 20px;
+	max-height: 20px;
+}
 /*** attribute panel ***/
 
 
@@ -427,9 +436,4 @@ QScrollArea
 #ConsoleLayout
 {
 	background-color: #444;
-}
-#ConsoleLayout #Icon
-{
-	max-height: 15px;
-	max-width: 15px;
 }

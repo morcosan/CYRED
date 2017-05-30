@@ -2,12 +2,13 @@
 // MIT License
 
 #include "AttrViewer.h"
-#include "../Settings/EditorSkin.h"
-#include "../../EditorApp.h"
-#include "../Panels/Panel_Attributes.h"
 
+#include "../../EditorApp.h"
+#include "../Settings/EditorSkin.h"
+#include "../Panels/Panel_Attributes.h"
 #include "../../Utils/CustomTreeWidget.h"
 #include "../../Utils/QtUtils.h"
+#include "../../Utils/EditorUtils.h"
 
 #include "QtWidgets\qformlayout.h"
 #include "QtWidgets\qlineedit.h"
@@ -28,7 +29,7 @@ using namespace CYRED;
 struct AttrViewer::_StructWidget : public QWidget
 {
 	DataArray<AttrStruct>	structScheme;
-	int					flagMask;
+	int						flagMask;
 	CallbackGroup			callbackGroup;
 	QTreeWidgetItem*		rootItem;
 	CustomTreeWidget*		treeWidget;
@@ -41,11 +42,11 @@ struct AttrViewer::_ListWidget : public QWidget
 	QTreeWidgetItem*		rootItem;
 	AttrType				elementType;
 	AttrViewer*				attrViewer;
-	int					flagMask;
+	int						flagMask;
 	CallbackGroup			callbackGroup;
 
-	cchar*				selectorDataType;
-	DataArray<cchar*>  dropdownValues;
+	cchar*					selectorDataType;
+	DataArray<cchar*>		dropdownValues;
 	DataArray<AttrStruct>	structScheme;
 
 
@@ -223,8 +224,7 @@ void AttrViewer::ChangeTarget( void* target )
 
 void AttrViewer::UpdateGUI()
 {
-	if ( _ignoreUpdateGUI > 0 )
-	{
+	if ( _ignoreUpdateGUI > 0 ) {
 		--_ignoreUpdateGUI;
 		return;
 	}
@@ -307,17 +307,26 @@ void AttrViewer::_AddToPanel( cchar* title )
 		QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
 		boxLayout->setAlignment( Qt::AlignLeft );
 
+		// add checkbox
 		if ( _innerAttributes.Has( InnerAttrType::ENABLED ) ) {
 			boxLayout->addWidget( _innerAttributes.Get( InnerAttrType::ENABLED ).valueWidget );
 		}
 
+		// add label
 		QLabel* titleLabel = Memory::Alloc<QLabel>( title );
 		titleLabel->setObjectName( EditorSkin::ATTR_COMP_TITLE );
-		boxLayout->addWidget( titleLabel );
+		boxLayout->addWidget( titleLabel, 1 );
 
+		// add settings button
+		QPushButton* settingsButton = Memory::Alloc<QPushButton>();
+		settingsButton->setObjectName( EditorSkin::ATTR_COMP_SETTINGS );
+		settingsButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_SETTINGS ) );
+		settingsButton->setIconSize( QSize(10, 10) );
+		boxLayout->addWidget( settingsButton );
+
+		// add to panel
 		_titleWidget = Memory::Alloc<QWidget>( _panelTree );
 		_titleWidget->setLayout( boxLayout );
-
 		_panelTree->setItemWidget( _titleItem, 0, _titleWidget );
 	}
 

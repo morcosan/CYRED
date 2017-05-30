@@ -39,7 +39,7 @@ namespace CYRED
 
 		cchar*	const	PANEL_TITLE				= "Attributes";
 		cchar*	const	ADD_COMPONENT_BUTTON	= "Add Component";
-		const Vector2 		MIN_SIZE				= Vector2( 300, 100 );
+		const Vector2 	MIN_SIZE				= Vector2( 300, 100 );
 
 
 	public:
@@ -74,6 +74,7 @@ namespace CYRED
 		bool			_needsRefresh;
 
 
+	private:
 		void _ClearPanel		();
 		void _DisplayGameObject	( GameObject* gameObject );
 	};

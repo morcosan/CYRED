@@ -2,9 +2,12 @@
 // MIT License
 
 #include "Panel_Console.h"
-#include "../Settings/EditorSkin.h"
+
 #include "CyredModule_Debug.h"
+
+#include "../Settings/EditorSkin.h"
 #include "../Settings/EditorSettings.h"
+#include "../../Utils/EditorUtils.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlabel.h"
@@ -108,16 +111,12 @@ void Panel_Console::OnEvent( EventType eType, void* eData )
 
 	switch ( eType ) {
 		case EventType::CONSOLE_LOG:
-		{
 			_AddLine( CAST_S(DebugInfo*, eData)->message, FALSE );
 			break;
-		}
 
 		case EventType::CONSOLE_ERROR:
-		{
 			_AddLine( CAST_S(DebugInfo*, eData)->message, TRUE );
 			break;
-		}
 	}
 }
 
@@ -128,16 +127,16 @@ void Panel_Console::_AddLine( cchar* message, bool isError )
 	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();
 
 	// create icon
-	FiniteString iconPath;
+	QIcon* icon;
 	if ( isError ) {
-		iconPath.Set( "%s%s", EditorSettings::DIR_PATH_ICONS_LAYOUT, ICON_ERROR );
+		icon = EditorUtils::GetIcon( EditorUtils::ICON_LOG_ERROR );
 	}
 	else {
-		iconPath.Set( "%s%s", EditorSettings::DIR_PATH_ICONS_LAYOUT, ICON_INFO );
+		icon = EditorUtils::GetIcon( EditorUtils::ICON_LOG_INFO );
 	}
 	QLabel* iconWidget = Memory::Alloc<QLabel>();
-	iconWidget->setPixmap( QPixmap( iconPath.GetChar() ) );
-	iconWidget->setObjectName( "Icon" );
+	iconWidget->setPixmap( icon->pixmap( QSize(15, 15) ) );
+	iconWidget->setMaximumSize( QSize(15, 15) );
 	iconWidget->setScaledContents( TRUE );
 	qtLineLayout->addWidget( iconWidget );
 

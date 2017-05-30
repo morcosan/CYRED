@@ -22,24 +22,27 @@ using namespace CYRED;
 
 cchar* const EditorUtils::ICON_SCENE		= "scene";
 cchar* const EditorUtils::ICON_FOLDER		= "folder";
-cchar* const EditorUtils::ICON_MATERIAL	= "material";
-cchar* const EditorUtils::ICON_MESH		= "mesh";
+cchar* const EditorUtils::ICON_MATERIAL		= "material";
+cchar* const EditorUtils::ICON_MESH			= "mesh";
 cchar* const EditorUtils::ICON_MORPH		= "morph";
 cchar* const EditorUtils::ICON_TEXTURE		= "texture";
 cchar* const EditorUtils::ICON_SHADER		= "shader";
 cchar* const EditorUtils::ICON_SCRIPT		= "script";
 cchar* const EditorUtils::ICON_PREFAB		= "prefab";
 cchar* const EditorUtils::ICON_UNKNOWN		= "unknown";
+cchar* const EditorUtils::ICON_LOG_INFO		= "info_icon";
+cchar* const EditorUtils::ICON_LOG_ERROR	= "error_icon";
+cchar* const EditorUtils::ICON_SETTINGS		= "settings";
 
 cchar* const EditorUtils::NAME_FOLDER		= "Folder";
-cchar* const EditorUtils::NAME_MATERIAL	= "Material";
+cchar* const EditorUtils::NAME_MATERIAL		= "Material";
 cchar* const EditorUtils::NAME_MAT_EMPTY	= "Empty";
 cchar* const EditorUtils::NAME_MAT_PS		= "Particles";
 cchar* const EditorUtils::NAME_TEXTURE		= "Texture";
 cchar* const EditorUtils::NAME_TEX_2D		= "Texture2D";
 cchar* const EditorUtils::NAME_TEX_CM		= "CubeMap";
 cchar* const EditorUtils::NAME_SHADER		= "Shader";
-cchar* const EditorUtils::NAME_MESH		= "Mesh";
+cchar* const EditorUtils::NAME_MESH			= "Mesh";
 cchar* const EditorUtils::NAME_MORPH		= "Morph";
 cchar* const EditorUtils::NAME_SCRIPT		= "Script";
 cchar* const EditorUtils::NAME_SCENE		= "Scene";
@@ -51,7 +54,7 @@ DataMap<String, QIcon*>	EditorUtils::_icons;
 void EditorUtils::Initialize()
 {
 	// load all icons
-	QDirIterator dirIterator( EditorSettings::DIR_PATH_ICONS_ASSETS, QDir::Files );
+	QDirIterator dirIterator( EditorSettings::DIR_PATH_ICONS, QDir::Files );
 	while ( dirIterator.hasNext() ) {
 		dirIterator.next();
 		QFileInfo& fileInfo = dirIterator.fileInfo();

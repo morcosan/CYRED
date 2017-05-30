@@ -23,6 +23,9 @@ namespace CYRED
 		static cchar* const	ICON_SCRIPT;
 		static cchar* const	ICON_PREFAB;
 		static cchar* const	ICON_UNKNOWN;
+		static cchar* const	ICON_LOG_INFO;
+		static cchar* const	ICON_LOG_ERROR;
+		static cchar* const	ICON_SETTINGS;
 		
 		static cchar* const	NAME_FOLDER;
 		static cchar* const	NAME_MATERIAL;

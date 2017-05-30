@@ -11,17 +11,16 @@ cchar* const EditorSettings::EDITOR_NAME				= "CYRED-SceneEditor";
 	
 cchar* const EditorSettings::FILE_PATH_CONFIG			= "Editor/editor.config";
 	
-cchar* const EditorSettings::DIR_PATH_SKINS			= "Editor/Skins/";
-cchar* const EditorSettings::DIR_PATH_ICONS_ASSETS		= "Editor/Icons/Assets/";
-cchar* const EditorSettings::DIR_PATH_ICONS_LAYOUT		= "Editor/Icons/Layout/";
+cchar* const EditorSettings::DIR_PATH_SKINS				= "Editor/Skins/";
+cchar* const EditorSettings::DIR_PATH_ICONS				= "Editor/Icons/";
 
-cchar* const EditorSettings::DIR_DEFALUT_ASSETS		= "Editor Assets";
+cchar* const EditorSettings::DIR_DEFALUT_ASSETS			= "Editor Assets";
 cchar* const EditorSettings::DIR_PATH_DEFALUT_ASSETS	= "DefaultAssets/";
 
-cchar* const EditorSettings::MSG_EDITOR_STARTED		= "Editor started.";
+cchar* const EditorSettings::MSG_EDITOR_STARTED			= "Editor started.";
 	
-cchar* const EditorSettings::SKIN_DEFAULT_BLACK		= "Default-Black";
-cchar* const EditorSettings::SKIN_DEFAULT_WHITE		= "Default-White";
+cchar* const EditorSettings::SKIN_DEFAULT_BLACK			= "Default-Black";
+cchar* const EditorSettings::SKIN_DEFAULT_WHITE			= "Default-White";
 	
 cchar* const EditorSettings::FILE_FORMAT_SKINS			= ".css";
 
