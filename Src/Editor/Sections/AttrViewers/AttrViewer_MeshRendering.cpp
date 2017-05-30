@@ -20,7 +20,8 @@ void AttrViewer_MeshRendering::_OnInitialize()
 	_CreateAttrSelector( ATTR_MATERIAL, ATTR_MATERIAL,	Selector_Material::TYPE );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
-	
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
+
 	_AddToPanel( TITLE );
 }
 
@@ -28,6 +29,10 @@ void AttrViewer_MeshRendering::_OnInitialize()
 void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( MeshRendering*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

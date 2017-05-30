@@ -108,6 +108,7 @@
     <ClCompile Include="Sections\Menus\Menu_Asset.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetFolder.cpp" />
     <ClCompile Include="Sections\Menus\Menu_AssetUnknown.cpp" />
+    <ClCompile Include="Sections\Menus\Menu_CompSettings.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
     <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Sections\Menus\Menu_Asset.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetFolder.h" />
     <ClInclude Include="Sections\Menus\Menu_AssetUnknown.h" />
+    <ClInclude Include="Sections\Menus\Menu_CompSettings.h" />
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
     <ClInclude Include="Sections\Panels\Panel_Console.h" />

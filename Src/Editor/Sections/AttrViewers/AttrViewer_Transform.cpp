@@ -25,7 +25,8 @@ void AttrViewer_Transform::_OnInitialize()
 	_CloseGroup();
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
-	
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
+
 	_AddToPanel( TITLE );
 }
 
@@ -33,6 +34,10 @@ void AttrViewer_Transform::_OnInitialize()
 void AttrViewer_Transform::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Transform*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

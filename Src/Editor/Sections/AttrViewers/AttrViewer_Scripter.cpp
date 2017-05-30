@@ -17,6 +17,7 @@ void AttrViewer_Scripter::_OnInitialize()
 {
 	// add attributes
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
 
 	// deferred for individual target
 	
@@ -27,6 +28,10 @@ void AttrViewer_Scripter::_OnInitialize()
 void AttrViewer_Scripter::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Scripter*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

@@ -28,6 +28,7 @@ void AttrViewer_Light::_OnInitialize()
 	_CreateAttrFloat	( ATTR_SPOT_ANGLE,	ATTR_SPOT_ANGLE );
 
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
 
 	_AddToPanel( TITLE );
 }
@@ -36,6 +37,10 @@ void AttrViewer_Light::_OnInitialize()
 void AttrViewer_Light::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Light*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

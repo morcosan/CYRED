@@ -11,11 +11,13 @@
 class QTreeWidget;
 class QLineEdit;
 class QTreeWidgetItem;
+class QPushButton;
 
 namespace CYRED
 {
 	class CustomTreeWidget;
 	class Panel_Attributes;
+	class Menu_CompSettings;
 }
 
 namespace CYRED
@@ -61,6 +63,7 @@ namespace CYRED
 		enum Enum
 		{
 			ENABLED
+			, SETTINGS
 		};
 	}
 
@@ -105,16 +108,17 @@ namespace CYRED
 
 	public:
 		//! called once when the viewer is added to panel
-		void Initialize		( Panel_Attributes* panel, QTreeWidget* panelTree );
+		void Initialize			( Panel_Attributes* panel, QTreeWidget* panelTree );
 
-		void ChangeTarget	( void* target );
-		void UpdateGUI		();
-		void Clear			();		
-		void RefreshPanel	();
-		void ShowViewer		();
+		void ChangeTarget		( void* target );
+		void UpdateGUI			();
+		void Clear				();		
+		void RefreshPanel		();
+		void ShowViewer			();
 
-		void A_OnChange_Group1		();
-		void A_OnChange_Group2		();
+		void A_OnChange_Group1	();
+		void A_OnChange_Group2	();
+		void A_OpenCompSettings	();
 
 		// factor methods that are linked to this AttrViewer
 		QWidget* CreateString	( int flagMask, CallbackGroup callbackGroup );
@@ -282,6 +286,7 @@ namespace CYRED
 			QWidget*	labelWidget;
 			QWidget*	valueWidget;
 			AttrType	type;
+			void*		data;
 		};
 		struct _Group
 		{
@@ -296,12 +301,16 @@ namespace CYRED
 		DataArray<_Attribute>					_attributes;
 		DataMap<InnerAttrType, _InnerAttribute>	_innerAttributes;
 
-		Panel_Attributes*	_panel;
-		QTreeWidget*		_panelTree;
-		QTreeWidgetItem*	_titleItem;
+		Panel_Attributes*		_panel;
+		
+		Menu_CompSettings*		_menuCompSettings;
+		QPushButton*			_compSettingsButton;
 
-		QWidget*			_titleWidget;
-		QWidget*			_childWidget;
+		QTreeWidget*			_panelTree;
+		QTreeWidgetItem*		_titleItem;
+
+		QWidget*				_titleWidget;
+		QWidget*				_childWidget;
 
 
 	private:

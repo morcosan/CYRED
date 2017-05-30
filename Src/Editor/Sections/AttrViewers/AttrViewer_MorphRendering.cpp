@@ -25,7 +25,8 @@ void AttrViewer_MorphRendering::_OnInitialize()
 	_CreateAttrBool	( ATTR_IS_PLAYING,			ATTR_IS_PLAYING );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
-	
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
+
 	_AddToPanel( TITLE );
 }
 
@@ -33,6 +34,10 @@ void AttrViewer_MorphRendering::_OnInitialize()
 void AttrViewer_MorphRendering::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( MorphRendering*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

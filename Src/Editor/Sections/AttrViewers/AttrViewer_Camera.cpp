@@ -27,6 +27,7 @@ void AttrViewer_Camera::_OnInitialize()
 	_CreateAttrFloat	( ATTR_FAR_CLIPPING,	ATTR_FAR_CLIPPING );
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
 
 	_AddToPanel( TITLE );
 }
@@ -35,6 +36,10 @@ void AttrViewer_Camera::_OnInitialize()
 void AttrViewer_Camera::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( Camera*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

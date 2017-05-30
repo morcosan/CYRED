@@ -50,7 +50,8 @@ void AttrViewer_ParticleEmitter::_OnInitialize()
 	_CloseGroup();
 	
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
-	
+	_CreateInnerAttribute( InnerAttrType::SETTINGS );
+
 	_AddToPanel( TITLE );
 }
 
@@ -58,6 +59,10 @@ void AttrViewer_ParticleEmitter::_OnInitialize()
 void AttrViewer_ParticleEmitter::_OnChangeTarget( void* target )
 {
 	_target = CAST_S( ParticleEmitter*, target );
+
+	// prepare settings
+	DataUnion attr;
+	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
 }
 
 

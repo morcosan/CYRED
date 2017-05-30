@@ -6,6 +6,7 @@
 #include "../../EditorApp.h"
 #include "../Settings/EditorSkin.h"
 #include "../Panels/Panel_Attributes.h"
+#include "../Menus/Menu_CompSettings.h"
 #include "../../Utils/CustomTreeWidget.h"
 #include "../../Utils/QtUtils.h"
 #include "../../Utils/EditorUtils.h"
@@ -23,7 +24,6 @@
 
 
 using namespace CYRED;
-
 
 
 struct AttrViewer::_StructWidget : public QWidget
@@ -207,6 +207,8 @@ void AttrViewer::Initialize( Panel_Attributes* panel, QTreeWidget* panelTree )
 {
 	_panel = panel;
 	_panelTree = panelTree;
+	_menuCompSettings = Memory::Alloc<Menu_CompSettings>( _panelTree );
+
 	_OnInitialize();
 }
 
@@ -271,6 +273,21 @@ void AttrViewer::A_OnChange_Group2()
 }
 
 
+void AttrViewer::A_OpenCompSettings()
+{
+	// get attr
+	_InnerAttribute& attr = _innerAttributes.Get( InnerAttrType::SETTINGS );
+
+	// open menu
+	_menuCompSettings->Open( CAST_S( Component*, attr.data ) );
+
+	// show menu
+	_compSettingsButton->setMenu( _menuCompSettings );
+	_compSettingsButton->showMenu();
+	_compSettingsButton->setMenu( NULL );
+}
+
+
 void AttrViewer::QtSelector::A_OnOpenSelector()
 {
 	EditorApp::Singleton()->ShowSelectorPopup( this->type.GetChar(), this );
@@ -306,7 +323,7 @@ void AttrViewer::_AddToPanel( cchar* title )
 	{
 		QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
 		boxLayout->setAlignment( Qt::AlignLeft );
-
+	
 		// add checkbox
 		if ( _innerAttributes.Has( InnerAttrType::ENABLED ) ) {
 			boxLayout->addWidget( _innerAttributes.Get( InnerAttrType::ENABLED ).valueWidget );
@@ -318,11 +335,18 @@ void AttrViewer::_AddToPanel( cchar* title )
 		boxLayout->addWidget( titleLabel, 1 );
 
 		// add settings button
-		QPushButton* settingsButton = Memory::Alloc<QPushButton>();
-		settingsButton->setObjectName( EditorSkin::ATTR_COMP_SETTINGS );
-		settingsButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_SETTINGS ) );
-		settingsButton->setIconSize( QSize(10, 10) );
-		boxLayout->addWidget( settingsButton );
+		if ( _innerAttributes.Has( InnerAttrType::SETTINGS ) ) {
+			_compSettingsButton = Memory::Alloc<QPushButton>();
+			_compSettingsButton->setObjectName( EditorSkin::ATTR_COMP_SETTINGS );
+			_compSettingsButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_SETTINGS ) );
+			_compSettingsButton->setIconSize( QSize( 10, 10 ) );
+			boxLayout->addWidget( _compSettingsButton );
+
+			// add menu
+			//_compSettingsButton->setMenu( _menuCompSettings );
+			// add click action
+			QObject::connect( _compSettingsButton, &QPushButton::clicked, this, &AttrViewer::A_OpenCompSettings );
+		}
 
 		// add to panel
 		_titleWidget = Memory::Alloc<QWidget>( _panelTree );
@@ -1291,10 +1315,9 @@ DataUnion AttrViewer::_ReadAttrStrListIndex( cchar* name, cchar* listName, int i
 
 void AttrViewer::_CreateInnerAttribute( InnerAttrType innerType )
 {
-	_InnerAttribute attr;
+	_InnerAttribute attr {};
 
-	switch ( innerType )
-	{
+	switch ( innerType ) {
 		case InnerAttrType::ENABLED:
 			attr.type = AttrType::BOOL;
 			attr.valueWidget = CreateBool( AttrFlag::NONE, CallbackGroup::GROUP_1 );
@@ -1309,12 +1332,13 @@ DataUnion AttrViewer::_ReadInnerAttribute( InnerAttrType innerType )
 {
 	ASSERT( _innerAttributes.Has( innerType ) );
 
+	// get inner attribute
 	_InnerAttribute attr = _innerAttributes.Get( innerType );
 
+	// prepare result
 	DataUnion attrValue;
-
-	switch ( attr.type )
-	{
+	// write result
+	switch ( attr.type ) {
 		case AttrType::BOOL:
 			attrValue.SetBool( _ReadBool( attr.valueWidget ) );
 			break;
@@ -1328,10 +1352,15 @@ void AttrViewer::_WriteInnerAttribute( InnerAttrType innerType, DataUnion& attrV
 {
 	ASSERT( _innerAttributes.Has( innerType ) );
 
-	_InnerAttribute attr = _innerAttributes.Get( innerType );
+	_InnerAttribute& attr = _innerAttributes.Get( innerType );
 
-	switch ( attr.type )
-	{
+	switch ( innerType ) {
+		case InnerAttrType::SETTINGS:
+			attr.data = attrValue.GetReference();
+			break;
+	}
+
+	switch ( attr.type ) {
 		case AttrType::BOOL:
 			_WriteBool( attr.valueWidget, attrValue.GetBool() );
 			break;
@@ -2116,5 +2145,4 @@ DataUnion AttrViewer::_ReadListIndex( QWidget* widget, int index, cchar* elemNam
 
 	return attrValue;
 }
-
 

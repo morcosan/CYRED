@@ -21,11 +21,6 @@
                     "y": 1.0,
                     "z": 1.0
                 }
-            },
-            "mesh_rendering": {
-                "enabled": true,
-                "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
-                "material": "ZUcMQ4O415dkLYq86aasYbuOhhQXcIzd"
             }
         },
         "child_nodes": [

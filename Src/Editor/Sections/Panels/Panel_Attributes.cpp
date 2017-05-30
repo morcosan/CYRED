@@ -143,9 +143,6 @@ void Panel_Attributes::OnEvent( EventType eType, void* eData )
 		{
 			_target = eData;
 
-			// clear panel
-			_ClearPanel();
-
 			// display game object
 			Node* node = CAST_S( Node*, _target );
 			GameObject* gameObject = CAST_D( GameObject*, node );
@@ -501,6 +498,9 @@ void Panel_Attributes::_ClearPanel()
 
 void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 {
+	// clear panel
+	_ClearPanel();
+
 	if ( gameObject != NULL ) {
 		{
 			ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
