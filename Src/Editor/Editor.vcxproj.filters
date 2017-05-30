@@ -66,6 +66,8 @@
     <ClCompile Include="Utils\CustomTree.cpp" />
     <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Prefab.cpp" />
     <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Scene.cpp" />
+    <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Object.cpp" />
+    <ClCompile Include="Sections\Panels\Viewports\Viewport_Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -135,5 +137,7 @@
     <ClInclude Include="Utils\CustomTree.h" />
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Prefab.h" />
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Scene.h" />
+    <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Object.h" />
+    <ClInclude Include="Sections\Panels\Viewports\Viewport_Object.h" />
   </ItemGroup>
 </Project>
