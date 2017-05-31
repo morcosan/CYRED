@@ -32,7 +32,7 @@ namespace CYRED
 
 	public:
 		void Finalize			()										override;
-		void OnEvent			( EventType eType, void* eData )		override;
+		void OnEvent			( int eventType, void* eventData )		override;
 
 		void A_ItemClicked		( QTreeWidgetItem* item, int column )	override;
 		void A_RightClickMenu	( const QPoint& pos )					override;

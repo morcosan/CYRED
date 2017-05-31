@@ -91,8 +91,8 @@ void Panel_Console::Initialize()
 	_isInitialized = TRUE;
 
 	// register console events
-	EventManager::Singleton()->RegisterListener( EventType::CONSOLE_ERROR, this );
-	EventManager::Singleton()->RegisterListener( EventType::CONSOLE_LOG, this );
+	EventManager::Singleton()->RegisterListener( this, EventType::CONSOLE_ERROR );
+	EventManager::Singleton()->RegisterListener( this, EventType::CONSOLE_LOG );
 }
 
 
@@ -100,8 +100,8 @@ void Panel_Console::Finalize()
 {
 	ASSERT( _isInitialized );
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::CONSOLE_ERROR, this );
-	EventManager::Singleton()->UnregisterListener( EventType::CONSOLE_LOG, this );
+	EventManager::Singleton()->UnregisterListener( this, EventType::CONSOLE_ERROR );
+	EventManager::Singleton()->UnregisterListener( this, EventType::CONSOLE_LOG );
 }
 
 
@@ -109,13 +109,13 @@ void Panel_Console::OnEvent( int eventType, void* eventData )
 {
 	ASSERT( _isInitialized );
 
-	switch ( eType ) {
+	switch ( eventType ) {
 		case EventType::CONSOLE_LOG:
-			_AddLine( CAST_S(DebugInfo*, eData)->message, FALSE );
+			_AddLine( CAST_S(DebugInfo*, eventData)->message, FALSE );
 			break;
 
 		case EventType::CONSOLE_ERROR:
-			_AddLine( CAST_S(DebugInfo*, eData)->message, TRUE );
+			_AddLine( CAST_S(DebugInfo*, eventData)->message, TRUE );
 			break;
 	}
 }

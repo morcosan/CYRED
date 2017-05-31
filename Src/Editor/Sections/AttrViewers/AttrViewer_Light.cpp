@@ -90,7 +90,7 @@ void AttrViewer_Light::_UpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_LIGHT, _target );
+	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
 }
 
 

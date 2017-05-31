@@ -133,7 +133,7 @@ void AttrViewer_ParticleEmitter::_UpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_PARTICLE_EMITTER, _target );
+	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
 
 	_Colorize( _target->IsEnabled() );
 }

@@ -29,11 +29,11 @@ Console::~Console()
 
 void Console::OnEvent( int eventType, void* eventData )
 {
-	switch ( eType ) {
+	switch ( eventType ) {
 		case EventType::CONSOLE_LOG:
 		case EventType::CONSOLE_ERROR:
 		{
-			DebugInfo* debugInfo = CAST_S( DebugInfo*, eData );
+			DebugInfo* debugInfo = CAST_S( DebugInfo*, eventData );
 			std::cout << debugInfo->message << std::endl;
 			break;
 		}

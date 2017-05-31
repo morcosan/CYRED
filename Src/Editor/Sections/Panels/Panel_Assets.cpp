@@ -2,6 +2,7 @@
 // MIT License
 
 #include "Panel_Assets.h"
+
 #include "CyredModule_File.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Render.h"
@@ -17,6 +18,7 @@
 #include "../Menus/Menu_Asset.h"
 #include "../Menus/Menu_AssetFolder.h"
 #include "../Menus/Menu_AssetUnknown.h"
+#include "../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -43,7 +45,7 @@ public:
 		if ( (item.row() == -1 && item.column() == -1) || selected ) {
 			this->clearSelection();
 			// send event
-			EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+			EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
 		}
 	}
 
@@ -188,14 +190,26 @@ void Panel_Assets::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
+	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_RENAME );
+	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_UPDATE );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_OPEN );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_CLOSE );
 }
 
 
 void Panel_Assets::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
+	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_RENAME );
+	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_UPDATE );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_OPEN );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_CLOSE );
 }
 
 
@@ -203,26 +217,27 @@ void Panel_Assets::OnEvent( int eventType, void* eventData )
 {
 	ASSERT( _isInitialized );
 
-	switch ( eType ) {
-		case EventType::SELECT_SCENE:
-		case EventType::SELECT_PREFAB:
-		case EventType::SELECT_GAMEOBJECT:
+	switch ( eventType ) {
+		case EditorEventType::SCENE_SELECT:
+		case EditorEventType::PREFAB_SELECT:
+		case EditorEventType::GAMEOBJECT_SELECT:
 			_qtTree->setCurrentItem( NULL );
 			break;
 
-		case EventType::OPEN_PREFAB:
-			_openedPrefab = CAST_S( Prefab*, eData );
+		case EditorEventType::PREFAB_OPEN:
+			_openedPrefab = CAST_S( Prefab*, eventData );
 			break;
 
-		case EventType::CLOSE_PREFAB:
-			if ( _openedPrefab == eData ) {
+		case EditorEventType::PREFAB_CLOSE:
+			if ( _openedPrefab == eventData ) {
 				_openedPrefab = NULL;
 			}
 			break;
 
-		case EventType::CHANGE_ASSET:
+		case EventType::ASSET_RENAME:
+		case EventType::ASSET_UPDATE:
 		{
-			Asset* asset = CAST_S( Asset*, eData );
+			Asset* asset = CAST_S( Asset*, eventData );
 
 			// do not save temporary assets
 			if ( asset != NULL && !asset->IsTemporary() ) {
@@ -292,7 +307,7 @@ void Panel_Assets::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( CustomTreeItem*, item )->asset;
 
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, asset );
 }
 
 
@@ -383,7 +398,7 @@ void Panel_Assets::A_DirChanged( const QString& path )
 void Panel_Assets::A_ReloadAll()
 {
 	// close prefab first
-	EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, _openedPrefab );
+	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, _openedPrefab );
 
 	ReloadAllAssets();
 }

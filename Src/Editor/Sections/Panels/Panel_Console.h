@@ -31,7 +31,7 @@ namespace CYRED
 	public:
 		void Initialize	() override;
 		void Finalize	() override;
-		void OnEvent	( EventType eType, void* eData )	override;
+		void OnEvent	( int eventType, void* eventData )	override;
 
 
 	private:

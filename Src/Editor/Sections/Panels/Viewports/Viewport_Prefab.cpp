@@ -3,10 +3,11 @@
 
 #include "Viewport_Prefab.h"
 #include "CyredModule_Render.h"
-#include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Input.h"
+
+#include "../../../Utils/EditorEvents.h"
 
 
 using namespace CYRED;
@@ -21,23 +22,23 @@ Viewport_Prefab::Viewport_Prefab( int panelIndex )
 
 void Viewport_Prefab::OnEvent( int eventType, void* eventData )
 {
-	switch ( eType ) {
-		case EventType::OPEN_PREFAB:
-			_targetPrefab = CAST_S( Prefab*, eData );
+	switch ( eventType ) {
+		case EditorEventType::PREFAB_OPEN:
+			_targetPrefab = CAST_S( Prefab*, eventData );
 			_selectedGO = NULL;
 			break;
 
-		case EventType::CLOSE_PREFAB:
-			if ( _targetPrefab == eData ) {
+		case EditorEventType::PREFAB_CLOSE:
+			if ( _targetPrefab == eventData ) {
 				_targetPrefab = NULL;
 				_selectedGO = NULL;
 			}
 			break;
 
-		case EventType::SELECT_GAMEOBJECT:
+		case EditorEventType::GAMEOBJECT_SELECT:
 		{
 			if ( _targetPrefab != NULL ) {
-				GameObject* gameObject = CAST_S( GameObject*, eData );
+				GameObject* gameObject = CAST_S( GameObject*, eventData );
 				// check if is displayed
 				_selectedGO = NULL;
 
@@ -53,9 +54,9 @@ void Viewport_Prefab::OnEvent( int eventType, void* eventData )
 			break;
 		}
 
-		case EventType::SELECT_ASSET:
-		case EventType::SELECT_PREFAB:
-		case EventType::SELECT_SCENE:
+		case EditorEventType::ASSET_SELECT:
+		case EditorEventType::PREFAB_SELECT:
+		case EditorEventType::SCENE_SELECT:
 		{
 			if ( _targetPrefab != NULL ) {
 				// unselect
@@ -76,24 +77,24 @@ cchar* Viewport_Prefab::_GetPanelTitle()
 void Viewport_Prefab::_OnInitialize()
 {
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::OPEN_PREFAB, this );
-	EventManager::Singleton()->RegisterListener( EventType::CLOSE_PREFAB, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_PREFAB, this );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_OPEN );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_CLOSE );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
 }
 
 
 void Viewport_Prefab::_OnFinalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::OPEN_PREFAB, this );
-	EventManager::Singleton()->UnregisterListener( EventType::CLOSE_PREFAB, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_PREFAB, this );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_OPEN );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_CLOSE );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
 }
 
 
@@ -173,8 +174,8 @@ bool Viewport_Prefab::_IsPickingInput()
 			GameObject* gameObject = _RecSearchByUID( uid, prefabRoot );
 			// if found
 			if ( gameObject != NULL ) {
-				// send event
-				EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
+				// select gameobject
+				EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, gameObject );
 			}
 		}
 

@@ -4,10 +4,10 @@
 #include "CustomTree.h"
 
 #include "CyredBuildingBlocks.h"
-#include "CyredModule_Event.h"
 #include "CyredModule_Asset.h"
 
 #include "CustomTreeItem.h"
+#include "EditorEvents.h"
 
 #include "QtGui\qevent.h"
 
@@ -23,7 +23,7 @@ void CustomTree::mousePressEvent( QMouseEvent* event )
 	if ( (item.row() == -1 && item.column() == -1) || selected ) {
 		this->clearSelection();
 		// send event
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, NULL );
+		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 	}
 }
 

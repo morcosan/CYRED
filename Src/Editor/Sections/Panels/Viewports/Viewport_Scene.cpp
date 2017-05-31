@@ -4,10 +4,11 @@
 #include "Viewport_Scene.h"
 
 #include "CyredModule_Render.h"
-#include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Input.h"
+
+#include "../../../Utils/EditorEvents.h"
 
 #include "QtWidgets\QComboBox"
 #include "QtWidgets\QHBoxLayout"
@@ -24,11 +25,11 @@ Viewport_Scene::Viewport_Scene( int panelIndex )
 
 void Viewport_Scene::OnEvent( int eventType, void* eventData )
 {
-	switch ( eType ) {
-		case EventType::SELECT_GAMEOBJECT:
+	switch ( eventType ) {
+		case EditorEventType::GAMEOBJECT_SELECT:
 		{
 			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
-				GameObject* gameObject = CAST_S( GameObject*, eData );
+				GameObject* gameObject = CAST_S( GameObject*, eventData );
 
 				// get first scene's root
 				Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
@@ -48,9 +49,9 @@ void Viewport_Scene::OnEvent( int eventType, void* eventData )
 			break;
 		}
 
-		case EventType::SELECT_ASSET:
-		case EventType::SELECT_PREFAB:
-		case EventType::SELECT_SCENE:
+		case EditorEventType::ASSET_SELECT:
+		case EditorEventType::PREFAB_SELECT:
+		case EditorEventType::SCENE_SELECT:
 		{
 			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
 				// unselect
@@ -73,20 +74,20 @@ void Viewport_Scene::_OnInitialize()
 	_qtTopBarLayout->addWidget( _qtCameraDropdown );
 
 	// register events
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->RegisterListener( EventType::SELECT_PREFAB, this );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
 }
 
 
 void Viewport_Scene::_OnFinalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_GAMEOBJECT, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_ASSET, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_SCENE, this );
-	EventManager::Singleton()->UnregisterListener( EventType::SELECT_PREFAB, this );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
 }
 
 
@@ -169,9 +170,8 @@ bool Viewport_Scene::_IsPickingInput()
 				gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)) );
 				// if found
 				if ( gameObject != NULL ) {
-					// send event
-					EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, gameObject );
-
+					// select gameobject
+					EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, gameObject );
 					break;
 				}
 			}

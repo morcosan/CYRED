@@ -8,11 +8,11 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_File.h"
-#include "CyredModule_Event.h"
 
 #include "../../Utils/CustomTreeItem.h"
 #include "../Settings/ProjectSettings.h"
 #include "../Panels/Panel_Hierarchy.h"
+#include "../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -123,7 +123,7 @@ void Menu_Scene::A_SaveSceneAs()
 		AssetManager::Singleton()->AddScene( newScene );
 
 		// update assets panel
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newScene );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, newScene );
 
 		// use new scene
 		treeItem->asset = newScene;

@@ -7,13 +7,13 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_File.h"
-#include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Script.h"
 
 #include "../../Utils/CustomTreeItem.h"
 #include "../../Utils/EditorUtils.h"
 #include "../Panels/Panel_Assets.h"
+#include "../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -149,7 +149,7 @@ void Menu_Asset::A_ReloadAsset()
 		case AssetType::PREFAB:
 		{
 			// close prefab first
-			EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, asset );
+			EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, asset );
 
 			Prefab* prefab = CAST_S( Prefab*, asset );
 			prefab->LoadFullFile();
@@ -263,8 +263,8 @@ void Menu_Asset::A_Duplicate()
 	_qtTree->setCurrentItem( newItem );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, clone );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, clone );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, clone );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, clone );
 }
 
 
@@ -311,7 +311,7 @@ void Menu_Asset::A_Delete()
 			case AssetType::PREFAB:
 				AssetManager::Singleton()->RemovePrefab( CAST_S( Prefab*, asset ) );
 				// send event
-				EventManager::Singleton()->EmitEvent( EventType::CLOSE_PREFAB, asset );
+				EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, asset );
 				break;
 		}
 	}
@@ -327,7 +327,7 @@ void Menu_Asset::A_Delete()
 	_qtTree->setCurrentItem( NULL );
 	Memory::Free( item );
 
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -340,7 +340,7 @@ void Menu_Asset::A_EditPrefab()
 	asset->LoadFullFile();
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, asset );
+	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, asset );
 }
 
 

@@ -14,6 +14,7 @@
 #include "../../Utils/CustomTreeItem.h"
 #include "../Settings/ProjectSettings.h"
 #include "../Panels/Panel_Hierarchy.h"
+#include "../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -22,7 +23,7 @@
 using namespace CYRED;
 
 
-Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, EventType eventType )
+Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, int eventType )
 	: QMenu( qtTree )
 	, _qtTree( qtTree )
 	, _eventType( eventType )
@@ -129,7 +130,7 @@ void Menu_GameObject::A_SavePrefab()
 	}
 	else {
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, prefab );
 
 		// colorize panel
 		_panel->ColorizePanel( FALSE );
@@ -184,10 +185,10 @@ void Menu_GameObject::A_SavePrefabAs()
 		// add to manager
 		AssetManager::Singleton()->AddPrefab( newPrefab );
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, newPrefab );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, newPrefab );
 
 		// reload hierarchy
-		EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, newPrefab );
+		EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, newPrefab );
 
 
 		// update hierarchy panel
@@ -208,7 +209,7 @@ void Menu_GameObject::A_ClosePrefab()
 	ASSERT( prefab != NULL );
 
 	// reload hierarchy
-	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, NULL );
 }
 
 
@@ -232,7 +233,7 @@ void Menu_GameObject::A_Duplicate()
 
 		// send event
 		EventManager::Singleton()->EmitEvent( _eventType, NULL );
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, clone );
+		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, clone );
 	}
 }
 
@@ -247,7 +248,7 @@ void Menu_GameObject::A_Delete()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 }
 
 
@@ -289,7 +290,7 @@ void Menu_GameObject::A_CreatePrefab()
 		// add to manager
 		AssetManager::Singleton()->AddPrefab( prefab );
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, prefab );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, prefab );
 	}
 }
 
@@ -304,7 +305,7 @@ void Menu_GameObject::A_GO_CreateEmpty()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -321,7 +322,7 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -343,7 +344,7 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -362,7 +363,7 @@ void Menu_GameObject::A_GO_Create3D_Light()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -381,7 +382,7 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -400,7 +401,7 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -419,7 +420,7 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 
 	// send event
 	EventManager::Singleton()->EmitEvent( _eventType, NULL );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, newObject );
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 

@@ -7,7 +7,6 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_File.h"
-#include "CyredModule_Event.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Script.h"
 
@@ -15,6 +14,7 @@
 #include "../../Utils/EditorUtils.h"
 #include "../Settings/ProjectSettings.h"
 #include "../Panels/Panel_Assets.h"
+#include "../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtWidgets\qfiledialog.h"
@@ -195,7 +195,7 @@ void Menu_AssetFolder::A_Create_Folder()
 
 	// select item
 	_qtTree->setCurrentItem( treeItem );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -230,7 +230,7 @@ void Menu_AssetFolder::A_Create_EmptyFile()
 
 	// select item
 	_qtTree->setCurrentItem( treeItem );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -243,7 +243,7 @@ void Menu_AssetFolder::A_Create_Mat_Empty()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -263,7 +263,7 @@ void Menu_AssetFolder::A_Create_Mat_PS()
 	material->SetEmitEvents( TRUE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -276,7 +276,7 @@ void Menu_AssetFolder::A_Create_Tex_2D()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -294,7 +294,7 @@ void Menu_AssetFolder::A_Create_Tex_CM()
 	texture->SetEmitEvents( TRUE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -306,7 +306,7 @@ void Menu_AssetFolder::A_Create_Shader()
 									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -319,7 +319,7 @@ void Menu_AssetFolder::A_Create_Mesh()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -331,7 +331,7 @@ void Menu_AssetFolder::A_Create_Morph()
 									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
 
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -344,7 +344,7 @@ void Menu_AssetFolder::A_Create_Script()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -458,7 +458,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 	// select item
 	_qtTree->setCurrentItem( newItem );
-	EventManager::Singleton()->EmitEvent( EventType::SELECT_ASSET, asset );
+	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, asset );
 
 	return asset;
 }

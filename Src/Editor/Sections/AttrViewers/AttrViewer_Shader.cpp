@@ -60,6 +60,6 @@ void AttrViewer_Shader::_UpdateTarget()
 	_target->SetEmitEvents( TRUE );
 
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, _target );
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, _target );
 }
 

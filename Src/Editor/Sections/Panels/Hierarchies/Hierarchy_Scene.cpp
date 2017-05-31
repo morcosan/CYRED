@@ -14,6 +14,7 @@
 #include "../../../Utils/CustomTreeItem.h"
 #include "../../Menus/Menu_GameObject.h"
 #include "../../Menus/Menu_Scene.h"
+#include "../../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -24,18 +25,50 @@
 using namespace CYRED;
 
 
+void Hierarchy_Scene::_OnInitialize()
+{
+	ASSERT( !_isInitialized );
+	_isInitialized = TRUE;
+
+	_CreateRightClickMenu();
+
+	// register events
+	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_UPDATE );
+	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_OPEN );
+	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_CLOSE );
+	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_UPDATE );
+	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_RENAME );
+	EventManager::Singleton()->RegisterListener( this, EventType::COMPONENT_UPDATE );
+	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_RENAME );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
+}
+
+
 void Hierarchy_Scene::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::ALL, this );
+	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_UPDATE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_OPEN );
+	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_CLOSE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_UPDATE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_RENAME );
+	EventManager::Singleton()->UnregisterListener( this, EventType::COMPONENT_UPDATE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_RENAME );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
 }
 
 
 void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 {
-	switch ( eType ) {
-		case EventType::CHANGE_SCENE_HIERARCHY:
-		case EventType::CHANGE_GAMEOBJECT:
+	switch ( eventType ) {
+		case EventType::SCENE_UPDATE:
+		case EventType::SCENE_OPEN:
+		case EventType::SCENE_CLOSE:
+		case EventType::GAMEOBJECT_UPDATE:
 		{
 			// check state
 			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
@@ -46,9 +79,9 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			break;
 		}
 			
-		case EventType::RENAME_GAMEOBJECT:
+		case EventType::GAMEOBJECT_RENAME:
 		{
-			GameObject* gameObject = CAST_S( GameObject*, eData );
+			GameObject* gameObject = CAST_S( GameObject*, eventData );
 			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
@@ -59,15 +92,9 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			break;
 		}
 
-		case EventType::CHANGE_CAMERA:
-		case EventType::CHANGE_LIGHT:
-		case EventType::CHANGE_MESH_RENDERING:
-		case EventType::CHANGE_MORPH_RENDERING:
-		case EventType::CHANGE_PARTICLE_EMITTER:
-		case EventType::CHANGE_SCRIPTER:
-		case EventType::CHANGE_TRANSFORM:
+		case EventType::COMPONENT_UPDATE:
 		{
-			Component* component = CAST_S( Component*, eData );
+			Component* component = CAST_S( Component*, eventData );
 			if ( component != NULL ) {
 				CustomTreeItem* treeItem = _FindGameObjectItem( component->GetGameObject()->GetUniqueID() );
 				if ( treeItem != NULL ) {
@@ -78,26 +105,26 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			break;
 		}
 		
-		case EventType::SELECT_ASSET:
-		case EventType::SELECT_PREFAB:
+		case EditorEventType::ASSET_SELECT:
+		case EditorEventType::PREFAB_SELECT:
 			_qtTree->setCurrentItem( NULL );
 			break;
 
-		case EventType::SELECT_GAMEOBJECT:
+		case EditorEventType::GAMEOBJECT_SELECT:
 		{
-			if ( eData != NULL ) {
-				GameObject* gameObject = CAST_S( GameObject*, eData );
+			if ( eventData != NULL ) {
+				GameObject* gameObject = CAST_S( GameObject*, eventData );
 				CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 				_qtTree->setCurrentItem( treeItem );
 			}
 			break;
 		}
 			
-		case EventType::CHANGE_ASSET:
+		case EventType::ASSET_RENAME:
 		{
 			_qtTree->setCurrentItem( NULL );
 
-			Asset* asset = CAST_S( Asset*, eData );
+			Asset* asset = CAST_S( Asset*, eventData );
 
 			if ( asset != NULL && asset->GetAssetType() == AssetType::SCENE ) {
 				CustomTreeItem* treeItem = _FindSceneItem( asset->GetUniqueID() );
@@ -108,7 +135,6 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 					_qtTree->blockSignals( false );
 				}
 			}
-
 			break;
 		}
 	}
@@ -155,7 +181,7 @@ void Hierarchy_Scene::_CreateRightClickMenu()
 	ASSERT( _isInitialized );
 
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::CHANGE_SCENE_HIERARCHY );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::SCENE_UPDATE );
 	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree, this );
 
 	// add menu to tree
@@ -202,10 +228,10 @@ void Hierarchy_Scene::A_ItemClicked( QTreeWidgetItem* item, int column )
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	if ( treeItem->asset != NULL ) {
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_SCENE, treeItem->asset );
+		EventManager::Singleton()->EmitEvent( EditorEventType::SCENE_SELECT, treeItem->asset );
 	}
 	else {
-		EventManager::Singleton()->EmitEvent( EventType::SELECT_GAMEOBJECT, treeItem->node );
+		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, treeItem->node );
 	}
 }
 
@@ -230,16 +256,4 @@ void Hierarchy_Scene::A_RightClickMenu( const QPoint& pos )
 cchar* Hierarchy_Scene::_GetPanelTitle()
 {
 	return PANEL_TITLE;
-}
-
-
-void Hierarchy_Scene::_OnInitialize()
-{
-	ASSERT( !_isInitialized );
-	_isInitialized = TRUE;
-
-	_CreateRightClickMenu();
-
-	// register events
-	EventManager::Singleton()->RegisterListener( EventType::ALL, this );
 }

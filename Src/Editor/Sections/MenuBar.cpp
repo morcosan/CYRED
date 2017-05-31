@@ -2,20 +2,20 @@
 // MIT License
 
 #include "MenuBar.h"
+
 #include "CyredModule_Scene.h"
+#include "CyredModule_Render.h"
+#include "CyredModule_Asset.h"
+
 #include "../EditorApp.h"
+#include "../Utils/EditorEvents.h"
 #include "Builders\ProjectBuilder.h"
 #include "Settings\ProjectSettings.h"
 
 #include "QtWidgets/qactiongroup.h"
 
 
-#include "CyredModule_Render.h"
-#include "CyredModule_Asset.h"
-
-
 using namespace CYRED;
-
 
 
 void MenuBar::Initialize()
@@ -134,13 +134,13 @@ void MenuBar::A_Prefab_New()
 	prefab->SetEmitEvents( TRUE );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::OPEN_PREFAB, prefab );
+	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, prefab );
 }
 
 
 void MenuBar::A_Project_Settings()
 {
-	EventManager::Singleton()->EmitEvent( EventType::EDITOR_PROJ_SETTINGS, NULL );
+	EventManager::Singleton()->EmitEvent( EditorEventType::EDITOR_PROJ_SETTINGS, NULL );
 }
 
 
