@@ -42,9 +42,9 @@ namespace CYRED
 	public:
 		void BindToGPU();
 
-		int			GetVBO				() const;		
-		int			GetIBO				() const;			
-		int			GetNumIndices		() const;
+		int				GetVBO				() const;		
+		int				GetIBO				() const;			
+		int				GetNumIndices		() const;
 
 		void			SetMaxParticles		( int value );
 		void			SetParticleLifetime	( float value );
@@ -53,7 +53,7 @@ namespace CYRED
 		void			SetShapeDrivenSpeed	( float value );
 		void			SetShapeDrivenAccel	( float value );
 
-		int			GetMaxParticles		() const;
+		int				GetMaxParticles		() const;
 		float			GetParticleLifetime	() const;			
 		Vector3			GetParticleVelocity	() const;			
 		Vector3			GetParticleAccel	() const;			
@@ -66,7 +66,7 @@ namespace CYRED
 		void			SetSpawnDuration	( float value );
 
 		float			GetWavesPerSec		() const;			
-		int			GetParticlesPerWave	() const;			
+		int				GetParticlesPerWave	() const;			
 		float			GetSpawnDuration	() const;	
 		bool			IsLooping			() const;
 
@@ -92,36 +92,36 @@ namespace CYRED
 
 
 	private:
-		uint		_vbo;
-		uint		_ibo;
-		int			_numIndices;
+		uint				_vbo;
+		uint				_ibo;
+		int					_numIndices;
 
 		DataArray<ParticleVertex>	_vertices;
 		DataArray<int>				_indices;
 
 		//! simulation
-		int				_maxParticles;
-		float			_particleLifetime;
-		Vector3			_particleVelocity;
-		Vector3			_particleAcceleration;
-		float			_shapeDrivenSpeed;
-		float			_shapeDrivenAccel;
+		int					_maxParticles;
+		float				_particleLifetime;
+		Vector3				_particleVelocity;
+		Vector3				_particleAcceleration;
+		float				_shapeDrivenSpeed;
+		float				_shapeDrivenAccel;
 
 		//! spawning
-		float			_wavesPerSec;		
-		int				_particlesPerWave;		
-		bool			_isLooping;
-		float			_spawnDuration;
+		float				_wavesPerSec;		
+		int					_particlesPerWave;		
+		bool				_isLooping;
+		float				_spawnDuration;
 
 		//! emission
-		EmitterShape	_emitterShape;
-		float			_shapeRadius;
-		bool			_spawnFromEdge;
+		EmitterShape		_emitterShape;
+		float				_shapeRadius;
+		bool				_spawnFromEdge;
 
 		//! rendering
-		Material*		_material;
-		Vector2			_particleSizeStart;
-		Vector2			_particleSizeEnd;
+		Material*			_material;
+		Vector2				_particleSizeStart;
+		Vector2				_particleSizeEnd;
 
 		DataArray<float>	_particlesAge;
 	};

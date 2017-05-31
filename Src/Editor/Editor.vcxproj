@@ -218,6 +218,7 @@
     <ClInclude Include="Utils\CustomTree.h" />
     <ClInclude Include="Utils\CustomTreeItem.h" />
     <ClInclude Include="Utils\CustomTreeWidget.h" />
+    <ClInclude Include="Utils\EditorEvents.h" />
     <ClInclude Include="Utils\EditorUtils.h" />
     <ClInclude Include="Utils\QtUtils.h" />
   </ItemGroup>

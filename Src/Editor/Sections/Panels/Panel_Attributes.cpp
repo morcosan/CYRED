@@ -136,7 +136,7 @@ void Panel_Attributes::Update()
 }
 
 
-void Panel_Attributes::OnEvent( EventType eType, void* eData )
+void Panel_Attributes::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::SELECT_GAMEOBJECT:

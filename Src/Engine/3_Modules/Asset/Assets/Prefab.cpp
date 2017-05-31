@@ -60,7 +60,7 @@ void Prefab::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -74,7 +74,7 @@ void Prefab::ClearAsset()
 	_isTemporary = TRUE; 
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

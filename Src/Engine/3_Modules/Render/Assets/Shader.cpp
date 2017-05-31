@@ -64,7 +64,7 @@ void Shader::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -84,7 +84,7 @@ void Shader::ClearAsset()
 	_uniforms.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -112,7 +112,7 @@ void Shader::SetShaderFiles( cchar* vertexPath, cchar* geometryPath, cchar* frag
 	_fragmentFilePath	= fragmentPath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

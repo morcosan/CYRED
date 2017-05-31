@@ -19,7 +19,7 @@ Viewport_Prefab::Viewport_Prefab( int panelIndex )
 }
 
 
-void Viewport_Prefab::OnEvent( EventType eType, void* eData )
+void Viewport_Prefab::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::OPEN_PREFAB:

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "Transform.h"
 
 #include "../GameObject.h"
@@ -249,7 +248,7 @@ void Transform::SetPositionLocal( const Vector3& value )
 	_RecalculatePositionWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -293,7 +292,7 @@ void Transform::SetRotationLocal( const Quaternion& value )
 	_RecalculateRotationWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -353,7 +352,7 @@ void Transform::SetScaleLocal( const Vector3& value )
 	_RecalculateScaleWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_TRANSFORM, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 

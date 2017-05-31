@@ -1,0 +1,7 @@
+{
+    "uid": "LODYxUL8oroQbsWGF43qTETKlviaxnYU",
+    "mesh_type": "LINE",
+    "load_type": "SCRIPTED",
+    "file_path": "GizmoTriggerBoxMesh.lua",
+    "clear_buffers_on_bind": true
+}

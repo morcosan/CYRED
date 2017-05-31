@@ -8,7 +8,6 @@
     <ClInclude Include="2_BuildingBlocks\GameObject.h" />
     <ClInclude Include="3_Modules\Asset\AssetManager.h" />
     <ClInclude Include="3_Modules\File\FileManager.h" />
-    <ClInclude Include="3_Modules\Gizmo\GizmoManager.h" />
     <ClInclude Include="3_Modules\Input\InputManager.h" />
     <ClInclude Include="3_Modules\Render\Components\Camera.h" />
     <ClInclude Include="3_Modules\Render\Components\Light.h" />

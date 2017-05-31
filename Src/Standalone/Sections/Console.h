@@ -17,7 +17,7 @@ namespace CYRED
 
 
 	public:
-		virtual void OnEvent( EventType eType, void* eData ) override;
+		virtual void OnEvent( int eventType, void* eventData ) override;
 
 	};
 }

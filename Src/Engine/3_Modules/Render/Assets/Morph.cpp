@@ -71,7 +71,7 @@ void Morph::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -88,7 +88,7 @@ void Morph::ClearAsset()
 	_isTemporary = TRUE;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -213,7 +213,7 @@ void Morph::SetTotalStates( int value )
 	_totalStates = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -225,6 +225,6 @@ void Morph::SetFilePath( int index, cchar* filePath )
 	_filePaths[index] = filePath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }

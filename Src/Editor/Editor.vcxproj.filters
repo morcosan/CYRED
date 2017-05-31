@@ -139,5 +139,6 @@
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Scene.h" />
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Object.h" />
     <ClInclude Include="Sections\Panels\Viewports\Viewport_Object.h" />
+    <ClInclude Include="Utils\EditorEvents.h" />
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ void Hierarchy_Object::Finalize()
 }
 
 
-void Hierarchy_Object::OnEvent( EventType eType, void* eData )
+void Hierarchy_Object::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::ISOLATE_OBJECT:

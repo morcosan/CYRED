@@ -10,9 +10,7 @@ using namespace NotAPI;
 
 //! deferred definition of SceneManager
 DEFINE_LOCAL_SINGLETON( TimeManager, TimeManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( TimeManagerImpl )
-
 
 
 void TimeManagerImpl::Initialize( int desiredFPS )

@@ -199,7 +199,7 @@ void Panel_Assets::Finalize()
 }
 
 
-void Panel_Assets::OnEvent( EventType eType, void* eData )
+void Panel_Assets::OnEvent( int eventType, void* eventData )
 {
 	ASSERT( _isInitialized );
 

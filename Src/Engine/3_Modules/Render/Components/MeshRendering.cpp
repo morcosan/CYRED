@@ -5,7 +5,6 @@
 
 #include "../Assets/Material.h"
 #include "../Assets/Mesh.h"
-
 #include "../../Event/EventManager.h"
 
 
@@ -48,9 +47,8 @@ void MeshRendering::SetMaterial( Material* value )
 {
 	_material = value;
 
-	if ( _emitEvents )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MESH_RENDERING, this );
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -59,8 +57,7 @@ void MeshRendering::SetMesh( Mesh* value )
 {
 	_mesh = value;
 
-	if ( _emitEvents )
-	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MESH_RENDERING, this );
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }

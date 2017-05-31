@@ -27,7 +27,7 @@ Console::~Console()
 }
 
 
-void Console::OnEvent( EventType eType, void* eData )
+void Console::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::CONSOLE_LOG:

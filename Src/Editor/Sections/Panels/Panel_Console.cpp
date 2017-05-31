@@ -105,7 +105,7 @@ void Panel_Console::Finalize()
 }
 
 
-void Panel_Console::OnEvent( EventType eType, void* eData )
+void Panel_Console::OnEvent( int eventType, void* eventData )
 {
 	ASSERT( _isInitialized );
 

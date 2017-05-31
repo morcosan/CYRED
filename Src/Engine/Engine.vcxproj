@@ -270,7 +270,6 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Event\Sections\IEventListener.h" />
     <ClInclude Include="3_Modules\Event\EventManager.h" />
     <ClInclude Include="3_Modules\File\FileManager.h" />
-    <ClInclude Include="3_Modules\Gizmo\GizmoManager.h" />
     <ClInclude Include="3_Modules\Input\InputManager.h" />
     <ClInclude Include="3_Modules\Render\Components\Camera.h" />
     <ClInclude Include="3_Modules\Render\Components\Light.h" />

@@ -117,7 +117,7 @@ void Texture::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -149,7 +149,7 @@ void Texture::ClearAsset()
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -327,7 +327,7 @@ void Texture::SetTextureType( TextureType type )
 	_textureType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -337,7 +337,7 @@ void Texture::SetLoadType( TextureLoadType type )
 	_loadType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -347,7 +347,7 @@ void Texture::SetHasMipmap( bool value )
 	_hasMipmap = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -357,7 +357,7 @@ void Texture::SetClearBufferOnBind( bool value )
 	_clearBufferOnBind = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -369,7 +369,7 @@ void Texture::SetImageBuffer( int index, uchar* buffer )
 	_imageBuffer[index] = buffer;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -381,7 +381,7 @@ void Texture::SetImagePath( int index, cchar* path )
 	_filePaths[index] = path;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_ASSET, this );
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

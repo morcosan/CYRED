@@ -31,7 +31,7 @@ void Hierarchy_Scene::Finalize()
 }
 
 
-void Hierarchy_Scene::OnEvent( EventType eType, void* eData )
+void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::CHANGE_SCENE_HIERARCHY:

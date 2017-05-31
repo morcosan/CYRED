@@ -22,7 +22,7 @@ Viewport_Scene::Viewport_Scene( int panelIndex )
 }
 
 
-void Viewport_Scene::OnEvent( EventType eType, void* eData )
+void Viewport_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::SELECT_GAMEOBJECT:

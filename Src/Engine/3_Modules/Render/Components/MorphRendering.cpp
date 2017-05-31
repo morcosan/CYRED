@@ -89,7 +89,7 @@ void MorphRendering::SetMaterial( Material* value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -107,7 +107,7 @@ void MorphRendering::SetMorph( Morph* value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -118,7 +118,7 @@ void MorphRendering::SetDurationState( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -129,7 +129,7 @@ void MorphRendering::SetDurationStateChange( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -140,7 +140,7 @@ void MorphRendering::SetIsPlaying( bool value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::CHANGE_MORPH_RENDERING, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 

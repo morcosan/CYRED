@@ -2,11 +2,13 @@
 // MIT License
 
 #include "ParticleEmitter.h"
+
 #include "../RenderManagerImpl.h"
 #include "../Assets/Material.h"
 #include "../../../2_BuildingBlocks/Math/Math.h"
 #include "../../../2_BuildingBlocks/Random/Random.h"
 #include "../../Time/TimeManager.h"
+#include "../../Event/EventManager.h"
 
 
 using namespace CYRED;
@@ -148,54 +150,90 @@ Vector2 ParticleEmitter::GetParticleSizeEnd() const
 void ParticleEmitter::SetMaterial( Material* value )
 {
 	_material = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticleSizeStart( Vector2 value )
 {
 	_particleSizeStart = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticleSizeEnd( Vector2 value )
 {
 	_particleSizeEnd = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetMaxParticles( int value )
 {
 	_maxParticles = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticleLifetime( float value )
 {
 	_particleLifetime = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticleVelocity( Vector3 value )
 {
 	_particleVelocity = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticleAccel( Vector3 value )
 {
 	_particleAcceleration = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetShapeDrivenSpeed( float value )
 {
 	_shapeDrivenSpeed = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetShapeDrivenAccel( float value )
 {
 	_shapeDrivenAccel = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
@@ -238,24 +276,40 @@ float ParticleEmitter::GetShapeDrivenAccel() const
 void ParticleEmitter::SetWavesPerSec( float value )
 {
 	_wavesPerSec = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetParticlesPerWave( int value )
 {
 	_particlesPerWave = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetIsLooping( bool value )
 {
 	_isLooping = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetSpawnDuration( float value )
 {
 	_spawnDuration = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
@@ -286,17 +340,29 @@ bool ParticleEmitter::IsLooping() const
 void ParticleEmitter::SetEmitterShape( EmitterShape value )
 {
 	_emitterShape = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 void ParticleEmitter::SetSpawnFromEndge( bool value )
 {
 	_spawnFromEdge = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
 void ParticleEmitter::SetShapeRadius( float value )
 {
 	_shapeRadius = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 

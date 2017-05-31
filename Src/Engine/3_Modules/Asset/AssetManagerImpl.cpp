@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "AssetManagerImpl.h"
 #include "../../2_BuildingBlocks/Random/Random.h"
 #include "../Render/Assets/Material.h"

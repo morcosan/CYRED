@@ -1,0 +1,32 @@
+{
+    "uid": "NtY6rUG0VVVjROwB1lw7Mn01wCEDvnvo",
+    "root": {
+        "name": "GizmoTriggerSphere",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "DnDEJrPwTJhaQuICyODv2EqUTVRZkL5D",
+                "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+            }
+        }
+    }
+}

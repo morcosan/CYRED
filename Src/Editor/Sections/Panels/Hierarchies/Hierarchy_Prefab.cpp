@@ -30,7 +30,7 @@ void Hierarchy_Prefab::Finalize()
 }
 
 
-void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
+void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 {
 	switch ( eType ) {
 		case EventType::OPEN_PREFAB:

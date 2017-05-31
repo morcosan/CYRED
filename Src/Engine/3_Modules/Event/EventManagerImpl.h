@@ -7,6 +7,7 @@
 
 #include "EventManager.h"
 #include "../../2_BuildingBlocks/Data/DataArray.h"
+#include "../../2_BuildingBlocks/Data/DataMap.h"
 
 
 namespace CYRED
@@ -19,21 +20,17 @@ namespace CYRED
 
 
 		public:
-			void Initialize	()	override;
-			void Finalize	()	override;
+			void Initialize			()											override;
+			void Finalize			()											override;
 
-			void RegisterListener	( EventType eType, IEventListener* listener )	override;
-			void UnregisterListener	( EventType eType, IEventListener* listener )	override;
+			void RegisterListener	( IEventListener* listener, int eventType )	override;
+			void UnregisterListener	( IEventListener* listener, int eventType )	override;
 
-			void EmitEvent			( EventType eType, void* eData )				override;
+			void EmitEvent			( int eventType, void* eventData )			override;
 
 
 		private:
-			DataArray< DataArray<IEventListener*> > _listeners;
-
-			//! eType is required int for the ALL case
-			void _AddListener		( int eType, IEventListener* listener );
-			void _RemoveListener	( int eType, IEventListener* listener );
+			DataMap<int, DataArray<IEventListener*>> _listeners;
 		};
 	}
 }
