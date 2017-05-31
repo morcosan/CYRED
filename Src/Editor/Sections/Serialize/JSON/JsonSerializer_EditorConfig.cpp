@@ -88,7 +88,12 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 			else if ( type == P_GAME_VIEWPORT ) {
 				panel.type = PanelType::GAME_VIEWPORT;
 			}
-			
+			else if ( type == P_OBJECT_HIERARCHY ) {
+				panel.type = PanelType::OBJECT_HIERARCHY;
+			}
+			else if ( type == P_OBJECT_VIEWPORT ) {
+				panel.type = PanelType::OBJECT_VIEWPORT;
+			}
 
 			// add split from
 			if ( panels[i].HasMember( PANELS_SPLIT_FROM ) ) {
@@ -116,6 +121,12 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 				}
 				else if ( splitFrom == P_SCENE_VIEWPORT ) {
 					panel.splitFrom = PanelType::SCENE_VIEWPORT;
+				}
+				else if ( splitFrom == P_OBJECT_HIERARCHY ) {
+					panel.splitFrom = PanelType::OBJECT_HIERARCHY;
+				}
+				else if ( splitFrom == P_OBJECT_VIEWPORT ) {
+					panel.splitFrom = PanelType::OBJECT_VIEWPORT;
 				}
 			}
 

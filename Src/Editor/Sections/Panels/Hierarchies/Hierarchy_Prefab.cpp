@@ -59,8 +59,12 @@ void Hierarchy_Prefab::OnEvent( EventType eType, void* eData )
 			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
 			// update 
 			_ResetHierarchy();
-			// change color
-			ColorizePanel( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
+			// search for gameobject
+			CustomTreeItem* treeItem = _FindGameObjectItem( CAST_S( GameObject*, eData )->GetUniqueID() );
+			if ( treeItem != NULL ) {
+				// change color
+				ColorizePanel( !wasEmpty );
+			}
 			break;
 		}
 

@@ -18,6 +18,8 @@ namespace CYRED
 
 			, OPEN_PREFAB
 			, CLOSE_PREFAB
+
+			, ISOLATE_OBJECT
 			
 			, SELECT_SCENE
 			, SELECT_GAMEOBJECT
