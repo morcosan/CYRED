@@ -121,5 +121,7 @@ namespace CYRED
 
 		void _ReadConfigFile		();
 		void _ReadProjectFile		();
+
+		void _WriteConfigFile		();
 	};
 }

@@ -42,8 +42,6 @@ Panel_Attributes::Panel_Attributes()
 	: _needsRefresh( FALSE )
 {
 	this->setWindowTitle( PANEL_TITLE );
-	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
-	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	_qtTree = Memory::Alloc<QTreeWidget>( this );

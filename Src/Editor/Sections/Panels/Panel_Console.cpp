@@ -21,8 +21,6 @@ using namespace CYRED;
 Panel_Console::Panel_Console()
 {
 	this->setWindowTitle( PANEL_TITLE );
-	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
-	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	// create top bar

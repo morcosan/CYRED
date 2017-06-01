@@ -10,6 +10,9 @@ using namespace CYRED;
 Panel::Panel()
 	: _isInitialized( FALSE )
 {
+	//this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
+	this->setFeatures( 0 );
+	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 }
 
 

@@ -73,8 +73,6 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	_isInitialized = TRUE;
 
 	this->setWindowTitle( _GetPanelTitle() );
-	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
-	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	_qtWindow = Memory::Alloc<_QtWindow>( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );

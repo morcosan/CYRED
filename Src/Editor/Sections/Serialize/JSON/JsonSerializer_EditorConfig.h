@@ -22,6 +22,8 @@ namespace CYRED
 		cchar* const PANELS_TYPE		= "type";
 		cchar* const PANELS_SPLIT_FROM	= "split_from";
 		cchar* const PANELS_SPLIT_TYPE	= "split_type";
+		cchar* const PANELS_WIDTH		= "width";
+		cchar* const PANELS_HEIGHT		= "height";
 		cchar* const PANELS_VP_INDEX	= "viewport_index";
 		cchar* const SPLIT_HORIZONTAL	= "HORIZONTAL";
 		cchar* const SPLIT_VERTICAL		= "VERTICAL";

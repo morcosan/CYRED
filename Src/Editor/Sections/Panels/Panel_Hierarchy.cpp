@@ -15,8 +15,6 @@ using namespace CYRED;
 void Panel_Hierarchy::Initialize()
 {
 	this->setWindowTitle( _GetPanelTitle() );
-	this->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
-	this->setAllowedAreas( Qt::DockWidgetArea::AllDockWidgetAreas );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	_qtTree = Memory::Alloc<CustomTree>();

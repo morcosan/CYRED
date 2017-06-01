@@ -98,6 +98,7 @@ void EditorApp::Run( int& argc, char* argv[] )
 	_CreateCameras();
 	_CreateSelectorPopup();
 
+
 	// a viewport is needed t initialize rendering
 	Panel_Viewport*	mainViewport = NULL;
 
@@ -113,13 +114,21 @@ void EditorApp::Run( int& argc, char* argv[] )
 
 		}
 
+		// resize
+		if ( EditorSettings::panels[i].width > 0 ) {
+			panel->setMaximumWidth( EditorSettings::panels[i].width );
+		}
+		if ( EditorSettings::panels[i].height > 0 ) {
+			panel->setMaximumHeight( EditorSettings::panels[i].height );
+		}
+
 		if ( EditorSettings::panels[i].viewportIndex == 0 ) {
 			mainViewport = CAST_S( Panel_Viewport*, panel );
 		}
 	}
 
-	_skinStylesheet = NULL;
 	// change skin after everything is created
+	_skinStylesheet = NULL;
 	ApplySkin( EditorSettings::SKIN_DEFAULT_BLACK );
 
 
@@ -127,6 +136,7 @@ void EditorApp::Run( int& argc, char* argv[] )
 	// it is required for rendering to have displayed context
 	// must be called after creating the main viewport
 	_qtApp->processEvents();
+
 
 	// it requires to be initialized after viewport is shown
 	ASSERT( mainViewport != NULL );
@@ -138,13 +148,19 @@ void EditorApp::Run( int& argc, char* argv[] )
 		assetsPanel->ReloadAllAssets();
 	}
 
-	// load gizmo
+	// load gizmo and refresh panels
 	Iterator<PanelType, Panel*> iter = _panels.GetIterator();
 	while ( iter.HasNext() ) {
-		Panel_Viewport* viewportPanel = CAST_D( Panel_Viewport*, iter.GetValue() );
+		Panel* panel = iter.GetValue();
+		Panel_Viewport* viewportPanel = CAST_D( Panel_Viewport*, panel );
 		if ( viewportPanel != NULL ) {
 			viewportPanel->LoadGizmo();
 		}
+
+		// refresh max size
+		panel->setMaximumSize( 999999, 999999 );
+
+		// next
 		iter.Next();
 	}
 
@@ -185,6 +201,8 @@ void EditorApp::Exit()
 
 void EditorApp::_CleanUp()
 {
+	_WriteConfigFile();
+
 	_FinalizePanels();
 	_FinalizeManagers();
 	_DestroyManagers();
@@ -611,6 +629,22 @@ void EditorApp::_ReadProjectFile()
 {
 	char* fileData = FileManager::Singleton()->ReadFile( EditorSettings::projectPath.GetChar() );
 	FileManager::Singleton()->Deserialize<ProjectSettings>( fileData, NULL );
+}
+
+
+void EditorApp::_WriteConfigFile()
+{
+	// collect panels size
+	for ( int i = 0; i < EditorSettings::panels.Size(); i++ ) {
+		Panel* panel = _panels.Get( EditorSettings::panels[i].type );
+		EditorSettings::panels[i].width = panel->width();
+		EditorSettings::panels[i].height = panel->height();
+	}
+
+	// serialize
+	String data = FileManager::Singleton()->Serialize<EditorSettings>( NULL );
+	// write file
+	FileManager::Singleton()->WriteFile( EditorSettings::FILE_PATH_CONFIG, data.GetChar() );
 }
 
 

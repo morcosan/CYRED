@@ -47,9 +47,11 @@ namespace CYRED
 		struct PanelData
 		{
 			PanelType		type;
+			int				width;
+			int				height;
 			PanelType		splitFrom;
 			PanelSplitType	splitType;
-			int			viewportIndex;
+			int				viewportIndex;
 		};
 
 		static bool fullscreen;
