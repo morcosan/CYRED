@@ -26,7 +26,7 @@ using namespace CYRED;
 void Hierarchy_Isolate::_OnInitialize()
 {
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EditorEventType::PREFAB_UPDATE );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -48,6 +48,10 @@ void Hierarchy_Isolate::OnEvent( int eventType, void* eventData )
 			break;
 
 		case EventType::GAMEOBJECT_UPDATE:
+			// check if target still attacked
+			if ( _target->GetParentNode() == NULL ) {
+				_target = NULL;
+			}
 			// update 
 			_ResetHierarchy();
 			break;
@@ -98,6 +102,10 @@ void Hierarchy_Isolate::OnEvent( int eventType, void* eventData )
 
 CustomTreeItem* Hierarchy_Isolate::_FindGameObjectItem( int uid )
 {
+	if ( uid == EMPTY_OBJECT_UID ) {
+		return NULL;
+	}
+
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
 		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, *it );
@@ -160,6 +168,19 @@ void Hierarchy_Isolate::A_RightClickMenu( const QPoint& pos )
 	if ( treeItem != NULL ) {
 		// open menu
 		_menuGameObject->Open( pos, (treeItem->asset != NULL) );
+	}
+}
+
+
+void Hierarchy_Isolate::OnAction_Isolate( GameObject* gameObject )
+{
+	if ( _openEventType == EditorEventType::ISOLATE_OPEN_PREFAB ) {
+		// isolate object
+		EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
+	}
+	else if ( _openEventType == EditorEventType::ISOLATE_OPEN_SCENE ) {
+		// isolate object
+		EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
 	}
 }
 

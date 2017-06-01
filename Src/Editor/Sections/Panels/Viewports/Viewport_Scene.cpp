@@ -27,7 +27,6 @@ void Viewport_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
 		case EditorEventType::GAMEOBJECT_SELECT:
-		{
 			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
 				GameObject* gameObject = CAST_S( GameObject*, eventData );
 
@@ -47,18 +46,16 @@ void Viewport_Scene::OnEvent( int eventType, void* eventData )
 				}
 			}
 			break;
-		}
 
 		case EditorEventType::ASSET_SELECT:
 		case EditorEventType::PREFAB_SELECT:
 		case EditorEventType::SCENE_SELECT:
-		{
+		case EditorEventType::ISOLATE_SELECT:
 			if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
 				// unselect
 				_selectedGO = NULL;
 			}
 			break;
-		}
 	}
 }
 

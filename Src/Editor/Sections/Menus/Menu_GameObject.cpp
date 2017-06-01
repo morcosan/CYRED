@@ -59,14 +59,14 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 
 	this->addSeparator();
 
-	QAction* actionIsolate = this->addAction( MENU_ISOLATE );
-
 	if ( !isPrefab ) {
+		QAction* actionIsolate = this->addAction( MENU_ISOLATE );
 		QAction* actionCreatePrefab = this->addAction( MENU_CREATE_PREFAB );
+		this->addSeparator();
+
+		QObject::connect( actionIsolate,		&QAction::triggered, this, &Menu_GameObject::A_Isolate );
 		QObject::connect( actionCreatePrefab, &QAction::triggered, this, &Menu_GameObject::A_CreatePrefab );
 	}
-
-	this->addSeparator();
 
 	QMenu* menu_AddComp				= this->addMenu( MENU_ADD_COMPONENT );
 	QAction* actionComp_Transform	= menu_AddComp->addAction( MENU_COMP_TRANSFORM );
@@ -100,7 +100,6 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 
 	// add callbacks
 	QObject::connect( actionRename,			&QAction::triggered, this, &Menu_GameObject::A_Rename );
-	QObject::connect( actionIsolate,		&QAction::triggered, this, &Menu_GameObject::A_Isolate );
 	QObject::connect( actionComp_Transform,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Transform );
 	QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Camera );
 	QObject::connect( actionComp_Light,		&QAction::triggered, this, &Menu_GameObject::A_AddComp_Light );

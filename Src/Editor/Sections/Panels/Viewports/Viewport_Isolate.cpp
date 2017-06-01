@@ -1,7 +1,7 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-#include "Viewport_Prefab.h"
+#include "Viewport_Isolate.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
@@ -13,79 +13,93 @@
 using namespace CYRED;
 
 
-Viewport_Prefab::Viewport_Prefab( int panelIndex )
+Viewport_Isolate::Viewport_Isolate( int panelIndex )
 	: Viewport_WithGizmo( panelIndex )
-	, _targetPrefab( NULL )
+	, _target( NULL )
 {
 }
 
 
-void Viewport_Prefab::OnEvent( int eventType, void* eventData )
+void Viewport_Isolate::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
-		case EditorEventType::PREFAB_OPEN:
-			_targetPrefab = CAST_S( Prefab*, eventData );
+		case EditorEventType::ISOLATE_OPEN_SCENE:
+		case EditorEventType::ISOLATE_OPEN_PREFAB:
+			// store data
+			_target = CAST_S( GameObject*, eventData );
+			_openEventType = eventType;
 			_selectedGO = NULL;
 			break;
 
-		case EditorEventType::PREFAB_CLOSE:
-			if ( _targetPrefab == eventData ) {
-				_targetPrefab = NULL;
+		case EventType::GAMEOBJECT_UPDATE:
+			// check if target still attacked
+			if ( _target->GetParentNode() == NULL ) {
+				_target = NULL;
 				_selectedGO = NULL;
 			}
 			break;
 
-		case EditorEventType::GAMEOBJECT_SELECT:
-			if ( _targetPrefab != NULL ) {
-				GameObject* gameObject = CAST_S( GameObject*, eventData );
-				// check if is displayed
+		case EventType::SCENE_CLOSE:
+			if ( _openEventType == EditorEventType::ISOLATE_OPEN_SCENE ) {
+				_target = NULL;
 				_selectedGO = NULL;
+			}
+			break;
 
-				// get prefab root
-				GameObject* prefabRoot = _targetPrefab->GetRoot();
-
-				// search for gameobject
-				if ( _RecIsFound( gameObject, prefabRoot ) ) {
-					// found
-					_selectedGO = gameObject;
-				}
+		case EditorEventType::PREFAB_CLOSE:
+			if ( _openEventType == EditorEventType::ISOLATE_OPEN_PREFAB ) {
+				_target = NULL;
 			}
 			break;
 
 		case EditorEventType::ASSET_SELECT:
-		case EditorEventType::PREFAB_SELECT:
 		case EditorEventType::SCENE_SELECT:
-		case EditorEventType::ISOLATE_SELECT:
-			if ( _targetPrefab != NULL ) {
+		case EditorEventType::PREFAB_SELECT:
+		case EditorEventType::GAMEOBJECT_SELECT:
+			if ( _target != NULL ) {
 				// unselect
 				_selectedGO = NULL;
+			}
+			break;
+
+		case EditorEventType::ISOLATE_SELECT:
+			if ( _target != NULL ) {
+				GameObject* gameObject = CAST_S( GameObject*, eventData );
+				// check if is displayed
+				_selectedGO = NULL;
+
+				// search for gameobject
+				if ( _RecIsFound( gameObject, _target ) ) {
+					// found
+					_selectedGO = gameObject;
+				}
 			}
 			break;
 	}
 }
 
 
-cchar* Viewport_Prefab::_GetPanelTitle()
+cchar* Viewport_Isolate::_GetPanelTitle()
 {
 	return PANEL_TITLE;
 }
 
 
-void Viewport_Prefab::_OnInitialize()
+void Viewport_Isolate::_OnInitialize()
 {
 	// register events
 	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
 }
 
 
-void Viewport_Prefab::_OnFinalize()
+void Viewport_Isolate::_OnFinalize()
 {
 	// unregister events
 	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
 }
 
 
-void Viewport_Prefab::_OnUpdate()
+void Viewport_Isolate::_OnUpdate()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
@@ -100,24 +114,21 @@ void Viewport_Prefab::_OnUpdate()
 	}
 
 	// render prefab
-	if ( _targetPrefab != NULL ) {
-		// get prefabs root
-		GameObject* prefabRoot = _targetPrefab->GetRoot();
-
+	if ( _target != NULL ) {
 		// render gizmo before
 		_RenderGizmoBefore();
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
-		_RecCollectLights( prefabRoot, lightsGO );
+		_RecCollectLights( _target, lightsGO );
 
 		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+		renderMngr->Render( ComponentType::MESH_RENDERING, _target, _cameraGO, lightsGO );
 		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+		renderMngr->Render( ComponentType::MORPH_RENDERING, _target, _cameraGO, lightsGO );
 		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
+		renderMngr->Render( ComponentType::PARTICLE_EMITTER, _target, _cameraGO, lightsGO );
 
 		// render gizmo after
 		_RenderGizmoAfter();
@@ -128,7 +139,7 @@ void Viewport_Prefab::_OnUpdate()
 }
 
 
-bool Viewport_Prefab::_IsPickingInput()
+bool Viewport_Isolate::_IsPickingInput()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 	InputManager* inputMngr = InputManager::Singleton();
@@ -144,12 +155,9 @@ bool Viewport_Prefab::_IsPickingInput()
 		renderMngr->ClearScreen( 0, 0, 0 );
 
 		// render prefab
-		if ( _targetPrefab != NULL ) {
-			// get prefabs root
-			GameObject* prefabRoot = _targetPrefab->GetRoot();
-
+		if ( _target != NULL ) {
 			// render meshes
-			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
+			renderMngr->Render( ComponentType::MESH_RENDERING, _target, _cameraGO, _noLightsGO );
 
 			// get pixel from mouse position
 			Vector2 mousePos = inputMngr->CursorPosition();
@@ -158,11 +166,11 @@ bool Viewport_Prefab::_IsPickingInput()
 			// get object uid
 			int uid = pixel.x;
 			// find gameobject by uid
-			GameObject* gameObject = _RecSearchByUID( uid, prefabRoot );
+			GameObject* gameObject = _RecSearchByUID( uid, _target );
 			// if found
 			if ( gameObject != NULL ) {
 				// select gameobject
-				EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, gameObject );
+				EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_SELECT, gameObject );
 			}
 		}
 

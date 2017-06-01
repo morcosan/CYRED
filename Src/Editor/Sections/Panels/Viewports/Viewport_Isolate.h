@@ -10,20 +10,19 @@
 namespace CYRED
 {
 	class GameObject;
-	class Prefab;
 }
 
 
 namespace CYRED
 {
-	class Viewport_Prefab : public Viewport_WithGizmo, public IEventListener
+	class Viewport_Isolate : public Viewport_WithGizmo, public IEventListener
 	{
-		cchar* const PANEL_TITLE = "Prefab Viewport";
+		cchar* const PANEL_TITLE = "Isolate Viewport";
 
 
 	public:
-		Viewport_Prefab( int panelIndex );
-		virtual ~Viewport_Prefab() {}
+		Viewport_Isolate( int panelIndex );
+		virtual ~Viewport_Isolate() {}
 
 
 	public:
@@ -38,7 +37,8 @@ namespace CYRED
 
 
 	private:
-		Prefab*		_targetPrefab;
+		GameObject*	_target;
+		int			_openEventType;
 
 
 	private:

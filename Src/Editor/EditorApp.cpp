@@ -25,6 +25,7 @@
 #include "Sections\Panels\Viewports\Viewport_Scene.h"
 #include "Sections\Panels\Viewports\Viewport_Prefab.h"
 #include "Sections\Panels\Viewports\Viewport_Game.h"
+#include "Sections\Panels\Viewports\Viewport_Isolate.h"
 #include "Sections\SelectorPopup.h"
 #include "Sections\Settings\ProjectSettings.h"
 #include "Sections\Serialize\JSON\JsonSerializer_EditorConfig.h"
@@ -276,6 +277,15 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 			break;
 		}
 
+		case PanelType::ISOLATE_VIEWPORT:
+		{
+			Viewport_Isolate* viewportPanel = Memory::Alloc<Viewport_Isolate>( viewportIndex );
+			viewportPanel->Initialize( viewportIndex == 0 );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
+			panel = viewportPanel;
+			break;
+		}
+
 		case PanelType::ASSETS:
 			panel = Memory::Alloc<Panel_Assets>();
 			panel->Initialize();
@@ -343,6 +353,15 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 		{
 			Viewport_Game* viewportPanel = Memory::Alloc<Viewport_Game>( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
+			panel = viewportPanel;
+			break;
+		}
+
+		case PanelType::ISOLATE_VIEWPORT:
+		{
+			Viewport_Isolate* viewportPanel = Memory::Alloc<Viewport_Isolate>( viewportIndex );
+			viewportPanel->Initialize( (viewportIndex == 0) );
+			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
 			break;
 		}
@@ -540,7 +559,7 @@ void EditorApp::_CreateSelectorPopup()
 
 void EditorApp::_CreateCameras()
 {
-	for ( int i = 0; i < 2; i++ ) {
+	for ( int i = 0; i < 3; i++ ) {
 		GameObject* cameraGO = Memory::Alloc<GameObject>();
 		cameraGO->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 
@@ -558,8 +577,9 @@ void EditorApp::_CreateCameras()
 		_cameras.Add( cameraGO );
 	}
 
-	// add light for camera 1
+	// add light for camera 1 and 2
 	_cameras[1]->AddComponent<Light>();
+	_cameras[2]->AddComponent<Light>();
 }
 
 

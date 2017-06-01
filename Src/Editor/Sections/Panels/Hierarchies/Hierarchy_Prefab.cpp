@@ -26,7 +26,7 @@ using namespace CYRED;
 void Hierarchy_Prefab::_OnInitialize()
 {
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EditorEventType::PREFAB_UPDATE );
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -134,6 +134,10 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 
 CustomTreeItem* Hierarchy_Prefab::_FindGameObjectItem( int uid )
 {
+	if ( uid == EMPTY_OBJECT_UID ) {
+		return NULL;
+	}
+
 	QTreeWidgetItemIterator it( _qtTree );
 	while ( *it != NULL ) {
 		CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, *it );
@@ -152,6 +156,10 @@ CustomTreeItem* Hierarchy_Prefab::_FindGameObjectItem( int uid )
 
 CustomTreeItem* Hierarchy_Prefab::_FindPrefabItem( cchar* uid )
 {
+	if ( uid == EMPTY_OBJECT_UID ) {
+		return NULL;
+	}
+
 	String temp( uid );
 
 	for ( int i = 0; i < _qtTree->topLevelItemCount(); ++i ) {

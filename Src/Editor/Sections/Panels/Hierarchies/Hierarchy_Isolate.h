@@ -33,6 +33,7 @@ namespace CYRED
 
 		void A_ItemClicked		( QTreeWidgetItem* item, int column )	override;
 		void A_RightClickMenu	( const QPoint& pos )					override;
+		void OnAction_Isolate	( GameObject* gameObject )				override;
 
 
 	protected:
