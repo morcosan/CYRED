@@ -3,7 +3,6 @@
 
 #pragma once
 #include "CyredRequired.h"
-#include "CyredModule_Event.h"
 #include "CyredBuildingBlocks.h"
 
 #include "../Panel_Hierarchy.h"
@@ -19,18 +18,17 @@ namespace CYRED
 
 namespace CYRED
 {
-	class Hierarchy_Object : public Panel_Hierarchy, public IEventListener
+	class Hierarchy_Isolate : public Panel_Hierarchy
 	{
-		cchar* const PANEL_TITLE = "Object Hierarchy";
+		cchar* const PANEL_TITLE = "Isolate Hierarchy";
 
 
 	public:
-		Hierarchy_Object() {}
-		virtual ~Hierarchy_Object() {}
+		Hierarchy_Isolate() {}
+		virtual ~Hierarchy_Isolate() {}
 
 
 	public:
-		void Finalize			()										override;
 		void OnEvent			( int eventType, void* eventData )		override;
 
 		void A_ItemClicked		( QTreeWidgetItem* item, int column )	override;
@@ -45,11 +43,11 @@ namespace CYRED
 	private:
 		Menu_GameObject*	_menuGameObject;
 		GameObject*			_target;
+		int					_openEventType;
 
 
 	private:
 		CustomTreeItem*		_FindGameObjectItem		( int uid );
-		void				_CreateRightClickMenu	();
 		void				_ResetHierarchy			();
 	};
 }

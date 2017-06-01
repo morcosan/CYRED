@@ -68,14 +68,19 @@ void EventManagerImpl::EmitEvent( int eventType, void* eventData )
 {
 	ASSERT( _isInitialized );
 
-	// check if event exists
-	if ( !_listeners.Has( eventType ) ) {
-		return;
+	// send event to all listeners
+	if ( _listeners.Has( eventType ) ) {
+		DataArray<IEventListener*>& list = _listeners.Get( eventType );
+		for ( int i = 0; i < list.Size(); i++ ) {
+			list[i]->OnEvent( eventType, eventData );
+		}
 	}
 
-	// send event to all listeners
-	DataArray<IEventListener*>& list = _listeners.Get( eventType );
-	for ( int i = 0; i < list.Size(); i++ ) {
-		list[i]->OnEvent( eventType, eventData );
+	// send this event to all
+	if ( eventType != EventType::ALL && _listeners.Has( EventType::ALL ) ) {
+		DataArray<IEventListener*>& list = _listeners.Get( EventType::ALL );
+		for ( int i = 0; i < list.Size(); i++ ) {
+			list[i]->OnEvent( eventType, eventData );
+		}
 	}
 }

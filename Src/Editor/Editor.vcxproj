@@ -111,7 +111,7 @@
     <ClCompile Include="Sections\Menus\Menu_CompSettings.cpp" />
     <ClCompile Include="Sections\Menus\Menu_GameObject.cpp" />
     <ClCompile Include="Sections\Menus\Menu_Scene.cpp" />
-    <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Object.cpp" />
+    <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Isolate.cpp" />
     <ClCompile Include="Sections\Panels\Panel_Console.cpp" />
     <ClCompile Include="Sections\Panels\Panel_Hierarchy.cpp" />
     <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Prefab.cpp" />
@@ -181,7 +181,7 @@
     <ClInclude Include="Sections\Menus\Menu_CompSettings.h" />
     <ClInclude Include="Sections\Menus\Menu_GameObject.h" />
     <ClInclude Include="Sections\Menus\Menu_Scene.h" />
-    <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Object.h" />
+    <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Isolate.h" />
     <ClInclude Include="Sections\Panels\Panel_Console.h" />
     <ClInclude Include="Sections\Panels\Panel_Hierarchy.h" />
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Prefab.h" />

@@ -18,11 +18,12 @@ using namespace CYRED;
 void CustomTree::mousePressEvent( QMouseEvent* event )
 {
 	QModelIndex item = indexAt( event->pos() );
-	bool selected = selectionModel()->isSelected( indexAt( event->pos() ) );
 	QTreeView::mousePressEvent( event );
-	if ( (item.row() == -1 && item.column() == -1) || selected ) {
+
+	// check if clicked outside any item
+	if ( item.row() == -1 && item.column() == -1 ) {
 		this->clearSelection();
-		// send event
+		// unselect everything
 		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 	}
 }

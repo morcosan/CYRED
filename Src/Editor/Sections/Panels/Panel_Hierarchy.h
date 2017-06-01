@@ -5,6 +5,7 @@
 #include "CyredRequired.h"
 #include "CyredBuildingBlocks.h"
 
+#include "../../Utils/EditorEvents.h"
 #include "../Panel.h"
 
 class QMenu;
@@ -19,9 +20,9 @@ namespace CYRED
 
 namespace CYRED
 {
-	ABSTRACT class Panel_Hierarchy : public Panel
+	ABSTRACT class Panel_Hierarchy : public Panel, public IEventListener
 	{
-		const Vector2	MIN_SIZE			= Vector2( 150, 200 );
+		const Vector2	MIN_SIZE = Vector2( 150, 200 );
 
 
 	public:
@@ -31,11 +32,13 @@ namespace CYRED
 
 	public:
 		void Initialize	()	override;
+		void Finalize	()	override;
 
 
 	public:
 		virtual void A_ItemClicked		( QTreeWidgetItem* item, int column )	PURE_VIRTUAL;
 		virtual void A_RightClickMenu	( const QPoint& pos )					PURE_VIRTUAL;
+		virtual void OnAction_Isolate	( GameObject* gameObject )				PURE_VIRTUAL;
 
 
 	public:

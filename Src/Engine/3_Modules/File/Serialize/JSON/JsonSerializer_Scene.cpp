@@ -70,10 +70,15 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
-			scene->GetRoot()->AddChildNode( gameObject );
-
-			JsonSerializer_GameObject serializer;
-			serializer.FromJson( gameObjects[i], gameObject, DeserFlag::FULL );
+			gameObject->SetEmitEvents( FALSE );
+			{
+				// add to scene
+				scene->GetRoot()->AddChildNode( gameObject );
+				// extract data
+				JsonSerializer_GameObject serializer;
+				serializer.FromJson( gameObjects[i], gameObject, DeserFlag::FULL );
+			}
+			gameObject->SetEmitEvents( TRUE );
 		}
 	}
 

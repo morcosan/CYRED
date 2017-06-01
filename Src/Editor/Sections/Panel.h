@@ -22,8 +22,8 @@ namespace CYRED
 			, PREFAB_HIERARCHY
 			, PREFAB_VIEWPORT
 			, GAME_VIEWPORT
-			, OBJECT_HIERARCHY
-			, OBJECT_VIEWPORT
+			, ISOLATE_HIERARCHY
+			, ISOLATE_VIEWPORT
 		};
 	}
 	typedef Enum_PanelType::Enum	PanelType;

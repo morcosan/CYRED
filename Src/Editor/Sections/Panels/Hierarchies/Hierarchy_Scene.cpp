@@ -14,7 +14,6 @@
 #include "../../../Utils/CustomTreeItem.h"
 #include "../../Menus/Menu_GameObject.h"
 #include "../../Menus/Menu_Scene.h"
-#include "../../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -27,38 +26,14 @@ using namespace CYRED;
 
 void Hierarchy_Scene::_OnInitialize()
 {
-	ASSERT( !_isInitialized );
-	_isInitialized = TRUE;
+	// create menus
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::SCENE_UPDATE );
+	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree, this );
 
-	_CreateRightClickMenu();
-
-	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_OPEN );
-	EventManager::Singleton()->RegisterListener( this, EventType::SCENE_CLOSE );
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
-}
-
-
-void Hierarchy_Scene::Finalize()
-{
-	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_OPEN );
-	EventManager::Singleton()->UnregisterListener( this, EventType::SCENE_CLOSE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
+	// add menu to tree
+	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
+	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
+					  this, &Hierarchy_Scene::A_RightClickMenu );
 }
 
 
@@ -66,8 +41,6 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
 		case EventType::SCENE_UPDATE:
-		case EventType::SCENE_OPEN:
-		case EventType::SCENE_CLOSE:
 		case EventType::GAMEOBJECT_UPDATE:
 		{
 			// check state
@@ -76,6 +49,16 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			_ResetHierarchy();
 			// change color
 			ColorizePanel( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
+			break;
+		}
+
+		case EventType::SCENE_CLOSE:
+		case EventType::SCENE_OPEN:
+		{
+			// update 
+			_ResetHierarchy();
+			// change color
+			ColorizePanel( FALSE );
 			break;
 		}
 			
@@ -107,18 +90,17 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 		
 		case EditorEventType::ASSET_SELECT:
 		case EditorEventType::PREFAB_SELECT:
+		case EditorEventType::ISOLATE_SELECT:
 			_qtTree->setCurrentItem( NULL );
 			break;
 
 		case EditorEventType::GAMEOBJECT_SELECT:
-		{
 			if ( eventData != NULL ) {
 				GameObject* gameObject = CAST_S( GameObject*, eventData );
 				CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 				_qtTree->setCurrentItem( treeItem );
 			}
 			break;
-		}
 			
 		case EventType::ASSET_RENAME:
 		{
@@ -173,20 +155,6 @@ CustomTreeItem* Hierarchy_Scene::_FindSceneItem( cchar* uid )
 	}
 
 	return NULL;
-}
-
-
-void Hierarchy_Scene::_CreateRightClickMenu()
-{
-	ASSERT( _isInitialized );
-
-	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EventType::SCENE_UPDATE );
-	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree, this );
-
-	// add menu to tree
-	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
-	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, this, &Hierarchy_Scene::A_RightClickMenu );
 }
 
 
@@ -250,6 +218,13 @@ void Hierarchy_Scene::A_RightClickMenu( const QPoint& pos )
 			_menuGameObject->Open( pos, FALSE );
 		}
 	}
+}
+
+
+void Hierarchy_Scene::OnAction_Isolate( GameObject* gameObject )
+{
+	// isolate object
+	EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
 }
 
 

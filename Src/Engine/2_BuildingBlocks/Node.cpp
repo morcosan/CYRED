@@ -15,6 +15,7 @@ Node::Node()
 
 Node::Node( cchar* name ) 
 	: _name( name )
+	, _parentNode( NULL )
 {
 }
 

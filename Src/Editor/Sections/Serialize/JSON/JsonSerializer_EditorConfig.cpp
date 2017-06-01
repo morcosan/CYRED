@@ -88,11 +88,11 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 			else if ( type == P_GAME_VIEWPORT ) {
 				panel.type = PanelType::GAME_VIEWPORT;
 			}
-			else if ( type == P_OBJECT_HIERARCHY ) {
-				panel.type = PanelType::OBJECT_HIERARCHY;
+			else if ( type == P_ISOLATE_HIERARCHY ) {
+				panel.type = PanelType::ISOLATE_HIERARCHY;
 			}
-			else if ( type == P_OBJECT_VIEWPORT ) {
-				panel.type = PanelType::OBJECT_VIEWPORT;
+			else if ( type == P_ISOLATE_VIEWPORT ) {
+				panel.type = PanelType::ISOLATE_VIEWPORT;
 			}
 
 			// add split from
@@ -122,11 +122,11 @@ void JsonSerializer_EditorConfig::FromJson( rapidjson::Value& json, OUT void* ob
 				else if ( splitFrom == P_SCENE_VIEWPORT ) {
 					panel.splitFrom = PanelType::SCENE_VIEWPORT;
 				}
-				else if ( splitFrom == P_OBJECT_HIERARCHY ) {
-					panel.splitFrom = PanelType::OBJECT_HIERARCHY;
+				else if ( splitFrom == P_ISOLATE_HIERARCHY ) {
+					panel.splitFrom = PanelType::ISOLATE_HIERARCHY;
 				}
-				else if ( splitFrom == P_OBJECT_VIEWPORT ) {
-					panel.splitFrom = PanelType::OBJECT_VIEWPORT;
+				else if ( splitFrom == P_ISOLATE_VIEWPORT ) {
+					panel.splitFrom = PanelType::ISOLATE_VIEWPORT;
 				}
 			}
 

@@ -23,10 +23,9 @@
 using namespace CYRED;
 
 
-Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, int eventType )
+Menu_GameObject::Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel )
 	: QMenu( qtTree )
 	, _qtTree( qtTree )
-	, _eventType( eventType )
 	, _panel( panel )
 {
 }
@@ -60,11 +59,14 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 
 	this->addSeparator();
 
+	QAction* actionIsolate = this->addAction( MENU_ISOLATE );
+
 	if ( !isPrefab ) {
 		QAction* actionCreatePrefab = this->addAction( MENU_CREATE_PREFAB );
-		this->addSeparator();
 		QObject::connect( actionCreatePrefab, &QAction::triggered, this, &Menu_GameObject::A_CreatePrefab );
 	}
+
+	this->addSeparator();
 
 	QMenu* menu_AddComp				= this->addMenu( MENU_ADD_COMPONENT );
 	QAction* actionComp_Transform	= menu_AddComp->addAction( MENU_COMP_TRANSFORM );
@@ -98,6 +100,7 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 
 	// add callbacks
 	QObject::connect( actionRename,			&QAction::triggered, this, &Menu_GameObject::A_Rename );
+	QObject::connect( actionIsolate,		&QAction::triggered, this, &Menu_GameObject::A_Isolate );
 	QObject::connect( actionComp_Transform,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Transform );
 	QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Camera );
 	QObject::connect( actionComp_Light,		&QAction::triggered, this, &Menu_GameObject::A_AddComp_Light );
@@ -231,8 +234,7 @@ void Menu_GameObject::A_Duplicate()
 		// update name
 		clone->SetName( treeItem->node->GetName() );
 
-		// send event
-		EventManager::Singleton()->EmitEvent( _eventType, NULL );
+		// select object
 		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, clone );
 	}
 }
@@ -246,9 +248,18 @@ void Menu_GameObject::A_Delete()
 	// destroy object
 	_DestroyGameObject( CAST_S( GameObject*, treeItem->node ) );
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// unselect object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
+}
+
+
+void Menu_GameObject::A_Isolate()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->node != NULL );
+
+	// isolate object
+	_panel->OnAction_Isolate( CAST_S( GameObject*, treeItem->node ) );
 }
 
 
@@ -303,8 +314,7 @@ void Menu_GameObject::A_GO_CreateEmpty()
 	// create gameobject
 	GameObject* newObject = _CreateGameObject( treeItem->node );
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -320,8 +330,7 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -342,8 +351,7 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 	camera->SetNearClipping( 0.1f );
 	camera->SetFarClipping( 200.0f );
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -361,8 +369,7 @@ void Menu_GameObject::A_GO_Create3D_Light()
 	// add light
 	newObject->AddComponent<Light>();
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -380,8 +387,7 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 	// add mesh render
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -399,8 +405,7 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 	// add morph render
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -418,8 +423,7 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 	// add particle emitter
 	newObject->AddComponent<ParticleEmitter>();
 
-	// send event
-	EventManager::Singleton()->EmitEvent( _eventType, NULL );
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 

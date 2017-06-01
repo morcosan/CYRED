@@ -8,6 +8,7 @@
 #include "../../Utils/CustomTreeItem.h"
 #include "../../EditorApp.h"
 
+
 using namespace CYRED;
 
 
@@ -32,6 +33,16 @@ void Panel_Hierarchy::Initialize()
 
 	// callback
 	_OnInitialize();
+
+	// register events
+	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
+}
+
+
+void Panel_Hierarchy::Finalize()
+{
+	// unregister events
+	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
 }
 
 

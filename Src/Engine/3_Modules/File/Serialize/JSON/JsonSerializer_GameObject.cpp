@@ -184,8 +184,14 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 		for ( int i = 0; i < CAST_S(int, childNodes.Size()); i++ ) {
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* childObject = Memory::Alloc<GameObject>( NULL, uid );
-			gameObject->AddChildNode( childObject );
-			this->FromJson( childNodes[i], childObject, DeserFlag::FULL );
+			childObject->SetEmitEvents( FALSE );
+			{
+				// add to parent
+				gameObject->AddChildNode( childObject );
+				// extract data
+				this->FromJson( childNodes[i], childObject, DeserFlag::FULL );
+			}
+			childObject->SetEmitEvents( TRUE );
 		}
 	}
 

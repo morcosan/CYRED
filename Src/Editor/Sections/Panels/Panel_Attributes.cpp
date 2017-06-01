@@ -103,15 +103,7 @@ void Panel_Attributes::Initialize()
 	_ClearPanel();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::EDITOR_PROJ_SETTINGS );
+	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
 }
 
 
@@ -120,15 +112,7 @@ void Panel_Attributes::Finalize()
 	ASSERT( _isInitialized );
 
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::EDITOR_PROJ_SETTINGS );
+	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
 }
 
 
@@ -159,6 +143,7 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
 		case EditorEventType::GAMEOBJECT_SELECT:
+		case EditorEventType::ISOLATE_SELECT:
 		{
 			_target = eventData;
 

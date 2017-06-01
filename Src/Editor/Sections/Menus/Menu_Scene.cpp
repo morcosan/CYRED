@@ -161,7 +161,9 @@ void Menu_Scene::A_GO_CreateEmpty()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->asset != NULL );
 
-	SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -173,6 +175,9 @@ void Menu_Scene::A_GO_Create3D_Pivot()
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->AddComponent<Transform>();
 	newObject->SetName( MENU_GO_3D_PIVOT );
+
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -189,6 +194,9 @@ void Menu_Scene::A_GO_Create3D_Camera()
 	camera->SetFovYAngle( 60 );
 	camera->SetNearClipping( 0.1f );
 	camera->SetFarClipping( 200.0f );
+
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -215,6 +223,9 @@ void Menu_Scene::A_GO_Create3D_Mesh()
 	newObject->SetName( MENU_GO_3D_MESH );
 
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
+
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -228,6 +239,9 @@ void Menu_Scene::A_GO_Create3D_Morph()
 	newObject->SetName( MENU_GO_3D_MORPH );
 
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
+
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -243,4 +257,7 @@ void Menu_Scene::A_GO_Particles_Emitter()
 	tran->RotateByWorld( Vector3( 90, 0, 0 ) );
 
 	newObject->AddComponent<ParticleEmitter>();
+
+	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }

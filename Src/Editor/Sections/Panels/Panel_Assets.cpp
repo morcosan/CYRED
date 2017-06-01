@@ -190,26 +190,14 @@ void Panel_Assets::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_OPEN );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_CLOSE );
+	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
 }
 
 
 void Panel_Assets::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_OPEN );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_CLOSE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
 }
 
 

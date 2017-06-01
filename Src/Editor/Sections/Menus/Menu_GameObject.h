@@ -34,6 +34,7 @@ namespace CYRED
 		cchar* const	MSG_SAVE_PREFAB			= "Save Prefab";
 		cchar* const	FILE_FILTER_PREFAB		= "Prefab (*%s)";
 	
+		cchar* const	MENU_ISOLATE			= "Isolate";
 		cchar* const	MENU_CREATE_PREFAB		= "Create Prefab";
 	
 		cchar*	const	MENU_GO					= "Create Child";
@@ -58,7 +59,7 @@ namespace CYRED
 
 
 	public:
-		Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel, int eventType );
+		Menu_GameObject( QTreeWidget* qtTree, Panel_Hierarchy* panel );
 		virtual ~Menu_GameObject() {}
 
 
@@ -75,6 +76,7 @@ namespace CYRED
 		void A_Duplicate				();
 		void A_Delete					();
 	
+		void A_Isolate					();
 		void A_CreatePrefab				();
 	
 		void A_GO_CreateEmpty			();
@@ -96,7 +98,6 @@ namespace CYRED
 
 	private:
 		QTreeWidget*		_qtTree;
-		int					_eventType;
 		Panel_Hierarchy*	_panel;
 
 

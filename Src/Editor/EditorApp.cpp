@@ -21,7 +21,7 @@
 #include "Sections\Panels\Panel_Console.h"
 #include "Sections\Panels\Hierarchies\Hierarchy_Scene.h"
 #include "Sections\Panels\Hierarchies\Hierarchy_Prefab.h"
-#include "Sections\Panels\Hierarchies\Hierarchy_Object.h"
+#include "Sections\Panels\Hierarchies\Hierarchy_Isolate.h"
 #include "Sections\Panels\Viewports\Viewport_Scene.h"
 #include "Sections\Panels\Viewports\Viewport_Prefab.h"
 #include "Sections\Panels\Viewports\Viewport_Game.h"
@@ -362,8 +362,8 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 			panel->Initialize();
 			break;
 
-		case PanelType::OBJECT_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Object>();
+		case PanelType::ISOLATE_HIERARCHY:
+			panel = Memory::Alloc<Hierarchy_Isolate>();
 			panel->Initialize();
 			break;
 	}

@@ -13,7 +13,6 @@
 #include "../../../Utils/CustomTree.h"
 #include "../../../Utils/CustomTreeItem.h"
 #include "../../Menus/Menu_GameObject.h"
-#include "../../../Utils/EditorEvents.h"
 
 #include "QtWidgets\qtreewidget.h"
 #include "QtGui\qevent.h"
@@ -26,38 +25,13 @@ using namespace CYRED;
 
 void Hierarchy_Prefab::_OnInitialize()
 {
-	ASSERT( !_isInitialized );
-	_isInitialized = TRUE;
+	// create menus
+	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EditorEventType::PREFAB_UPDATE );
 
-	_CreateRightClickMenu();
-
-	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_OPEN );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_CLOSE );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-}
-
-
-void Hierarchy_Prefab::Finalize()
-{
-	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EventType::COMPONENT_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_RENAME );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_OPEN );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_CLOSE );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
+	// add menu to tree
+	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
+	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 
+					  this, &Hierarchy_Prefab::A_RightClickMenu );
 }
 
 
@@ -126,6 +100,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 
 		case EditorEventType::ASSET_SELECT:
 		case EditorEventType::SCENE_SELECT:
+		case EditorEventType::ISOLATE_SELECT:
 			_qtTree->setCurrentItem( NULL );
 			break;
 
@@ -192,19 +167,6 @@ CustomTreeItem* Hierarchy_Prefab::_FindPrefabItem( cchar* uid )
 }
 
 
-void Hierarchy_Prefab::_CreateRightClickMenu()
-{
-	ASSERT( _isInitialized );
-
-	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this, EditorEventType::PREFAB_UPDATE );
-
-	// add menu to tree
-	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
-	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, this, &Hierarchy_Prefab::A_RightClickMenu );
-}
-
-
 void Hierarchy_Prefab::_ResetHierarchy()
 {
 	// delete all items
@@ -254,6 +216,13 @@ void Hierarchy_Prefab::A_RightClickMenu( const QPoint& pos )
 		// open menu
 		_menuGameObject->Open( pos, (treeItem->asset != NULL) );
 	}
+}
+
+
+void Hierarchy_Prefab::OnAction_Isolate( GameObject* gameObject )
+{
+	// isolate object
+	EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
 }
 
 
