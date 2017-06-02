@@ -37,7 +37,7 @@ void MenuBar::AddSkins( const DataArray<cchar*>& skinsName, int defaultIndex )
 {
 	QMenu* menu = this->addMenu( SKINS_MENU );
 
-	QActionGroup* actionGroup = Memory::Alloc<QActionGroup>( this );
+	QActionGroup* actionGroup = new QActionGroup( this );
 
 	// connect the whole group
 	QObject::connect( actionGroup, &QActionGroup::triggered, this, &MenuBar::A_Skins );
@@ -127,7 +127,7 @@ void MenuBar::A_Scene_CloseAll()
 void MenuBar::A_Prefab_New()
 {
 	// create temporary prefab
-	Prefab* prefab = Memory::Alloc<Prefab>();
+	Prefab* prefab = new Prefab();
 	prefab->CreateRoot();
 	prefab->SetEmitEvents( FALSE );
 	prefab->SetName( PREFAB_MENU );
@@ -168,8 +168,8 @@ void CYRED::MenuBar::A_Magic()
 	//GameObject* newObject = SceneManager::Singleton()->NewGameObject();
 	//newObject->SetName( "magic" );
 
-	//Transform* tran = newObject->AddComponent<Transform>();
-	//MorphRendering* morphR = newObject->AddComponent<MorphRendering>();
+	//Transform* tran = newObject->AddComponent<Transform();
+	//MorphRendering* morphR = newObject->AddComponent<MorphRendering();
 	//morphR->SetMaterial( AssetManager::Singleton()->GetMaterial( "ERRZIeoxy0mp9FUDxH0drcMwNhWnrGvE" ) );
 	//morphR->SetMorph( AssetManager::Singleton()->GetMorph( "AKMPXdCG15fh3fVsYxOAREnyy6jnciIN" ) );
 }

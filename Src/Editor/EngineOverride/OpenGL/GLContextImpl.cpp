@@ -13,7 +13,7 @@ using namespace CYRED;
 
 GLContextImpl::GLContextImpl( QWindow* qtWindow )
 	: _qtWindow( qtWindow )
-	, _qtContext( Memory::Alloc<QOpenGLContext>() ) 
+	, _qtContext( new QOpenGLContext() ) 
 {
 }
 

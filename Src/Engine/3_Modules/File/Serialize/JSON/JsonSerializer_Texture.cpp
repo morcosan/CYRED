@@ -119,6 +119,7 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 			texture->SetTextureType( TextureType::CUBE_MAP );
 		}
 	}
+
 	if ( json.HasMember( LOAD_TYPE ) ) {
 		FiniteString type( json[LOAD_TYPE].GetString() );
 
@@ -129,9 +130,11 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 			texture->SetLoadType( TextureLoadType::EXTERNAL );
 		}
 	}
+
 	if ( json.HasMember( HAS_MIPMAP ) ) {
 		texture->SetHasMipmap( json[HAS_MIPMAP].GetBool() );
 	}
+
 	if ( json.HasMember( CLEAR_BUFFER ) ) {
 		texture->SetClearBufferOnBind( json[CLEAR_BUFFER].GetBool() );
 	}
@@ -139,15 +142,12 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 	switch ( texture->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
-		{
 			if ( json.HasMember( FILE_PATH ) ) {
 				texture->SetImagePath( 0, json[FILE_PATH].GetString() );
 			}
 			break;
-		}
 
 		case TextureType::CUBE_MAP:
-		{
 			if ( json.HasMember( FILE_PATH_POSX ) )	{
 				texture->SetImagePath( 0, json[FILE_PATH_POSX].GetString() );
 			}
@@ -167,7 +167,6 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 				texture->SetImagePath( 5, json[FILE_PATH_NEGZ].GetString() );
 			}
 			break;
-		}
 	}
 
 	texture->SetEmitEvents( emitEvents );

@@ -8,7 +8,7 @@
                 "transform": {
                     "enabled": true,
                     "position_world": {
-                        "x": 0.0,
+                        "x": -2.0,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -37,7 +37,7 @@
                         "transform": {
                             "enabled": true,
                             "position_world": {
-                                "x": 0.0,
+                                "x": -2.0,
                                 "y": 2.0,
                                 "z": 0.0
                             },
@@ -121,6 +121,16 @@
                     "enabled": true,
                     "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
                     "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
+                },
+                "rigid_body": {
+                    "enabled": true,
+                    "shape_type": "BOX",
+                    "shape_size": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    },
+                    "mass": 1.0
                 }
             }
         }

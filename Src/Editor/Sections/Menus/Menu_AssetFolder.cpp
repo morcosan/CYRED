@@ -140,7 +140,7 @@ void Menu_AssetFolder::A_Delete()
 	QDir( item->whatsThis(1) ).removeRecursively();
 
 	_qtTree->setCurrentItem( NULL );
-	Memory::Free( item );
+	PTR_FREE( item );
 }
 
 
@@ -174,7 +174,7 @@ void Menu_AssetFolder::A_Create_Folder()
 	while ( true );
 
 	// create folder
-	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+	CustomTreeItem* treeItem = new CustomTreeItem();
 	treeItem->setText( 0, folderName.GetChar() );
 	treeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	treeItem->setWhatsThis( 1, folderPath.GetChar() ); 
@@ -211,7 +211,7 @@ void Menu_AssetFolder::A_Create_EmptyFile()
 	FileManager::Singleton()->WriteFile( dirPath.toUtf8().constData(), "" );
 
 	// add tree item
-	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+	CustomTreeItem* treeItem = new CustomTreeItem();
 	treeItem->setText( 0, MENU_EMPTY_FILE );
 	treeItem->setWhatsThis( 1, dirPath ); 
 	treeItem->setFlags( Qt::ItemIsSelectable | 
@@ -358,7 +358,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 	switch ( assetType ) {
 		case AssetType::MATERIAL:
 		{
-			Material* material = Memory::Alloc<Material>();
+			Material* material = new Material();
 			material->SetEmitEvents( FALSE );
 			material->SetDirPath( dirPath );
 			material->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -374,7 +374,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 		case AssetType::MESH:
 		{
-			Mesh* mesh = Memory::Alloc<Mesh>();
+			Mesh* mesh = new Mesh();
 			mesh->SetEmitEvents( FALSE );
 			mesh->SetDirPath( dirPath );
 			mesh->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -390,7 +390,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 		case AssetType::MORPH:
 		{
-			Morph* morph = Memory::Alloc<Morph>();
+			Morph* morph = new Morph();
 			morph->SetEmitEvents( FALSE );
 			morph->SetDirPath( dirPath );
 			morph->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -406,7 +406,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 		case AssetType::SCRIPT:
 		{
-			Script* script = Memory::Alloc<Script>();
+			Script* script = new Script();
 			script->SetEmitEvents( FALSE );
 			script->SetDirPath( dirPath );
 			script->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -422,7 +422,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 		case AssetType::SHADER:
 		{
-			Shader* shader = Memory::Alloc<Shader>();
+			Shader* shader = new Shader();
 			shader->SetEmitEvents( FALSE );
 			shader->SetDirPath( dirPath );
 			shader->SetUniqueID( Random::GenerateUniqueID().GetChar() );
@@ -438,7 +438,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 		case AssetType::TEXTURE:
 		{
-			Texture* texture = Memory::Alloc<Texture>();
+			Texture* texture = new Texture();
 			texture->SetEmitEvents( FALSE );
 			texture->SetDirPath( dirPath );
 			texture->SetUniqueID( Random::GenerateUniqueID().GetChar() );

@@ -32,7 +32,7 @@ void Prefab::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Prefab>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -55,7 +55,7 @@ void Prefab::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Prefab>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
 
@@ -68,7 +68,7 @@ void Prefab::LoadFullFile()
 void Prefab::ClearAsset()
 {
 	// delete root
-	Memory::Free( _root );
+	PTR_FREE( _root );
 	_root = NULL;
 
 	_isTemporary = TRUE; 
@@ -81,7 +81,7 @@ void Prefab::ClearAsset()
 
 Asset* Prefab::Clone()
 {
-	return _BuildClone( Memory::Alloc<Prefab>() );
+	return _BuildClone( new Prefab() );
 }
 
 
@@ -103,10 +103,10 @@ GameObject* Prefab::GetRoot() const
 void Prefab::CreateRoot()
 {
 	// delete root
-	Memory::Free( _root );
+	PTR_FREE( _root );
 	_root = NULL;
 
-	_root = Memory::Alloc<GameObject>( _name.GetChar(), SceneManager::Singleton()->NextGameObjectUID() );
+	_root = new GameObject( _name.GetChar(), SceneManager::Singleton()->NextGameObjectUID() );
 }
 
 

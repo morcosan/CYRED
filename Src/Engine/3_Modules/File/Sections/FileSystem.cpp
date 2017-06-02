@@ -31,7 +31,7 @@ char* FileSystem::ReadFile( cchar* filePath, OUT int& fileSize )
 	fseek( file, 0, SEEK_SET );
 
 	// read file data
-	char* fileBuffer = Memory::AllocArray<char>( fileSize + 1 );
+	char* fileBuffer = new char[fileSize + 1];
 	fread( fileBuffer, sizeof(char), fileSize, file );
 	fileBuffer[fileSize] = 0;
 

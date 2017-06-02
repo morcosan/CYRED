@@ -11,6 +11,7 @@
 #include "../../../Render/Components/MeshRendering.h"
 #include "../../../Render/Components/MorphRendering.h"
 #include "../../../Script/Components/Scripter.h"
+#include "../../../Physics/Components/RigidBody.h"
 #include "JsonSerializer_Transform.h"
 #include "JsonSerializer_Camera.h"
 #include "JsonSerializer_Light.h"
@@ -18,6 +19,7 @@
 #include "JsonSerializer_MeshRendering.h"
 #include "JsonSerializer_MorphRendering.h"
 #include "JsonSerializer_Scripter.h"
+#include "JsonSerializer_RigidBody.h"
 #include "../../../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../../Scene/SceneManager.h"
 
@@ -92,6 +94,12 @@ rapidjson::Value JsonSerializer_GameObject::ToJson( const void* object )
 									  serializer.ToJson( comp ),
 									  _al );
 			}
+			else if ( comp->GetComponentType() == ComponentType::RIGID_BODY ) {
+				JsonSerializer_RigidBody serializer;
+				objectNode.AddMember( rapidjson::StringRef( RIGID_BODY ), 
+									  serializer.ToJson( comp ),
+									  _al );
+			}
 		}
 		json.AddMember( rapidjson::StringRef( COMPONENTS ), objectNode, _al );
 	}
@@ -157,23 +165,29 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 				JsonSerializer_ParticleEmitter serializer;
 				serializer.FromJson( iter->value, emitter, DeserFlag::FULL );
 			}
-			if ( comp == MESH_RENDERING ) {
+			else if ( comp == MESH_RENDERING ) {
 				MeshRendering* meshRender = gameObject->AddComponent<MeshRendering>();
 
 				JsonSerializer_MeshRendering serializer;
 				serializer.FromJson( iter->value, meshRender, DeserFlag::FULL );
 			}
-			if ( comp == MORPH_RENDERING ) {
+			else if ( comp == MORPH_RENDERING ) {
 				MorphRendering* morphRender = gameObject->AddComponent<MorphRendering>();
 
 				JsonSerializer_MorphRendering serializer;
 				serializer.FromJson( iter->value, morphRender, DeserFlag::FULL );
 			}
-			if ( comp == SCRIPTER ) {
+			else if ( comp == SCRIPTER ) {
 				Scripter* scripter = gameObject->AddComponent<Scripter>();
 
 				JsonSerializer_Scripter serializer;
 				serializer.FromJson( iter->value, scripter, DeserFlag::FULL );
+			}
+			else if ( comp == RIGID_BODY ) {
+				RigidBody* rigidBody = gameObject->AddComponent<RigidBody>();
+
+				JsonSerializer_RigidBody serializer;
+				serializer.FromJson( iter->value, rigidBody, DeserFlag::FULL );
 			}
 		}
 	}
@@ -183,7 +197,7 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 
 		for ( int i = 0; i < CAST_S(int, childNodes.Size()); i++ ) {
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
-			GameObject* childObject = Memory::Alloc<GameObject>( NULL, uid );
+			GameObject* childObject = new GameObject( NULL, uid );
 			childObject->SetEmitEvents( FALSE );
 			{
 				// add to parent

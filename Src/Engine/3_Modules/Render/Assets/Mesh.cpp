@@ -56,7 +56,7 @@ void Mesh::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Mesh>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -76,7 +76,7 @@ void Mesh::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Mesh>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	BindToGPU();
 
@@ -105,7 +105,7 @@ void Mesh::ClearAsset()
 
 Asset* Mesh::Clone()
 {
-	return _BuildClone( Memory::Alloc<Mesh>() );
+	return _BuildClone( new Mesh() );
 }
 
 
@@ -135,7 +135,7 @@ void Mesh::BindToGPU()
 			}
 
 			// free string memory
-			Memory::FreeArray( fileData );
+			ARRAY_FREE( fileData );
 
 			// store total indices
 			_numIndices = _indices.Size();
@@ -187,7 +187,7 @@ void Mesh::BindToGPU()
 			}
 
 			// free string memory
-			Memory::FreeArray( fileData );
+			ARRAY_FREE( fileData );
 
 			// store total indices
 			_numIndices = _indices.Size();

@@ -48,7 +48,7 @@ void Script::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Script>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -68,7 +68,7 @@ void Script::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Script>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
 
@@ -90,7 +90,7 @@ void Script::ClearAsset()
 
 Asset* Script::Clone()
 {
-	return _BuildClone( Memory::Alloc<Script>() );
+	return _BuildClone( new Script() );
 }
 
 
@@ -277,7 +277,7 @@ void Script::LoadLuaFiles( bool clearVars )
 
 		// recreate dictionary
 		lua_State* L = ScriptManager::Singleton()->GetLuaState();
-		_luaVarsRef = Memory::Alloc<luabridge::LuaRef>( L );
+		_luaVarsRef = new luabridge::LuaRef( L );
 		(*_luaVarsRef) = luabridge::newTable( L );
 	}
 
@@ -290,7 +290,7 @@ void Script::LoadLuaFiles( bool clearVars )
 		// load lua
 		_LoadLuaData( fileData );
 		// free memory for file
-		Memory::FreeArray( fileData );
+		ARRAY_FREE( fileData );
 	}
 }
 
@@ -351,14 +351,14 @@ void Script::_AddLuaFunc( cchar* funcName )
 		// add func
 		if ( _luaFuncList.Has(funcName) ) {
 			_luaFuncList.Get( funcName ).Add( LuaFunc {
-				Memory::Alloc<luabridge::LuaRef>( luaFunc ),
+				new luabridge::LuaRef( luaFunc ),
 				FALSE
 			} );
 		}
 		else {
 			DataArray<LuaFunc> funcList;
 			funcList.Add( LuaFunc {
-				Memory::Alloc<luabridge::LuaRef>( luaFunc ),
+				new luabridge::LuaRef( luaFunc ),
 				FALSE
 			} );
 			_luaFuncList.Set( funcName, funcList );

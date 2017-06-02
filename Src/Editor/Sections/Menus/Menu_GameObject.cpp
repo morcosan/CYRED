@@ -169,7 +169,7 @@ void Menu_GameObject::A_SavePrefabAs()
 
 
 		// create new prefab asset
-		Prefab* newPrefab = Memory::Alloc<Prefab>();
+		Prefab* newPrefab = new Prefab();
 		newPrefab->SetEmitEvents( FALSE );
 		newPrefab->SetName( newName );
 		newPrefab->SetDirPath( dirPath.toUtf8().constData() );
@@ -287,7 +287,7 @@ void Menu_GameObject::A_CreatePrefab()
 		// write file
 		cchar* newName = filePath.completeBaseName().toUtf8().constData();
 		// create new prefab asset
-		Prefab* prefab = Memory::Alloc<Prefab>();
+		Prefab* prefab = new Prefab();
 		prefab->SetEmitEvents( FALSE );
 		prefab->SetName( newName );
 		prefab->SetDirPath( dirPath.toUtf8().constData() );
@@ -515,7 +515,7 @@ GameObject* Menu_GameObject::_CreateGameObject( Node* parentNode )
 	// get new uid
 	int uid = SceneManager::Singleton()->NextGameObjectUID();
 	// create object
-	GameObject* newObject = Memory::Alloc<GameObject>( MENU_GO_EMPTY, uid );
+	GameObject* newObject = new GameObject( MENU_GO_EMPTY, uid );
 	// add to parent
 	newObject->SetParentNode( parentNode );
 
@@ -527,6 +527,6 @@ void Menu_GameObject::_DestroyGameObject( GameObject* gameObject )
 {
 	if ( gameObject != NULL ) {
 		gameObject->SetParentNode( NULL );
-		Memory::Free( gameObject );
+		PTR_FREE( gameObject );
 	}
 }

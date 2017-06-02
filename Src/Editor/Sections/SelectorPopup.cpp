@@ -31,10 +31,10 @@ SelectorPopup::SelectorPopup( QWidget* parent )
 						  Qt::WindowTitleHint | Qt::WindowCloseButtonHint );
 	this->setObjectName( EditorSkin::SELECTOR_POPUP );
 
-	_qtList = Memory::Alloc<QListWidget>( this );
+	_qtList = new QListWidget( this );
 	QObject::connect( _qtList, &QListWidget::itemClicked, this, &SelectorPopup::A_Apply );
 
-	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
+	QVBoxLayout* vLayout = new QVBoxLayout();
 	vLayout->setSpacing( 5 );
 	vLayout->setContentsMargins( 3, 3, 3, 5 );
 
@@ -50,7 +50,7 @@ SelectorPopup::~SelectorPopup()
 
 	while ( iter.HasNext() )
 	{
-		Memory::Free( iter.GetValue() );
+		PTR_FREE( iter.GetValue() );
 		iter.Next();
 	}
 }
@@ -80,14 +80,14 @@ void SelectorPopup::DisplayPopup( cchar* type, void* qtSelectorPtr )
 
 void SelectorPopup::Initialize()
 {
-	AddSelector( Selector_Material::TYPE,	Memory::Alloc<Selector_Material>( this ) );
-	AddSelector( Selector_Mesh::TYPE,		Memory::Alloc<Selector_Mesh>( this ) );
-	AddSelector( Selector_Morph::TYPE,		Memory::Alloc<Selector_Morph>( this ) );
-	AddSelector( Selector_Shader::TYPE,		Memory::Alloc<Selector_Shader>( this ) );
-	AddSelector( Selector_Texture::TYPE,	Memory::Alloc<Selector_Texture>( this ) );
-	AddSelector( Selector_Scene::TYPE,		Memory::Alloc<Selector_Scene>( this ) );
-	AddSelector( Selector_Script::TYPE,		Memory::Alloc<Selector_Script>( this ) );
-	AddSelector( Selector_Prefab::TYPE,		Memory::Alloc<Selector_Prefab>( this ) );
+	AddSelector( Selector_Material::TYPE,	new Selector_Material( this ) );
+	AddSelector( Selector_Mesh::TYPE,		new Selector_Mesh( this ) );
+	AddSelector( Selector_Morph::TYPE,		new Selector_Morph( this ) );
+	AddSelector( Selector_Shader::TYPE,		new Selector_Shader( this ) );
+	AddSelector( Selector_Texture::TYPE,	new Selector_Texture( this ) );
+	AddSelector( Selector_Scene::TYPE,		new Selector_Scene( this ) );
+	AddSelector( Selector_Script::TYPE,		new Selector_Script( this ) );
+	AddSelector( Selector_Prefab::TYPE,		new Selector_Prefab( this ) );
 }
 
 
@@ -95,7 +95,7 @@ void SelectorPopup::AddSelector( cchar* type, Selector* selector )
 {
 	if ( _selectors.Has( type ) )
 	{
-		Memory::Free( _selectors.Get( type ) );
+		PTR_FREE( _selectors.Get( type ) );
 	}
 	_selectors.Set( type, selector );
 }
@@ -109,7 +109,7 @@ void SelectorPopup::ClearList()
 
 void SelectorPopup::AddToList( cchar* itemName, void* itemRef )
 {
-	_ListItem* listItem = Memory::Alloc<_ListItem>();
+	_ListItem* listItem = new _ListItem();
 	listItem->setText( itemName );
 	listItem->valueRef = itemRef;
 

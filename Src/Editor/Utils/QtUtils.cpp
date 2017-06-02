@@ -16,13 +16,13 @@ void QtUtils::ClearLayout( QLayout* qtLayout )
 	while ( item = qtLayout->takeAt(0) ) {
 		if ( item->layout() ) {
 			ClearLayout( item->layout() );
-			Memory::Free( item->layout() );
+			PTR_FREE( item->layout() );
 		}
 
 		if ( item->widget() ) {
-			Memory::Free( item->widget() );
+			PTR_FREE( item->widget() );
 		}
 
-		Memory::Free( item );
+		PTR_FREE( item );
 	}
 }

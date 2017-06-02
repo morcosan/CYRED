@@ -89,5 +89,5 @@ void Menu_AssetUnknown::A_Delete()
 	QDir().remove( item->whatsThis(1) );
 
 	_qtTree->setCurrentItem( NULL );
-	Memory::Free( item );
+	PTR_FREE( item );
 }

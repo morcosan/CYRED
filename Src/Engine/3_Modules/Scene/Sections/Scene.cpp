@@ -14,14 +14,14 @@ using namespace CYRED;
 
 Scene::Scene()
 	: Asset( AssetType::SCENE )
-	, _root( Memory::Alloc<Node>() )
+	, _root( new Node() )
 {
 }
 
 
 Scene::~Scene()
 {
-	Memory::Free( _root );
+	PTR_FREE( _root );
 	_root = NULL;
 }
 
@@ -40,7 +40,7 @@ void Scene::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -64,7 +64,7 @@ void Scene::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Scene>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
 }
@@ -82,7 +82,7 @@ void Scene::ClearAsset()
 
 Asset* Scene::Clone()
 {
-	return _BuildClone( Memory::Alloc<Scene>() );
+	return _BuildClone( new Scene() );
 }
 
 
@@ -114,7 +114,7 @@ Node* Scene::GetRoot() const
 
 void Scene::ClearRoot()
 {
-	Memory::Free( _root );
-	_root = Memory::Alloc<Node>();
+	PTR_FREE( _root );
+	_root = new Node();
 }
 

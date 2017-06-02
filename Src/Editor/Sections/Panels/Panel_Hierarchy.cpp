@@ -17,7 +17,7 @@ void Panel_Hierarchy::Initialize()
 	this->setWindowTitle( _GetPanelTitle() );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	_qtTree = Memory::Alloc<CustomTree>();
+	_qtTree = new CustomTree();
 	_qtTree->setHeaderHidden( true );
 	_qtTree->setDragEnabled( true );
 	_qtTree->setDragDropMode( QAbstractItemView::InternalMove );
@@ -48,7 +48,7 @@ void Panel_Hierarchy::_RecResetHierarchy( Node* node, QTreeWidgetItem* parentIte
 {
 	ASSERT( node != NULL );
 
-	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+	CustomTreeItem* treeItem = new CustomTreeItem();
 	treeItem->node = node;
 
 	treeItem->setText( 0, node->GetName() );

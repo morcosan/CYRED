@@ -42,7 +42,7 @@ inline int	btGetVersion()
 
 #ifdef _WIN32
 
-		#if defined(__MINGW32__) || defined(__CYGWIN__) || (defined (_MSC_VER))
+		#if defined(__MINGW32__) || defined(__CYGWIN__) || (defined (_MSC_VER) && _MSC_VER < 1300)
 
 			#define SIMD_FORCE_INLINE inline
 			#define ATTRIBUTE_ALIGNED16(a) a

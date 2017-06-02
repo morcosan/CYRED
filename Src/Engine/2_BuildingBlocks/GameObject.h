@@ -95,7 +95,6 @@ namespace CYRED
 		STATIC_ASSERT( IS_BASE_OF( Component, T ), "Class must derive Component" );
 
 		T*	onlyOneAllowed;
-
 		for ( int i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
@@ -105,14 +104,14 @@ namespace CYRED
 		}
 
 		// not found so far
-		onlyOneAllowed =  Memory::Alloc<T>( this );
+		onlyOneAllowed = new T( this );
 		_components.Add( onlyOneAllowed );
 
-		Component* comp = CAST_S( Component*, onlyOneAllowed );
-		comp->SetEnabled( TRUE );
+		Component* component = CAST_S( Component*, onlyOneAllowed );
+		component->SetEnabled( TRUE );
 
 		// emit event
-		_EmitAddEvent( onlyOneAllowed );
+		_EmitAddEvent( component );
 
 		return onlyOneAllowed;
 	}
@@ -123,8 +122,7 @@ namespace CYRED
 	{
 		STATIC_ASSERT( IS_BASE_OF( Component, T ), "Class must derive Component" );
 
-		T*	onlyOneAllowed;
-
+		T* onlyOneAllowed;
 		for ( int i = 0; i < _components.Size(); ++i ) {
 			onlyOneAllowed = dynamic_cast<T*>( _components[i] );
 
@@ -132,10 +130,10 @@ namespace CYRED
 				_components.Erase( i );
 
 				// emit event
-				_EmitRemoveEvent( onlyOneAllowed );
+				_EmitRemoveEvent( CAST_S( Component*, onlyOneAllowed ) );
 
 				// free memory
-				Memory::Free( onlyOneAllowed );
+				PTR_FREE( onlyOneAllowed );
 
 				return;
 			}

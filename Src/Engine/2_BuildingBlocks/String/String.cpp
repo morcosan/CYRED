@@ -11,7 +11,7 @@ using namespace CYRED;
 
 
 String::String()
-	: _data( Memory::AllocArray<char>(1) )
+	: _data( new char[1] )
 {
 	_data[0] = '\0';
 }
@@ -21,18 +21,18 @@ String::String( cchar* other )
 {
 	if ( other == NULL )
 	{
-		_data = Memory::AllocArray<char>( 1 );
+		_data = new char[1];
 		_data[0] = '\0';
 		return;
 	}
 
-	_data = Memory::AllocArray<char>( strlen( other ) + 1 );
+	_data = new char[ strlen( other ) + 1 ];
 	strcpy( _data, other );
 }
 
 
 String::String( const String& other )
-	: _data( Memory::AllocArray<char>( other.GetLength() + 1 ) )
+	: _data( new char[ other.GetLength() + 1 ] )
 {
 	strcpy( _data, other.GetChar() );
 }
@@ -40,7 +40,7 @@ String::String( const String& other )
 
 String::~String()
 {
-	Memory::FreeArray( _data );
+	ARRAY_FREE( _data );
 }
 
 
@@ -51,8 +51,8 @@ void String::operator=( const String& other )
 		return;
 	}
 
-	Memory::FreeArray( _data );
-	_data = Memory::AllocArray<char>( other.GetLength() + 1 );
+	ARRAY_FREE( _data );
+	_data = new char[ other.GetLength() + 1 ];
 	strcpy( _data, other.GetChar() );
 }
 
@@ -61,13 +61,13 @@ void String::operator=( cchar* other )
 {
 	if ( other == NULL )
 	{
-		_data = Memory::AllocArray<char>( 1 );
+		_data = new char[1];
 		_data[0] = '\0';
 		return;
 	}
 
-	Memory::FreeArray( _data );
-	_data = Memory::AllocArray<char>( strlen( other ) + 1 );
+	ARRAY_FREE( _data );
+	_data = new char[ strlen( other ) + 1 ];
 	strcpy( _data, other );
 }
 

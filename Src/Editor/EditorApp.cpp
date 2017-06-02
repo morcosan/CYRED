@@ -85,7 +85,7 @@ DEFINE_REMOTE_SINGLETON_IMPL( EditorApp )
 
 void EditorApp::Run( int& argc, char* argv[] )
 {
-	_qtApp = Memory::Alloc<QApplication>( argc, argv );
+	_qtApp = new QApplication( argc, argv );
 
 	_CreateManagers();
 	_InitializeManagers();
@@ -141,7 +141,7 @@ void EditorApp::Run( int& argc, char* argv[] )
 
 	// it requires to be initialized after viewport is shown
 	ASSERT( mainViewport != NULL );
-	RenderManager::Singleton()->Initialize( mainViewport->GetGLContext(), Memory::Alloc<GLImpl_3_0>() );
+	RenderManager::Singleton()->Initialize( mainViewport->GetGLContext(), new GLImpl_3_0() );
 
 	// load assets, after GL init
 	if ( _panels.Has( PanelType::ASSETS ) ) {
@@ -174,7 +174,7 @@ void EditorApp::Run( int& argc, char* argv[] )
 	_shouldStopPlay = FALSE;
 
 	//! start the main loop
-	_qtTime = Memory::Alloc<QTime>();
+	_qtTime = new QTime();
 	_qtTime->start();
 
 	_shouldExit = FALSE;
@@ -208,11 +208,11 @@ void EditorApp::_CleanUp()
 	_FinalizeManagers();
 	_DestroyManagers();
 
-	Memory::Free( _inputReceiver );
-	Memory::Free( _selectorPopup );
-	Memory::Free( _qtTime );
-	Memory::Free( _qtMainWindow );
-	Memory::Free( _qtApp );
+	PTR_FREE( _inputReceiver );
+	PTR_FREE( _selectorPopup );
+	PTR_FREE( _qtTime );
+	PTR_FREE( _qtMainWindow );
+	PTR_FREE( _qtApp );
 }
 
 
@@ -274,18 +274,18 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 	switch ( type ) {
 		case PanelType::SCENE_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Scene>();
+			panel = new Hierarchy_Scene();
 			panel->Initialize();
 			break;
 
 		case PanelType::ATTRIBUTES:
-			panel = Memory::Alloc<Panel_Attributes>();
+			panel = new Panel_Attributes();
 			panel->Initialize();
 			break;
 
 		case PanelType::SCENE_VIEWPORT:
 		{
-			Viewport_Scene* viewportPanel = Memory::Alloc<Viewport_Scene>( viewportIndex );
+			Viewport_Scene* viewportPanel = new Viewport_Scene( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -294,7 +294,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 		case PanelType::PREFAB_VIEWPORT:
 		{
-			Viewport_Prefab* viewportPanel = Memory::Alloc<Viewport_Prefab>( viewportIndex );
+			Viewport_Prefab* viewportPanel = new Viewport_Prefab( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -303,7 +303,7 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 
 		case PanelType::ISOLATE_VIEWPORT:
 		{
-			Viewport_Isolate* viewportPanel = Memory::Alloc<Viewport_Isolate>( viewportIndex );
+			Viewport_Isolate* viewportPanel = new Viewport_Isolate( viewportIndex );
 			viewportPanel->Initialize( viewportIndex == 0 );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -311,17 +311,17 @@ Panel* EditorApp::_NewPanel( PanelType type, int viewportIndex )
 		}
 
 		case PanelType::ASSETS:
-			panel = Memory::Alloc<Panel_Assets>();
+			panel = new Panel_Assets();
 			panel->Initialize();
 			break;
 
 		case PanelType::CONSOLE:
-			panel = Memory::Alloc<Panel_Console>();
+			panel = new Panel_Console();
 			panel->Initialize();
 			break;
 
 		case PanelType::PREFAB_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Prefab>();
+			panel = new Hierarchy_Prefab();
 			panel->Initialize();
 			break;
 	}
@@ -346,18 +346,18 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 	switch ( type ) {
 		case PanelType::SCENE_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Scene>();
+			panel = new Hierarchy_Scene();
 			panel->Initialize();
 			break;
 
 		case PanelType::ATTRIBUTES:
-			panel = Memory::Alloc<Panel_Attributes>();
+			panel = new Panel_Attributes();
 			panel->Initialize();
 			break;
 
 		case PanelType::SCENE_VIEWPORT:
 		{
-			Viewport_Scene* viewportPanel = Memory::Alloc<Viewport_Scene>( viewportIndex );
+			Viewport_Scene* viewportPanel = new Viewport_Scene( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -366,7 +366,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelType::PREFAB_VIEWPORT:
 		{
-			Viewport_Prefab* viewportPanel = Memory::Alloc<Viewport_Prefab>( viewportIndex );
+			Viewport_Prefab* viewportPanel = new Viewport_Prefab( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -375,7 +375,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelType::GAME_VIEWPORT:
 		{
-			Viewport_Game* viewportPanel = Memory::Alloc<Viewport_Game>( viewportIndex );
+			Viewport_Game* viewportPanel = new Viewport_Game( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			panel = viewportPanel;
 			break;
@@ -383,7 +383,7 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 
 		case PanelType::ISOLATE_VIEWPORT:
 		{
-			Viewport_Isolate* viewportPanel = Memory::Alloc<Viewport_Isolate>( viewportIndex );
+			Viewport_Isolate* viewportPanel = new Viewport_Isolate( viewportIndex );
 			viewportPanel->Initialize( (viewportIndex == 0) );
 			viewportPanel->SetCamera( _cameras[ viewportIndex ] );
 			panel = viewportPanel;
@@ -391,22 +391,22 @@ Panel* EditorApp::_NewPanel( PanelType type, PanelType splitFrom, PanelSplitType
 		}
 
 		case PanelType::ASSETS:
-			panel = Memory::Alloc<Panel_Assets>();
+			panel = new Panel_Assets();
 			panel->Initialize();
 			break;
 
 		case PanelType::CONSOLE:
-			panel = Memory::Alloc<Panel_Console>();
+			panel = new Panel_Console();
 			panel->Initialize();
 			break;
 
 		case PanelType::PREFAB_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Prefab>();
+			panel = new Hierarchy_Prefab();
 			panel->Initialize();
 			break;
 
 		case PanelType::ISOLATE_HIERARCHY:
-			panel = Memory::Alloc<Hierarchy_Isolate>();
+			panel = new Hierarchy_Isolate();
 			panel->Initialize();
 			break;
 	}
@@ -456,19 +456,19 @@ void EditorApp::_InitializeManagers()
 {
 	EditorUtils::Initialize();
 
-	_inputReceiver = Memory::Alloc<InputReceiverQT>();
+	_inputReceiver = new InputReceiverQT();
 
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
 	ScriptManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
 
-	JsonSerializeSystem* jsonSystem = Memory::Alloc<JsonSerializeSystem>();
-	jsonSystem->AddSerializer<EditorSettings>( Memory::Alloc<JsonSerializer_EditorConfig>() );
-	jsonSystem->AddSerializer<ProjectSettings>( Memory::Alloc<JsonSerializer_CyredProj>() );
+	JsonSerializeSystem* jsonSystem = new JsonSerializeSystem();
+	jsonSystem->AddSerializer<EditorSettings>( new JsonSerializer_EditorConfig() );
+	jsonSystem->AddSerializer<ProjectSettings>( new JsonSerializer_CyredProj() );
 
-	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystemWindows>(),
-										  Memory::Alloc<MeshLoaderWindows>() );
+	FileManager::Singleton()->Initialize( new FileSystemWindows(),
+										  new MeshLoaderWindows() );
 	FileManager::Singleton()->SetSerializeSystem( jsonSystem );
 
 	InputManager::Singleton()->Initialize( _inputReceiver );
@@ -526,7 +526,7 @@ void EditorApp::_FinalizePanels()
 
 void EditorApp::_CreateMainWindow()
 {
-	_qtMainWindow = Memory::Alloc<_QtMainWindow>( this );
+	_qtMainWindow = new _QtMainWindow( this );
 	_qtMainWindow->resize( EditorSettings::width, EditorSettings::height );
 	_qtMainWindow->move( EditorSettings::posX, EditorSettings::posY );
 	_qtMainWindow->setWindowTitle( EditorSettings::EDITOR_NAME );
@@ -562,7 +562,7 @@ void EditorApp::_CreateMenuBar()
 void EditorApp::_CreateStatusBar()
 {
 	// create status bar
-	_qtStatusBar = Memory::Alloc<QStatusBar>();
+	_qtStatusBar = new QStatusBar();
 
 	// add to window
 	_qtMainWindow->setStatusBar( _qtStatusBar );
@@ -574,14 +574,14 @@ void EditorApp::_CreateStatusBar()
 
 void EditorApp::_CreateToolbar()
 {
-	_toolbar = Memory::Alloc<Toolbar>();
+	_toolbar = new Toolbar();
 	_qtMainWindow->addToolBar( Qt::TopToolBarArea, _toolbar );
 }
 
 
 void EditorApp::_CreateSelectorPopup()
 {
-	_selectorPopup = Memory::Alloc<SelectorPopup>( _qtMainWindow );
+	_selectorPopup = new SelectorPopup( _qtMainWindow );
 	_selectorPopup->Initialize();
 }
 
@@ -589,7 +589,7 @@ void EditorApp::_CreateSelectorPopup()
 void EditorApp::_CreateCameras()
 {
 	for ( int i = 0; i < 3; i++ ) {
-		GameObject* cameraGO = Memory::Alloc<GameObject>();
+		GameObject* cameraGO = new GameObject();
 		cameraGO->AddComponent<Transform>()->SetPositionWorld( Vector3(0, 0, 10) );
 
 		Camera* cameraComp1 = cameraGO->AddComponent<Camera>();
@@ -677,7 +677,7 @@ void EditorApp::ApplySkin( cchar* skinName )
 		// apply skin to all elements
 		if ( stylesheet != NULL ) {
 			// remove old skin
-			Memory::FreeArray( _skinStylesheet );
+			ARRAY_FREE( _skinStylesheet );
 			// change stylesheet
 			_skinStylesheet = stylesheet;
 			// apply style

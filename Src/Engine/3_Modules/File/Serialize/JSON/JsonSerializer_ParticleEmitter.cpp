@@ -208,7 +208,7 @@ void JsonSerializer_ParticleEmitter::FromJson( rapidjson::Value& json, OUT void*
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
-					material = Memory::Alloc<Material>();
+					material = new Material();
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );
 				}

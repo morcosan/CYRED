@@ -56,7 +56,7 @@
 	\
 	void ClassImpl::CreateSingleton() \
 	{ \
-		_singleton = Memory::Alloc<ClassImpl>(); \
+		_singleton = new ClassImpl(); \
 	} \
 	ClassImpl* ClassImpl::Singleton() \
 	{ \
@@ -64,7 +64,7 @@
 	} \
 	void ClassImpl::DestroySingleton() \
 	{ \
-		Memory::Free( _singleton ); \
+		PTR_FREE( _singleton ); \
 		_singleton = NULL; \
 	}
 
@@ -96,7 +96,7 @@
 	} \
 	void Class::DestroySingleton() \
 	{ \
-		Memory::Free( _singleton ); \
+		PTR_FREE( _singleton ); \
 		_singleton = NULL; \
 	}
 
@@ -118,7 +118,7 @@
 	\
 	ClassImpl* ClassImpl::CreateSingleton() \
 	{ \
-		_singleton = Memory::Alloc<ClassImpl>(); \
+		_singleton = new ClassImpl(); \
 		return _singleton; \
 	} \
 	ClassImpl* ClassImpl::Singleton() \

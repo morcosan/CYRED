@@ -95,50 +95,49 @@ void AttrViewer_Texture::_UpdateGUI()
 void AttrViewer_Texture::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
+	{
+		_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
-	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
+		if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
+			TextureType textureType;
+			int typeIndex = _ReadAttrDropdown( ATTR_TEXTURE_TYPE );
+			switch ( typeIndex ) {
+				case 0:	textureType = TextureType::TEXTURE_2D;	break;
+				case 1:	textureType = TextureType::CUBE_MAP;	break;
+			}
+			_target->SetTextureType( textureType );
 
-	if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
-		TextureType textureType;
-		int typeIndex = _ReadAttrDropdown( ATTR_TEXTURE_TYPE );
-		switch ( typeIndex ) {
-			case 0:	textureType = TextureType::TEXTURE_2D;	break;
-			case 1:	textureType = TextureType::CUBE_MAP;	break;
+			// change ui based on options
+			_ChangeVisibility();
 		}
-		_target->SetTextureType( textureType );
+		else {
+			TextureLoadType loadType;
+			int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
+			switch ( typeIndex ) {
+				case 0:	loadType = TextureLoadType::SCRIPTED;	break;
+				case 1:	loadType = TextureLoadType::EXTERNAL;	break;
+			}
+			_target->SetLoadType( loadType );
 
-		// change ui based on options
-		_ChangeVisibility();
+			_target->SetHasMipmap( _ReadAttrBool( ATTR_HAS_MIPMAP ) );
+			_target->SetClearBufferOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
+
+			switch ( _target->GetTextureType() ) {
+				case TextureType::TEXTURE_2D:
+					_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
+					break;
+
+				case TextureType::CUBE_MAP:
+					_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH_POSX ).GetChar() );
+					_target->SetImagePath( 1, _ReadAttrString( ATTR_FILE_PATH_NEGX ).GetChar() );
+					_target->SetImagePath( 2, _ReadAttrString( ATTR_FILE_PATH_POSY ).GetChar() );
+					_target->SetImagePath( 3, _ReadAttrString( ATTR_FILE_PATH_NEGY ).GetChar() );
+					_target->SetImagePath( 4, _ReadAttrString( ATTR_FILE_PATH_POSZ ).GetChar() );
+					_target->SetImagePath( 5, _ReadAttrString( ATTR_FILE_PATH_NEGZ ).GetChar() );
+					break;
+			}
+		}
 	}
-	else {
-		TextureLoadType loadType;
-		int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
-		switch ( typeIndex ) {
-			case 0:	loadType = TextureLoadType::SCRIPTED;	break;
-			case 1:	loadType = TextureLoadType::EXTERNAL;	break;
-		}
-		_target->SetLoadType( loadType );
-
-		_target->SetHasMipmap( _ReadAttrBool( ATTR_HAS_MIPMAP ) );
-		_target->SetClearBufferOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
-
-		switch ( _target->GetTextureType() )
-		{
-			case TextureType::TEXTURE_2D:
-				_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH ).GetChar() );
-				break;
-
-			case TextureType::CUBE_MAP:
-				_target->SetImagePath( 0, _ReadAttrString( ATTR_FILE_PATH_POSX ).GetChar() );
-				_target->SetImagePath( 1, _ReadAttrString( ATTR_FILE_PATH_NEGX ).GetChar() );
-				_target->SetImagePath( 2, _ReadAttrString( ATTR_FILE_PATH_POSY ).GetChar() );
-				_target->SetImagePath( 3, _ReadAttrString( ATTR_FILE_PATH_NEGY ).GetChar() );
-				_target->SetImagePath( 4, _ReadAttrString( ATTR_FILE_PATH_POSZ ).GetChar() );
-				_target->SetImagePath( 5, _ReadAttrString( ATTR_FILE_PATH_NEGZ ).GetChar() );
-				break;
-		}
-	}
-
 	_target->SetEmitEvents( TRUE );
 
 	++_ignoreUpdateGUI;

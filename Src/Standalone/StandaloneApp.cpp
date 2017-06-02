@@ -39,7 +39,7 @@ void StandaloneApp::Run( int& argc, char* argv[] )
 	_InitializeManagers();
 
 	// init console
-	_console = Memory::Alloc<Console>();
+	_console = new Console();
 
 	_ReadConfigFile();
 	_CreateMainWindow();
@@ -71,7 +71,7 @@ void StandaloneApp::_CleanUp()
 	_FinalizeManagers();
 	_DestroyManagers();
 
-	Memory::Free( _glContext );
+	PTR_FREE( _glContext );
 
 	// destroy input receiver
 	InputReceiverGLFW::DestroySingleton();
@@ -136,11 +136,11 @@ void StandaloneApp::_InitializeManagers()
 	SceneManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
 
-	SerializeSystem* serializeSystem = Memory::Alloc<JsonSerializeSystem>();
+	SerializeSystem* serializeSystem = new JsonSerializeSystem();
 	
 	
-	FileManager::Singleton()->Initialize( Memory::Alloc<FileSystem>(),
-										  Memory::Alloc<MeshLoader>() );
+	FileManager::Singleton()->Initialize( new FileSystem(),
+										  new MeshLoader() );
 	FileManager::Singleton()->SetSerializeSystem( serializeSystem );
 
 	// also create input receiver
@@ -194,7 +194,7 @@ void StandaloneApp::_InitializeGLFW()
 void StandaloneApp::_ReadConfigFile()
 {
 	char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
-	FileManager::Singleton()->Deserialize<AppConfig>( fileData, &_appConfig );
+	FileManager::Singleton()->Deserialize<AppConfig( fileData, &_appConfig );
 
 	// update managers
 	TimeManager::Singleton()->SetDesiredFPS( _appConfig.fps );
@@ -250,22 +250,22 @@ void StandaloneApp::_InitializeRenderer()
 	// it requires to be initialized after window is shown
 	RenderManager* renderMngr = RenderManager::Singleton();
 
-	_glContext = Memory::Alloc<GLContextImpl>( _glfwWindow );
-	renderMngr->Initialize( _glContext, Memory::Alloc<GLImpl_3_0>() );
+	_glContext = new GLContextImpl( _glfwWindow );
+	renderMngr->Initialize( _glContext, new GLImpl_3_0() );
 
 	int techSlot = renderMngr->NewTechnique( TechniqueType::FORWARD_BASIC );
 	renderMngr->ChangeRenderer( 0, RendererType::GL_FORWARD );
 	renderMngr->ChangeTechnique( 0, techSlot );
 
-	_missingCamera = Memory::Alloc<GameObject>();
-	_missingCamera->AddComponent<Transform>();
-	_missingCamera->AddComponent<Camera>();
+	_missingCamera = new GameObject();
+	_missingCamera->AddComponent<Transform();
+	_missingCamera->AddComponent<Camera();
 }
 
 
 void StandaloneApp::_StartGame()
 {
-	GameInitScript* gameInit = Memory::Alloc<GameInitScript>( &_appConfig );
+	GameInitScript* gameInit = new GameInitScript( &_appConfig );
 	gameInit->OnUpdate( TRUE );
 
 	RenderManager::Singleton()->OnResize( 0 );
@@ -280,14 +280,14 @@ void StandaloneApp::_RenderScene()
 	GameObject* cameraGO = sceneMngr->GetMainCamera();
 	if ( cameraGO != NULL )
 	{
-		Camera* camera = cameraGO->GetComponent<Camera>();
-		Transform* transform = cameraGO->GetComponent<Transform>();
+		Camera* camera = cameraGO->GetComponent<Camera();
+		Transform* transform = cameraGO->GetComponent<Transform();
 
 		if ( camera != NULL && camera->IsEnabled() &&
 			 transform != NULL && transform->IsEnabled() )
 		{
 			//! update camera size
-			Camera* cam = cameraGO->GetComponent<Camera>();
+			Camera* cam = cameraGO->GetComponent<Camera();
 			float aspectRatio = CAST_S( float, _appConfig.width ) / _appConfig.height;
 			float height = cam->GetOrthoSize().y;
 			cam->SetAspectRatio( aspectRatio );

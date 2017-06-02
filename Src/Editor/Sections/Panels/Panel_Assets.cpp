@@ -137,33 +137,33 @@ Panel_Assets::Panel_Assets()
 	this->setWindowTitle( PANEL_TITLE );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	QPushButton* reloadBtn = Memory::Alloc<QPushButton>( this );
+	QPushButton* reloadBtn = new QPushButton( this );
 	reloadBtn->setText( BUTTON_RELOAD );
 	reloadBtn->setObjectName( EditorSkin::ASSET_BUTTON );
 	QObject::connect( reloadBtn, &QPushButton::clicked,	this, &Panel_Assets::A_ReloadAll );
 
-	QHBoxLayout* topBarLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* topBarLayout = new QHBoxLayout();
 	topBarLayout->setSpacing( 0 );
 	topBarLayout->setContentsMargins( 0, 2, 0, 1 );
 	topBarLayout->addWidget( reloadBtn );
 
-	QWidget* topBarWidget = Memory::Alloc<QWidget>();
+	QWidget* topBarWidget = new QWidget();
 	topBarWidget->setLayout( topBarLayout );
 
-	_qtTree = Memory::Alloc<_QtTree>();
+	_qtTree = new _QtTree();
 	_qtTree->setHeaderHidden( true );
 	_qtTree->setDragEnabled( true );
 	_qtTree->setDragDropMode( QAbstractItemView::InternalMove );
 	_qtTree->setObjectName( EditorSkin::ASSET_TREE );
 	_qtTree->setEditTriggers( QAbstractItemView::NoEditTriggers );
 
-	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
+	QVBoxLayout* vLayout = new QVBoxLayout();
 	vLayout->setSpacing( 0 );
 	vLayout->setContentsMargins( 0, 0, 0, 0 );
 	vLayout->addWidget( topBarWidget );
 	vLayout->addWidget( _qtTree );
 
-	QWidget* layoutWidget = Memory::Alloc<QWidget>();
+	QWidget* layoutWidget = new QWidget();
 	layoutWidget->setLayout( vLayout );
 
 	this->setWidget( layoutWidget );
@@ -172,7 +172,7 @@ Panel_Assets::Panel_Assets()
 	QObject::connect( _qtTree, &QTreeWidget::itemDoubleClicked, this, &Panel_Assets::A_Item2xClicked );
 	QObject::connect( _qtTree, &QTreeWidget::itemChanged,		this, &Panel_Assets::A_ItemRenamed );
 
-	_qtFileWatcher = Memory::Alloc<QFileSystemWatcher>();
+	_qtFileWatcher = new QFileSystemWatcher();
 	_qtFileWatcher->addPath( ProjectSettings::dirPathAssets.GetChar() );
 
 	QObject::connect( _qtFileWatcher, &QFileSystemWatcher::directoryChanged,	
@@ -399,7 +399,7 @@ void Panel_Assets::ReloadAllAssets()
 
 	// clear tree
 	while ( _qtTree->topLevelItemCount() > 0 ) {
-		Memory::Free( _qtTree->takeTopLevelItem(0) );
+		PTR_FREE( _qtTree->takeTopLevelItem(0) );
 	}
 
 	// add all editor assets
@@ -422,7 +422,7 @@ CustomTreeItem* Panel_Assets::AddAssetToTree( Asset* asset, QTreeWidgetItem* par
 											  cchar* icon )
 {
 	// create item
-	CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+	CustomTreeItem* treeItem = new CustomTreeItem();
 
 	// set item data
 	FiniteString filePath( "%s%s%s", asset->GetDirPath(), asset->GetName(), asset->GetExtension() );
@@ -454,7 +454,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 	ASSERT( _isInitialized );
 
 	// create folder in panel
-	CustomTreeItem* dirTreeItem = Memory::Alloc<CustomTreeItem>();
+	CustomTreeItem* dirTreeItem = new CustomTreeItem();
 	dirTreeItem->setText( 0, dirName );
 	dirTreeItem->setWhatsThis( 0, EditorUtils::NAME_FOLDER );  // we use this field to store data
 	dirTreeItem->setWhatsThis( 1, dirPath ); 
@@ -501,7 +501,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			if ( fileFormat.compare( FileManager::FILE_FORMAT_SCENE ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SCENE );
 
-				Scene* scene = Memory::Alloc<Scene>();
+				Scene* scene = new Scene();
 				scene->SetEmitEvents( FALSE );
 				scene->SetName( fileName.toUtf8().constData() );
 				scene->SetDirPath( dirPath );
@@ -514,7 +514,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MATERIAL ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MATERIAL );
 
-				Material* material = Memory::Alloc<Material>();
+				Material* material = new Material();
 				material->SetEmitEvents( FALSE );
 				material->SetName( fileName.toUtf8().constData() );
 				material->SetDirPath( dirPath );
@@ -527,7 +527,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MESH ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MESH );
 				
-				Mesh* mesh = Memory::Alloc<Mesh>();
+				Mesh* mesh = new Mesh();
 				mesh->SetEmitEvents( FALSE );
 				mesh->SetName( fileName.toUtf8().constData() );
 				mesh->SetDirPath( dirPath );
@@ -540,7 +540,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_MORPH ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_MORPH );
 				
-				Morph* morph = Memory::Alloc<Morph>();
+				Morph* morph = new Morph();
 				morph->SetEmitEvents( FALSE );
 				morph->SetName( fileName.toUtf8().constData() );
 				morph->SetDirPath( dirPath );
@@ -553,7 +553,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SHADER ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SHADER );
 				
-				Shader* shader = Memory::Alloc<Shader>();
+				Shader* shader = new Shader();
 				shader->SetEmitEvents( FALSE );
 				shader->SetName( fileName.toUtf8().constData() );
 				shader->SetDirPath( dirPath );
@@ -566,7 +566,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_TEXTURE ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_TEXTURE );
 				
-				Texture* texture = Memory::Alloc<Texture>();
+				Texture* texture = new Texture();
 				texture->SetEmitEvents( FALSE );
 				texture->SetName( fileName.toUtf8().constData() );
 				texture->SetDirPath( dirPath );
@@ -579,7 +579,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_SCRIPT ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_SCRIPT );
 				
-				Script* script = Memory::Alloc<Script>();
+				Script* script = new Script();
 				script->SetEmitEvents( FALSE );
 				script->SetName( fileName.toUtf8().constData() );
 				script->SetDirPath( dirPath );
@@ -592,7 +592,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 			else if ( fileFormat.compare( FileManager::FILE_FORMAT_PREFAB ) == 0 ) {
 				icon = *EditorUtils::GetIcon( EditorUtils::ICON_PREFAB );
 
-				Prefab* prefab = Memory::Alloc<Prefab>();
+				Prefab* prefab = new Prefab();
 				prefab->SetEmitEvents( FALSE );
 				prefab->SetName( fileName.toUtf8().constData() );
 				prefab->SetDirPath( dirPath );
@@ -674,7 +674,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 							other->SetIsTemporary( FALSE );
 							other->SetEmitEvents( TRUE );
 
-							Memory::Free( asset );
+							PTR_FREE( asset );
 							asset = other;
 						}
 						else {
@@ -683,7 +683,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 												  asset->GetExtension() );
 							DebugManager::Singleton()->Log( warning.GetChar() );
 
-							Memory::Free( asset );
+							PTR_FREE( asset );
 							asset = NULL;
 						}
 						break;
@@ -703,7 +703,7 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 				}
 			}
 
-			CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+			CustomTreeItem* treeItem = new CustomTreeItem();
 			treeItem->asset = asset;
 			treeItem->setWhatsThis( 1, fileInfo.filePath() ); 
 			treeItem->setFlags( Qt::ItemIsSelectable | 
@@ -729,9 +729,9 @@ void Panel_Assets::_CreateRightClickMenu()
 	ASSERT( _isInitialized );
 
 	// create menus
-	_menuAsset			= Memory::Alloc<Menu_Asset>( _qtTree, this );
-	_menuAssetFolder	= Memory::Alloc<Menu_AssetFolder>( _qtTree, this );
-	_menuAssetUnknown	= Memory::Alloc<Menu_AssetUnknown>( _qtTree );
+	_menuAsset			= new Menu_Asset( _qtTree, this );
+	_menuAssetFolder	= new Menu_AssetFolder( _qtTree, this );
+	_menuAssetUnknown	= new Menu_AssetUnknown( _qtTree );
 
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
 	QObject::connect( _qtTree, &QWidget::customContextMenuRequested, 

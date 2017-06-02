@@ -45,22 +45,27 @@ void JsonSerializer_Transform::FromJson( rapidjson::Value& json, OUT void* objec
 	bool emitEvents = transform->DoesEmitEvents();
 	transform->SetEmitEvents( FALSE );
 
+
 	if ( json.HasMember( ENABLED ) )
 	{
 		transform->SetEnabled( json[ENABLED].GetBool() );
 	}
+
 	if ( json.HasMember( POSITION_WORLD ) )
 	{
 		transform->SetPositionWorld( _FromJsonVec3( json[POSITION_WORLD] ) );
 	}
+
 	if ( json.HasMember( ROTATIO_WORLD ) )
 	{
 		transform->SetEulerRotationWorld( _FromJsonVec3( json[ROTATIO_WORLD] ) );
 	}
+
 	if ( json.HasMember( SCALE_WORLD ) )
 	{
 		transform->SetScaleWorld( _FromJsonVec3( json[SCALE_WORLD] ) );
 	}
+
 
 	transform->SetEmitEvents( emitEvents );
 }

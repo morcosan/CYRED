@@ -75,12 +75,12 @@ void Panel_Viewport::Initialize( bool isPrimary )
 	this->setWindowTitle( _GetPanelTitle() );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	_qtWindow = Memory::Alloc<_QtWindow>( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );
+	_qtWindow = new _QtWindow( _panelIndex, EditorApp::Singleton()->GetInputReceiver() );
 	_qtWindow->setSurfaceType( QWindow::OpenGLSurface );
 
 	_qtContainer = QWidget::createWindowContainer( _qtWindow );
 
-	_qtTopBarLayout = Memory::Alloc<QHBoxLayout>();
+	_qtTopBarLayout = new QHBoxLayout();
 	_qtTopBarLayout->setAlignment( Qt::AlignLeft );
 	_qtTopBarLayout->setSpacing( 3 );
 
@@ -95,7 +95,7 @@ void Panel_Viewport::Initialize( bool isPrimary )
 
 	this->setWidget( layoutWidget );
 
-	_glContext = Memory::Alloc<GLContextImpl>( _qtWindow );
+	_glContext = new GLContextImpl( _qtWindow );
 
 	if ( isPrimary ) {
 		_canvasSlot = 0;

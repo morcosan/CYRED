@@ -73,8 +73,7 @@ rapidjson::Value JsonSerializer_MorphRendering::ToJson( const void* object )
 }
 
 
-void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* object, 
-										 DeserFlag flag )
+void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* object, DeserFlag flag )
 {
 	MorphRendering* morphRender = CAST_S( MorphRendering*, object );
 
@@ -97,7 +96,7 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
-					morph = Memory::Alloc<Morph>();
+					morph = new Morph();
 					morph->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMorph( morph );
 				}
@@ -121,7 +120,7 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
-					material = Memory::Alloc<Material>();
+					material = new Material();
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );
 				}

@@ -44,7 +44,7 @@ void Morph::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -64,7 +64,7 @@ void Morph::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Morph>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	BindToGPU();
 
@@ -95,7 +95,7 @@ void Morph::ClearAsset()
 
 Asset* Morph::Clone()
 {
-	return _BuildClone( Memory::Alloc<Morph>() );
+	return _BuildClone( new Morph() );
 }
 
 
@@ -135,7 +135,7 @@ void Morph::BindToGPU()
 			FileManager::Singleton()->ImportMesh( fileData, fileSize, meshVertices, indices );
 		}
 
-		Memory::FreeArray( fileData );
+		ARRAY_FREE( fileData );
 
 		if ( i == 0 )
 		{

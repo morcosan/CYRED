@@ -66,7 +66,7 @@ struct AttrViewer::_ListWidget : public QWidget
 		while ( rootItem->childCount() > size )
 		{
 			QTreeWidgetItem* child = rootItem->takeChild( rootItem->childCount() - 1 );
-			Memory::Free( child );
+			PTR_FREE( child );
 		}
 
 		// add if not enough
@@ -76,7 +76,7 @@ struct AttrViewer::_ListWidget : public QWidget
 		{
 			FiniteString elementName( "[ %d ]", index );
 
-			QTreeWidgetItem* childItem = Memory::Alloc<QTreeWidgetItem>();
+			QTreeWidgetItem* childItem = new QTreeWidgetItem();
 			childItem->setFlags( Qt::ItemIsEnabled );
 			childItem->setText( 0, elementName.GetChar() );
 
@@ -127,7 +127,7 @@ struct AttrViewer::_ListWidget : public QWidget
 
 					for ( int i = 0; i < structScheme.Size(); ++i )
 					{
-						QTreeWidgetItem* structItem = Memory::Alloc<QTreeWidgetItem>();
+						QTreeWidgetItem* structItem = new QTreeWidgetItem();
 						structItem->setFlags( Qt::ItemIsEnabled );
 						structItem->setText( 0, structScheme[i].attrName.GetChar() );
 
@@ -207,7 +207,7 @@ void AttrViewer::Initialize( Panel_Attributes* panel, QTreeWidget* panelTree )
 {
 	_panel = panel;
 	_panelTree = panelTree;
-	_menuCompSettings = Memory::Alloc<Menu_CompSettings>( _panelTree );
+	_menuCompSettings = new Menu_CompSettings( _panelTree );
 
 	_OnInitialize();
 }
@@ -310,18 +310,18 @@ void AttrViewer::QtSelector::OnChangeSelection( void* ref, cchar* name )
 
 void AttrViewer::_AddToPanel( cchar* title )
 {
-	_titleItem = Memory::Alloc<QTreeWidgetItem>();
+	_titleItem = new QTreeWidgetItem();
 	_titleItem->setFlags( Qt::ItemIsEnabled );
 	_panelTree->addTopLevelItem( _titleItem );
 	_panelTree->expandItem( _titleItem );
 
-	QTreeWidgetItem* childItem = Memory::Alloc<QTreeWidgetItem>();
+	QTreeWidgetItem* childItem = new QTreeWidgetItem();
 	childItem->setFlags( Qt::ItemIsEnabled );
 	_titleItem->addChild( childItem );
 
 	// add title
 	{
-		QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+		QHBoxLayout* boxLayout = new QHBoxLayout();
 		boxLayout->setAlignment( Qt::AlignLeft );
 	
 		// add checkbox
@@ -330,13 +330,13 @@ void AttrViewer::_AddToPanel( cchar* title )
 		}
 
 		// add label
-		QLabel* titleLabel = Memory::Alloc<QLabel>( title );
+		QLabel* titleLabel = new QLabel( title );
 		titleLabel->setObjectName( EditorSkin::ATTR_COMP_TITLE );
 		boxLayout->addWidget( titleLabel, 1 );
 
 		// add settings button
 		if ( _innerAttributes.Has( InnerAttrType::SETTINGS ) ) {
-			_compSettingsButton = Memory::Alloc<QPushButton>();
+			_compSettingsButton = new QPushButton();
 			_compSettingsButton->setObjectName( EditorSkin::ATTR_COMP_SETTINGS );
 			_compSettingsButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_SETTINGS ) );
 			_compSettingsButton->setIconSize( QSize( 10, 10 ) );
@@ -349,7 +349,7 @@ void AttrViewer::_AddToPanel( cchar* title )
 		}
 
 		// add to panel
-		_titleWidget = Memory::Alloc<QWidget>( _panelTree );
+		_titleWidget = new QWidget( _panelTree );
 		_titleWidget->setLayout( boxLayout );
 		_panelTree->setItemWidget( _titleItem, 0, _titleWidget );
 	}
@@ -357,11 +357,11 @@ void AttrViewer::_AddToPanel( cchar* title )
 	// add attributes
 	{
 		// used to display both attributes and groups
-		QVBoxLayout* childLayout = Memory::Alloc<QVBoxLayout>();
+		QVBoxLayout* childLayout = new QVBoxLayout();
 		childLayout->setSpacing( 5 );
 		childLayout->setContentsMargins( 0, 0, 0, 0 );
 
-		_childWidget = Memory::Alloc<QWidget>( _panelTree );
+		_childWidget = new QWidget( _panelTree );
 		_childWidget->setLayout( childLayout );
 
 		_panelTree->setItemWidget( childItem, 0, _childWidget );
@@ -383,7 +383,7 @@ void AttrViewer::_UpdatePanel()
 
 	// loop until all attributes are displayed
 	while ( attrIndex < _attributes.Size() ) {
-		CustomTreeWidget* treeWidget = Memory::Alloc<CustomTreeWidget>();
+		CustomTreeWidget* treeWidget = new CustomTreeWidget();
 		treeWidget->setHeaderHidden( TRUE );
 		treeWidget->setDragEnabled( FALSE );
 		treeWidget->setColumnCount( 2 );
@@ -393,11 +393,11 @@ void AttrViewer::_UpdatePanel()
 		treeWidget->header()->resizeSection( 0, 120 );
 		treeWidget->SetAttrViewer( this );
 
-		QVBoxLayout* groupLayout = Memory::Alloc<QVBoxLayout>();
+		QVBoxLayout* groupLayout = new QVBoxLayout();
 		groupLayout->setContentsMargins( 0, 0, 0, 0 );
 		groupLayout->addWidget( treeWidget );
 
-		QGroupBox* groupWidget = Memory::Alloc<QGroupBox>();
+		QGroupBox* groupWidget = new QGroupBox();
 		groupWidget->setObjectName( EditorSkin::ATTR_GROUP );
 		groupWidget->setLayout( groupLayout );
 
@@ -424,7 +424,7 @@ void AttrViewer::_UpdatePanel()
 		}
 
 		while ( first <= attrIndex && attrIndex <= last ) {
-			QTreeWidgetItem* item = Memory::Alloc<QTreeWidgetItem>();
+			QTreeWidgetItem* item = new QTreeWidgetItem();
 			item->setFlags( Qt::ItemIsEnabled );
 
 			treeWidget->addTopLevelItem( item );
@@ -454,7 +454,7 @@ void AttrViewer::_UpdatePanel()
 				DataArray<AttrStruct>& scheme = structWidget->structScheme;
 
 				for ( int i = 0; i < scheme.Size(); ++i ) {
-					QTreeWidgetItem* structItem = Memory::Alloc<QTreeWidgetItem>();
+					QTreeWidgetItem* structItem = new QTreeWidgetItem();
 					structItem->setFlags( Qt::ItemIsEnabled );
 					structItem->setText( 0, scheme[i].attrName.GetChar() );
 
@@ -1433,7 +1433,7 @@ bool AttrViewer::_GetAttribute( cchar* name, OUT _Attribute& attribute)
 
 QWidget* AttrViewer::CreateString( int flagMask, CallbackGroup group )
 {
-	QLineEdit* widget = Memory::Alloc<QLineEdit>();
+	QLineEdit* widget = new QLineEdit();
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 
 	switch ( group )
@@ -1467,8 +1467,8 @@ QWidget* AttrViewer::CreateString( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateFloat( int flagMask, CallbackGroup group )
 {
-	QLineEdit* widget = Memory::Alloc<QLineEdit>();
-	widget->setValidator( Memory::Alloc<QDoubleValidator>( widget ) );
+	QLineEdit* widget = new QLineEdit();
+	widget->setValidator( new QDoubleValidator( widget ) );
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	widget->setText( "0" );
 
@@ -1489,8 +1489,8 @@ QWidget* AttrViewer::CreateFloat( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateInt( int flagMask, CallbackGroup group )
 {
-	QLineEdit* widget = Memory::Alloc<QLineEdit>();
-	widget->setValidator( Memory::Alloc<QIntValidator>( widget ) );
+	QLineEdit* widget = new QLineEdit();
+	widget->setValidator( new QIntValidator( widget ) );
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	widget->setText( "0" );
 
@@ -1511,7 +1511,7 @@ QWidget* AttrViewer::CreateInt( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateBool( int flagMask, CallbackGroup group )
 {
-	QCheckBox* widget = Memory::Alloc<QCheckBox>();
+	QCheckBox* widget = new QCheckBox();
 	widget->setDisabled( (flagMask & AttrFlag::READONLY) != 0 );
 
 
@@ -1536,17 +1536,17 @@ QWidget* AttrViewer::CreateBool( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateVector2( int flagMask, CallbackGroup group )
 {
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " X" ) );
+	boxLayout->addWidget( new QLabel( " X" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " Y" ) );
+	boxLayout->addWidget( new QLabel( " Y" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
 
-	QWidget* widget = Memory::Alloc<QWidget>();
+	QWidget* widget = new QWidget();
 	widget->setLayout( boxLayout );
 
 	return widget;
@@ -1555,20 +1555,20 @@ QWidget* AttrViewer::CreateVector2( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateVector3( int flagMask, CallbackGroup group )
 {
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " X" ) );
+	boxLayout->addWidget( new QLabel( " X" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " Y" ) );
+	boxLayout->addWidget( new QLabel( " Y" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " Z" ) );
+	boxLayout->addWidget( new QLabel( " Z" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
 
 
-	QWidget* widget = Memory::Alloc<QWidget>();
+	QWidget* widget = new QWidget();
 	widget->setLayout( boxLayout );
 
 	return widget;
@@ -1577,21 +1577,21 @@ QWidget* AttrViewer::CreateVector3( int flagMask, CallbackGroup group )
 
 QWidget* AttrViewer::CreateVector4( int flagMask, CallbackGroup group )
 {
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " X" ) );
+	boxLayout->addWidget( new QLabel( " X" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " Y" ) );
+	boxLayout->addWidget( new QLabel( " Y" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " Z" ) );
+	boxLayout->addWidget( new QLabel( " Z" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
-	boxLayout->addWidget( Memory::Alloc<QLabel>( " W" ) );
+	boxLayout->addWidget( new QLabel( " W" ) );
 	boxLayout->addWidget( CreateFloat( flagMask, group ) );
 
-	QWidget* widget = Memory::Alloc<QWidget>();
+	QWidget* widget = new QWidget();
 	widget->setLayout( boxLayout );
 
 	return widget;
@@ -1607,7 +1607,7 @@ QWidget* AttrViewer::CreateDropdown( DataArray<cchar*>& valueList, int flagMask,
 		stringList << valueList[i];
 	}
 
-	QComboBox* widget = Memory::Alloc<QComboBox>();
+	QComboBox* widget = new QComboBox();
 	widget->addItems( stringList );
 
 	switch ( group )
@@ -1631,22 +1631,22 @@ QWidget* AttrViewer::CreateDropdown( DataArray<cchar*>& valueList, int flagMask,
 
 QWidget* AttrViewer::CreateSelector( cchar* dataType, int flagMask, CallbackGroup group )
 {
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	QLineEdit* textWidget = Memory::Alloc<QLineEdit>();
+	QLineEdit* textWidget = new QLineEdit();
 	textWidget->setReadOnly( TRUE );
 
-	QPushButton* button = Memory::Alloc<QPushButton>();
+	QPushButton* button = new QPushButton();
 	button->setText( "*" );
 	button->setObjectName( EditorSkin::ATTR_SELECTOR_BUTTON );
 
 	boxLayout->addWidget( textWidget );
 	boxLayout->addWidget( button );
 
-	QtSelector* widget = Memory::Alloc<QtSelector>();
+	QtSelector* widget = new QtSelector();
 	widget->setLayout( boxLayout );
 	widget->type = dataType;
 	widget->selected = NULL;
@@ -1663,16 +1663,16 @@ QWidget* AttrViewer::CreateSelector( cchar* dataType, int flagMask, CallbackGrou
 QWidget* AttrViewer::CreateStruct( DataArray<AttrStruct>& structScheme, 
 								   int flagMask, CallbackGroup group )
 {
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
 	FiniteString structDisplay( "{ %d }", structScheme.Size() );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( structDisplay.GetChar() ) );
+	boxLayout->addWidget( new QLabel( structDisplay.GetChar() ) );
 
-	_StructWidget* widget = Memory::Alloc<_StructWidget>();
+	_StructWidget* widget = new _StructWidget();
 	widget->setLayout( boxLayout );
 	widget->structScheme = structScheme;
 	widget->flagMask = flagMask;
@@ -1684,20 +1684,20 @@ QWidget* AttrViewer::CreateStruct( DataArray<AttrStruct>& structScheme,
 
 QWidget* AttrViewer::_CreateList( AttrType elementType, int flagMask, CallbackGroup group )
 {
-	QLineEdit* lineEdit = Memory::Alloc<QLineEdit>();
-	lineEdit->setValidator( Memory::Alloc<QIntValidator>( lineEdit ) );
+	QLineEdit* lineEdit = new QLineEdit();
+	lineEdit->setValidator( new QIntValidator( lineEdit ) );
 	lineEdit->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	lineEdit->setText( "0" );
 
-	QHBoxLayout* boxLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* boxLayout = new QHBoxLayout();
 	boxLayout->setAlignment( Qt::AlignLeft );
 	boxLayout->setSpacing( 0 );
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	boxLayout->addWidget( Memory::Alloc<QLabel>( "[..]" ) );
+	boxLayout->addWidget( new QLabel( "[..]" ) );
 	boxLayout->addWidget( lineEdit );
 
-	_ListWidget* widget = Memory::Alloc<_ListWidget>();
+	_ListWidget* widget = new _ListWidget();
 	widget->setLayout( boxLayout );
 	widget->elementType = elementType;
 	widget->callbackGroup = group;

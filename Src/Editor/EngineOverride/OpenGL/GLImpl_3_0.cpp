@@ -11,7 +11,7 @@ using namespace CYRED;
 
 void GLImpl_3_0::Initialize()
 {
-	_qtGL = Memory::Alloc<QOpenGLFunctions_3_0>();
+	_qtGL = new QOpenGLFunctions_3_0();
 	_qtGL->initializeOpenGLFunctions();
 }
 

@@ -118,7 +118,7 @@ void Node::DeleteAllChildNodes()
 {
 	// the child will remove itself from parent
 	while ( _childNodes.Size() > 0 ) {
-		Memory::Free( _childNodes[0] );
+		PTR_FREE( _childNodes[0] );
 	}
 }
 

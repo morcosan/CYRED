@@ -68,7 +68,7 @@ Scene* SceneManagerImpl::OpenNewScene()
 
 	CloseAllScenes();
 
-	Scene* scene = Memory::Alloc<Scene>();
+	Scene* scene = new Scene();
 	scene->SetEmitEvents( FALSE );
 	scene->SetName( NEW_SCENE );
 	scene->SetEmitEvents( TRUE );
@@ -107,7 +107,7 @@ Scene* SceneManagerImpl::LoadNewScene()
 {
 	ASSERT( _isInitialized );
 
-	Scene* scene = Memory::Alloc<Scene>();
+	Scene* scene = new Scene();
 	scene->SetEmitEvents( FALSE );
 	scene->SetName( NEW_SCENE );
 	scene->SetEmitEvents( TRUE );
@@ -150,7 +150,7 @@ Scene* SceneManagerImpl::SaveSceneAs( cchar* sceneUID, cchar* newSceneName,
 	String oldUID = scene->GetUniqueID();
 
 	// create new asset scene
-	Scene* newScene = Memory::Alloc<Scene>();
+	Scene* newScene = new Scene();
 	newScene->SetEmitEvents( FALSE );
 	newScene->SetName( newSceneName );
 	newScene->SetDirPath( dirPath );
@@ -276,7 +276,7 @@ GameObject* SceneManagerImpl::NewGameObject( int sceneIndex )
 	Scene* scene = GetScene( sceneIndex );
 	ASSERT( scene != NULL );
 
-	GameObject* newObject = Memory::Alloc<GameObject>( EMPTY_GAMEOBJECT, NextGameObjectUID() );
+	GameObject* newObject = new GameObject( EMPTY_GAMEOBJECT, NextGameObjectUID() );
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
@@ -293,7 +293,7 @@ GameObject* SceneManagerImpl::NewGameObject( cchar* sceneUID )
 	Scene* scene = GetScene( sceneUID );
 	ASSERT( scene != NULL );
 
-	GameObject* newObject = Memory::Alloc<GameObject>( EMPTY_GAMEOBJECT, NextGameObjectUID() );
+	GameObject* newObject = new GameObject( EMPTY_GAMEOBJECT, NextGameObjectUID() );
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
@@ -314,7 +314,7 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, int sceneIndex 
 		// create game object for root
 		GameObject* prefabRoot = prefab->GetRoot();
 		// create object
-		GameObject* newObject = Memory::Alloc<GameObject>( NextGameObjectUID() );
+		GameObject* newObject = new GameObject( NextGameObjectUID() );
 		// clone from prefab
 		prefabRoot->Clone( newObject );
 		// add to scene
@@ -391,7 +391,7 @@ void SceneManagerImpl::Destroy( GameObject* object )
 	}
 
 	object->SetParentNode( NULL );
-	Memory::Free( object );
+	PTR_FREE( object );
 
 	// send event
 	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, NULL );

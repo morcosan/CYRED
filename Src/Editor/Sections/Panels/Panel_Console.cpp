@@ -24,29 +24,29 @@ Panel_Console::Panel_Console()
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
 	// create top bar
-	QHBoxLayout* qtTopBarLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* qtTopBarLayout = new QHBoxLayout();
 	qtTopBarLayout->setAlignment( Qt::AlignLeft );
 	qtTopBarLayout->setSpacing( 3 );
 
 	// create buttons for top bar
-	QPushButton* clearButton =  Memory::Alloc<QPushButton>();
+	QPushButton* clearButton =  new QPushButton();
 	clearButton->setText( "Clear" );
 	clearButton->setObjectName( EditorSkin::VIEWPORT_BUTTON );
 	qtTopBarLayout->addWidget( clearButton );
 	QObject::connect( clearButton,	&QPushButton::pressed, this, &Panel_Console::A_ClearLogs );
 
 	// create logs list
-	_logsLayout = Memory::Alloc<QVBoxLayout>();
+	_logsLayout = new QVBoxLayout();
 	_logsLayout->setSpacing( 0 );
 	_logsLayout->setContentsMargins( 0, 0, 0, 0 );
 	_logsLayout->setAlignment( Qt::AlignmentFlag::AlignTop );
 
-	QWidget* logsWidget = Memory::Alloc<QWidget>();
+	QWidget* logsWidget = new QWidget();
 	logsWidget->setLayout( _logsLayout );
 	logsWidget->setObjectName( EditorSkin::CONSOLE_LAYOUT );
 
 	// create scroll area
-	QScrollArea* scrollArea = Memory::Alloc<QScrollArea>();
+	QScrollArea* scrollArea = new QScrollArea();
 	scrollArea->setWidgetResizable( TRUE );
 	scrollArea->setWidget( logsWidget );
 
@@ -78,7 +78,7 @@ void Panel_Console::A_ClearLogs()
 	// delete all items
 	QLayoutItem *child;
 	while ( (child = _logsLayout->takeAt(0)) !=  NULL ) {
-		Memory::Free( child->widget() );
+		PTR_FREE( child->widget() );
 	}
 }
 
@@ -122,7 +122,7 @@ void Panel_Console::OnEvent( int eventType, void* eventData )
 void Panel_Console::_AddLine( cchar* message, bool isError )
 {
 	// create layout
-	QHBoxLayout* qtLineLayout = Memory::Alloc<QHBoxLayout>();
+	QHBoxLayout* qtLineLayout = new QHBoxLayout();
 
 	// create icon
 	QIcon* icon;
@@ -132,19 +132,19 @@ void Panel_Console::_AddLine( cchar* message, bool isError )
 	else {
 		icon = EditorUtils::GetIcon( EditorUtils::ICON_LOG_INFO );
 	}
-	QLabel* iconWidget = Memory::Alloc<QLabel>();
+	QLabel* iconWidget = new QLabel();
 	iconWidget->setPixmap( icon->pixmap( QSize(15, 15) ) );
 	iconWidget->setMaximumSize( QSize(15, 15) );
 	iconWidget->setScaledContents( TRUE );
 	qtLineLayout->addWidget( iconWidget );
 
 	// create widget for layout
-	QWidget* qtLineWidget = Memory::Alloc<QWidget>();
+	QWidget* qtLineWidget = new QWidget();
 	qtLineWidget->setLayout( qtLineLayout );
 	qtLineWidget->setObjectName( EditorSkin::CONSOLE_LOG );
 
 	// create label
-	QLabel* qtMessage = Memory::Alloc<QLabel>( message );
+	QLabel* qtMessage = new QLabel( message );
 	qtMessage->setTextInteractionFlags( Qt::TextSelectableByMouse );
 	qtMessage->setWordWrap( TRUE );
 	qtLineLayout->addWidget( qtMessage );

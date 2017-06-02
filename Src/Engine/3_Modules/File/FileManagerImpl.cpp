@@ -45,14 +45,14 @@ void FileManagerImpl::Finalize()
 		return;
 	}
 
-	Memory::Free( _fileSystem );
+	PTR_FREE( _fileSystem );
 	_fileSystem = NULL;
 }
 
 
 void FileManagerImpl::SetSerializeSystem( SerializeSystem* serializeSystem )
 {
-	Memory::Free( _serializeSystem );
+	PTR_FREE( _serializeSystem );
 
 	_serializeSystem = serializeSystem;
 }

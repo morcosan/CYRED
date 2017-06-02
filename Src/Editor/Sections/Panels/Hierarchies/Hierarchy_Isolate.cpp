@@ -26,7 +26,7 @@ using namespace CYRED;
 void Hierarchy_Isolate::_OnInitialize()
 {
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this );
+	_menuGameObject = new Menu_GameObject( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -134,7 +134,7 @@ void Hierarchy_Isolate::_ResetHierarchy()
 
 	// sanity check
 	if ( _target != NULL ) {
-		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+		CustomTreeItem* treeItem = new CustomTreeItem();
 		treeItem->node = _target;
 
 		treeItem->setText( 0, _target->GetName() );

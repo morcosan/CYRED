@@ -44,14 +44,14 @@ namespace CYRED
 	template <typename TValue>
 	DataArray<TValue>::DataArray()
 	{
-		_vector = Memory::Alloc<std::vector<TValue>>();
+		_vector = new std::vector<TValue>();
 	}
 
 
 	template <typename TValue>
 	DataArray<TValue>::DataArray( const DataArray& other )
 	{
-		_vector = Memory::Alloc<std::vector<TValue>>();
+		_vector = new std::vector<TValue>();
 
 		for ( int i = 0; i < other.Size(); ++i )
 		{
@@ -63,7 +63,7 @@ namespace CYRED
 	template <typename TValue>
 	DataArray<TValue>::~DataArray()
 	{
-		Memory::Free( _vector );
+		PTR_FREE( _vector );
 	}
 
 
@@ -113,7 +113,7 @@ namespace CYRED
 	template <typename TValue>
 	TValue& DataArray<TValue>::operator[] ( int index ) const
 	{
-		ASSERT( index < CAST_S(int, _vector->size()) );
+		ASSERT( index < CAST_S( int, _vector->size() ) );
 		return (*_vector)[index];
 	}
 

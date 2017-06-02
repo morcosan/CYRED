@@ -145,6 +145,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_ParticleEmitter.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scene.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Script.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scripter.cpp" />
@@ -221,6 +222,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_MorphRendering.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_ParticleEmitter.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Prefab.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scene.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Script.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Scripter.h" />
@@ -277,7 +279,6 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="DLL_Include\CyredOpenGL.h" />
     <ClInclude Include="DLL_Include\CyredRequired.h" />
     <ClInclude Include="1_Required\Macros.h" />
-    <ClInclude Include="1_Required\Memory.h" />
     <ClInclude Include="3_Modules\Asset\AssetManager.h" />
     <ClInclude Include="3_Modules\Event\Sections\IEventListener.h" />
     <ClInclude Include="3_Modules\Event\EventManager.h" />

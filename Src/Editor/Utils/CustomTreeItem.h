@@ -22,7 +22,7 @@ namespace CYRED
 		virtual ~CustomTreeItem()
 		{
 			while ( childCount() > 0 ) {
-				Memory::Free( takeChild(0) );
+				PTR_FREE( takeChild(0) );
 			}
 		}
 

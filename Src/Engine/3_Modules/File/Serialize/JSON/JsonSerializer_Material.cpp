@@ -204,12 +204,12 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			if ( shader == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk ) {
-					shader = Memory::Alloc<Shader>();
+					shader = new Shader();
 					shader->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddShader( shader );
 				}
 				else {
-					Memory::Free( shader );
+					PTR_FREE( shader );
 					shader = NULL;
 				}
 			}
@@ -281,12 +281,12 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 						if ( texture == NULL ) {
 							bool isOk = Random::ValidateUniqueID( uniqueID );
 							if ( isOk )	{
-								texture = Memory::Alloc<Texture>();
+								texture = new Texture();
 								texture->SetUniqueID( uniqueID );
 								AssetManager::Singleton()->AddTexture( texture );
 							}
 							else {
-								Memory::Free( texture );
+								PTR_FREE( texture );
 								texture = NULL;
 							}
 						}
@@ -307,12 +307,12 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			if ( pickingProxy == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk ) {
-					pickingProxy = Memory::Alloc<Material>();
+					pickingProxy = new Material();
 					pickingProxy->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( pickingProxy );
 				}
 				else {
-					Memory::Free( pickingProxy );
+					PTR_FREE( pickingProxy );
 					pickingProxy = NULL;
 				}
 			}

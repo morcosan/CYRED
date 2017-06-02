@@ -36,7 +36,7 @@ void Material::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Material>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -56,7 +56,7 @@ void Material::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Material>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
 
@@ -83,7 +83,7 @@ void Material::ClearAsset()
 
 Asset* Material::Clone()
 {
-	return _BuildClone( Memory::Alloc<Material>() );
+	return _BuildClone( new Material() );
 }
 
 

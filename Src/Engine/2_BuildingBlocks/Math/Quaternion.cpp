@@ -16,32 +16,32 @@ using namespace CYRED;
 
 
 Quaternion::Quaternion()
-	: _self( Memory::Alloc<glm::quat>() )
+	: _self( new glm::quat() )
 {
 }
 
 
 Quaternion::Quaternion( const Quaternion& other )
-	: _self( Memory::Alloc<glm::quat>( *other._self ) )
+	: _self( new glm::quat( *other._self ) )
 {
 }
 
 
 Quaternion::Quaternion( const glm::quat& other )
-	: _self( Memory::Alloc<glm::quat>( other ) )
+	: _self( new glm::quat( other ) )
 {
 }
 
 
 Quaternion::Quaternion( const Vector3& other )
-	: _self( Memory::Alloc<glm::quat>( glm::vec3(other.x, other.y, other.z) ) )
+	: _self( new glm::quat( glm::vec3(other.x, other.y, other.z) ) )
 {
 }
 
 
 Quaternion::~Quaternion()
 {
-	Memory::Free( _self );
+	PTR_FREE( _self );
 }
 
 

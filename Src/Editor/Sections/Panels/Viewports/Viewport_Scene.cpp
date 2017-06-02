@@ -67,7 +67,7 @@ cchar* Viewport_Scene::_GetPanelTitle()
 
 void Viewport_Scene::_OnInitialize()
 {
-	_qtCameraDropdown = Memory::Alloc<QComboBox>();
+	_qtCameraDropdown = new QComboBox();
 	_qtTopBarLayout->addWidget( _qtCameraDropdown );
 
 	// register events

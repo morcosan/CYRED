@@ -29,7 +29,7 @@ void Renderer::Initialize( GL* glAPI, GLContext* glContext )
 
 	// prepare screen quad
 	if ( _screenQuadShader == NULL ) {
-		_screenQuadShader = Memory::Alloc<Shader>();
+		_screenQuadShader = new Shader();
 	}
 
 	// call for specific initialization

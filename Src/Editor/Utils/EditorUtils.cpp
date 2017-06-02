@@ -60,7 +60,7 @@ void EditorUtils::Initialize()
 		QFileInfo& fileInfo = dirIterator.fileInfo();
 
 		_icons.Set( fileInfo.completeBaseName().toUtf8().data(), 
-					Memory::Alloc<QIcon>( fileInfo.filePath().toUtf8().data() ) );
+					new QIcon( fileInfo.filePath().toUtf8().data() ) );
 	}
 }
 

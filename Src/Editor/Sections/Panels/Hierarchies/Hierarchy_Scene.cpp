@@ -27,8 +27,8 @@ using namespace CYRED;
 void Hierarchy_Scene::_OnInitialize()
 {
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this );
-	_menuScene		= Memory::Alloc<Menu_Scene>( _qtTree, this );
+	_menuGameObject = new Menu_GameObject( _qtTree, this );
+	_menuScene		= new Menu_Scene( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -76,6 +76,8 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 		}
 
 		case EventType::COMPONENT_UPDATE:
+		case EventType::COMPONENT_ADD:
+		case EventType::COMPONENT_REMOVE:
 		{
 			Component* component = CAST_S( Component*, eventData );
 			if ( component != NULL ) {
@@ -175,7 +177,7 @@ void Hierarchy_Scene::_ResetHierarchy()
 	for ( int i = 0; i < SceneManager::Singleton()->CountLoadedScenes(); ++i )	{
 		Scene* scene = SceneManager::Singleton()->GetScene( i );
 		
-		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+		CustomTreeItem* treeItem = new CustomTreeItem();
 		treeItem->asset = scene;
 		treeItem->assetIndex = i;
 		treeItem->node = scene->GetRoot();

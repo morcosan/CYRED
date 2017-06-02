@@ -28,7 +28,7 @@ void GameInitScript::_OnStart( bool isRuntime )
 	if ( _appConfig->startScene.path.GetLength() > 0 )
 	{
 		// find uid
-		Scene* scene = Memory::Alloc<Scene>();
+		Scene* scene = new Scene();
 		scene->SetEmitEvents( FALSE );
 		scene->SetName( _appConfig->startScene.path.GetChar(), FALSE );
 		scene->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -44,7 +44,7 @@ void GameInitScript::_LoadAllAssets()
 	// load textures
 	for ( int i = 0; i < _appConfig->assetTextures.Size(); i++ ) {
 		// create asset
-		Texture* texture = Memory::Alloc<Texture>();
+		Texture* texture = new Texture();
 		texture->SetEmitEvents( FALSE );
 		texture->SetName( _appConfig->assetTextures[i].path.GetChar(), FALSE );
 		texture->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -56,7 +56,7 @@ void GameInitScript::_LoadAllAssets()
 	// load meshes
 	for ( int i = 0; i < _appConfig->assetMeshes.Size(); i++ ) {
 		// create asset
-		Mesh* mesh = Memory::Alloc<Mesh>();
+		Mesh* mesh = new Mesh();
 		mesh->SetEmitEvents( FALSE );
 		mesh->SetName( _appConfig->assetMeshes[i].path.GetChar(), FALSE );
 		mesh->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -68,7 +68,7 @@ void GameInitScript::_LoadAllAssets()
 	// load morphs
 	for ( int i = 0; i < _appConfig->assetMorphs.Size(); i++ ) {
 		// create asset
-		Morph* morph = Memory::Alloc<Morph>();
+		Morph* morph = new Morph();
 		morph->SetEmitEvents( FALSE );
 		morph->SetName( _appConfig->assetMorphs[i].path.GetChar(), FALSE );
 		morph->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -80,7 +80,7 @@ void GameInitScript::_LoadAllAssets()
 	// load shaders
 	for ( int i = 0; i < _appConfig->assetShaders.Size(); i++ ) {
 		// create asset
-		Shader* shader = Memory::Alloc<Shader>();
+		Shader* shader = new Shader();
 		shader->SetEmitEvents( FALSE );
 		shader->SetName( _appConfig->assetShaders[i].path.GetChar(), FALSE );
 		shader->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -92,7 +92,7 @@ void GameInitScript::_LoadAllAssets()
 	// load scripts
 	for ( int i = 0; i < _appConfig->assetScripts.Size(); i++ ) {
 		// create asset
-		Script* script = Memory::Alloc<Script>();
+		Script* script = new Script();
 		script->SetEmitEvents( FALSE );
 		script->SetName( _appConfig->assetScripts[i].path.GetChar(), FALSE );
 		script->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -104,7 +104,7 @@ void GameInitScript::_LoadAllAssets()
 	// load materials after shaders
 	for ( int i = 0; i < _appConfig->assetMaterials.Size(); i++ ) {
 		// create asset
-		Material* material = Memory::Alloc<Material>();
+		Material* material = new Material();
 		material->SetEmitEvents( FALSE );
 		material->SetName( _appConfig->assetMaterials[i].path.GetChar(), FALSE );
 		material->SetDirPath( AppConfig::DIR_PATH_DATA );
@@ -116,7 +116,7 @@ void GameInitScript::_LoadAllAssets()
 	// load scenes after all
 	for ( int i = 0; i < _appConfig->assetScenes.Size(); i++ ) {
 		// create asset
-		Scene* scene = Memory::Alloc<Scene>();
+		Scene* scene = new Scene();
 		scene->SetEmitEvents( FALSE );
 		scene->SetName( _appConfig->assetScenes[i].path.GetChar(), FALSE );
 		scene->SetDirPath( AppConfig::DIR_PATH_DATA );

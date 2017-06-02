@@ -46,17 +46,17 @@ Panel_Attributes::Panel_Attributes()
 	this->setWindowTitle( PANEL_TITLE );
 	this->setMinimumSize( MIN_SIZE.x, MIN_SIZE.y );
 
-	_qtTree = Memory::Alloc<QTreeWidget>( this );
+	_qtTree = new QTreeWidget( this );
 	_qtTree->setHeaderHidden( true );
 	_qtTree->setDragEnabled( false );
 	_qtTree->setObjectName( EditorSkin::ATTR_COMP_TREE );
 
-	QVBoxLayout* vLayout = Memory::Alloc<QVBoxLayout>();
+	QVBoxLayout* vLayout = new QVBoxLayout();
 	vLayout->setSpacing( 15 );
 	vLayout->setContentsMargins( 0, 0, 0, 0 );
 	vLayout->addWidget( _qtTree );
 
-	QWidget* layoutWidget = Memory::Alloc<QWidget>();
+	QWidget* layoutWidget = new QWidget();
 	layoutWidget->setLayout( vLayout );
 	layoutWidget->setObjectName( EditorSkin::PANEL_LAYOUT );
 
@@ -68,7 +68,7 @@ Panel_Attributes::~Panel_Attributes()
 {
 	Iterator<String, _AttrViewer*> iter = _attrViewers.GetIterator();
 	while ( iter.HasNext() ) {
-		Memory::Free( iter.GetValue()->viewer );
+		PTR_FREE( iter.GetValue()->viewer );
 		iter.Next();
 	}
 }
@@ -79,27 +79,27 @@ void Panel_Attributes::Initialize()
 	ASSERT( !_isInitialized );
 	_isInitialized = TRUE;
 
-	SetAttrViewer( ATTR_MATERIAL,			Memory::Alloc<AttrViewer_Material>() );
-	SetAttrViewer( ATTR_MESH,				Memory::Alloc<AttrViewer_Mesh>() );
-	SetAttrViewer( ATTR_MORPH,				Memory::Alloc<AttrViewer_Morph>() );
-	SetAttrViewer( ATTR_SHADER,				Memory::Alloc<AttrViewer_Shader>() );
-	SetAttrViewer( ATTR_TEXTURE,			Memory::Alloc<AttrViewer_Texture>() );
-	SetAttrViewer( ATTR_SCENE,				Memory::Alloc<AttrViewer_Scene>() );
-	SetAttrViewer( ATTR_SCRIPT,				Memory::Alloc<AttrViewer_Script>() );
-	SetAttrViewer( ATTR_PREFAB,				Memory::Alloc<AttrViewer_Prefab>() );
+	SetAttrViewer( ATTR_MATERIAL,			new AttrViewer_Material() );
+	SetAttrViewer( ATTR_MESH,				new AttrViewer_Mesh() );
+	SetAttrViewer( ATTR_MORPH,				new AttrViewer_Morph() );
+	SetAttrViewer( ATTR_SHADER,				new AttrViewer_Shader() );
+	SetAttrViewer( ATTR_TEXTURE,			new AttrViewer_Texture() );
+	SetAttrViewer( ATTR_SCENE,				new AttrViewer_Scene() );
+	SetAttrViewer( ATTR_SCRIPT,				new AttrViewer_Script() );
+	SetAttrViewer( ATTR_PREFAB,				new AttrViewer_Prefab() );
 
-	SetAttrViewer( ATTR_GAMEOBJECT,			Memory::Alloc<AttrViewer_GameObject>() );
+	SetAttrViewer( ATTR_GAMEOBJECT,			new AttrViewer_GameObject() );
 
-	SetAttrViewer( ATTR_TRANSFORM,			Memory::Alloc<AttrViewer_Transform>() );
-	SetAttrViewer( ATTR_CAMERA,				Memory::Alloc<AttrViewer_Camera>() );
-	SetAttrViewer( ATTR_LIGHT,				Memory::Alloc<AttrViewer_Light>() );
-	SetAttrViewer( ATTR_PARTICLES_EMITTER,	Memory::Alloc<AttrViewer_ParticleEmitter>() );
-	SetAttrViewer( ATTR_MESH_RENDERING,		Memory::Alloc<AttrViewer_MeshRendering>() );
-	SetAttrViewer( ATTR_MORPH_RENDERING,	Memory::Alloc<AttrViewer_MorphRendering>() );
-	SetAttrViewer( ATTR_SCRIPTER,			Memory::Alloc<AttrViewer_Scripter>() );
-	SetAttrViewer( ATTR_RIGID_BODY,			Memory::Alloc<AttrViewer_RigidBody>() );
+	SetAttrViewer( ATTR_TRANSFORM,			new AttrViewer_Transform() );
+	SetAttrViewer( ATTR_CAMERA,				new AttrViewer_Camera() );
+	SetAttrViewer( ATTR_LIGHT,				new AttrViewer_Light() );
+	SetAttrViewer( ATTR_PARTICLES_EMITTER,	new AttrViewer_ParticleEmitter() );
+	SetAttrViewer( ATTR_MESH_RENDERING,		new AttrViewer_MeshRendering() );
+	SetAttrViewer( ATTR_MORPH_RENDERING,	new AttrViewer_MorphRendering() );
+	SetAttrViewer( ATTR_SCRIPTER,			new AttrViewer_Scripter() );
+	SetAttrViewer( ATTR_RIGID_BODY,			new AttrViewer_RigidBody() );
 
-	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
+	SetAttrViewer( ATTR_CYRED_PROJ,			new AttrViewer_CyredProj() );
 
 	_ClearPanel();
 
@@ -333,7 +333,7 @@ void Panel_Attributes::SetAttrViewer( cchar* typeName, AttrViewer* viewer )
 {
 	ASSERT( _isInitialized );
 
-	_AttrViewer* attrViewer = Memory::Alloc<_AttrViewer>();
+	_AttrViewer* attrViewer = new _AttrViewer();
 	attrViewer->viewer = viewer;
 	attrViewer->needsRefresh = FALSE;
 

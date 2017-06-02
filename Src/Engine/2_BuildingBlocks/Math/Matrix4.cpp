@@ -19,26 +19,26 @@ using namespace CYRED;
 
 
 Matrix4::Matrix4()
-	: _self( Memory::Alloc<glm::mat4>( 0.0f ) )
+	: _self( new glm::mat4( 0.0f ) )
 {
 }
 
 
 Matrix4::Matrix4( const Matrix4& other )
-	: _self( Memory::Alloc<glm::mat4>( *other._self ) )
+	: _self( new glm::mat4( *other._self ) )
 {
 }
 
 
 Matrix4::Matrix4( const glm::mat4& other )
-	: _self( Memory::Alloc<glm::mat4>( other ) )
+	: _self( new glm::mat4( other ) )
 {
 }
 
 
 Matrix4::~Matrix4()
 {
-	Memory::Free( _self );
+	PTR_FREE( _self );
 }
 
 

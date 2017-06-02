@@ -69,7 +69,7 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 
 		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
-			GameObject* gameObject = Memory::Alloc<GameObject>( NULL, uid );
+			GameObject* gameObject = new GameObject( NULL, uid );
 			gameObject->SetEmitEvents( FALSE );
 			{
 				// add to scene

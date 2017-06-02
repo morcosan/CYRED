@@ -26,7 +26,7 @@ using namespace CYRED;
 void Hierarchy_Prefab::_OnInitialize()
 {
 	// create menus
-	_menuGameObject = Memory::Alloc<Menu_GameObject>( _qtTree, this );
+	_menuGameObject = new Menu_GameObject( _qtTree, this );
 
 	// add menu to tree
 	_qtTree->setContextMenuPolicy( Qt::CustomContextMenu );
@@ -73,6 +73,8 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 		}
 
 		case EventType::COMPONENT_UPDATE:
+		case EventType::COMPONENT_ADD:
+		case EventType::COMPONENT_REMOVE:
 		{
 			Component* component = CAST_S( Component*, eventData );
 			if ( component != NULL ) {
@@ -187,7 +189,7 @@ void Hierarchy_Prefab::_ResetHierarchy()
 
 	// sanity check
 	if ( _targetPrefab != NULL ) {
-		CustomTreeItem* treeItem = Memory::Alloc<CustomTreeItem>();
+		CustomTreeItem* treeItem = new CustomTreeItem();
 		treeItem->asset = _targetPrefab;
 		treeItem->node = _targetPrefab->GetRoot();
 

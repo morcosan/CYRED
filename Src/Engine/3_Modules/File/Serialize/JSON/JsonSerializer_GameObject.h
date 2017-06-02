@@ -12,14 +12,15 @@ namespace CYRED
 	{
 		cchar* const NAME				= "name";
 		cchar* const ENABLED			= "enabled";
-		cchar* const COMPONENTS		= "components";
+		cchar* const COMPONENTS			= "components";
 		cchar* const TRANSFORM			= "transform";
-		cchar* const CAMERA			= "camera";
+		cchar* const CAMERA				= "camera";
 		cchar* const LIGHT				= "light";
 		cchar* const PARTICLE_EMITTER	= "particle_emitter";
-		cchar* const MESH_RENDERING	= "mesh_rendering";
+		cchar* const MESH_RENDERING		= "mesh_rendering";
 		cchar* const MORPH_RENDERING	= "morph_rendering";
 		cchar* const SCRIPTER			= "scripter";
+		cchar* const RIGID_BODY			= "rigid_body";
 		cchar* const CHILD_NODES		= "child_nodes";
 
 

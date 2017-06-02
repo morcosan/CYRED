@@ -54,14 +54,14 @@ namespace CYRED
 	template <typename TKey, typename TValue>
 	DataMap<TKey, TValue>::DataMap()
 	{
-		_map = Memory::Alloc< std::map<TKey, TValue> >();
+		_map = new  std::map<TKey, TValue> ();
 	}
 
 
 	template <typename TKey, typename TValue>
 	DataMap<TKey, TValue>::DataMap( const DataMap& other )
 	{
-		_map = Memory::Alloc< std::map<TKey, TValue> >();
+		_map = new  std::map<TKey, TValue> ();
 
 		for ( auto it = other._map->begin(); it != other._map->end(); ++it )
 		{
@@ -73,7 +73,7 @@ namespace CYRED
 	template <typename TKey, typename TValue>
 	DataMap<TKey, TValue>::~DataMap()
 	{
-		Memory::Free( _map );
+		PTR_FREE( _map );
 	}
 
 

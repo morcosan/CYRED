@@ -19,6 +19,7 @@
 #include "JsonSerializer_Script.h"
 #include "JsonSerializer_Scripter.h"
 #include "JsonSerializer_Prefab.h"
+#include "JsonSerializer_RigidBody.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
@@ -33,6 +34,7 @@
 #include "../../../Render/Assets/Texture.h"
 #include "../../../Render/Assets/Mesh.h"
 #include "../../../Render/Assets/Morph.h"
+#include "../../../Physics/Components/RigidBody.h"
 #include "../../../../4_Application/AppConfig.h"
 #include "../../../Script/Assets/Script.h"
 #include "../../../Script/Components/Scripter.h"
@@ -49,26 +51,27 @@ using namespace CYRED;
 
 JsonSerializeSystem::JsonSerializeSystem()
 {
-	AddSerializer<GameObject>		( Memory::Alloc<JsonSerializer_GameObject>() );
-	AddSerializer<Scene>			( Memory::Alloc<JsonSerializer_Scene>() );
+	AddSerializer<GameObject>		( new JsonSerializer_GameObject() );
+	AddSerializer<Scene>			( new JsonSerializer_Scene() );
 
-	AddSerializer<Transform>		( Memory::Alloc<JsonSerializer_Transform>() );
-	AddSerializer<Camera>			( Memory::Alloc<JsonSerializer_Camera>() );
-	AddSerializer<Light>			( Memory::Alloc<JsonSerializer_Light>() );
-	AddSerializer<ParticleEmitter>	( Memory::Alloc<JsonSerializer_ParticleEmitter>() );
-	AddSerializer<MeshRendering>	( Memory::Alloc<JsonSerializer_MeshRendering>() );
-	AddSerializer<MorphRendering>	( Memory::Alloc<JsonSerializer_MorphRendering>() );
-	AddSerializer<Scripter>			( Memory::Alloc<JsonSerializer_Scripter>() );
+	AddSerializer<Transform>		( new JsonSerializer_Transform() );
+	AddSerializer<Camera>			( new JsonSerializer_Camera() );
+	AddSerializer<Light>			( new JsonSerializer_Light() );
+	AddSerializer<ParticleEmitter>	( new JsonSerializer_ParticleEmitter() );
+	AddSerializer<MeshRendering>	( new JsonSerializer_MeshRendering() );
+	AddSerializer<MorphRendering>	( new JsonSerializer_MorphRendering() );
+	AddSerializer<Scripter>			( new JsonSerializer_Scripter() );
+	AddSerializer<RigidBody>		( new JsonSerializer_RigidBody() );
 
-	AddSerializer<Material>			( Memory::Alloc<JsonSerializer_Material>() );
-	AddSerializer<Shader>			( Memory::Alloc<JsonSerializer_Shader>() );
-	AddSerializer<Texture>			( Memory::Alloc<JsonSerializer_Texture>() );
-	AddSerializer<Mesh>				( Memory::Alloc<JsonSerializer_Mesh>() );
-	AddSerializer<Morph>			( Memory::Alloc<JsonSerializer_Morph>() );
-	AddSerializer<Script>			( Memory::Alloc<JsonSerializer_Script>() );
-	AddSerializer<Prefab>			( Memory::Alloc<JsonSerializer_Prefab>() );
+	AddSerializer<Material>			( new JsonSerializer_Material() );
+	AddSerializer<Shader>			( new JsonSerializer_Shader() );
+	AddSerializer<Texture>			( new JsonSerializer_Texture() );
+	AddSerializer<Mesh>				( new JsonSerializer_Mesh() );
+	AddSerializer<Morph>			( new JsonSerializer_Morph() );
+	AddSerializer<Script>			( new JsonSerializer_Script() );
+	AddSerializer<Prefab>			( new JsonSerializer_Prefab() );
 
-	AddSerializer<AppConfig>		( Memory::Alloc<JsonSerializer_AppConfig>() );
+	AddSerializer<AppConfig>		( new JsonSerializer_AppConfig() );
 }
 
 

@@ -39,7 +39,7 @@ GameObject::GameObject( cchar* name, int uid )
 GameObject::~GameObject()
 {
 	for ( int i = 0; i < _components.Size(); ++i ) {
-		Memory::Free( _components[i] );
+		PTR_FREE( _components[i] );
 	}
 
 	_components.Clear();

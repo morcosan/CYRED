@@ -39,7 +39,7 @@ void Shader::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Shader>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -59,7 +59,7 @@ void Shader::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Shader>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
 
@@ -91,7 +91,7 @@ void Shader::ClearAsset()
 
 Asset* Shader::Clone()
 {
-	return _BuildClone( Memory::Alloc<Shader>() );
+	return _BuildClone( new Shader() );
 }
 
 
@@ -167,9 +167,9 @@ void Shader::LoadShaderProgram()
 		}
 	}
 
-	Memory::Free( vertexCode );
-	Memory::Free( geometryCode );
-	Memory::Free( fragmentCode );
+	PTR_FREE( vertexCode );
+	PTR_FREE( geometryCode );
+	PTR_FREE( fragmentCode );
 }
 
 

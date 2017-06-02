@@ -117,8 +117,8 @@ void RenderManagerImpl::CreateRenderer( RendererType rendererType )
 	// create new renderer
 	Renderer* renderer = NULL;
 	switch ( rendererType ) {
-		case RendererType::GL_FORWARD:	renderer = Memory::Alloc<ForwardRenderer>();	break;
-		case RendererType::GL_PICKING:	renderer = Memory::Alloc<PickingRenderer>();	break;
+		case RendererType::GL_FORWARD:	renderer = new ForwardRenderer();	break;
+		case RendererType::GL_PICKING:	renderer = new PickingRenderer();	break;
 	}
 
 	// set context

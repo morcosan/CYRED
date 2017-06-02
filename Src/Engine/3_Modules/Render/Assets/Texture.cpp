@@ -61,12 +61,12 @@ Texture::~Texture()
 {
 	NotAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
 
-	Memory::FreeArray( _imageBuffer[0] );
-	Memory::FreeArray( _imageBuffer[1] );
-	Memory::FreeArray( _imageBuffer[2] );
-	Memory::FreeArray( _imageBuffer[3] );
-	Memory::FreeArray( _imageBuffer[4] );
-	Memory::FreeArray( _imageBuffer[5] );
+	ARRAY_FREE( _imageBuffer[0] );
+	ARRAY_FREE( _imageBuffer[1] );
+	ARRAY_FREE( _imageBuffer[2] );
+	ARRAY_FREE( _imageBuffer[3] );
+	ARRAY_FREE( _imageBuffer[4] );
+	ARRAY_FREE( _imageBuffer[5] );
 
 	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
@@ -90,7 +90,7 @@ void Texture::LoadUniqueID()
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this, DeserFlag::UID_ONLY );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 }
 
 
@@ -110,7 +110,7 @@ void Texture::LoadFullFile()
 	FileManager::Singleton()->Deserialize<Texture>( fileData, this );
 
 	// free memory for file
-	Memory::FreeArray( fileData );
+	ARRAY_FREE( fileData );
 
 	BindToGPU();
 
@@ -134,12 +134,12 @@ void Texture::ClearAsset()
 
 	_isTemporary = TRUE;
 
-	Memory::FreeArray( _imageBuffer[0] );
-	Memory::FreeArray( _imageBuffer[1] );
-	Memory::FreeArray( _imageBuffer[2] );
-	Memory::FreeArray( _imageBuffer[3] );
-	Memory::FreeArray( _imageBuffer[4] );
-	Memory::FreeArray( _imageBuffer[5] );
+	ARRAY_FREE( _imageBuffer[0] );
+	ARRAY_FREE( _imageBuffer[1] );
+	ARRAY_FREE( _imageBuffer[2] );
+	ARRAY_FREE( _imageBuffer[3] );
+	ARRAY_FREE( _imageBuffer[4] );
+	ARRAY_FREE( _imageBuffer[5] );
 
 	for ( int i = 0; i < 6; i++ ) {
 		_imageBuffer[i]		= NULL;
@@ -156,7 +156,7 @@ void Texture::ClearAsset()
 
 Asset* Texture::Clone()
 {
-	return _BuildClone( Memory::Alloc<Texture>() );
+	return _BuildClone( new Texture() );
 }
 
 
@@ -238,7 +238,7 @@ void Texture::BindToGPU()
 				}
 
 				// free string memory
-				Memory::FreeArray( fileData );
+				ARRAY_FREE( fileData );
 			}
 		}
 	}
@@ -249,7 +249,7 @@ void Texture::BindToGPU()
 										_imageChannels[0], _hasMipmap, _imageBuffer[0] );
 
 		if ( _clearBufferOnBind ) {
-			Memory::FreeArray( _imageBuffer[0] );
+			ARRAY_FREE( _imageBuffer[0] );
 			_imageBuffer[0]		= NULL;
 		}
 	}
@@ -261,12 +261,12 @@ void Texture::BindToGPU()
 											 _imageBuffer[4], _imageBuffer[5] );
 
 		if ( _clearBufferOnBind ) {
-			Memory::FreeArray( _imageBuffer[0] );
-			Memory::FreeArray( _imageBuffer[1] );
-			Memory::FreeArray( _imageBuffer[2] );
-			Memory::FreeArray( _imageBuffer[3] );
-			Memory::FreeArray( _imageBuffer[4] );
-			Memory::FreeArray( _imageBuffer[5] );
+			ARRAY_FREE( _imageBuffer[0] );
+			ARRAY_FREE( _imageBuffer[1] );
+			ARRAY_FREE( _imageBuffer[2] );
+			ARRAY_FREE( _imageBuffer[3] );
+			ARRAY_FREE( _imageBuffer[4] );
+			ARRAY_FREE( _imageBuffer[5] );
 
 			for ( int i = 0; i < 6; i++ ) {
 				_imageBuffer[i]		= NULL;
@@ -393,7 +393,7 @@ void Texture::SetImageData( int bufferIndex, int width, int height, int channels
 	_imageWidth[bufferIndex]	= width;
 	_imageHeight[bufferIndex]	= height;
 	_imageChannels[bufferIndex] = channels;
-	_imageBuffer[bufferIndex]	= Memory::AllocArray<uchar>( width * height * channels );
+	_imageBuffer[bufferIndex]	= new uchar[ width * height * channels ];
 }
 
 

@@ -37,12 +37,12 @@ void PhysicsManagerImpl::Initialize()
 	_isInitialized = true;
 
 	// create bullet configuration
-	_broadphase	= Memory::Alloc<btDbvtBroadphase>();
-	_collConfig	= Memory::Alloc<btDefaultCollisionConfiguration>();
-	_dispatcher	= Memory::Alloc<btCollisionDispatcher>( _collConfig );
-	_solver		= Memory::Alloc<btSequentialImpulseConstraintSolver>();
+	_broadphase	= new btDbvtBroadphase();
+	_collConfig	= new btDefaultCollisionConfiguration();
+	_dispatcher	= new btCollisionDispatcher( _collConfig );
+	_solver		= new btSequentialImpulseConstraintSolver();
 	// create physics world
-	_dynamicsWorld = Memory::Alloc<btDiscreteDynamicsWorld>( 
+	_dynamicsWorld = new btDiscreteDynamicsWorld( 
 		_dispatcher, _broadphase, _solver, _collConfig 
 	);
 	_dynamicsWorld->setGravity( btVector3( 0, -9.81f, 0 ) );
@@ -55,31 +55,32 @@ void PhysicsManagerImpl::Finalize()
 		return;
 	}
 
+	// destroy world first
+	PTR_FREE( _dynamicsWorld );
+	PTR_FREE( _collConfig );
+	PTR_FREE( _broadphase );
+	PTR_FREE( _dispatcher );
+	PTR_FREE( _solver );
+
 	// delete rigid bodies
 	Iterator<RigidBody*, btRigidBody*> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
 		// clear memory
-		Memory::Free( iter.GetValue()->getMotionState() );
-		Memory::Free( iter.GetValue()->getCollisionShape() );
-		Memory::Free( iter.GetValue() );
+		PTR_FREE( iter.GetValue()->getMotionState() );
+		PTR_FREE( iter.GetValue()->getCollisionShape() );
+		PTR_FREE( iter.GetValue() );
+
 		// next
 		iter.Next();
 	}
-
-	// clear memory
-	Memory::Free( _collConfig );
-	Memory::Free( _broadphase );
-	Memory::Free( _dispatcher );
-	Memory::Free( _solver );
-
-	// bullet alignment bug
-	//Memory::Free( _dynamicsWorld );
 }
 
 
 void PhysicsManagerImpl::Update()
 {
 	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
+
+
 }
 
 
@@ -91,19 +92,22 @@ void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
 		Vector3 shapeSize = rigidBody->GetShapeSize();
 		switch ( rigidBody->GetShapeType() ) {
 			case CollisionShapeType::BOX:
-				collisionShape = Memory::Alloc<btBoxShape>( btVector3( shapeSize.x, shapeSize.y, shapeSize.x ) );
+				collisionShape = new btBoxShape( btVector3( shapeSize.x, shapeSize.y, shapeSize.x ) );
 				break;
 
 			case CollisionShapeType::SPHERE:
-				collisionShape = Memory::Alloc<btSphereShape>( shapeSize.x );
+				collisionShape = new btSphereShape( shapeSize.x );
 				break;
 		}
 		// create bullet rigid body
 		btMotionState* motionstate = new btDefaultMotionState();
 		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
-			rigidBody->GetMass(), motionstate, collisionShape, btVector3( 0, 0, 0 )    
+			rigidBody->GetMass(), 
+			motionstate, 
+			collisionShape, 
+			btVector3( 0, 0, 0 )    
 		);
-		btRigidBody* body = Memory::Alloc<btRigidBody>( rigidBodyCI );
+		btRigidBody* body = new btRigidBody( rigidBodyCI );
 
 		// add to world
 		_dynamicsWorld->addRigidBody( body );
@@ -124,7 +128,6 @@ void PhysicsManagerImpl::UnregisterRigidBody( RigidBody* rigidBody )
 		_rigidBodies.Erase( rigidBody );
 
 		// clear memory
-		// bullet bug
-		//Memory::Free( body );
+		PTR_FREE( body );
 	}
 }

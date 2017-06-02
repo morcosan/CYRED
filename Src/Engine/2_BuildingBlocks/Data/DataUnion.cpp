@@ -64,7 +64,7 @@ DataUnion::~DataUnion()
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
 }
 
@@ -112,9 +112,9 @@ DataUnion& DataUnion::SetString( cchar* value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<String>( value );
+	_value = new String( value );
 	_type = ValueType::STRING;
 
 	return *this;
@@ -125,9 +125,9 @@ DataUnion& DataUnion::SetFloat( float value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<float>( value );
+	_value = new float( value );
 	_type = ValueType::FLOAT;
 
 	return *this;
@@ -138,9 +138,9 @@ DataUnion& DataUnion::SetInt( int value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<int>( value );
+	_value = new int( value );
 	_type = ValueType::INT;
 
 	return *this;
@@ -151,9 +151,9 @@ DataUnion& DataUnion::SetBool( bool value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<bool>( value );
+	_value = new bool( value );
 	_type = ValueType::BOOL;
 
 	return *this;
@@ -164,9 +164,9 @@ DataUnion& DataUnion::SetVector2( const Vector2& value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<Vector2>( value );
+	_value = new Vector2( value );
 	_type = ValueType::VECTOR2;
 
 	return *this;
@@ -177,9 +177,9 @@ DataUnion& DataUnion::SetVector3( const Vector3& value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<Vector3>( value );
+	_value = new Vector3( value );
 	_type = ValueType::VECTOR3;
 
 	return *this;
@@ -190,9 +190,9 @@ DataUnion& DataUnion::SetVector4( const Vector4& value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
-	_value = Memory::Alloc<Vector4>( value );
+	_value = new Vector4( value );
 	_type = ValueType::VECTOR4;
 
 	return *this;
@@ -203,7 +203,7 @@ DataUnion& DataUnion::SetReference( void* value )
 {
 	if ( _type != REFERENCE )
 	{
-		Memory::Free( _value );
+		PTR_FREE( _value );
 	}
 	_value = value;
 	_type = ValueType::REFERENCE;

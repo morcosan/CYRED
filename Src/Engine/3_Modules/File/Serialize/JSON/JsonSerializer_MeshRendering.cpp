@@ -63,8 +63,7 @@ rapidjson::Value JsonSerializer_MeshRendering::ToJson( const void* object )
 }
 
 
-void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* object, 
-										 DeserFlag flag )
+void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* object, DeserFlag flag )
 {
 	MeshRendering* meshRender = CAST_S( MeshRendering*, object );
 
@@ -87,7 +86,7 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
-					mesh = Memory::Alloc<Mesh>();
+					mesh = new Mesh();
 					mesh->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMesh( mesh );
 				}
@@ -111,7 +110,7 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 				bool isOk = Random::ValidateUniqueID( uniqueID );
 				if ( isOk )
 				{
-					material = Memory::Alloc<Material>();
+					material = new Material();
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );
 				}

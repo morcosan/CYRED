@@ -325,7 +325,7 @@ void Menu_Asset::A_Delete()
 	}
 
 	_qtTree->setCurrentItem( NULL );
-	Memory::Free( item );
+	PTR_FREE( item );
 
 	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
 }

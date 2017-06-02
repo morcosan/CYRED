@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="1_Required\Macros.h" />
-    <ClInclude Include="1_Required\Memory.h" />
     <ClInclude Include="1_Required\Singleton.h" />
     <ClInclude Include="2_BuildingBlocks\Component.h" />
     <ClInclude Include="2_BuildingBlocks\GameObject.h" />
@@ -113,6 +112,7 @@
     <ClInclude Include="3_Modules\Physics\PhysicsManagerImpl.h" />
     <ClInclude Include="DLL_Include\CyredModule_Physics.h" />
     <ClInclude Include="3_Modules\Physics\Components\RigidBody.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -185,5 +185,6 @@
     <ClCompile Include="2_BuildingBlocks\Node.cpp" />
     <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Physics\Components\RigidBody.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.cpp" />
   </ItemGroup>
 </Project>
