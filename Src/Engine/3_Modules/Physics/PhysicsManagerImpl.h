@@ -30,6 +30,7 @@ namespace CYRED
 
 			void RegisterRigidBody	( RigidBody* rigidBody )	override;
 			void UnregisterRigidBody( RigidBody* rigidBody )	override;
+			void UpdateRigidBody	( RigidBody* rigidBody )	override;
 
 
 		private:

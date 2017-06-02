@@ -24,6 +24,7 @@ namespace CYRED
 
 		virtual void RegisterRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
 		virtual void UnregisterRigidBody( RigidBody* rigidBody )	PURE_VIRTUAL;
+		virtual void UpdateRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
 
 	};
 }

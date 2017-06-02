@@ -29,12 +29,14 @@ RigidBody::~RigidBody()
 
 void RigidBody::OnAdded()
 {
+	// update physics
 	PhysicsManager::Singleton()->RegisterRigidBody( this );
 }
 
 
 void RigidBody::OnRemoved()
 {
+	// update physics
 	PhysicsManager::Singleton()->UnregisterRigidBody( this );
 }
 
@@ -85,6 +87,9 @@ float RigidBody::GetMass() const
 void RigidBody::SetMass( float mass )
 {
 	_mass = mass;
+
+	// update physics
+	PhysicsManager::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );

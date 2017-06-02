@@ -80,17 +80,34 @@ void PhysicsManagerImpl::Finalize()
 
 void PhysicsManagerImpl::Update()
 {
-	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
-
-	// update transforms for rigid bodies
+	// update physics from gameobject
 	Iterator<RigidBody*, btRigidBody*> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
-		GameObject* gameObject = iter.GetKey()->GetGameObject();
-		Transform* transform = gameObject->GetComponent<Transform>();
+		RigidBody* rigidBody = iter.GetKey();
+		btRigidBody* body = iter.GetValue();
 
 		// update position
-		btTransform bodyTran;
-		iter.GetValue()->getMotionState()->getWorldTransform( bodyTran );
+		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
+		Vector3 pos = transform->GetPositionWorld();
+		btTransform bodyTran = body->getWorldTransform();
+		bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
+		body->setWorldTransform( bodyTran );
+
+		// next
+		iter.Next();
+	}
+
+	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
+
+	// update gameobject from physics
+	iter = _rigidBodies.GetIterator();
+	while ( iter.HasNext() ) {
+		RigidBody* rigidBody = iter.GetKey();
+		btRigidBody* body = iter.GetValue();
+
+		// update position
+		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
+		btTransform bodyTran = body->getWorldTransform();
 		btVector3 pos = bodyTran.getOrigin();
 		transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
 
@@ -115,13 +132,14 @@ void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
 				collisionShape = new btSphereShape( shapeSize.x );
 				break;
 		}
-		// create bullet rigid body
+		// create motion state
 		btMotionState* motionstate = new btDefaultMotionState();
+		// create body
 		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
-			rigidBody->GetMass(), 
-			motionstate, 
-			collisionShape, 
-			btVector3( 0, 0, 0 )    
+			rigidBody->GetMass(),
+			motionstate,
+			collisionShape,
+			btVector3( 0, 0, 0 )
 		);
 		btRigidBody* body = new btRigidBody( rigidBodyCI );
 
@@ -145,5 +163,47 @@ void PhysicsManagerImpl::UnregisterRigidBody( RigidBody* rigidBody )
 
 		// clear memory
 		PTR_FREE( body );
+	}
+}
+
+
+void PhysicsManagerImpl::UpdateRigidBody( RigidBody* rigidBody )
+{
+	if ( _rigidBodies.Has( rigidBody ) ) {
+		btRigidBody* body = _rigidBodies.Get( rigidBody );
+
+		// remove from world
+		_dynamicsWorld->removeRigidBody( body );
+		// delete
+		PTR_FREE( body );
+
+		// create shape
+		btCollisionShape* collisionShape = NULL;
+		Vector3 shapeSize = rigidBody->GetShapeSize();
+		switch ( rigidBody->GetShapeType() ) {
+			case CollisionShapeType::BOX:
+				collisionShape = new btBoxShape( btVector3( shapeSize.x, shapeSize.y, shapeSize.x ) );
+				break;
+
+			case CollisionShapeType::SPHERE:
+				collisionShape = new btSphereShape( shapeSize.x );
+				break;
+		}
+		// create motion state
+		btMotionState* motionstate = new btDefaultMotionState();
+		// create new body
+		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
+			rigidBody->GetMass(),
+			motionstate,
+			collisionShape,
+			btVector3( 0, 0, 0 )
+		);
+		body = new btRigidBody( rigidBodyCI );
+
+		// add to world
+		_dynamicsWorld->addRigidBody( body );
+
+		// add to list
+		_rigidBodies.Set( rigidBody, body );
 	}
 }
