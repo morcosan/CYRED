@@ -17,13 +17,6 @@ Component::Component( GameObject* gameObject )
 }
 
 
-Component::~Component()
-{
-	// call on remove
-	OnRemoved();
-}
-
-
 void Component::OnUpdate( bool isRuntime )
 {
 	// first update is considered OnStart

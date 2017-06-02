@@ -26,9 +26,10 @@ namespace CYRED
 
 
 	public:
-		void OnHierarchyChange	()	override {}
-
-		void OnEvent( int eventType, void* eventData ) override;
+		void OnHierarchyChange	()									override {}
+		void OnAdded			()									override {};
+		void OnRemoved			()									override {};
+		void OnEvent			( int eventType, void* eventData )	override;
 
 
 	public:

@@ -23,7 +23,9 @@ namespace CYRED
 
 
 	public:
-		void Clone( Component* clone ) const override {}
+		void OnAdded	()							override {};
+		void OnRemoved	()							override {};
+		void Clone		( Component* clone ) const	override {}
 
 
 	public:

@@ -20,6 +20,13 @@ RigidBody::RigidBody( GameObject* gameObject )
 }
 
 
+RigidBody::~RigidBody()
+{
+	// call on remove
+	OnRemoved();
+}
+
+
 void RigidBody::OnAdded()
 {
 	PhysicsManager::Singleton()->RegisterRigidBody( this );

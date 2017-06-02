@@ -645,6 +645,10 @@ void EditorApp::_ReadProjectFile()
 
 void EditorApp::_WriteConfigFile()
 {
+	// collect window size
+	EditorSettings::width = _qtMainWindow->width();
+	EditorSettings::height = _qtMainWindow->height();
+
 	// collect panels size
 	for ( int i = 0; i < EditorSettings::panels.Size(); i++ ) {
 		Panel* panel = _panels.Get( EditorSettings::panels[i].type );

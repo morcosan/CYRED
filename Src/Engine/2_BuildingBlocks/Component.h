@@ -33,16 +33,16 @@ namespace CYRED
 	{
 	public:
 		Component( GameObject* gameObject );
-		virtual ~Component();
+		virtual ~Component() {}
 
 
 	public:
 		virtual void			OnHierarchyChange	() {};
 		virtual ComponentType	GetComponentType	() const;
-		virtual void			OnAdded				() {};
-		virtual void			OnRemoved			() {};
 
-		virtual void			Clone				( Component* clone ) const PURE_VIRTUAL;
+		virtual void			OnAdded				()							PURE_VIRTUAL;
+		virtual void			OnRemoved			()							PURE_VIRTUAL;
+		virtual void			Clone				( Component* clone ) const	PURE_VIRTUAL;
 
 
 	public:

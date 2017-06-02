@@ -27,12 +27,12 @@ namespace CYRED
 	{
 	public:
 		RigidBody( GameObject* gameObject );
-		virtual ~RigidBody() {}
+		virtual ~RigidBody();
 
 
 	public:
-		void OnAdded	() override;
-		void OnRemoved	() override;
+		void OnAdded	()							override;
+		void OnRemoved	()							override;
 		void Clone		( Component* clone ) const	override;
 
 

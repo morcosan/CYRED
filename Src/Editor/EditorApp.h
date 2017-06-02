@@ -11,7 +11,6 @@
 
 #include <QtWidgets/QMainWindow>
 
-
 class QApplication;
 class QTime;
 

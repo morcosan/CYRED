@@ -5,6 +5,8 @@
 
 #include "Components\RigidBody.h"
 #include "../Time/TimeManager.h"
+#include "../../2_BuildingBlocks/Components/Transform.h"
+#include "../../2_BuildingBlocks/GameObject.h"
 
 #include "BulletDynamics\Dynamics\btDynamicsWorld.h"
 #include "BulletDynamics\Dynamics\btDiscreteDynamicsWorld.h"
@@ -80,7 +82,21 @@ void PhysicsManagerImpl::Update()
 {
 	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
 
+	// update transforms for rigid bodies
+	Iterator<RigidBody*, btRigidBody*> iter = _rigidBodies.GetIterator();
+	while ( iter.HasNext() ) {
+		GameObject* gameObject = iter.GetKey()->GetGameObject();
+		Transform* transform = gameObject->GetComponent<Transform>();
 
+		// update position
+		btTransform bodyTran;
+		iter.GetValue()->getMotionState()->getWorldTransform( bodyTran );
+		btVector3 pos = bodyTran.getOrigin();
+		transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
+
+		// next
+		iter.Next();
+	}
 }
 
 

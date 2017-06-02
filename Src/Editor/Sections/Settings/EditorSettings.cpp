@@ -26,11 +26,11 @@ cchar* const EditorSettings::FILE_FORMAT_SKINS			= ".css";
 
 
 bool	EditorSettings::fullscreen	= false;
-int	EditorSettings::width		= 800;
-int	EditorSettings::height		= 600;
+int		EditorSettings::width		= 1;
+int		EditorSettings::height		= 1;
 int		EditorSettings::posX		= 0;
 int		EditorSettings::posY		= 0;
-int	EditorSettings::fps			= 60;
+int		EditorSettings::fps			= 60;
 
 String EditorSettings::projectName;
 String EditorSettings::projectPath;
