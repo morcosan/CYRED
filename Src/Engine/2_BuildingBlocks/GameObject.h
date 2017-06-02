@@ -64,8 +64,8 @@ namespace CYRED
 
 
 	private:
-		void _EmitAddEvent		();
-		void _EmitRemoveEvent	();
+		void _EmitAddEvent		( Component* component );
+		void _EmitRemoveEvent	( Component* component );
 	};
 
 
@@ -112,7 +112,7 @@ namespace CYRED
 		comp->SetEnabled( TRUE );
 
 		// emit event
-		_EmitAddEvent();
+		_EmitAddEvent( onlyOneAllowed );
 
 		return onlyOneAllowed;
 	}
@@ -130,10 +130,12 @@ namespace CYRED
 
 			if ( onlyOneAllowed != NULL ) {
 				_components.Erase( i );
-				Memory::Free( onlyOneAllowed );
 
 				// emit event
-				_EmitRemoveEvent();
+				_EmitRemoveEvent( onlyOneAllowed );
+
+				// free memory
+				Memory::Free( onlyOneAllowed );
 
 				return;
 			}

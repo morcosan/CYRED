@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../1_Required/Required.h"
 
@@ -18,23 +17,23 @@ namespace CYRED
 
 
 		public:
-			void Initialize	()								override;
-			void Finalize	()								override;
+			void Initialize	()							override;
+			void Finalize	()							override;
 				  
-			void SetEnabled	( bool value )					override;
+			void SetEnabled	( bool value )				override;
 
 			void Error		( cchar* value )			override;
 
 			void Log		( cchar* value )			override;
-			void LogInt		( int value )					override;
-			void LogFloat	( float value )					override;
-			void LogVec2	( const Vector2& value )		override;
-			void LogVec3	( const Vector3& value )		override;
-			void LogVec4	( const Vector4& value )		override;
+			void LogInt		( int value )				override;
+			void LogFloat	( float value )				override;
+			void LogVec2	( const Vector2& value )	override;
+			void LogVec3	( const Vector3& value )	override;
+			void LogVec4	( const Vector4& value )	override;
 
 
 		private:
-			bool		_enabled;
+			bool _enabled;
 		};
 	}
 }

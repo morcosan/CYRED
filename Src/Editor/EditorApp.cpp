@@ -227,14 +227,19 @@ void EditorApp::_UpdateLoop()
 		// time update
 		timeManager->Update();
 
-		//! game update
+		// update cameras
 		_UpdateCameras();
 
-		//! update scripts
+		// update scripts
 		SceneManager* sceneManager = SceneManager::Singleton();
 		int totalScenes = sceneManager->CountLoadedScenes();
 		for ( int i = 0; i < totalScenes; ++i ) {
 			sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
+		}
+
+		// update physics
+		if ( _isPlayMode && !_isPlayPaused ) {
+			PhysicsManager::Singleton()->Update();
 		}
 	}
 

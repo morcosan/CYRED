@@ -4,6 +4,11 @@
 #pragma once
 #include "../../1_Required/Required.h"
 
+namespace CYRED
+{
+	class RigidBody;
+}
+
 
 namespace CYRED
 {
@@ -13,7 +18,12 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize	()	PURE_VIRTUAL;
-		virtual void Finalize	()	PURE_VIRTUAL;
+		virtual void Initialize			()							PURE_VIRTUAL;
+		virtual void Finalize			()							PURE_VIRTUAL;
+		virtual void Update				()							PURE_VIRTUAL;
+
+		virtual void RegisterRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
+		virtual void UnregisterRigidBody( RigidBody* rigidBody )	PURE_VIRTUAL;
+
 	};
 }

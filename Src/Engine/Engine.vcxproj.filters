@@ -112,6 +112,7 @@
     <ClInclude Include="3_Modules\Physics\PhysicsManager.h" />
     <ClInclude Include="3_Modules\Physics\PhysicsManagerImpl.h" />
     <ClInclude Include="DLL_Include\CyredModule_Physics.h" />
+    <ClInclude Include="3_Modules\Physics\Components\RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -183,5 +184,6 @@
     <ClCompile Include="3_Modules\Render\Renderers\PickingRenderer.cpp" />
     <ClCompile Include="2_BuildingBlocks\Node.cpp" />
     <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
+    <ClCompile Include="3_Modules\Physics\Components\RigidBody.cpp" />
   </ItemGroup>
 </Project>

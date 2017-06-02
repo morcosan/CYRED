@@ -148,7 +148,7 @@ void Camera::SetAspectRatio( float value )
 }
 
 
-void CYRED::Camera::SetOrthoHeight( float value )
+void Camera::SetOrthoHeight( float value )
 {
 	_orthoSize.y = value;
 
@@ -161,7 +161,7 @@ void CYRED::Camera::SetOrthoHeight( float value )
 }
 
 
-void CYRED::Camera::SetOrthoWidth( float value )
+void Camera::SetOrthoWidth( float value )
 {
 	_orthoSize.x = value;
 

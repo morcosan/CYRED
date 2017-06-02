@@ -156,6 +156,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Input\Sections\InputReceiver.cpp" />
     <ClCompile Include="3_Modules\Event\EventManagerImpl.cpp" />
     <ClCompile Include="3_Modules\File\FileManagerImpl.cpp" />
+    <ClCompile Include="3_Modules\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Morph.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Texture.cpp" />
@@ -237,6 +238,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Event\Sections\Events.h" />
     <ClInclude Include="3_Modules\File\FileManagerImpl.h" />
     <ClInclude Include="3_Modules\File\Sections\FileSystem.h" />
+    <ClInclude Include="3_Modules\Physics\Components\RigidBody.h" />
     <ClInclude Include="3_Modules\Physics\PhysicsManager.h" />
     <ClInclude Include="3_Modules\Physics\PhysicsManagerImpl.h" />
     <ClInclude Include="3_Modules\Render\Assets\Morph.h" />

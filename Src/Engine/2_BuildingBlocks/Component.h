@@ -1,10 +1,8 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../1_Required/Required.h"
-
 
 namespace CYRED
 {
@@ -22,9 +20,9 @@ namespace CYRED
 			, MORPH_RENDERING
 			, PARTICLE_EMITTER
 			, SCRIPTER
+			, RIGID_BODY
 		};
 	}
-
 	typedef	Enum_ComponentType::Enum	ComponentType;
 }
 
@@ -41,15 +39,15 @@ namespace CYRED
 	public:
 		virtual void			OnHierarchyChange	() {};
 		virtual ComponentType	GetComponentType	() const;
-		virtual cchar*		GetComponentSubtype	() const;
+		virtual void			OnAdded				() {};
+		virtual void			OnRemoved			() {};
 
-
-	public:
-		virtual void Clone( Component* clone ) const PURE_VIRTUAL;
+		virtual void			Clone				( Component* clone ) const PURE_VIRTUAL;
 
 
 	public:
 		void		OnUpdate		( bool isRuntime );
+		
 
 		GameObject*	GetGameObject	()				const;
 		bool		IsEnabled		()				const;
@@ -70,7 +68,6 @@ namespace CYRED
 		bool			_enabled;
 		bool			_emitEvents;
 		ComponentType	_componentType;
-		cchar*		_componentSubtype;
 		bool			_isFirstUpdate;
 	};
 }

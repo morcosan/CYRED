@@ -13,7 +13,6 @@ Component::Component( GameObject* gameObject )
 	, _enabled( TRUE )
 	, _emitEvents( TRUE )
 	, _componentType( ComponentType::COMPONENT )
-	, _componentSubtype( NULL )
 	, _isFirstUpdate( TRUE )
 {
 }
@@ -39,12 +38,6 @@ void Component::OnUpdate( bool isRuntime )
 ComponentType Component::GetComponentType() const
 {
 	return _componentType;
-}
-
-
-cchar* Component::GetComponentSubtype() const
-{
-	return _componentSubtype;
 }
 
 

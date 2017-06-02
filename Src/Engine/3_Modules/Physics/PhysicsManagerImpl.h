@@ -4,7 +4,14 @@
 #pragma once
 #include "PhysicsManager.h"
 
+#include "../../2_BuildingBlocks/Data/DataMap.h"
+
 class btDynamicsWorld;
+class btBroadphaseInterface;
+class btCollisionConfiguration;
+class btCollisionDispatcher;
+class btConstraintSolver;
+class btRigidBody;
 
 
 namespace CYRED
@@ -17,12 +24,22 @@ namespace CYRED
 
 
 		public:
-			void Initialize	()	override;
-			void Finalize	()	override;
+			void Initialize			()							override;
+			void Finalize			()							override;
+			void Update				()							override;
+
+			void RegisterRigidBody	( RigidBody* rigidBody )	override;
+			void UnregisterRigidBody( RigidBody* rigidBody )	override;
 
 
 		private:
-			btDynamicsWorld*	_btWorld;
+			btDynamicsWorld*			_dynamicsWorld;
+			btBroadphaseInterface*		_broadphase;
+			btCollisionConfiguration*	_collConfig;
+			btCollisionDispatcher*		_dispatcher;
+			btConstraintSolver*			_solver;
+
+			DataMap<RigidBody*, btRigidBody*>	_rigidBodies;
 		};
 	}
 }

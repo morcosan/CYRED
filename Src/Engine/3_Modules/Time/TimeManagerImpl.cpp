@@ -51,6 +51,7 @@ void TimeManagerImpl::RenderUpdate( double realTime )
 }
 
 
+// in seconds
 float TimeManagerImpl::GetDeltaTime()
 {
 	ASSERT( _isInitialized );

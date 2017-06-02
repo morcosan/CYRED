@@ -137,17 +137,21 @@ void GameObject::_OnRename()
 }
 
 
-void GameObject::_EmitAddEvent()
+void GameObject::_EmitAddEvent( Component* component )
 {
+	component->OnAdded();
+
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_ADD, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_ADD, component );
 	}
 }
 
 
-void GameObject::_EmitRemoveEvent()
+void GameObject::_EmitRemoveEvent( Component* component )
 {
+	component->OnRemoved();
+
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_REMOVE, this );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_REMOVE, component );
 	}
 }

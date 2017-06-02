@@ -1,13 +1,11 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../../1_Required/Required.h"
 
 #include "../../../2_BuildingBlocks/Component.h"
 #include "../../../2_BuildingBlocks/Math/Math.h"
-
 
 namespace CYRED
 {
@@ -42,7 +40,7 @@ namespace CYRED
 
 
 	public:
-		Matrix4 GetProjectionMatrix();
+		Matrix4		GetProjectionMatrix	();
 
 		float		GetFovYAngle		()	const;
 		float		GetNearClipping		()	const;
@@ -50,17 +48,17 @@ namespace CYRED
 		float		GetAspectRatio		()	const;
 		Vector2		GetOrthoSize		()	const;
 		CameraType	GetCameraType		()	const;
-		cchar*	GetCameraTypeString	()	const;
+		cchar*		GetCameraTypeString	()	const;
 
-		void SetFovYAngle		( float value );
-		void SetNearClipping	( float value );
-		void SetFarClipping		( float value );
-		void SetAspectRatio		( float value );
-		void SetOrthoHeight		( float value );
-		void SetOrthoWidth		( float value );
-		void SetOrthoSize		( const Vector2& value );
-		void SetCameraType		( CameraType type );
-		void SetCameraTypeString( cchar* type );
+		void		SetFovYAngle		( float value );
+		void		SetNearClipping		( float value );
+		void		SetFarClipping		( float value );
+		void		SetAspectRatio		( float value );
+		void		SetOrthoHeight		( float value );
+		void		SetOrthoWidth		( float value );
+		void		SetOrthoSize		( const Vector2& value );
+		void		SetCameraType		( CameraType type );
+		void		SetCameraTypeString	( cchar* type );
 
 
 	private:
