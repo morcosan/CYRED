@@ -57,14 +57,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Lua_523/lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody_debug.lib;BulletPhysics/BulletDynamics_debug.lib;BulletPhysics/BulletCollision_debug.lib;BulletPhysics/LinearMath_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -84,7 +87,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -92,8 +95,11 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Lua_523/lua52.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody.lib;BulletPhysics/BulletDynamics.lib;BulletPhysics/BulletCollision.lib;BulletPhysics/LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -150,6 +156,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Input\Sections\InputReceiver.cpp" />
     <ClCompile Include="3_Modules\Event\EventManagerImpl.cpp" />
     <ClCompile Include="3_Modules\File\FileManagerImpl.cpp" />
+    <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Morph.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Texture.cpp" />
     <ClCompile Include="3_Modules\Render\Components\Camera.cpp" />
@@ -230,6 +237,8 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Event\Sections\Events.h" />
     <ClInclude Include="3_Modules\File\FileManagerImpl.h" />
     <ClInclude Include="3_Modules\File\Sections\FileSystem.h" />
+    <ClInclude Include="3_Modules\Physics\PhysicsManager.h" />
+    <ClInclude Include="3_Modules\Physics\PhysicsManagerImpl.h" />
     <ClInclude Include="3_Modules\Render\Assets\Morph.h" />
     <ClInclude Include="3_Modules\Render\Components\MeshRendering.h" />
     <ClInclude Include="3_Modules\Render\Components\MorphRendering.h" />
@@ -258,6 +267,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="DLL_Include\CyredModule_Event.h" />
     <ClInclude Include="DLL_Include\CyredModule_File.h" />
     <ClInclude Include="DLL_Include\CyredModule_Input.h" />
+    <ClInclude Include="DLL_Include\CyredModule_Physics.h" />
     <ClInclude Include="DLL_Include\CyredModule_Render.h" />
     <ClInclude Include="DLL_Include\CyredModule_Scene.h" />
     <ClInclude Include="DLL_Include\CyredModule_Script.h" />

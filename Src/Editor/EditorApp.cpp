@@ -12,6 +12,7 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_Script.h"
 #include "CyredModule_Time.h"
+#include "CyredModule_Physics.h"
 
 #include "Sections\MenuBar.h"
 #include "Sections\Toolbar.h"
@@ -438,6 +439,8 @@ void EditorApp::_CreateManagers()
 	TimeManager::CreateSingleton();
 	DebugManager::CreateSingleton();
 	ScriptManager::CreateSingleton();
+	PhysicsManager::CreateSingleton();
+
 	ProjectBuilder::CreateSingleton();
 
 	Random::Initialize();
@@ -466,6 +469,7 @@ void EditorApp::_InitializeManagers()
 	InputManager::Singleton()->Initialize( _inputReceiver );
 	TimeManager::Singleton()->Initialize( EditorSettings::fps );
 	DebugManager::Singleton()->Initialize();
+	PhysicsManager::Singleton()->Initialize();
 
 	ProjectBuilder::Singleton()->Initialize();
 }
@@ -482,6 +486,7 @@ void EditorApp::_FinalizeManagers()
 	TimeManager::Singleton()->Finalize();
 	DebugManager::Singleton()->Finalize();
 	ScriptManager::Singleton()->Finalize();
+	PhysicsManager::Singleton()->Finalize();
 
 	ProjectBuilder::Singleton()->Finalize();
 }
@@ -498,6 +503,7 @@ void EditorApp::_DestroyManagers()
 	TimeManager::DestroySingleton();
 	DebugManager::DestroySingleton();
 	ScriptManager::DestroySingleton();
+	PhysicsManager::DestroySingleton();
 
 	ProjectBuilder::DestroySingleton();
 }
