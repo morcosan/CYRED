@@ -4,15 +4,16 @@
 #include "RigidBody.h"
 
 #include "../../Event/EventManager.h"
+#include "../PhysicsManager.h"
 
 
 using namespace CYRED;
 
 
-RigidBody::RigidBody( GameObject * gameObject )
+RigidBody::RigidBody( GameObject* gameObject )
 	: Component( gameObject )
 	, _shapeType( CollisionShapeType::BOX )
-	, _shapeSize( Vector3( 1, 1, 1 ) )
+	, _shapeSize( Vector3( 0.5f, 0.5f, 0.5f ) )
 	, _mass( 0 )
 {
 	_componentType = ComponentType::RIGID_BODY;
@@ -21,11 +22,13 @@ RigidBody::RigidBody( GameObject * gameObject )
 
 void RigidBody::OnAdded()
 {
+	PhysicsManager::Singleton()->RegisterRigidBody( this );
 }
 
 
 void RigidBody::OnRemoved()
 {
+	PhysicsManager::Singleton()->UnregisterRigidBody( this );
 }
 
 
@@ -56,7 +59,7 @@ Vector3 RigidBody::GetShapeSize() const
 }
 
 
-void RigidBody::SetShapeSize( Vector3 size )
+void RigidBody::SetShapeSize( const Vector3& size )
 {
 	_shapeSize = size;
 

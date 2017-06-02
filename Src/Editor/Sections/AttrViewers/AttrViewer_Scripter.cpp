@@ -125,8 +125,7 @@ void AttrViewer_Scripter::_UpdateGUI()
 		_WriteAttrListIndex( ATTR_SCRIPTS, i, attrValue.SetReference( script ), scriptName );
 	}
 
-	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
-	{
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
@@ -138,8 +137,6 @@ void AttrViewer_Scripter::_UpdateGUI()
 void AttrViewer_Scripter::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
-
-	// update
 	{
 		if ( _activatedGroup == CallbackGroup::GROUP_1 ) {
 			int scriptsCount = _ReadAttrListSize( ATTR_SCRIPTS );
@@ -218,7 +215,6 @@ void AttrViewer_Scripter::_UpdateTarget()
 
 		_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}
-
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually

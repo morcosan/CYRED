@@ -1,13 +1,11 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "CyredModule_Event.h"
 
 #include "QtWidgets\qmenu.h"
-
 
 class QTreeWidget;
 
@@ -56,6 +54,7 @@ namespace CYRED
 		cchar* const	MENU_COMP_MORPH_REN		= "Morph Rendering";
 		cchar* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
 		cchar* const	MENU_COMP_SCRIPTER		= "Scripter";
+		cchar* const	MENU_COMP_RIGID_BODY	= "Rigid Body";
 
 
 	public:
@@ -94,6 +93,7 @@ namespace CYRED
 		void A_AddComp_MorphRendering	();
 		void A_AddComp_ParticlesEmitter	();
 		void A_AddComp_Scripter			();
+		void A_AddComp_RigidBody		();
 
 
 	private:

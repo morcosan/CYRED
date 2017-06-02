@@ -18,7 +18,7 @@ namespace CYRED
 {
 	class Menu_CompSettings : public QMenu
 	{
-		cchar* const	MENU_REMOVE			= "Remove";
+		cchar* const MENU_REMOVE	= "Remove";
 
 
 	public:

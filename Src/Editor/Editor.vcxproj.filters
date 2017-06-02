@@ -68,6 +68,7 @@
     <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Scene.cpp" />
     <ClCompile Include="Sections\Panels\Hierarchies\Hierarchy_Isolate.cpp" />
     <ClCompile Include="Sections\Panels\Viewports\Viewport_Isolate.cpp" />
+    <ClCompile Include="Sections\AttrViewers\AttrViewer_RigidBody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -140,5 +141,6 @@
     <ClInclude Include="Utils\EditorEvents.h" />
     <ClInclude Include="Sections\Panels\Hierarchies\Hierarchy_Isolate.h" />
     <ClInclude Include="Sections\Panels\Viewports\Viewport_Isolate.h" />
+    <ClInclude Include="Sections\AttrViewers\AttrViewer_RigidBody.h" />
   </ItemGroup>
 </Project>

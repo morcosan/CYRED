@@ -67,11 +67,13 @@ void PhysicsManagerImpl::Finalize()
 	}
 
 	// clear memory
-	Memory::Free( _dynamicsWorld );
 	Memory::Free( _collConfig );
 	Memory::Free( _broadphase );
 	Memory::Free( _dispatcher );
 	Memory::Free( _solver );
+
+	// bullet alignment bug
+	//Memory::Free( _dynamicsWorld );
 }
 
 
@@ -105,7 +107,6 @@ void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
 
 		// add to world
 		_dynamicsWorld->addRigidBody( body );
-
 		// add to list
 		_rigidBodies.Set( rigidBody, body );
 	}
@@ -115,10 +116,15 @@ void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
 void PhysicsManagerImpl::UnregisterRigidBody( RigidBody* rigidBody )
 {
 	if ( _rigidBodies.Has( rigidBody ) ) {
-		// remove from world
-		_dynamicsWorld->removeRigidBody( _rigidBodies.Get( rigidBody ) );
+		btRigidBody* body = _rigidBodies.Get( rigidBody );
 
+		// remove from world
+		_dynamicsWorld->removeRigidBody( body );
 		// remove from list
 		_rigidBodies.Erase( rigidBody );
+
+		// clear memory
+		// bullet bug
+		//Memory::Free( body );
 	}
 }

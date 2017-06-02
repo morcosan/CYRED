@@ -9,6 +9,7 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_File.h"
 #include "CyredModule_Script.h"
+#include "CyredModule_Physics.h"
 
 #include "../../EditorApp.h"
 #include "../../Utils/CustomTreeItem.h"
@@ -76,6 +77,7 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QAction* actionComp_MorphRen	= menu_AddComp->addAction( MENU_COMP_MORPH_REN );
 	QAction* actionComp_PsEmitter	= menu_AddComp->addAction( MENU_COMP_PS_EMITTER );
 	QAction* actionComp_Scripter	= menu_AddComp->addAction( MENU_COMP_SCRIPTER );
+	QAction* actionComp_RigidBody	= menu_AddComp->addAction( MENU_COMP_RIGID_BODY );
 
 	this->addSeparator();
 
@@ -107,6 +109,7 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QObject::connect( actionComp_MorphRen,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_MorphRendering );
 	QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_ParticlesEmitter );
 	QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Scripter );
+	QObject::connect( actionComp_RigidBody,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_RigidBody );
 	QObject::connect( actionGO_Empty,		&QAction::triggered, this, &Menu_GameObject::A_GO_CreateEmpty );
 	QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Pivot );
 	QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Camera );
@@ -494,6 +497,16 @@ void Menu_GameObject::A_AddComp_Scripter()
 
 	// add scripter component
 	CAST_S( GameObject*, treeItem->node )->AddComponent<Scripter>();
+}
+
+
+void Menu_GameObject::A_AddComp_RigidBody()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->node != NULL );
+
+	// add rigid body component
+	CAST_S( GameObject*, treeItem->node )->AddComponent<RigidBody>();
 }
 
 

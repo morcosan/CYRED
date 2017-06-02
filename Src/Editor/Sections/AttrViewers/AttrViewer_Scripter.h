@@ -20,8 +20,7 @@ namespace CYRED
 	public:
 		cchar* TITLE			= "Scripter";
 
-		cchar* ATTR_NAME		= "Name";
-		cchar* ATTR_SCRIPTS	= "Scripts";
+		cchar* ATTR_SCRIPTS		= "Scripts";
 
 
 	public:

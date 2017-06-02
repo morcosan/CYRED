@@ -11,7 +11,6 @@
 using namespace CYRED;
 
 
-
 GameObject::GameObject()
 	: _uid( EMPTY_OBJECT_UID )
 	, _enabled ( TRUE )
@@ -26,6 +25,7 @@ GameObject::GameObject( int uid )
 	, _emitEvents( TRUE )
 {
 }
+
 
 GameObject::GameObject( cchar* name, int uid )
 	: Node( name )

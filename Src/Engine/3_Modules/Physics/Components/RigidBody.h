@@ -41,10 +41,14 @@ namespace CYRED
 		void				SetShapeType	( CollisionShapeType type );
 
 		Vector3				GetShapeSize	() const;
-		void				SetShapeSize	( Vector3 size );
+		void				SetShapeSize	( const Vector3& size );
 
 		float				GetMass			() const;
 		void				SetMass			( float mass );
+
+
+	private:
+		void _OnEnable	() override {}
 
 
 	private:

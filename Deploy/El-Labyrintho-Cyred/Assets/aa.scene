@@ -73,7 +73,7 @@
                         "z": 0.0
                     },
                     "rotation_world": {
-                        "x": -29.996,
+                        "x": -29.995,
                         "y": 45.000,
                         "z": 0.000
                     },
@@ -92,6 +92,35 @@
                         "z": 1.0
                     },
                     "intensity": 1.0
+                }
+            }
+        },
+        {
+            "name": "333",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 2.0,
+                        "y": 2.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
+                    "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
                 }
             }
         }

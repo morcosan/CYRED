@@ -98,6 +98,7 @@
     <ClCompile Include="Sections\AttrViewers\AttrViewer_MorphRendering.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_ParticleEmitter.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Prefab.cpp" />
+    <ClCompile Include="Sections\AttrViewers\AttrViewer_RigidBody.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Scene.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Script.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Scripter.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Sections\AttrViewers\AttrViewer_MorphRendering.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_ParticleEmitter.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Prefab.h" />
+    <ClInclude Include="Sections\AttrViewers\AttrViewer_RigidBody.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Scene.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Script.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Scripter.h" />

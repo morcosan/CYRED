@@ -6,6 +6,7 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Script.h"
+#include "CyredModule_Physics.h"
 
 #include "../Settings/EditorSkin.h"
 #include "../../Utils/EditorEvents.h"
@@ -28,6 +29,7 @@
 #include "..\AttrViewers\AttrViewer_Script.h"
 #include "..\AttrViewers\AttrViewer_Prefab.h"
 #include "..\AttrViewers\AttrViewer_CyredProj.h"
+#include "..\AttrViewers\AttrViewer_RigidBody.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -95,6 +97,7 @@ void Panel_Attributes::Initialize()
 	SetAttrViewer( ATTR_MESH_RENDERING,		Memory::Alloc<AttrViewer_MeshRendering>() );
 	SetAttrViewer( ATTR_MORPH_RENDERING,	Memory::Alloc<AttrViewer_MorphRendering>() );
 	SetAttrViewer( ATTR_SCRIPTER,			Memory::Alloc<AttrViewer_Scripter>() );
+	SetAttrViewer( ATTR_RIGID_BODY,			Memory::Alloc<AttrViewer_RigidBody>() );
 
 	SetAttrViewer( ATTR_CYRED_PROJ,			Memory::Alloc<AttrViewer_CyredProj>() );
 
@@ -153,6 +156,17 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 			break;
 		}
 
+		case EventType::COMPONENT_ADD:
+		case EventType::COMPONENT_REMOVE:
+		{
+			if ( _target != NULL ) {
+				if ( _target == CAST_S( Component*, eventData )->GetGameObject() ) {
+					// refresh
+					_DisplayGameObject( CAST_S( GameObject*, _target ) );
+				}
+			}
+		}
+
 		case EventType::GAMEOBJECT_UPDATE:
 		{
 			if ( _target != NULL ) {
@@ -178,7 +192,6 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 		{
 			if ( _target != NULL ) {
 				if ( _target == eventData ) {
-					ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 					AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
 					gameObjectViewer->UpdateGUI();
 				}
@@ -200,38 +213,35 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 			if ( _target != NULL ) {
 				if ( _target == comp->GetGameObject() ) {
 					if ( comp->GetComponentType() == ComponentType::TRANSFORM ) {
-						ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::CAMERA ) {
-						ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::MESH_RENDERING ) {
-						ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::MORPH_RENDERING ) {
-						ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::PARTICLE_EMITTER ) {
-						ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::SCRIPTER ) {
-						ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
 						viewer->UpdateGUI();
 					}
 					else if ( comp->GetComponentType() == ComponentType::LIGHT ) {
-						ASSERT( _attrViewers.Has( ATTR_LIGHT ) );
 						AttrViewer* viewer = _attrViewers.Get( ATTR_LIGHT )->viewer;
+						viewer->UpdateGUI();
+					}
+					else if ( comp->GetComponentType() == ComponentType::RIGID_BODY ) {
+						AttrViewer* viewer = _attrViewers.Get( ATTR_RIGID_BODY )->viewer;
 						viewer->UpdateGUI();
 					}
 				}
@@ -254,42 +264,17 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 				ASSERT( asset != NULL );
 
 				cchar* attrViewerType = NULL;
-
 				switch ( asset->GetAssetType() ) {
-					case AssetType::MATERIAL:
-						attrViewerType = ATTR_MATERIAL;
-						break;
-
-					case AssetType::MESH:
-						attrViewerType = ATTR_MESH;
-						break;
-
-					case AssetType::MORPH:
-						attrViewerType = ATTR_MORPH;
-						break;
-
-					case AssetType::TEXTURE:
-						attrViewerType = ATTR_TEXTURE;
-						break;
-
-					case AssetType::SHADER:
-						attrViewerType = ATTR_SHADER;
-						break;
-
-					case AssetType::SCENE:
-						attrViewerType = ATTR_SCENE;
-						break;
-
-					case AssetType::SCRIPT:
-						attrViewerType = ATTR_SCRIPT;
-						break;
-
-					case AssetType::PREFAB:
-						attrViewerType = ATTR_PREFAB;
-						break;
+					case AssetType::MATERIAL:	attrViewerType = ATTR_MATERIAL;		break;
+					case AssetType::MESH:		attrViewerType = ATTR_MESH;			break;
+					case AssetType::MORPH:		attrViewerType = ATTR_MORPH;		break;
+					case AssetType::TEXTURE:	attrViewerType = ATTR_TEXTURE;		break;
+					case AssetType::SHADER:		attrViewerType = ATTR_SHADER;		break;
+					case AssetType::SCENE:		attrViewerType = ATTR_SCENE;		break;
+					case AssetType::SCRIPT:		attrViewerType = ATTR_SCRIPT;		break;
+					case AssetType::PREFAB:		attrViewerType = ATTR_PREFAB;		break;
 				}
 
-				ASSERT( _attrViewers.Has( attrViewerType ) );
 				AttrViewer* attrViewer = _attrViewers.Get( attrViewerType )->viewer;
 				attrViewer->UpdateGUI();
 			}
@@ -311,42 +296,17 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 			ASSERT( asset != NULL );
 
 			cchar* attrViewerType = NULL;
-
 			switch ( asset->GetAssetType() ) {
-				case AssetType::MATERIAL:
-					attrViewerType = ATTR_MATERIAL;
-					break;
-
-				case AssetType::MESH:
-					attrViewerType = ATTR_MESH;
-					break;
-
-				case AssetType::MORPH:
-					attrViewerType = ATTR_MORPH;
-					break;
-
-				case AssetType::TEXTURE:
-					attrViewerType = ATTR_TEXTURE;
-					break;
-
-				case AssetType::SHADER:
-					attrViewerType = ATTR_SHADER;
-					break;
-
-				case AssetType::SCENE:
-					attrViewerType = ATTR_SCENE;
-					break;
-
-				case AssetType::SCRIPT:
-					attrViewerType = ATTR_SCRIPT;
-					break;
-
-				case AssetType::PREFAB:
-					attrViewerType = ATTR_PREFAB;
-					break;
+				case AssetType::MATERIAL:	attrViewerType = ATTR_MATERIAL;		break;
+				case AssetType::MESH:		attrViewerType = ATTR_MESH;			break;
+				case AssetType::MORPH:		attrViewerType = ATTR_MORPH;		break;
+				case AssetType::TEXTURE:	attrViewerType = ATTR_TEXTURE;		break;
+				case AssetType::SHADER:		attrViewerType = ATTR_SHADER;		break;
+				case AssetType::SCENE:		attrViewerType = ATTR_SCENE;		break;
+				case AssetType::SCRIPT:		attrViewerType = ATTR_SCRIPT;		break;
+				case AssetType::PREFAB:		attrViewerType = ATTR_PREFAB;		break;	
 			}
 
-			ASSERT( _attrViewers.Has( attrViewerType ) );
 			_AttrViewer* atttrViewer = _attrViewers.Get( attrViewerType );
 			atttrViewer->needsRefresh = TRUE;
 			AttrViewer* viewer = atttrViewer->viewer;
@@ -358,7 +318,6 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 
 		case EditorEventType::EDITOR_PROJ_SETTINGS:
 		{
-			ASSERT( _attrViewers.Has( ATTR_CYRED_PROJ ) );
 			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CYRED_PROJ );
 			atttrViewer->needsRefresh = TRUE;
 			AttrViewer* viewer = atttrViewer->viewer;
@@ -419,7 +378,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 
 	if ( gameObject != NULL ) {
 		{
-			ASSERT( _attrViewers.Has( ATTR_GAMEOBJECT ) );
 			_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_GAMEOBJECT );
 			atttrViewer->needsRefresh = TRUE;
 			AttrViewer* viewer = atttrViewer->viewer;
@@ -429,7 +387,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<Transform>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_TRANSFORM ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_TRANSFORM );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -440,7 +397,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<Camera>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_CAMERA ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_CAMERA );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -451,7 +407,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<Light>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_LIGHT ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_LIGHT );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -462,7 +417,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<ParticleEmitter>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_PARTICLES_EMITTER ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -473,7 +427,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<MeshRendering>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_MESH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MESH_RENDERING );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -484,7 +437,6 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		{
 			Component* comp = gameObject->GetComponent<MorphRendering>();
 			if ( comp != NULL )	{
-				ASSERT( _attrViewers.Has( ATTR_MORPH_RENDERING ) );
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_MORPH_RENDERING );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
@@ -494,10 +446,18 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 		}
 		{
 			Component* comp = gameObject->GetComponent<Scripter>();
-			if ( comp != NULL )
-			{
-				ASSERT( _attrViewers.Has( ATTR_SCRIPTER ) );
+			if ( comp != NULL )	{
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_SCRIPTER );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			Component* comp = gameObject->GetComponent<RigidBody>();
+			if ( comp != NULL )	{
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_RIGID_BODY );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );

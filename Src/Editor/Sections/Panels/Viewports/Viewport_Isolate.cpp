@@ -33,7 +33,7 @@ void Viewport_Isolate::OnEvent( int eventType, void* eventData )
 
 		case EventType::GAMEOBJECT_UPDATE:
 			// check if target still attacked
-			if ( _target->GetParentNode() == NULL ) {
+			if ( _target != NULL && _target->GetParentNode() == NULL ) {
 				_target = NULL;
 				_selectedGO = NULL;
 			}

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "Component.h"
 
 
@@ -15,6 +14,13 @@ Component::Component( GameObject* gameObject )
 	, _componentType( ComponentType::COMPONENT )
 	, _isFirstUpdate( TRUE )
 {
+}
+
+
+Component::~Component()
+{
+	// call on remove
+	OnRemoved();
 }
 
 

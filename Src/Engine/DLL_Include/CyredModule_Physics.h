@@ -4,3 +4,5 @@
 #pragma once
 
 #include "../3_Modules/Physics/PhysicsManager.h"
+
+#include "../3_Modules/Physics/Components/RigidBody.h"

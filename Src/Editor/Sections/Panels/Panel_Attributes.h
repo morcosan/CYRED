@@ -27,6 +27,7 @@ namespace CYRED
 		cchar* const	ATTR_MESH_RENDERING		= "MeshRendering";
 		cchar* const	ATTR_MORPH_RENDERING	= "MorphRendering";
 		cchar* const	ATTR_SCRIPTER			= "Scripter";
+		cchar* const	ATTR_RIGID_BODY			= "RigidBody";
 		cchar* const	ATTR_MATERIAL			= "Material";
 		cchar* const	ATTR_MESH				= "Mesh";
 		cchar* const	ATTR_MORPH				= "Morph";

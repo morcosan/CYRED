@@ -6,6 +6,7 @@
 #include "CyredBuildingBlocks.h"
 #include "CyredModule_Render.h"
 #include "CyredModule_Script.h"
+#include "CyredModule_Physics.h"
 
 #include "QtWidgets\qwidget.h"
 
@@ -45,33 +46,14 @@ void Menu_CompSettings::A_Remove()
 	GameObject* gameObject = _target->GetGameObject();
 
 	switch ( _target->GetComponentType() ) {
-		case ComponentType::TRANSFORM:
-			gameObject->RemoveComponent<Transform>();
-			break;
-
-		case ComponentType::CAMERA:
-			gameObject->RemoveComponent<Camera>();
-			break;
-
-		case ComponentType::LIGHT:
-			gameObject->RemoveComponent<Light>();
-			break;
-
-		case ComponentType::MESH_RENDERING:
-			gameObject->RemoveComponent<MeshRendering>();
-			break;
-
-		case ComponentType::MORPH_RENDERING:
-			gameObject->RemoveComponent<MorphRendering>();
-			break;
-
-		case ComponentType::SCRIPTER:
-			gameObject->RemoveComponent<Scripter>();
-			break;
-
-		case ComponentType::PARTICLE_EMITTER:
-			gameObject->RemoveComponent<ParticleEmitter>();
-			break;
+		case ComponentType::TRANSFORM:			gameObject->RemoveComponent<Transform>();		break;
+		case ComponentType::CAMERA:				gameObject->RemoveComponent<Camera>();			break;
+		case ComponentType::LIGHT:				gameObject->RemoveComponent<Light>();			break;
+		case ComponentType::MESH_RENDERING:		gameObject->RemoveComponent<MeshRendering>();	break;
+		case ComponentType::MORPH_RENDERING:	gameObject->RemoveComponent<MorphRendering>();	break;
+		case ComponentType::SCRIPTER:			gameObject->RemoveComponent<Scripter>();		break;
+		case ComponentType::PARTICLE_EMITTER:	gameObject->RemoveComponent<ParticleEmitter>();	break;
+		case ComponentType::RIGID_BODY:			gameObject->RemoveComponent<RigidBody>();		break;
 	}
 }
 

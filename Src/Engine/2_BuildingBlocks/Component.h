@@ -33,7 +33,7 @@ namespace CYRED
 	{
 	public:
 		Component( GameObject* gameObject );
-		virtual ~Component() {};
+		virtual ~Component();
 
 
 	public:
