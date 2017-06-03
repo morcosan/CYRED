@@ -194,10 +194,12 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoPointLight->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				float range = light->GetRange();
-				rootTran->SetScaleWorld( Vector3( range, range, range ) );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					float range = light->GetRange();
+					rootTran->SetScaleWorld( Vector3( range, range, range ) );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo
@@ -210,8 +212,10 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoDirLight->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo
@@ -224,12 +228,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoSpotLight->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
-				float range = light->GetRange();
-				float scaleBase = range * tan;
-				rootTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
+					float range = light->GetRange();
+					float scaleBase = range * tan;
+					rootTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo
@@ -244,8 +250,10 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoOrthoCamera->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				}
 				rootTran->SetEmitEvents( TRUE );
 				
 				// render gizmo
@@ -258,8 +266,10 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoPerspCamera->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo
@@ -274,11 +284,13 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoCollBox->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				// assume initial size (0.5, 0.5, 0.5)
-				Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
-				rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					// assume initial size (0.5, 0.5, 0.5)
+					Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
+					rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo
@@ -291,11 +303,16 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// update transform
 				Transform* rootTran = _gizmoCollSphere->GetRoot()->GetComponent<Transform>();
 				rootTran->SetEmitEvents( FALSE );
-				rootTran->SetPositionWorld( transform->GetPositionWorld() );
-				rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				// assume initial size (0.5, 0.5, 0.5)
-				Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
-				rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+				{
+					rootTran->SetPositionWorld( transform->GetPositionWorld() );
+					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					// assume initial size 0.5
+					Vector3 scale = transform->GetScaleWorld() * rigidBody->GetShapeSize() / 0.5f;
+					// get highest scale value
+					float maxScale = (scale.x < scale.y) ? ((scale.y < scale.z) ? scale.z : scale.y) 
+														 : ((scale.x < scale.z) ? scale.z : scale.x);
+					rootTran->SetScaleWorld( Vector3( maxScale, maxScale, maxScale ) );
+				}
 				rootTran->SetEmitEvents( TRUE );
 
 				// render gizmo

@@ -21,6 +21,7 @@ namespace CYRED
 		Quaternion( const Quaternion& other );
 		Quaternion( const glm::quat& other );
 		Quaternion( const Vector3& other );
+		Quaternion( float x, float y, float z, float w );
 		virtual ~Quaternion();
 
 		void		operator=( const Quaternion& other );
@@ -29,8 +30,9 @@ namespace CYRED
 
 
 	public:
-		static Quaternion Inverse	( const Quaternion& other );
-		static Quaternion Normalize	( const Quaternion& other );
+		static Quaternion	Inverse		( const Quaternion& other );
+		static Quaternion	Normalize	( const Quaternion& other );
+		static Vector3		EulerAngles	( const Quaternion& other );
 
 
 	public:

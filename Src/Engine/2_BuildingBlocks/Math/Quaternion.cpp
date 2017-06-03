@@ -39,6 +39,12 @@ Quaternion::Quaternion( const Vector3& other )
 }
 
 
+Quaternion::Quaternion( float x, float y, float z, float w )
+	: _self( new glm::quat( w, x, y, z ) )
+{
+}
+
+
 Quaternion::~Quaternion()
 {
 	PTR_FREE( _self );
@@ -93,5 +99,12 @@ Quaternion Quaternion::Inverse( const Quaternion& other )
 Quaternion Quaternion::Normalize( const Quaternion& other )
 {
 	return Quaternion( glm::normalize( *other._self ) );
+}
+
+
+Vector3 Quaternion::EulerAngles( const Quaternion& other )
+{
+	glm::vec3 aux = glm::eulerAngles( *(other._self) );
+	return Vector3( aux.x, aux.y, aux.z );
 }
 

@@ -86,12 +86,20 @@ void PhysicsManagerImpl::Update()
 		RigidBody* rigidBody = iter.GetKey();
 		btRigidBody* body = iter.GetValue();
 
-		// update position
+		// get transform
 		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
-		Vector3 pos = transform->GetPositionWorld();
 		btTransform bodyTran = body->getWorldTransform();
+		// update position
+		Vector3 pos = transform->GetPositionWorld();
 		bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
+		// update rotation
+		Vector3 rot = Math::ToRadians( transform->GetEulerRotationWorld() );
+		//bodyTran.setRotation( btQuaternion( rot.y, rot.x, rot.z ) );
+		// update transform
 		body->setWorldTransform( bodyTran );
+		// update scale
+		Vector3 scale = transform->GetScaleWorld();
+		body->getCollisionShape()->setLocalScaling( btVector3( scale.x, scale.y, scale.z ) );
 
 		// next
 		iter.Next();
@@ -105,11 +113,15 @@ void PhysicsManagerImpl::Update()
 		RigidBody* rigidBody = iter.GetKey();
 		btRigidBody* body = iter.GetValue();
 
-		// update position
+		// get transform
 		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
 		btTransform bodyTran = body->getWorldTransform();
+		// update position
 		btVector3 pos = bodyTran.getOrigin();
 		transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
+		// update rotation
+		btQuaternion rot = bodyTran.getRotation();
+		transform->SetRotationWorld( Quaternion( rot.getX(), rot.getY(), rot.getZ(), rot.getW() ) );
 
 		// next
 		iter.Next();
@@ -134,12 +146,15 @@ void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
 		}
 		// create motion state
 		btMotionState* motionstate = new btDefaultMotionState();
+		// calculate inertia
+		btVector3 inertia;
+		collisionShape->calculateLocalInertia( rigidBody->GetMass(), inertia );
 		// create body
 		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
 			rigidBody->GetMass(),
 			motionstate,
 			collisionShape,
-			btVector3( 0, 0, 0 )
+			inertia
 		);
 		btRigidBody* body = new btRigidBody( rigidBodyCI );
 
@@ -191,12 +206,15 @@ void PhysicsManagerImpl::UpdateRigidBody( RigidBody* rigidBody )
 		}
 		// create motion state
 		btMotionState* motionstate = new btDefaultMotionState();
+		// calculate inertia
+		btVector3 inertia;
+		collisionShape->calculateLocalInertia( rigidBody->GetMass(), inertia );
 		// create new body
 		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
 			rigidBody->GetMass(),
 			motionstate,
 			collisionShape,
-			btVector3( 0, 0, 0 )
+			inertia
 		);
 		body = new btRigidBody( rigidBodyCI );
 

@@ -36,6 +36,45 @@
             }
         },
         {
+            "name": "Box",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.5,
+                        "y": 8.0,
+                        "z": 0.200
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 2.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                    "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
+                },
+                "rigid_body": {
+                    "enabled": true,
+                    "shape_type": "BOX",
+                    "shape_size": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    },
+                    "mass": 1.0
+                }
+            }
+        },
+        {
             "name": "Ball",
             "enabled": true,
             "components": {
@@ -43,7 +82,7 @@
                     "enabled": true,
                     "position_world": {
                         "x": 0.0,
-                        "y": 10.0,
+                        "y": 5.0,
                         "z": 0.0
                     },
                     "rotation_world": {
@@ -88,7 +127,7 @@
                     "rotation_world": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": -45.000
+                        "z": 0.0
                     },
                     "scale_world": {
                         "x": 1.0,
@@ -106,7 +145,7 @@
                     "shape_type": "BOX",
                     "shape_size": {
                         "x": 5.0,
-                        "y": 0.100,
+                        "y": 0.009,
                         "z": 5.0
                     },
                     "mass": 0.0
