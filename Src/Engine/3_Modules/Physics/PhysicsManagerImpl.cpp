@@ -93,8 +93,8 @@ void PhysicsManagerImpl::Update()
 		Vector3 pos = transform->GetPositionWorld();
 		bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
 		// update rotation
-		Vector3 rot = Math::ToRadians( transform->GetEulerRotationWorld() );
-		//bodyTran.setRotation( btQuaternion( rot.y, rot.x, rot.z ) );
+		Quaternion rot = transform->GetRotationWorld();
+		bodyTran.setRotation( btQuaternion( rot.x, rot.y, rot.z, rot.w ) );
 		// update transform
 		body->setWorldTransform( bodyTran );
 		// update scale

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "Quaternion.h"
 
 #include "Vector3.h"
@@ -16,62 +15,64 @@ using namespace CYRED;
 
 
 Quaternion::Quaternion()
-	: _self( new glm::quat() )
+	: x( 0 ), y( 0 ), z( 0 ), w( 1 )
 {
 }
 
 
 Quaternion::Quaternion( const Quaternion& other )
-	: _self( new glm::quat( *other._self ) )
-{
-}
-
-
-Quaternion::Quaternion( const glm::quat& other )
-	: _self( new glm::quat( other ) )
+	: x( other.x ), y( other.y ), z( other.z ), w( other.w )
 {
 }
 
 
 Quaternion::Quaternion( const Vector3& other )
-	: _self( new glm::quat( glm::vec3(other.x, other.y, other.z) ) )
 {
+	glm::quat aux = glm::quat( glm::vec3( other.x, other.y, other.z ) );
+	this->x = aux.x;
+	this->y = aux.y;
+	this->z = aux.z;
+	this->w = aux.w;
 }
 
 
-Quaternion::Quaternion( float x, float y, float z, float w )
-	: _self( new glm::quat( w, x, y, z ) )
+Quaternion::Quaternion( float xx, float yy, float zz, float ww )
+	: x( xx ), y( yy ), z( zz ), w( ww )
 {
 }
 
 
 Quaternion::~Quaternion()
 {
-	PTR_FREE( _self );
 }
 
 
 void Quaternion::operator=( const Quaternion& other )
 {
-	*_self = *other._self;
+	this->x = other.x;
+	this->y = other.y;
+	this->z = other.z;
+	this->w = other.w;
 }
 
 
 Quaternion Quaternion::operator+( const Quaternion& other ) const
 {
-	return Quaternion( *_self + *other._self );
+	glm::quat aux = glm::quat( w, x, y, z ) + glm::quat( other.w, other.x, other.y, other.z );
+	return Quaternion( aux.x, aux.y, aux.z, aux.w );
 }
 
 
 Quaternion Quaternion::operator*( const Quaternion& other ) const
 {
-	return Quaternion( *_self * *other._self );
+	glm::quat aux = glm::quat( w, x, y, z ) * glm::quat( other.w, other.x, other.y, other.z );
+	return Quaternion( aux.x, aux.y, aux.z, aux.w );
 }
 
 
 Vector3 Quaternion::ToEulerAngles() const
 {
-	glm::vec3 aux = glm::eulerAngles( *_self );
+	glm::vec3 aux = glm::eulerAngles( glm::quat( w, x, y, z ) );
 	return Vector3( aux.x, aux.y, aux.z );
 }
 
@@ -79,32 +80,34 @@ Vector3 Quaternion::ToEulerAngles() const
 Vector3 Quaternion::ApplyRotation( const Vector3& other )
 {
 	glm::vec3 otherVec3 = glm::vec3( other.x, other.y, other.z );
-	glm::vec3 aux = glm::rotate( *_self, otherVec3 );
+	glm::vec3 aux = glm::rotate( glm::quat( w, x, y, z ), otherVec3 );
 	return Vector3( aux.x, aux.y, aux.z );
 }
 
 
 Matrix4 Quaternion::ToMatrix4() const
 {
-	return Matrix4( glm::toMat4( *_self ) );
+	return Matrix4( glm::toMat4( glm::quat( w, x, y, z ) ) );
 }
 
 
 Quaternion Quaternion::Inverse( const Quaternion& other )
 {
-	return Quaternion( glm::inverse( *other._self ) );
+	glm::quat aux = glm::inverse( glm::quat( other.w, other.x, other.y, other.z ) );
+	return Quaternion( aux.x, aux.y, aux.z, aux.w );
 }
 
 
 Quaternion Quaternion::Normalize( const Quaternion& other )
 {
-	return Quaternion( glm::normalize( *other._self ) );
+	glm::quat aux = glm::normalize( glm::quat( other.w, other.x, other.y, other.z ) );
+	return Quaternion( aux.x, aux.y, aux.z, aux.w );
 }
 
 
 Vector3 Quaternion::EulerAngles( const Quaternion& other )
 {
-	glm::vec3 aux = glm::eulerAngles( *(other._self) );
+	glm::vec3 aux = glm::eulerAngles( glm::quat( other.w, other.x, other.y, other.z ) );
 	return Vector3( aux.x, aux.y, aux.z );
 }
 
