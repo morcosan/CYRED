@@ -91,6 +91,12 @@ bool GameObject::DoesEmitEvents() const
 }
 
 
+cchar* GameObject::GetTag() const
+{
+	return _tag.GetChar();
+}
+
+
 int GameObject::GetComponentCount() const
 {
 	return _components.Size();
@@ -117,6 +123,16 @@ void GameObject::SetEnabled( bool value )
 void GameObject::SetEmitEvents( bool value )
 {
 	_emitEvents = value;
+}
+
+
+void GameObject::SetTag( cchar* value )
+{
+	_tag = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+	}
 }
 
 

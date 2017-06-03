@@ -6,6 +6,7 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
+#include "CyredModule_Physics.h"
 
 #include "QtWidgets\QComboBox"
 #include "QtWidgets\QHBoxLayout"
@@ -33,15 +34,17 @@ Viewport_WithGizmo::Viewport_WithGizmo( int panelIndex )
 
 void Viewport_WithGizmo::LoadGizmo()
 {
-	FiniteString gizmoGrid( GIZMO_GRID );
-	FiniteString gizmoAxis( GIZMO_AXIS );
-	FiniteString gizmoBackground( GIZMO_BACKGROUND );
-	FiniteString gizmoPointLight( GIZMO_POINT_LIGHT );
-	FiniteString gizmoDirLight( GIZMO_DIR_LIGHT );
-	FiniteString gizmoSpotLight( GIZMO_SPOT_LIGHT );
-	FiniteString gizmoOrthoCamera( GIZMO_ORTHO_CAMERA );
-	FiniteString gizmoPerspCamera( GIZMO_PERSP_CAMERA );
-	FiniteString gizmoPivot( GIZMO_PIVOT );
+	FiniteString gizmoGrid			( GIZMO_GRID );
+	FiniteString gizmoAxis			( GIZMO_AXIS );
+	FiniteString gizmoBackground	( GIZMO_BACKGROUND );
+	FiniteString gizmoPointLight	( GIZMO_POINT_LIGHT );
+	FiniteString gizmoDirLight		( GIZMO_DIR_LIGHT );
+	FiniteString gizmoSpotLight		( GIZMO_SPOT_LIGHT );
+	FiniteString gizmoOrthoCamera	( GIZMO_ORTHO_CAMERA );
+	FiniteString gizmoPerspCamera	( GIZMO_PERSP_CAMERA );
+	FiniteString gizmoPivot			( GIZMO_PIVOT );
+	FiniteString gizmoCollBox		( GIZMO_COLL_BOX );
+	FiniteString gizmoCollSphere	( GIZMO_COLL_SPHERE );
 
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
@@ -74,6 +77,12 @@ void Viewport_WithGizmo::LoadGizmo()
 		}
 		else if ( gizmoPivot == prefab->GetName() ) {
 			_gizmoPivot = prefab;
+		}
+		else if ( gizmoCollBox == prefab->GetName() ) {
+			_gizmoCollBox = prefab;
+		}
+		else if ( gizmoCollSphere == prefab->GetName() ) {
+			_gizmoCollSphere = prefab;
 		}
 	}
 }
@@ -115,11 +124,17 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 	}
 
 	//! update camera size
-	Camera* cam = _cameraGO->GetComponent<Camera>();
+	Camera* camera = _cameraGO->GetComponent<Camera>();
+	// disable events
+	bool emitEvents = camera->DoesEmitEvents();
+	camera->SetEmitEvents( FALSE );
+	// update camera
 	float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
-	float height = cam->GetOrthoSize().y;
-	cam->SetAspectRatio( aspectRatio );
-	cam->SetOrthoWidth( aspectRatio * height );
+	float height = camera->GetOrthoSize().y;
+	camera->SetAspectRatio( aspectRatio );
+	camera->SetOrthoWidth( aspectRatio * height );
+	// set back emit events
+	camera->SetEmitEvents( emitEvents );
 
 	return TRUE;
 }
@@ -144,7 +159,7 @@ void Viewport_WithGizmo::_RecCollectLights( GameObject* root, DataArray<GameObje
 }
 
 
-void Viewport_WithGizmo::_RenderGizmoBefore()
+void Viewport_WithGizmo::_RenderGizmo()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
@@ -171,6 +186,7 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 		Light*		light		= _selectedGO->GetComponent<Light>();
 		Camera*		camera		= _selectedGO->GetComponent<Camera>();
 		Transform*	transform	= _selectedGO->GetComponent<Transform>();
+		RigidBody*	rigidBody	= _selectedGO->GetComponent<RigidBody>();
 
 		if ( light != NULL && transform != NULL ) {
 			// gizmo point light
@@ -248,6 +264,42 @@ void Viewport_WithGizmo::_RenderGizmoBefore()
 
 				// render gizmo
 				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
+									_cameraGO, _noLightsGO );
+			}
+		}
+
+		if ( rigidBody != NULL ) {
+			// gizmo collision box
+			if ( _gizmoCollBox != NULL && rigidBody->GetShapeType() == CollisionShapeType::BOX ) {
+				// update transform
+				Transform* rootTran = _gizmoCollBox->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				// assume initial size (0.5, 0.5, 0.5)
+				Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
+				rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+				rootTran->SetEmitEvents( TRUE );
+
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
+									_cameraGO, _noLightsGO );
+			}
+
+			// gizmo collision sphere
+			if ( _gizmoCollSphere != NULL && rigidBody->GetShapeType() == CollisionShapeType::SPHERE ) {
+				// update transform
+				Transform* rootTran = _gizmoCollSphere->GetRoot()->GetComponent<Transform>();
+				rootTran->SetEmitEvents( FALSE );
+				rootTran->SetPositionWorld( transform->GetPositionWorld() );
+				rootTran->SetRotationWorld( transform->GetRotationWorld() );
+				// assume initial size (0.5, 0.5, 0.5)
+				Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
+				rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+				rootTran->SetEmitEvents( TRUE );
+
+				// render gizmo
+				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
 									_cameraGO, _noLightsGO );
 			}
 		}

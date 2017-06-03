@@ -26,6 +26,8 @@ namespace CYRED
 		cchar* const	GIZMO_ORTHO_CAMERA	= "GizmoOrthoCamera";
 		cchar* const	GIZMO_PERSP_CAMERA	= "GizmoPerspCamera";
 		cchar* const	GIZMO_PIVOT			= "GizmoPivot";
+		cchar* const	GIZMO_COLL_BOX		= "GizmoCollisionBox";
+		cchar* const	GIZMO_COLL_SPHERE	= "GizmoCollisionSphere";
 
 
 	public:
@@ -54,12 +56,14 @@ namespace CYRED
 		Prefab*					_gizmoOrthoCamera;
 		Prefab*					_gizmoPerspCamera;
 		Prefab*					_gizmoPivot;
+		Prefab*					_gizmoCollBox;
+		Prefab*					_gizmoCollSphere;
 
 
 	protected:
 		bool		_IsRenderingReady	();
 		void		_RecCollectLights	( GameObject* root, DataArray<GameObject*>& lightsGO );
-		void		_RenderGizmoBefore	();
+		void		_RenderGizmo	();
 		void		_RenderGizmoAfter	();
 		GameObject*	_RecSearchByUID		( int uid, GameObject* root );
 		bool		_RecIsFound			( GameObject* target, GameObject* root );

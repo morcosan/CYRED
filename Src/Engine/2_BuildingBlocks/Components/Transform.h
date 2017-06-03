@@ -87,7 +87,9 @@ namespace CYRED
 		void RotateByLocal			( const Vector3& value );
 		void Rotate					( const Vector3& value, SpaceSystem spaceSystem );
 
-		void ScaleByConstant		( const Vector3& value );
+		void ScaleByWorld			( const Vector3& value );
+		void ScaleByLocal			( const Vector3& value );
+		void ScaleWithAdd			( const Vector3& value );
 
 
 	private:

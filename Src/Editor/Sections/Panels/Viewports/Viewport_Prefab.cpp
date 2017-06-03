@@ -104,9 +104,6 @@ void Viewport_Prefab::_OnUpdate()
 		// get prefabs root
 		GameObject* prefabRoot = _targetPrefab->GetRoot();
 
-		// render gizmo before
-		_RenderGizmoBefore();
-
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
@@ -118,6 +115,9 @@ void Viewport_Prefab::_OnUpdate()
 		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
 		// render particles
 		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
+
+		// render gizmo
+		_RenderGizmo();
 
 		// render gizmo after
 		_RenderGizmoAfter();

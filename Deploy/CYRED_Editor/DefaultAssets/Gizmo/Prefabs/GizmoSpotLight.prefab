@@ -1,7 +1,7 @@
 {
     "uid": "OcMJcqPJDotXfJkaFyeuyzRx62YOalvb",
     "root": {
-        "name": "SpotLight",
+        "name": "GizmoSpotLight",
         "enabled": true,
         "components": {
             "transform": {

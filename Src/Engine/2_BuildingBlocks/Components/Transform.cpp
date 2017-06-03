@@ -341,8 +341,20 @@ void Transform::Rotate( const Vector3& value, SpaceSystem spaceSystem )
 
 void Transform::SetScaleWorld( const Vector3& value )
 {
-	Vector3 diff = value / _scaleWorld;
-	SetScaleLocal( _scaleLocal * diff );
+	Vector3 newScale = value;
+
+	// calculate newScale only if _scaleWorld not 0
+	if ( _scaleWorld.x > 0 || _scaleWorld.x < 0 ) {
+		newScale.x /= _scaleWorld.x;
+	}
+	if ( _scaleWorld.y > 0 || _scaleWorld.y < 0 ) {
+		newScale.y /= _scaleWorld.y;
+	}
+	if ( _scaleWorld.z > 0 || _scaleWorld.z < 0 ) {
+		newScale.z /= _scaleWorld.z;
+	}
+
+	ScaleByLocal( newScale );
 }
 
 
@@ -357,7 +369,45 @@ void Transform::SetScaleLocal( const Vector3& value )
 }
 
 
-void Transform::ScaleByConstant( const Vector3& value )
+void Transform::ScaleByWorld( const Vector3& value )
+{
+	Vector3 newScale = value;
+
+	// calculate newScale only if _scaleWorld not 0
+	if ( _scaleWorld.x > 0 || _scaleWorld.x < 0 ) {
+		newScale.x *= _scaleWorld.x;
+	}
+	if ( _scaleWorld.y > 0 || _scaleWorld.y < 0 ) {
+		newScale.y *= _scaleWorld.y;
+	}
+	if ( _scaleWorld.z > 0 || _scaleWorld.z < 0 ) {
+		newScale.z *= _scaleWorld.z;
+	}
+
+	SetScaleWorld( newScale );
+}
+
+
+void Transform::ScaleByLocal( const Vector3& value )
+{
+	Vector3 newScale = value;
+
+	// calculate newScale only if _scaleLocal not 0
+	if ( _scaleLocal.x > 0 || _scaleLocal.x < 0 ) {
+		newScale.x *= _scaleLocal.x;
+	}
+	if ( _scaleLocal.y > 0 || _scaleLocal.y < 0 ) {
+		newScale.y *= _scaleLocal.y;
+	}
+	if ( _scaleLocal.z > 0 || _scaleLocal.z < 0 ) {
+		newScale.z *= _scaleLocal.z;
+	}
+
+	SetScaleLocal( newScale );
+}
+
+
+void Transform::ScaleWithAdd( const Vector3& value )
 {
 	SetScaleLocal( _scaleLocal + value );
 }
@@ -406,7 +456,7 @@ void Transform::_RecalculateScaleWorld()
 	_MarkScaleChanged();
 
 	if ( _parent != NULL ) {
-		_scaleWorld *= _parent->GetScaleWorld();
+		_scaleWorld = _scaleLocal * _parent->GetScaleWorld();
 	}
 	else {
 		_scaleWorld = _scaleLocal;

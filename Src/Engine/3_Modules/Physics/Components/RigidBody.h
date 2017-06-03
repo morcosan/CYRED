@@ -48,7 +48,7 @@ namespace CYRED
 
 
 	private:
-		void _OnEnable	() override {}
+		void _OnEnable() override;
 
 
 	private:

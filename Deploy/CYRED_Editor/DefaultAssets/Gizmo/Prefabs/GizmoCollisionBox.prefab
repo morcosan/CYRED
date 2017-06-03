@@ -1,7 +1,7 @@
 {
     "uid": "EZiTttQwEpaRmLyDECeh0e5jcP2CKqnZ",
     "root": {
-        "name": "GizmoTriggerBox",
+        "name": "GizmoCollisionBox",
         "enabled": true,
         "components": {
             "transform": {

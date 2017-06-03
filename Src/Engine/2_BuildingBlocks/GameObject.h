@@ -35,12 +35,14 @@ namespace CYRED
 		bool		IsEnabled			()						const;
 		int			GetUniqueID			()						const;
 		bool		DoesEmitEvents		()						const;
+		cchar*		GetTag				()						const;
 
 		int			GetComponentCount	()						const;
 		Component*	GetComponentAt		( int index )			const;
 
 		void		SetEnabled			( bool value );
 		void		SetEmitEvents		( bool value );
+		void		SetTag				( cchar* value );
 
 		void		Clone				( GameObject* clone )	const;
 
@@ -59,6 +61,7 @@ namespace CYRED
 		bool	_enabled;
 		int		_uid;	// unique index
 		bool	_emitEvents;
+		String	_tag;
 
 		DataArray<Component*>	_components;
 

@@ -1,7 +1,7 @@
 {
     "uid": "NtY6rUG0VVVjROwB1lw7Mn01wCEDvnvo",
     "root": {
-        "name": "GizmoTriggerSphere",
+        "name": "GizmoCollisionSphere",
         "enabled": true,
         "components": {
             "transform": {

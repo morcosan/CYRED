@@ -107,9 +107,6 @@ void Viewport_Scene::_OnUpdate()
 		// get first scene's root
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
 
-		// render gizmo before
-		_RenderGizmoBefore();
-
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
@@ -122,6 +119,9 @@ void Viewport_Scene::_OnUpdate()
 		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
 		// render particles
 		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
+
+		// render gizmo
+		_RenderGizmo();
 
 		// render gizmo after
 		_RenderGizmoAfter();

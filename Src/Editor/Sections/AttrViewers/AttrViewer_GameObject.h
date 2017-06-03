@@ -19,8 +19,9 @@ namespace CYRED
 	{
 	public:
 		cchar* TITLE		= "GameObject";
+
 		cchar* ATTR_NAME	= "Name";
-		cchar* ATTR_UID	= "UID";
+		cchar* ATTR_TAG		= "Tag";
 
 
 	public:

@@ -5,7 +5,7 @@ MESH:ClearVertices()
 MESH:ClearIndices()
 
 
-local radius 	= 1
+local radius 	= 0.5
 local vertices 	= 36
 local angle 	= 2 * math.pi / vertices
 local color 	= Vector4( 0, 0.8, 0, 1 )

@@ -95,3 +95,14 @@ void RigidBody::SetMass( float mass )
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
+
+
+void RigidBody::_OnEnable()
+{
+	if ( _enabled ) {
+		OnAdded();
+	}
+	else {
+		OnRemoved();
+	}
+}
