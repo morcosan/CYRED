@@ -30,14 +30,14 @@ RigidBody::~RigidBody()
 void RigidBody::OnAdded()
 {
 	// update physics
-	PhysicsManager::Singleton()->RegisterRigidBody( this );
+	PhysicsManager::Singleton()->RegisterObject( GetGameObject() );
 }
 
 
 void RigidBody::OnRemoved()
 {
 	// update physics
-	PhysicsManager::Singleton()->UnregisterRigidBody( this );
+	PhysicsManager::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 
@@ -93,16 +93,5 @@ void RigidBody::SetMass( float mass )
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
-	}
-}
-
-
-void RigidBody::_OnEnable()
-{
-	if ( _enabled ) {
-		OnAdded();
-	}
-	else {
-		OnRemoved();
 	}
 }

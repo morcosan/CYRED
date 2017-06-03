@@ -265,7 +265,7 @@ void SceneManagerImpl::RestoreScenes()
 		_currScenes.Add( _storedScenes[i].scene );
 	}
 
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_UPDATE, NULL );
+	EventManager::Singleton()->EmitEvent( EventType::SCENE_OPEN, NULL );
 }
 
 

@@ -38,8 +38,8 @@ namespace CYRED
 
 
 	public:
-		void OnAdded	()							override {};
-		void OnRemoved	()							override {};
+		void OnAdded	()							override;
+		void OnRemoved	()							override;
 		void Clone		( Component* clone ) const	override;
 
 

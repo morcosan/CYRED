@@ -5,6 +5,7 @@
 
 #include "../EditorApp.h"
 #include "../Utils/EditorEvents.h"
+#include "../Utils/EditorUtils.h"
 
 #include "QtWidgets\qlayout.h"
 #include "QtWidgets\qtoolbutton.h"
@@ -25,18 +26,18 @@ Toolbar::Toolbar()
 	boxLayout->setContentsMargins( 0, 0, 0, 0 );
 
 	_playButton = new QToolButton();
-	_playButton->setText( ">" );
-	_playButton->setMaximumWidth( 40 );
-	_playButton->setMinimumWidth( 40 );
-	_playButton->setMinimumHeight( 22 );
+	_playButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_PLAY ) );
+	_playButton->setMinimumWidth( 24 );
+	_playButton->setMinimumHeight( 24 );
+	_playButton->setIconSize( QSize( 12, 12 ) );
 	_playButton->setCheckable( true );
 	boxLayout->addWidget( _playButton );
 
 	_pauseButton = new QToolButton();
-	_pauseButton->setText( "||" );
-	_pauseButton->setMaximumWidth( 40 );
-	_pauseButton->setMinimumWidth( 40 );
-	_pauseButton->setMinimumHeight( 22 );
+	_pauseButton->setIcon( *EditorUtils::GetIcon( EditorUtils::ICON_PAUSE ) );
+	_pauseButton->setMinimumWidth( 24 );
+	_pauseButton->setMinimumHeight( 24 );
+	_pauseButton->setIconSize( QSize( 10, 10 ) );
 	_pauseButton->setCheckable( true );
 	boxLayout->addWidget( _pauseButton );
 

@@ -5,6 +5,7 @@
 
 #include "../GameObject.h"
 #include "../../3_Modules/Event/EventManager.h"
+#include "../../3_Modules/Physics/PhysicsManager.h"
 
 
 using namespace CYRED;
@@ -67,6 +68,20 @@ void Transform::OnHierarchyChange()
 			_scaleLocal		= _scaleWorld;
 		}
 	}
+}
+
+
+void Transform::OnAdded()
+{
+	// update physics
+	PhysicsManager::Singleton()->RegisterObject( GetGameObject() );
+}
+
+
+void Transform::OnRemoved()
+{
+	// update physics
+	PhysicsManager::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 

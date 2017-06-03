@@ -13,6 +13,11 @@ class btCollisionDispatcher;
 class btConstraintSolver;
 class btRigidBody;
 
+namespace CYRED
+{
+	class Transform;
+}
+
 
 namespace CYRED
 {
@@ -28,19 +33,31 @@ namespace CYRED
 			void Finalize			()							override;
 			void Update				()							override;
 
-			void RegisterRigidBody	( RigidBody* rigidBody )	override;
-			void UnregisterRigidBody( RigidBody* rigidBody )	override;
+			void RegisterObject		( GameObject* gameObject )	override;
+			void UnregisterObject	( GameObject* gameObject )	override;
 			void UpdateRigidBody	( RigidBody* rigidBody )	override;
 
 
 		private:
+			struct _RigidBodyData
+			{
+				btRigidBody*	physicsBody;
+				Transform*		transform;
+				RigidBody*		rigidBody;
+				bool			isAddedToWorld;
+			};
+
 			btDynamicsWorld*			_dynamicsWorld;
 			btBroadphaseInterface*		_broadphase;
 			btCollisionConfiguration*	_collConfig;
 			btCollisionDispatcher*		_dispatcher;
 			btConstraintSolver*			_solver;
 
-			DataMap<RigidBody*, btRigidBody*>	_rigidBodies;
+			DataMap<GameObject*, _RigidBodyData*>	_rigidBodies;
+
+
+		private:
+			void _CreateRigidBodyData( GameObject* gameObject );
 		};
 	}
 }

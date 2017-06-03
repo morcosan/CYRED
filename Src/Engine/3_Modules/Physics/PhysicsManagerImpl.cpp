@@ -65,11 +65,12 @@ void PhysicsManagerImpl::Finalize()
 	PTR_FREE( _solver );
 
 	// delete rigid bodies
-	Iterator<RigidBody*, btRigidBody*> iter = _rigidBodies.GetIterator();
+	Iterator<GameObject*, _RigidBodyData*> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
 		// clear memory
-		PTR_FREE( iter.GetValue()->getMotionState() );
-		PTR_FREE( iter.GetValue()->getCollisionShape() );
+		PTR_FREE( iter.GetValue()->physicsBody->getMotionState() );
+		PTR_FREE( iter.GetValue()->physicsBody->getCollisionShape() );
+		PTR_FREE( iter.GetValue()->physicsBody );
 		PTR_FREE( iter.GetValue() );
 
 		// next
@@ -81,47 +82,63 @@ void PhysicsManagerImpl::Finalize()
 void PhysicsManagerImpl::Update()
 {
 	// update physics from gameobject
-	Iterator<RigidBody*, btRigidBody*> iter = _rigidBodies.GetIterator();
+	Iterator<GameObject*, _RigidBodyData*> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
-		RigidBody* rigidBody = iter.GetKey();
-		btRigidBody* body = iter.GetValue();
+		_RigidBodyData* data = iter.GetValue();
 
-		// get transform
-		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
-		btTransform bodyTran = body->getWorldTransform();
-		// update position
-		Vector3 pos = transform->GetPositionWorld();
-		bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
-		// update rotation
-		Quaternion rot = transform->GetRotationWorld();
-		bodyTran.setRotation( btQuaternion( rot.x, rot.y, rot.z, rot.w ) );
-		// update transform
-		body->setWorldTransform( bodyTran );
-		// update scale
-		Vector3 scale = transform->GetScaleWorld();
-		body->getCollisionShape()->setLocalScaling( btVector3( scale.x, scale.y, scale.z ) );
+		if ( data->rigidBody->IsEnabled() && data->transform->IsEnabled() ) {
+			// add to world
+			if ( !data->isAddedToWorld ) {
+				_dynamicsWorld->addRigidBody( data->physicsBody );
+				data->isAddedToWorld = TRUE;
+			}
+			// get physics transform
+			btTransform bodyTran = data->physicsBody->getWorldTransform();
+			// update position
+			Vector3 pos = data->transform->GetPositionWorld();
+			bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
+			// update rotation
+			Quaternion rot = data->transform->GetRotationWorld();
+			bodyTran.setRotation( btQuaternion( rot.x, rot.y, rot.z, rot.w ) );
+			// update transform
+			data->physicsBody->setWorldTransform( bodyTran );
+			// update scale
+			Vector3 scale = data->transform->GetScaleWorld();
+			data->physicsBody->getCollisionShape()->setLocalScaling( btVector3( scale.x, scale.y, scale.z ) );
+		}
+		else {
+			// remove from world
+			if ( data->isAddedToWorld ) {
+				_dynamicsWorld->removeRigidBody( data->physicsBody );
+				data->isAddedToWorld = FALSE;
+			}
+		}
 
 		// next
 		iter.Next();
 	}
 
+
+	// update physics
 	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
+
 
 	// update gameobject from physics
 	iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
-		RigidBody* rigidBody = iter.GetKey();
-		btRigidBody* body = iter.GetValue();
+		_RigidBodyData* data = iter.GetValue();
 
-		// get transform
-		Transform* transform = rigidBody->GetGameObject()->GetComponent<Transform>();
-		btTransform bodyTran = body->getWorldTransform();
-		// update position
-		btVector3 pos = bodyTran.getOrigin();
-		transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
-		// update rotation
-		btQuaternion rot = bodyTran.getRotation();
-		transform->SetRotationWorld( Quaternion( rot.getX(), rot.getY(), rot.getZ(), rot.getW() ) );
+		if ( data->rigidBody->IsEnabled() && data->transform->IsEnabled() ) {
+			// get physics transform
+			Transform* transform = data->rigidBody->GetGameObject()->GetComponent<Transform>();
+			btTransform bodyTran = data->physicsBody->getWorldTransform();
+			// update position
+			btVector3 pos = bodyTran.getOrigin();
+			transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
+			// update rotation
+			btQuaternion rot = bodyTran.getRotation();
+			transform->SetRotationWorld( Quaternion( rot.getX(), rot.getY(), rot.getZ(), rot.getW() ) );
+		}
 
 		// next
 		iter.Next();
@@ -129,69 +146,60 @@ void PhysicsManagerImpl::Update()
 }
 
 
-void PhysicsManagerImpl::RegisterRigidBody( RigidBody* rigidBody )
+void PhysicsManagerImpl::RegisterObject( GameObject* gameObject )
 {
-	if ( !_rigidBodies.Has( rigidBody ) ) {
-		// create shape
-		btCollisionShape* collisionShape = NULL;
-		Vector3 shapeSize = rigidBody->GetShapeSize();
-		switch ( rigidBody->GetShapeType() ) {
-			case CollisionShapeType::BOX:
-				collisionShape = new btBoxShape( btVector3( shapeSize.x, shapeSize.y, shapeSize.x ) );
-				break;
-
-			case CollisionShapeType::SPHERE:
-				collisionShape = new btSphereShape( shapeSize.x );
-				break;
-		}
-		// create motion state
-		btMotionState* motionstate = new btDefaultMotionState();
-		// calculate inertia
-		btVector3 inertia;
-		collisionShape->calculateLocalInertia( rigidBody->GetMass(), inertia );
-		// create body
-		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
-			rigidBody->GetMass(),
-			motionstate,
-			collisionShape,
-			inertia
-		);
-		btRigidBody* body = new btRigidBody( rigidBodyCI );
-
-		// add to world
-		_dynamicsWorld->addRigidBody( body );
-		// add to list
-		_rigidBodies.Set( rigidBody, body );
+	if ( !_rigidBodies.Has( gameObject ) ) {
+		_CreateRigidBodyData( gameObject );
 	}
 }
 
 
-void PhysicsManagerImpl::UnregisterRigidBody( RigidBody* rigidBody )
+void PhysicsManagerImpl::UnregisterObject( GameObject* gameObject )
 {
-	if ( _rigidBodies.Has( rigidBody ) ) {
-		btRigidBody* body = _rigidBodies.Get( rigidBody );
+	if ( _rigidBodies.Has( gameObject ) ) {
+		_RigidBodyData* data = _rigidBodies.Get( gameObject );
 
-		// remove from world
-		_dynamicsWorld->removeRigidBody( body );
-		// remove from list
-		_rigidBodies.Erase( rigidBody );
-
+		if ( data->isAddedToWorld ) {
+			// remove from world
+			_dynamicsWorld->removeRigidBody( data->physicsBody );
+		}
 		// clear memory
-		PTR_FREE( body );
+		PTR_FREE( data->physicsBody );
+		PTR_FREE( data );
+
+		// remove from list
+		_rigidBodies.Erase( gameObject );
 	}
 }
 
 
 void PhysicsManagerImpl::UpdateRigidBody( RigidBody* rigidBody )
 {
-	if ( _rigidBodies.Has( rigidBody ) ) {
-		btRigidBody* body = _rigidBodies.Get( rigidBody );
+	GameObject* gameObject = rigidBody->GetGameObject();
+	if ( _rigidBodies.Has( gameObject ) ) {
+		_RigidBodyData* data = _rigidBodies.Get( gameObject );
 
-		// remove from world
-		_dynamicsWorld->removeRigidBody( body );
-		// delete
-		PTR_FREE( body );
+		if ( data->isAddedToWorld ) {
+			// remove from world
+			_dynamicsWorld->removeRigidBody( data->physicsBody );
+		}
+		// clear memory
+		PTR_FREE( data->physicsBody );
+		PTR_FREE( data );
 
+		// recreate data
+		_CreateRigidBodyData( gameObject );
+	}
+}
+
+
+void PhysicsManagerImpl::_CreateRigidBodyData( GameObject* gameObject )
+{
+	// get rigit body
+	RigidBody* rigidBody = gameObject->GetComponent<RigidBody>();
+	Transform* transform = gameObject->GetComponent<Transform>();
+
+	if ( rigidBody != NULL && transform != NULL ) {
 		// create shape
 		btCollisionShape* collisionShape = NULL;
 		Vector3 shapeSize = rigidBody->GetShapeSize();
@@ -209,19 +217,21 @@ void PhysicsManagerImpl::UpdateRigidBody( RigidBody* rigidBody )
 		// calculate inertia
 		btVector3 inertia;
 		collisionShape->calculateLocalInertia( rigidBody->GetMass(), inertia );
-		// create new body
+		// create physicsBody
 		btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
 			rigidBody->GetMass(),
 			motionstate,
 			collisionShape,
 			inertia
 		);
-		body = new btRigidBody( rigidBodyCI );
-
-		// add to world
-		_dynamicsWorld->addRigidBody( body );
+		btRigidBody* physicsBody = new btRigidBody( rigidBodyCI );
 
 		// add to list
-		_rigidBodies.Set( rigidBody, body );
+		_RigidBodyData* data = new _RigidBodyData();
+		data->physicsBody	 = physicsBody;
+		data->transform		 = transform;
+		data->rigidBody		 = rigidBody;
+		data->isAddedToWorld = FALSE;
+		_rigidBodies.Set( gameObject, data );
 	}
 }

@@ -44,7 +44,7 @@ namespace CYRED
 		cchar* const STATUS_LOAD_NEW_SCENE		= "New scene loaded.";
 		cchar* const STATUS_CLOSE_ALL_SCENES	= "All scenes closed.";
 
-		cchar* const SKINS_MENU				= "Skins";
+		cchar* const SKINS_MENU					= "Skins";
 
 
 	public:

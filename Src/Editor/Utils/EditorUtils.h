@@ -26,6 +26,8 @@ namespace CYRED
 		static cchar* const	ICON_LOG_INFO;
 		static cchar* const	ICON_LOG_ERROR;
 		static cchar* const	ICON_SETTINGS;
+		static cchar* const	ICON_PLAY;
+		static cchar* const	ICON_PAUSE;
 		
 		static cchar* const	NAME_FOLDER;
 		static cchar* const	NAME_MATERIAL;

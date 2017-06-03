@@ -30,9 +30,11 @@ cchar* const EditorUtils::ICON_SHADER		= "shader";
 cchar* const EditorUtils::ICON_SCRIPT		= "script";
 cchar* const EditorUtils::ICON_PREFAB		= "prefab";
 cchar* const EditorUtils::ICON_UNKNOWN		= "unknown";
-cchar* const EditorUtils::ICON_LOG_INFO		= "info_icon";
-cchar* const EditorUtils::ICON_LOG_ERROR	= "error_icon";
+cchar* const EditorUtils::ICON_LOG_INFO		= "info";
+cchar* const EditorUtils::ICON_LOG_ERROR	= "error";
 cchar* const EditorUtils::ICON_SETTINGS		= "settings";
+cchar* const EditorUtils::ICON_PLAY			= "play";
+cchar* const EditorUtils::ICON_PAUSE		= "pause";
 
 cchar* const EditorUtils::NAME_FOLDER		= "Folder";
 cchar* const EditorUtils::NAME_MATERIAL		= "Material";

@@ -6,6 +6,7 @@
 
 namespace CYRED
 {
+	class GameObject;
 	class RigidBody;
 }
 
@@ -22,8 +23,8 @@ namespace CYRED
 		virtual void Finalize			()							PURE_VIRTUAL;
 		virtual void Update				()							PURE_VIRTUAL;
 
-		virtual void RegisterRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
-		virtual void UnregisterRigidBody( RigidBody* rigidBody )	PURE_VIRTUAL;
+		virtual void RegisterObject		( GameObject* gameObject )	PURE_VIRTUAL;
+		virtual void UnregisterObject	( GameObject* gameObject )	PURE_VIRTUAL;
 		virtual void UpdateRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
 
 	};
