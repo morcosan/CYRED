@@ -47,20 +47,30 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
 			// update 
 			_ResetHierarchy();
-			// change color
-			ColorizePanel( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
+			// change needs save
+			UpdateNeedsSave( !wasEmpty && _qtTree->topLevelItemCount() > 0 );
 			break;
 		}
 
-		case EventType::SCENE_CLOSE:
-		case EventType::SCENE_OPEN:
-		{
+		case EditorEventType::PLAY_MODE_START:
+			// store current state
+			_playModeNeedsSave = _currNeedsSave;
+			break;
+
+		case EditorEventType::PLAY_MODE_STOP:
 			// update 
 			_ResetHierarchy();
-			// change color
-			ColorizePanel( FALSE );
+			// change needs save
+			UpdateNeedsSave( _playModeNeedsSave );
 			break;
-		}
+
+		case EventType::SCENE_CLOSE:
+		case EventType::SCENE_OPEN:
+			// update 
+			_ResetHierarchy();
+			// change needs save
+			UpdateNeedsSave( FALSE );
+			break;
 			
 		case EventType::GAMEOBJECT_RENAME:
 		{
@@ -69,8 +79,8 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 
-				// change color
-				ColorizePanel( TRUE );
+				// change needs save
+				UpdateNeedsSave( TRUE );
 			}
 			break;
 		}
@@ -83,8 +93,8 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			if ( component != NULL ) {
 				CustomTreeItem* treeItem = _FindGameObjectItem( component->GetGameObject()->GetUniqueID() );
 				if ( treeItem != NULL ) {
-					// change color
-					ColorizePanel( TRUE );
+					// change needs save
+					UpdateNeedsSave( TRUE );
 				}
 			}
 			break;

@@ -27,18 +27,17 @@ namespace CYRED
 
 	public:
 		void OnHierarchyChange	()									override {}
-		void OnAdded			()									override {};
-		void OnRemoved			()									override {};
+		void OnAdded			()									override;
+		void OnRemoved			()									override;
 		void OnEvent			( int eventType, void* eventData )	override;
+		void Clone				( Component* clone ) const			override;
 
 
 	public:
-		void Clone( Component* clone ) const override;
+		void	OnCollision		( GameObject* other );
 
-
-	public:
 		Script* GetScript		( int index )	const;
-		int	GetScriptsCount	()				const;
+		int		GetScriptsCount	()				const;
 
 		void	SetScript		( int index, cchar* scriptUID );
 		void	ClearScripts	();

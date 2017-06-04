@@ -13,7 +13,7 @@ using namespace CYRED;
 
 GameObject::GameObject()
 	: _uid( EMPTY_OBJECT_UID )
-	, _enabled ( TRUE )
+	, _isEnabled ( TRUE )
 	, _emitEvents( TRUE )
 {
 }
@@ -21,7 +21,7 @@ GameObject::GameObject()
 
 GameObject::GameObject( int uid )
 	: _uid( uid )
-	, _enabled ( TRUE )
+	, _isEnabled ( TRUE )
 	, _emitEvents( TRUE )
 {
 }
@@ -30,7 +30,7 @@ GameObject::GameObject( int uid )
 GameObject::GameObject( cchar* name, int uid )
 	: Node( name )
 	, _uid( uid )
-	, _enabled ( TRUE )
+	, _isEnabled ( TRUE )
 	, _emitEvents( TRUE )
 {
 }
@@ -75,7 +75,7 @@ void GameObject::OnUpdate( bool isRuntime )
 
 bool GameObject::IsEnabled() const
 {
-	return _enabled;
+	return _isEnabled;
 }
 
 
@@ -112,7 +112,7 @@ Component* GameObject::GetComponentAt( int index ) const
 
 void GameObject::SetEnabled( bool value )
 {
-	_enabled = value;
+	_isEnabled = value;
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );

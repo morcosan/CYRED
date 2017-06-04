@@ -18,6 +18,7 @@ namespace CYRED
 	public:
 		cchar* TITLE				= "Rigid Body";
 
+		cchar* ATTR_IS_TRIGGER		= "Is Trigger";
 		cchar* ATTR_SHAPE_TYPE		= "Shape Type";
 		cchar* SHAPE_TYPE_BOX		= "Box";
 		cchar* SHAPE_TYPE_SPHERE	= "Sphere";

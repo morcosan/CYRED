@@ -42,9 +42,9 @@ namespace CYRED
 
 
 	public:
-		void ColorizePanel	( bool needsSave );
+		void UpdateNeedsSave	( bool needsSave );
 
-		void A_ItemRenamed	( QTreeWidgetItem* item, int column );
+		void A_ItemRenamed		( QTreeWidgetItem* item, int column );
 
 
 	protected:
@@ -54,6 +54,7 @@ namespace CYRED
 
 	protected:
 		CustomTree* _qtTree;
+		bool		_currNeedsSave;
 
 
 	protected:

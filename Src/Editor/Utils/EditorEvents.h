@@ -28,6 +28,9 @@ namespace CYRED
 			, ISOLATE_OPEN_PREFAB
 			, ISOLATE_SELECT
 
+			, PLAY_MODE_START
+			, PLAY_MODE_STOP
+
 			, _COUNT_
 		};
 	}

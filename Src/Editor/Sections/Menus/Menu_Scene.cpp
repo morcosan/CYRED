@@ -88,7 +88,7 @@ void Menu_Scene::A_SaveScene()
 		SceneManager::Singleton()->SaveScene( scene->GetUniqueID() );
 
 		// colorize panel
-		_panel->ColorizePanel( FALSE );
+		_panel->UpdateNeedsSave( FALSE );
 	}
 }
 
@@ -135,7 +135,7 @@ void Menu_Scene::A_SaveSceneAs()
 		_qtTree->blockSignals( false );
 
 		// colorize panel
-		_panel->ColorizePanel( FALSE );
+		_panel->UpdateNeedsSave( FALSE );
 	}
 }
 

@@ -33,7 +33,7 @@ namespace CYRED
 
 
 		private:
-			bool _enabled;
+			bool _isEnabled;
 		};
 	}
 }

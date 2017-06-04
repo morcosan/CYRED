@@ -37,6 +37,9 @@ namespace CYRED
 
 
 	public:
+		bool				IsTrigger		() const;
+		void				SetIsTrigger	( bool value );
+
 		CollisionShapeType	GetShapeType	() const;
 		void				SetShapeType	( CollisionShapeType type );
 
@@ -52,6 +55,7 @@ namespace CYRED
 
 
 	private:
+		bool				_isTrigger;
 		CollisionShapeType	_shapeType;
 		Vector3				_shapeSize;
 		float				_mass;

@@ -45,6 +45,7 @@ namespace CYRED
 	private:
 		Menu_GameObject*	_menuGameObject;
 		Menu_Scene*			_menuScene;
+		bool				_playModeNeedsSave;
 
 
 	private:

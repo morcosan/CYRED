@@ -6,6 +6,7 @@
 #include "../Assets/Script.h"
 #include "../../../3_Modules/Event/EventManager.h"
 #include "../../../3_Modules/Asset/AssetManager.h"
+#include "../../../3_Modules/Physics/PhysicsManagerImpl.h"
 
 
 using namespace CYRED;
@@ -28,6 +29,20 @@ Scripter::~Scripter()
 }
 
 
+void Scripter::OnAdded()
+{
+	// update physics
+	NotAPI::PhysicsManagerImpl::Singleton()->RegisterScripter( this );
+}
+
+
+void Scripter::OnRemoved()
+{
+	// update physics
+	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterScripter( this );
+}
+
+
 void Scripter::OnEvent( int eventType, void* eventData )
 {
 	// check if any script asset was reloaded
@@ -47,6 +62,14 @@ void Scripter::OnEvent( int eventType, void* eventData )
 
 void Scripter::Clone( Component* clone ) const
 {
+}
+
+
+void Scripter::OnCollision( GameObject* other )
+{
+	if ( _isEnabled ) {
+		int x = 0;
+	}
 }
 
 
@@ -102,6 +125,10 @@ void Scripter::ClearScripts()
 
 void Scripter::_OnStart( bool isRuntime )
 {
+	if ( !_isEnabled ) {
+		return;
+	}
+
 	for ( int i = 0; i < _scripts.Size(); i++ ) {
 		if ( _scripts[i] != NULL ) {
 			// call script function

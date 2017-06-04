@@ -64,6 +64,7 @@
                 },
                 "rigid_body": {
                     "enabled": true,
+                    "is_trigger": false,
                     "shape_type": "BOX",
                     "shape_size": {
                         "x": 0.5,
@@ -103,13 +104,14 @@
                 },
                 "rigid_body": {
                     "enabled": true,
+                    "is_trigger": true,
                     "shape_type": "SPHERE",
                     "shape_size": {
                         "x": 0.5,
                         "y": 0.5,
                         "z": 0.5
                     },
-                    "mass": 1.0
+                    "mass": 0.0
                 }
             }
         },
@@ -142,6 +144,7 @@
                 },
                 "rigid_body": {
                     "enabled": true,
+                    "is_trigger": false,
                     "shape_type": "BOX",
                     "shape_size": {
                         "x": 5.0,

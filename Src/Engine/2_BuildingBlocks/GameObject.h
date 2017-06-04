@@ -58,7 +58,7 @@ namespace CYRED
 
 
 	private:
-		bool	_enabled;
+		bool	_isEnabled;
 		int		_uid;	// unique index
 		bool	_emitEvents;
 		String	_tag;

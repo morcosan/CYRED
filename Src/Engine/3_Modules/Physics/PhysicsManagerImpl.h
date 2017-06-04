@@ -16,6 +16,7 @@ class btRigidBody;
 namespace CYRED
 {
 	class Transform;
+	class Scripter;
 }
 
 
@@ -33,9 +34,13 @@ namespace CYRED
 			void Finalize			()							override;
 			void Update				()							override;
 
-			void RegisterObject		( GameObject* gameObject )	override;
-			void UnregisterObject	( GameObject* gameObject )	override;
-			void UpdateRigidBody	( RigidBody* rigidBody )	override;
+
+		public:
+			void RegisterObject		( GameObject* gameObject );
+			void UnregisterObject	( GameObject* gameObject );
+			void UpdateRigidBody	( RigidBody* rigidBody );
+			void RegisterScripter	( Scripter* scripter );
+			void UnregisterScripter	( Scripter* scripter );
 
 
 		private:
@@ -46,6 +51,11 @@ namespace CYRED
 				RigidBody*		rigidBody;
 				bool			isAddedToWorld;
 			};
+			struct _ScripterData
+			{
+				GameObject*		gameObject;
+				Scripter*		scripter;
+			};
 
 			btDynamicsWorld*			_dynamicsWorld;
 			btBroadphaseInterface*		_broadphase;
@@ -53,11 +63,13 @@ namespace CYRED
 			btCollisionDispatcher*		_dispatcher;
 			btConstraintSolver*			_solver;
 
-			DataMap<GameObject*, _RigidBodyData*>	_rigidBodies;
+			DataMap<const GameObject*, _RigidBodyData*>	_rigidBodies;
+			DataMap<const btRigidBody*, _ScripterData*>	_scripters;
 
 
 		private:
-			void _CreateRigidBodyData( GameObject* gameObject );
+			void _CreateRigidBodyData	( GameObject* gameObject );
+			void _CheckCollisions		();
 		};
 	}
 }

@@ -65,11 +65,12 @@ void Panel_Hierarchy::_RecResetHierarchy( Node* node, QTreeWidgetItem* parentIte
 }
 
 
-void Panel_Hierarchy::ColorizePanel( bool needsSave )
+void Panel_Hierarchy::UpdateNeedsSave( bool needsSave )
 {
 	FiniteString currObjectName( _qtTree->objectName().toUtf8().constData() );
 
 	if ( needsSave && currObjectName != EditorSkin::HIERARCHY_TREE_SAVE ) {
+		_currNeedsSave = TRUE;
 		// colorize panel
 		_qtTree->setObjectName( EditorSkin::HIERARCHY_TREE_SAVE );
 		// refresh style
@@ -77,6 +78,7 @@ void Panel_Hierarchy::ColorizePanel( bool needsSave )
 	}
 
 	if ( !needsSave && currObjectName != EditorSkin::HIERARCHY_TREE ) {
+		_currNeedsSave = FALSE;
 		// colorize panel
 		_qtTree->setObjectName( EditorSkin::HIERARCHY_TREE );
 		// refresh style

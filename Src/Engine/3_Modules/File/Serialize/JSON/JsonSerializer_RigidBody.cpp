@@ -20,7 +20,8 @@ rapidjson::Value JsonSerializer_RigidBody::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ), rigidBody->IsEnabled(), _al );
+	json.AddMember( rapidjson::StringRef( ENABLED ),	rigidBody->IsEnabled(), _al );
+	json.AddMember( rapidjson::StringRef( IS_TRIGGER ), rigidBody->IsTrigger(), _al );
 
 	switch ( rigidBody->GetShapeType() ) {
 		case CollisionShapeType::BOX:
@@ -46,6 +47,10 @@ void JsonSerializer_RigidBody::FromJson( rapidjson::Value& json, OUT void* objec
 	bool emitEvents = rigidBody->DoesEmitEvents();
 	rigidBody->SetEmitEvents( FALSE );
 
+
+	if ( json.HasMember( IS_TRIGGER ) ) {
+		rigidBody->SetIsTrigger( json[IS_TRIGGER].GetBool() );
+	}
 
 	if ( json.HasMember( SHAPE_TYPE ) ) {
 		FiniteString type( json[SHAPE_TYPE].GetString() );

@@ -5,7 +5,7 @@
 
 #include "../GameObject.h"
 #include "../../3_Modules/Event/EventManager.h"
-#include "../../3_Modules/Physics/PhysicsManager.h"
+#include "../../3_Modules/Physics/PhysicsManagerImpl.h"
 
 
 using namespace CYRED;
@@ -74,14 +74,14 @@ void Transform::OnHierarchyChange()
 void Transform::OnAdded()
 {
 	// update physics
-	PhysicsManager::Singleton()->RegisterObject( GetGameObject() );
+	NotAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
 }
 
 
 void Transform::OnRemoved()
 {
 	// update physics
-	PhysicsManager::Singleton()->UnregisterObject( GetGameObject() );
+	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 
@@ -93,7 +93,7 @@ void Transform::Clone( Component* clone ) const
 	cloneComp->SetPositionLocal( _positionLocal );
 	cloneComp->SetRotationLocal( _rotationLocal );
 	cloneComp->SetScaleLocal( _scaleLocal );
-	cloneComp->SetEnabled( _enabled );
+	cloneComp->SetEnabled( _isEnabled );
 }
 
 
@@ -516,7 +516,7 @@ void Transform::_RecursiveFindFirstChildren( GameObject* currChildNode )
 {
 	_children.Clear();
 
-	if ( !_enabled ) {
+	if ( !_isEnabled ) {
 		return;		// if we are disabled, we have no children, but still have parent
 	}
 

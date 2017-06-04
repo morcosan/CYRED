@@ -42,7 +42,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 			_targetPrefab = CAST_S( Prefab*, eventData );
 			_ResetHierarchy();
 			// change color
-			ColorizePanel( FALSE );
+			UpdateNeedsSave( FALSE );
 			break;
 
 		case EditorEventType::PREFAB_CLOSE:
@@ -50,7 +50,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 				_targetPrefab = NULL;
 				_ResetHierarchy();
 				// change color
-				ColorizePanel( FALSE );
+				UpdateNeedsSave( FALSE );
 				// unselect
 				EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_SELECT, NULL );
 			}
@@ -67,7 +67,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 			CustomTreeItem* treeItem = _FindGameObjectItem( CAST_S( GameObject*, eventData )->GetUniqueID() );
 			if ( treeItem != NULL ) {
 				// change color
-				ColorizePanel( !wasEmpty );
+				UpdateNeedsSave( !wasEmpty );
 			}
 			break;
 		}
@@ -81,7 +81,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 				CustomTreeItem* treeItem = _FindGameObjectItem( component->GetGameObject()->GetUniqueID() );
 				if ( treeItem != NULL ) {
 					// change color
-					ColorizePanel( TRUE );
+					UpdateNeedsSave( TRUE );
 				}
 			}
 			break;
@@ -95,7 +95,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 				treeItem->setText( 0, gameObject->GetName() );
 
 				// change color
-				ColorizePanel( TRUE );
+				UpdateNeedsSave( TRUE );
 			}
 			break;
 		}

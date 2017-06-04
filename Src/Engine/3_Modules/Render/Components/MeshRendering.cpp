@@ -27,7 +27,7 @@ void MeshRendering::Clone( Component* clone ) const
 	// set attributes
 	cloneComp->SetMesh( _mesh );
 	cloneComp->SetMaterial( _material );
-	cloneComp->SetEnabled( _enabled );
+	cloneComp->SetEnabled( _isEnabled );
 }
 
 

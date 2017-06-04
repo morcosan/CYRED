@@ -4,7 +4,7 @@
 #include "RigidBody.h"
 
 #include "../../Event/EventManager.h"
-#include "../PhysicsManager.h"
+#include "../PhysicsManagerImpl.h"
 
 
 using namespace CYRED;
@@ -15,6 +15,7 @@ RigidBody::RigidBody( GameObject* gameObject )
 	, _shapeType( CollisionShapeType::BOX )
 	, _shapeSize( Vector3( 0.5f, 0.5f, 0.5f ) )
 	, _mass( 0 )
+	, _isTrigger( FALSE )
 {
 	_componentType = ComponentType::RIGID_BODY;
 }
@@ -30,19 +31,38 @@ RigidBody::~RigidBody()
 void RigidBody::OnAdded()
 {
 	// update physics
-	PhysicsManager::Singleton()->RegisterObject( GetGameObject() );
+	NotAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
 }
 
 
 void RigidBody::OnRemoved()
 {
 	// update physics
-	PhysicsManager::Singleton()->UnregisterObject( GetGameObject() );
+	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 
 void RigidBody::Clone( Component* clone ) const
 {
+}
+
+
+bool RigidBody::IsTrigger() const
+{
+	return _isTrigger;
+}
+
+
+void RigidBody::SetIsTrigger( bool value )
+{
+	_isTrigger = value;
+
+	// update physics
+	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+	}
 }
 
 
@@ -55,6 +75,9 @@ CollisionShapeType RigidBody::GetShapeType() const
 void RigidBody::SetShapeType( CollisionShapeType type )
 {
 	_shapeType = type;
+
+	// update physics
+	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
@@ -71,6 +94,9 @@ Vector3 RigidBody::GetShapeSize() const
 void RigidBody::SetShapeSize( const Vector3& size )
 {
 	_shapeSize = size;
+
+	// update physics
+	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
@@ -89,7 +115,7 @@ void RigidBody::SetMass( float mass )
 	_mass = mass;
 
 	// update physics
-	PhysicsManager::Singleton()->UpdateRigidBody( this );
+	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );

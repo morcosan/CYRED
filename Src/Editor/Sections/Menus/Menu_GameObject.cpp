@@ -138,7 +138,7 @@ void Menu_GameObject::A_SavePrefab()
 		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, prefab );
 
 		// colorize panel
-		_panel->ColorizePanel( FALSE );
+		_panel->UpdateNeedsSave( FALSE );
 	}
 }
 
@@ -203,7 +203,7 @@ void Menu_GameObject::A_SavePrefabAs()
 
 
 		// colorize panel
-		_panel->ColorizePanel( FALSE );
+		_panel->UpdateNeedsSave( FALSE );
 	}
 }
 

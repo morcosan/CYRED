@@ -65,7 +65,7 @@ namespace CYRED
 
 	protected:
 		GameObject*		_gameObject;
-		bool			_enabled;
+		bool			_isEnabled;
 		bool			_emitEvents;
 		ComponentType	_componentType;
 		bool			_isFirstUpdate;

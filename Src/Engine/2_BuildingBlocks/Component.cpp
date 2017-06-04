@@ -9,7 +9,7 @@ using namespace CYRED;
 
 Component::Component( GameObject* gameObject )
 	: _gameObject( gameObject )
-	, _enabled( TRUE )
+	, _isEnabled( TRUE )
 	, _emitEvents( TRUE )
 	, _componentType( ComponentType::COMPONENT )
 	, _isFirstUpdate( TRUE )
@@ -48,7 +48,7 @@ GameObject* Component::GetGameObject() const
 
 void Component::SetEnabled( bool value )
 {
-	_enabled = value;
+	_isEnabled = value;
 	_OnEnable();
 }
 
@@ -61,7 +61,7 @@ void Component::SetEmitEvents( bool value )
 
 bool Component::IsEnabled() const
 {
-	return _enabled;
+	return _isEnabled;
 }
 
 

@@ -22,10 +22,5 @@ namespace CYRED
 		virtual void Initialize			()							PURE_VIRTUAL;
 		virtual void Finalize			()							PURE_VIRTUAL;
 		virtual void Update				()							PURE_VIRTUAL;
-
-		virtual void RegisterObject		( GameObject* gameObject )	PURE_VIRTUAL;
-		virtual void UnregisterObject	( GameObject* gameObject )	PURE_VIRTUAL;
-		virtual void UpdateRigidBody	( RigidBody* rigidBody )	PURE_VIRTUAL;
-
 	};
 }

@@ -252,6 +252,9 @@ void EditorApp::_UpdateLoop()
 
 		// restore scenes
 		SceneManager::Singleton()->RestoreScenes();
+
+		// announce stop
+		EventManager::Singleton()->EmitEvent( EditorEventType::PLAY_MODE_STOP, NULL );
 	}
 
 	//! update panels
@@ -711,6 +714,9 @@ void EditorApp::StartPlayMode()
 
 	// store current scenes
 	SceneManager::Singleton()->StoreScenes();
+
+	// announce play
+	EventManager::Singleton()->EmitEvent( EditorEventType::PLAY_MODE_START, NULL );
 }
 
 

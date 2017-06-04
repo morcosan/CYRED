@@ -27,6 +27,7 @@
 
 #define ARRAY_SIZE( value )			sizeof( value ) / sizeof( value[0] );
 
+#define BIT( x )					( 1 << (x) )
 
 #ifdef NULL
 	#undef NULL

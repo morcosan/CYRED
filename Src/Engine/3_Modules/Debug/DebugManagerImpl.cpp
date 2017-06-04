@@ -22,7 +22,7 @@ void DebugManagerImpl::Initialize()
 	ASSERT( !_isInitialized );
 	_isInitialized = true;
 
-	_enabled = TRUE;
+	_isEnabled = TRUE;
 }
 
 
@@ -39,14 +39,14 @@ void DebugManagerImpl::SetEnabled( bool value )
 {
 	ASSERT( _isInitialized );
 
-	_enabled = value;
+	_isEnabled = value;
 }
 
 
 void DebugManagerImpl::Error( cchar* value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
+	if ( !_isEnabled ) 
 	{
 		return;
 	}
@@ -59,7 +59,7 @@ void DebugManagerImpl::Error( cchar* value )
 void DebugManagerImpl::Log( cchar* value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) {
+	if ( !_isEnabled ) {
 		return;
 	}
 
@@ -71,7 +71,7 @@ void DebugManagerImpl::Log( cchar* value )
 void DebugManagerImpl::LogInt( int value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) {
+	if ( !_isEnabled ) {
 		return;
 	}
 
@@ -84,7 +84,7 @@ void DebugManagerImpl::LogInt( int value )
 void DebugManagerImpl::LogFloat( float value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
+	if ( !_isEnabled ) 
 	{
 		return;
 	}
@@ -98,7 +98,7 @@ void DebugManagerImpl::LogFloat( float value )
 void DebugManagerImpl::LogVec2( const Vector2& value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
+	if ( !_isEnabled ) 
 	{
 		return;
 	}
@@ -112,7 +112,7 @@ void DebugManagerImpl::LogVec2( const Vector2& value )
 void DebugManagerImpl::LogVec3( const Vector3& value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
+	if ( !_isEnabled ) 
 	{
 		return;
 	}
@@ -126,7 +126,7 @@ void DebugManagerImpl::LogVec3( const Vector3& value )
 void DebugManagerImpl::LogVec4( const Vector4& value )
 {
 	ASSERT( _isInitialized );
-	if ( !_enabled ) 
+	if ( !_isEnabled ) 
 	{
 		return;
 	}

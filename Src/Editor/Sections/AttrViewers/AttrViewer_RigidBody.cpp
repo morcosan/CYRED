@@ -21,6 +21,7 @@ void AttrViewer_RigidBody::_OnInitialize()
 	shapeTypes.Add( SHAPE_TYPE_SPHERE );
 	_CreateAttrDropdown	( ATTR_SHAPE_TYPE, ATTR_SHAPE_TYPE, shapeTypes, AttrFlag::NONE, CallbackGroup::GROUP_2 );
 
+	_CreateAttrBool		( ATTR_IS_TRIGGER,		ATTR_IS_TRIGGER );
 	_CreateAttrVector3	( ATTR_SHAPE_SIZE,		ATTR_SHAPE_SIZE );
 	_CreateAttrFloat	( ATTR_SHAPE_RADIUS,	ATTR_SHAPE_RADIUS );
 	_CreateAttrFloat	( ATTR_MASS,			ATTR_MASS );
@@ -50,6 +51,7 @@ void AttrViewer_RigidBody::_UpdateGUI()
 		_WriteAttrDropdown( ATTR_SHAPE_TYPE, typeIndex );
 	}
 
+	_WriteAttrBool		( ATTR_IS_TRIGGER,		_target->IsTrigger() );
 	_WriteAttrVector3	( ATTR_SHAPE_SIZE,		_target->GetShapeSize() );
 	_WriteAttrFloat		( ATTR_SHAPE_RADIUS,	_target->GetShapeSize().x );
 	_WriteAttrFloat		( ATTR_MASS,			_target->GetMass() );
@@ -91,9 +93,9 @@ void AttrViewer_RigidBody::_UpdateTarget()
 				_target->SetShapeSize( _ReadAttrVector3( ATTR_SHAPE_SIZE ) );
 			}
 
-			_target->SetMass( _ReadAttrFloat( ATTR_MASS ) );
-
-			_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+			_target->SetIsTrigger	( _ReadAttrBool( ATTR_IS_TRIGGER ) );
+			_target->SetMass		( _ReadAttrFloat( ATTR_MASS ) );
+			_target->SetEnabled		( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 		}
 	}
 	_target->SetEmitEvents( TRUE );

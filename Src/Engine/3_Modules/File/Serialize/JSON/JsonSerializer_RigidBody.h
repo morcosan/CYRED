@@ -10,6 +10,7 @@ namespace CYRED
 	class DLL JsonSerializer_RigidBody : public JsonSerializer
 	{
 		cchar* const ENABLED		= "enabled";
+		cchar* const IS_TRIGGER		= "is_trigger";
 		cchar* const SHAPE_TYPE		= "shape_type";
 		cchar* const TYPE_BOX		= "BOX";
 		cchar* const TYPE_SPHERE	= "SPHERE";
