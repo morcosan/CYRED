@@ -2,7 +2,7 @@
 // MIT License
 
 
-#include "StandaloneApp.h"
+#include "LauncherApp.h"
 
 
 using namespace CYRED;
@@ -10,8 +10,8 @@ using namespace CYRED;
 
 int main( int argc, char *argv[] )
 {
-	Application::CreateSingleton( StandaloneApp::CreateSingleton() );
-	CAST_S( StandaloneApp*, Application::Singleton() )->Run( argc, argv );
+	Application::CreateSingleton( LauncherApp::CreateSingleton() );
+	CAST_S( LauncherApp*, Application::Singleton() )->Run( argc, argv );
 	Application::DestroySingleton();
 
 	return 0;

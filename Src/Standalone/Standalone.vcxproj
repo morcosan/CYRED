@@ -14,6 +14,7 @@
     <ProjectGuid>{740E2DD9-DD8F-48C5-98C4-AB60E78913EC}</ProjectGuid>
     <RootNamespace>Standalone</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Launcher</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,7 +102,7 @@
     <ClCompile Include="EngineOverride\Input\InputReceiverGLFW.cpp" />
     <ClCompile Include="Sections\Console.cpp" />
     <ClCompile Include="Sections\GameInitScript.cpp" />
-    <ClCompile Include="StandaloneApp.cpp" />
+    <ClCompile Include="LauncherApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
@@ -110,7 +111,7 @@
     <ClInclude Include="EngineOverride\Input\InputReceiverGLFW.h" />
     <ClInclude Include="Sections\Console.h" />
     <ClInclude Include="Sections\GameInitScript.h" />
-    <ClInclude Include="StandaloneApp.h" />
+    <ClInclude Include="LauncherApp.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="SampleTest\SampleController.h" />

@@ -44,99 +44,20 @@ namespace CYRED
 
 
 	public:
-		/*****
-		* @desc: initialize manager by creating first canvas, with id 0
-		* @params: 
-		* 		glContext	- the context of the main window
-		* 		gl			- the OpenGL API
-		*/
-		virtual void	Initialize		( GLContext* glContext, GL* gl )	PURE_VIRTUAL;
-
-		/*****
-		* @desc: destroy the manager
-		* @assert: it was first initialized
-		*/
-		virtual void	Finalize		()									PURE_VIRTUAL;
+		virtual void	Initialize		( GLContext* glContext, GL* gl )		PURE_VIRTUAL;
+		virtual void	Finalize		()										PURE_VIRTUAL;
 		
-		/*****
-		* @desc: create a new canvas and activate it
-		* @params: 
-		* 		glContext - the context of the window
-		* @return: the index of the new canvas
-		*/
-		virtual int		CreateCanvas	( GLContext* glContext )			PURE_VIRTUAL;
-
-		/*****
-		* @desc: change the current canvas
-		* @params: 
-		* 		canvasID - id of the new canvas
-		* @assert: canvas exists
-		*/
-		virtual void	SwitchCanvas	( int canvasID )					PURE_VIRTUAL;
-
-		/*****
-		* @desc: create a new renderer for current canvas
-		* @params: 
-		* 		rendererType - type of the renderer
-		* @assert: canvas is set
-		*/
-		virtual void	CreateRenderer	( RendererType rendererType )		PURE_VIRTUAL;
-
-		/*****
-		* @desc: change the current renderer
-		* @params: 
-		* 		rendererType - type of the renderer
-		* @assert: canvas is set
-		*/
-		virtual void	SwitchRenderer	( RendererType rendererType )		PURE_VIRTUAL;
-
-		/*****
-		* @desc: clear the previous frame
-		*/
-		virtual void	ClearScreen		( float r, float g, float b )		PURE_VIRTUAL;
-
-		/*****
-		* @desc: clear the depth buffer; new rendering goes over anything before
-		*/
-		virtual void	ResetDepth		()									PURE_VIRTUAL;
-
-		/*****
-		* @desc: render the given component from given gameobject and its children
-		* @params: 
-		* 		compType	- the component to render
-		* 		target		- the target gameobject
-		* 		cameraGO	- camera
-		* 		lightsGO	- the list of lights to be used
-		* @assert: canvas and renderer are set
-		*/
+		virtual int		CreateCanvas	( GLContext* glContext )				PURE_VIRTUAL;
+		virtual void	SwitchCanvas	( int canvasID )						PURE_VIRTUAL;
+		virtual void	CreateRenderer	( RendererType rendererType )			PURE_VIRTUAL;
+		virtual void	SwitchRenderer	( RendererType rendererType )			PURE_VIRTUAL;
+		virtual void	ClearScreen		( float r, float g, float b )			PURE_VIRTUAL;
+		virtual void	ResetDepth		()										PURE_VIRTUAL;
 		virtual void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
 										  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
-
-		/*****
-		* @desc: display the rendering
-		*/
 		virtual void	SwapBuffers		()										PURE_VIRTUAL;
-
-		/*****
-		* @desc: force resize for given canvas
-		* @params: 
-		* 		canvasID - id of canvas
-		* @assert: canvas exists
-		*/
 		virtual void	OnResize		( int canvasID )						PURE_VIRTUAL;
-
-		/*****
-		* @desc: read the pixel from renderer at given location
-		* @params: 
-		* 		x - location on x axis
-		* 		y - location on y axis
-		* @assert: canvas and renderer are set
-		*/
 		virtual Vector4	ReadPixel		( int x, int y )						PURE_VIRTUAL;
 	};
 }
-
-
-
-
 

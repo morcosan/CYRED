@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="StandaloneApp.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLContextImpl.cpp" />
     <ClCompile Include="EngineOverride\OpenGL\GLImpl_3_0.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sections\Console.cpp" />
     <ClCompile Include="Sections\GameInitScript.cpp" />
     <ClCompile Include="EngineOverride\Input\InputReceiverGLFW.cpp" />
+    <ClCompile Include="LauncherApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SampleTest\SampleController.h" />
-    <ClInclude Include="StandaloneApp.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLContextImpl.h" />
     <ClInclude Include="EngineOverride\OpenGL\GLImpl_3_0.h" />
     <ClInclude Include="Sections\Console.h" />
     <ClInclude Include="Sections\GameInitScript.h" />
     <ClInclude Include="EngineOverride\Input\InputReceiverGLFW.h" />
+    <ClInclude Include="LauncherApp.h" />
   </ItemGroup>
 </Project>

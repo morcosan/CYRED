@@ -1,7 +1,7 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-#include "StandaloneApp.h"
+#include "LauncherApp.h"
 #include "CyredBuildingBlocks.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Debug.h"
@@ -28,10 +28,10 @@ using namespace CYRED;
 
 
 
-DEFINE_REMOTE_SINGLETON_IMPL( StandaloneApp )
+DEFINE_REMOTE_SINGLETON_IMPL( LauncherApp )
 
 
-void StandaloneApp::Run( int& argc, char* argv[] )
+void LauncherApp::Run( int& argc, char* argv[] )
 {
 	_InitializeGLFW();
 
@@ -60,13 +60,13 @@ void StandaloneApp::Run( int& argc, char* argv[] )
 }
 
 
-void StandaloneApp::Exit()
+void LauncherApp::Exit()
 {
 	_shouldExit = TRUE;
 }
 
 
-void StandaloneApp::_CleanUp()
+void LauncherApp::_CleanUp()
 {
 	_FinalizeManagers();
 	_DestroyManagers();
@@ -81,7 +81,7 @@ void StandaloneApp::_CleanUp()
 }
 
 
-void StandaloneApp::_UpdateLoop()
+void LauncherApp::_UpdateLoop()
 {
 	TimeManager* timeManager = TimeManager::Singleton();
 
@@ -114,7 +114,7 @@ void StandaloneApp::_UpdateLoop()
 }
 
 
-void StandaloneApp::_CreateManagers()
+void LauncherApp::_CreateManagers()
 {
 	SceneManager::CreateSingleton();
 	RenderManager::CreateSingleton();
@@ -130,7 +130,7 @@ void StandaloneApp::_CreateManagers()
 }
 
 
-void StandaloneApp::_InitializeManagers()
+void LauncherApp::_InitializeManagers()
 {
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
@@ -153,7 +153,7 @@ void StandaloneApp::_InitializeManagers()
 }
 
 
-void StandaloneApp::_FinalizeManagers()
+void LauncherApp::_FinalizeManagers()
 {
 	SceneManager::Singleton()->Finalize();
 	EventManager::Singleton()->Finalize();
@@ -167,7 +167,7 @@ void StandaloneApp::_FinalizeManagers()
 }
 
 
-void StandaloneApp::_DestroyManagers()
+void LauncherApp::_DestroyManagers()
 {
 	SceneManager::DestroySingleton();
 	EventManager::DestroySingleton();
@@ -181,9 +181,9 @@ void StandaloneApp::_DestroyManagers()
 }
 
 
-void StandaloneApp::_InitializeGLFW()
+void LauncherApp::_InitializeGLFW()
 {
-	glfwSetErrorCallback( StandaloneApp::GlfwErrorCallback );
+	glfwSetErrorCallback( LauncherApp::GlfwErrorCallback );
 	if ( !glfwInit() )
 	{
 		exit( EXIT_FAILURE );
@@ -191,7 +191,7 @@ void StandaloneApp::_InitializeGLFW()
 }
 
 
-void StandaloneApp::_ReadConfigFile()
+void LauncherApp::_ReadConfigFile()
 {
 	char* fileData = FileManager::Singleton()->ReadFile( AppConfig::FILE_PATH_CONFIG );
 	FileManager::Singleton()->Deserialize<AppConfig( fileData, &_appConfig );
@@ -201,7 +201,7 @@ void StandaloneApp::_ReadConfigFile()
 }
 
 
-void StandaloneApp::_CreateMainWindow()
+void LauncherApp::_CreateMainWindow()
 {
 	glfwDestroyWindow( _glfwWindow );
 
@@ -245,7 +245,7 @@ void StandaloneApp::_CreateMainWindow()
 }
 
 
-void StandaloneApp::_InitializeRenderer()
+void LauncherApp::_InitializeRenderer()
 {
 	// it requires to be initialized after window is shown
 	RenderManager* renderMngr = RenderManager::Singleton();
@@ -263,7 +263,7 @@ void StandaloneApp::_InitializeRenderer()
 }
 
 
-void StandaloneApp::_StartGame()
+void LauncherApp::_StartGame()
 {
 	GameInitScript* gameInit = new GameInitScript( &_appConfig );
 	gameInit->OnUpdate( TRUE );
@@ -272,7 +272,7 @@ void StandaloneApp::_StartGame()
 }
 
 
-void StandaloneApp::_RenderScene()
+void LauncherApp::_RenderScene()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 	SceneManager* sceneMngr = SceneManager::Singleton();
@@ -310,7 +310,7 @@ void StandaloneApp::_RenderScene()
 }
 
 
-void StandaloneApp::GlfwErrorCallback( int code, cchar * desc )
+void LauncherApp::GlfwErrorCallback( int code, cchar * desc )
 {
 	//char title[20];
 	//sprintf(title, "GLFW error code %d", code);

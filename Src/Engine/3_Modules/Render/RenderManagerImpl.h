@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "../../1_Required/Required.h"
 #include "RenderManager.h"
@@ -10,7 +9,6 @@
 #include "OpenGL\Vertex.h"
 #include "OpenGL\MorphVertex.h"
 #include "OpenGL\ParticleVertex.h"
-
 
 namespace CYRED
 {
@@ -28,95 +26,20 @@ namespace CYRED
 
 
 		public:
-			/*****
-			* @desc: initialize manager by creating first canvas, with id 0
-			* @params: 
-			* 		glContext	- the context of the main window
-			* 		gl			- the OpenGL API
-			*/
-			void Initialize		( GLContext* glContext, GL* gl )	override;
-
-			/*****
-			* @desc: destroy the manager
-			* @assert: it was first initialized
-			*/
-			void Finalize		()									override;
-
-			/*****
-			* @desc: create a new canvas and activate it
-			* @params: 
-			* 		glContext - the context of the window
-			* @return: the index of the new canvas
-			*/
-			int  CreateCanvas	( GLContext* glContext )			override;
-
-			/*****
-			* @desc: change the current canvas
-			* @params: 
-			* 		canvasID - id of the new canvas
-			* @assert: canvas exists
-			*/
-			void SwitchCanvas	( int canvasID )					override;
-
-			/*****
-			* @desc: create a new renderer for current canvas
-			* @params: 
-			* 		rendererType - type of the renderer
-			* @assert: canvas is set
-			*/
-			void CreateRenderer	( RendererType rendererType )		override;
-
-			/*****
-			* @desc: change the current renderer
-			* @params: 
-			* 		rendererType - type of the renderer
-			* @assert: canvas is set
-			*/
-			void SwitchRenderer	( RendererType rendererType )		override;
-
-			/*****
-			* @desc: clear the previous frame
-			*/
-			void ClearScreen	( float r, float g, float b )		override;
-
-			/*****
-			* @desc: clear the depth buffer; new rendering goes over anything before
-			*/
-			void ResetDepth		()									override;
-
-			/*****
-			* @desc: render the given component from given gameobject and its children
-			* @params: 
-			* 		compType	- the component to render
-			* 		target		- the target gameobject
-			* 		cameraGO	- camera
-			* 		lightsGO	- the list of lights to be used
-			* @assert: canvas and renderer are set
-			*/
-			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-								  DataArray<GameObject*>& lightsGO )	override;
-
-			/*****
-			* @desc: display the rendering
-			*/
-			void SwapBuffers	()										override;
-
-			/*****
-			* @desc: force resize for given canvas
-			* @params: 
-			* 		canvasID - id of canvas
-			* @assert: canvas exists
-			*/
-			void OnResize		( int canvasID )						override;
-
-			/*****
-			* @desc: read the pixel from renderer at given location
-			* @params: 
-			* 		x - location on x axis
-			* 		y - location on y axis
-			* @assert: canvas and renderer are set
-			*/
-			virtual Vector4	ReadPixel	( int x, int y )				override;
+			void	Initialize		( GLContext* glContext, GL* gl )		override;
+			void	Finalize		()										override;
+			
+			int		CreateCanvas	( GLContext* glContext )				override;
+			void	SwitchCanvas	( int canvasID )						override;
+			void	CreateRenderer	( RendererType rendererType )			override;
+			void	SwitchRenderer	( RendererType rendererType )			override;
+			void	ClearScreen		( float r, float g, float b )			override;
+			void	ResetDepth		()										override;
+			void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+									  DataArray<GameObject*>& lightsGO )	override;
+			void	SwapBuffers		()										override;
+			void	OnResize		( int canvasID )						override;
+			Vector4	ReadPixel		( int x, int y )						override;
 
 
 		public:
@@ -146,9 +69,7 @@ namespace CYRED
 										  uchar* imageBuffer_PosZ,
 										  uchar* imageBuffer_NegZ );
 			void DeleteTexture			( uint textureID );
-
 			void CalculateTanBitangents	( DataArray<Vertex>& vertices, DataArray<int>& indices );
-
 
 
 		private:

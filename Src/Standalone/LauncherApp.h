@@ -17,9 +17,9 @@ namespace CYRED
 
 namespace CYRED
 {
-	class StandaloneApp : public Application
+	class LauncherApp : public Application
 	{
-		DECLARE_REMOTE_SINGLETON_IMPL( StandaloneApp )
+		DECLARE_REMOTE_SINGLETON_IMPL( LauncherApp )
 
 
 	public:
