@@ -72,6 +72,10 @@
                         "z": 0.5
                     },
                     "mass": 1.0
+                },
+                "scripter": {
+                    "enabled": true,
+                    "scripts": []
                 }
             }
         },

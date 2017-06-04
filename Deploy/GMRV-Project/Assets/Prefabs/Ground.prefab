@@ -1,7 +1,7 @@
 {
-    "uid": "89gCmozBDqT24Syw1g8sIIDUsvsQac9z",
+    "uid": "WkZ2MicqahU9SPBogWuoWbTJGOzN2ccx",
     "root": {
-        "name": "StartFloor",
+        "name": "Ground",
         "enabled": true,
         "components": {
             "transform": {
@@ -25,7 +25,7 @@
             "mesh_rendering": {
                 "enabled": true,
                 "mesh": "yXP4JlkURv3RV9ujlRwBmNj9xLc0EFBM",
-                "material": "FWi8DypZ6cImroNhHqIb0lka0JMBgq6h"
+                "material": "jKt1PwuTNLj46u5hAuEQmr86tmNAs2GX"
             }
         }
     }

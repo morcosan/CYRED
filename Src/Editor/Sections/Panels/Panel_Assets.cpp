@@ -100,7 +100,7 @@ public:
 		// move file on disk, also works for directories
 		QFileInfo fileInfo( movedItem->whatsThis(1) );
 		// create new path
-		QString newFilePath( newParent->whatsThis( 1 ) );
+		QString newFilePath( newParent->whatsThis(1) );
 		if ( fileInfo.isDir() ) {
 			newFilePath.append( movedItem->text(0) ).append("//");
 		}
@@ -116,6 +116,11 @@ public:
 			this->blockSignals( true );
 			movedItem->setWhatsThis( 1, newFilePath );
 			this->blockSignals( false );
+
+			// update asset
+			if ( movedItem->asset != NULL ) {
+				movedItem->asset->SetDirPath( newParent->whatsThis(1).toUtf8().constData() );
+			}
 		}
 		else {
 			// reset drop

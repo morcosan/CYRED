@@ -1,0 +1,185 @@
+{
+    "uid": "eSYa0tyIbsPsogByxvU0WKKe1PUvuCop",
+    "game_objects": [
+        {
+            "name": "Sun",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 5.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": -45.000,
+                        "y": 29.995,
+                        "z": 9.848
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "light": {
+                    "enabled": true,
+                    "light_type": "DIRECTIONAL",
+                    "color": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "intensity": 1.0
+                }
+            }
+        },
+        {
+            "name": "LevelManager",
+            "enabled": true,
+            "components": {
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
+                            "variables": [
+                                {
+                                    "name": "obstacle",
+                                    "type": "PREFAB",
+                                    "value": ""
+                                },
+                                {
+                                    "name": "spawnInterval",
+                                    "type": "FLOAT",
+                                    "value": 0.0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Camera",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 5.0,
+                        "y": 6.0,
+                        "z": 7.0
+                    },
+                    "rotation_world": {
+                        "x": -60.000,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "camera": {
+                    "enabled": true,
+                    "camera_type": "PERSPECTIVE",
+                    "fovy_angle": 60.0,
+                    "near_clipping": 0.100,
+                    "far_clipping": 400.0
+                }
+            }
+        },
+        {
+            "name": "Ground",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 3.0,
+                        "y": 1.0,
+                        "z": 3.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "pxMbWHcjTNFY1diqDsDPDouxNJ9cM0fh",
+                    "material": "BxTFYR4SKJTcYpgM1tPSXjQLDPyLG9Vg"
+                },
+                "rigid_body": {
+                    "enabled": true,
+                    "is_trigger": false,
+                    "shape_type": "BOX",
+                    "shape_size": {
+                        "x": 5.0,
+                        "y": 0.008,
+                        "z": 5.0
+                    },
+                    "mass": 0.0
+                }
+            }
+        },
+        {
+            "name": "Spawner",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 10.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 10.0,
+                        "y": 0.100,
+                        "z": 10.0
+                    }
+                },
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
+                            "variables": [
+                                {
+                                    "name": "obstacle",
+                                    "type": "PREFAB",
+                                    "value": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm"
+                                },
+                                {
+                                    "name": "spawnInterval",
+                                    "type": "FLOAT",
+                                    "value": 1.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                    "material": "8cqllk0OzDNu5ZzI5jqRjIfz9gx4WzI5"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "uid": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm",
+    "root": {
+        "name": "Obstacle",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": -21.035,
+                    "y": -1912.618,
+                    "z": 40.643
+                },
+                "rotation_world": {
+                    "x": -109.157,
+                    "y": 47.655,
+                    "z": -33.721
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
+                "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
+            },
+            "rigid_body": {
+                "enabled": true,
+                "is_trigger": false,
+                "shape_type": "SPHERE",
+                "shape_size": {
+                    "x": 0.5,
+                    "y": 0.5,
+                    "z": 0.5
+                },
+                "mass": 1.0
+            }
+        }
+    }
+}

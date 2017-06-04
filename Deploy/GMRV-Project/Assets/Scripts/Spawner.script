@@ -2,6 +2,6 @@
     "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
     "run_in_editor": false,
     "file_paths": [
-        "MapSpawner.lua"
+        "Spawner.lua"
     ]
 }
