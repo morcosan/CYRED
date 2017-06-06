@@ -35,7 +35,7 @@ namespace CYRED
 
 
 	public:
-		void	OnCollision		( GameObject* other );
+		void	OnCollision		( GameObject* other, bool isTrigger );
 
 		Script* GetScript		( int index )	const;
 		int		GetScriptsCount	()				const;
@@ -51,15 +51,20 @@ namespace CYRED
 
 
 	private:
-		enum OnCollisionType
+		enum _OnCollisionType
 		{
 			ENTER
 			, ACTIVE
 			, EXIT
 		};
+		struct _Collision
+		{
+			_OnCollisionType	type;
+			bool				isTrigger;
+		};
 
-		DataArray<Script*>						_scripts;
-		DataArray<Asset*>						_scriptsAsset;
-		DataMap<GameObject*, OnCollisionType>	_collisions;	// TRUE = active, FALSE = exit
+		DataArray<Script*>					_scripts;
+		DataArray<Asset*>					_scriptsAsset;
+		DataMap<GameObject*, _Collision>	_collisions;
 	};
 }

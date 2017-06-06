@@ -55,6 +55,7 @@ namespace CYRED
 			{
 				GameObject*		gameObject;
 				Scripter*		scripter;
+				RigidBody*		rigidBody;
 			};
 
 			btDynamicsWorld*			_dynamicsWorld;
@@ -63,8 +64,8 @@ namespace CYRED
 			btCollisionDispatcher*		_dispatcher;
 			btConstraintSolver*			_solver;
 
-			DataMap<const GameObject*, _RigidBodyData*>	_rigidBodies;
-			DataMap<const btRigidBody*, _ScripterData*>	_scripters;
+			DataMap<const GameObject*, _RigidBodyData>	_rigidBodies;
+			DataMap<const btRigidBody*, _ScripterData>	_scripters;
 
 
 		private:

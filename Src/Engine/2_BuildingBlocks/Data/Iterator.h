@@ -19,7 +19,7 @@ namespace CYRED
 
 		bool			HasNext()	const;
 		const TKey&		GetKey()	const;
-		const TValue&	GetValue()	const;
+		TValue&			GetValue()	const;
 		void			Next();
 
 
@@ -53,7 +53,7 @@ namespace CYRED
 
 
 	template <typename TKey, typename TValue>
-	const TValue& Iterator<TKey, TValue>::GetValue() const
+	TValue& Iterator<TKey, TValue>::GetValue() const
 	{
 		return _curr->second;
 	}

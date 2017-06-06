@@ -64,7 +64,7 @@ void Scripter::OnEvent( int eventType, void* eventData )
 	// check if collision object was destroyed
 	else if ( eventType == EventType::GAMEOBJECT_DELETE ) {
 		// search inside collisions
-		Iterator<GameObject*, OnCollisionType>& iter = _collisions.GetIterator();
+		Iterator<GameObject*, _Collision>& iter = _collisions.GetIterator();
 		while ( iter.HasNext() ) {
 			if ( eventData == iter.GetKey() ) {
 				// remove from list
@@ -85,15 +85,20 @@ void Scripter::Clone( Component* clone ) const
 }
 
 
-void Scripter::OnCollision( GameObject* other )
+void Scripter::OnCollision( GameObject* other, bool isTrigger )
 {
 	if ( _isEnabled ) {
 		// add to collisions
 		if ( _collisions.Has( other ) ) {
-			_collisions.Set( other, OnCollisionType::ACTIVE );
+			_Collision& coll = _collisions.Get( other );
+			coll.type = _OnCollisionType::ACTIVE;
+			coll.isTrigger = isTrigger;
 		}
 		else {
-			_collisions.Set( other, OnCollisionType::ENTER );
+			_collisions.Set( other, _Collision {
+				_OnCollisionType::ENTER,
+				isTrigger
+			} );
 		}
 	}
 }
@@ -171,31 +176,41 @@ void Scripter::_OnUpdate( bool isRuntime )
 	DataArray<GameObject*> toRemove;
 
 	// update collisions
-	Iterator<GameObject*, OnCollisionType>& iter = _collisions.GetIterator();
+	Iterator<GameObject*, _Collision>& iter = _collisions.GetIterator();
 	while ( iter.HasNext() ) {
-		OnCollisionType collType = iter.GetValue();
+		_Collision& coll = iter.GetValue();
 
-		switch ( collType ) {
-			case OnCollisionType::ENTER:
+		switch ( coll.type ) {
+			case _OnCollisionType::ENTER:
 				// call on enter
 				for ( int i = 0; i < _scripts.Size(); i++ ) {
 					if ( _scripts[i] != NULL && isRuntime ) {
-						_scripts[i]->CallFunction( Script::FUNC_ON_COLLISION_ENTER, _gameObject, iter.GetKey() );
+						_scripts[i]->CallFunction( 
+							Script::FUNC_ON_COLLISION_ENTER, 
+							_gameObject, 
+							iter.GetKey(),
+							coll.isTrigger
+						);
 					}
 				}
 				break;
 
-			case OnCollisionType::ACTIVE:
+			case _OnCollisionType::ACTIVE:
 				// it is expected to exit
 				// it will be overriden by OnCollision()
-				_collisions.Set( iter.GetKey(), OnCollisionType::EXIT );
+				coll.type = _OnCollisionType::EXIT;
 				break;
 
-			case OnCollisionType::EXIT:
+			case _OnCollisionType::EXIT:
 				// call on exit
 				for ( int i = 0; i < _scripts.Size(); i++ ) {
 					if ( _scripts[i] != NULL && isRuntime ) {
-						_scripts[i]->CallFunction( Script::FUNC_ON_COLLISION_EXIT, _gameObject, iter.GetKey() );
+						_scripts[i]->CallFunction( 
+							Script::FUNC_ON_COLLISION_EXIT, 
+							_gameObject, 
+							iter.GetKey(),
+							coll.isTrigger
+						);
 					}
 				}
 

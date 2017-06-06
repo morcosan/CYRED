@@ -66,13 +66,12 @@ void PhysicsManagerImpl::Finalize()
 	PTR_FREE( _solver );
 
 	// delete rigid bodies
-	Iterator<const GameObject*, _RigidBodyData*> iter = _rigidBodies.GetIterator();
+	Iterator<const GameObject*, _RigidBodyData> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
 		// clear memory
-		PTR_FREE( iter.GetValue()->physicsBody->getMotionState() );
-		PTR_FREE( iter.GetValue()->physicsBody->getCollisionShape() );
-		PTR_FREE( iter.GetValue()->physicsBody );
-		PTR_FREE( iter.GetValue() );
+		PTR_FREE( iter.GetValue().physicsBody->getMotionState() );
+		PTR_FREE( iter.GetValue().physicsBody->getCollisionShape() );
+		PTR_FREE( iter.GetValue().physicsBody );
 
 		// next
 		iter.Next();
@@ -87,39 +86,39 @@ void PhysicsManagerImpl::Finalize()
 void PhysicsManagerImpl::Update()
 {
 	// update physics from gameobject
-	Iterator<const GameObject*, _RigidBodyData*> iter = _rigidBodies.GetIterator();
+	Iterator<const GameObject*, _RigidBodyData> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
 		const GameObject* gameObject = iter.GetKey();
-		_RigidBodyData* data		 = iter.GetValue();
+		_RigidBodyData& data		 = iter.GetValue();
 
 		if ( gameObject->IsEnabled() && gameObject->IsInScene()
-			 && data->rigidBody->IsEnabled() 
-			 && data->transform->IsEnabled() ) 
+			 && data.rigidBody->IsEnabled() 
+			 && data.transform->IsEnabled() ) 
 		{
 			// add to world
-			if ( !data->isAddedToWorld ) {
-				_dynamicsWorld->addRigidBody( data->physicsBody );
-				data->isAddedToWorld = TRUE;
+			if ( !data.isAddedToWorld ) {
+				_dynamicsWorld->addRigidBody( data.physicsBody );
+				data.isAddedToWorld = TRUE;
 			}
 			// get physics transform
-			btTransform bodyTran = data->physicsBody->getWorldTransform();
+			btTransform bodyTran = data.physicsBody->getWorldTransform();
 			// update position
-			Vector3 pos = data->transform->GetPositionWorld();
+			Vector3 pos = data.transform->GetPositionWorld();
 			bodyTran.setOrigin( btVector3( pos.x, pos.y, pos.z ) );
 			// update rotation
-			Quaternion rot = data->transform->GetRotationWorld();
+			Quaternion rot = data.transform->GetRotationWorld();
 			bodyTran.setRotation( btQuaternion( rot.x, rot.y, rot.z, rot.w ) );
 			// update transform
-			data->physicsBody->setWorldTransform( bodyTran );
+			data.physicsBody->setWorldTransform( bodyTran );
 			// update scale
-			Vector3 scale = data->transform->GetScaleWorld();
-			data->physicsBody->getCollisionShape()->setLocalScaling( btVector3( scale.x, scale.y, scale.z ) );
+			Vector3 scale = data.transform->GetScaleWorld();
+			data.physicsBody->getCollisionShape()->setLocalScaling( btVector3( scale.x, scale.y, scale.z ) );
 		}
 		else {
 			// remove from world
-			if ( data->isAddedToWorld ) {
-				_dynamicsWorld->removeRigidBody( data->physicsBody );
-				data->isAddedToWorld = FALSE;
+			if ( data.isAddedToWorld ) {
+				_dynamicsWorld->removeRigidBody( data.physicsBody );
+				data.isAddedToWorld = FALSE;
 			}
 		}
 
@@ -139,14 +138,14 @@ void PhysicsManagerImpl::Update()
 	iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
 		const GameObject* gameObject = iter.GetKey();
-		_RigidBodyData* data		 = iter.GetValue();
+		_RigidBodyData& data		 = iter.GetValue();
 
-		if ( gameObject->IsEnabled() && data->rigidBody->IsEnabled() 
-			 && data->transform->IsEnabled() ) 
+		if ( gameObject->IsEnabled() && data.rigidBody->IsEnabled() 
+			 && data.transform->IsEnabled() ) 
 		{
 			// get physics transform
-			Transform* transform = data->rigidBody->GetGameObject()->GetComponent<Transform>();
-			btTransform bodyTran = data->physicsBody->getWorldTransform();
+			Transform* transform = data.rigidBody->GetGameObject()->GetComponent<Transform>();
+			btTransform bodyTran = data.physicsBody->getWorldTransform();
 			// update position
 			btVector3 pos = bodyTran.getOrigin();
 			transform->SetPositionWorld( Vector3( pos.getX(), pos.getY(), pos.getZ() ) );
@@ -172,20 +171,18 @@ void PhysicsManagerImpl::RegisterObject( GameObject* gameObject )
 void PhysicsManagerImpl::UnregisterObject( GameObject* gameObject )
 {
 	if ( _rigidBodies.Has( gameObject ) ) {
-		_RigidBodyData* data = _rigidBodies.Get( gameObject );
+		_RigidBodyData& data = _rigidBodies.Get( gameObject );
 
 		// remove from world
-		if ( data->isAddedToWorld ) {
-			_dynamicsWorld->removeRigidBody( data->physicsBody );
+		if ( data.isAddedToWorld ) {
+			_dynamicsWorld->removeRigidBody( data.physicsBody );
 		}
 
 		// remove from scripter list
-		PTR_FREE( _scripters.Get( data->physicsBody ) );
-		_scripters.Erase( data->physicsBody );
+		_scripters.Erase( data.physicsBody );
 
 		// remove from rigid body list
-		PTR_FREE( data->physicsBody );
-		PTR_FREE( data );
+		PTR_FREE( data.physicsBody );
 		_rigidBodies.Erase( gameObject );
 	}
 }
@@ -195,20 +192,18 @@ void PhysicsManagerImpl::UpdateRigidBody( RigidBody* rigidBody )
 {
 	GameObject* gameObject = rigidBody->GetGameObject();
 	if ( _rigidBodies.Has( gameObject ) ) {
-		_RigidBodyData* data = _rigidBodies.Get( gameObject );
+		_RigidBodyData& data = _rigidBodies.Get( gameObject );
 
 		// remove from world
-		if ( data->isAddedToWorld ) {
-			_dynamicsWorld->removeRigidBody( data->physicsBody );
+		if ( data.isAddedToWorld ) {
+			_dynamicsWorld->removeRigidBody( data.physicsBody );
 		}
 
 		// remove from scripter list
-		PTR_FREE( _scripters.Get( data->physicsBody ) );
-		_scripters.Erase( data->physicsBody );
+		_scripters.Erase( data.physicsBody );
 
 		// clear memory
-		PTR_FREE( data->physicsBody );
-		PTR_FREE( data );
+		PTR_FREE( data.physicsBody );
 
 		// recreate data
 		_CreateRigidBodyData( gameObject );
@@ -222,10 +217,10 @@ void PhysicsManagerImpl::RegisterScripter( Scripter* scripter )
 	GameObject* gameObject = scripter->GetGameObject();
 	if ( _rigidBodies.Has( gameObject ) ) {
 		// get rigid body data
-		_RigidBodyData* rbData = _rigidBodies.Get( gameObject );
+		_RigidBodyData& rbData = _rigidBodies.Get( gameObject );
 		// update scripter
-		_ScripterData* sData = _scripters.Get( rbData->physicsBody );
-		sData->scripter = scripter;
+		_ScripterData& sData = _scripters.Get( rbData.physicsBody );
+		sData.scripter = scripter;
 	}
 }
 
@@ -236,10 +231,10 @@ void PhysicsManagerImpl::UnregisterScripter( Scripter* scripter )
 	GameObject* gameObject = scripter->GetGameObject();
 	if ( _rigidBodies.Has( gameObject ) ) {
 		// get rigid body data
-		_RigidBodyData* rbData = _rigidBodies.Get( gameObject );
+		_RigidBodyData& rbData = _rigidBodies.Get( gameObject );
 		// update scripter
-		_ScripterData* sData = _scripters.Get( rbData->physicsBody );
-		sData->scripter = NULL;
+		_ScripterData& sData = _scripters.Get( rbData.physicsBody );
+		sData.scripter = NULL;
 	}
 }
 
@@ -284,7 +279,7 @@ void PhysicsManagerImpl::_CreateRigidBodyData( GameObject* gameObject )
 		}
 
 		// add to list
-		_rigidBodies.Set( gameObject, new _RigidBodyData {
+		_rigidBodies.Set( gameObject, _RigidBodyData {
 			physicsBody,
 			transform,
 			rigidBody,
@@ -292,9 +287,10 @@ void PhysicsManagerImpl::_CreateRigidBodyData( GameObject* gameObject )
 		} );
 
 		// add to scripter list
-		_scripters.Set( physicsBody, new _ScripterData {
+		_scripters.Set( physicsBody, _ScripterData {
 			gameObject,
-			scripter
+			scripter,
+			rigidBody
 		} );
 	}
 }
@@ -312,14 +308,16 @@ void PhysicsManagerImpl::_CheckCollisions()
 		const btRigidBody* physicsBody0 = CAST_S( const btRigidBody*, ob0 );
 		const btRigidBody* physicsBody1 = CAST_S( const btRigidBody*, ob1 );
 		// get scripters
-		_ScripterData* sData0 = _scripters.Get( physicsBody0 );
-		_ScripterData* sData1 = _scripters.Get( physicsBody1 );
+		_ScripterData& sData0 = _scripters.Get( physicsBody0 );
+		_ScripterData& sData1 = _scripters.Get( physicsBody1 );
+		// check for trigger
+		bool isTrigger = sData0.rigidBody->IsTrigger() || sData1.rigidBody->IsTrigger();
 		// call OnCollision
-		if ( sData0->scripter != NULL ) {
-			sData0->scripter->OnCollision( sData1->gameObject );
+		if ( sData0.scripter != NULL ) {
+			sData0.scripter->OnCollision( sData1.gameObject, isTrigger );
 		}
-		if ( sData1->scripter != NULL ) {
-			sData1->scripter->OnCollision( sData0->gameObject );
+		if ( sData1.scripter != NULL ) {
+			sData1.scripter->OnCollision( sData0.gameObject, isTrigger );
 		}
 	}
 }
