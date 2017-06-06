@@ -42,7 +42,7 @@ ParticleEmitter::ParticleEmitter( GameObject* gameObject )
 
 ParticleEmitter::~ParticleEmitter()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
 }
 
 
@@ -104,7 +104,7 @@ void ParticleEmitter::BindToGPU()
 	_numIndices = neededParticles;
 
 
-	NotAPI::RenderManagerImpl::Singleton()->CreateParticleBuffers( _vbo, _ibo, _vertices, _indices );
+	NonAPI::RenderManagerImpl::Singleton()->CreateParticleBuffers( _vbo, _ibo, _vertices, _indices );
 
 	_vertices.Clear();
 	_indices.Clear();

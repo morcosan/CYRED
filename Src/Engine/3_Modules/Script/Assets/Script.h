@@ -9,11 +9,14 @@
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
 #include "../../../2_BuildingBlocks/Data/DataUnion.h"
 
-
-namespace luabridge
+extern "C" 
 {
-	class LuaRef;
-}
+	#include "Lua_523\Include\lua.h"
+	#include "Lua_523\Include\lauxlib.h"
+	#include "Lua_523\Include\lualib.h"
+};
+
+#include "LuaBridge\Include\LuaBridge.h"
 
 namespace CYRED
 {
@@ -25,25 +28,29 @@ namespace CYRED
 {
 	class DLL Script : public Asset
 	{
-		cchar* GLOBAL_VARS			= "VARS";
-		cchar* GLOBAL_GAMEOBJECT	= "GAMEOBJECT";
-		cchar* FUNC_ONSTART		= "OnStart";
-		cchar* FUNC_ONUPDATE		= "OnUpdate";
-		cchar* TYPE_INT			= "INT";
-		cchar* TYPE_FLOAT			= "FLOAT";
-		cchar* TYPE_BOOL			= "BOOL";
-		cchar* TYPE_VECTOR2		= "VECTOR2";
-		cchar* TYPE_VECTOR3		= "VECTOR3";
-		cchar* TYPE_VECTOR4		= "VECTOR4";
-		cchar* TYPE_STRING			= "STRING";
-		cchar* TYPE_PREFAB			= "PREFAB";
-
-		cchar* ERROR_UNKNOWN_TYPE	= "Unknown variable type: %.";
+	public:
+		static cchar* const FUNC_ON_START;
+		static cchar* const FUNC_ON_UPDATE;
+		static cchar* const FUNC_ON_COLLISION_ENTER;
+		static cchar* const FUNC_ON_COLLISION_EXIT;
+												
+		static cchar* const GLOBAL_VARS;
+		static cchar* const GLOBAL_GAMEOBJECT;
+		static cchar* const TYPE_INT;
+		static cchar* const TYPE_FLOAT;
+		static cchar* const TYPE_BOOL;
+		static cchar* const TYPE_VECTOR2;
+		static cchar* const TYPE_VECTOR3;
+		static cchar* const TYPE_VECTOR4;
+		static cchar* const TYPE_STRING;
+		static cchar* const TYPE_PREFAB;
+													
+		static cchar* const ERROR_UNKNOWN_TYPE;
 
 
 	public:
 		Script();
-		virtual ~Script();
+		virtual ~Script() {}
 
 
 	public:
@@ -55,31 +62,33 @@ namespace CYRED
 
 
 	public:
-		void		LoadUniqueID	() override;
-		void		LoadFullFile	() override;
-		void		ClearAsset		() override;
-		Asset*		Clone			() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 		cchar*	GetExtension	() override;
 
 
 	public:
-		void CallFunction	( cchar* funcName, GameObject* gameObject );
-		void SetVariable	( cchar* varName, DataUnion varValue );
+		template <typename... Args>
+		void	CallFunction	( cchar* funcName, GameObject* gameObject, Args... args );
 
-		bool		RunsInEditor	()				const;
-		bool		IsFirstUpdate	()				const;
+		void	SetVariable		( cchar* varName, DataUnion varValue );
+
+		bool	RunsInEditor	()				const;
+		bool	IsFirstUpdate	()				const;
 		int		GetPathsCount	()				const;
 		cchar*	GetFilePath		( int index )	const;
 
+		void	SetRunInEditor	( bool value );
+		void	SetFirstUpdate	( bool value );
+		void	SetFilePath		( int index, cchar* filePath );
+		void	ClearFilePaths	();
+
+		void	LoadLuaFiles	( bool clearVars = TRUE );
+
 		Iterator<String, DataArray<LuaFunc>>	GetFuncListIterator() const;
 		Iterator<String, DataUnion>				GetVarsListIterator() const;
-
-		void SetRunInEditor	( bool value );
-		void SetFirstUpdate	( bool value );
-		void SetFilePath	( int index, cchar* filePath );
-		void ClearFilePaths	();
-
-		void LoadLuaFiles	( bool clearVars = TRUE );
 
 
 	private:
@@ -97,5 +106,40 @@ namespace CYRED
 		void _LoadLuaData	( cchar* luaData );
 		void _AddLuaFunc	( cchar* funcName );
 		void _LoadLuaVars	();
+
+		DataArray<LuaFunc>* _CallFunction		( cchar* funcName, GameObject* gameObject );
+		void				_CallFunctionError	( cchar* errorMessage );
 	};
+
+
+
+	template <typename... Args>
+	void Script::CallFunction( cchar* funcName, GameObject* gameObject, Args... args )
+	{
+		// get available functions to call
+		DataArray<LuaFunc>* list = _CallFunction( funcName, gameObject );
+		if ( list == NULL ) {
+			return;
+		}
+
+		// call all functions
+		DataArray<LuaFunc>& funcList = *list;
+		for ( int i = 0; i < funcList.Size(); i++ ) {
+			// if is broken do not call
+			if ( !funcList[i].isBroken ) {
+				// try to call the function
+				try {
+					(*funcList[i].funcRef)( args... );
+				}
+				// handle error
+				catch ( luabridge::LuaException const& e ) {
+					// display error once
+					_CallFunctionError( e.what() );
+					// mark as broken
+					funcList[i].isBroken = TRUE;
+				}
+			}
+		}
+	}
+
 }

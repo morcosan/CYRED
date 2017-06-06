@@ -9,28 +9,33 @@
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
 #include "../../Asset/Assets/Prefab.h"
 
-extern "C" 
-{
-	#include "Lua_523\Include\lua.h"
-	#include "Lua_523\Include\lauxlib.h"
-	#include "Lua_523\Include\lualib.h"
-};
-
-#include "LuaBridge\Include\LuaBridge.h"
-
 
 using namespace CYRED;
+
+
+cchar* const Script::FUNC_ON_START				= "OnStart";
+cchar* const Script::FUNC_ON_UPDATE				= "OnUpdate";
+cchar* const Script::FUNC_ON_COLLISION_ENTER	= "OnCollisionEnter";
+cchar* const Script::FUNC_ON_COLLISION_EXIT		= "OnCollisionExit";
+
+cchar* const Script::GLOBAL_VARS				= "VARS";
+cchar* const Script::GLOBAL_GAMEOBJECT			= "GAMEOBJECT";
+cchar* const Script::TYPE_INT					= "INT";
+cchar* const Script::TYPE_FLOAT					= "FLOAT";
+cchar* const Script::TYPE_BOOL					= "BOOL";
+cchar* const Script::TYPE_VECTOR2				= "VECTOR2";
+cchar* const Script::TYPE_VECTOR3				= "VECTOR3";
+cchar* const Script::TYPE_VECTOR4				= "VECTOR4";
+cchar* const Script::TYPE_STRING				= "STRING";
+cchar* const Script::TYPE_PREFAB				= "PREFAB";
+
+cchar* const Script::ERROR_UNKNOWN_TYPE			= "Unknown variable type: %.";
 
 
 Script::Script()
 	: Asset( AssetType::SCRIPT )
 	, _runsInEditor( FALSE )
 	, _isFirstUpdate( TRUE )
-{
-}
-
-
-Script::~Script()
 {
 }
 
@@ -101,41 +106,6 @@ cchar* CYRED::Script::GetExtension()
 	}
 
 	return NULL;
-}
-
-
-void Script::CallFunction( cchar* funcName, GameObject* gameObject )
-{
-	// call lua function if exists
-	if ( _luaFuncList.Has( funcName ) ) {
-		DataArray<LuaFunc>& funcList = _luaFuncList.Get( funcName );
-
-		// bind globals
-		lua_State* L = ScriptManager::Singleton()->GetLuaState();
-		// bind varibles
-		luabridge::setGlobal( L, *_luaVarsRef, GLOBAL_VARS );
-		// bind gameobject
-		luabridge::LuaRef goRef( L, gameObject );
-		luabridge::setGlobal( L, goRef, GLOBAL_GAMEOBJECT );
-
-		// call all functions
-		for ( int i = 0; i < funcList.Size(); i++ ) {
-			// if is broken do not call
-			if ( !funcList[i].isBroken ) {
-				// try to call the function
-				try {
-					(*funcList[i].funcRef)();
-				}
-				// handle error
-				catch ( luabridge::LuaException const& e ) {
-					// display error once
-					DebugManager::Singleton()->Error( e.what () );
-					// mark as broken
-					funcList[i].isBroken = TRUE;
-				}
-			}
-		}
-	}
 }
 
 
@@ -325,8 +295,10 @@ void Script::_LoadLuaData( cchar* luaData )
 			else {
 				// run lua: success
 				// load default functions
-				_AddLuaFunc( FUNC_ONSTART );
-				_AddLuaFunc( FUNC_ONUPDATE );
+				_AddLuaFunc( FUNC_ON_START );
+				_AddLuaFunc( FUNC_ON_UPDATE );
+				_AddLuaFunc( FUNC_ON_COLLISION_ENTER );
+				_AddLuaFunc( FUNC_ON_COLLISION_EXIT );
 
 				// load variables
 				_LoadLuaVars();
@@ -439,4 +411,30 @@ void Script::_LoadLuaVars()
 		}
 		lua_pop(L, 1); // pop table
 	}
+}
+
+
+DataArray<Script::LuaFunc>* Script::_CallFunction( cchar* funcName, GameObject* gameObject )
+{
+	// call lua function if exists
+	if ( _luaFuncList.Has( funcName ) ) {
+
+		// bind globals
+		lua_State* L = ScriptManager::Singleton()->GetLuaState();
+		// bind varibles
+		luabridge::setGlobal( L, *_luaVarsRef, GLOBAL_VARS );
+		// bind gameobject
+		luabridge::LuaRef goRef( L, gameObject );
+		luabridge::setGlobal( L, goRef, GLOBAL_GAMEOBJECT );
+
+		return &_luaFuncList.Get( funcName );
+	}
+
+	return NULL;
+}
+
+
+void Script::_CallFunctionError( cchar* errorMessage )
+{
+	DebugManager::Singleton()->Error( errorMessage );
 }

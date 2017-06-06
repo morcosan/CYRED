@@ -5,7 +5,7 @@
 
 
 using namespace CYRED;
-using namespace NotAPI;
+using namespace NonAPI;
 
 
 //! deferred definition of SceneManager

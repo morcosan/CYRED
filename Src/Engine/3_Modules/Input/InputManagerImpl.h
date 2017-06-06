@@ -11,7 +11,7 @@
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class InputManagerImpl : public InputManager
 		{

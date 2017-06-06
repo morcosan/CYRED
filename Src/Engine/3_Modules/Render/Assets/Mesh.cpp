@@ -39,7 +39,7 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
 }
 
 
@@ -90,7 +90,7 @@ void Mesh::LoadFullFile()
 
 void Mesh::ClearAsset()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
 	_vbo = EMPTY_BUFFER;
 	_ibo = EMPTY_BUFFER;
 	_numIndices = 0;
@@ -196,11 +196,11 @@ void Mesh::BindToGPU()
 
 	// calculate tan and bitan for triangles
 	if ( _numIndices % 3 == 0 ) {
-		NotAPI::RenderManagerImpl::Singleton()->CalculateTanBitangents( _vertices, _indices );
+		NonAPI::RenderManagerImpl::Singleton()->CalculateTanBitangents( _vertices, _indices );
 	}
 
 	// create buffers
-	NotAPI::RenderManagerImpl::Singleton()->CreateMeshBuffers( _vbo, _ibo, _vertices, _indices );
+	NonAPI::RenderManagerImpl::Singleton()->CreateMeshBuffers( _vbo, _ibo, _vertices, _indices );
 
 	// clear data
 	if ( _clearBuffersOnBind ) {

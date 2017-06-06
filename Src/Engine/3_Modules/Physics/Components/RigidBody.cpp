@@ -31,14 +31,14 @@ RigidBody::~RigidBody()
 void RigidBody::OnAdded()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
+	NonAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
 }
 
 
 void RigidBody::OnRemoved()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
+	NonAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 
@@ -58,7 +58,7 @@ void RigidBody::SetIsTrigger( bool value )
 	_isTrigger = value;
 
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
@@ -77,7 +77,7 @@ void RigidBody::SetShapeType( CollisionShapeType type )
 	_shapeType = type;
 
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
@@ -96,7 +96,7 @@ void RigidBody::SetShapeSize( const Vector3& size )
 	_shapeSize = size;
 
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
@@ -115,7 +115,7 @@ void RigidBody::SetMass( float mass )
 	_mass = mass;
 
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );

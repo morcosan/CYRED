@@ -18,7 +18,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class SceneManagerImpl : public SceneManager
 		{

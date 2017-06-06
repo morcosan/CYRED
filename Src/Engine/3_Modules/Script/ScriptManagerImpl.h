@@ -7,7 +7,7 @@
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class ScriptManagerImpl : public ScriptManager
 		{

@@ -19,7 +19,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class PickingRenderer : public Renderer
 		{

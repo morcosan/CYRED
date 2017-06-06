@@ -9,7 +9,7 @@
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class FileManagerImpl : public FileManager
 		{

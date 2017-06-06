@@ -6,6 +6,7 @@
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Component.h"
 #include "../../../2_BuildingBlocks/Data/DataArray.h"
+#include "../../../2_BuildingBlocks/Data/DataMap.h"
 #include "../../../3_Modules/Event/Sections/IEventListener.h"
 
 
@@ -50,7 +51,15 @@ namespace CYRED
 
 
 	private:
-		DataArray<Script*>	_scripts;
-		DataArray<Asset*>	_scriptsAsset;
+		enum OnCollisionType
+		{
+			ENTER
+			, ACTIVE
+			, EXIT
+		};
+
+		DataArray<Script*>						_scripts;
+		DataArray<Asset*>						_scriptsAsset;
+		DataMap<GameObject*, OnCollisionType>	_collisions;	// TRUE = active, FALSE = exit
 	};
 }

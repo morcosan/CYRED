@@ -12,7 +12,7 @@
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class AssetManagerImpl : public AssetManager
 		{

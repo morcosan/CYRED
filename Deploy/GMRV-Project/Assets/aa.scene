@@ -75,7 +75,12 @@
                 },
                 "scripter": {
                     "enabled": true,
-                    "scripts": []
+                    "scripts": [
+                        {
+                            "uid": "AMbncFu407agMe9H67gxgpVDqsiZQbvi",
+                            "variables": []
+                        }
+                    ]
                 }
             }
         },
@@ -108,7 +113,7 @@
                 },
                 "rigid_body": {
                     "enabled": true,
-                    "is_trigger": true,
+                    "is_trigger": false,
                     "shape_type": "SPHERE",
                     "shape_size": {
                         "x": 0.5,

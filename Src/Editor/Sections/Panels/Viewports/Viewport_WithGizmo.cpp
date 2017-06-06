@@ -188,137 +188,141 @@ void Viewport_WithGizmo::_RenderGizmo()
 		Transform*	transform	= _selectedGO->GetComponent<Transform>();
 		RigidBody*	rigidBody	= _selectedGO->GetComponent<RigidBody>();
 
-		if ( light != NULL && transform != NULL ) {
-			// gizmo point light
-			if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
-				// update transform
-				Transform* rootTran = _gizmoPointLight->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-					float range = light->GetRange();
-					rootTran->SetScaleWorld( Vector3( range, range, range ) );
-				}
-				rootTran->SetEmitEvents( TRUE );
+		if ( transform != NULL && transform->IsEnabled() ) {
 
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
-									_cameraGO, _noLightsGO );
+			if ( light != NULL && light->IsEnabled() ) {
+				// gizmo point light
+				if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
+					// update transform
+					Transform* rootTran = _gizmoPointLight->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						float range = light->GetRange();
+						rootTran->SetScaleWorld( Vector3( range, range, range ) );
+					}
+					rootTran->SetEmitEvents( TRUE );
+
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+										_cameraGO, _noLightsGO );
+				}
+
+				// gizmo directional light
+				if ( _gizmoDirLight != NULL && light->GetLightType() == LightType::DIRECTIONAL ) {
+					// update transform
+					Transform* rootTran = _gizmoDirLight->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					}
+					rootTran->SetEmitEvents( TRUE );
+
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
+										_cameraGO, _noLightsGO );
+				}
+
+				// gizmo spot light
+				if ( _gizmoSpotLight != NULL && light->GetLightType() == LightType::SPOT ) {
+					// update transform
+					Transform* rootTran = _gizmoSpotLight->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
+						float range = light->GetRange();
+						float scaleBase = range * tan;
+						rootTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+					}
+					rootTran->SetEmitEvents( TRUE );
+
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
+										_cameraGO, _noLightsGO );
+				}
 			}
 
-			// gizmo directional light
-			if ( _gizmoDirLight != NULL && light->GetLightType() == LightType::DIRECTIONAL ) {
-				// update transform
-				Transform* rootTran = _gizmoDirLight->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				}
-				rootTran->SetEmitEvents( TRUE );
+			if ( camera != NULL && camera->IsEnabled() ) {
+				// gizmo ortho camera
+				if ( _gizmoOrthoCamera != NULL && camera->GetCameraType() == CameraType::ORTHOGRAPHIC ) {
+					// update transform
+					Transform* rootTran = _gizmoOrthoCamera->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					}
+					rootTran->SetEmitEvents( TRUE );
 
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
-									_cameraGO, _noLightsGO );
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
+										_cameraGO, _noLightsGO );
+				}
+
+				// gizmo perspective camera
+				if ( _gizmoPerspCamera != NULL && camera->GetCameraType() == CameraType::PERSPECTIVE ) {
+					// update transform
+					Transform* rootTran = _gizmoPerspCamera->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					}
+					rootTran->SetEmitEvents( TRUE );
+
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
+										_cameraGO, _noLightsGO );
+				}
 			}
 
-			// gizmo spot light
-			if ( _gizmoSpotLight != NULL && light->GetLightType() == LightType::SPOT ) {
-				// update transform
-				Transform* rootTran = _gizmoSpotLight->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-					float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
-					float range = light->GetRange();
-					float scaleBase = range * tan;
-					rootTran->SetScaleWorld( Vector3( scaleBase, scaleBase, range ) );
+			if ( rigidBody != NULL && rigidBody->IsEnabled() ) {
+				// gizmo collision box
+				if ( _gizmoCollBox != NULL && rigidBody->GetShapeType() == CollisionShapeType::BOX ) {
+					// update transform
+					Transform* rootTran = _gizmoCollBox->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial size (0.5, 0.5, 0.5)
+						Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
+						rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
+					}
+					rootTran->SetEmitEvents( TRUE );
+
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
+										_cameraGO, _noLightsGO );
 				}
-				rootTran->SetEmitEvents( TRUE );
 
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
-									_cameraGO, _noLightsGO );
-			}
-		}
+				// gizmo collision sphere
+				if ( _gizmoCollSphere != NULL && rigidBody->GetShapeType() == CollisionShapeType::SPHERE ) {
+					// update transform
+					Transform* rootTran = _gizmoCollSphere->GetRoot()->GetComponent<Transform>();
+					rootTran->SetEmitEvents( FALSE );
+					{
+						rootTran->SetPositionWorld( transform->GetPositionWorld() );
+						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial size 0.5
+						Vector3 scale = transform->GetScaleWorld() * rigidBody->GetShapeSize() / 0.5f;
+						// get highest scale value
+						float maxScale = (scale.x < scale.y) ? ((scale.y < scale.z) ? scale.z : scale.y) 
+							: ((scale.x < scale.z) ? scale.z : scale.x);
+						rootTran->SetScaleWorld( Vector3( maxScale, maxScale, maxScale ) );
+					}
+					rootTran->SetEmitEvents( TRUE );
 
-		if ( camera != NULL ) {
-			// gizmo ortho camera
-			if ( _gizmoOrthoCamera != NULL && camera->GetCameraType() == CameraType::ORTHOGRAPHIC ) {
-				// update transform
-				Transform* rootTran = _gizmoOrthoCamera->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
+					// render gizmo
+					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
+										_cameraGO, _noLightsGO );
 				}
-				rootTran->SetEmitEvents( TRUE );
-				
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
-									_cameraGO, _noLightsGO );
-			}
-
-			// gizmo perspective camera
-			if ( _gizmoPerspCamera != NULL && camera->GetCameraType() == CameraType::PERSPECTIVE ) {
-				// update transform
-				Transform* rootTran = _gizmoPerspCamera->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-				}
-				rootTran->SetEmitEvents( TRUE );
-
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
-									_cameraGO, _noLightsGO );
-			}
-		}
-
-		if ( rigidBody != NULL ) {
-			// gizmo collision box
-			if ( _gizmoCollBox != NULL && rigidBody->GetShapeType() == CollisionShapeType::BOX ) {
-				// update transform
-				Transform* rootTran = _gizmoCollBox->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-					// assume initial size (0.5, 0.5, 0.5)
-					Vector3 sizeFactor = rigidBody->GetShapeSize() / Vector3( 0.5f, 0.5f, 0.5f );
-					rootTran->SetScaleWorld( transform->GetScaleWorld() * sizeFactor );
-				}
-				rootTran->SetEmitEvents( TRUE );
-
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
-									_cameraGO, _noLightsGO );
 			}
 
-			// gizmo collision sphere
-			if ( _gizmoCollSphere != NULL && rigidBody->GetShapeType() == CollisionShapeType::SPHERE ) {
-				// update transform
-				Transform* rootTran = _gizmoCollSphere->GetRoot()->GetComponent<Transform>();
-				rootTran->SetEmitEvents( FALSE );
-				{
-					rootTran->SetPositionWorld( transform->GetPositionWorld() );
-					rootTran->SetRotationWorld( transform->GetRotationWorld() );
-					// assume initial size 0.5
-					Vector3 scale = transform->GetScaleWorld() * rigidBody->GetShapeSize() / 0.5f;
-					// get highest scale value
-					float maxScale = (scale.x < scale.y) ? ((scale.y < scale.z) ? scale.z : scale.y) 
-														 : ((scale.x < scale.z) ? scale.z : scale.x);
-					rootTran->SetScaleWorld( Vector3( maxScale, maxScale, maxScale ) );
-				}
-				rootTran->SetEmitEvents( TRUE );
-
-				// render gizmo
-				renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
-									_cameraGO, _noLightsGO );
-			}
 		}
 	}
 }

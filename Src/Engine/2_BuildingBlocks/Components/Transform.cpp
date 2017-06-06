@@ -74,14 +74,14 @@ void Transform::OnHierarchyChange()
 void Transform::OnAdded()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
+	NonAPI::PhysicsManagerImpl::Singleton()->RegisterObject( GetGameObject() );
 }
 
 
 void Transform::OnRemoved()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
+	NonAPI::PhysicsManagerImpl::Singleton()->UnregisterObject( GetGameObject() );
 }
 
 

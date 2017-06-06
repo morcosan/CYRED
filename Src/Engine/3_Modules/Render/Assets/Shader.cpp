@@ -21,7 +21,7 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
 	_programID = INVALID_SHADER;
 }
 
@@ -71,7 +71,7 @@ void Shader::LoadFullFile()
 
 void Shader::ClearAsset()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteShaderProgram( _programID );
 	_programID = INVALID_SHADER;
 
 	_isTemporary = TRUE;
@@ -138,7 +138,7 @@ void Shader::LoadShaderProgram()
 
 	// sanity check
 	if ( vertexCode != NULL && geometryCode != NULL && fragmentCode != NULL ) {
-		NotAPI::RenderManagerImpl* manager = NotAPI::RenderManagerImpl::Singleton();
+		NonAPI::RenderManagerImpl* manager = NonAPI::RenderManagerImpl::Singleton();
 		// delete old program
 		manager->DeleteShaderProgram( _programID );
 		// create nw program

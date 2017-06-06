@@ -7,7 +7,7 @@
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class TimeManagerImpl : public TimeManager
 		{
@@ -15,20 +15,20 @@ namespace CYRED
 
 
 		public:
-			void Initialize		( int desiredFPS )	override;
-			void Finalize		()					override;
-			void Update			()					override;
-			void RenderUpdate	( double realTime )	override;
+			void	Initialize			( int desiredFPS )	override;
+			void	Finalize			()					override;
+			void	Update				()					override;
+			void	RenderUpdate		( double realTime )	override;
 
 			float	GetDeltaTime		()					override;
 			float	GetRenderDeltaTime	()					override;
 			void	SetDesiredFPS		( int desiredFPS )	override;
-			int	GetDesiredFPS		()					override;
+			int		GetDesiredFPS		()					override;
 			double	GetGameTime			()					override;
 
 
 		private:
-			int	_desiredFPS;
+			int		_desiredFPS;
 			float	_deltaTime;
 			float	_renderDeltaTime;
 			double	_gameTime;

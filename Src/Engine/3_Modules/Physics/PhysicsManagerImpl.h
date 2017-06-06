@@ -22,7 +22,7 @@ namespace CYRED
 
 namespace CYRED
 {
-	namespace NotAPI
+	namespace NonAPI
 	{
 		class PhysicsManagerImpl : public PhysicsManager
 		{

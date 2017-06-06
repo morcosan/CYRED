@@ -59,7 +59,7 @@ Texture::Texture( int textureID )
 
 Texture::~Texture()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
 
 	ARRAY_FREE( _imageBuffer[0] );
 	ARRAY_FREE( _imageBuffer[1] );
@@ -124,7 +124,7 @@ void Texture::LoadFullFile()
 
 void Texture::ClearAsset()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteTexture( _textureID );
 	_textureID = INVALID_TEXTURE;
 
 	_hasMipmap = TRUE;
@@ -172,7 +172,7 @@ cchar* CYRED::Texture::GetExtension()
 
 void Texture::BindToGPU()
 {
-	NotAPI::RenderManagerImpl* renderManager = NotAPI::RenderManagerImpl::Singleton();
+	NonAPI::RenderManagerImpl* renderManager = NonAPI::RenderManagerImpl::Singleton();
 
 	// load texture into CPU
 	if ( _loadType == TextureLoadType::EXTERNAL ) {

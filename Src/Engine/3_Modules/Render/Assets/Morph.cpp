@@ -27,7 +27,7 @@ Morph::Morph()
 
 Morph::~Morph()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
 }
 
 
@@ -78,7 +78,7 @@ void Morph::LoadFullFile()
 
 void Morph::ClearAsset()
 {
-	NotAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
+	NonAPI::RenderManagerImpl::Singleton()->DeleteBuffers( _vbo, _ibo );
 	_vbo = EMPTY_BUFFER;
 	_ibo = EMPTY_BUFFER;
 	_numIndices = 0;
@@ -163,7 +163,7 @@ void Morph::BindToGPU()
 		++_activeStates;
 	}
 
-	NotAPI::RenderManagerImpl::Singleton()->CreateMorphBuffers( _vbo, _ibo, vertices, indices );
+	NonAPI::RenderManagerImpl::Singleton()->CreateMorphBuffers( _vbo, _ibo, vertices, indices );
 }
 
 

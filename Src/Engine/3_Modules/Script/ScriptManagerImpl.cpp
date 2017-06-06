@@ -47,7 +47,7 @@ extern "C"
 
 
 using namespace CYRED;
-using namespace NotAPI;
+using namespace NonAPI;
 
 
 //! deferred definition

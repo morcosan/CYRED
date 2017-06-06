@@ -32,14 +32,16 @@ Scripter::~Scripter()
 void Scripter::OnAdded()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->RegisterScripter( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->RegisterScripter( this );
+	// clear collisions
+	_collisions.Clear();
 }
 
 
 void Scripter::OnRemoved()
 {
 	// update physics
-	NotAPI::PhysicsManagerImpl::Singleton()->UnregisterScripter( this );
+	NonAPI::PhysicsManagerImpl::Singleton()->UnregisterScripter( this );
 }
 
 
@@ -68,7 +70,13 @@ void Scripter::Clone( Component* clone ) const
 void Scripter::OnCollision( GameObject* other )
 {
 	if ( _isEnabled ) {
-		int x = 0;
+		// add to collisions
+		if ( _collisions.Has( other ) ) {
+			_collisions.Set( other, OnCollisionType::ACTIVE );
+		}
+		else {
+			_collisions.Set( other, OnCollisionType::ENTER );
+		}
 	}
 }
 
@@ -130,12 +138,10 @@ void Scripter::_OnStart( bool isRuntime )
 	}
 
 	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL ) {
+		if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
 			// call script function
-			if ( isRuntime || _scripts[i]->RunsInEditor() ) {
-				_scripts[i]->CallFunction( "OnStart", _gameObject );
-				_scripts[i]->SetFirstUpdate( FALSE );
-			}
+			_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
+			_scripts[i]->SetFirstUpdate( FALSE );
 		}
 	}
 }
@@ -143,18 +149,63 @@ void Scripter::_OnStart( bool isRuntime )
 
 void Scripter::_OnUpdate( bool isRuntime )
 {
+	// used to remove items from map
+	DataArray<GameObject*> toRemove;
+
+	// update collisions
+	Iterator<GameObject*, OnCollisionType>& iter = _collisions.GetIterator();
+	while ( iter.HasNext() ) {
+		OnCollisionType collType = iter.GetValue();
+
+		switch ( collType ) {
+			case OnCollisionType::ENTER:
+				// call on enter
+				for ( int i = 0; i < _scripts.Size(); i++ ) {
+					if ( _scripts[i] != NULL && isRuntime ) {
+						_scripts[i]->CallFunction( Script::FUNC_ON_COLLISION_ENTER, _gameObject, iter.GetKey() );
+					}
+				}
+				break;
+
+			case OnCollisionType::ACTIVE:
+				// it is expected to exit
+				// it will be overriden by OnCollision()
+				_collisions.Set( iter.GetKey(), OnCollisionType::EXIT );
+				break;
+
+			case OnCollisionType::EXIT:
+				// call on exit
+				for ( int i = 0; i < _scripts.Size(); i++ ) {
+					if ( _scripts[i] != NULL && isRuntime ) {
+						_scripts[i]->CallFunction( Script::FUNC_ON_COLLISION_EXIT, _gameObject, iter.GetKey() );
+					}
+				}
+
+				// remove from list
+				toRemove.Add( iter.GetKey() );
+				break;
+		}
+
+		// next
+		iter.Next();
+	}
+
+	// remove marked items from collisions
+	for ( int i = 0; i < toRemove.Size(); i++ ) {
+		_collisions.Erase( toRemove[i] );
+	}
+
+
+	// update scripts
 	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL ) {
-			// call script function
-			if ( isRuntime || _scripts[i]->RunsInEditor() ) {
-				// check if first update used
-				if ( _scripts[i]->IsFirstUpdate() ) {
-					_scripts[i]->CallFunction( "OnStart", _gameObject );
-					_scripts[i]->SetFirstUpdate( FALSE );
-				}
-				else {
-					_scripts[i]->CallFunction( "OnUpdate", _gameObject );
-				}
+		if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
+			// check if first update used
+			if ( _scripts[i]->IsFirstUpdate() ) {
+				_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
+				_scripts[i]->SetFirstUpdate( FALSE );
+			}
+			else {
+				_scripts[i]->CallFunction( Script::FUNC_ON_UPDATE, _gameObject );
 			}
 		}
 	}

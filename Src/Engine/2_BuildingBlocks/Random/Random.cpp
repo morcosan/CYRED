@@ -11,9 +11,8 @@
 using namespace CYRED;
 
 
-
-const int Random::UNIQUE_ID_SIZE	= 32;		// same as Unity
-cchar Random::ALPHA_NUM[]		= "0123456789"
+const int	Random::UNIQUE_ID_SIZE	= 32;		// same as Unity
+cchar		Random::ALPHA_NUM[]		= "0123456789"
 									  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 									  "abcdefghijklmnopqrstuvwxyz";
 
