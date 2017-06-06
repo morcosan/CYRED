@@ -25,6 +25,7 @@ namespace CYRED
 
 	public:
 		virtual void		Initialize			()								PURE_VIRTUAL;
+		virtual void		Update				( bool isRuntime )				PURE_VIRTUAL;
 		virtual void		Finalize			()								PURE_VIRTUAL;
 
 		virtual Scene*		OpenScene			( cchar* sceneUID )				PURE_VIRTUAL;

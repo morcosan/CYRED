@@ -19,6 +19,7 @@ Scripter::Scripter( GameObject* gameObject )
 
 	// register event
 	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_UPDATE );
+	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_DELETE );
 }
 
 
@@ -26,6 +27,7 @@ Scripter::~Scripter()
 {
 	// unregister
 	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_UPDATE );
+	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_DELETE );
 }
 
 
@@ -57,6 +59,22 @@ void Scripter::OnEvent( int eventType, void* eventData )
 				_scripts[i]->LoadLuaFiles( FALSE );
 				break;
 			}
+		}
+	}
+	// check if collision object was destroyed
+	else if ( eventType == EventType::GAMEOBJECT_DELETE ) {
+		// search inside collisions
+		Iterator<GameObject*, OnCollisionType>& iter = _collisions.GetIterator();
+		while ( iter.HasNext() ) {
+			if ( eventData == iter.GetKey() ) {
+				// remove from list
+				_collisions.Erase( iter.GetKey() );
+				// found, stop
+				break;
+			}
+
+			// next
+			iter.Next();
 		}
 	}
 }

@@ -41,7 +41,6 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
 		case EventType::SCENE_UPDATE:
-		case EventType::GAMEOBJECT_UPDATE:
 		{
 			// check state
 			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
@@ -79,6 +78,17 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			if ( treeItem != NULL ) {
 				treeItem->setText( 0, gameObject->GetName() );
 
+				// change needs save
+				UpdateNeedsSave( TRUE );
+			}
+			break;
+		}
+
+		case EventType::GAMEOBJECT_UPDATE:
+		{
+			GameObject* gameObject = CAST_S( GameObject*, eventData );
+			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
+			if ( treeItem != NULL ) {
 				// change needs save
 				UpdateNeedsSave( TRUE );
 			}

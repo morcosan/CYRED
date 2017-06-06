@@ -49,6 +49,7 @@
 #include "QtWidgets\qtabbar.h"
 #include "QtCore\qfileinfo.h"
 #include "QtCore\qdir.h"
+#include "QtGui\qevent.h"
 
 
 using namespace CYRED;
@@ -63,9 +64,12 @@ public:
 		_appImpl = appImpl;
 	}
 
-	virtual void closeEvent( QCloseEvent *event )
+	virtual void closeEvent( QCloseEvent* event )
 	{
+		// call for exit
 		_appImpl->Exit();
+		// ignore qt close
+		event->ignore();
 	}
 
 private:
@@ -231,11 +235,7 @@ void EditorApp::_UpdateLoop()
 		_UpdateCameras();
 
 		// update scripts
-		SceneManager* sceneManager = SceneManager::Singleton();
-		int totalScenes = sceneManager->CountLoadedScenes();
-		for ( int i = 0; i < totalScenes; ++i ) {
-			sceneManager->GetScene( i )->OnUpdate( _isPlayMode && !_isPlayPaused );
-		}
+		SceneManager::Singleton()->Update( _isPlayMode && !_isPlayPaused );
 
 		// update physics
 		if ( _isPlayMode && !_isPlayPaused ) {

@@ -3,6 +3,7 @@
     "game_objects": [
         {
             "name": "Sun",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -37,6 +38,7 @@
         },
         {
             "name": "LevelManager",
+            "tag": "",
             "enabled": true,
             "components": {
                 "scripter": {
@@ -63,6 +65,7 @@
         },
         {
             "name": "Camera",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -94,6 +97,7 @@
         },
         {
             "name": "Ground",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -129,11 +133,21 @@
                         "z": 5.0
                     },
                     "mass": 0.0
+                },
+                "scripter": {
+                    "enabled": true,
+                    "scripts": [
+                        {
+                            "uid": "AMbncFu407agMe9H67gxgpVDqsiZQbvi",
+                            "variables": []
+                        }
+                    ]
                 }
             }
         },
         {
             "name": "Spawner",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {

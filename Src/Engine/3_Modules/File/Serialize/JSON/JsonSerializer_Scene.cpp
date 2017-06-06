@@ -35,7 +35,6 @@ rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 
 		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); ++i ) {
 			GameObject* gameObject = CAST_S( GameObject*, sceneRoot->GetChildNodeAt( i ) );
-
 			if ( gameObject->GetParentNode() == sceneRoot )	{
 				arrayNode.PushBack( serializer.ToJson( gameObject ), _al );
 			}
@@ -70,6 +69,7 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* gameObject = new GameObject( NULL, uid );
+			gameObject->SetInScene( TRUE );
 			gameObject->SetEmitEvents( FALSE );
 			{
 				// add to scene

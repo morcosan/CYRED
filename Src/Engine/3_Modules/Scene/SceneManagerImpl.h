@@ -32,6 +32,7 @@ namespace CYRED
 
 		public:
 			void		Initialize			()							override;
+			void		Update				( bool isRuntime )			override;
 			void		Finalize			()							override;
 	
 			Scene*		OpenScene			( cchar* sceneUID )			override;
@@ -85,6 +86,8 @@ namespace CYRED
 
 			int						_generatedUID;
 			GameObject*				_mainCameraGO;
+
+			DataArray<GameObject*>	_toDestroy;
 
 
 		private:

@@ -205,6 +205,7 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 		for ( int i = 0; i < CAST_S(int, childNodes.Size()); i++ ) {
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
 			GameObject* childObject = new GameObject( NULL, uid );
+			childObject->SetInScene( gameObject->IsInScene() );
 			childObject->SetEmitEvents( FALSE );
 			{
 				// add to parent

@@ -2,7 +2,7 @@
     "uid": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm",
     "root": {
         "name": "Obstacle",
-        "tag": "",
+        "tag": "Destructable",
         "enabled": true,
         "components": {
             "transform": {

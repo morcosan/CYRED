@@ -2,6 +2,7 @@
 // MIT License
 
 #include "SceneManagerImpl.h"
+
 #include "../Event/EventManager.h"
 #include "../File/FileManager.h"
 #include "../Asset/AssetManager.h"
@@ -21,9 +22,7 @@ using namespace NonAPI;
 
 //! deferred definition of SceneManager
 DEFINE_LOCAL_SINGLETON( SceneManager, SceneManagerImpl )
-
 DEFINE_LOCAL_SINGLETON_IMPL( SceneManagerImpl )
-
 
 
 void SceneManagerImpl::Initialize()
@@ -36,12 +35,31 @@ void SceneManagerImpl::Initialize()
 }
 
 
+void SceneManagerImpl::Update( bool isRuntime )
+{
+	// call update for each scene
+	for ( int i = 0; i < _currScenes.Size(); ++i ) {
+		_currScenes[i]->OnUpdate( isRuntime );
+	}
+
+	// delete objects
+	for ( int i = 0; i < _toDestroy.Size(); i++ ) {
+		GameObject* gameObject = _toDestroy[i];
+		// clear parent
+		gameObject->SetParentNode( NULL );
+		// send event
+		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, gameObject );
+		// clear memory
+		PTR_FREE( gameObject );
+	}
+	// clear list
+	_toDestroy.Clear();
+}
+
+
 void SceneManagerImpl::Finalize()
 {
-	if ( !_isInitialized )
-	{
-		return;
-	}
+	ASSERT( _isInitialized );
 }
 
 
@@ -206,6 +224,9 @@ void SceneManagerImpl::CloseScene( cchar* sceneUID )
 			scene->ClearRoot();
 			_currScenes.Erase( i );
 
+			// clear destroy list
+			_toDestroy.Clear();
+
 			// send event
 			EventManager::Singleton()->EmitEvent( EventType::SCENE_CLOSE, scene );
 
@@ -223,6 +244,9 @@ void SceneManagerImpl::CloseAllScenes()
 		_currScenes[i]->ClearRoot();
 	}
 	_currScenes.Clear();
+
+	// clear destroy list
+	_toDestroy.Clear();
 
 	// send event
 	EventManager::Singleton()->EmitEvent( EventType::SCENE_CLOSE, NULL );
@@ -256,6 +280,9 @@ void SceneManagerImpl::RestoreScenes()
 	}
 	_currScenes.Clear();
 
+	// clear destroy list
+	_toDestroy.Clear();
+
 	// load stored scenes
 	for ( int i = 0; i < _storedScenes.Size(); i++ ) {
 		// deserialize scene data
@@ -275,6 +302,7 @@ GameObject* SceneManagerImpl::NewGameObject( int sceneIndex )
 	ASSERT( scene != NULL );
 
 	GameObject* newObject = new GameObject( EMPTY_GAMEOBJECT, NextGameObjectUID() );
+	newObject->SetInScene( TRUE );
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
@@ -292,6 +320,7 @@ GameObject* SceneManagerImpl::NewGameObject( cchar* sceneUID )
 	ASSERT( scene != NULL );
 
 	GameObject* newObject = new GameObject( EMPTY_GAMEOBJECT, NextGameObjectUID() );
+	newObject->SetInScene( TRUE );
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
@@ -313,6 +342,7 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, int sceneIndex 
 		GameObject* prefabRoot = prefab->GetRoot();
 		// create object
 		GameObject* newObject = new GameObject( NextGameObjectUID() );
+		newObject->SetInScene( TRUE );
 		// clone from prefab
 		prefabRoot->Clone( newObject );
 		// add to scene
@@ -333,11 +363,14 @@ GameObject* SceneManagerImpl::Duplicate( const GameObject* object )
 	ASSERT( _isInitialized );
 
 	// clone gameobject
-	GameObject* clone = SceneManager::Singleton()->NewGameObject();
-	object->Clone( clone );
-	clone->SetName( object->GetName() );
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject();
+	newObject->SetInScene( TRUE );
+	// clone attributes
+	object->Clone( newObject );
+	// update name
+	newObject->SetName( object->GetName() );
 
-	return clone;
+	return newObject;
 }
 
 
@@ -380,19 +413,14 @@ GameObject* SceneManagerImpl::FindGameObject( cchar* objectName )
 }
 
 
-void SceneManagerImpl::Destroy( GameObject* object )
+void SceneManagerImpl::Destroy( GameObject* gameObject )
 {
 	ASSERT( _isInitialized );
 
-	if ( object == NULL ) {
-		return;
+	if ( gameObject != NULL ) {
+		// mark for destuction at the end of frame
+		_toDestroy.Add( gameObject );
 	}
-
-	object->SetParentNode( NULL );
-	PTR_FREE( object );
-
-	// send event
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, NULL );
 }
 
 

@@ -92,7 +92,8 @@ void PhysicsManagerImpl::Update()
 		const GameObject* gameObject = iter.GetKey();
 		_RigidBodyData* data		 = iter.GetValue();
 
-		if ( gameObject->IsEnabled() && data->rigidBody->IsEnabled() 
+		if ( gameObject->IsEnabled() && gameObject->IsInScene()
+			 && data->rigidBody->IsEnabled() 
 			 && data->transform->IsEnabled() ) 
 		{
 			// add to world
@@ -250,7 +251,7 @@ void PhysicsManagerImpl::_CreateRigidBodyData( GameObject* gameObject )
 	Transform* transform = gameObject->GetComponent<Transform>();
 	Scripter* scripter = gameObject->GetComponent<Scripter>();
 
-	if ( rigidBody != NULL && transform != NULL ) {
+	if ( gameObject->IsInScene() && rigidBody != NULL && transform != NULL ) {
 		// create shape
 		btCollisionShape* collisionShape = NULL;
 		Vector3 shapeSize = rigidBody->GetShapeSize();

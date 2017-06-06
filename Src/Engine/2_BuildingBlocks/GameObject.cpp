@@ -14,6 +14,7 @@ using namespace CYRED;
 GameObject::GameObject()
 	: _uid( EMPTY_OBJECT_UID )
 	, _isEnabled ( TRUE )
+	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
 {
 }
@@ -21,7 +22,8 @@ GameObject::GameObject()
 
 GameObject::GameObject( int uid )
 	: _uid( uid )
-	, _isEnabled ( TRUE )
+	, _isEnabled( TRUE )
+	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
 {
 }
@@ -30,7 +32,8 @@ GameObject::GameObject( int uid )
 GameObject::GameObject( cchar* name, int uid )
 	: Node( name )
 	, _uid( uid )
-	, _isEnabled ( TRUE )
+	, _isEnabled( TRUE )
+	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
 {
 }
@@ -97,6 +100,12 @@ cchar* GameObject::GetTag() const
 }
 
 
+bool GameObject::IsInScene() const
+{
+	return _isInScene;
+}
+
+
 int GameObject::GetComponentCount() const
 {
 	return _components.Size();
@@ -133,6 +142,13 @@ void GameObject::SetTag( cchar* value )
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}
+}
+
+
+void GameObject::SetInScene( bool value )
+{
+	_isInScene = value;
+	// does not emit event
 }
 
 
