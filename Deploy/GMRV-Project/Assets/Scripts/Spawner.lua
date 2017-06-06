@@ -23,12 +23,12 @@ function OnUpdate()
 		-- ready to spawn
 		if timer < 0 then
 			-- create obstacle
-			local obstacle = SCENE:Instantiate( VARS.obstacle, 0 )
-			local obstacleTran = obstacle:GetComponent_Transform()
+			local obs = SCENE:Instantiate( VARS.obstacle, 0 )
+			local obsTran = obs:GetComponent_Transform()
 			local x = Random.FromRangeFloat( -transform.scaleWorld.x, transform.scaleWorld.x )
 			local z = Random.FromRangeFloat( -transform.scaleWorld.z, transform.scaleWorld.z )
-			obstacleTran.positionWorld = Vector3( x / 2, transform.positionWorld.y, z / 2 )
-			obstacle.parentNode = GAMEOBJECT
+			obsTran.positionWorld = Vector3( x / 2, transform.positionWorld.y, z / 2 )
+			obs.parentNode = GAMEOBJECT
 			
 			-- reset
 			timer = VARS.spawnInterval

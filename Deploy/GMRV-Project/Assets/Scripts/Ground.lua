@@ -1,16 +1,8 @@
 
 
-
-function OnStart()
-	print("start")
+function OnCollisionEnter( other )
+	if other.tag == "Destructable" then
+		SCENE:Destroy( other )
+	end
 end
 
-
-function OnCollisionEnter()
-	print("enter")
-end
-
-
-function OnCollisionExit()
-	print("exit")
-end

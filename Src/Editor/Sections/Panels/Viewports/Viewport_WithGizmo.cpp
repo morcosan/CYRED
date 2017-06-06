@@ -182,7 +182,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 	}
 
 	// render selected object gizmo
-	if ( _selectedGO != NULL ) {
+	if ( _selectedGO != NULL && _selectedGO->IsEnabled() ) {
 		Light*		light		= _selectedGO->GetComponent<Light>();
 		Camera*		camera		= _selectedGO->GetComponent<Camera>();
 		Transform*	transform	= _selectedGO->GetComponent<Transform>();

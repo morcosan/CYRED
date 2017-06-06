@@ -89,9 +89,12 @@ void PhysicsManagerImpl::Update()
 	// update physics from gameobject
 	Iterator<const GameObject*, _RigidBodyData*> iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
-		_RigidBodyData* data = iter.GetValue();
+		const GameObject* gameObject = iter.GetKey();
+		_RigidBodyData* data		 = iter.GetValue();
 
-		if ( data->rigidBody->IsEnabled() && data->transform->IsEnabled() ) {
+		if ( gameObject->IsEnabled() && data->rigidBody->IsEnabled() 
+			 && data->transform->IsEnabled() ) 
+		{
 			// add to world
 			if ( !data->isAddedToWorld ) {
 				_dynamicsWorld->addRigidBody( data->physicsBody );
@@ -134,9 +137,12 @@ void PhysicsManagerImpl::Update()
 	// update gameobject from physics
 	iter = _rigidBodies.GetIterator();
 	while ( iter.HasNext() ) {
-		_RigidBodyData* data = iter.GetValue();
+		const GameObject* gameObject = iter.GetKey();
+		_RigidBodyData* data		 = iter.GetValue();
 
-		if ( data->rigidBody->IsEnabled() && data->transform->IsEnabled() ) {
+		if ( gameObject->IsEnabled() && data->rigidBody->IsEnabled() 
+			 && data->transform->IsEnabled() ) 
+		{
 			// get physics transform
 			Transform* transform = data->rigidBody->GetGameObject()->GetComponent<Transform>();
 			btTransform bodyTran = data->physicsBody->getWorldTransform();

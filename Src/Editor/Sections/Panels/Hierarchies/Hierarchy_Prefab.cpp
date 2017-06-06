@@ -59,13 +59,13 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 		case EditorEventType::PREFAB_UPDATE:
 		case EventType::GAMEOBJECT_UPDATE:
 		{
-			// check state
-			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
-			// update 
-			_ResetHierarchy();
 			// search for gameobject
 			CustomTreeItem* treeItem = _FindGameObjectItem( CAST_S( GameObject*, eventData )->GetUniqueID() );
 			if ( treeItem != NULL ) {
+				// check state
+				bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
+				// update 
+				_ResetHierarchy();
 				// change color
 				UpdateNeedsSave( !wasEmpty );
 			}

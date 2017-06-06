@@ -59,17 +59,17 @@ void AttrViewer_MeshRendering::_UpdateGUI()
 void AttrViewer_MeshRendering::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
-
-	_target->SetMesh	( CAST_S( Mesh*,	 _ReadAttrSelector( ATTR_MESH ) ) );
-	_target->SetMaterial( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
-
-	_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
-
+	{
+		_target->SetMesh	( CAST_S( Mesh*,	 _ReadAttrSelector( ATTR_MESH ) ) );
+		_target->SetMaterial( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
+		_target->SetEnabled	( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+	}
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually
 	++_ignoreUpdateGUI;
 	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
 
+	// update ui
 	_Colorize( _target->IsEnabled() );
 }

@@ -3,16 +3,16 @@
 
 #include "AttrViewer_GameObject.h"
 
+#include "CyredModule_Event.h"
+
 
 using namespace CYRED;
 
 
-
 void AttrViewer_GameObject::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME,	ATTR_NAME,	AttrFlag::EDIT_FINISH,	CallbackGroup::GROUP_1 );
-
-	_CreateAttrString	( ATTR_TAG,		ATTR_TAG );
+	_CreateAttrString	( ATTR_NAME, ATTR_NAME,	AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_TAG,	 ATTR_TAG,  AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	
@@ -36,22 +36,26 @@ void AttrViewer_GameObject::_UpdateGUI()
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 	}
 
+	// update ui
 	_Colorize( _target->IsEnabled(), TRUE );
 }
 
 
 void AttrViewer_GameObject::_UpdateTarget()
 {
-	++_ignoreUpdateGUI;
-	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
-	_target->SetTag( _ReadAttrString( ATTR_TAG ).GetChar() );
-
-	bool prevEnabled = _target->IsEnabled();
-	bool newEnabled = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
-	if ( prevEnabled != newEnabled ) {
-		_target->SetEnabled( newEnabled );
+	_target->SetEmitEvents( FALSE );
+	{
+		_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
+		_target->SetTag( _ReadAttrString( ATTR_TAG ).GetChar() );
+		_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}
+	_target->SetEmitEvents( TRUE );
 
+	// emit event manually
+	++_ignoreUpdateGUI;
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, _target );
+
+	// update ui
 	_Colorize( _target->IsEnabled(), TRUE );
 }
 

@@ -219,6 +219,7 @@ void ScriptManagerImpl::_RegisterGameObject()
 	luabridge::getGlobalNamespace( _L )
 	.deriveClass<GameObject, Node>( "GameObject" )
 		.addProperty( "name",				&GameObject::GetName,	&GameObject::SetName )
+		.addProperty( "tag",				&GameObject::GetTag,	&GameObject::SetTag )
 		.addProperty( "enabled",			&GameObject::IsEnabled,	&GameObject::SetEnabled )
 		.addFunction( "GetUniqueID",		&GameObject::GetUniqueID )
 
@@ -432,6 +433,7 @@ void ScriptManagerImpl::_RegisterSceneManager()
 	.beginClass<SceneManager>( "SceneManager" )
 		.addFunction( "FindGameObject",	&SceneManager::FindGameObject )
 		.addFunction( "Instantiate",	&SceneManager::Instantiate )
+		.addFunction( "Destroy",		&SceneManager::Destroy )
 	.endClass();
 
 	// set global

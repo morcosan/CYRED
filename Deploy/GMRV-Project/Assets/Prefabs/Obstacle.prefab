@@ -2,19 +2,20 @@
     "uid": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm",
     "root": {
         "name": "Obstacle",
+        "tag": "",
         "enabled": true,
         "components": {
             "transform": {
                 "enabled": true,
                 "position_world": {
-                    "x": -21.035,
-                    "y": -1912.618,
-                    "z": 40.643
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "rotation_world": {
-                    "x": -109.157,
-                    "y": 47.655,
-                    "z": -33.721
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "scale_world": {
                     "x": 1.0,

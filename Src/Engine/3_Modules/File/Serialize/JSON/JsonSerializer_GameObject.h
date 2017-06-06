@@ -11,6 +11,7 @@ namespace CYRED
 	class DLL JsonSerializer_GameObject : public JsonSerializer
 	{
 		cchar* const NAME				= "name";
+		cchar* const TAG				= "tag";
 		cchar* const ENABLED			= "enabled";
 		cchar* const COMPONENTS			= "components";
 		cchar* const TRANSFORM			= "transform";
