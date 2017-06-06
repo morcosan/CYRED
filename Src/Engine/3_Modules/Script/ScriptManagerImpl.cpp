@@ -333,9 +333,8 @@ void ScriptManagerImpl::_RegisterInputManager()
 		.addFunction( "KeyDownFirstTime",		&InputManager::KeyDownFirstTime )
 		.addFunction( "KeyUp",					&InputManager::KeyUp )
 		.addFunction( "KeyUpFirstTime",			&InputManager::KeyUpFirstTime )
-		.addFunction( "CursorPosition",			&InputManager::CursorPosition )
-		.addFunction( "CursorDeltaPosition",	&InputManager::CursorDeltaPosition )
-		//.addFunction( "GetCursorWindow",		&InputManager::GetCursorWindow )
+		.addFunction( "MousePosition",			&InputManager::MousePosition )
+		.addFunction( "MouseDeltaPosition",		&InputManager::MouseDeltaPosition )
 		.addFunction( "ScrollWheel",			&InputManager::ScrollWheel )
 	.endClass();
 

@@ -29,22 +29,23 @@ namespace CYRED
 
 		void	operator=( const Matrix4& other );
 
-		Matrix4 operator-( const Matrix4& other );
+		Matrix4 operator-( const Matrix4& other ) const;
 
-		Matrix4 operator+( const Matrix4& other );
+		Matrix4 operator+( const Matrix4& other ) const;
 
-		Matrix4 operator/( const Matrix4& other );
+		Matrix4 operator/( const Matrix4& other ) const;
 
-		Matrix4 operator*( const Matrix4& other );
-		Vector4 operator*( const Vector4& other );
+		Matrix4 operator*( const Matrix4& other ) const;
+		Vector4 operator*( const Vector4& other ) const;
 
 
 	public:
 		static Matrix4 Identity			();
 		static Matrix4 Inverse			( const Matrix4& mat );
-		static Matrix4 Translate			( const Matrix4& mat, const Vector3& other );
-		static Matrix4 Scale				( const Matrix4& mat, const Vector3& other );
-		static Matrix4 CreatePerspective	( float fovyAngle, float aspectRatio, float nearClipping, float farClipping );
+		static Matrix4 Translate		( const Matrix4& mat, const Vector3& other );
+		static Matrix4 Scale			( const Matrix4& mat, const Vector3& other );
+		static Matrix4 CreatePerspective( float fovyAngle, float aspectRatio, 
+										  float nearClipping, float farClipping );
 		static Matrix4 CreateOrthogonal	( const Vector2& size, float nearClipping, float farClipping );
 
 

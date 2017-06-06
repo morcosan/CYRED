@@ -80,12 +80,6 @@ Vector4 Vector4::operator/( float value ) const
 }
 
 
-Vector4 Vector4::operator/( int value ) const
-{
-	return Vector4( x / value, y / value, z / value, w / value );
-}
-
-
 Vector4 Vector4::operator*( const Vector4& other ) const
 {
 	return Vector4( x * other.x, y * other.y, z * other.z, w * other.w );
@@ -93,12 +87,6 @@ Vector4 Vector4::operator*( const Vector4& other ) const
 
 
 Vector4 Vector4::operator*( float value ) const
-{
-	return Vector4( x * value, y * value, z * value, w * value );
-}
-
-
-Vector4 Vector4::operator*( int value ) const
 {
 	return Vector4( x * value, y * value, z * value, w * value );
 }

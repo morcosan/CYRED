@@ -134,7 +134,7 @@ bool Viewport_Prefab::_IsPickingInput()
 	InputManager* inputMngr = InputManager::Singleton();
 
 	// check target window
-	int targetWindow = inputMngr->GetWindowForCursor();
+	int targetWindow = inputMngr->GetWindowForMouse();
 
 	// check input for mouse down
 	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetWindow == _panelIndex ) {
@@ -152,7 +152,7 @@ bool Viewport_Prefab::_IsPickingInput()
 			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
 
 			// get pixel from mouse position
-			Vector2 mousePos = inputMngr->CursorPosition();
+			Vector2 mousePos = inputMngr->MousePosition();
 			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
 
 			// get object uid

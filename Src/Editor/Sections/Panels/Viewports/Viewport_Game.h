@@ -6,6 +6,12 @@
 
 #include "../Panel_Viewport.h"
 
+namespace CYRED
+{
+	class Transform;
+	class Camera;
+}
+
 
 namespace CYRED
 {
@@ -27,8 +33,9 @@ namespace CYRED
 		virtual void	_OnUpdate		() override;
 
 
-	protected:
+	private:
 		GameObject*	_RecFindMainCamera	( Node* root );
 		void		_RecCollectLights	( Node* root, DataArray<GameObject*>& lightsGO );
+		void		_TestMouseInput		( Transform* cameraTran, Camera* camera );
 	};
 }

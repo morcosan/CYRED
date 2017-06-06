@@ -23,7 +23,7 @@ void InputManagerImpl::Initialize( InputReceiver* receiver )
 
 	_receiver = receiver;
 
-	_windowForCursor = INPUT_INVALID_WINDOW;
+	_windowForMouse = INPUT_INVALID_WINDOW;
 	_wheelRotation = 0;
 
 	for ( int i = 0; i < KeyCode::_COUNT_; ++i )
@@ -64,7 +64,7 @@ void InputManagerImpl::ProcessEvents()
 			iter.Next();
 		}
 
-		_cursorLastPosition = _cursorPosition;
+		_mousePrevPosition = _mousePosition;
 		_wheelRotation = 0;
 	}
 
@@ -87,7 +87,7 @@ void InputManagerImpl::ProcessEvents()
 					break;
 
 				case InputEventType::MOUSE_MOVE:
-					_cursorPosition = event.data.GetVector2();
+					_mousePosition = event.data.GetVector2();
 					break;
 
 				case InputEventType::WHEEL_MOVE:
@@ -97,7 +97,7 @@ void InputManagerImpl::ProcessEvents()
 
 			if ( event.window != INPUT_INVALID_WINDOW )
 			{
-				_windowForCursor = event.window;
+				_windowForMouse = event.window;
 			}
 		}
 
@@ -143,19 +143,19 @@ bool InputManagerImpl::KeyUpFirstTime( int keyCode )
 }
 
 
-Vector2 InputManagerImpl::CursorPosition()
+Vector2 InputManagerImpl::MousePosition()
 {
 	ASSERT( _isInitialized );
 	
-	return _cursorPosition;
+	return _mousePosition;
 }
 
 
-Vector2 InputManagerImpl::CursorDeltaPosition()
+Vector2 InputManagerImpl::MouseDeltaPosition()
 {
 	ASSERT( _isInitialized );
 	
-	return (_cursorPosition - _cursorLastPosition);
+	return (_mousePosition - _mousePrevPosition);
 }
 
 
@@ -167,10 +167,10 @@ int InputManagerImpl::ScrollWheel()
 }
 
 
-int InputManagerImpl::GetWindowForCursor()
+int InputManagerImpl::GetWindowForMouse()
 {
 	ASSERT( _isInitialized );
 	
-	return _windowForCursor;
+	return _windowForMouse;
 }
 

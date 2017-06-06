@@ -160,6 +160,16 @@ void PhysicsManagerImpl::Update()
 }
 
 
+void PhysicsManagerImpl::ApplyMouseDown( int button, const Ray& ray )
+{
+}
+
+
+void PhysicsManagerImpl::ApplyMouseUp( int button, const Ray& ray )
+{
+}
+
+
 void PhysicsManagerImpl::RegisterObject( GameObject* gameObject )
 {
 	if ( !_rigidBodies.Has( gameObject ) ) {

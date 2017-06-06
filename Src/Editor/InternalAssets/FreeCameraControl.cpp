@@ -28,19 +28,19 @@ void FreeCameraControl::_OnUpdate( bool isRuntime )
 	if ( !isRuntime ) {
 		InputManager* inputManager = InputManager::Singleton();
 
-		int windowForCursor = inputManager->GetWindowForCursor();
+		int windowForCursor = inputManager->GetWindowForMouse();
 		float deltaTime = TimeManager::Singleton()->GetDeltaTime();
 
 		if ( myWindows.Has( windowForCursor ) && myWindows.Get( windowForCursor ) ) {
 			if ( inputManager->KeyDown( KeyCode::MOUSE_RIGHT ) ) {
-				Vector2 cursorDelta = inputManager->CursorDeltaPosition();
+				Vector2 cursorDelta = inputManager->MouseDeltaPosition();
 
 				_transform->RotateByWorld( Vector3( 0, - cursorDelta.x * rotateSpeed * deltaTime, 0 ) );
 				_transform->RotateByLocal( Vector3( - cursorDelta.y * rotateSpeed * deltaTime, 0, 0 ) );
 			}
 
 			if ( inputManager->KeyDown( KeyCode::MOUSE_MIDDLE ) ) {
-				Vector2 cursorDelta = inputManager->CursorDeltaPosition();
+				Vector2 cursorDelta = inputManager->MouseDeltaPosition();
 				float pan = panSpeed * deltaTime;
 
 				_transform->TranslateByLocal( Vector3( - cursorDelta.x * pan, cursorDelta.y * pan, 0 ) );

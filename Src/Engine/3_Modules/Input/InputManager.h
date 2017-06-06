@@ -23,21 +23,19 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize		( InputReceiver* receiver )	PURE_VIRTUAL;
-		virtual void Finalize		()							PURE_VIRTUAL;
-		virtual void ProcessEvents	()							PURE_VIRTUAL;
+		virtual void	Initialize			( InputReceiver* receiver )	PURE_VIRTUAL;
+		virtual void	Finalize			()							PURE_VIRTUAL;
+		virtual void	ProcessEvents		()							PURE_VIRTUAL;
 
-		virtual bool KeyDown				( int keyCode )	PURE_VIRTUAL;
-		virtual bool KeyDownFirstTime		( int keyCode )	PURE_VIRTUAL;
-		virtual bool KeyUp					( int keyCode )	PURE_VIRTUAL;
-		virtual bool KeyUpFirstTime			( int keyCode )	PURE_VIRTUAL;
+		virtual bool	KeyDown				( int keyCode )				PURE_VIRTUAL;
+		virtual bool	KeyDownFirstTime	( int keyCode )				PURE_VIRTUAL;
+		virtual bool	KeyUp				( int keyCode )				PURE_VIRTUAL;
+		virtual bool	KeyUpFirstTime		( int keyCode )				PURE_VIRTUAL;
+			
+		virtual Vector2	MousePosition		()							PURE_VIRTUAL;
+		virtual Vector2	MouseDeltaPosition	()							PURE_VIRTUAL;
+		virtual int		ScrollWheel			()							PURE_VIRTUAL;
 
-		virtual Vector2	CursorPosition		()				PURE_VIRTUAL;
-		virtual Vector2	CursorDeltaPosition	()				PURE_VIRTUAL;
-		virtual int		ScrollWheel			()				PURE_VIRTUAL;
-
-		//! returns the index for the window where cursor is inside
-		virtual int		GetWindowForCursor	()				PURE_VIRTUAL;
-
+		virtual int		GetWindowForMouse	()							PURE_VIRTUAL;
 	};
 }

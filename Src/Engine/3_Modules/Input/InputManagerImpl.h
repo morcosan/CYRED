@@ -27,20 +27,21 @@ namespace CYRED
 			bool		KeyDownFirstTime	( int keyCode )				override;
 			bool		KeyUp				( int keyCode )				override;
 			bool		KeyUpFirstTime		( int keyCode )				override;
-			Vector2		CursorPosition		()							override;
-			Vector2		CursorDeltaPosition	()							override;
+			Vector2		MousePosition		()							override;
+			Vector2		MouseDeltaPosition	()							override;
 			int			ScrollWheel			()							override;
-			int			GetWindowForCursor	()							override;
+
+			int			GetWindowForMouse	()							override;
 
 
 		private:
 			InputReceiver*		_receiver;
 
 			DataMap<int, int>	_keyState;
-			Vector2				_cursorPosition;
-			Vector2				_cursorLastPosition;
+			Vector2				_mousePosition;
+			Vector2				_mousePrevPosition;
 			int					_wheelRotation;
-			int					_windowForCursor;
+			int					_windowForMouse;
 
 		};
 	}

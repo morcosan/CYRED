@@ -6,6 +6,8 @@
 #include "CyredModule_Render.h"
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
+#include "CyredModule_Input.h"
+#include "CyredModule_Physics.h"
 
 
 using namespace CYRED;
@@ -37,6 +39,7 @@ void Viewport_Game::_OnUpdate()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
+	// check window resize
 	if ( _mustResize ) {
 		renderMngr->OnResize( _canvasSlot );
 		_mustResize = FALSE;
@@ -67,9 +70,18 @@ void Viewport_Game::_OnUpdate()
 			return;
 		}
 
+		Camera* camera			= _cameraGO->GetComponent<Camera>();
+		Transform* cameraTran	= _cameraGO->GetComponent<Transform>();
+		if ( camera == NULL || cameraTran == NULL ) {
+			// finish
+			renderMngr->SwapBuffers();
+			return;
+		}
+
+		// all good
+
 		// update camera size
 		{
-			Camera* camera = _cameraGO->GetComponent<Camera>();
 			// disable events
 			bool emitEvents = camera->DoesEmitEvents();
 			camera->SetEmitEvents( FALSE );
@@ -81,12 +93,15 @@ void Viewport_Game::_OnUpdate()
 			// set back emit events
 			camera->SetEmitEvents( emitEvents );
 		}
+
+
+		// apply mouse callbacks
+		_TestMouseInput( cameraTran, camera );
 		
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		_RecCollectLights( sceneRoot, lightsGO );
-
 
 		// render meshes
 		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
@@ -148,5 +163,65 @@ void Viewport_Game::_RecCollectLights( Node* root, DataArray<GameObject*>& light
 	// parse children
 	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
 		_RecCollectLights(root->GetChildNodeAt(i), lightsGO );
+	}
+}
+
+
+void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
+{
+	InputManager* inputMngr		= InputManager::Singleton();
+	PhysicsManager* physicsMngr = PhysicsManager::Singleton();
+
+	// check target window
+	int targetWindow = inputMngr->GetWindowForMouse();
+	if ( targetWindow == _panelIndex ) {
+		// get mouse pos
+		Vector2 mousePos = inputMngr->MousePosition();
+
+		// calculate ray
+		Ray ray;
+		ray.origin = cameraTran->GetPositionWorld();
+
+		// calculate ray direction
+		Vector4 rayStartNDC = Vector4(
+			( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
+			( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+			-1.0f, // The near plane maps to Z=-1 in Normalized Device Coordinates
+			1.0f
+		);
+		Vector4 rayEndNDC = Vector4(
+			( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
+			( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+			0.0f,
+			1.0f
+		);
+		const Matrix4& projMat = camera->GetProjectionMatrix();
+		const Matrix4& viewMat = cameraTran->GetViewMatrix();
+		const Matrix4& mat = Matrix4::Inverse( projMat * viewMat );
+		Vector4 rayStartWorld = mat * rayStartNDC; 
+		rayStartWorld /= rayStartWorld.w;
+		Vector4 rayEndWorld = mat * rayEndNDC ;
+		rayEndWorld /= rayEndWorld.w;
+
+
+		// check mouse left down
+		if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
+			physicsMngr->ApplyMouseUp();
+		}
+
+		// check mouse left up
+		if ( inputMngr->KeyUpFirstTime( KeyCode::MOUSE_LEFT ) ) {
+
+		}
+
+		// check mouse right down
+		if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_RIGHT ) ) {
+
+		}
+
+		// check mouse right up
+		if ( inputMngr->KeyUpFirstTime( KeyCode::MOUSE_RIGHT ) ) {
+
+		}
 	}
 }

@@ -48,31 +48,31 @@ void Matrix4::operator=( const Matrix4& other )
 }
 
 
-Matrix4 Matrix4::operator-( const Matrix4& other )
+Matrix4 Matrix4::operator-( const Matrix4& other ) const
 {
 	return Matrix4( *_self - *other._self );
 }
 
 
-Matrix4 Matrix4::operator+( const Matrix4& other )
+Matrix4 Matrix4::operator+( const Matrix4& other ) const
 {
 	return Matrix4( *_self + *other._self );
 }
 
 
-Matrix4 Matrix4::operator/( const Matrix4& other )
+Matrix4 Matrix4::operator/( const Matrix4& other ) const
 {
 	return Matrix4( *_self / *other._self );
 }
 
 
-Matrix4 Matrix4::operator*( const Matrix4& other )
+Matrix4 Matrix4::operator*( const Matrix4& other ) const
 {
 	return Matrix4( *_self * *other._self );
 }
 
 
-Vector4 Matrix4::operator*( const Vector4& other )
+Vector4 Matrix4::operator*( const Vector4& other ) const
 {
 	glm::vec4 aux = (*_self) * glm::vec4( other.x, other.y, other.z, other.w );
 	return Vector4( aux.x, aux.y, aux.z, aux.w );

@@ -43,6 +43,5 @@ namespace CYRED
 
 	private:
 		bool _IsPickingInput();
-
 	};
 }

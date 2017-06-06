@@ -30,9 +30,12 @@ namespace CYRED
 
 
 		public:
-			void Initialize			()							override;
-			void Finalize			()							override;
-			void Update				()							override;
+			void Initialize			()								override;
+			void Finalize			()								override;
+			void Update				()								override;
+
+			void ApplyMouseDown		( int button, const Ray& ray )	override;
+			void ApplyMouseUp		( int button, const Ray& ray )	override;
 
 
 		public:
