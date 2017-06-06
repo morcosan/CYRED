@@ -32,7 +32,6 @@ namespace CYRED
 		void	operator+=	( const Vector4& other );
 		void	operator-=	( const Vector4& other );
 
-
 		bool	operator==	( const Vector4& other )	const;
 		bool	operator!=	( const Vector4& other )	const;
 

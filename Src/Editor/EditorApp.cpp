@@ -241,14 +241,15 @@ void EditorApp::_UpdateLoop()
 		if ( _isPlayMode && !_isPlayPaused ) {
 			PhysicsManager::Singleton()->Update();
 		}
-
-		// update panels
-		Iterator<PanelType, Panel*> iter = _panels.GetIterator();
-		while ( iter.HasNext() ) {
-			iter.GetValue()->Update();
-			iter.Next();
-		}
 	}
+
+	// update panels
+	Iterator<PanelType, Panel*> iter = _panels.GetIterator();
+	while ( iter.HasNext() ) {
+		iter.GetValue()->Update( _isPlayMode && !_isPlayPaused );
+		iter.Next();
+	}
+
 
 	// stop play mode if needed
 	if ( _shouldStopPlay ) {
@@ -263,6 +264,7 @@ void EditorApp::_UpdateLoop()
 		// announce stop
 		EventManager::Singleton()->EmitEvent( EditorEventType::PLAY_MODE_STOP, NULL );
 	}
+
 
 	// get and process events
 	_qtApp->processEvents();

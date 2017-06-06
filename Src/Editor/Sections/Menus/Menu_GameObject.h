@@ -103,6 +103,5 @@ namespace CYRED
 
 	private:
 		GameObject*		_CreateGameObject	( Node* parentNode );
-		void			_DestroyGameObject	( GameObject* gameObject );
 	};
 }

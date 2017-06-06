@@ -105,7 +105,7 @@ void Panel_Viewport::Initialize( bool isPrimary )
 }
 
 
-void Panel_Viewport::Update()
+void Panel_Viewport::Update( bool isRuntime )
 {
 	ASSERT( _isInitialized );
 
@@ -120,7 +120,7 @@ void Panel_Viewport::Update()
 	}
 
 	// render
-	_OnUpdate();
+	_OnUpdate( isRuntime );
 
 	// mark flag
 	_isFirstUpdate = FALSE;

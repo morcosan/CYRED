@@ -25,17 +25,7 @@ cchar* Viewport_Game::_GetPanelTitle()
 }
 
 
-void Viewport_Game::_OnInitialize()
-{
-}
-
-
-void Viewport_Game::_OnFinalize()
-{
-}
-
-
-void Viewport_Game::_OnUpdate()
+void Viewport_Game::_OnUpdate( bool isRuntime )
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
@@ -56,6 +46,7 @@ void Viewport_Game::_OnUpdate()
 	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
 	// clear screen
 	renderMngr->ClearScreen( 0, 0, 0 );
+
 
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
@@ -96,7 +87,9 @@ void Viewport_Game::_OnUpdate()
 
 
 		// apply mouse callbacks
-		_TestMouseInput( cameraTran, camera );
+		if ( isRuntime ) {
+			_TestMouseInput( cameraTran, camera );
+		}
 		
 
 		// collect lights
@@ -175,53 +168,77 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 	// check target window
 	int targetWindow = inputMngr->GetWindowForMouse();
 	if ( targetWindow == _panelIndex ) {
-		// get mouse pos
-		Vector2 mousePos = inputMngr->MousePosition();
+		// get mouse buttons
+		bool mouseLeftDown	 = inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT );
+		bool mouseLeftUp	 = inputMngr->KeyUpFirstTime( KeyCode::MOUSE_LEFT );
+		bool mouseMiddleDown = inputMngr->KeyDownFirstTime( KeyCode::MOUSE_MIDDLE );
+		bool mouseMiddleUp	 = inputMngr->KeyUpFirstTime( KeyCode::MOUSE_MIDDLE );
+		bool mouseRightDown	 = inputMngr->KeyDownFirstTime( KeyCode::MOUSE_RIGHT );
+		bool mouseRightUp	 = inputMngr->KeyUpFirstTime( KeyCode::MOUSE_RIGHT );
 
-		// calculate ray
-		Ray ray;
-		ray.origin = cameraTran->GetPositionWorld();
+		// at least one must be active
+		if ( mouseLeftDown || mouseLeftUp || 
+			 mouseMiddleDown || mouseMiddleUp || 
+			 mouseRightDown || mouseRightUp )
+		{
+			// get mouse pos
+			Vector2 mousePos = inputMngr->MousePosition();
 
-		// calculate ray direction
-		Vector4 rayStartNDC = Vector4(
-			( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
-			( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
-			-1.0f, // The near plane maps to Z=-1 in Normalized Device Coordinates
-			1.0f
-		);
-		Vector4 rayEndNDC = Vector4(
-			( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
-			( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
-			0.0f,
-			1.0f
-		);
-		const Matrix4& projMat = camera->GetProjectionMatrix();
-		const Matrix4& viewMat = cameraTran->GetViewMatrix();
-		const Matrix4& mat = Matrix4::Inverse( projMat * viewMat );
-		Vector4 rayStartWorld = mat * rayStartNDC; 
-		rayStartWorld /= rayStartWorld.w;
-		Vector4 rayEndWorld = mat * rayEndNDC ;
-		rayEndWorld /= rayEndWorld.w;
+			// calculate ray
+			Ray ray;
+			ray.origin = cameraTran->GetPositionWorld();
+
+			// transform viewport coords to world coords
+			Vector4 rayStartNDC = Vector4(
+				( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
+				( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+				-1.0f, // The near plane maps to Z=-1 in Normalized Device Coordinates
+				1.0f
+			);
+			Vector4 rayEndNDC = Vector4(
+				( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
+				( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+				0.0f,
+				1.0f
+			);
+			const Matrix4& projMat = camera->GetProjectionMatrix();
+			const Matrix4& viewMat = cameraTran->GetViewMatrix();
+			const Matrix4& mat = Matrix4::Inverse( projMat * viewMat );
+			Vector4 rayStartWorld = mat * rayStartNDC; 
+			rayStartWorld /= rayStartWorld.w;
+			Vector4 rayEndWorld = mat * rayEndNDC ;
+			rayEndWorld /= rayEndWorld.w;
+
+			// calculate ray direction
+			Vector4 rayDir = rayEndWorld - rayStartWorld;
+			ray.direction = Vector3::Normalize( Vector3( rayDir.x, rayDir.y, rayDir.z ) );
 
 
-		// check mouse left down
-		if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) ) {
-			physicsMngr->ApplyMouseUp();
-		}
+			// do raycasting
 
-		// check mouse left up
-		if ( inputMngr->KeyUpFirstTime( KeyCode::MOUSE_LEFT ) ) {
+			if ( mouseLeftDown ) {
+				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_LEFT, ray );
+			}
 
-		}
+			if ( mouseLeftUp ) {
+				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_LEFT, ray );
+			}
 
-		// check mouse right down
-		if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_RIGHT ) ) {
+			if ( mouseMiddleDown ) {
+				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_MIDDLE, ray );
+			}
 
-		}
+			if ( mouseMiddleUp ) {
+				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_MIDDLE, ray );
+			}
 
-		// check mouse right up
-		if ( inputMngr->KeyUpFirstTime( KeyCode::MOUSE_RIGHT ) ) {
+			if ( mouseRightDown ) {
+				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_RIGHT, ray );
+			}
 
+			if ( mouseRightUp ) {
+				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_RIGHT, ray );
+			}
 		}
 	}
 }

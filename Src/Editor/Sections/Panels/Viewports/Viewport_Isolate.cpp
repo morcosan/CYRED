@@ -99,7 +99,7 @@ void Viewport_Isolate::_OnFinalize()
 }
 
 
-void Viewport_Isolate::_OnUpdate()
+void Viewport_Isolate::_OnUpdate( bool isRuntime )
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 

@@ -2,6 +2,7 @@
     "uid": "ecZy1L9FXgFFhALD2Rv9hnxmUgWVCcwa",
     "root": {
         "name": "Player",
+        "tag": "",
         "enabled": true,
         "components": {
             "transform": {
@@ -26,6 +27,7 @@
         "child_nodes": [
             {
                 "name": "Center",
+                "tag": "",
                 "enabled": true,
                 "components": {
                     "transform": {

@@ -42,11 +42,9 @@ namespace CYRED
 
 
 	public:
-		/* initializes the panel; must be called once before all else */
-		virtual void Initialize	() PURE_VIRTUAL;
-		/* finalizes the panel; must be called once before finalizing engine */
-		virtual void Finalize	() PURE_VIRTUAL;
-		virtual void Update		() {};
+		virtual void Initialize	()					PURE_VIRTUAL;
+		virtual void Finalize	()					PURE_VIRTUAL;
+		virtual void Update		( bool isRuntime ) {};
 
 
 	public:

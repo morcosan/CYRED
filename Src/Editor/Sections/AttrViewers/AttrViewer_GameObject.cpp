@@ -43,9 +43,12 @@ void AttrViewer_GameObject::_UpdateGUI()
 
 void AttrViewer_GameObject::_UpdateTarget()
 {
+	// special event for rename
+	++_ignoreUpdateGUI;
+	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
+
 	_target->SetEmitEvents( FALSE );
 	{
-		_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 		_target->SetTag( _ReadAttrString( ATTR_TAG ).GetChar() );
 		_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}

@@ -47,6 +47,16 @@ void Viewport_Scene::OnEvent( int eventType, void* eventData )
 			}
 			break;
 
+		case EventType::GAMEOBJECT_DELETE:
+		{
+			GameObject* gameObject = CAST_S( GameObject*, eventData );
+			if ( _selectedGO == gameObject ) {
+				// deselect
+				_selectedGO = NULL;
+			}
+			break;
+		}
+
 		case EditorEventType::ASSET_SELECT:
 		case EditorEventType::PREFAB_SELECT:
 		case EditorEventType::SCENE_SELECT:
@@ -88,7 +98,7 @@ void Viewport_Scene::_OnFinalize()
 }
 
 
-void Viewport_Scene::_OnUpdate()
+void Viewport_Scene::_OnUpdate( bool isRuntime )
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 

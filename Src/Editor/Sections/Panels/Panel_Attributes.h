@@ -49,9 +49,9 @@ namespace CYRED
 
 
 	public:
-		void Initialize	()	override;
-		void Finalize	()	override;
-		void Update		()	override;
+		void Initialize	()									override;
+		void Finalize	()									override;
+		void Update		( bool isRuntime )					override;
 		void OnEvent	( int eventType, void* eventData )	override;
 
 

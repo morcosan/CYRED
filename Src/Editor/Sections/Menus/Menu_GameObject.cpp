@@ -230,14 +230,15 @@ void Menu_GameObject::A_Duplicate()
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	if ( treeItem->node != NULL ) {
 		// create gameobject
-		GameObject* clone = _CreateGameObject( treeItem->node->GetParentNode() );
+		GameObject* newObject = _CreateGameObject( treeItem->node->GetParentNode() );
 		// do the cloning
-		CAST_S(GameObject*, treeItem->node)->Clone( clone );
+		CAST_S(GameObject*, treeItem->node)->Clone( newObject );
 		// update name
-		clone->SetName( treeItem->node->GetName() );
+		newObject->SetName( treeItem->node->GetName() );
 
 		// select object
-		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, clone );
+		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
+		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 	}
 }
 
@@ -248,9 +249,14 @@ void Menu_GameObject::A_Delete()
 	ASSERT( treeItem->node != NULL );
 
 	// destroy object
-	_DestroyGameObject( CAST_S( GameObject*, treeItem->node ) );
+	GameObject* gameObject = CAST_S( GameObject*, treeItem->node );
+	if ( gameObject != NULL ) {
+		gameObject->SetParentNode( NULL );
+		PTR_FREE( gameObject );
+	}
 
 	// unselect object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, NULL );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 }
 
@@ -520,13 +526,4 @@ GameObject* Menu_GameObject::_CreateGameObject( Node* parentNode )
 	newObject->SetParentNode( parentNode );
 
 	return newObject;
-}
-
-
-void Menu_GameObject::_DestroyGameObject( GameObject* gameObject )
-{
-	if ( gameObject != NULL ) {
-		gameObject->SetParentNode( NULL );
-		PTR_FREE( gameObject );
-	}
 }

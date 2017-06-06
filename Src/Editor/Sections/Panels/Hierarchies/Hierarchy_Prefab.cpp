@@ -72,6 +72,19 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 			break;
 		}
 
+		case EventType::GAMEOBJECT_CREATE:
+		case EventType::GAMEOBJECT_DELETE:
+		{
+			// check state
+			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);
+			// update 
+			_ResetHierarchy();
+			// change color
+			UpdateNeedsSave( !wasEmpty );
+
+			break;
+		}
+
 		case EventType::COMPONENT_UPDATE:
 		case EventType::COMPONENT_ADD:
 		case EventType::COMPONENT_REMOVE:

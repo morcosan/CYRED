@@ -41,6 +41,8 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 {
 	switch ( eventType ) {
 		case EventType::SCENE_UPDATE:
+		case EventType::GAMEOBJECT_CREATE:
+		case EventType::GAMEOBJECT_DELETE:
 		{
 			// check state
 			bool wasEmpty = (_qtTree->topLevelItemCount() == 0);

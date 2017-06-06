@@ -56,6 +56,12 @@ void Hierarchy_Isolate::OnEvent( int eventType, void* eventData )
 			_ResetHierarchy();
 			break;
 
+		case EventType::GAMEOBJECT_CREATE:
+		case EventType::GAMEOBJECT_DELETE:
+			// update 
+			_ResetHierarchy();
+			break;
+
 		case EventType::SCENE_CLOSE:
 			if ( _openEventType == EditorEventType::ISOLATE_OPEN_SCENE ) {
 				_target = NULL;

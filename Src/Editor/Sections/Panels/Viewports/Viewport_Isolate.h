@@ -30,10 +30,10 @@ namespace CYRED
 
 
 	private:
-		virtual cchar*	_GetPanelTitle	() override;
-		virtual void	_OnInitialize	() override;
-		virtual void	_OnFinalize		() override;
-		virtual void	_OnUpdate		() override;
+		virtual cchar*	_GetPanelTitle	()					override;
+		virtual void	_OnInitialize	()					override;
+		virtual void	_OnFinalize		()					override;
+		virtual void	_OnUpdate		( bool isRuntime )	override;
 
 
 	private:

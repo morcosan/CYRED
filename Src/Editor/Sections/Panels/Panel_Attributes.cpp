@@ -117,7 +117,7 @@ void Panel_Attributes::Finalize()
 }
 
 
-void Panel_Attributes::Update()
+void Panel_Attributes::Update( bool isRuntime )
 {
 	ASSERT( _isInitialized );
 

@@ -40,6 +40,60 @@ void Vector4::operator=( const Vector4& other )
 }
 
 
+void Vector4::operator*=( const Vector4& other )
+{
+	x *= other.x;
+	y *= other.y;
+	z *= other.z;
+	w *= other.w;
+}
+
+
+void Vector4::operator*=( float value )
+{
+	x *= value;
+	y *= value;
+	z *= value;
+	w *= value;
+}
+
+
+void Vector4::operator/=( const Vector4& other )
+{
+	x /= other.x;
+	y /= other.y;
+	z /= other.z;
+	w /= other.w;
+}
+
+
+void Vector4::operator/=( float value )
+{
+	x /= value;
+	y /= value;
+	z /= value;
+	w /= value;
+}
+
+
+void Vector4::operator+=( const Vector4& other )
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+	w += other.w;
+}
+
+
+void Vector4::operator-=( const Vector4& other )
+{
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
+	w -= other.w;
+}
+
+
 bool Vector4::operator==( const Vector4& other ) const
 {
 	glm::vec4 vec_self( x, y, z, w );

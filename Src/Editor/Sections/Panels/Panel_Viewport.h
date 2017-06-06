@@ -32,9 +32,9 @@ namespace CYRED
 
 
 	public:
-		void Initialize			() override;
-		void Finalize			() override;
-		void Update				() override;
+		void Initialize			()					override;
+		void Finalize			()					override;
+		void Update				( bool isRuntime )	override;
 
 
 	public:
@@ -51,10 +51,10 @@ namespace CYRED
 
 
 	private:
-		virtual cchar*	_GetPanelTitle	() PURE_VIRTUAL;
-		virtual void	_OnInitialize	() PURE_VIRTUAL;
-		virtual void	_OnFinalize		() PURE_VIRTUAL;
-		virtual void	_OnUpdate		() PURE_VIRTUAL;
+		virtual cchar*	_GetPanelTitle	()					PURE_VIRTUAL;
+		virtual void	_OnInitialize	()					PURE_VIRTUAL;
+		virtual void	_OnFinalize		()					PURE_VIRTUAL;
+		virtual void	_OnUpdate		( bool isRuntime )	PURE_VIRTUAL;
 
 
 	protected:

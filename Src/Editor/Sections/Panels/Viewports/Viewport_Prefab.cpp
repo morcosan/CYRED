@@ -85,7 +85,7 @@ void Viewport_Prefab::_OnFinalize()
 }
 
 
-void Viewport_Prefab::_OnUpdate()
+void Viewport_Prefab::_OnUpdate( bool isRuntime )
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
 
