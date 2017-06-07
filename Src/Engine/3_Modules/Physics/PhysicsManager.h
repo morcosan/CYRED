@@ -9,11 +9,12 @@ namespace CYRED
 {
 	class GameObject;
 	class RigidBody;
+	class Scripter;
 
 	struct Ray
 	{
-		Vector3 origin;
-		Vector3 direction;
+		Vector3 start;
+		Vector3 end;
 	};
 }
 
@@ -26,11 +27,10 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize		()								PURE_VIRTUAL;
-		virtual void Finalize		()								PURE_VIRTUAL;
-		virtual void Update			()								PURE_VIRTUAL;
+		virtual void		Initialize			()					PURE_VIRTUAL;
+		virtual void		Finalize			()					PURE_VIRTUAL;
+		virtual void		Update				()					PURE_VIRTUAL;
 
-		virtual void ApplyMouseDown	( int button, const Ray& ray )	PURE_VIRTUAL;
-		virtual void ApplyMouseUp	( int button, const Ray& ray )	PURE_VIRTUAL;
+		virtual Scripter*	RaycastFirstTarget	( const Ray& ray )	PURE_VIRTUAL;
 	};
 }

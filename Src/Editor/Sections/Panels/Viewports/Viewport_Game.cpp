@@ -8,6 +8,7 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Input.h"
 #include "CyredModule_Physics.h"
+#include "CyredModule_Script.h"
 
 
 using namespace CYRED;
@@ -163,7 +164,6 @@ void Viewport_Game::_RecCollectLights( Node* root, DataArray<GameObject*>& light
 void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 {
 	InputManager* inputMngr		= InputManager::Singleton();
-	PhysicsManager* physicsMngr = PhysicsManager::Singleton();
 
 	// check target window
 	int targetWindow = inputMngr->GetWindowForMouse();
@@ -186,7 +186,6 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 
 			// calculate ray
 			Ray ray;
-			ray.origin = cameraTran->GetPositionWorld();
 
 			// transform viewport coords to world coords
 			Vector4 rayStartNDC = Vector4(
@@ -209,35 +208,36 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 			Vector4 rayEndWorld = mat * rayEndNDC ;
 			rayEndWorld /= rayEndWorld.w;
 
-			// calculate ray direction
-			Vector4 rayDir = rayEndWorld - rayStartWorld;
-			ray.direction = Vector3::Normalize( Vector3( rayDir.x, rayDir.y, rayDir.z ) );
-
-
 			// do raycasting
+			ray.start	= Vector3( rayStartWorld.x, rayStartWorld.y, rayStartWorld.z );
+			ray.end		= Vector3( rayEndWorld.x, rayEndWorld.y, rayEndWorld.z );
+			Scripter* scripter = PhysicsManager::Singleton()->RaycastFirstTarget( ray );
 
-			if ( mouseLeftDown ) {
-				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_LEFT, ray );
-			}
+			// call script API
+			if ( scripter != NULL ) {
+				if ( mouseLeftDown ) {
+					scripter->OnMouseDown( KeyCode::MOUSE_LEFT );
+				}
 
-			if ( mouseLeftUp ) {
-				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_LEFT, ray );
-			}
+				if ( mouseLeftUp ) {
+					scripter->OnMouseUp( KeyCode::MOUSE_LEFT );
+				}
 
-			if ( mouseMiddleDown ) {
-				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_MIDDLE, ray );
-			}
+				if ( mouseMiddleDown ) {
+					scripter->OnMouseDown( KeyCode::MOUSE_MIDDLE );
+				}
 
-			if ( mouseMiddleUp ) {
-				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_MIDDLE, ray );
-			}
+				if ( mouseMiddleUp ) {
+					scripter->OnMouseUp( KeyCode::MOUSE_MIDDLE );
+				}
 
-			if ( mouseRightDown ) {
-				physicsMngr->ApplyMouseDown( KeyCode::MOUSE_RIGHT, ray );
-			}
+				if ( mouseRightDown ) {
+					scripter->OnMouseDown( KeyCode::MOUSE_RIGHT );
+				}
 
-			if ( mouseRightUp ) {
-				physicsMngr->ApplyMouseUp( KeyCode::MOUSE_RIGHT, ray );
+				if ( mouseRightUp ) {
+					scripter->OnMouseUp( KeyCode::MOUSE_RIGHT );
+				}
 			}
 		}
 	}

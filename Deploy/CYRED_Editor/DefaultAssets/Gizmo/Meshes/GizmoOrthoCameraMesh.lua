@@ -1,17 +1,21 @@
 -- add vertices
 MESH:ClearVertices()
 
-local color = Vector4( 0.5, 0.5, 1, 1 )
+local color 	= Vector4( 0.5, 0.5, 1, 1 )
+local normal 	= Vector3( 0, 0, 0 )
+local uv 		= Vector2( 0, 0 )
+local tan 		= Vector3( 0, 0, 0 )
+local bitan 	= Vector3( 0, 0, 0 )
 
-MESH:AddVertex( Vertex( Vector3(-1, -1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1, -1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1,  1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3(-1,  1, -1), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3(-0.5, -0.5, -1), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3( 0.5, -0.5, -1), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3( 0.5,  0.5, -1), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3(-0.5,  0.5, -1), color, normal, uv, tan, bitan ) )
 
-MESH:AddVertex( Vertex( Vector3(-1, -1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1, -1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3( 1,  1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
-MESH:AddVertex( Vertex( Vector3(-1,  1, 0), color, Vector3(0,0,0), Vector2(0, 0), Vector3(0,0,0), Vector3(0,0,0)) )
+MESH:AddVertex( Vertex( Vector3(-0.5, -0.5, 0), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3( 0.5, -0.5, 0), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3( 0.5,  0.5, 0), color, normal, uv, tan, bitan ) )
+MESH:AddVertex( Vertex( Vector3(-0.5,  0.5, 0), color, normal, uv, tan, bitan ) )
 
 
 -- add indices

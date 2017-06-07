@@ -11,7 +11,7 @@
 using namespace CYRED;
 
 
-const float Math::INF		= INFINITY;
+const float Math::INF		= FLT_MAX;
 const float Math::PI		= glm::pi<float>();
 const float Math::HALF_PI	= glm::pi<float>() / 2;
 

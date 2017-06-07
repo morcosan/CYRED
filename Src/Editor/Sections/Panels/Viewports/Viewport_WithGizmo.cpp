@@ -199,6 +199,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial radius is 1
 						float range = light->GetRange();
 						rootTran->SetScaleWorld( Vector3( range, range, range ) );
 					}
@@ -233,6 +234,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial size (1, 1, 1)
 						float tan = Math::Tan( Math::ToRadians( light->GetSpotAngle() / 2 ) );
 						float range = light->GetRange();
 						float scaleBase = range * tan;
@@ -255,6 +257,10 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial size (1, 1, 1)
+						Vector2 orthoSize = camera->GetOrthoSize();
+						Vector3 scale = Vector3( orthoSize.x, orthoSize.y, camera->GetFarClipping() );
+						rootTran->SetScaleWorld( scale );
 					}
 					rootTran->SetEmitEvents( TRUE );
 
@@ -271,6 +277,9 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+						// assume initial size (1, 1, 1)
+						Vector3 scale = Vector3( 1, 1, camera->GetFarClipping() );
+						rootTran->SetScaleWorld( scale );
 					}
 					rootTran->SetEmitEvents( TRUE );
 
@@ -312,7 +321,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 						Vector3 scale = transform->GetScaleWorld() * rigidBody->GetShapeSize() / 0.5f;
 						// get highest scale value
 						float maxScale = (scale.x < scale.y) ? ((scale.y < scale.z) ? scale.z : scale.y) 
-							: ((scale.x < scale.z) ? scale.z : scale.x);
+															 : ((scale.x < scale.z) ? scale.z : scale.x);
 						rootTran->SetScaleWorld( Vector3( maxScale, maxScale, maxScale ) );
 					}
 					rootTran->SetEmitEvents( TRUE );

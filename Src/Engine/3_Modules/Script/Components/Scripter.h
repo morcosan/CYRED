@@ -36,6 +36,8 @@ namespace CYRED
 
 	public:
 		void	OnCollision		( GameObject* other, bool isTrigger );
+		void	OnMouseDown		( int button );
+		void	OnMouseUp		( int button );
 
 		Script* GetScript		( int index )	const;
 		int		GetScriptsCount	()				const;

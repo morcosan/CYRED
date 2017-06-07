@@ -33,6 +33,8 @@ namespace CYRED
 		static cchar* const FUNC_ON_UPDATE;
 		static cchar* const FUNC_ON_COLLISION_ENTER;
 		static cchar* const FUNC_ON_COLLISION_EXIT;
+		static cchar* const FUNC_ON_MOUSE_DOWN;
+		static cchar* const FUNC_ON_MOUSE_UP;
 												
 		static cchar* const GLOBAL_VARS;
 		static cchar* const GLOBAL_GAMEOBJECT;

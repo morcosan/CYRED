@@ -1,13 +1,11 @@
 
 
 function OnMouseDown( button )
-	print( "down" )
-	print( button )
+	print( "down " .. button .. "  " .. GAMEOBJECT.name )
 end
 
 
 function OnMouseUp( button )
-	print( "up" )
-	print( button )
+	print( "up " .. button .. "  " .. GAMEOBJECT.name )
 end
 

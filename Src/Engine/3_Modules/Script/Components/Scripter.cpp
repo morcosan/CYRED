@@ -104,6 +104,28 @@ void Scripter::OnCollision( GameObject* other, bool isTrigger )
 }
 
 
+void Scripter::OnMouseDown( int button )
+{
+	// call script API
+	for ( int i = 0; i < _scripts.Size(); i++ ) {
+		if ( _scripts[i] != NULL ) {
+			_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_DOWN, _gameObject, button );
+		}
+	}
+}
+
+
+void Scripter::OnMouseUp( int button )
+{
+	// call script API
+	for ( int i = 0; i < _scripts.Size(); i++ ) {
+		if ( _scripts[i] != NULL ) {
+			_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_UP, _gameObject, button );
+		}
+	}
+}
+
+
 Script* Scripter::GetScript( int index ) const
 {
 	ASSERT( index < _scripts.Size() );

@@ -17,6 +17,8 @@ cchar* const Script::FUNC_ON_START				= "OnStart";
 cchar* const Script::FUNC_ON_UPDATE				= "OnUpdate";
 cchar* const Script::FUNC_ON_COLLISION_ENTER	= "OnCollisionEnter";
 cchar* const Script::FUNC_ON_COLLISION_EXIT		= "OnCollisionExit";
+cchar* const Script::FUNC_ON_MOUSE_DOWN			= "OnMouseDown";
+cchar* const Script::FUNC_ON_MOUSE_UP			= "OnMouseUp";
 
 cchar* const Script::GLOBAL_VARS				= "VARS";
 cchar* const Script::GLOBAL_GAMEOBJECT			= "GAMEOBJECT";
@@ -299,6 +301,8 @@ void Script::_LoadLuaData( cchar* luaData )
 				_AddLuaFunc( FUNC_ON_UPDATE );
 				_AddLuaFunc( FUNC_ON_COLLISION_ENTER );
 				_AddLuaFunc( FUNC_ON_COLLISION_EXIT );
+				_AddLuaFunc( FUNC_ON_MOUSE_DOWN );
+				_AddLuaFunc( FUNC_ON_MOUSE_UP );
 
 				// load variables
 				_LoadLuaVars();

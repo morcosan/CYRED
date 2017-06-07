@@ -159,14 +159,26 @@ void PhysicsManagerImpl::Update()
 	}
 }
 
-
-void PhysicsManagerImpl::ApplyMouseDown( int button, const Ray& ray )
+Scripter* PhysicsManagerImpl::RaycastFirstTarget( const Ray& ray )
 {
-}
+	// do raycasting
+	btVector3 start = btVector3( ray.start.x, ray.start.y, ray.start.z );
+	btVector3 end	= btVector3( ray.end.x, ray.end.y, ray.end.z );
+	btCollisionWorld::ClosestRayResultCallback rayCallback( start, end );
+	_dynamicsWorld->rayTest( start, end, rayCallback );
 
+	// test result
+	if ( rayCallback.hasHit() ) {
+		// get physics body
+		const btRigidBody* physicsBody = CAST_S( const btRigidBody*, rayCallback.m_collisionObject );
+		// get scripter
+		_ScripterData data = _scripters.Get( physicsBody );
+		// return scripter
+		return data.scripter;
+	}
 
-void PhysicsManagerImpl::ApplyMouseUp( int button, const Ray& ray )
-{
+	// no hit
+	return NULL;
 }
 
 

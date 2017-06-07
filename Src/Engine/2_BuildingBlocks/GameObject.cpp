@@ -64,14 +64,16 @@ void GameObject::OnHierarchyChange()
 
 void GameObject::OnUpdate( bool isRuntime )
 {
-	// update components
-	for ( int i = 0; i < _components.Size(); ++i ) {
-		_components[i]->OnUpdate( isRuntime );
-	}
+	if ( _isEnabled ) {
+		// update components
+		for ( int i = 0; i < _components.Size(); ++i ) {
+			_components[i]->OnUpdate( isRuntime );
+		}
 
-	// update child gameobjects
-	for ( int i = 0; i < _childNodes.Size(); ++i ) {
-		_childNodes[i]->OnUpdate( isRuntime );
+		// update child gameobjects
+		for ( int i = 0; i < _childNodes.Size(); ++i ) {
+			_childNodes[i]->OnUpdate( isRuntime );
+		}
 	}
 }
 
