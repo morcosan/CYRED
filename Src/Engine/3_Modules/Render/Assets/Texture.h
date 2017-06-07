@@ -45,35 +45,34 @@ namespace CYRED
 
 
 	public:
-		void		LoadUniqueID	() override;
-		void		LoadFullFile	() override;
-		void		ClearAsset		() override;
-		Asset*		Clone			() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 		cchar*	GetExtension	() override;
 
 
 	public:
-		//! must be called in order for texture to work
 		void			BindToGPU				();
 	
-		int			GetTextureID			()				const;
+		int				GetTextureID			()				const;
 		TextureType		GetTextureType			()				const;
 		TextureLoadType	GetLoadType				()				const;
 		bool			HasMipmap				()				const;
 		bool			DoesClearBufferOnBind	()				const;
 		uchar*			GetImageBuffer			( int index )	const;
-		cchar*		GetImagePath			( int index )	const;
+		cchar*			GetImagePath			( int index )	const;
 
-		void SetTextureType			( TextureType type );
-		void SetLoadType			( TextureLoadType type );
-		void SetHasMipmap			( bool value );
-		void SetClearBufferOnBind	( bool value );
-		void SetImageBuffer			( int index, uchar* buffer );
-		void SetImagePath			( int index, cchar* path );
+		void			SetTextureType			( TextureType type );
+		void			SetLoadType				( TextureLoadType type );
+		void			SetHasMipmap			( bool value );
+		void			SetClearBufferOnBind	( bool value );
+		void			SetImageBuffer			( int index, uchar* buffer );
+		void			SetImagePath			( int index, cchar* path );
 
 		//script API
-		void SetImageData	( int bufferIndex, int width, int height, int channels );
-		void SetPixel		( int bufferIndex, int pixelIndex, uchar pixelValue );
+		void			SetImageData			( int bufferIndex, int width, int height, int channels );
+		void			SetPixel				( int bufferIndex, int pixelIndex, uchar pixelValue );
 
 
 	private:

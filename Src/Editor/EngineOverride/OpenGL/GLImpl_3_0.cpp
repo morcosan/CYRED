@@ -384,6 +384,7 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 		case GLTexInternal::RGBA32F:			glInternalformat = GL_RGBA32F;				break;
 		case GLTexInternal::DEPTH_COMPONENT16:	glInternalformat = GL_DEPTH_COMPONENT16;	break;
 		case GLTexInternal::LUMINANCE:			glInternalformat = GL_LUMINANCE;			break;
+		case GLTexInternal::RED:				glInternalformat = GL_RED;					break;
 	}
 
 	switch ( format ) {
@@ -391,6 +392,7 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 		case GLTexFormat::RGBA:				glFormat = GL_RGBA;				break;		
 		case GLTexFormat::DEPTH_COMPONENT:	glFormat = GL_DEPTH_COMPONENT;	break;
 		case GLTexFormat::LUMINANCE:		glFormat = GL_LUMINANCE;		break;
+		case GLTexFormat::RED:				glFormat = GL_RED;				break;
 	}
 
 	switch ( type )	{

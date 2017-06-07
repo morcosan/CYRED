@@ -71,7 +71,20 @@ void Font::LoadFullFile()
 
 void Font::ClearAsset()
 {
+	NonAPI::RenderManagerImpl* renderMngr = NonAPI::RenderManagerImpl::Singleton();
+
 	_isTemporary = TRUE;
+
+	// delete font chars
+	Iterator<char, FontChar*>& iter = _fontChars.GetIterator();
+	while ( iter.HasNext() ) {
+		// clear textures
+		renderMngr->DeleteTexture( iter.GetValue()->textureID );
+		// next
+		iter.Next();
+	}
+	// clear list
+	_fontChars.Clear();
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
@@ -101,14 +114,29 @@ void Font::BindToGPU()
 
 	// create freetype face
 	if ( _externalPath.GetLength() > 0 ) {
-		renderMngr->CreateFreeTypeFace( _externalPath.GetChar(), _freetypeFace );
+		FiniteString filePath( "%s%s", _dirPath.GetChar(), _externalPath.GetChar() );
+		renderMngr->CreateFreeTypeFace( filePath.GetChar(), _freetypeFace );
 	}
+
+	// update font chars
+	renderMngr->CreateFontChars( _freetypeFace, _fontChars );
 }
 
 
 cchar* Font::GetExternalPath() const
 {
 	return _externalPath.GetChar();
+}
+
+
+FontChar* Font::GetFontChar( char c ) const
+{
+	if ( _fontChars.Has( c ) ) {
+		return _fontChars.Get( c );
+	}
+
+	// not found
+	return NULL;
 }
 
 

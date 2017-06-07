@@ -27,8 +27,8 @@ void MenuBar::Initialize()
 	_AddMenu_Project();
 
 	// TODO
-	QMenu* menu = this->addMenu( "MAGIC" );
-	QObject::connect( menu->addAction( "MAGIC" ), &QAction::triggered, this, &MenuBar::A_Magic );
+	QMenu* menu = this->addMenu( "DEBUG" );
+	QObject::connect( menu->addAction( "Do it!" ), &QAction::triggered, this, &MenuBar::A_Magic );
 
 }
 

@@ -10,6 +10,7 @@
 #include "../3_Modules/Render/Components/MeshRendering.h"
 #include "../3_Modules/Render/Components/MorphRendering.h"
 #include "../3_Modules/Render/Components/ParticleEmitter.h"
+#include "../3_Modules/Render/Components/Text3D.h"
 
 #include "../3_Modules/Render/Assets/Material.h"
 #include "../3_Modules/Render/Assets/Mesh.h"

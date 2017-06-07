@@ -4,13 +4,11 @@
 #include "RenderManagerImpl.h"
 
 #include "../../2_BuildingBlocks/String/FiniteString.h"
-
 #include "OpenGL\GL.h"
 #include "OpenGL\GLContext.h"
-
 #include "Renderers\ForwardRenderer.h"
 #include "Renderers\PickingRenderer.h"
-
+#include "Assets\Font.h"
 #include "../Debug/DebugManager.h"
 
 #include "FreeType\Include\ft2build.h"
@@ -343,6 +341,7 @@ void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo,
 		return;
 	}
 
+
 	if ( vbo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &vbo );
 	}
@@ -350,12 +349,14 @@ void RenderManagerImpl::CreateMeshBuffers( OUT uint& vbo, OUT uint& ibo,
 	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(Vertex) * vertices.Size(), vertices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
+
 	if ( ibo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
 	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.Size(), indices.Data(), 
 					 GLDrawType::STATIC_DRAW );
+
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
@@ -371,6 +372,7 @@ void RenderManagerImpl::CreateMorphBuffers( OUT uint& vbo, OUT uint& ibo,
 		return;
 	}
 
+
 	if ( vbo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &vbo );
 	}
@@ -378,12 +380,14 @@ void RenderManagerImpl::CreateMorphBuffers( OUT uint& vbo, OUT uint& ibo,
 	_gl->BufferData( GLBuffer::ARRAY_BUFFER, sizeof(MorphVertex) * vertices.Size(), vertices.Data(), 
 					 GLDrawType::STATIC_DRAW );
 
+
 	if ( ibo == EMPTY_BUFFER ) {
 		_gl->GenBuffers( 1, &ibo );
 	}
     _gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, ibo );
 	_gl->BufferData( GLBuffer::ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.Size(), indices.Data(), 
 					 GLDrawType::STATIC_DRAW );
+
 
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
@@ -706,10 +710,64 @@ void RenderManagerImpl::CalculateTanBitangents( DataArray<Vertex>& vertices, Dat
 
 void RenderManagerImpl::CreateFreeTypeFace( cchar* fontPath, OUT FT_Face& freetypeFace )
 {
+	ASSERT( _isInitialized );
+
 	// load font and create freetype face
 	if ( FT_New_Face( _freetypeLib, fontPath, 0, &freetypeFace ) ) {
 		FiniteString error( "Could not load font: %s", fontPath );
 		DebugManager::Singleton()->Error( error.GetChar() );
+	}
+}
+
+
+void RenderManagerImpl::CreateFontChars( FT_Face freetypeFace, 
+										 OUT DataMap<char, FontChar*>& fontChars )
+{
+	ASSERT( _isInitialized );
+
+	FT_Set_Pixel_Sizes( freetypeFace, 0, 48 ); 
+
+	// create the first 128 chars
+	for ( uchar c = 0; c < 128; c++ ) {
+		// load character glyph 
+		if ( FT_Load_Char( freetypeFace, c, FT_LOAD_RENDER) ) {
+			FiniteString error( "Could not load Glyph %c", c );
+			DebugManager::Singleton()->Error( error.GetChar() );
+			continue;
+		}
+
+		// create font char
+		FontChar* fontChar = NULL;
+		if ( fontChars.Has( c ) ) {
+			fontChar = fontChars.Get( c );
+		}
+		else {
+			fontChar = new FontChar();
+			fontChar->textureID = INVALID_TEXTURE;
+			fontChars.Set( c, fontChar );
+		}
+		// set data
+		fontChar->width		= freetypeFace->glyph->bitmap.width;
+		fontChar->height	= freetypeFace->glyph->bitmap.rows;
+		fontChar->bearingX	= freetypeFace->glyph->bitmap_left;
+		fontChar->bearingY	= freetypeFace->glyph->bitmap_top;
+		fontChar->advance	= freetypeFace->glyph->advance.x;
+
+		// create texture
+		if ( fontChar->textureID == INVALID_TEXTURE )	{
+			_gl->GenTextures( 1, &fontChar->textureID );
+		}
+		_gl->BindTexture( GLTexture::TEXTURE_2D, fontChar->textureID );
+
+		_gl->PixelStorei( GLAlignType::UNPACK_ALIGNMENT, GLAlignValue::VALUE_1 );
+		_gl->TexImage2D( GLTextureImage::TEXTURE_2D, 0, GLTexInternal::RED, 
+						 fontChar->width, fontChar->height, 0, GLTexFormat::RED, 
+						 GLVarType::UNSIGNED_BYTE, freetypeFace->glyph->bitmap.buffer );
+
+		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_S, GLTexParamValue::CLAMP_TO_EDGE );
+		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T, GLTexParamValue::CLAMP_TO_EDGE );
+		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR );
+		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR );
 	}
 }
 

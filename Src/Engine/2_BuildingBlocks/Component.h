@@ -21,6 +21,7 @@ namespace CYRED
 			, PARTICLE_EMITTER
 			, SCRIPTER
 			, RIGID_BODY
+			, TEXT_3D
 		};
 	}
 	typedef	Enum_ComponentType::Enum	ComponentType;

@@ -46,6 +46,7 @@ namespace CYRED
 			, RGBA
 			, DEPTH_COMPONENT
 			, LUMINANCE
+			, RED
 		};
 	}
 	namespace Enum_GLTexInternal
@@ -57,6 +58,7 @@ namespace CYRED
 			, RGBA32F
 			, DEPTH_COMPONENT16
 			, LUMINANCE
+			, RED
 		};
 	}
 	namespace Enum_GLTexture

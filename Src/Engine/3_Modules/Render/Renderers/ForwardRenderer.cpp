@@ -12,12 +12,14 @@
 #include "../Components/MeshRendering.h"
 #include "../Components/MorphRendering.h"
 #include "../Components/ParticleEmitter.h"
+#include "../Components/Text3D.h"
 
 #include "../Assets/Material.h"
 #include "../Assets/Mesh.h"
 #include "../Assets/Morph.h"
 #include "../Assets/Shader.h"
 #include "../Assets/Texture.h"
+#include "../Assets/Font.h"
 
 #include "../OpenGL/GL.h"
 #include "../OpenGL/Uniform.h"
@@ -30,12 +32,6 @@
 
 using namespace CYRED;
 using namespace NonAPI;
-
-
-
-ForwardRenderer::~ForwardRenderer()
-{
-}
 
 
 /*****
@@ -117,6 +113,7 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 			case ComponentType::MESH_RENDERING:		_RecRenderMesh( targetGO, lightsGO );	break;
 			case ComponentType::MORPH_RENDERING:	_RecRenderMorph( targetGO, lightsGO );	break;
 			case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( targetGO );		break;
+			case ComponentType::TEXT_3D:			_RecRenderText3D( targetGO );			break;
 		}
 	}
 	else {
@@ -127,6 +124,7 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject, lightsGO );		break;
 				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject, lightsGO );	break;
 				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );			break;
+				case ComponentType::TEXT_3D:			_RecRenderText3D( targetGO );				break;
 			}
 		}
 	}
@@ -564,6 +562,78 @@ void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, EMPTY_BUFFER );
+	_gl->UseProgram( EMPTY_SHADER );
+}
+
+
+void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
+{
+	if ( !gameObject->IsEnabled() ) {
+		return;
+	}
+
+	// render children
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+		_RecRenderText3D( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+	}
+
+	Text3D*		text3D	= gameObject->GetComponent<Text3D>();
+	Transform*	objTran	= gameObject->GetComponent<Transform>();
+	if ( text3D == NULL || objTran == NULL || !text3D->IsEnabled() || !objTran->IsEnabled() ) {
+		return;
+	}
+
+	Font*	font	= text3D->GetFont();
+	Shader* shader	= text3D->GetShader();
+	if ( font == NULL || shader == NULL ) {
+		return;
+	}
+
+	int shaderProgram = shader->GetProgramID();
+	if ( shaderProgram == INVALID_SHADER ) {
+		return;
+	}
+
+	// add shader
+	_gl->UseProgram( shaderProgram );
+
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
+
+
+	// bind vertex data
+	_gl->EnableVertexAttribArray( 0 );
+	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
+		(const void*) (offsetof(Vertex, position)) );
+	_gl->EnableVertexAttribArray( 3 );
+	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
+		(const void*) (offsetof(Vertex, uv)) );
+
+
+	// bind main 3 matrix
+	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+	int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+	int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
+
+	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
+	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
+	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+
+	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
+
+
+	// bind material
+	_BindMaterial( material );
+
+
+	// draw
+	_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
+
+	// unbind all
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
 }
 

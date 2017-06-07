@@ -5,9 +5,24 @@
 #include "../../../1_Required/Required.h"
 #include "../../../2_BuildingBlocks/Asset.h"
 #include "../../../2_BuildingBlocks/String/String.h"
+#include "../../../2_BuildingBlocks/Data/DataMap.h"
 
 struct FT_FaceRec_;
 typedef struct FT_FaceRec_* FT_Face;
+
+namespace CYRED
+{
+	struct FontChar
+	{
+		uint	textureID;
+		int		width;
+		int		height;
+		int		bearingX;
+		int		bearingY;
+		int		advance;
+	};
+}
+
 
 namespace CYRED
 {
@@ -27,15 +42,17 @@ namespace CYRED
 
 
 	public:
-		void	BindToGPU		();
+		void		BindToGPU		();
 
-		cchar*	GetExternalPath	() const;
+		cchar*		GetExternalPath	() const;
+		FontChar*	GetFontChar		( char c ) const;
 
-		void	SetExternalPath	( cchar* filePath );
+		void		SetExternalPath	( cchar* filePath );
 
 
 	private:
-		String	_externalPath;
-		FT_Face	_freetypeFace;
+		String						_externalPath;
+		FT_Face						_freetypeFace;
+		DataMap<char, FontChar*>	_fontChars;
 	};
 }
