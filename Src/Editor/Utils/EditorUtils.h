@@ -22,6 +22,7 @@ namespace CYRED
 		static cchar* const	ICON_SHADER;
 		static cchar* const	ICON_SCRIPT;
 		static cchar* const	ICON_PREFAB;
+		static cchar* const	ICON_FONT;
 		static cchar* const	ICON_UNKNOWN;
 		static cchar* const	ICON_LOG_INFO;
 		static cchar* const	ICON_LOG_ERROR;
@@ -42,6 +43,7 @@ namespace CYRED
 		static cchar* const	NAME_SCRIPT;
 		static cchar* const	NAME_SCENE;
 		static cchar* const	NAME_PREFAB;
+		static cchar* const	NAME_FONT;
 
 
 	public:

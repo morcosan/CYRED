@@ -8,6 +8,7 @@
 #include "../Render/Assets/Mesh.h"
 #include "../Render/Assets/Morph.h"
 #include "../Render/Assets/Shader.h"
+#include "../Render/Assets/Font.h"
 #include "../Scene/Sections/Scene.h"
 #include "../Script/Assets/Script.h"
 #include "../Asset/Assets/Prefab.h"
@@ -89,177 +90,197 @@ void AssetManagerImpl::ClearAll()
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddMesh( Mesh* mesh )
+StatusAssetAdd AssetManagerImpl::AddMesh( Mesh* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( mesh->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Mesh* found = GetMesh( mesh->GetUniqueID() );
+	Mesh* found = GetMesh( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_meshes.Add( mesh );
+	_meshes.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
-StatusAssetAdd AssetManagerImpl::AddMorph( Morph* morph )
+StatusAssetAdd AssetManagerImpl::AddMorph( Morph* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( morph->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Mesh* found = GetMesh( morph->GetUniqueID() );
+	Mesh* found = GetMesh( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_morphs.Add( morph );
-
-	return StatusAssetAdd::SUCCESS;
-}
-
-
-StatusAssetAdd AssetManagerImpl::AddMaterial( Material* material )
-{
-	ASSERT( _isInitialized );
-
-	bool isOk = Random::ValidateUniqueID( material->GetUniqueID() );
-	if ( !isOk ) {
-		return StatusAssetAdd::FAIL_INVALID_ID;
-	}
-
-	Material* found = GetMaterial( material->GetUniqueID() );
-	if ( found != NULL ) {
-		return StatusAssetAdd::FAIL_EXISTING;
-	}
-
-	_materials.Add( material );
+	_morphs.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddShader( Shader* shader )
+StatusAssetAdd AssetManagerImpl::AddMaterial( Material* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( shader->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Shader* found = GetShader( shader->GetUniqueID() );
+	Material* found = GetMaterial( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_shaders.Add( shader );
+	_materials.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddTexture( Texture* texture )
+StatusAssetAdd AssetManagerImpl::AddShader( Shader* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( texture->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Texture* found = GetTexture( texture->GetUniqueID() );
+	Shader* found = GetShader( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_textures.Add( texture );
+	_shaders.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddScene( Scene* scene )
+StatusAssetAdd AssetManagerImpl::AddTexture( Texture* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( scene->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Scene* found = GetScene( scene->GetUniqueID() );
+	Texture* found = GetTexture( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_scenes.Add( scene );
+	_textures.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddScript( Script* script )
+StatusAssetAdd AssetManagerImpl::AddScene( Scene* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( script->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Script* found = GetScript( script->GetUniqueID() );
+	Scene* found = GetScene( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_scripts.Add( script );
+	_scenes.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-StatusAssetAdd AssetManagerImpl::AddPrefab( Prefab* prefab )
+StatusAssetAdd AssetManagerImpl::AddScript( Script* asset )
 {
 	ASSERT( _isInitialized );
 
-	bool isOk = Random::ValidateUniqueID( prefab->GetUniqueID() );
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
 	if ( !isOk ) {
 		return StatusAssetAdd::FAIL_INVALID_ID;
 	}
 
-	Prefab* found = GetPrefab( prefab->GetUniqueID() );
+	Script* found = GetScript( asset->GetUniqueID() );
 	if ( found != NULL ) {
 		return StatusAssetAdd::FAIL_EXISTING;
 	}
 
-	_prefabs.Add( prefab );
+	_scripts.Add( asset );
 
 	return StatusAssetAdd::SUCCESS;
 }
 
 
-void AssetManagerImpl::RemoveMesh( Mesh* mesh )
+StatusAssetAdd AssetManagerImpl::AddPrefab( Prefab* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( mesh == NULL ) {
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
+	if ( !isOk ) {
+		return StatusAssetAdd::FAIL_INVALID_ID;
+	}
+
+	Prefab* found = GetPrefab( asset->GetUniqueID() );
+	if ( found != NULL ) {
+		return StatusAssetAdd::FAIL_EXISTING;
+	}
+
+	_prefabs.Add( asset );
+
+	return StatusAssetAdd::SUCCESS;
+}
+
+
+StatusAssetAdd AssetManagerImpl::AddFont( Font* asset )
+{
+	ASSERT( _isInitialized );
+
+	bool isOk = Random::ValidateUniqueID( asset->GetUniqueID() );
+	if ( !isOk ) {
+		return StatusAssetAdd::FAIL_INVALID_ID;
+	}
+
+	Font* found = GetFont( asset->GetUniqueID() );
+	if ( found != NULL ) {
+		return StatusAssetAdd::FAIL_EXISTING;
+	}
+
+	_fonts.Add( asset );
+
+	return StatusAssetAdd::SUCCESS;
+}
+
+
+void AssetManagerImpl::RemoveMesh( Mesh* asset )
+{
+	ASSERT( _isInitialized );
+
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _meshes.Size(); i++ ) {
-		if ( _meshes[i] == mesh ) {
+		if ( _meshes[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -272,18 +293,18 @@ void AssetManagerImpl::RemoveMesh( Mesh* mesh )
 }
 
 
-void AssetManagerImpl::RemoveMorph( Morph* morph )
+void AssetManagerImpl::RemoveMorph( Morph* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( morph == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _morphs.Size(); i++ ) {
-		if ( _morphs[i] == morph ) {
+		if ( _morphs[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -296,18 +317,18 @@ void AssetManagerImpl::RemoveMorph( Morph* morph )
 }
 
 
-void AssetManagerImpl::RemoveMaterial( Material* material )
+void AssetManagerImpl::RemoveMaterial( Material* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( material == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _materials.Size(); i++ ) {
-		if ( _materials[i] == material ) {
+		if ( _materials[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -320,18 +341,18 @@ void AssetManagerImpl::RemoveMaterial( Material* material )
 }
 
 
-void AssetManagerImpl::RemoveShader( Shader* shader )
+void AssetManagerImpl::RemoveShader( Shader* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( shader == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _shaders.Size(); i++ ) {
-		if ( _shaders[i] == shader ) {
+		if ( _shaders[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -344,18 +365,18 @@ void AssetManagerImpl::RemoveShader( Shader* shader )
 }
 
 
-void AssetManagerImpl::RemoveTexture( Texture* texture )
+void AssetManagerImpl::RemoveTexture( Texture* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( texture == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _textures.Size(); i++ ) {
-		if ( _textures[i] == texture ) {
+		if ( _textures[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -368,18 +389,18 @@ void AssetManagerImpl::RemoveTexture( Texture* texture )
 }
 
 
-void AssetManagerImpl::RemoveScene( Scene* scene )
+void AssetManagerImpl::RemoveScene( Scene* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( scene == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _scenes.Size(); i++ ) {
-		if ( _scenes[i] == scene ) {
+		if ( _scenes[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -392,18 +413,18 @@ void AssetManagerImpl::RemoveScene( Scene* scene )
 }
 
 
-void AssetManagerImpl::RemoveScript( Script* script )
+void AssetManagerImpl::RemoveScript( Script* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( script == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] == script ) {
+		if ( _scripts[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -416,18 +437,18 @@ void AssetManagerImpl::RemoveScript( Script* script )
 }
 
 
-void AssetManagerImpl::RemovePrefab( Prefab* prefab )
+void AssetManagerImpl::RemovePrefab( Prefab* asset )
 {
 	ASSERT( _isInitialized );
 
-	if ( prefab == NULL ) {
+	if ( asset == NULL ) {
 		return;
 	}
 
 	// find index in array
 	int index = -1;
 	for ( int i = 0; i < _prefabs.Size(); i++ ) {
-		if ( _prefabs[i] == prefab ) {
+		if ( _prefabs[i] == asset ) {
 			index = i;
 			break;
 		}
@@ -436,6 +457,30 @@ void AssetManagerImpl::RemovePrefab( Prefab* prefab )
 	if ( index > -1 ) {
 		// remove from index
 		_prefabs.Erase( index );
+	}
+}
+
+
+void AssetManagerImpl::RemoveFont( Font* asset )
+{
+	ASSERT( _isInitialized );
+
+	if ( asset == NULL ) {
+		return;
+	}
+
+	// find index in array
+	int index = -1;
+	for ( int i = 0; i < _fonts.Size(); i++ ) {
+		if ( _fonts[i] == asset ) {
+			index = i;
+			break;
+		}
+	}
+
+	if ( index > -1 ) {
+		// remove from index
+		_fonts.Erase( index );
 	}
 }
 
@@ -560,6 +605,22 @@ Prefab* AssetManagerImpl::GetPrefab( cchar* uniqueID )
 	for ( int i = 0; i < _prefabs.Size(); ++i ) {
 		if ( temp == _prefabs[i]->GetUniqueID() ) {
 			return _prefabs[i];
+		}
+	}
+
+	return NULL;
+}
+
+
+Font* AssetManagerImpl::GetFont( cchar* uniqueID )
+{
+	ASSERT( _isInitialized );
+
+	String temp( uniqueID );
+
+	for ( int i = 0; i < _fonts.Size(); ++i ) {
+		if ( temp == _fonts[i]->GetUniqueID() ) {
+			return _fonts[i];
 		}
 	}
 
@@ -692,5 +753,20 @@ Prefab* AssetManagerImpl::GetPrefabAt( int index )
 	ASSERT( _isInitialized );
 	ASSERT( index < _prefabs.Size() );
 	return _prefabs[index];
+}
+
+
+int AssetManagerImpl::GetFontCount()
+{
+	ASSERT( _isInitialized );
+	return _fonts.Size();
+}
+
+
+Font* AssetManagerImpl::GetFontAt( int index )
+{
+	ASSERT( _isInitialized );
+	ASSERT( index < _fonts.Size() );
+	return _fonts[index];
 }
 

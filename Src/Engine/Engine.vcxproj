@@ -136,6 +136,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Font.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_GameObject.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Material.cpp" />
@@ -215,6 +216,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Camera.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_AppConfig.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Font.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_GameObject.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Light.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Material.h" />

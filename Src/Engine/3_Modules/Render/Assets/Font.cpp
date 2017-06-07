@@ -97,8 +97,12 @@ cchar* Font::GetExtension()
 
 void Font::BindToGPU()
 {
+	NonAPI::RenderManagerImpl* renderMngr = NonAPI::RenderManagerImpl::Singleton();
+
 	// create freetype face
-	NonAPI::RenderManagerImpl::Singleton()->CreateFreeTypeFace( _externalPath.GetChar(), _freetypeFace );
+	if ( _externalPath.GetLength() > 0 ) {
+		renderMngr->CreateFreeTypeFace( _externalPath.GetChar(), _freetypeFace );
+	}
 }
 
 

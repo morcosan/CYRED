@@ -607,6 +607,19 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 				statusAdd = AssetManager::Singleton()->AddPrefab( prefab );
 				asset = prefab; // will be checked later
 			}
+			else if ( fileFormat.compare( FileManager::FILE_FORMAT_FONT ) == 0 ) {
+				icon = *EditorUtils::GetIcon( EditorUtils::ICON_FONT );
+
+				Font* font = new Font();
+				font->SetEmitEvents( FALSE );
+				font->SetName( fileName.toUtf8().constData() );
+				font->SetDirPath( dirPath );
+				font->LoadUniqueID();
+				font->SetEmitEvents( TRUE );
+
+				statusAdd = AssetManager::Singleton()->AddFont( font );
+				asset = font; // will be checked later
+			}
 			else { // unknown file
 				isUnknown = TRUE;
 				fileFormat = NULL;
@@ -669,6 +682,10 @@ void Panel_Assets::_ParseDirectory( cchar* dirName, cchar* dirPath,
 
 							case AssetType::PREFAB:
 								other = AssetManager::Singleton()->GetPrefab( uid );
+								break;
+
+							case AssetType::FONT:
+								other = AssetManager::Singleton()->GetFont( uid );
 								break;
 						}
 
@@ -824,6 +841,14 @@ void Panel_Assets::_SaveAssetToFile( Asset* asset, cchar* oldName )
 			fileFormat = FileManager::FILE_FORMAT_PREFAB;
 			Prefab* prefab = CAST_S( Prefab*, asset );
 			data = FileManager::Singleton()->Serialize<Prefab>( prefab );
+			break;
+		}
+
+		case AssetType::FONT:
+		{
+			fileFormat = FileManager::FILE_FORMAT_FONT;
+			Font* font = CAST_S( Font*, asset );
+			data = FileManager::Singleton()->Serialize<Font>( font );
 			break;
 		}
 		

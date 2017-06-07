@@ -11,6 +11,9 @@
 #include "OpenGL\ParticleVertex.h"
 
 struct FT_LibraryRec_;
+typedef struct FT_LibraryRec_* FT_Library;
+struct FT_FaceRec_;
+typedef struct FT_FaceRec_* FT_Face;
 
 namespace CYRED
 {
@@ -92,7 +95,7 @@ namespace CYRED
 			DataArray<_Canvas>		_canvases;		// list of canvases
 			GL*						_gl;			// GL API
 
-			FT_LibraryRec_*			_freetypeLib;
+			FT_Library				_freetypeLib;
 
 			bool _IsShaderCompiled	( int shaderID )	const;
 			bool _IsProgramLinked	( int programID )	const;

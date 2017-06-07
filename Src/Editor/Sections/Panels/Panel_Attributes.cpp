@@ -30,6 +30,7 @@
 #include "..\AttrViewers\AttrViewer_Prefab.h"
 #include "..\AttrViewers\AttrViewer_CyredProj.h"
 #include "..\AttrViewers\AttrViewer_RigidBody.h"
+#include "..\AttrViewers\AttrViewer_Font.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -87,6 +88,7 @@ void Panel_Attributes::Initialize()
 	SetAttrViewer( ATTR_SCENE,				new AttrViewer_Scene() );
 	SetAttrViewer( ATTR_SCRIPT,				new AttrViewer_Script() );
 	SetAttrViewer( ATTR_PREFAB,				new AttrViewer_Prefab() );
+	SetAttrViewer( ATTR_FONT,				new AttrViewer_Font() );
 
 	SetAttrViewer( ATTR_GAMEOBJECT,			new AttrViewer_GameObject() );
 
@@ -273,6 +275,7 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 					case AssetType::SCENE:		attrViewerType = ATTR_SCENE;		break;
 					case AssetType::SCRIPT:		attrViewerType = ATTR_SCRIPT;		break;
 					case AssetType::PREFAB:		attrViewerType = ATTR_PREFAB;		break;
+					case AssetType::FONT:		attrViewerType = ATTR_FONT;			break;
 				}
 
 				AttrViewer* attrViewer = _attrViewers.Get( attrViewerType )->viewer;
@@ -305,6 +308,7 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 				case AssetType::SCENE:		attrViewerType = ATTR_SCENE;		break;
 				case AssetType::SCRIPT:		attrViewerType = ATTR_SCRIPT;		break;
 				case AssetType::PREFAB:		attrViewerType = ATTR_PREFAB;		break;	
+				case AssetType::FONT:		attrViewerType = ATTR_FONT;			break;	
 			}
 
 			_AttrViewer* atttrViewer = _attrViewers.Get( attrViewerType );

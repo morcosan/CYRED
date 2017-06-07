@@ -56,6 +56,7 @@ namespace CYRED
 		void A_Create_Mesh		();
 		void A_Create_Morph		();
 		void A_Create_Script	();
+		void A_Create_Font		();
 
 
 	private:

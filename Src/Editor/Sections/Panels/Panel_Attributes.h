@@ -36,6 +36,7 @@ namespace CYRED
 		cchar* const	ATTR_PREFAB				= "Prefab";
 		cchar* const	ATTR_SHADER				= "Shader";
 		cchar* const	ATTR_SCENE				= "Scene";
+		cchar* const	ATTR_FONT				= "Font";
 		cchar* const	ATTR_CYRED_PROJ			= "CyredProj";
 
 		cchar*	const	PANEL_TITLE				= "Attributes";

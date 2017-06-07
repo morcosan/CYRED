@@ -20,6 +20,7 @@
 #include "JsonSerializer_Scripter.h"
 #include "JsonSerializer_Prefab.h"
 #include "JsonSerializer_RigidBody.h"
+#include "JsonSerializer_Font.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
@@ -34,6 +35,7 @@
 #include "../../../Render/Assets/Texture.h"
 #include "../../../Render/Assets/Mesh.h"
 #include "../../../Render/Assets/Morph.h"
+#include "../../../Render/Assets/Font.h"
 #include "../../../Physics/Components/RigidBody.h"
 #include "../../../../4_Application/AppConfig.h"
 #include "../../../Script/Assets/Script.h"
@@ -70,6 +72,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<Morph>			( new JsonSerializer_Morph() );
 	AddSerializer<Script>			( new JsonSerializer_Script() );
 	AddSerializer<Prefab>			( new JsonSerializer_Prefab() );
+	AddSerializer<Font>				( new JsonSerializer_Font() );
 
 	AddSerializer<AppConfig>		( new JsonSerializer_AppConfig() );
 }

@@ -83,6 +83,7 @@ void Menu_AssetFolder::Open( const QPoint& pos )
 	QAction* actionMesh		= menuCreate->addAction( EditorUtils::NAME_MESH );
 	QAction* actionMorph	= menuCreate->addAction( EditorUtils::NAME_MORPH );
 	QAction* actionScript	= menuCreate->addAction( EditorUtils::NAME_SCRIPT );
+	QAction* actionFont		= menuCreate->addAction( EditorUtils::NAME_FONT );
 
 	
 	QObject::connect( actionFolder,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Folder );
@@ -95,6 +96,7 @@ void Menu_AssetFolder::Open( const QPoint& pos )
 	QObject::connect( actionMesh,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Mesh );
 	QObject::connect( actionMorph,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Morph );
 	QObject::connect( actionScript,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Script );
+	QObject::connect( actionFont,		&QAction::triggered, this, &Menu_AssetFolder::A_Create_Font );
 
 
 	// display menu
@@ -348,6 +350,18 @@ void Menu_AssetFolder::A_Create_Script()
 }
 
 
+void Menu_AssetFolder::A_Create_Font()
+{
+	QTreeWidgetItem* item = _qtTree->currentItem();
+
+	QString dirPath = (item != NULL) ? item->whatsThis( 1 ).append( "/" ) 
+									 : ProjectSettings::dirPathAssets.GetChar();
+	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::FONT );
+
+	// refresh panel
+	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+}
+
 
 Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentItem,
 									   AssetType assetType )
@@ -449,6 +463,22 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 			asset = texture;
 			icon = EditorUtils::ICON_TEXTURE;
+			break;
+		}
+
+		case AssetType::FONT:
+		{
+			Font* font = new Font();
+			font->SetEmitEvents( FALSE );
+			font->SetDirPath( dirPath );
+			font->SetUniqueID( Random::GenerateUniqueID().GetChar() );
+			font->SetIsTemporary( FALSE );
+			EditorUtils::SetAvailableName( font );
+			font->SetEmitEvents( TRUE );
+			AssetManager::Singleton()->AddFont( font );
+
+			asset = font;
+			icon = EditorUtils::ICON_FONT;
 			break;
 		}
 	}

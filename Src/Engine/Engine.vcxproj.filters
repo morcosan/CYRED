@@ -115,6 +115,7 @@
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.h" />
     <ClInclude Include="3_Modules\Render\Components\Text3D.h" />
     <ClInclude Include="3_Modules\Render\Assets\Font.h" />
+    <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_Font.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -190,5 +191,6 @@
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.cpp" />
     <ClCompile Include="3_Modules\Render\Components\Text3D.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Font.cpp" />
+    <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_Font.cpp" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 // MIT License
 
 #include "EditorUtils.h"
+
 #include "CyredBuildingBlocks.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_File.h"
@@ -29,6 +30,7 @@ cchar* const EditorUtils::ICON_TEXTURE		= "texture";
 cchar* const EditorUtils::ICON_SHADER		= "shader";
 cchar* const EditorUtils::ICON_SCRIPT		= "script";
 cchar* const EditorUtils::ICON_PREFAB		= "prefab";
+cchar* const EditorUtils::ICON_FONT			= "font";
 cchar* const EditorUtils::ICON_UNKNOWN		= "unknown";
 cchar* const EditorUtils::ICON_LOG_INFO		= "info";
 cchar* const EditorUtils::ICON_LOG_ERROR	= "error";
@@ -49,6 +51,7 @@ cchar* const EditorUtils::NAME_MORPH		= "Morph";
 cchar* const EditorUtils::NAME_SCRIPT		= "Script";
 cchar* const EditorUtils::NAME_SCENE		= "Scene";
 cchar* const EditorUtils::NAME_PREFAB		= "Prefab";
+cchar* const EditorUtils::NAME_FONT			= "Font";
 
 DataMap<String, QIcon*>	EditorUtils::_icons;
 
@@ -113,6 +116,11 @@ void EditorUtils::SetAvailableName( Asset * asset )
 			baseName = NAME_PREFAB;
 			extension = FileManager::FILE_FORMAT_PREFAB;
 			break;
+
+		case AssetType::FONT:
+			baseName = NAME_FONT;
+			extension = FileManager::FILE_FORMAT_FONT;
+			break;
 	}
 
 	// find new name
@@ -135,7 +143,6 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 
 	switch ( asset->GetAssetType() ) {
 		case AssetType::TEXTURE:
-		{
 			for ( int i = 0; i < assetMgr->GetTextureCount(); ++i ) {
 				Texture* other = assetMgr->GetTextureAt( i );
 				if ( asset != other && 
@@ -146,10 +153,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::SHADER:
-		{
 			for ( int i = 0; i < assetMgr->GetShaderCount(); ++i ) {
 				Shader* other = assetMgr->GetShaderAt( i );
 				if ( asset != other && 
@@ -160,10 +165,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::MATERIAL:
-		{
 			for ( int i = 0; i < assetMgr->GetMaterialCount(); ++i ) {
 				Material* other = assetMgr->GetMaterialAt( i );
 				if ( asset != other && 
@@ -174,10 +177,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::MESH:
-		{
 			for ( int i = 0; i < assetMgr->GetMeshCount(); ++i ) {
 				Mesh* other = assetMgr->GetMeshAt( i );
 				if ( asset != other && 
@@ -188,10 +189,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::MORPH:
-		{
 			for ( int i = 0; i < assetMgr->GetMorphCount(); ++i ) {
 				Morph* other = assetMgr->GetMorphAt( i );
 				if ( asset != other && 
@@ -202,10 +201,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::SCRIPT:
-		{
 			for ( int i = 0; i < assetMgr->GetScriptCount(); ++i )	{
 				Script* other = assetMgr->GetScriptAt( i );
 				if ( asset != other && 
@@ -216,10 +213,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::SCENE:
-		{
 			for ( int i = 0; i < assetMgr->GetSceneCount(); ++i ) {
 				Scene* other = assetMgr->GetSceneAt( i );
 				if ( asset != other && 
@@ -230,10 +225,8 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
 
 		case AssetType::PREFAB:
-		{
 			for ( int i = 0; i < assetMgr->GetPrefabCount(); ++i ) {
 				Prefab* other = assetMgr->GetPrefabAt( i );
 				if ( asset != other && 
@@ -244,7 +237,18 @@ bool EditorUtils::IsFilePathDuplicate( Asset * asset )
 				}
 			}
 			break;
-		}
+
+		case AssetType::FONT:
+			for ( int i = 0; i < assetMgr->GetFontCount(); ++i ) {
+				Font* other = assetMgr->GetFontAt( i );
+				if ( asset != other && 
+					 name.compare( other->GetName(), Qt::CaseInsensitive ) == 0 && 
+					 dirPath.compare( other->GetDirPath(), Qt::CaseInsensitive ) == 0 )
+				{
+					return TRUE;
+				}
+			}
+			break;
 	}
 
 	return FALSE;

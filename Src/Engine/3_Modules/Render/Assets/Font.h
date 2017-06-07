@@ -7,7 +7,7 @@
 #include "../../../2_BuildingBlocks/String/String.h"
 
 struct FT_FaceRec_;
-
+typedef struct FT_FaceRec_* FT_Face;
 
 namespace CYRED
 {
@@ -35,7 +35,7 @@ namespace CYRED
 
 
 	private:
-		String			_externalPath;
-		FT_FaceRec_*	_freetypeFace;
+		String	_externalPath;
+		FT_Face	_freetypeFace;
 	};
 }
