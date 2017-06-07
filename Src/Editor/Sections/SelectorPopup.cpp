@@ -14,6 +14,7 @@
 #include "Selectors\Selector_Scene.h"
 #include "Selectors\Selector_Script.h"
 #include "Selectors\Selector_Prefab.h"
+#include "Selectors\Selector_Font.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qlistwidget.h"
@@ -88,6 +89,7 @@ void SelectorPopup::Initialize()
 	AddSelector( Selector_Scene::TYPE,		new Selector_Scene( this ) );
 	AddSelector( Selector_Script::TYPE,		new Selector_Script( this ) );
 	AddSelector( Selector_Prefab::TYPE,		new Selector_Prefab( this ) );
+	AddSelector( Selector_Font::TYPE,		new Selector_Font( this ) );
 }
 
 

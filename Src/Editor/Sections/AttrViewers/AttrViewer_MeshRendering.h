@@ -1,19 +1,13 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "AttrViewer.h"
-#include "CyredModule_Render.h"
-
 
 namespace CYRED
 {
-	namespace COMP
-	{
-		class MeshRendering;
-	}
+	class MeshRendering;
 }
 
 
@@ -36,8 +30,8 @@ namespace CYRED
 	private:
 		void _OnInitialize		()					override;
 		void _OnChangeTarget	( void* target )	override;
-		void _UpdateGUI		()					override;
-		void _UpdateTarget	()					override;
+		void _UpdateGUI			()					override;
+		void _UpdateTarget		()					override;
 
 
 	private:

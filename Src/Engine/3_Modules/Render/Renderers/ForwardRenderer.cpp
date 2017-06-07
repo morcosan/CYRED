@@ -597,8 +597,8 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	// add shader
 	_gl->UseProgram( shaderProgram );
 
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
-	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
+	//_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
+	//_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
 
 
 	// bind vertex data
@@ -624,12 +624,8 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
 
-	// bind material
-	_BindMaterial( material );
-
-
 	// draw
-	_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
+	//_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
 	// unbind all
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );

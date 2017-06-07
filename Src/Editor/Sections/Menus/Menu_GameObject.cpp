@@ -78,6 +78,7 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QAction* actionComp_PsEmitter	= menu_AddComp->addAction( MENU_COMP_PS_EMITTER );
 	QAction* actionComp_Scripter	= menu_AddComp->addAction( MENU_COMP_SCRIPTER );
 	QAction* actionComp_RigidBody	= menu_AddComp->addAction( MENU_COMP_RIGID_BODY );
+	QAction* actionComp_Text3D		= menu_AddComp->addAction( MENU_COMP_TEXT_3D );
 
 	this->addSeparator();
 
@@ -94,14 +95,18 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QMenu* menuGO_PS				= menuGO->addMenu( MENU_GO_PS );
 	QAction* actionGO_PS_Emitter	= menuGO_PS->addAction( MENU_GO_PS_EMITTER );
 
+	QAction* actionGO_Text3D		= menuGO->addAction( MENU_GO_TEXT_3D );
+
 	if ( !isPrefab ) {
 		this->addSeparator();
 		QAction* actionDelete = this->addAction( MENU_DELETE );
 		QObject::connect( actionDelete,	&QAction::triggered, this, &Menu_GameObject::A_Delete );
 	}
 
+
 	// add callbacks
 	QObject::connect( actionRename,			&QAction::triggered, this, &Menu_GameObject::A_Rename );
+	
 	QObject::connect( actionComp_Transform,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Transform );
 	QObject::connect( actionComp_Camera,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Camera );
 	QObject::connect( actionComp_Light,		&QAction::triggered, this, &Menu_GameObject::A_AddComp_Light );
@@ -110,6 +115,8 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QObject::connect( actionComp_PsEmitter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_ParticlesEmitter );
 	QObject::connect( actionComp_Scripter,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Scripter );
 	QObject::connect( actionComp_RigidBody,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_RigidBody );
+	QObject::connect( actionComp_Text3D,	&QAction::triggered, this, &Menu_GameObject::A_AddComp_Text3D );
+	
 	QObject::connect( actionGO_Empty,		&QAction::triggered, this, &Menu_GameObject::A_GO_CreateEmpty );
 	QObject::connect( actionGO_3D_Pivot,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Pivot );
 	QObject::connect( actionGO_3D_Camera,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Camera );
@@ -117,6 +124,8 @@ void Menu_GameObject::Open( const QPoint& pos, bool isPrefab )
 	QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Mesh );
 	QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &Menu_GameObject::A_GO_Create3D_Morph );
 	QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &Menu_GameObject::A_GO_Particles_Emitter );
+	QObject::connect( actionGO_Text3D,		&QAction::triggered, this, &Menu_GameObject::A_GO_Text_3D );
+
 
 	// display menu
 	this->popup( _qtTree->mapToGlobal(pos) );
@@ -436,6 +445,24 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 }
 
 
+void Menu_GameObject::A_GO_Text_3D()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->node != NULL );
+
+	// create gameobject
+	GameObject* newObject = _CreateGameObject( treeItem->node );
+	// add transform
+	newObject->AddComponent<Transform>();
+	newObject->SetName( MENU_GO_TEXT_3D );
+	// add text 3d
+	newObject->AddComponent<Text3D>();
+
+	// select object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+}
+
+
 void Menu_GameObject::A_AddComp_Transform()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
@@ -513,6 +540,16 @@ void Menu_GameObject::A_AddComp_RigidBody()
 
 	// add rigid body component
 	CAST_S( GameObject*, treeItem->node )->AddComponent<RigidBody>();
+}
+
+
+void Menu_GameObject::A_AddComp_Text3D()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->node != NULL );
+
+	// add text 3d component
+	CAST_S( GameObject*, treeItem->node )->AddComponent<Text3D>();
 }
 
 

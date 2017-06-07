@@ -8,7 +8,7 @@
 
 namespace CYRED
 {
-	class Selector_Mesh : public Selector
+	class Selector_Font : public Selector
 	{
 	public:
 		static cchar* const OPTION_NULL;
@@ -16,8 +16,8 @@ namespace CYRED
 
 
 	public:
-		Selector_Mesh( SelectorPopup* popup ) : Selector( popup ) {}
-		virtual ~Selector_Mesh() {}
+		Selector_Font( SelectorPopup* popup ) : Selector( popup ) {}
+		virtual ~Selector_Font() {}
 
 
 	public:

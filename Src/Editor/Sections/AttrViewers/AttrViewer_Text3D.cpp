@@ -1,24 +1,40 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-#include "AttrViewer_MeshRendering.h"
+#include "AttrViewer_Text3D.h"
 
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Event.h"
 
-#include "../Selectors/Selector_Material.h"
-#include "../Selectors/Selector_Mesh.h"
+#include "../Selectors/Selector_Font.h"
+#include "../Selectors/Selector_Shader.h"
 
 
 using namespace CYRED;
 
 
-void AttrViewer_MeshRendering::_OnInitialize()
+void AttrViewer_Text3D::_OnInitialize()
 {
-	_CreateAttrSelector( ATTR_MESH,		ATTR_MESH,		Selector_Mesh::TYPE );
-	_CreateAttrSelector( ATTR_MATERIAL, ATTR_MATERIAL,	Selector_Material::TYPE );
-	
+	_CreateAttrString	( ATTR_TEXT,		ATTR_TEXT,		AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrVector4	( ATTR_TEXT_COLOR,	ATTR_TEXT_COLOR );
+
+	DataArray<cchar*> hAlign;
+	hAlign.Add( H_ALIN_LEFT );
+	hAlign.Add( H_ALIN_MIDDLE );
+	hAlign.Add( H_ALIN_RIGHT );
+	_CreateAttrDropdown	( ATTR_H_ALIGN, ATTR_H_ALIGN, hAlign );
+
+	DataArray<cchar*> vAlign;
+	vAlign.Add( V_ALIN_TOP );
+	vAlign.Add( V_ALIN_MIDDLE );
+	vAlign.Add( V_ALIN_BOTTOM );
+	_CreateAttrDropdown	( ATTR_V_ALIGN, ATTR_V_ALIGN, vAlign );
+
+	_CreateAttrSelector	( ATTR_FONT,		ATTR_FONT,		Selector_Font::TYPE );
+	_CreateAttrInt		( ATTR_FONT_SIZE,	ATTR_FONT_SIZE );
+	_CreateAttrSelector	( ATTR_SHADER,		ATTR_SHADER,	Selector_Shader::TYPE );
+
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	_CreateInnerAttribute( InnerAttrType::SETTINGS );
 
@@ -26,9 +42,9 @@ void AttrViewer_MeshRendering::_OnInitialize()
 }
 
 
-void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
+void AttrViewer_Text3D::_OnChangeTarget( void* target )
 {
-	_target = CAST_S( MeshRendering*, target );
+	_target = CAST_S( Text3D*, target );
 
 	// prepare settings
 	DataUnion attr;
@@ -36,7 +52,7 @@ void AttrViewer_MeshRendering::_OnChangeTarget( void* target )
 }
 
 
-void AttrViewer_MeshRendering::_UpdateGUI()
+void AttrViewer_Text3D::_UpdateGUI()
 {
 	Mesh* mesh = _target->GetMesh();
 	cchar* meshName = (mesh == NULL) ? Selector_Mesh::OPTION_NULL : mesh->GetName();
@@ -46,8 +62,7 @@ void AttrViewer_MeshRendering::_UpdateGUI()
 	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
 	_WriteAttrSelector( ATTR_MATERIAL, material, matName );
 
-	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() )
-	{
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
@@ -56,7 +71,7 @@ void AttrViewer_MeshRendering::_UpdateGUI()
 }
 
 
-void AttrViewer_MeshRendering::_UpdateTarget()
+void AttrViewer_Text3D::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 	{

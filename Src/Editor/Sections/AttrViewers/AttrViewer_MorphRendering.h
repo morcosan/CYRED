@@ -1,19 +1,13 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "AttrViewer.h"
-#include "CyredModule_Render.h"
-
 
 namespace CYRED
 {
-	namespace COMP
-	{
-		class MorphRendering;
-	}
+	class MorphRendering;
 }
 
 

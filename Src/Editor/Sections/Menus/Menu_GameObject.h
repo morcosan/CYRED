@@ -45,6 +45,7 @@ namespace CYRED
 		cchar*	const	MENU_GO_3D_MORPH		= "Morph";
 		cchar*	const	MENU_GO_PS				= "Particles";
 		cchar*	const	MENU_GO_PS_EMITTER		= "Emitter";
+		cchar*	const	MENU_GO_TEXT_3D			= "Text 3D";
 
 		cchar* const	MENU_ADD_COMPONENT		= "Add Component";
 		cchar* const	MENU_COMP_TRANSFORM		= "Transform";
@@ -55,6 +56,7 @@ namespace CYRED
 		cchar* const	MENU_COMP_PS_EMITTER	= "Particles Emitter";
 		cchar* const	MENU_COMP_SCRIPTER		= "Scripter";
 		cchar* const	MENU_COMP_RIGID_BODY	= "Rigid Body";
+		cchar* const	MENU_COMP_TEXT_3D		= "Text 3D";
 
 
 	public:
@@ -85,6 +87,7 @@ namespace CYRED
 		void A_GO_Create3D_Mesh			();
 		void A_GO_Create3D_Morph		();
 		void A_GO_Particles_Emitter		();
+		void A_GO_Text_3D				();
 
 		void A_AddComp_Transform		();
 		void A_AddComp_Camera			();
@@ -94,6 +97,7 @@ namespace CYRED
 		void A_AddComp_ParticlesEmitter	();
 		void A_AddComp_Scripter			();
 		void A_AddComp_RigidBody		();
+		void A_AddComp_Text3D			();
 
 
 	private:

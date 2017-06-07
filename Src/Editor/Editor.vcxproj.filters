@@ -70,6 +70,8 @@
     <ClCompile Include="Sections\Panels\Viewports\Viewport_Isolate.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_RigidBody.cpp" />
     <ClCompile Include="Sections\AttrViewers\AttrViewer_Font.cpp" />
+    <ClCompile Include="Sections\AttrViewers\AttrViewer_Text3D.cpp" />
+    <ClCompile Include="Sections\Selectors\Selector_Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h" />
@@ -144,5 +146,7 @@
     <ClInclude Include="Sections\Panels\Viewports\Viewport_Isolate.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_RigidBody.h" />
     <ClInclude Include="Sections\AttrViewers\AttrViewer_Font.h" />
+    <ClInclude Include="Sections\AttrViewers\AttrViewer_Text3D.h" />
+    <ClInclude Include="Sections\Selectors\Selector_Font.h" />
   </ItemGroup>
 </Project>

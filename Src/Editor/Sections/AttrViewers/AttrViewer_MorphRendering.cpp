@@ -1,17 +1,17 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #include "AttrViewer_MorphRendering.h"
+
 #include "CyredModule_Render.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Event.h"
+
 #include "../Selectors/Selector_Material.h"
 #include "../Selectors/Selector_Morph.h"
 
 
 using namespace CYRED;
-
 
 
 void AttrViewer_MorphRendering::_OnInitialize()
