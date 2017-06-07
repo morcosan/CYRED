@@ -107,9 +107,11 @@ void Scripter::OnCollision( GameObject* other, bool isTrigger )
 void Scripter::OnMouseDown( int button )
 {
 	// call script API
-	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL ) {
-			_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_DOWN, _gameObject, button );
+	if ( _isEnabled ) {
+		for ( int i = 0; i < _scripts.Size(); i++ ) {
+			if ( _scripts[i] != NULL ) {
+				_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_DOWN, _gameObject, button );
+			}
 		}
 	}
 }
@@ -118,9 +120,11 @@ void Scripter::OnMouseDown( int button )
 void Scripter::OnMouseUp( int button )
 {
 	// call script API
-	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL ) {
-			_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_UP, _gameObject, button );
+	if ( _isEnabled ) {
+		for ( int i = 0; i < _scripts.Size(); i++ ) {
+			if ( _scripts[i] != NULL ) {
+				_scripts[i]->CallFunction( Script::FUNC_ON_MOUSE_UP, _gameObject, button );
+			}
 		}
 	}
 }
@@ -178,15 +182,13 @@ void Scripter::ClearScripts()
 
 void Scripter::_OnStart( bool isRuntime )
 {
-	if ( !_isEnabled ) {
-		return;
-	}
-
-	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
-			// call script function
-			_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
-			_scripts[i]->SetFirstUpdate( FALSE );
+	if ( _isEnabled ) {
+		for ( int i = 0; i < _scripts.Size(); i++ ) {
+			if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
+				// call script function
+				_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
+				_scripts[i]->SetFirstUpdate( FALSE );
+			}
 		}
 	}
 }
@@ -250,17 +252,18 @@ void Scripter::_OnUpdate( bool isRuntime )
 		_collisions.Erase( toRemove[i] );
 	}
 
-
 	// update scripts
-	for ( int i = 0; i < _scripts.Size(); i++ ) {
-		if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
-			// check if first update used
-			if ( _scripts[i]->IsFirstUpdate() ) {
-				_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
-				_scripts[i]->SetFirstUpdate( FALSE );
-			}
-			else {
-				_scripts[i]->CallFunction( Script::FUNC_ON_UPDATE, _gameObject );
+	if ( _isEnabled ) {
+		for ( int i = 0; i < _scripts.Size(); i++ ) {
+			if ( _scripts[i] != NULL && (isRuntime || _scripts[i]->RunsInEditor()) ) {
+				// check if first update used
+				if ( _scripts[i]->IsFirstUpdate() ) {
+					_scripts[i]->CallFunction( Script::FUNC_ON_START, _gameObject );
+					_scripts[i]->SetFirstUpdate( FALSE );
+				}
+				else {
+					_scripts[i]->CallFunction( Script::FUNC_ON_UPDATE, _gameObject );
+				}
 			}
 		}
 	}

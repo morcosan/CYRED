@@ -72,11 +72,11 @@
                     "enabled": true,
                     "position_world": {
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": 7.0,
                         "z": 10.0
                     },
                     "rotation_world": {
-                        "x": 0.0,
+                        "x": -30.000,
                         "y": 0.0,
                         "z": 0.0
                     },
@@ -88,9 +88,9 @@
                 },
                 "camera": {
                     "enabled": true,
-                    "camera_type": "ORTHOGRAPHIC",
-                    "ortho_height": 8.0,
-                    "near_clipping": 0.100,
+                    "camera_type": "PERSPECTIVE",
+                    "fovy_angle": 45.0,
+                    "near_clipping": 5.0,
                     "far_clipping": 50.0
                 }
             }

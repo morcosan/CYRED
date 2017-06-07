@@ -103,13 +103,15 @@ Matrix4 Matrix4::Inverse( const Matrix4& mat )
 }
 
 
-Matrix4 Matrix4::CreatePerspective( float fovyAngle, float aspectRatio, float nearClipping, float farClipping )
+Matrix4 Matrix4::CreatePerspective( float fovyAngle, float aspectRatio, 
+									float nearClipping, float farClipping )
 {
-	if ( aspectRatio < 0.001f )
-	{
-		return Identity();
+	if ( aspectRatio > 0.001f && nearClipping < farClipping ) {
+		return Matrix4( glm::perspective( glm::radians( fovyAngle ), aspectRatio, 
+										  nearClipping, farClipping ) );
 	}
-	return Matrix4( glm::perspective( glm::radians( fovyAngle ), aspectRatio, nearClipping, farClipping ) );
+	
+	return Identity();
 }
 
 

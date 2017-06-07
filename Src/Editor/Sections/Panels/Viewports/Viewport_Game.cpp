@@ -184,19 +184,19 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 			// get mouse pos
 			Vector2 mousePos = inputMngr->MousePosition();
 
-			// calculate ray
+			// create ray
 			Ray ray;
 
 			// transform viewport coords to world coords
 			Vector4 rayStartNDC = Vector4(
 				( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
-				( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+				- ( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
 				-1.0f, // The near plane maps to Z=-1 in Normalized Device Coordinates
 				1.0f
 			);
 			Vector4 rayEndNDC = Vector4(
 				( mousePos.x / _qtWindow->width() - 0.5f ) * 2.0f,
-				( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
+				- ( mousePos.y / _qtWindow->height() - 0.5f ) * 2.0f,
 				0.0f,
 				1.0f
 			);
@@ -208,9 +208,14 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 			Vector4 rayEndWorld = mat * rayEndNDC ;
 			rayEndWorld /= rayEndWorld.w;
 
-			// do raycasting
+			// calculate ray
+			Vector4 diff = rayEndWorld - rayStartWorld;
+			Vector3 dir = Vector3::Normalize( Vector3( diff.x, diff.y, diff.z ) );
+			float far = camera->GetFarClipping();
+			float near = camera->GetNearClipping();
 			ray.start	= Vector3( rayStartWorld.x, rayStartWorld.y, rayStartWorld.z );
-			ray.end		= Vector3( rayEndWorld.x, rayEndWorld.y, rayEndWorld.z );
+			ray.end		= ray.start + dir * (far - near);
+			// do raycasting
 			Scripter* scripter = PhysicsManager::Singleton()->RaycastFirstTarget( ray );
 
 			// call script API

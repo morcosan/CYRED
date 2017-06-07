@@ -257,10 +257,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
+
 						// assume initial size (1, 1, 1)
+						float far = camera->GetFarClipping();
+						float near = camera->GetNearClipping();
 						Vector2 orthoSize = camera->GetOrthoSize();
-						Vector3 scale = Vector3( orthoSize.x, orthoSize.y, camera->GetFarClipping() );
-						rootTran->SetScaleWorld( scale );
+
+						rootTran->SetScaleWorld( Vector3( orthoSize.x, orthoSize.y, far - near ) );
+						rootTran->TranslateByLocal( Vector3( 0, 0, - near ) );
 					}
 					rootTran->SetEmitEvents( TRUE );
 
@@ -277,9 +281,22 @@ void Viewport_WithGizmo::_RenderGizmo()
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
 						rootTran->SetRotationWorld( transform->GetRotationWorld() );
-						// assume initial size (1, 1, 1)
-						Vector3 scale = Vector3( 1, 1, camera->GetFarClipping() );
-						rootTran->SetScaleWorld( scale );
+
+						// assume initial size (2, 2, 1)
+						float near = camera->GetNearClipping();
+						float far = camera->GetFarClipping();
+						float tan = Math::Tan( Math::ToRadians( camera->GetFovYAngle() / 2 ) );
+						float scaleNearY = near * tan;
+						float scaleNearX = scaleNearY * camera->GetAspectRatio();
+						float scaleFarY = far * tan;
+						float scaleFarX = scaleFarY * camera->GetAspectRatio();
+
+						Node* farNode  = _gizmoPerspCamera->GetRoot()->GetChildNodeAt( 0 );
+						Node* nearNode = _gizmoPerspCamera->GetRoot()->GetChildNodeAt( 1 );
+						Transform* farTran  = CAST_S( GameObject*, farNode )->GetComponent<Transform>();
+						Transform* nearTran = CAST_S( GameObject*, nearNode )->GetComponent<Transform>();
+						farTran->SetScaleWorld( Vector3( scaleFarX, scaleFarY, far ) );
+						nearTran->SetScaleWorld( Vector3( scaleNearX, scaleNearY, near ) );
 					}
 					rootTran->SetEmitEvents( TRUE );
 
