@@ -113,6 +113,8 @@
     <ClInclude Include="DLL_Include\CyredModule_Physics.h" />
     <ClInclude Include="3_Modules\Physics\Components\RigidBody.h" />
     <ClInclude Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.h" />
+    <ClInclude Include="3_Modules\Render\Components\Text3D.h" />
+    <ClInclude Include="3_Modules\Render\Assets\Font.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll_main.cpp" />
@@ -186,5 +188,7 @@
     <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="3_Modules\File\Serialize\JSON\JsonSerializer_RigidBody.cpp" />
+    <ClCompile Include="3_Modules\Render\Components\Text3D.cpp" />
+    <ClCompile Include="3_Modules\Render\Assets\Font.cpp" />
   </ItemGroup>
 </Project>

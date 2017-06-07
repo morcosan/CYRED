@@ -21,6 +21,7 @@ namespace CYRED
 			, MORPH
 			, SCRIPT
 			, PREFAB
+			, FONT
 		};
 	}
 

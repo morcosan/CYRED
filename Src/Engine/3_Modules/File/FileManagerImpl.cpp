@@ -15,11 +15,12 @@ DEFINE_LOCAL_SINGLETON_IMPL( FileManagerImpl )
 
 
 cchar* const FileManager::FILE_FORMAT_MESH		= ".mesh";
-cchar* const FileManager::FILE_FORMAT_MORPH	= ".morph";
+cchar* const FileManager::FILE_FORMAT_MORPH		= ".morph";
 cchar* const FileManager::FILE_FORMAT_MATERIAL	= ".mat";
 cchar* const FileManager::FILE_FORMAT_SHADER	= ".shader";
 cchar* const FileManager::FILE_FORMAT_TEXTURE	= ".tex";
-cchar* const FileManager::FILE_FORMAT_SCENE	= ".scene";
+cchar* const FileManager::FILE_FORMAT_FONT		= ".font";
+cchar* const FileManager::FILE_FORMAT_SCENE		= ".scene";
 cchar* const FileManager::FILE_FORMAT_SCRIPT	= ".script";
 cchar* const FileManager::FILE_FORMAT_PREFAB	= ".prefab";
 cchar* const FileManager::DIR_ASSETS			= "Assets/";

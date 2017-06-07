@@ -25,37 +25,36 @@ namespace CYRED
 
 
 	public:
-		void		LoadUniqueID	() override;
-		void		LoadFullFile	() override;
-		void		ClearAsset		() override;
-		Asset*		Clone			() override;
+		void	LoadUniqueID	() override;
+		void	LoadFullFile	() override;
+		void	ClearAsset		() override;
+		Asset*	Clone			() override;
 		cchar*	GetExtension	() override;
 
 
 	public:
-		//! must be called in order for mesh to work
 		void BindToGPU	();
 
 		MeshType		GetMeshType				() const;		
 		MeshLoadType	GetLoadType				() const;		
-		int			GetVBO					() const;		
-		int			GetIBO					() const;			
-		int			GetNumIndices			() const;	
+		int				GetVBO					() const;		
+		int				GetIBO					() const;			
+		int				GetNumIndices			() const;	
 		bool			DoesClearBuffersOnBind	() const;
-		cchar*		GetExternalPath			() const;
+		cchar*			GetExternalPath			() const;
 
-		void SetMeshType			( MeshType type );
-		void SetLoadType			( MeshLoadType type );
-		void SetVertices			( DataArray<Vertex>& vertices );
-		void SetIndices				( DataArray<int>& indices );
-		void SetClearBuffersOnBind	( bool value );
-		void SetExternalPath		( cchar* filePath );
+		void			SetMeshType				( MeshType type );
+		void			SetLoadType				( MeshLoadType type );
+		void			SetVertices				( DataArray<Vertex>& vertices );
+		void			SetIndices				( DataArray<int>& indices );
+		void			SetClearBuffersOnBind	( bool value );
+		void			SetExternalPath			( cchar* filePath );
 
 		//script API
-		void ClearVertices	();
-		void AddVertex		( Vertex vertex );
-		void ClearIndices	();
-		void AddIndex		( int index );
+		void			ClearVertices			();
+		void			AddVertex				( Vertex vertex );
+		void			ClearIndices			();
+		void			AddIndex				( int index );
 
 
 	private:

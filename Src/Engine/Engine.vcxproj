@@ -57,13 +57,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;../../Libs/Freetype/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody_debug.lib;BulletPhysics/BulletDynamics_debug.lib;BulletPhysics/BulletCollision_debug.lib;BulletPhysics/LinearMath_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody_debug.lib;BulletPhysics/BulletDynamics_debug.lib;BulletPhysics/BulletCollision_debug.lib;BulletPhysics/LinearMath_debug.lib;FreeType/freetype28d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
@@ -87,7 +87,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Libs;../../Libs/BulletPhysics/Include;../../Libs/Freetype/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CREATE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -95,7 +95,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody.lib;BulletPhysics/BulletDynamics.lib;BulletPhysics/BulletCollision.lib;BulletPhysics/LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Lua_523/lua52.lib;BulletPhysics/BulletSoftBody.lib;BulletPhysics/BulletDynamics.lib;BulletPhysics/BulletCollision.lib;BulletPhysics/LinearMath.lib;FreeType/freetype28.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Libs</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
@@ -159,6 +159,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\File\FileManagerImpl.cpp" />
     <ClCompile Include="3_Modules\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="3_Modules\Physics\PhysicsManagerImpl.cpp" />
+    <ClCompile Include="3_Modules\Render\Assets\Font.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Morph.cpp" />
     <ClCompile Include="3_Modules\Render\Assets\Texture.cpp" />
     <ClCompile Include="3_Modules\Render\Components\Camera.cpp" />
@@ -169,6 +170,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClCompile Include="3_Modules\Render\Assets\Shader.cpp" />
     <ClCompile Include="3_Modules\Render\Components\MorphRendering.cpp" />
     <ClCompile Include="3_Modules\Render\Components\ParticleEmitter.cpp" />
+    <ClCompile Include="3_Modules\Render\Components\Text3D.cpp" />
     <ClCompile Include="3_Modules\Render\OpenGL\GLContext.cpp" />
     <ClCompile Include="3_Modules\Render\OpenGL\Uniform.cpp" />
     <ClCompile Include="3_Modules\Render\Renderers\ForwardRenderer.cpp" />
@@ -243,10 +245,12 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     <ClInclude Include="3_Modules\Physics\Components\RigidBody.h" />
     <ClInclude Include="3_Modules\Physics\PhysicsManager.h" />
     <ClInclude Include="3_Modules\Physics\PhysicsManagerImpl.h" />
+    <ClInclude Include="3_Modules\Render\Assets\Font.h" />
     <ClInclude Include="3_Modules\Render\Assets\Morph.h" />
     <ClInclude Include="3_Modules\Render\Components\MeshRendering.h" />
     <ClInclude Include="3_Modules\Render\Components\MorphRendering.h" />
     <ClInclude Include="3_Modules\Render\Components\ParticleEmitter.h" />
+    <ClInclude Include="3_Modules\Render\Components\Text3D.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\GL.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\GLContext.h" />
     <ClInclude Include="3_Modules\Render\OpenGL\MorphVertex.h" />

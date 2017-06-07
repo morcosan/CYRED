@@ -11,7 +11,6 @@
 #include "../../File/Sections/MeshLoader.h"
 #include "../../../2_BuildingBlocks/String/FiniteString.h"
 
-
 extern "C" 
 {
 	#include "Lua_523\Include\lua.h"

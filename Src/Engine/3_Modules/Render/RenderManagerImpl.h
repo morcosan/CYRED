@@ -10,6 +10,8 @@
 #include "OpenGL\MorphVertex.h"
 #include "OpenGL\ParticleVertex.h"
 
+struct FT_LibraryRec_;
+
 namespace CYRED
 {
 	class Renderer;
@@ -50,6 +52,7 @@ namespace CYRED
 			void CreateParticleBuffers	( OUT uint& vbo, OUT uint& ibo,
 										  DataArray<ParticleVertex>& vertices, DataArray<int>& indices );
 			void DeleteBuffers			( uint vbo, uint ibo );
+			
 			int  CreateShaderProgram	( cchar* vertexCode, cchar* geometryCode,
 										  cchar* fragmentCode );
 			void DeleteShaderProgram	( int programID );
@@ -57,6 +60,7 @@ namespace CYRED
 			int  GetUniformsCount		( int programID );
 			void GetUniformInfo			( int programID, int index, int buffSize,
 										  OUT int* length, OUT char* name );
+			
 			void CreateTexture2D		( OUT uint& textureID, int width, int height, 
 										  int channels, bool hasMipmap,
 										  uchar* imageBuffer );
@@ -69,7 +73,11 @@ namespace CYRED
 										  uchar* imageBuffer_PosZ,
 										  uchar* imageBuffer_NegZ );
 			void DeleteTexture			( uint textureID );
+
 			void CalculateTanBitangents	( DataArray<Vertex>& vertices, DataArray<int>& indices );
+
+			void CreateFreeTypeFace		( cchar* fontPath, OUT FT_Face &freetypeFace );
+
 
 
 		private:
@@ -83,6 +91,8 @@ namespace CYRED
 			RendererType			_currRenderer;	// the current renderer for current canvas
 			DataArray<_Canvas>		_canvases;		// list of canvases
 			GL*						_gl;			// GL API
+
+			FT_LibraryRec_*			_freetypeLib;
 
 			bool _IsShaderCompiled	( int shaderID )	const;
 			bool _IsProgramLinked	( int programID )	const;

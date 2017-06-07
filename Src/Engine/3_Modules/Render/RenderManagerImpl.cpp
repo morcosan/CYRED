@@ -3,6 +3,8 @@
 
 #include "RenderManagerImpl.h"
 
+#include "../../2_BuildingBlocks/String/FiniteString.h"
+
 #include "OpenGL\GL.h"
 #include "OpenGL\GLContext.h"
 
@@ -10,6 +12,9 @@
 #include "Renderers\PickingRenderer.h"
 
 #include "../Debug/DebugManager.h"
+
+#include "FreeType\Include\ft2build.h"
+#include FT_FREETYPE_H
 
 
 using namespace CYRED;
@@ -19,7 +24,6 @@ using namespace NonAPI;
 //! deferred definition of RenderManager
 DEFINE_LOCAL_SINGLETON( RenderManager, RenderManagerImpl )
 DEFINE_LOCAL_SINGLETON_IMPL( RenderManagerImpl )
-
 
 
 /*****
@@ -50,6 +54,11 @@ void RenderManagerImpl::Initialize( GLContext* glContext, GL* gl )
 
 	// before calling it, a context must be active and the window must be displayed
 	_gl->Initialize();
+
+	// initialize freetype
+	if ( FT_Init_FreeType( &_freetypeLib ) ) {
+		DebugManager::Singleton()->Error( "Failed to initialize FreeType." );
+	}
 }
 
 
@@ -691,6 +700,16 @@ void RenderManagerImpl::CalculateTanBitangents( DataArray<Vertex>& vertices, Dat
 		v0.bitangent += bitangent;
 		v1.bitangent += bitangent;
 		v2.bitangent += bitangent;
+	}
+}
+
+
+void RenderManagerImpl::CreateFreeTypeFace( cchar* fontPath, OUT FT_Face& freetypeFace )
+{
+	// load font and create freetype face
+	if ( FT_New_Face( _freetypeLib, fontPath, 0, &freetypeFace ) ) {
+		FiniteString error( "Could not load font: %s", fontPath );
+		DebugManager::Singleton()->Error( error.GetChar() );
 	}
 }
 

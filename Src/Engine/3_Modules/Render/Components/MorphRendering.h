@@ -37,8 +37,8 @@ namespace CYRED
 		float		GetDurationStateChange	() const;
 		bool		IsPlaying				() const;
 
-		int		GetFirstState			() const;
-		int		GetSecondState			() const;
+		int			GetFirstState			() const;
+		int			GetSecondState			() const;
 		float		GetStateRatio			() const;
 
 		void		SetMaterial				( Material* value );
@@ -49,8 +49,8 @@ namespace CYRED
 
 
 	private:
-		void _OnEnable()				 override {}
-		void _OnUpdate( bool isRuntime ) override;
+		void		_OnEnable				()					override {}
+		void		_OnUpdate				( bool isRuntime )	override;
 
 
 	private:
@@ -61,8 +61,8 @@ namespace CYRED
 		float		_durationStateChange;
 		bool		_isPlaying;
 
-		int		_firstState;
-		int		_secondState;
+		int			_firstState;
+		int			_secondState;
 		float		_currDuration;
 		float		_currTime;
 		bool		_isInState;
