@@ -12,6 +12,7 @@ namespace CYRED
 	{
 		cchar* const ATTR_NAME				= "name";
 		cchar* const ATTR_TAG				= "tag";
+		cchar* const ATTR_LAYER				= "layer";
 		cchar* const ATTR_ENABLED			= "enabled";
 		cchar* const ATTR_COMPONENTS		= "components";
 		cchar* const COMP_TRANSFORM			= "transform";

@@ -16,6 +16,7 @@ GameObject::GameObject()
 	, _isEnabled ( TRUE )
 	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
+	, _layer( 0 )
 {
 }
 
@@ -25,6 +26,7 @@ GameObject::GameObject( int uid )
 	, _isEnabled( TRUE )
 	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
+	, _layer( 0 )
 {
 }
 
@@ -35,6 +37,7 @@ GameObject::GameObject( cchar* name, int uid )
 	, _isEnabled( TRUE )
 	, _isInScene( FALSE )
 	, _emitEvents( TRUE )
+	, _layer( 0 )
 {
 }
 
@@ -107,6 +110,11 @@ bool GameObject::IsInScene() const
 	return _isInScene;
 }
 
+int GameObject::GetLayer() const
+{
+	return _layer;
+}
+
 
 int GameObject::GetComponentCount() const
 {
@@ -151,6 +159,16 @@ void GameObject::SetInScene( bool value )
 {
 	_isInScene = value;
 	// does not emit event
+}
+
+
+void GameObject::SetLayer( int value )
+{
+	_layer = value;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+	}
 }
 
 

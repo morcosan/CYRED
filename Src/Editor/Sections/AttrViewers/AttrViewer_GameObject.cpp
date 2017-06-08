@@ -11,8 +11,9 @@ using namespace CYRED;
 
 void AttrViewer_GameObject::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_NAME, ATTR_NAME,	AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
-	_CreateAttrString	( ATTR_TAG,	 ATTR_TAG,  AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_NAME,  ATTR_NAME,	AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_TAG,	  ATTR_TAG,		AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrInt		( ATTR_LAYER, ATTR_LAYER,	AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
 
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	
@@ -28,8 +29,9 @@ void AttrViewer_GameObject::_OnChangeTarget( void* target )
 
 void AttrViewer_GameObject::_UpdateGUI()
 {
-	_WriteAttrString( ATTR_NAME, _target->GetName() );
-	_WriteAttrString( ATTR_TAG, _target->GetTag() );
+	_WriteAttrString( ATTR_NAME,	_target->GetName() );
+	_WriteAttrString( ATTR_TAG,		_target->GetTag() );
+	_WriteAttrInt	( ATTR_LAYER,	_target->GetLayer() );
 	
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
@@ -50,6 +52,7 @@ void AttrViewer_GameObject::_UpdateTarget()
 	_target->SetEmitEvents( FALSE );
 	{
 		_target->SetTag( _ReadAttrString( ATTR_TAG ).GetChar() );
+		_target->SetLayer( _ReadAttrInt( ATTR_LAYER ) );
 		_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}
 	_target->SetEmitEvents( TRUE );

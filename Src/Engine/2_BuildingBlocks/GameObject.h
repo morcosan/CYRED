@@ -37,6 +37,7 @@ namespace CYRED
 		bool		DoesEmitEvents		()						const;
 		cchar*		GetTag				()						const;
 		bool		IsInScene			()						const;
+		int			GetLayer			()						const;
 
 		int			GetComponentCount	()						const;
 		Component*	GetComponentAt		( int index )			const;
@@ -45,6 +46,7 @@ namespace CYRED
 		void		SetEmitEvents		( bool value );
 		void		SetTag				( cchar* value );
 		void		SetInScene			( bool value );
+		void		SetLayer			( int value );
 
 		void		Clone				( GameObject* clone )	const;
 
@@ -65,6 +67,7 @@ namespace CYRED
 		bool	_emitEvents;
 		bool	_isInScene;
 		String	_tag;
+		int		_layer;
 
 		DataArray<Component*>	_components;
 

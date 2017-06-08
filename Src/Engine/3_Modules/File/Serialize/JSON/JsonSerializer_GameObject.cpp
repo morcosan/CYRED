@@ -45,6 +45,9 @@ rapidjson::Value JsonSerializer_GameObject::ToJson( const void* object )
 		json.AddMember( rapidjson::StringRef( ATTR_TAG ),		
 						rapidjson::StringRef( gameObject->GetTag() ),
 						_al );
+		json.AddMember( rapidjson::StringRef( ATTR_LAYER ),		
+						gameObject->GetLayer(),
+						_al );
 		json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 						gameObject->IsEnabled(),	
 						_al );
@@ -144,6 +147,10 @@ void JsonSerializer_GameObject::FromJson( rapidjson::Value& json, OUT void* obje
 
 	if ( json.HasMember( ATTR_TAG ) ) {
 		gameObject->SetTag( json[ATTR_TAG].GetString() );
+	}
+
+	if ( json.HasMember( ATTR_LAYER ) ) {
+		gameObject->SetLayer( json[ATTR_LAYER].GetInt() );
 	}
 
 	if ( json.HasMember( ATTR_ENABLED ) ) {

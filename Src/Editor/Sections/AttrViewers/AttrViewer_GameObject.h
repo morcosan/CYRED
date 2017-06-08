@@ -22,6 +22,7 @@ namespace CYRED
 
 		cchar* const ATTR_NAME	= "Name";
 		cchar* const ATTR_TAG	= "Tag";
+		cchar* const ATTR_LAYER	= "Layer";
 
 
 	public:
