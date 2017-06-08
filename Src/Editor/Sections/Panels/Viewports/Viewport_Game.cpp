@@ -101,6 +101,8 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
 		// render morphs
 		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+		// render text 3d
+		renderMngr->Render( ComponentType::TEXT_3D, sceneRoot, _cameraGO, lightsGO );
 		// render particles
 		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
 	}

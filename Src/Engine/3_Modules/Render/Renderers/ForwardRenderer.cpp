@@ -124,7 +124,7 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject, lightsGO );		break;
 				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject, lightsGO );	break;
 				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );			break;
-				case ComponentType::TEXT_3D:			_RecRenderText3D( targetGO );				break;
+				case ComponentType::TEXT_3D:			_RecRenderText3D( gameObject );				break;
 			}
 		}
 	}
