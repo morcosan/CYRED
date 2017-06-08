@@ -640,12 +640,36 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		_gl->Uniform4fv( uniform, 1, text3D->GetTextColor().Ptr() );
 	}
 
-	// draw font chars
+	// prepare for drawing
 	int offsetX = 0;
 	cchar* text = text3D->GetText();
 	int textLength = String::Length( text );
 	float unitRatio = (1.0f / font->GetMaxSize()) * (text3D->GetTextSize() / Text3D::RENDER_UNIT_SIZE);
 
+	// calculate text total with and height
+	float totalWidth = 0;
+	float totalHeight = 0;
+	for ( int i = 0; i < textLength; i++ ) {
+		// get font char
+		FontChar* fontChar = font->GetFontChar( text[i] );
+
+		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		// bitshift by 6 to get value in pixels (2^6 = 64)
+		offsetX += (fontChar->advance >> 6);
+
+		// update width
+		if ( i == textLength - 1 ) {
+			totalWidth = CAST_S( float, offsetX );
+		}
+
+		// update height
+		if ( totalHeight < fontChar->height ) {
+			totalHeight = CAST_S( float, fontChar->height );
+		}
+	}
+
+	// draw font chars
+	offsetX = 0;
 	for ( int i = 0; i < textLength; i++ ) {
 		// get font char
 		FontChar* fontChar = font->GetFontChar( text[i] );
@@ -661,6 +685,20 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		float h = unitRatio * CAST_S( float, fontChar->height );
 		float x = unitRatio * CAST_S( float, offsetX + fontChar->bearingX );
 		float y = unitRatio * CAST_S( float, fontChar->bearingY - fontChar->height );
+
+		// apply horizontal alignment
+		switch ( text3D->GetHorizontalAlign() ) {
+			case HorizontalAlign::LEFT:											break;
+			case HorizontalAlign::MIDDLE:	x -= unitRatio * totalWidth / 2;	break;
+			case HorizontalAlign::RIGHT:	x -= unitRatio * totalWidth;		break;
+		}
+
+		// apply vertical alignment
+		switch ( text3D->GetVerticalAlign() ) {
+			case VerticalAlign::TOP:		y -= unitRatio * totalHeight;		break;
+			case VerticalAlign::MIDDLE:		y -= unitRatio * totalHeight / 2;	break;
+			case VerticalAlign::BOTTOM:											break;
+		}
 		
 		// create vertices
 		Vertex vertices[6] = {
@@ -680,7 +718,8 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
 
 		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		offsetX += (fontChar->advance >> 6); // bitshift by 6 to get value in pixels (2^6 = 64)
+		// bitshift by 6 to get value in pixels (2^6 = 64)
+		offsetX += (fontChar->advance >> 6); 
 	}
 
 	// unbind all

@@ -243,6 +243,10 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 						AttrViewer* viewer = _attrViewers.Get( ATTR_RIGID_BODY )->viewer;
 						viewer->UpdateGUI();
 					}
+					else if ( comp->GetComponentType() == ComponentType::TEXT_3D ) {
+						AttrViewer* viewer = _attrViewers.Get( ATTR_TEXT_3D )->viewer;
+						viewer->UpdateGUI();
+					}
 				}
 				else {
 					// check if target is prefab

@@ -74,7 +74,7 @@ void AttrViewer_Text3D::_UpdateGUI()
 			case HorizontalAlign::MIDDLE:	typeIndex = 1;	break;
 			case HorizontalAlign::RIGHT:	typeIndex = 2;	break;
 		}
-		_WriteAttrDropdown( ATTR_V_ALIGN, typeIndex );
+		_WriteAttrDropdown( ATTR_H_ALIGN, typeIndex );
 	}
 
 	Font* font = _target->GetFont();
