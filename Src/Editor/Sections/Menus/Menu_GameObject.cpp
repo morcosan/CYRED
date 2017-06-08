@@ -332,6 +332,7 @@ void Menu_GameObject::A_GO_CreateEmpty()
 	GameObject* newObject = _CreateGameObject( treeItem->node );
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -348,6 +349,7 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 	newObject->SetName( MENU_GO_3D_PIVOT );
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -369,6 +371,7 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 	camera->SetFarClipping( 200.0f );
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -387,6 +390,7 @@ void Menu_GameObject::A_GO_Create3D_Light()
 	newObject->AddComponent<Light>();
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -405,6 +409,7 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -423,6 +428,7 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -441,6 +447,7 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 	newObject->AddComponent<ParticleEmitter>();
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
@@ -459,6 +466,7 @@ void Menu_GameObject::A_GO_Text_3D()
 	newObject->AddComponent<Text3D>();
 
 	// select object
+	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 

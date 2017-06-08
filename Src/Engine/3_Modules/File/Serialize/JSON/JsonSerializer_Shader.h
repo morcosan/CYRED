@@ -10,10 +10,10 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Shader : public JsonSerializer
 	{
-		cchar* const UNIQUE_ID				= "uid";
-		cchar* const VERTEX_FILE_PATH		= "vertex_file_path";
-		cchar* const GEOMETRY_FILE_PATH	= "geometry_file_path";
-		cchar* const FRAGMENT_FILE_PATH	= "fragment_file_path";
+		cchar* const ATTR_UNIQUE_ID				= "uid";
+		cchar* const ATTR_VERTEX_FILE_PATH		= "vertex_file_path";
+		cchar* const ATTR_GEOMETRY_FILE_PATH	= "geometry_file_path";
+		cchar* const ATTR_FRAGMENT_FILE_PATH	= "fragment_file_path";
 
 
 	public:

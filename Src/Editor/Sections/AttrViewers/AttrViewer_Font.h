@@ -16,10 +16,10 @@ namespace CYRED
 	class AttrViewer_Font : public AttrViewer
 	{
 	public:
-		cchar* TITLE					= "Font";
+		cchar* const TITLE			= "Font";
 
-		cchar* ATTR_NAME				= "Name";
-		cchar* ATTR_FILE_PATH			= "File Path";
+		cchar* const ATTR_NAME		= "Name";
+		cchar* const ATTR_FILE_PATH	= "File Path";
 
 
 	public:

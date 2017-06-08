@@ -10,24 +10,24 @@ namespace CYRED
 {
 	class JsonSerializer_AppConfig : public JsonSerializer
 	{
-		cchar* const APP_NAME			= "app_name";
-		cchar* const FULLSCREEN		= "fullscreen";
-		cchar* const WIDTH				= "width";
-		cchar* const HEIGHT			= "height";
-		cchar* const POS_X				= "pos_x";
-		cchar* const POS_Y				= "pos_y";
-		cchar* const FPS				= "fps";
-		cchar* const START_SCENE		= "start_scene";
-		cchar* const ASSETS			= "assets";
+		cchar* const ATTR_APP_NAME		= "app_name";
+		cchar* const ATTR_FULLSCREEN	= "fullscreen";
+		cchar* const ATTR_WIDTH			= "width";
+		cchar* const ATTR_HEIGHT		= "height";
+		cchar* const ATTR_POS_X			= "pos_x";
+		cchar* const ATTR_POS_Y			= "pos_y";
+		cchar* const ATTR_FPS			= "fps";
+		cchar* const ATTR_START_SCENE	= "start_scene";
+		cchar* const ATTR_ASSETS		= "assets";
 		cchar* const ASSETS_MATERIALS	= "materials";
 		cchar* const ASSETS_TEXTURES	= "textures";
-		cchar* const ASSETS_SHADERS	= "shaders";
+		cchar* const ASSETS_SHADERS		= "shaders";
 		cchar* const ASSETS_MESHES		= "meshes";
 		cchar* const ASSETS_MORPHS		= "morphs";
 		cchar* const ASSETS_SCENES		= "scenes";
-		cchar* const ASSETS_SCRIPTS	= "scripts";
-		cchar* const ASSET_NAME		= "name";
-		cchar* const ASSET_PATH		= "path";
+		cchar* const ASSETS_SCRIPTS		= "scripts";
+		cchar* const ASSET_NAME			= "name";
+		cchar* const ASSET_PATH			= "path";
 
 
 	public:

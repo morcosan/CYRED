@@ -22,14 +22,14 @@ namespace CYRED
 	class AttrViewer_ParticleEmitter : public AttrViewer
 	{
 	public:
-		cchar* TITLE					= "ParticleEmitter";
+		cchar* const TITLE						= "ParticleEmitter";
 
-		cchar* ATTR_MAX_PARTICLES		= "Max Particles";
-		cchar* ATTR_PARTICLE_LIFETIME	= "Particle Lifetime";
-		cchar* ATTR_PARTICLE_VELOCITY	= "Particle Velocity";
-		cchar* ATTR_PARTICLE_ACCEL		= "Particle Acceleration";
-		cchar* ATTR_SHAPE_DRIVEN_SPEED	= "Shape-Driven Speed";
-		cchar* ATTR_SHAPE_DRIVEN_ACCEL	= "Shape-Driven Accel";
+		cchar* const ATTR_MAX_PARTICLES			= "Max Particles";
+		cchar* const ATTR_PARTICLE_LIFETIME		= "Particle Lifetime";
+		cchar* const ATTR_PARTICLE_VELOCITY		= "Particle Velocity";
+		cchar* const ATTR_PARTICLE_ACCEL		= "Particle Acceleration";
+		cchar* const ATTR_SHAPE_DRIVEN_SPEED	= "Shape-Driven Speed";
+		cchar* const ATTR_SHAPE_DRIVEN_ACCEL	= "Shape-Driven Accel";
 
 		cchar* ATTR_WAVES_PER_SEC		= "Waves / Sec";
 		cchar* ATTR_PARTICLES_PER_WAVE	= "Particles / Wave";

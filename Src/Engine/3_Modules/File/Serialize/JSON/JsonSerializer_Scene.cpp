@@ -23,7 +23,7 @@ rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( scene->GetUniqueID() ),
 					_al );
 	{
@@ -40,7 +40,7 @@ rapidjson::Value JsonSerializer_Scene::ToJson( const void* object )
 			}
 		}
 
-		json.AddMember( rapidjson::StringRef( GAMEOBJECTS ), arrayNode, _al );
+		json.AddMember( rapidjson::StringRef( ATTR_GAMEOBJECTS ), arrayNode, _al );
 	}
 
 	return json;
@@ -55,16 +55,17 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 	bool emitEvents = scene->DoesEmitEvents();
 	scene->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) ) {
-		scene->SetUniqueID( json[UNIQUE_ID].GetString() );
+
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		scene->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
 	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( GAMEOBJECTS ) ) {
-		rapidjson::Value& gameObjects = json[GAMEOBJECTS];
+	if ( json.HasMember( ATTR_GAMEOBJECTS ) ) {
+		rapidjson::Value& gameObjects = json[ATTR_GAMEOBJECTS];
 
 		for ( int i = 0; i < CAST_S(int, gameObjects.Size()); ++i )	{
 			int uid = SceneManager::Singleton()->NextGameObjectUID();
@@ -81,6 +82,7 @@ void JsonSerializer_Scene::FromJson( rapidjson::Value& json, OUT void* object,
 			gameObject->SetEmitEvents( TRUE );
 		}
 	}
+
 
 	scene->SetEmitEvents( emitEvents );
 }

@@ -19,42 +19,42 @@ rapidjson::Value JsonSerializer_Light::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ),	
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 					light->IsEnabled(),	
 					_al );
 
 	switch ( light->GetLightType() ) {
 		case LightType::DIRECTIONAL:
-			json.AddMember( rapidjson::StringRef( LIGHT_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LIGHT_TYPE ),
 							rapidjson::StringRef( Light::TYPE_DIRECTIONAL ),
 							_al );
 			break;
 
 		case LightType::POINT:
-			json.AddMember( rapidjson::StringRef( LIGHT_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LIGHT_TYPE ),
 							rapidjson::StringRef( Light::TYPE_POINT ),
 							_al );
-			json.AddMember( rapidjson::StringRef( RANGE ), 
+			json.AddMember( rapidjson::StringRef( ATTR_RANGE ), 
 							light->GetRange(), 
 							_al );
 			break;
 
 		case LightType::SPOT:
-			json.AddMember( rapidjson::StringRef( LIGHT_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LIGHT_TYPE ),
 							rapidjson::StringRef( Light::TYPE_SPOT ),
 							_al );
-			json.AddMember( rapidjson::StringRef( RANGE ), 
+			json.AddMember( rapidjson::StringRef( ATTR_RANGE ), 
 							light->GetRange(), 
 							_al );
-			json.AddMember( rapidjson::StringRef( SPOT_ANGLE ), 
+			json.AddMember( rapidjson::StringRef( ATTR_SPOT_ANGLE ), 
 							light->GetSpotAngle(), 
 							_al );
 			break;
 	}
-	json.AddMember( rapidjson::StringRef( COLOR ), 
+	json.AddMember( rapidjson::StringRef( ATTR_COLOR ), 
 					_ToJsonVec3( light->GetColor() ),
 					_al );
-	json.AddMember( rapidjson::StringRef( INTENSITY ), 
+	json.AddMember( rapidjson::StringRef( ATTR_INTENSITY ), 
 					light->GetIntensity(), 
 					_al );
 
@@ -69,11 +69,13 @@ void JsonSerializer_Light::FromJson( rapidjson::Value& json, OUT void* object, D
 	bool emitEvents = light->DoesEmitEvents();
 	light->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( ENABLED ) ) {
-		light->SetEnabled( json[ENABLED].GetBool() );
+
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		light->SetEnabled( json[ATTR_ENABLED].GetBool() );
 	}
-	if ( json.HasMember( LIGHT_TYPE ) )	{
-		FiniteString type( json[LIGHT_TYPE].GetString() );
+
+	if ( json.HasMember( ATTR_LIGHT_TYPE ) ) {
+		FiniteString type( json[ATTR_LIGHT_TYPE].GetString() );
 
 		if ( type == Light::TYPE_DIRECTIONAL ) {
 			light->SetLightType( LightType::DIRECTIONAL );
@@ -85,34 +87,35 @@ void JsonSerializer_Light::FromJson( rapidjson::Value& json, OUT void* object, D
 			light->SetLightType( LightType::SPOT );
 		}
 	}
+
 	switch ( light->GetLightType() ) {
 		case LightType::DIRECTIONAL:
 			break;
 
 		case LightType::POINT:
-			if ( json.HasMember( RANGE ) )
-			{
-				light->SetRange( CAST_S( float, json[RANGE].GetDouble() ) );
+			if ( json.HasMember( ATTR_RANGE ) )	{
+				light->SetRange( CAST_S( float, json[ATTR_RANGE].GetDouble() ) );
 			}
 			break;
 
 		case LightType::SPOT:
-			if ( json.HasMember( RANGE ) )
-			{
-				light->SetRange( CAST_S( float, json[RANGE].GetDouble() ) );
+			if ( json.HasMember( ATTR_RANGE ) ) {
+				light->SetRange( CAST_S( float, json[ATTR_RANGE].GetDouble() ) );
 			}
-			if ( json.HasMember( SPOT_ANGLE ) )
-			{
-				light->SetSpotAngle( CAST_S( float, json[SPOT_ANGLE].GetDouble() ) );
+			if ( json.HasMember( ATTR_SPOT_ANGLE ) ) {
+				light->SetSpotAngle( CAST_S( float, json[ATTR_SPOT_ANGLE].GetDouble() ) );
 			}
 			break;
 	}
-	if ( json.HasMember( COLOR ) ) {
-		light->SetColor(_FromJsonVec3( json[COLOR] ) );
+
+	if ( json.HasMember( ATTR_COLOR ) ) {
+		light->SetColor(_FromJsonVec3( json[ATTR_COLOR] ) );
 	}
-	if ( json.HasMember( INTENSITY ) ) {
-		light->SetIntensity( CAST_S( float, json[INTENSITY].GetDouble() ) );
+
+	if ( json.HasMember( ATTR_INTENSITY ) ) {
+		light->SetIntensity( CAST_S( float, json[ATTR_INTENSITY].GetDouble() ) );
 	}
+
 
 	light->SetEmitEvents( emitEvents );
 }

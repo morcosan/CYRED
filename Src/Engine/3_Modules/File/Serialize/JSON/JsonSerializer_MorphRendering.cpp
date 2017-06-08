@@ -24,48 +24,44 @@ rapidjson::Value JsonSerializer_MorphRendering::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ),	
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 					morphRender->IsEnabled(),	
 					_al );
 	
 	{
 		Morph* morph = morphRender->GetMorph();
-		if ( morph == NULL )
-		{
+		if ( morph == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( MORPH ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_MORPH ), nullNode, _al );
 		}
-		else
-		{
-			json.AddMember( rapidjson::StringRef( MORPH ),
+		else {
+			json.AddMember( rapidjson::StringRef( ATTR_MORPH ),
 							rapidjson::StringRef( morph->GetUniqueID() ),
 							_al );
 		}
 	}
 	{
 		Material* material = morphRender->GetMaterial();
-		if ( material == NULL )
-		{
+		if ( material == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( MATERIAL ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_MATERIAL ), nullNode, _al );
 		}
-		else
-		{
-			json.AddMember( rapidjson::StringRef( MATERIAL ),
+		else {
+			json.AddMember( rapidjson::StringRef( ATTR_MATERIAL ),
 							rapidjson::StringRef( material->GetUniqueID() ),
 							_al );
 		}
 	}
 
-	json.AddMember( rapidjson::StringRef( DUR_STATE ), 
+	json.AddMember( rapidjson::StringRef( ATTR_DUR_STATE ), 
 					morphRender->GetDurationState(), 
 					_al );
-	json.AddMember( rapidjson::StringRef( DUR_CHANGE ), 
+	json.AddMember( rapidjson::StringRef( ATTR_DUR_CHANGE ), 
 					morphRender->GetDurationStateChange(), 
 					_al );
-	json.AddMember( rapidjson::StringRef( IS_PLAYING ), 
+	json.AddMember( rapidjson::StringRef( ATTR_IS_PLAYING ), 
 					morphRender->IsPlaying(), 
 					_al );
 
@@ -81,21 +77,16 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 	morphRender->SetEmitEvents( FALSE );
 
 
-	if ( json.HasMember( MORPH ) )
-	{
-		if ( json[MORPH].IsNull() )
-		{
+	if ( json.HasMember( ATTR_MORPH ) ) {
+		if ( json[ATTR_MORPH].IsNull() ) {
 			morphRender->SetMaterial( NULL );
 		}
-		else
-		{
-			cchar* uniqueID = json[MORPH].GetString();
+		else {
+			cchar* uniqueID = json[ATTR_MORPH].GetString();
 			Morph* morph = AssetManager::Singleton()->GetMorph( uniqueID );
-			if ( morph == NULL )
-			{
+			if ( morph == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )
-				{
+				if ( isOk )	{
 					morph = new Morph();
 					morph->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMorph( morph );
@@ -105,21 +96,16 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 	}
 
-	if ( json.HasMember( MATERIAL ) )
-	{
-		if ( json[MATERIAL].IsNull() )
-		{
+	if ( json.HasMember( ATTR_MATERIAL ) ) {
+		if ( json[ATTR_MATERIAL].IsNull() )	{
 			morphRender->SetMaterial( NULL );
 		}
-		else
-		{
-			cchar* uniqueID = json[MATERIAL].GetString();
+		else {
+			cchar* uniqueID = json[ATTR_MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
-			if ( material == NULL )
-			{
+			if ( material == NULL )	{
 				bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )
-				{
+				if ( isOk )	{
 					material = new Material();
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );
@@ -129,17 +115,16 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 		}
 	}
 
-	if ( json.HasMember( DUR_STATE ) )
-	{
-		morphRender->SetDurationState( CAST_S( float, json[DUR_STATE].GetDouble() ) );
+	if ( json.HasMember( ATTR_DUR_STATE ) ) {
+		morphRender->SetDurationState( CAST_S( float, json[ATTR_DUR_STATE].GetDouble() ) );
 	}
-	if ( json.HasMember( DUR_CHANGE ) )
-	{
-		morphRender->SetDurationStateChange( CAST_S( float, json[DUR_CHANGE].GetDouble() ) );
+
+	if ( json.HasMember( ATTR_DUR_CHANGE ) ) {
+		morphRender->SetDurationStateChange( CAST_S( float, json[ATTR_DUR_CHANGE].GetDouble() ) );
 	}
-	if ( json.HasMember( IS_PLAYING ) )
-	{
-		morphRender->SetIsPlaying( json[IS_PLAYING].GetBool() );
+
+	if ( json.HasMember( ATTR_IS_PLAYING ) ) {
+		morphRender->SetIsPlaying( json[ATTR_IS_PLAYING].GetBool() );
 	}
 
 

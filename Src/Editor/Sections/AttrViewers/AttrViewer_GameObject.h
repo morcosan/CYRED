@@ -18,10 +18,10 @@ namespace CYRED
 	class AttrViewer_GameObject : public AttrViewer
 	{
 	public:
-		cchar* TITLE		= "GameObject";
+		cchar* const TITLE		= "GameObject";
 
-		cchar* ATTR_NAME	= "Name";
-		cchar* ATTR_TAG		= "Tag";
+		cchar* const ATTR_NAME	= "Name";
+		cchar* const ATTR_TAG	= "Tag";
 
 
 	public:

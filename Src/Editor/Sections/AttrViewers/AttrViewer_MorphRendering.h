@@ -16,13 +16,13 @@ namespace CYRED
 	class AttrViewer_MorphRendering : public AttrViewer
 	{
 	public:
-		cchar* TITLE					= "MorphRendering";
+		cchar* const TITLE					= "MorphRendering";
 
-		cchar* ATTR_MORPH				= "Morph";
-		cchar* ATTR_MATERIAL			= "Material";
-		cchar* ATTR_DUR_STATE			= "Duration State";
-		cchar* ATTR_DUR_STATE_CHANGE	= "Duration Change";
-		cchar* ATTR_IS_PLAYING			= "Is Playing";
+		cchar* const ATTR_MORPH				= "Morph";
+		cchar* const ATTR_MATERIAL			= "Material";
+		cchar* const ATTR_DUR_STATE			= "Duration State";
+		cchar* const ATTR_DUR_STATE_CHANGE	= "Duration Change";
+		cchar* const ATTR_IS_PLAYING		= "Is Playing";
 
 
 	public:

@@ -15,7 +15,6 @@
 using namespace CYRED;
 
 
-
 rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 {
 	const Material* material = CAST_S( const Material*, object );
@@ -23,7 +22,7 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( material->GetUniqueID() ),
 					_al );
 	{
@@ -31,18 +30,18 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 		if ( shader == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( SHADER ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_SHADER ), nullNode, _al );
 		}
 		else {
-			json.AddMember( rapidjson::StringRef( SHADER ),
+			json.AddMember( rapidjson::StringRef( ATTR_SHADER ),
 							rapidjson::StringRef( shader->GetUniqueID() ),
 							_al );
 		}
 	}
-	json.AddMember( rapidjson::StringRef( WIREFRAME ),
+	json.AddMember( rapidjson::StringRef( ATTR_WIREFRAME ),
 					material->IsWireframe(),
 					_al );
-	json.AddMember( rapidjson::StringRef( LINE_WIDTH ),
+	json.AddMember( rapidjson::StringRef( ATTR_LINE_WIDTH ),
 					material->GetLineWidth(),
 					_al );
 	{
@@ -152,7 +151,7 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 			arrayNode.PushBack( objectNode, _al );
 		}
 
-		json.AddMember( rapidjson::StringRef( PROPERTIES ),
+		json.AddMember( rapidjson::StringRef( ATTR_PROPERTIES ),
 						arrayNode,
 						_al );
 	}
@@ -162,10 +161,10 @@ rapidjson::Value JsonSerializer_Material::ToJson( const void* object )
 		if ( pickingProxy == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( PICKING_PROXY ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_PICKING_PROXY ), nullNode, _al );
 		}
 		else {
-			json.AddMember( rapidjson::StringRef( PICKING_PROXY ),
+			json.AddMember( rapidjson::StringRef( ATTR_PICKING_PROXY ),
 							rapidjson::StringRef( pickingProxy->GetUniqueID() ),
 							_al );
 		}
@@ -184,22 +183,23 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 	bool emitEvents = material->DoesEmitEvents();
 	material->SetEmitEvents( FALSE );
 
+
 	material->ClearProperties();
 
-	if ( json.HasMember( UNIQUE_ID ) ) {
-		material->SetUniqueID( json[UNIQUE_ID].GetString() );
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		material->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
 	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( SHADER ) ) {
-		if ( json[SHADER].IsNull() ) {
+	if ( json.HasMember( ATTR_SHADER ) ) {
+		if ( json[ATTR_SHADER].IsNull() ) {
 			material->SetShader( NULL );
 		}
 		else {
-			cchar* uniqueID = json[SHADER].GetString();
+			cchar* uniqueID = json[ATTR_SHADER].GetString();
 			Shader* shader = AssetManager::Singleton()->GetShader( uniqueID );
 			if ( shader == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
@@ -217,12 +217,12 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 		}
 	}
 
-	if ( json.HasMember( WIREFRAME ) ) {
-		material->SetWireframe( json[WIREFRAME].GetBool() );
+	if ( json.HasMember( ATTR_WIREFRAME ) ) {
+		material->SetWireframe( json[ATTR_WIREFRAME].GetBool() );
 	}
 
-	if ( json.HasMember( LINE_WIDTH ) ) {
-		material->SetLineWidth( CAST_S( float, json[LINE_WIDTH].GetDouble() ) );
+	if ( json.HasMember( ATTR_LINE_WIDTH ) ) {
+		material->SetLineWidth( CAST_S( float, json[ATTR_LINE_WIDTH].GetDouble() ) );
 	}
 
 	if ( json.HasMember( CULL_FACE ) ) {
@@ -239,8 +239,8 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 		}
 	}
 
-	if ( json.HasMember( PROPERTIES ) ) {
-		rapidjson::Value& properties = json[PROPERTIES];
+	if ( json.HasMember( ATTR_PROPERTIES ) ) {
+		rapidjson::Value& properties = json[ATTR_PROPERTIES];
 
 		for ( int i = 0; i < CAST_S(int, properties.Size()); ++i ) {
 			rapidjson::Value& property = properties[i];
@@ -297,12 +297,12 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 		}
 	}
 
-	if ( json.HasMember( PICKING_PROXY ) ) {
-		if ( json[PICKING_PROXY].IsNull() ) {
+	if ( json.HasMember( ATTR_PICKING_PROXY ) ) {
+		if ( json[ATTR_PICKING_PROXY].IsNull() ) {
 			material->SetPickingProxy( NULL );
 		}
 		else {
-			cchar* uniqueID = json[PICKING_PROXY].GetString();
+			cchar* uniqueID = json[ATTR_PICKING_PROXY].GetString();
 			Material* pickingProxy = AssetManager::Singleton()->GetMaterial( uniqueID );
 			if ( pickingProxy == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
@@ -319,6 +319,7 @@ void JsonSerializer_Material::FromJson( rapidjson::Value& json, OUT void* object
 			material->SetPickingProxy( pickingProxy );
 		}
 	}
+
 
 	material->SetEmitEvents( emitEvents );
 }

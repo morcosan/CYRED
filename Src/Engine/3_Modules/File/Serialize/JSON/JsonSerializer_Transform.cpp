@@ -19,17 +19,17 @@ rapidjson::Value JsonSerializer_Transform::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ),	
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 					transform->IsEnabled(),	
 					_al );
 	
-	json.AddMember( rapidjson::StringRef( POSITION_WORLD ), 
+	json.AddMember( rapidjson::StringRef( ATTR_POSITION_WORLD ), 
 					_ToJsonVec3( transform->GetPositionWorld() ), 
 					_al );
-	json.AddMember( rapidjson::StringRef( ROTATIO_WORLD ), 
+	json.AddMember( rapidjson::StringRef( ATTR_ROTATIO_WORLD ), 
 					_ToJsonVec3( transform->GetEulerRotationWorld() ), 
 					_al );
-	json.AddMember( rapidjson::StringRef( SCALE_WORLD ), 
+	json.AddMember( rapidjson::StringRef( ATTR_SCALE_WORLD ), 
 					_ToJsonVec3( transform->GetScaleWorld() ), 
 					_al );
 
@@ -46,24 +46,20 @@ void JsonSerializer_Transform::FromJson( rapidjson::Value& json, OUT void* objec
 	transform->SetEmitEvents( FALSE );
 
 
-	if ( json.HasMember( ENABLED ) )
-	{
-		transform->SetEnabled( json[ENABLED].GetBool() );
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		transform->SetEnabled( json[ATTR_ENABLED].GetBool() );
 	}
 
-	if ( json.HasMember( POSITION_WORLD ) )
-	{
-		transform->SetPositionWorld( _FromJsonVec3( json[POSITION_WORLD] ) );
+	if ( json.HasMember( ATTR_POSITION_WORLD ) ) {
+		transform->SetPositionWorld( _FromJsonVec3( json[ATTR_POSITION_WORLD] ) );
 	}
 
-	if ( json.HasMember( ROTATIO_WORLD ) )
-	{
-		transform->SetEulerRotationWorld( _FromJsonVec3( json[ROTATIO_WORLD] ) );
+	if ( json.HasMember( ATTR_ROTATIO_WORLD ) ) {
+		transform->SetEulerRotationWorld( _FromJsonVec3( json[ATTR_ROTATIO_WORLD] ) );
 	}
 
-	if ( json.HasMember( SCALE_WORLD ) )
-	{
-		transform->SetScaleWorld( _FromJsonVec3( json[SCALE_WORLD] ) );
+	if ( json.HasMember( ATTR_SCALE_WORLD ) ) {
+		transform->SetScaleWorld( _FromJsonVec3( json[ATTR_SCALE_WORLD] ) );
 	}
 
 

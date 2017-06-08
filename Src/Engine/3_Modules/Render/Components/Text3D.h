@@ -11,7 +11,7 @@
 namespace CYRED
 {
 	class Font;
-	class Shader;
+	class Material;
 
 	namespace Enum_VerticalAlign
 	{
@@ -58,7 +58,7 @@ namespace CYRED
 		int					GetFontSize			()	const;
 		VerticalAlign		GetVerticalAlign	()	const;
 		HorizontalAlign		GetHorizontalAlign	()	const;
-		Shader*				GetShader			()	const;
+		Material*			GetMaterial			()	const;
 
 		void				SetText				( cchar* text );
 		void				SetTextColor		( const Vector4& color );
@@ -66,7 +66,7 @@ namespace CYRED
 		void				SetFontSize			( int size );
 		void				SetVerticalAlign	( VerticalAlign align );
 		void				SetHorizontalAlign	( HorizontalAlign align );
-		void				SetShader			( Shader* shader );
+		void				SetMaterial			( Material* material );
 
 
 	private:
@@ -80,6 +80,6 @@ namespace CYRED
 		HorizontalAlign		_horizontalAlign;
 		Font*				_font;
 		int					_fontSize;
-		Shader*				_shader;
+		Material*			_material;
 	};
 }

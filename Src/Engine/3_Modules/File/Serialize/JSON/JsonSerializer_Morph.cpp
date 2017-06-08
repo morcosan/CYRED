@@ -20,7 +20,7 @@ rapidjson::Value JsonSerializer_Morph::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( morph->GetUniqueID() ),
 					_al );
 
@@ -34,7 +34,7 @@ rapidjson::Value JsonSerializer_Morph::ToJson( const void* object )
 			arrayNode.PushBack( rapidjson::StringRef( morph->GetFilePath( i ) ), _al );
 		}
 
-		json.AddMember( rapidjson::StringRef( FILE_PATHS ),
+		json.AddMember( rapidjson::StringRef( ATTR_FILE_PATHS ),
 						arrayNode,
 						_al );
 	}
@@ -51,19 +51,17 @@ void JsonSerializer_Morph::FromJson( rapidjson::Value& json, OUT void* object,
 	bool emitEvents = morph->DoesEmitEvents();
 	morph->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
-		morph->SetUniqueID( json[UNIQUE_ID].GetString() );
+
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		morph->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( FILE_PATHS ) )
-	{
-		rapidjson::Value& paths = json[FILE_PATHS];
+	if ( json.HasMember( ATTR_FILE_PATHS ) ) {
+		rapidjson::Value& paths = json[ATTR_FILE_PATHS];
 
 		morph->SetTotalStates( paths.Size() );
 
@@ -71,6 +69,7 @@ void JsonSerializer_Morph::FromJson( rapidjson::Value& json, OUT void* object,
 			morph->SetFilePath( i, paths[i].GetString() );
 		}
 	}
+
 	
 	morph->SetEmitEvents( emitEvents );
 }

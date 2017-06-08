@@ -20,20 +20,20 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( mesh->GetUniqueID() ),
 					_al );
 	
 	switch ( mesh->GetMeshType() )
 	{
 		case MeshType::LINE:
-			json.AddMember( rapidjson::StringRef( MESH_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_MESH_TYPE ),
 							rapidjson::StringRef( MESH_TYPE_LINE ),
 							_al );
 			break;
 
 		case MeshType::POLYGON:
-			json.AddMember( rapidjson::StringRef( MESH_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_MESH_TYPE ),
 							rapidjson::StringRef( MESH_TYPE_POLY ),
 							_al );
 			break;
@@ -42,13 +42,13 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( const void* object )
 	switch ( mesh->GetLoadType() )
 	{
 		case MeshLoadType::EXTERNAL:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LOAD_TYPE ),
 							rapidjson::StringRef( LOAD_TYPE_EXTERNAL ),
 							_al );
 			break;
 
 		case MeshLoadType::SCRIPTED:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LOAD_TYPE ),
 							rapidjson::StringRef( LOAD_TYPE_SCRIPTED ),
 							_al );
 			break;
@@ -58,13 +58,13 @@ rapidjson::Value JsonSerializer_Mesh::ToJson( const void* object )
 	{
 		case MeshLoadType::EXTERNAL:
 		case MeshLoadType::SCRIPTED:
-			json.AddMember( rapidjson::StringRef( FILE_PATH ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH ),
 							rapidjson::StringRef( mesh->GetExternalPath() ),
 							_al );
 			break;
 	}
 
-	json.AddMember( rapidjson::StringRef( CLEAR_BUFFER ),
+	json.AddMember( rapidjson::StringRef( ATTR_CLEAR_BUFFER ),
 					mesh->DoesClearBuffersOnBind(),
 					_al );
 
@@ -80,32 +80,28 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 	bool emitEvents = mesh->DoesEmitEvents();
 	mesh->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) )
-	{
-		mesh->SetUniqueID( json[UNIQUE_ID].GetString() );
+
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		mesh->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
-	if ( flag == DeserFlag::UID_ONLY )
-	{
+	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( MESH_TYPE ) )
-	{
-		FiniteString type( json[MESH_TYPE].GetString() );
+	if ( json.HasMember( ATTR_MESH_TYPE ) ) {
+		FiniteString type( json[ATTR_MESH_TYPE].GetString() );
 
-		if ( type == MESH_TYPE_LINE )
-		{
+		if ( type == MESH_TYPE_LINE ) {
 			mesh->SetMeshType( MeshType::LINE );
 		}
-		if ( type == MESH_TYPE_POLY )
-		{
+		if ( type == MESH_TYPE_POLY ) {
 			mesh->SetMeshType( MeshType::POLYGON );
 		}
 	}
 
-	if ( json.HasMember( LOAD_TYPE ) ) {
-		FiniteString type( json[LOAD_TYPE].GetString() );
+	if ( json.HasMember( ATTR_LOAD_TYPE ) ) {
+		FiniteString type( json[ATTR_LOAD_TYPE].GetString() );
 
 		if ( type == LOAD_TYPE_EXTERNAL ) {
 			mesh->SetLoadType( MeshLoadType::EXTERNAL );
@@ -115,15 +111,14 @@ void JsonSerializer_Mesh::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 	}
 
-	if ( json.HasMember( FILE_PATH ) )
-	{
-		mesh->SetExternalPath( json[FILE_PATH].GetString() );
+	if ( json.HasMember( ATTR_FILE_PATH ) ) {
+		mesh->SetExternalPath( json[ATTR_FILE_PATH].GetString() );
 	}
 
-	if ( json.HasMember( CLEAR_BUFFER ) )
-	{
-		mesh->SetClearBuffersOnBind( json[CLEAR_BUFFER].GetBool() );
+	if ( json.HasMember( ATTR_CLEAR_BUFFER ) ) {
+		mesh->SetClearBuffersOnBind( json[ATTR_CLEAR_BUFFER].GetBool() );
 	}
+
 
 	mesh->SetEmitEvents( emitEvents );
 }

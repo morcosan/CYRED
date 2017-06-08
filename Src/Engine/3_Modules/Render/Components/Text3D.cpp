@@ -12,10 +12,12 @@ using namespace CYRED;
 
 Text3D::Text3D( GameObject* gameObject )
 	: Component( gameObject )
+	, _textColor( Vector4( 1, 1, 1, 1 ) )
 	, _font( NULL )
 	, _fontSize( 12 )
 	, _verticalAlign( VerticalAlign::TOP )
 	, _horizontalAlign( HorizontalAlign::LEFT )
+	, _material( NULL )
 {
 	_componentType = ComponentType::TEXT_3D;
 }
@@ -57,9 +59,9 @@ HorizontalAlign Text3D::GetHorizontalAlign() const
 }
 
 
-Shader* Text3D::GetShader() const
+Material* Text3D::GetMaterial() const
 {
-	return _shader;
+	return _material;
 }
 
 
@@ -123,9 +125,9 @@ void Text3D::SetHorizontalAlign( HorizontalAlign align )
 }
 
 
-void Text3D::SetShader( Shader* shader )
+void Text3D::SetMaterial( Material* material )
 {
-	_shader = shader;
+	_material = material;
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );

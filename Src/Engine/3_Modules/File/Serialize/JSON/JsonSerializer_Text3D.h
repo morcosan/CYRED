@@ -2,22 +2,15 @@
 // MIT License
 
 #pragma once
-#include "CyredRequired.h"
-#include "AttrViewer.h"
-
-namespace CYRED
-{
-	class Text3D;
-}
+#include "../../../../1_Required/Required.h"
+#include "JsonSerializer.h"
 
 
 namespace CYRED
 {
-	class AttrViewer_Text3D : public AttrViewer
+	class DLL JsonSerializer_Text3D : public JsonSerializer
 	{
-	public:
-		cchar* const TITLE				= "Text3D";
-
+		cchar* const ATTR_ENABLED		= "enabled";
 		cchar* const ATTR_TEXT			= "Text";
 		cchar* const ATTR_TEXT_COLOR	= "Color";
 		cchar* const ATTR_V_ALIGN		= "V. Align";
@@ -34,18 +27,13 @@ namespace CYRED
 
 
 	public:
-		AttrViewer_Text3D() {}
-		virtual ~AttrViewer_Text3D() {}
+		JsonSerializer_Text3D() {}
+		virtual ~JsonSerializer_Text3D() {};
 
 
-	private:
-		void _OnInitialize		()					override;
-		void _OnChangeTarget	( void* target )	override;
-		void _UpdateGUI			()					override;
-		void _UpdateTarget		()					override;
-
-
-	private:
-		Text3D*	_target;
+	public:
+		rapidjson::Value	ToJson	( const void* object )						override;
+		void				FromJson( rapidjson::Value& json, OUT void* object,
+									  DeserFlag flag )							override;
 	};
 }

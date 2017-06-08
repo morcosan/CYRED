@@ -21,6 +21,7 @@
 #include "JsonSerializer_Prefab.h"
 #include "JsonSerializer_RigidBody.h"
 #include "JsonSerializer_Font.h"
+#include "JsonSerializer_Text3D.h"
 
 #include "../../../../2_BuildingBlocks/GameObject.h"
 #include "../../../../2_BuildingBlocks/Components/Transform.h"
@@ -30,6 +31,7 @@
 #include "../../../Render/Components/ParticleEmitter.h"
 #include "../../../Render/Components/MeshRendering.h"
 #include "../../../Render/Components/MorphRendering.h"
+#include "../../../Render/Components/Text3D.h"
 #include "../../../Render/Assets/Material.h"
 #include "../../../Render/Assets/Shader.h"
 #include "../../../Render/Assets/Texture.h"
@@ -64,6 +66,7 @@ JsonSerializeSystem::JsonSerializeSystem()
 	AddSerializer<MorphRendering>	( new JsonSerializer_MorphRendering() );
 	AddSerializer<Scripter>			( new JsonSerializer_Scripter() );
 	AddSerializer<RigidBody>		( new JsonSerializer_RigidBody() );
+	AddSerializer<Text3D>			( new JsonSerializer_Text3D() );
 
 	AddSerializer<Material>			( new JsonSerializer_Material() );
 	AddSerializer<Shader>			( new JsonSerializer_Shader() );

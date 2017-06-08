@@ -10,14 +10,14 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Scripter : public JsonSerializer
 	{
-		cchar* const ENABLED			= "enabled";
-		cchar* const SCRIPTS			= "scripts";
-		cchar* const SCRIPT_UID		= "uid";
+		cchar* const ATTR_ENABLED		= "enabled";
+		cchar* const ATTR_SCRIPTS		= "scripts";
+		cchar* const SCRIPT_UID			= "uid";
 		cchar* const SCRIPT_VARS		= "variables";
 		cchar* const VAR_NAME			= "name";
 		cchar* const VAR_TYPE			= "type";
 		cchar* const VAR_VALUE			= "value";
-		cchar* const VAR_TYPE_FLOAT	= "FLOAT";
+		cchar* const VAR_TYPE_FLOAT		= "FLOAT";
 		cchar* const VAR_TYPE_INT		= "INT";
 		cchar* const VAR_TYPE_BOOL		= "BOOL";
 		cchar* const VAR_TYPE_STRING	= "STRING";

@@ -3,6 +3,7 @@
     "game_objects": [
         {
             "name": "Light",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -37,6 +38,7 @@
         },
         {
             "name": "Box",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -86,6 +88,7 @@
         },
         {
             "name": "Ball",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -126,6 +129,7 @@
         },
         {
             "name": "Ground",
+            "tag": "",
             "enabled": true,
             "components": {
                 "transform": {
@@ -161,6 +165,46 @@
                         "z": 5.0
                     },
                     "mass": 0.0
+                }
+            }
+        },
+        {
+            "name": "Text 3D",
+            "tag": "",
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 1.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "text_3d": {
+                    "enabled": true,
+                    "Text": "Morco",
+                    "Color": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    },
+                    "V. Align": "TOP",
+                    "H. Align": "LEFT",
+                    "Font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
+                    "Size": 12,
+                    "Material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
                 }
             }
         }

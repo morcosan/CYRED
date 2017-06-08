@@ -8,7 +8,7 @@
 #include "CyredModule_Event.h"
 
 #include "../Selectors/Selector_Font.h"
-#include "../Selectors/Selector_Shader.h"
+#include "../Selectors/Selector_Material.h"
 
 
 using namespace CYRED;
@@ -33,7 +33,7 @@ void AttrViewer_Text3D::_OnInitialize()
 
 	_CreateAttrSelector	( ATTR_FONT,		ATTR_FONT,		Selector_Font::TYPE );
 	_CreateAttrInt		( ATTR_FONT_SIZE,	ATTR_FONT_SIZE );
-	_CreateAttrSelector	( ATTR_SHADER,		ATTR_SHADER,	Selector_Shader::TYPE );
+	_CreateAttrSelector	( ATTR_MATERIAL,	ATTR_MATERIAL,	Selector_Material::TYPE );
 
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
 	_CreateInnerAttribute( InnerAttrType::SETTINGS );
@@ -54,9 +54,33 @@ void AttrViewer_Text3D::_OnChangeTarget( void* target )
 
 void AttrViewer_Text3D::_UpdateGUI()
 {
-	Mesh* mesh = _target->GetMesh();
-	cchar* meshName = (mesh == NULL) ? Selector_Mesh::OPTION_NULL : mesh->GetName();
-	_WriteAttrSelector( ATTR_MESH, mesh, meshName );
+	_WriteAttrString	( ATTR_TEXT,		_target->GetText() );
+	_WriteAttrVector4	( ATTR_TEXT_COLOR,	_target->GetTextColor() );
+
+	{
+		int typeIndex = 0;
+		switch ( _target->GetVerticalAlign() ) {
+			case VerticalAlign::TOP:	typeIndex = 0;	break;
+			case VerticalAlign::MIDDLE:	typeIndex = 1;	break;
+			case VerticalAlign::BOTTOM:	typeIndex = 2;	break;
+		}
+		_WriteAttrDropdown( ATTR_V_ALIGN, typeIndex );
+	}
+	{
+		int typeIndex = 0;
+		switch ( _target->GetHorizontalAlign() ) {
+			case HorizontalAlign::LEFT:		typeIndex = 0;	break;
+			case HorizontalAlign::MIDDLE:	typeIndex = 1;	break;
+			case HorizontalAlign::RIGHT:	typeIndex = 2;	break;
+		}
+		_WriteAttrDropdown( ATTR_V_ALIGN, typeIndex );
+	}
+
+	Font* font = _target->GetFont();
+	cchar* fontName = (font == NULL) ? Selector_Font::OPTION_NULL : font->GetName();
+	_WriteAttrSelector( ATTR_FONT, font, fontName );
+
+	_WriteAttrInt		( ATTR_FONT_SIZE,	_target->GetFontSize() );
 
 	Material* material = _target->GetMaterial();
 	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
@@ -75,9 +99,27 @@ void AttrViewer_Text3D::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
 	{
-		_target->SetMesh	( CAST_S( Mesh*,	 _ReadAttrSelector( ATTR_MESH ) ) );
-		_target->SetMaterial( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
-		_target->SetEnabled	( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+		_target->SetText		( _ReadAttrString( ATTR_TEXT ).GetChar() );
+
+		int vAlign = _ReadAttrDropdown( ATTR_V_ALIGN );
+		switch ( vAlign ) {
+			case 0:	_target->SetVerticalAlign( VerticalAlign::TOP );	break;
+			case 1:	_target->SetVerticalAlign( VerticalAlign::MIDDLE );	break;
+			case 2:	_target->SetVerticalAlign( VerticalAlign::BOTTOM );	break;
+		}
+
+		int hAlign = _ReadAttrDropdown( ATTR_H_ALIGN );
+		switch ( hAlign ) {
+			case 0:	_target->SetHorizontalAlign( HorizontalAlign::LEFT );	break;
+			case 1:	_target->SetHorizontalAlign( HorizontalAlign::MIDDLE );	break;
+			case 2:	_target->SetHorizontalAlign( HorizontalAlign::RIGHT );	break;
+		}
+
+		_target->SetTextColor	( _ReadAttrVector4( ATTR_TEXT_COLOR ) );
+		_target->SetFont		( CAST_S( Font*, _ReadAttrSelector( ATTR_FONT ) ) );
+		_target->SetFontSize	( _ReadAttrInt( ATTR_FONT_SIZE ) );
+		_target->SetMaterial	( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
+		_target->SetEnabled		( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}
 	_target->SetEmitEvents( TRUE );
 

@@ -18,10 +18,10 @@ namespace CYRED
 	class AttrViewer_Morph : public AttrViewer
 	{
 	public:
-		cchar* TITLE					= "Morph";
+		cchar* const TITLE				= "Morph";
 
-		cchar* ATTR_NAME				= "Name";
-		cchar* ATTR_FILE_PATHS			= "File Paths";
+		cchar* const ATTR_NAME			= "Name";
+		cchar* const ATTR_FILE_PATHS	= "File Paths";
 
 
 	public:

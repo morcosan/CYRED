@@ -10,8 +10,8 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Morph : public JsonSerializer
 	{
-		cchar* const UNIQUE_ID			= "uid";
-		cchar* const FILE_PATHS		= "file_paths";
+		cchar* const ATTR_UNIQUE_ID		= "uid";
+		cchar* const ATTR_FILE_PATHS	= "file_paths";
 
 
 	public:

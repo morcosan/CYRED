@@ -31,6 +31,7 @@
 #include "..\AttrViewers\AttrViewer_CyredProj.h"
 #include "..\AttrViewers\AttrViewer_RigidBody.h"
 #include "..\AttrViewers\AttrViewer_Font.h"
+#include "..\AttrViewers\AttrViewer_Text3D.h"
 
 #include "QtWidgets\qboxlayout.h"
 #include "QtWidgets\qtreewidget.h"
@@ -100,6 +101,7 @@ void Panel_Attributes::Initialize()
 	SetAttrViewer( ATTR_MORPH_RENDERING,	new AttrViewer_MorphRendering() );
 	SetAttrViewer( ATTR_SCRIPTER,			new AttrViewer_Scripter() );
 	SetAttrViewer( ATTR_RIGID_BODY,			new AttrViewer_RigidBody() );
+	SetAttrViewer( ATTR_TEXT_3D,			new AttrViewer_Text3D() );
 
 	SetAttrViewer( ATTR_CYRED_PROJ,			new AttrViewer_CyredProj() );
 
@@ -160,17 +162,15 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 
 		case EventType::COMPONENT_ADD:
 		case EventType::COMPONENT_REMOVE:
-		{
 			if ( _target != NULL ) {
 				if ( _target == CAST_S( Component*, eventData )->GetGameObject() ) {
 					// refresh
 					_DisplayGameObject( CAST_S( GameObject*, _target ) );
 				}
 			}
-		}
+			break;
 
 		case EventType::GAMEOBJECT_UPDATE:
-		{
 			if ( _target != NULL ) {
 				if ( _target == eventData ) {
 					// display game object
@@ -188,10 +188,8 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 				}
 			}
 			break;
-		}
 
 		case EventType::GAMEOBJECT_RENAME:
-		{
 			if ( _target != NULL ) {
 				if ( _target == eventData ) {
 					AttrViewer* gameObjectViewer = _attrViewers.Get( ATTR_GAMEOBJECT )->viewer;
@@ -207,7 +205,6 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 				}
 			}
 			break;
-		}
 
 		case EventType::COMPONENT_UPDATE:
 		{
@@ -260,7 +257,6 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 		}
 			
 		case EventType::ASSET_UPDATE:
-		{
 			if ( _target == eventData )	{
 				Asset* asset = CAST_S( Asset*, eventData );
 				ASSERT( asset != NULL );
@@ -282,7 +278,6 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 				attrViewer->UpdateGUI();
 			}
 			break;
-		}
 
 		case EditorEventType::SCENE_SELECT:
 		case EditorEventType::PREFAB_SELECT:
@@ -462,6 +457,16 @@ void Panel_Attributes::_DisplayGameObject( GameObject* gameObject )
 			Component* comp = gameObject->GetComponent<RigidBody>();
 			if ( comp != NULL )	{
 				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_RIGID_BODY );
+				atttrViewer->needsRefresh = TRUE;
+				AttrViewer* viewer = atttrViewer->viewer;
+				viewer->ChangeTarget( comp );
+				viewer->UpdateGUI();
+			}
+		}
+		{
+			Component* comp = gameObject->GetComponent<Text3D>();
+			if ( comp != NULL )	{
+				_AttrViewer* atttrViewer = _attrViewers.Get( ATTR_TEXT_3D );
 				atttrViewer->needsRefresh = TRUE;
 				AttrViewer* viewer = atttrViewer->viewer;
 				viewer->ChangeTarget( comp );

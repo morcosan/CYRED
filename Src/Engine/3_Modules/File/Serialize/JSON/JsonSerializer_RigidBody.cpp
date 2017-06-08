@@ -20,21 +20,21 @@ rapidjson::Value JsonSerializer_RigidBody::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ),	rigidBody->IsEnabled(), _al );
-	json.AddMember( rapidjson::StringRef( IS_TRIGGER ), rigidBody->IsTrigger(), _al );
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	rigidBody->IsEnabled(), _al );
+	json.AddMember( rapidjson::StringRef( ATTR_IS_TRIGGER ), rigidBody->IsTrigger(), _al );
 
 	switch ( rigidBody->GetShapeType() ) {
 		case CollisionShapeType::BOX:
-			json.AddMember( rapidjson::StringRef( SHAPE_TYPE ),	rapidjson::StringRef( TYPE_BOX ), _al );
+			json.AddMember( rapidjson::StringRef( ATTR_SHAPE_TYPE ),	rapidjson::StringRef( TYPE_BOX ), _al );
 			break;
 
 		case CollisionShapeType::SPHERE:
-			json.AddMember( rapidjson::StringRef( SHAPE_TYPE ),	rapidjson::StringRef( TYPE_SPHERE ), _al );
+			json.AddMember( rapidjson::StringRef( ATTR_SHAPE_TYPE ),	rapidjson::StringRef( TYPE_SPHERE ), _al );
 			break;
 	}
 	
-	json.AddMember( rapidjson::StringRef( SHAPE_SIZE ), _ToJsonVec3( rigidBody->GetShapeSize() ), _al );
-	json.AddMember( rapidjson::StringRef( MASS ), rigidBody->GetMass(), _al );
+	json.AddMember( rapidjson::StringRef( ATTR_SHAPE_SIZE ), _ToJsonVec3( rigidBody->GetShapeSize() ), _al );
+	json.AddMember( rapidjson::StringRef( ATTR_MASS ), rigidBody->GetMass(), _al );
 
 	return json;
 }
@@ -48,12 +48,12 @@ void JsonSerializer_RigidBody::FromJson( rapidjson::Value& json, OUT void* objec
 	rigidBody->SetEmitEvents( FALSE );
 
 
-	if ( json.HasMember( IS_TRIGGER ) ) {
-		rigidBody->SetIsTrigger( json[IS_TRIGGER].GetBool() );
+	if ( json.HasMember( ATTR_IS_TRIGGER ) ) {
+		rigidBody->SetIsTrigger( json[ATTR_IS_TRIGGER].GetBool() );
 	}
 
-	if ( json.HasMember( SHAPE_TYPE ) ) {
-		FiniteString type( json[SHAPE_TYPE].GetString() );
+	if ( json.HasMember( ATTR_SHAPE_TYPE ) ) {
+		FiniteString type( json[ATTR_SHAPE_TYPE].GetString() );
 
 		if ( type == TYPE_BOX ) {
 			rigidBody->SetShapeType( CollisionShapeType::BOX );
@@ -63,12 +63,12 @@ void JsonSerializer_RigidBody::FromJson( rapidjson::Value& json, OUT void* objec
 		}
 	}
 
-	if ( json.HasMember( SHAPE_SIZE ) ) {
-		rigidBody->SetShapeSize( _FromJsonVec3( json[SHAPE_SIZE] ) );
+	if ( json.HasMember( ATTR_SHAPE_SIZE ) ) {
+		rigidBody->SetShapeSize( _FromJsonVec3( json[ATTR_SHAPE_SIZE] ) );
 	}
 
-	if ( json.HasMember( MASS ) ) {
-		rigidBody->SetMass( CAST_S( float, json[MASS].GetDouble() ) );
+	if ( json.HasMember( ATTR_MASS ) ) {
+		rigidBody->SetMass( CAST_S( float, json[ATTR_MASS].GetDouble() ) );
 	}
 
 

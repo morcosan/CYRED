@@ -18,24 +18,24 @@ namespace CYRED
 	class AttrViewer_Texture : public AttrViewer
 	{
 	public:
-		cchar* TITLE					= "Texture";
+		cchar* const TITLE					= "Texture";
 
-		cchar* ATTR_NAME				= "Name";
-		cchar* ATTR_TEXTURE_TYPE		= "Texture Type";
-		cchar* ATTR_LOAD_TYPE			= "Load Type";
-		cchar* TYPE_TEXTURE_2D			= "TEXTURE_2D";
-		cchar* TYPE_CUBE_MAP			= "CUBE_MAP";
-		cchar* TYPE_SCRIPTED			= "SCRIPTED";
-		cchar* TYPE_EXTERNAL			= "EXTERNAL";
-		cchar* ATTR_HAS_MIPMAP			= "Has Mipmap";
-		cchar* ATTR_CLEAR_BUFFER		= "Clear Buffer On Bind";
-		cchar* ATTR_FILE_PATH			= "File Path";
-		cchar* ATTR_FILE_PATH_POSX		= "File Path PosX";
-		cchar* ATTR_FILE_PATH_NEGX		= "File Path NegX";
-		cchar* ATTR_FILE_PATH_POSY		= "File Path PosY";
-		cchar* ATTR_FILE_PATH_NEGY		= "File Path NegY";
-		cchar* ATTR_FILE_PATH_POSZ		= "File Path PosZ";
-		cchar* ATTR_FILE_PATH_NEGZ		= "File Path NegZ";
+		cchar* const ATTR_NAME				= "Name";
+		cchar* const ATTR_TEXTURE_TYPE		= "Texture Type";
+		cchar* const ATTR_LOAD_TYPE			= "Load Type";
+		cchar* const TYPE_TEXTURE_2D		= "TEXTURE_2D";
+		cchar* const TYPE_CUBE_MAP			= "CUBE_MAP";
+		cchar* const TYPE_SCRIPTED			= "SCRIPTED";
+		cchar* const TYPE_EXTERNAL			= "EXTERNAL";
+		cchar* const ATTR_HAS_MIPMAP		= "Has Mipmap";
+		cchar* const ATTR_CLEAR_BUFFER		= "Clear Buffer On Bind";
+		cchar* const ATTR_FILE_PATH			= "File Path";
+		cchar* const ATTR_FILE_PATH_POSX	= "File Path PosX";
+		cchar* const ATTR_FILE_PATH_NEGX	= "File Path NegX";
+		cchar* const ATTR_FILE_PATH_POSY	= "File Path PosY";
+		cchar* const ATTR_FILE_PATH_NEGY	= "File Path NegY";
+		cchar* const ATTR_FILE_PATH_POSZ	= "File Path PosZ";
+		cchar* const ATTR_FILE_PATH_NEGZ	= "File Path NegZ";
 
 
 	public:

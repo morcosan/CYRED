@@ -47,37 +47,24 @@ void AttrViewer_Mesh::_UpdateGUI()
 
 	{
 		int typeIndex = 0;
-		switch ( _target->GetMeshType() )
-		{
-			case MeshType::LINE:
-				typeIndex = 0;
-				break;
-
-			case MeshType::POLYGON:
-				typeIndex = 1;
-				break;
+		switch ( _target->GetMeshType() ) {
+			case MeshType::LINE:		typeIndex = 0;	break;
+			case MeshType::POLYGON:		typeIndex = 1;	break;
 		}
 		_WriteAttrDropdown( ATTR_MESH_TYPE, typeIndex );
 	}
 	{
 		int typeIndex = 0;
-		switch ( _target->GetLoadType() )
-		{
-			case MeshLoadType::EXTERNAL:
-				typeIndex = 0;
-				break;
-
-			case MeshLoadType::SCRIPTED:
-				typeIndex = 1;
-				break;
+		switch ( _target->GetLoadType() ) {
+			case MeshLoadType::EXTERNAL:	typeIndex = 0;	break;
+			case MeshLoadType::SCRIPTED:	typeIndex = 1;	break;		
 		}
 		_WriteAttrDropdown( ATTR_LOAD_TYPE, typeIndex );
 	}
 
 	_WriteAttrBool( ATTR_CLEAR_BUFFER, _target->DoesClearBuffersOnBind() );
 
-	switch ( _target->GetLoadType() )
-	{
+	switch ( _target->GetLoadType() ) {
 		case MeshLoadType::EXTERNAL:
 		case MeshLoadType::SCRIPTED:
 			_WriteAttrString( ATTR_FILE_PATH, _target->GetExternalPath() );
@@ -92,36 +79,23 @@ void AttrViewer_Mesh::_UpdateTarget()
 
 	_target->SetName( _ReadAttrString( ATTR_NAME ).GetChar() );
 
-	if ( _activatedGroup == CallbackGroup::GROUP_2 )
-	{
+	if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
 		int typeIndex = _ReadAttrDropdown( ATTR_LOAD_TYPE );
-		switch ( typeIndex )
-		{
-			case 0:
-				_target->SetLoadType( MeshLoadType::EXTERNAL );
-				break;
-			case 1:
-				_target->SetLoadType( MeshLoadType::SCRIPTED );
-				break;
+		switch ( typeIndex ) {
+			case 0:	_target->SetLoadType( MeshLoadType::EXTERNAL );	break;
+			case 1:	_target->SetLoadType( MeshLoadType::SCRIPTED );	break;
 		}
 	}
-	else
-	{
+	else {
 		_target->SetClearBuffersOnBind( _ReadAttrBool( ATTR_CLEAR_BUFFER ) );
 
 		int typeIndex = _ReadAttrDropdown( ATTR_MESH_TYPE );
-		switch ( typeIndex )
-		{
-			case 0:
-				_target->SetMeshType( MeshType::LINE );
-				break;
-			case 1:
-				_target->SetMeshType( MeshType::POLYGON );
-				break;
+		switch ( typeIndex ) {
+			case 0:	_target->SetMeshType( MeshType::LINE );		break;
+			case 1:	_target->SetMeshType( MeshType::POLYGON );	break;
 		}
 
-		switch ( _target->GetLoadType() )
-		{
+		switch ( _target->GetLoadType() ) {
 			case MeshLoadType::EXTERNAL:
 			case MeshLoadType::SCRIPTED:
 				_target->SetExternalPath( _ReadAttrString( ATTR_FILE_PATH ).GetChar() );

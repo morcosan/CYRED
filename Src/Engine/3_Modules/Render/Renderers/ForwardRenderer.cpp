@@ -583,9 +583,14 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		return;
 	}
 
-	Font*	font	= text3D->GetFont();
-	Shader* shader	= text3D->GetShader();
-	if ( font == NULL || shader == NULL ) {
+	Font*		font		= text3D->GetFont();
+	Material*	material	= text3D->GetMaterial();
+	if ( font == NULL || material == NULL ) {
+		return;
+	}
+
+	Shader* shader = material->GetShader();
+	if ( shader == NULL ) {
 		return;
 	}
 

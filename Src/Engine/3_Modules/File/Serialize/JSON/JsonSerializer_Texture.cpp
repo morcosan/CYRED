@@ -20,19 +20,19 @@ rapidjson::Value JsonSerializer_Texture::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( texture->GetUniqueID() ),
 					_al );
 
 	switch ( texture->GetTextureType() ) {
 		case TextureType::TEXTURE_2D:
-			json.AddMember( rapidjson::StringRef( TEXTURE_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_TEXTURE_TYPE ),
 							rapidjson::StringRef( TYPE_TEXTURE_2D ),
 							_al );
 			break;
 
 		case TextureType::CUBE_MAP:
-			json.AddMember( rapidjson::StringRef( TEXTURE_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_TEXTURE_TYPE ),
 							rapidjson::StringRef( TYPE_CUBE_MAP ),
 							_al );
 			break;
@@ -40,50 +40,50 @@ rapidjson::Value JsonSerializer_Texture::ToJson( const void* object )
 
 	switch ( texture->GetLoadType() ) {
 		case TextureLoadType::SCRIPTED:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LOAD_TYPE ),
 							rapidjson::StringRef( TYPE_SCRIPTED ),
 							_al );
 			break;
 
 		case TextureLoadType::EXTERNAL:
-			json.AddMember( rapidjson::StringRef( LOAD_TYPE ),
+			json.AddMember( rapidjson::StringRef( ATTR_LOAD_TYPE ),
 							rapidjson::StringRef( TYPE_EXTERNAL ),
 							_al );
 			break;
 	}
 
-	json.AddMember( rapidjson::StringRef( HAS_MIPMAP ),
+	json.AddMember( rapidjson::StringRef( ATTR_HAS_MIPMAP ),
 					texture->HasMipmap(),
 					_al );
-	json.AddMember( rapidjson::StringRef( CLEAR_BUFFER ),
+	json.AddMember( rapidjson::StringRef( ATTR_CLEAR_BUFFER ),
 					texture->DoesClearBufferOnBind(),
 					_al );
 
 	switch ( texture->GetTextureType() )
 	{
 		case TextureType::TEXTURE_2D:
-			json.AddMember( rapidjson::StringRef( FILE_PATH ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH ),
 							rapidjson::StringRef( texture->GetImagePath(0) ),
 							_al );
 			break;
 
 		case TextureType::CUBE_MAP:
-			json.AddMember( rapidjson::StringRef( FILE_PATH_POSX ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_POSX ),
 							rapidjson::StringRef( texture->GetImagePath(0) ),
 							_al );
-			json.AddMember( rapidjson::StringRef( FILE_PATH_NEGX ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_NEGX ),
 							rapidjson::StringRef( texture->GetImagePath(1) ),
 							_al );
-			json.AddMember( rapidjson::StringRef( FILE_PATH_POSY ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_POSY ),
 							rapidjson::StringRef( texture->GetImagePath(2) ),
 							_al );
-			json.AddMember( rapidjson::StringRef( FILE_PATH_NEGY ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_NEGY ),
 							rapidjson::StringRef( texture->GetImagePath(3) ),
 							_al );
-			json.AddMember( rapidjson::StringRef( FILE_PATH_POSZ ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_POSZ ),
 							rapidjson::StringRef( texture->GetImagePath(4) ),
 							_al );
-			json.AddMember( rapidjson::StringRef( FILE_PATH_NEGZ ),
+			json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH_NEGZ ),
 							rapidjson::StringRef( texture->GetImagePath(5) ),
 							_al );
 			break;
@@ -101,16 +101,17 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 	bool emitEvents = texture->DoesEmitEvents();
 	texture->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) ) {
-		texture->SetUniqueID( json[UNIQUE_ID].GetString() );
+
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		texture->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
 	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( TEXTURE_TYPE ) ) {
-		FiniteString type( json[TEXTURE_TYPE].GetString() );
+	if ( json.HasMember( ATTR_TEXTURE_TYPE ) ) {
+		FiniteString type( json[ATTR_TEXTURE_TYPE].GetString() );
 
 		if ( type == TYPE_TEXTURE_2D ) {
 			texture->SetTextureType( TextureType::TEXTURE_2D );
@@ -120,8 +121,8 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 	}
 
-	if ( json.HasMember( LOAD_TYPE ) ) {
-		FiniteString type( json[LOAD_TYPE].GetString() );
+	if ( json.HasMember( ATTR_LOAD_TYPE ) ) {
+		FiniteString type( json[ATTR_LOAD_TYPE].GetString() );
 
 		if ( type == TYPE_SCRIPTED ) {
 			texture->SetLoadType( TextureLoadType::SCRIPTED );
@@ -131,43 +132,43 @@ void JsonSerializer_Texture::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 	}
 
-	if ( json.HasMember( HAS_MIPMAP ) ) {
-		texture->SetHasMipmap( json[HAS_MIPMAP].GetBool() );
+	if ( json.HasMember( ATTR_HAS_MIPMAP ) ) {
+		texture->SetHasMipmap( json[ATTR_HAS_MIPMAP].GetBool() );
 	}
 
-	if ( json.HasMember( CLEAR_BUFFER ) ) {
-		texture->SetClearBufferOnBind( json[CLEAR_BUFFER].GetBool() );
+	if ( json.HasMember( ATTR_CLEAR_BUFFER ) ) {
+		texture->SetClearBufferOnBind( json[ATTR_CLEAR_BUFFER].GetBool() );
 	}
 
-	switch ( texture->GetTextureType() )
-	{
+	switch ( texture->GetTextureType() ) {
 		case TextureType::TEXTURE_2D:
-			if ( json.HasMember( FILE_PATH ) ) {
-				texture->SetImagePath( 0, json[FILE_PATH].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH ) ) {
+				texture->SetImagePath( 0, json[ATTR_FILE_PATH].GetString() );
 			}
 			break;
 
 		case TextureType::CUBE_MAP:
-			if ( json.HasMember( FILE_PATH_POSX ) )	{
-				texture->SetImagePath( 0, json[FILE_PATH_POSX].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_POSX ) )	{
+				texture->SetImagePath( 0, json[ATTR_FILE_PATH_POSX].GetString() );
 			}
-			if ( json.HasMember( FILE_PATH_NEGX ) )	{
-				texture->SetImagePath( 1, json[FILE_PATH_NEGX].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_NEGX ) )	{
+				texture->SetImagePath( 1, json[ATTR_FILE_PATH_NEGX].GetString() );
 			}
-			if ( json.HasMember( FILE_PATH_POSY ) )	{
-				texture->SetImagePath( 2, json[FILE_PATH_POSY].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_POSY ) )	{
+				texture->SetImagePath( 2, json[ATTR_FILE_PATH_POSY].GetString() );
 			}
-			if ( json.HasMember( FILE_PATH_NEGY ) )	{
-				texture->SetImagePath( 3, json[FILE_PATH_NEGY].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_NEGY ) )	{
+				texture->SetImagePath( 3, json[ATTR_FILE_PATH_NEGY].GetString() );
 			}
-			if ( json.HasMember( FILE_PATH_POSZ ) )	{
-				texture->SetImagePath( 4, json[FILE_PATH_POSZ].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_POSZ ) )	{
+				texture->SetImagePath( 4, json[ATTR_FILE_PATH_POSZ].GetString() );
 			}
-			if ( json.HasMember( FILE_PATH_NEGZ ) )	{
-				texture->SetImagePath( 5, json[FILE_PATH_NEGZ].GetString() );
+			if ( json.HasMember( ATTR_FILE_PATH_NEGZ ) )	{
+				texture->SetImagePath( 5, json[ATTR_FILE_PATH_NEGZ].GetString() );
 			}
 			break;
 	}
+
 
 	texture->SetEmitEvents( emitEvents );
 }

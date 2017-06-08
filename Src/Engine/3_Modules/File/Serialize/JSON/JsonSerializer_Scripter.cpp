@@ -25,7 +25,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 	json.SetObject();
 
 	// add enabled
-	json.AddMember( rapidjson::StringRef( ENABLED ),	
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 					scripter->IsEnabled(),	
 					_al );
 	
@@ -168,7 +168,7 @@ rapidjson::Value JsonSerializer_Scripter::ToJson( const void* object )
 		}
 
 		// add to json
-		json.AddMember( rapidjson::StringRef( SCRIPTS ),
+		json.AddMember( rapidjson::StringRef( ATTR_SCRIPTS ),
 						arrayNodeScripts,
 						_al );
 	}
@@ -185,10 +185,11 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 	bool emitEvents = scripter->DoesEmitEvents();
 	scripter->SetEmitEvents( FALSE );
 
+
 	// load script
-	if ( json.HasMember( SCRIPTS ) )
+	if ( json.HasMember( ATTR_SCRIPTS ) )
 	{
-		rapidjson::Value& scripts = json[SCRIPTS];
+		rapidjson::Value& scripts = json[ATTR_SCRIPTS];
 
 		for ( int i = 0; i < CAST_S(int, scripts.Size()); ++i ) {
 			// load script uid
@@ -277,6 +278,7 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 			}
 		}
 	}
+
 
 	scripter->SetEmitEvents( emitEvents );
 }

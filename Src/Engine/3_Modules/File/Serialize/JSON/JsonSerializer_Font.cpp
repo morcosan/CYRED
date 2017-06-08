@@ -20,11 +20,11 @@ rapidjson::Value JsonSerializer_Font::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( UNIQUE_ID ),
+	json.AddMember( rapidjson::StringRef( ATTR_UNIQUE_ID ),
 					rapidjson::StringRef( font->GetUniqueID() ),
 					_al );
 
-	json.AddMember( rapidjson::StringRef( FILE_PATH ),
+	json.AddMember( rapidjson::StringRef( ATTR_FILE_PATH ),
 					rapidjson::StringRef( font->GetExternalPath() ),
 					_al );
 
@@ -40,16 +40,16 @@ void JsonSerializer_Font::FromJson( rapidjson::Value& json, OUT void* object,
 	bool emitEvents = font->DoesEmitEvents();
 	font->SetEmitEvents( FALSE );
 
-	if ( json.HasMember( UNIQUE_ID ) ) {
-		font->SetUniqueID( json[UNIQUE_ID].GetString() );
+	if ( json.HasMember( ATTR_UNIQUE_ID ) ) {
+		font->SetUniqueID( json[ATTR_UNIQUE_ID].GetString() );
 	}
 
 	if ( flag == DeserFlag::UID_ONLY ) {
 		return;
 	}
 
-	if ( json.HasMember( FILE_PATH ) ) {
-		font->SetExternalPath( json[FILE_PATH].GetString() );
+	if ( json.HasMember( ATTR_FILE_PATH ) ) {
+		font->SetExternalPath( json[ATTR_FILE_PATH].GetString() );
 	}
 
 	

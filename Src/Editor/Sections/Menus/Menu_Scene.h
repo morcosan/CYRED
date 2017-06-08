@@ -37,6 +37,7 @@ namespace CYRED
 		cchar*	const	MENU_GO_3D_MORPH	= "Morph";
 		cchar*	const	MENU_GO_PS			= "Particles";
 		cchar*	const	MENU_GO_PS_EMITTER	= "Emitter";
+		cchar*	const	MENU_GO_TEXT_3D		= "Text 3D";
 
 
 	public:
@@ -62,6 +63,7 @@ namespace CYRED
 		void A_GO_Create3D_Mesh			();
 		void A_GO_Create3D_Morph		();
 		void A_GO_Particles_Emitter		();
+		void A_GO_Text_3D				();
 
 
 	private:

@@ -18,10 +18,10 @@ namespace CYRED
 	class AttrViewer_Prefab : public AttrViewer
 	{
 	public:
-		cchar* TITLE				= "Prefab";
+		cchar* const TITLE				= "Prefab";
 
-		cchar* ATTR_NAME			= "Name";
-		cchar* GROUP_GAMEOBJECTS	= "GameObjects";
+		cchar* const ATTR_NAME			= "Name";
+		cchar* const GROUP_GAMEOBJECTS	= "GameObjects";
 
 
 	public:

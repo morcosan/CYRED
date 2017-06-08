@@ -16,15 +16,15 @@ namespace CYRED
 	class AttrViewer_RigidBody : public AttrViewer
 	{
 	public:
-		cchar* TITLE				= "Rigid Body";
+		cchar* const TITLE				= "Rigid Body";
 
-		cchar* ATTR_IS_TRIGGER		= "Is Trigger";
-		cchar* ATTR_SHAPE_TYPE		= "Shape Type";
-		cchar* SHAPE_TYPE_BOX		= "Box";
-		cchar* SHAPE_TYPE_SPHERE	= "Sphere";
-		cchar* ATTR_SHAPE_SIZE		= "Shape Size";
-		cchar* ATTR_SHAPE_RADIUS	= "Shape Radius";
-		cchar* ATTR_MASS			= "Mass";
+		cchar* const ATTR_IS_TRIGGER	= "Is Trigger";
+		cchar* const ATTR_SHAPE_TYPE	= "Shape Type";
+		cchar* const SHAPE_TYPE_BOX		= "Box";
+		cchar* const SHAPE_TYPE_SPHERE	= "Sphere";
+		cchar* const ATTR_SHAPE_SIZE	= "Shape Size";
+		cchar* const ATTR_SHAPE_RADIUS	= "Shape Radius";
+		cchar* const ATTR_MASS			= "Mass";
 
 
 	public:

@@ -12,27 +12,27 @@ namespace CYRED
 {
 	class DLL JsonSerializer_ParticleEmitter : public JsonSerializer
 	{
-		cchar* const ENABLED				= "enabled";
+		cchar* const ATTR_ENABLED				= "enabled";
 
-		cchar* const MAX_PARTICLES			= "max_particles";
-		cchar* const PARTICLE_LIFETIME		= "particle_lifetime";
-		cchar* const PARTICLE_VELOCITY		= "particle_velocity";
-		cchar* const PARTICLE_ACCEL		= "particle_acceleration";
-		cchar* const SHAPE_DRIVEN_SPEED	= "shape_driven_speed";
-		cchar* const SHAPE_DRIVEN_ACCEL	= "shape_driven_accel";
+		cchar* const ATTR_MAX_PARTICLES			= "max_particles";
+		cchar* const ATTR_PARTICLE_LIFETIME		= "particle_lifetime";
+		cchar* const ATTR_PARTICLE_VELOCITY		= "particle_velocity";
+		cchar* const ATTR_PARTICLE_ACCEL		= "particle_acceleration";
+		cchar* const ATTR_SHAPE_DRIVEN_SPEED	= "shape_driven_speed";
+		cchar* const ATTR_SHAPE_DRIVEN_ACCEL	= "shape_driven_accel";
 
-		cchar* const WAVES_PER_SEC			= "waves_per_sec";
-		cchar* const PARTICLES_PER_WAVE	= "particles_per_wave";
-		cchar* const LOOPING				= "looping";
-		cchar* const SPAWN_DURATION		= "spawn_duration";
+		cchar* const ATTR_WAVES_PER_SEC			= "waves_per_sec";
+		cchar* const ATTR_PARTICLES_PER_WAVE	= "particles_per_wave";
+		cchar* const ATTR_LOOPING				= "looping";
+		cchar* const ATTR_SPAWN_DURATION		= "spawn_duration";
 
-		cchar* const EMITTER_SHAPE			= "emitter_shape";
-		cchar* const SHAPE_RADIUS			= "shape_radius";
-		cchar* const SPAWN_FROM_EDGE		= "epawn_from_edge";
+		cchar* const ATTR_EMITTER_SHAPE			= "emitter_shape";
+		cchar* const ATTR_SHAPE_RADIUS			= "shape_radius";
+		cchar* const ATTR_SPAWN_FROM_EDGE		= "epawn_from_edge";
 
-		cchar* const MATERIAL				= "material";
-		cchar* const PARTICLE_SIZE_START	= "particle_size_start";
-		cchar* const PARTICLE_SIZE_END		= "particle_size_end";
+		cchar* const ATTR_MATERIAL				= "material";
+		cchar* const ATTR_PARTICLE_SIZE_START	= "particle_size_start";
+		cchar* const ATTR_PARTICLE_SIZE_END		= "particle_size_end";
 
 
 	public:

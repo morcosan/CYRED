@@ -10,8 +10,8 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Prefab : public JsonSerializer
 	{
-		cchar* const UNIQUE_ID	= "uid";
-		cchar* const ROOT		= "root";
+		cchar* const ATTR_UNIQUE_ID	= "uid";
+		cchar* const ATTR_ROOT		= "root";
 
 
 	public:

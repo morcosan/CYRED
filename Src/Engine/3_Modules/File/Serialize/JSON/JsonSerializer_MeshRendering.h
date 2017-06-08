@@ -10,9 +10,9 @@ namespace CYRED
 {
 	class DLL JsonSerializer_MeshRendering : public JsonSerializer
 	{
-		cchar* const ENABLED	= "enabled";
-		cchar* const MESH		= "mesh";
-		cchar* const MATERIAL	= "material";
+		cchar* const ATTR_ENABLED	= "enabled";
+		cchar* const ATTR_MESH		= "mesh";
+		cchar* const ATTR_MATERIAL	= "material";
 
 
 	public:

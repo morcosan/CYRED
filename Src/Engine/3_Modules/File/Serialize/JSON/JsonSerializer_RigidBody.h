@@ -9,13 +9,13 @@ namespace CYRED
 {
 	class DLL JsonSerializer_RigidBody : public JsonSerializer
 	{
-		cchar* const ENABLED		= "enabled";
-		cchar* const IS_TRIGGER		= "is_trigger";
-		cchar* const SHAPE_TYPE		= "shape_type";
-		cchar* const TYPE_BOX		= "BOX";
-		cchar* const TYPE_SPHERE	= "SPHERE";
-		cchar* const SHAPE_SIZE		= "shape_size";
-		cchar* const MASS			= "mass";
+		cchar* const ATTR_ENABLED		= "enabled";
+		cchar* const ATTR_IS_TRIGGER	= "is_trigger";
+		cchar* const ATTR_SHAPE_TYPE	= "shape_type";
+		cchar* const TYPE_BOX			= "BOX";
+		cchar* const TYPE_SPHERE		= "SPHERE";
+		cchar* const ATTR_SHAPE_SIZE	= "shape_size";
+		cchar* const ATTR_MASS			= "mass";
 
 
 	public:

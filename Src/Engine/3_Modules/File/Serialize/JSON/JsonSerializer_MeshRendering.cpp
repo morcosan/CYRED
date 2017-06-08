@@ -24,36 +24,32 @@ rapidjson::Value JsonSerializer_MeshRendering::ToJson( const void* object )
 	rapidjson::Value json;
 	json.SetObject();
 
-	json.AddMember( rapidjson::StringRef( ENABLED ),	
+	json.AddMember( rapidjson::StringRef( ATTR_ENABLED ),	
 					meshRender->IsEnabled(),	
 					_al );
 	
 	{
 		Mesh* mesh = meshRender->GetMesh();
-		if ( mesh == NULL )
-		{
+		if ( mesh == NULL ) {
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( MESH ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_MESH ), nullNode, _al );
 		}
-		else
-		{
-			json.AddMember( rapidjson::StringRef( MESH ),
+		else {
+			json.AddMember( rapidjson::StringRef( ATTR_MESH ),
 							rapidjson::StringRef( mesh->GetUniqueID() ),
 							_al );
 		}
 	}
 	{
 		Material* material = meshRender->GetMaterial();
-		if ( material == NULL )
-		{
+		if ( material == NULL )	{
 			rapidjson::Value nullNode;
 			nullNode.SetNull();
-			json.AddMember( rapidjson::StringRef( MATERIAL ), nullNode, _al );
+			json.AddMember( rapidjson::StringRef( ATTR_MATERIAL ), nullNode, _al );
 		}
-		else
-		{
-			json.AddMember( rapidjson::StringRef( MATERIAL ),
+		else {
+			json.AddMember( rapidjson::StringRef( ATTR_MATERIAL ),
 							rapidjson::StringRef( material->GetUniqueID() ),
 							_al );
 		}
@@ -71,21 +67,16 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 	meshRender->SetEmitEvents( FALSE );
 
 
-	if ( json.HasMember( MESH ) )
-	{
-		if ( json[MESH].IsNull() )
-		{
+	if ( json.HasMember( ATTR_MESH ) ) {
+		if ( json[ATTR_MESH].IsNull() )	{
 			meshRender->SetMaterial( NULL );
 		}
-		else
-		{
-			cchar* uniqueID = json[MESH].GetString();
+		else {
+			cchar* uniqueID = json[ATTR_MESH].GetString();
 			Mesh* mesh = AssetManager::Singleton()->GetMesh( uniqueID );
-			if ( mesh == NULL )
-			{
+			if ( mesh == NULL ) {
 				bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )
-				{
+				if ( isOk )	{
 					mesh = new Mesh();
 					mesh->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMesh( mesh );
@@ -95,21 +86,16 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 		}
 	}
 
-	if ( json.HasMember( MATERIAL ) )
-	{
-		if ( json[MATERIAL].IsNull() )
-		{
+	if ( json.HasMember( ATTR_MATERIAL ) ) {
+		if ( json[ATTR_MATERIAL].IsNull() )	{
 			meshRender->SetMaterial( NULL );
 		}
-		else
-		{
-			cchar* uniqueID = json[MATERIAL].GetString();
+		else {
+			cchar* uniqueID = json[ATTR_MATERIAL].GetString();
 			Material* material = AssetManager::Singleton()->GetMaterial( uniqueID );
-			if ( material == NULL )
-			{
+			if ( material == NULL )	{
 				bool isOk = Random::ValidateUniqueID( uniqueID );
-				if ( isOk )
-				{
+				if ( isOk )	{
 					material = new Material();
 					material->SetUniqueID( uniqueID );
 					AssetManager::Singleton()->AddMaterial( material );

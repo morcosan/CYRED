@@ -51,6 +51,8 @@ Menu_Scene::Menu_Scene( QTreeWidget* qtTree, Panel_Hierarchy* panel )
 	QMenu* menuGO_PS				= menuGO->addMenu( MENU_GO_PS );
 	QAction* actionGO_PS_Emitter	= menuGO_PS->addAction( MENU_GO_PS_EMITTER );
 
+	QAction* actionGO_Text_3D		= menuGO->addAction( MENU_GO_TEXT_3D );
+
 
 	// add callbacks
 	QObject::connect( actionSaveScene,		&QAction::triggered, this, &Menu_Scene::A_SaveScene );
@@ -64,6 +66,7 @@ Menu_Scene::Menu_Scene( QTreeWidget* qtTree, Panel_Hierarchy* panel )
 	QObject::connect( actionGO_3D_Mesh,		&QAction::triggered, this, &Menu_Scene::A_GO_Create3D_Mesh );
 	QObject::connect( actionGO_3D_Morph,	&QAction::triggered, this, &Menu_Scene::A_GO_Create3D_Morph );
 	QObject::connect( actionGO_PS_Emitter,	&QAction::triggered, this, &Menu_Scene::A_GO_Particles_Emitter );
+	QObject::connect( actionGO_Text_3D,		&QAction::triggered, this, &Menu_Scene::A_GO_Text_3D );
 }
 
 
@@ -249,15 +252,34 @@ void Menu_Scene::A_GO_Particles_Emitter()
 {
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
 	ASSERT( treeItem->asset != NULL );
-
+	
+	// create gameobject
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	newObject->SetName( MENU_GO_PS_EMITTER );
-
+	// add transform
 	Transform* tran = newObject->AddComponent<Transform>();
 	tran->RotateByWorld( Vector3( 90, 0, 0 ) );
-
+	// add particle emitter
 	newObject->AddComponent<ParticleEmitter>();
 
 	// select new object
+	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+}
+
+
+void Menu_Scene::A_GO_Text_3D()
+{
+	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, _qtTree->currentItem() );
+	ASSERT( treeItem->node != NULL );
+
+	// create gameobject
+	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
+	// add transform
+	newObject->AddComponent<Transform>();
+	newObject->SetName( MENU_GO_TEXT_3D );
+	// add text 3d
+	newObject->AddComponent<Text3D>();
+
+	// select object
 	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }

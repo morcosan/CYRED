@@ -10,9 +10,9 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Script : public JsonSerializer
 	{
-		cchar* const UNIQUE_ID		= "uid";
-		cchar* const RUN_IN_EDITOR	= "run_in_editor";
-		cchar* const FILE_PATHS	= "file_paths";
+		cchar* const ATTR_UNIQUE_ID		= "uid";
+		cchar* const ATTR_RUN_IN_EDITOR	= "run_in_editor";
+		cchar* const ATTR_FILE_PATHS	= "file_paths";
 
 
 	public:
