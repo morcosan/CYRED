@@ -92,25 +92,32 @@ void GLImpl_3_0::BufferData( GLBuffer target, int size, const void * data, GLDra
 	int glTarget = 0;
 	int glUsage = 0;
 
-	switch ( target )
-	{
-		case GLBuffer::ARRAY_BUFFER:
-			glTarget = GL_ARRAY_BUFFER;
-			break;
-
-		case GLBuffer::ELEMENT_ARRAY_BUFFER:
-			glTarget = GL_ELEMENT_ARRAY_BUFFER;
-			break;
+	switch ( target ) {
+		case GLBuffer::ARRAY_BUFFER:			glTarget = GL_ARRAY_BUFFER;			break;
+		case GLBuffer::ELEMENT_ARRAY_BUFFER:	glTarget = GL_ELEMENT_ARRAY_BUFFER;	break;
 	}
 
-	switch ( usage )
-	{
-		case GLDrawType::STATIC_DRAW:
-			glUsage = GL_STATIC_DRAW;
-			break;
+	switch ( usage ) {
+		case GLDrawType::STATIC_DRAW:	glUsage = GL_STATIC_DRAW;	break;
+		case GLDrawType::DYNAMIC_DRAW:	glUsage = GL_DYNAMIC_DRAW;	break;
 	}
 
 	_qtGL->glBufferData( glTarget, size, data, glUsage );
+}
+
+
+void GLImpl_3_0::BufferSubData( GLBuffer target, int offset, int size, const void* data )
+{
+	ASSERT( _qtGL != NULL );
+
+	int glTarget = 0;
+
+	switch ( target ) {
+		case GLBuffer::ARRAY_BUFFER:			glTarget = GL_ARRAY_BUFFER;			break;
+		case GLBuffer::ELEMENT_ARRAY_BUFFER:	glTarget = GL_ELEMENT_ARRAY_BUFFER;	break;
+	}
+
+	_qtGL->glBufferSubData( glTarget, offset, size, data );
 }
 
 

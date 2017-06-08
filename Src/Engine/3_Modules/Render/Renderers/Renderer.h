@@ -28,64 +28,35 @@ namespace CYRED
 
 		
 	public:
-		/*****
-		* @desc: clear the previous frame
-		*/
-		virtual void ClearScreen	( float r, float g, float b )	PURE_VIRTUAL;
+		virtual void	ClearScreen		( float r, float g, float b )	PURE_VIRTUAL;
+		virtual void	ResetDepth		()								PURE_VIRTUAL;
+		virtual void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+										  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
 
-		/*****
-		* @desc: clear the depth buffer; new rendering goes over anything before
-		*/
-		virtual void ResetDepth		()								PURE_VIRTUAL;
+		virtual Vector4	ReadPixel		( int x, int y )				PURE_VIRTUAL;
 
-		/*****
-		* @desc: render the given component from given gameobject and its children
-		* @params: 
-		* 		compType	- the component to render
-		* 		target		- the target gameobject
-		* 		cameraGO	- camera
-		* 		lightsGO	- the list of lights to be used
-		*/
-		virtual void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
-									  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
-
-		/*****
-		* @desc: read the pixel from renderer at given location
-		* @params: 
-		* 		x - location on x axis
-		* 		y - location on y axis
-		* @assert: canvas and renderer are set
-		*/
-		virtual Vector4	ReadPixel	( int x, int y )				PURE_VIRTUAL;
-
-		virtual void OnResize		()								PURE_VIRTUAL;
-		virtual void DisplayOnScreen()								PURE_VIRTUAL;
+		virtual void	OnResize		()								PURE_VIRTUAL;
+		virtual void	DisplayOnScreen	()								PURE_VIRTUAL;
 
 
 	public:
-		/*****
-		* @desc: prepare the renderer
-		* @params: 
-		* 		glAPI		- the global GL API
-		* 		glContext	- the context of the canvas
-		*/
-		void Initialize		( GL* glAPI, GLContext* glContext );
+		void Initialize	( GL* glAPI, GLContext* glContext );
 
 
 	protected:
-		/*****
-		* @desc: apply specific initialization per renderer; 
-		*		 called at the end of Initialize()
-		*/
-		virtual void _OnInitialize	()					PURE_VIRTUAL;
+		virtual void	 _OnInitialize	()								PURE_VIRTUAL;
 
 
 	protected:
-		static Shader* _screenQuadShader;
+		static uint _textVBO;
 
 
 	protected:
 		GL*			_gl;
 		GLContext*	_glContext;
+
+
+	private:
+		void _CreateTextVBO();
 	};
 }

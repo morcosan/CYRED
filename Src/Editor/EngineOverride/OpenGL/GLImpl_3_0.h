@@ -27,6 +27,8 @@ namespace CYRED
 		void BindBuffer				( GLBuffer target, int buffer )					override;
 		void BufferData				( GLBuffer target, int size, 
 									  const void* data, GLDrawType usage )			override;
+		void BufferSubData			( GLBuffer target, int offset, int size, 
+									  const void* data )							override;
 
 		void GetShaderiv			( int shader, GLShaderInfo pname, 
 							   		  OUT int* params )								override;

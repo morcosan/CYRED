@@ -398,15 +398,15 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()			);
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr()	);
 
-	// morph rendering curstom uniforms
+	// bind morph rendering curstom uniforms
 	int stateRatioUniform = shader->GetUniformLocation( UNIFORM_STATE_RATIO );
 	_gl->Uniform1f( stateRatioUniform, morphRender->GetStateRatio() );
 
-	// add material
+	// bind material
 	_BindMaterial( material );
 
 
-	// add lights if needed
+	// bind lights if needed
 	if ( lightsGO.Size() > 0 )
 	{
 		// check if shader contains light uniforms
@@ -550,7 +550,7 @@ void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
 		_gl->Uniform1f( uniform, TimeManager::Singleton()->GetRenderDeltaTime() );
 	}
 
-	// add material
+	// bind material
 	_BindMaterial( material );
 
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, emitter->GetVBO() );
@@ -602,17 +602,16 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	// add shader
 	_gl->UseProgram( shaderProgram );
 
-	//_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			mesh->GetVBO() );
-	//_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	mesh->GetIBO() );
-
+	// bind buffer
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _textVBO );
 
 	// bind vertex data
 	_gl->EnableVertexAttribArray( 0 );
 	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, position)) );
+									(const void*) (offsetof(Vertex, position)) );
 	_gl->EnableVertexAttribArray( 3 );
 	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
-		(const void*) (offsetof(Vertex, uv)) );
+									(const void*) (offsetof(Vertex, uv)) );
 
 
 	// bind main 3 matrix
@@ -628,13 +627,52 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
 
+	// bind material
+	_BindMaterial( material );
+
+	// bind text uniforms
+	{
+		int uniform = shader->GetUniformLocation( UNIFORM_TEXT_COLOR );
+		_gl->Uniform4fv( uniform, 1, text3D->GetTextColor().Ptr() );
+	}
+
+	// draw font chars
+	for ( uchar c = 0; c < 10; c++ ) {
+		// get font char
+		FontChar* fontChar = font->GetFontChar( c );
+
+		// bind texture
+		int uniform = shader->GetUniformLocation( UNIFORM_TEXT_TEXTURE );
+		_gl->ActiveTexture( 0 );
+		_gl->BindTexture( GLTexture::TEXTURE_2D, fontChar->textureID );
+		_gl->Uniform1i( uniform, 0 );
+
+		// calculate texture size and posistion
+		float w = fontChar->width;
+		float h = fontChar->height;
+		float x = fontChar->bearingX;
+		float y = fontChar->bearingY - fontChar->height;
+		
+		// create vertices
+		Vertex vertices[6] = {
+			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+			Vertex { Vector3( x,	 y,		0 ), Vector2( 0, 1 ) },
+			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+
+			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+			Vertex { Vector3( x + w, y + h, 0 ), Vector2( 1, 0 ) }
+		};
+
+		// bind buffer data
+		_gl->BufferSubData( GLBuffer::ARRAY_BUFFER, 0, sizeof(vertices), vertices ); 
+	}
 
 	// draw
 	//_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
 	// unbind all
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
-	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
 }
 
@@ -651,28 +689,28 @@ void ForwardRenderer::_BindMaterial( Material* material )
 
 	for ( int i = 0; i < totalProperties; ++i ) {
 		cchar* uniformName = material->GetPropertyNameAt( i );
-		int location = shader->GetUniformLocation( uniformName );
+		int uniform = shader->GetUniformLocation( uniformName );
 		DataUnion& data = material->GetPropertyDataAt( i );
 
 		switch ( data.GetValueType() ) {
 			case DataUnion::INT:
-				_gl->Uniform1i( location, data.GetInt() );
+				_gl->Uniform1i( uniform, data.GetInt() );
 				break;
 
 			case DataUnion::FLOAT:
-				_gl->Uniform1f( location, data.GetFloat() );
+				_gl->Uniform1f( uniform, data.GetFloat() );
 				break;
 
 			case DataUnion::VECTOR2:
-				_gl->Uniform2fv( location, 1, data.GetVector2().Ptr() );
+				_gl->Uniform2fv( uniform, 1, data.GetVector2().Ptr() );
 				break;
 
 			case DataUnion::VECTOR3:
-				_gl->Uniform3fv( location, 1, data.GetVector3().Ptr() );
+				_gl->Uniform3fv( uniform, 1, data.GetVector3().Ptr() );
 				break;
 
 			case DataUnion::VECTOR4:
-				_gl->Uniform4fv( location, 1, data.GetVector4().Ptr() );
+				_gl->Uniform4fv( uniform, 1, data.GetVector4().Ptr() );
 				break;
 
 			case DataUnion::REFERENCE:
@@ -695,7 +733,7 @@ void ForwardRenderer::_BindMaterial( Material* material )
 					// bind a pure white texture
 				}
 
-				_gl->Uniform1i( location, nextActiveTexture );
+				_gl->Uniform1i( uniform, nextActiveTexture );
 
 				++ nextActiveTexture;
 				break;

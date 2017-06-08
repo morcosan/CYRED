@@ -152,6 +152,7 @@ namespace CYRED
 		enum Enum
 		{
 			STATIC_DRAW
+			, DYNAMIC_DRAW
 		};
 	}
 	namespace Enum_GLVarType
@@ -338,6 +339,8 @@ namespace CYRED
 		virtual void BindBuffer			( GLBuffer target, int buffer )					PURE_VIRTUAL;
 		virtual void BufferData			( GLBuffer target, int size, 
 										  const void* data, GLDrawType usage )			PURE_VIRTUAL;
+		virtual void BufferSubData		( GLBuffer target, int offset, int size, 
+										  const void* data )							PURE_VIRTUAL;
 
 		virtual void GetShaderiv		( int shader, GLShaderInfo pname, 
 										  int* params )									PURE_VIRTUAL;
