@@ -20,6 +20,7 @@ namespace CYRED
 
 		cchar* const ATTR_NAME		= "Name";
 		cchar* const ATTR_FILE_PATH	= "File Path";
+		cchar* const ATTR_MAX_SIZE	= "Max Size";
 
 
 	public:

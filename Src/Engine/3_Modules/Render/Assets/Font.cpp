@@ -12,14 +12,11 @@
 using namespace CYRED;
 
 
+
 Font::Font()
 	: Asset( AssetType::FONT )
 	, _freetypeFace( NULL )
-{
-}
-
-
-Font::~Font()
+	, _maxSize( 100 )
 {
 }
 
@@ -119,13 +116,19 @@ void Font::BindToGPU()
 	}
 
 	// update font chars
-	renderMngr->CreateFontChars( _freetypeFace, _fontChars );
+	renderMngr->CreateFontChars( _freetypeFace, _maxSize, _fontChars );
 }
 
 
 cchar* Font::GetExternalPath() const
 {
 	return _externalPath.GetChar();
+}
+
+
+int Font::GetMaxSize() const
+{
+	return _maxSize;
 }
 
 
@@ -143,6 +146,21 @@ FontChar* Font::GetFontChar( char c ) const
 void Font::SetExternalPath( cchar* filePath )
 {
 	_externalPath = filePath;
+
+	if ( _emitEvents ) {
+		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+	}
+}
+
+
+void Font::SetMaxSize( int size )
+{
+	_maxSize = size;
+
+	// update font chars
+	if ( _freetypeFace != NULL ) {
+		NonAPI::RenderManagerImpl::Singleton()->CreateFontChars( _freetypeFace, _maxSize, _fontChars );
+	}
 
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );

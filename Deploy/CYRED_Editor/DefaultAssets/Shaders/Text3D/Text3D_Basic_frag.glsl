@@ -10,6 +10,6 @@ in vec2 INTER_fragUV;
 
 void main()
 {
-	vec4 textureMap = texture( textTexture, INTER_fragUV );
-	OUT_color = textColor * textureMap;
+	float alpha = texture(textTexture, INTER_fragUV).r;
+	OUT_color = textColor * vec4( 1.0, 1.0, 1.0, alpha );
 }

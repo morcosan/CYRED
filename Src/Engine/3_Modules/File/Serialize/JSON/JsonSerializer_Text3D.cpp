@@ -31,6 +31,9 @@ rapidjson::Value JsonSerializer_Text3D::ToJson( const void* object )
 	json.AddMember( rapidjson::StringRef( ATTR_TEXT ),	
 					rapidjson::StringRef( text3D->GetText() ),	
 					_al );
+	json.AddMember( rapidjson::StringRef( ATTR_TEXT_SIZE ), 
+					text3D->GetTextSize(), 
+					_al );
 	json.AddMember( rapidjson::StringRef( ATTR_TEXT_COLOR ), 
 					_ToJsonVec4( text3D->GetTextColor() ), 
 					_al );
@@ -88,11 +91,6 @@ rapidjson::Value JsonSerializer_Text3D::ToJson( const void* object )
 							_al );
 		}
 	}
-
-	json.AddMember( rapidjson::StringRef( ATTR_FONT_SIZE ), 
-					text3D->GetFontSize(), 
-					_al );
-
 	{
 		Material* material = text3D->GetMaterial();
 		if ( material == NULL )	{
@@ -128,6 +126,14 @@ void JsonSerializer_Text3D::FromJson( rapidjson::Value& json, OUT void* object,
 		text3D->SetText( json[ATTR_TEXT].GetString() );
 	}
 
+	if ( json.HasMember( ATTR_TEXT_SIZE ) ) {
+		text3D->SetTextSize( json[ATTR_TEXT_SIZE].GetInt() );
+	}
+
+	if ( json.HasMember( ATTR_TEXT_COLOR ) ) {
+		text3D->SetTextColor( _FromJsonVec4( json[ATTR_TEXT_COLOR] ) );
+	}
+
 	if ( json.HasMember( ATTR_V_ALIGN ) ) {
 		FiniteString align( json[ATTR_V_ALIGN].GetString() );
 
@@ -156,10 +162,6 @@ void JsonSerializer_Text3D::FromJson( rapidjson::Value& json, OUT void* object,
 		}
 	}
 
-	if ( json.HasMember( ATTR_TEXT_COLOR ) ) {
-		text3D->SetTextColor( _FromJsonVec4( json[ATTR_TEXT_COLOR] ) );
-	}
-
 	if ( json.HasMember( ATTR_FONT ) ) {
 		if ( json[ATTR_FONT].IsNull() )	{
 			text3D->SetFont( NULL );
@@ -177,10 +179,6 @@ void JsonSerializer_Text3D::FromJson( rapidjson::Value& json, OUT void* object,
 			}
 			text3D->SetFont( font );
 		}
-	}
-
-	if ( json.HasMember( ATTR_FONT_SIZE ) ) {
-		text3D->SetFontSize( json[ATTR_FONT_SIZE].GetInt() );
 	}
 
 	if ( json.HasMember( ATTR_MATERIAL ) ) {

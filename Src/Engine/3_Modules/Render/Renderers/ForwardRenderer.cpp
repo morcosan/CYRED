@@ -87,6 +87,7 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	switch ( compType ) {
 		case ComponentType::MESH_RENDERING:
 		case ComponentType::MORPH_RENDERING:
+		case ComponentType::TEXT_3D:
 		{
 			_gl->Enable( GLCapability::BLEND );
 			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
@@ -312,9 +313,10 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	}
 
 	// unbind all
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
-	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
 }
 
 
@@ -466,9 +468,10 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 	_gl->DrawElements( GLDrawMode::TRIANGLES, morph->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
 	// unbind all
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
-	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
 }
 
 
@@ -559,10 +562,11 @@ void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
 	_gl->DrawElements( GLDrawMode::POINTS, emitter->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
 
 	// unbind all
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
-	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER, EMPTY_BUFFER );
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
 }
 
 
@@ -637,9 +641,14 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	}
 
 	// draw font chars
-	for ( uchar c = 0; c < 10; c++ ) {
+	int offsetX = 0;
+	cchar* text = text3D->GetText();
+	int textLength = String::Length( text );
+	float unitRatio = (1.0f / font->GetMaxSize()) * (text3D->GetTextSize() / Text3D::RENDER_UNIT_SIZE);
+
+	for ( int i = 0; i < textLength; i++ ) {
 		// get font char
-		FontChar* fontChar = font->GetFontChar( c );
+		FontChar* fontChar = font->GetFontChar( text[i] );
 
 		// bind texture
 		int uniform = shader->GetUniformLocation( UNIFORM_TEXT_TEXTURE );
@@ -648,10 +657,10 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		_gl->Uniform1i( uniform, 0 );
 
 		// calculate texture size and posistion
-		float w = fontChar->width;
-		float h = fontChar->height;
-		float x = fontChar->bearingX;
-		float y = fontChar->bearingY - fontChar->height;
+		float w = unitRatio * CAST_S( float, fontChar->width );
+		float h = unitRatio * CAST_S( float, fontChar->height );
+		float x = unitRatio * CAST_S( float, offsetX + fontChar->bearingX );
+		float y = unitRatio * CAST_S( float, fontChar->bearingY - fontChar->height );
 		
 		// create vertices
 		Vertex vertices[6] = {
@@ -666,14 +675,19 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 
 		// bind buffer data
 		_gl->BufferSubData( GLBuffer::ARRAY_BUFFER, 0, sizeof(vertices), vertices ); 
+
+		// render quad
+		_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
+
+		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		offsetX += (fontChar->advance >> 6); // bitshift by 6 to get value in pixels (2^6 = 64)
 	}
 
-	// draw
-	//_gl->DrawElements( GLDrawMode::TRIANGLES, mesh->GetNumIndices(), GLVarType::UNSIGNED_INT, 0 );
-
 	// unbind all
-	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER,			EMPTY_BUFFER );
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
+
 }
 
 

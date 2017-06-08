@@ -103,6 +103,9 @@ void Viewport_Prefab::_OnUpdate( bool isRuntime )
 	if ( _targetPrefab != NULL ) {
 		// get prefabs root
 		GameObject* prefabRoot = _targetPrefab->GetRoot();
+		
+		// render gizmo
+		_RenderGizmo();
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
@@ -117,9 +120,6 @@ void Viewport_Prefab::_OnUpdate( bool isRuntime )
 		renderMngr->Render( ComponentType::TEXT_3D, prefabRoot, _cameraGO, lightsGO );
 		// render particles
 		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
-
-		// render gizmo
-		_RenderGizmo();
 
 		// render gizmo after
 		_RenderGizmoAfter();

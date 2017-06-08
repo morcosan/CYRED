@@ -41,6 +41,10 @@ namespace CYRED
 	class DLL Text3D : public Component
 	{
 	public:
+		static const int RENDER_UNIT_SIZE;
+
+
+	public:
 		Text3D( GameObject* gameObject = NULL );
 		virtual ~Text3D() {}
 
@@ -53,17 +57,17 @@ namespace CYRED
 
 	public:
 		cchar*				GetText				()	const;
+		int					GetTextSize			()	const;
 		Vector4				GetTextColor		()	const;
 		Font*				GetFont				()	const;
-		int					GetFontSize			()	const;
 		VerticalAlign		GetVerticalAlign	()	const;
 		HorizontalAlign		GetHorizontalAlign	()	const;
 		Material*			GetMaterial			()	const;
 
 		void				SetText				( cchar* text );
+		void				SetTextSize			( int size );
 		void				SetTextColor		( const Vector4& color );
 		void				SetFont				( Font* font );
-		void				SetFontSize			( int size );
 		void				SetVerticalAlign	( VerticalAlign align );
 		void				SetHorizontalAlign	( HorizontalAlign align );
 		void				SetMaterial			( Material* material );
@@ -75,11 +79,11 @@ namespace CYRED
 
 	private:
 		String				_text;
+		int					_textSize;
 		Vector4				_textColor;
 		VerticalAlign		_verticalAlign;
 		HorizontalAlign		_horizontalAlign;
 		Font*				_font;
-		int					_fontSize;
 		Material*			_material;
 	};
 }

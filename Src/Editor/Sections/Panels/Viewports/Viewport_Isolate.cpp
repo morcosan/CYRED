@@ -115,6 +115,9 @@ void Viewport_Isolate::_OnUpdate( bool isRuntime )
 
 	// render prefab
 	if ( _target != NULL ) {
+		// render gizmo
+		_RenderGizmo();
+
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
@@ -128,9 +131,6 @@ void Viewport_Isolate::_OnUpdate( bool isRuntime )
 		renderMngr->Render( ComponentType::TEXT_3D, _target, _cameraGO, lightsGO );
 		// render particles
 		renderMngr->Render( ComponentType::PARTICLE_EMITTER, _target, _cameraGO, lightsGO );
-
-		// render gizmo
-		_RenderGizmo();
 
 		// render gizmo after
 		_RenderGizmoAfter();

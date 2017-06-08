@@ -16,7 +16,8 @@ using namespace CYRED;
 
 void AttrViewer_Text3D::_OnInitialize()
 {
-	_CreateAttrString	( ATTR_TEXT,		ATTR_TEXT,		AttrFlag::EDIT_FINISH, CallbackGroup::GROUP_1 );
+	_CreateAttrString	( ATTR_TEXT,		ATTR_TEXT );
+	_CreateAttrInt		( ATTR_TEXT_SIZE,	ATTR_TEXT_SIZE );
 	_CreateAttrVector4	( ATTR_TEXT_COLOR,	ATTR_TEXT_COLOR );
 
 	DataArray<cchar*> hAlign;
@@ -32,7 +33,6 @@ void AttrViewer_Text3D::_OnInitialize()
 	_CreateAttrDropdown	( ATTR_V_ALIGN, ATTR_V_ALIGN, vAlign );
 
 	_CreateAttrSelector	( ATTR_FONT,		ATTR_FONT,		Selector_Font::TYPE );
-	_CreateAttrInt		( ATTR_FONT_SIZE,	ATTR_FONT_SIZE );
 	_CreateAttrSelector	( ATTR_MATERIAL,	ATTR_MATERIAL,	Selector_Material::TYPE );
 
 	_CreateInnerAttribute( InnerAttrType::ENABLED );
@@ -55,6 +55,7 @@ void AttrViewer_Text3D::_OnChangeTarget( void* target )
 void AttrViewer_Text3D::_UpdateGUI()
 {
 	_WriteAttrString	( ATTR_TEXT,		_target->GetText() );
+	_WriteAttrInt		( ATTR_TEXT_SIZE,	_target->GetTextSize() );
 	_WriteAttrVector4	( ATTR_TEXT_COLOR,	_target->GetTextColor() );
 
 	{
@@ -79,8 +80,6 @@ void AttrViewer_Text3D::_UpdateGUI()
 	Font* font = _target->GetFont();
 	cchar* fontName = (font == NULL) ? Selector_Font::OPTION_NULL : font->GetName();
 	_WriteAttrSelector( ATTR_FONT, font, fontName );
-
-	_WriteAttrInt		( ATTR_FONT_SIZE,	_target->GetFontSize() );
 
 	Material* material = _target->GetMaterial();
 	cchar* matName = (material == NULL) ? Selector_Material::OPTION_NULL : material->GetName();
@@ -115,9 +114,9 @@ void AttrViewer_Text3D::_UpdateTarget()
 			case 2:	_target->SetHorizontalAlign( HorizontalAlign::RIGHT );	break;
 		}
 
+		_target->SetTextSize	( _ReadAttrInt( ATTR_TEXT_SIZE ) );
 		_target->SetTextColor	( _ReadAttrVector4( ATTR_TEXT_COLOR ) );
 		_target->SetFont		( CAST_S( Font*, _ReadAttrSelector( ATTR_FONT ) ) );
-		_target->SetFontSize	( _ReadAttrInt( ATTR_FONT_SIZE ) );
 		_target->SetMaterial	( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
 		_target->SetEnabled		( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
 	}

@@ -193,18 +193,29 @@
                 },
                 "text_3d": {
                     "enabled": true,
-                    "Text": "Morco",
-                    "Color": {
+                    "text": "boom",
+                    "text_size": 12,
+                    "text_color": {
                         "x": 1.0,
                         "y": 1.0,
                         "z": 1.0,
                         "w": 1.0
                     },
-                    "V. Align": "TOP",
-                    "H. Align": "LEFT",
-                    "Font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
-                    "Size": 12,
-                    "Material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
+                    "vertical_align": "TOP",
+                    "horizontal_align": "LEFT",
+                    "font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
+                    "material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
+                },
+                "rigid_body": {
+                    "enabled": true,
+                    "is_trigger": false,
+                    "shape_type": "BOX",
+                    "shape_size": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    },
+                    "mass": 0.0
                 }
             }
         }

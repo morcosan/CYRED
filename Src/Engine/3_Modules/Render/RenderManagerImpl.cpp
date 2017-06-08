@@ -648,15 +648,13 @@ void RenderManagerImpl::CreateCubeMapTexture( OUT uint& textureID, int width, in
     _gl->TexParameteri( GLTexture::CUBE_MAP, GLTexParamType::WRAP_T, GLTexParamValue::CLAMP_TO_EDGE );
     _gl->TexParameteri( GLTexture::CUBE_MAP, GLTexParamType::WRAP_R, GLTexParamValue::CLAMP_TO_EDGE );
 
-	if ( hasMipmap )
-	{
+	if ( hasMipmap ) {
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR_MIPMAP_LINEAR );
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR_MIPMAP_LINEAR );
 
-		_gl->GenerateMipmap( GLTexture::CUBE_MAP );
+		_gl->GenerateMipmap( GLTexture::TEXTURE_2D );
 	}
-	else
-	{
+	else {
 		_gl->TexParameteri( GLTexture::CUBE_MAP, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR );
 		_gl->TexParameteri( GLTexture::CUBE_MAP, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR );
 	}
@@ -720,12 +718,13 @@ void RenderManagerImpl::CreateFreeTypeFace( cchar* fontPath, OUT FT_Face& freety
 }
 
 
-void RenderManagerImpl::CreateFontChars( FT_Face freetypeFace, 
+void RenderManagerImpl::CreateFontChars( FT_Face freetypeFace, int fontSize,
 										 OUT DataMap<char, FontChar*>& fontChars )
 {
 	ASSERT( _isInitialized );
 
-	FT_Set_Pixel_Sizes( freetypeFace, 0, 48 ); 
+	// max size for textures
+	FT_Set_Pixel_Sizes( freetypeFace, 0, fontSize ); 
 
 	// create the first 128 chars
 	for ( uchar c = 0; c < 128; c++ ) {
@@ -768,6 +767,9 @@ void RenderManagerImpl::CreateFontChars( FT_Face freetypeFace,
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::WRAP_T, GLTexParamValue::CLAMP_TO_EDGE );
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MAG_FILTER, GLTexParamValue::LINEAR );
 		_gl->TexParameteri( GLTexture::TEXTURE_2D, GLTexParamType::MIN_FILTER, GLTexParamValue::LINEAR );
+
+		// unbind
+		_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
 	}
 }
 

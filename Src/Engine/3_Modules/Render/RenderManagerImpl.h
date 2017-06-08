@@ -81,7 +81,8 @@ namespace CYRED
 			void CalculateTanBitangents	( DataArray<Vertex>& vertices, DataArray<int>& indices );
 
 			void CreateFreeTypeFace		( cchar* fontPath, OUT FT_Face &freetypeFace );
-			void CreateFontChars		( FT_Face freetypeFace, OUT DataMap<char, FontChar*>& fontChars );
+			void CreateFontChars		( FT_Face freetypeFace, int fontSize,
+										  OUT DataMap<char, FontChar*>& fontChars );
 
 
 

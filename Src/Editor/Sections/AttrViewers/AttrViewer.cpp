@@ -1436,8 +1436,7 @@ QWidget* AttrViewer::CreateString( int flagMask, CallbackGroup group )
 	QLineEdit* widget = new QLineEdit();
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
 			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
 				QObject::connect( widget, &QLineEdit::editingFinished, 
@@ -1472,14 +1471,27 @@ QWidget* AttrViewer::CreateFloat( int flagMask, CallbackGroup group )
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	widget->setText( "0" );
 
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
-			QObject::connect( widget, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group1 );
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
+				QObject::connect( widget, &QLineEdit::editingFinished, 
+								  this, &AttrViewer::A_OnChange_Group1 );
+			}
+			else {
+				QObject::connect( widget, &QLineEdit::textEdited, 
+								  this, &AttrViewer::A_OnChange_Group1 );
+			}
 			break;
 
 		case CallbackGroup::GROUP_2:
-			QObject::connect( widget, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group2 );
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
+				QObject::connect( widget, &QLineEdit::editingFinished, 
+								  this, &AttrViewer::A_OnChange_Group2 );
+			}
+			else {
+				QObject::connect( widget, &QLineEdit::textEdited, 
+								  this, &AttrViewer::A_OnChange_Group2 );
+			}
 			break;
 	}
 
@@ -1494,14 +1506,27 @@ QWidget* AttrViewer::CreateInt( int flagMask, CallbackGroup group )
 	widget->setReadOnly( (flagMask & AttrFlag::READONLY) != 0 );
 	widget->setText( "0" );
 
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
-			QObject::connect( widget, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group1 );
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
+				QObject::connect( widget, &QLineEdit::editingFinished, 
+								  this, &AttrViewer::A_OnChange_Group1 );
+			}
+			else {
+				QObject::connect( widget, &QLineEdit::textEdited, 
+								  this, &AttrViewer::A_OnChange_Group1 );
+			}
 			break;
 
 		case CallbackGroup::GROUP_2:
-			QObject::connect( widget, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group2 );
+			if ( (flagMask & AttrFlag::EDIT_FINISH) != 0 ) {
+				QObject::connect( widget, &QLineEdit::editingFinished, 
+								  this, &AttrViewer::A_OnChange_Group2 );
+			}
+			else {
+				QObject::connect( widget, &QLineEdit::textEdited, 
+								  this, &AttrViewer::A_OnChange_Group2 );
+			}
 			break;
 	}
 
@@ -1514,20 +1539,14 @@ QWidget* AttrViewer::CreateBool( int flagMask, CallbackGroup group )
 	QCheckBox* widget = new QCheckBox();
 	widget->setDisabled( (flagMask & AttrFlag::READONLY) != 0 );
 
-
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
-		{
 			QObject::connect( widget, &QCheckBox::clicked, this, &AttrViewer::A_OnChange_Group1 );
 			break;
-		}
 
 		case CallbackGroup::GROUP_2:
-		{
 			QObject::connect( widget, &QCheckBox::clicked, this, &AttrViewer::A_OnChange_Group2 );
 			break;
-		}
 	}
 
 	return widget;
@@ -1602,27 +1621,21 @@ QWidget* AttrViewer::CreateDropdown( DataArray<cchar*>& valueList, int flagMask,
 									  CallbackGroup group )
 {
 	QStringList stringList;
-	for ( int i = 0; i < valueList.Size(); ++i )
-	{
+	for ( int i = 0; i < valueList.Size(); ++i ) {
 		stringList << valueList[i];
 	}
 
 	QComboBox* widget = new QComboBox();
 	widget->addItems( stringList );
 
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
-		{
 			QObject::connect( widget, &QComboBox::currentTextChanged, this, &AttrViewer::A_OnChange_Group1 );
 			break;
-		}
 
 		case CallbackGroup::GROUP_2:
-		{
 			QObject::connect( widget, &QComboBox::currentTextChanged, this, &AttrViewer::A_OnChange_Group2 );
 			break;
-		}
 	}
 
 	return widget;
@@ -1705,8 +1718,7 @@ QWidget* AttrViewer::_CreateList( AttrType elementType, int flagMask, CallbackGr
 
 	QObject::connect( lineEdit, &QLineEdit::textEdited, widget, &_ListWidget::A_OnSizeChanged );
 
-	switch ( group )
-	{
+	switch ( group ) {
 		case CallbackGroup::GROUP_1:
 			QObject::connect( lineEdit, &QLineEdit::textEdited, this, &AttrViewer::A_OnChange_Group1 );
 			break;
@@ -1762,10 +1774,8 @@ QWidget* AttrViewer::_FindStructElem( _StructWidget* structWidget, cchar* elemNa
 	QTreeWidgetItem* rootItem = structWidget->rootItem;
 	QTreeWidgetItem* structItem = NULL;
 
-	for ( int i = 0; i < rootItem->childCount(); ++i )
-	{
-		if ( rootItem->child( i )->text( 0 ).compare( elemName ) == 0 )
-		{
+	for ( int i = 0; i < rootItem->childCount(); ++i ) {
+		if ( rootItem->child( i )->text( 0 ).compare( elemName ) == 0 )	{
 			structItem = rootItem->child( i );
 			elemIndex = i;
 			break;
@@ -1919,15 +1929,12 @@ void AttrViewer::_WriteListIndex( QWidget* widget, int index, cchar* elemName,
 	QWidget* valueWidget = NULL;
 	AttrType valueType;
 
-	if ( elemName != NULL )
-	{
+	if ( elemName != NULL ) {
 		QTreeWidgetItem* structItem = NULL;
 		int structIndex = -1;
 
-		for ( int i = 0; i < elemItem->childCount(); ++i )
-		{
-			if ( elemItem->child( i )->text( 0 ).compare( elemName ) == 0 )
-			{
+		for ( int i = 0; i < elemItem->childCount(); ++i ) {
+			if ( elemItem->child( i )->text( 0 ).compare( elemName ) == 0 )	{
 				structItem = elemItem->child( i );
 				structIndex = i;
 				break;
@@ -1939,14 +1946,12 @@ void AttrViewer::_WriteListIndex( QWidget* widget, int index, cchar* elemName,
 		valueWidget = listWidget->treeWidget->itemWidget( structItem, 1 );
 		valueType = listWidget->structScheme[structIndex].attrType;
 	}
-	else
-	{
+	else {
 		valueWidget = listWidget->treeWidget->itemWidget( elemItem, 1 );
 		valueType = listWidget->elementType;
 	}
 
-	switch ( valueType )
-	{
+	switch ( valueType ) {
 		case AttrType::STRING:
 			_WriteString( valueWidget, elemValue.GetString() );
 			break;
@@ -2076,15 +2081,12 @@ DataUnion AttrViewer::_ReadListIndex( QWidget* widget, int index, cchar* elemNam
 	QWidget* valueWidget = NULL;
 	AttrType valueType;
 
-	if ( elemName != NULL )
-	{
+	if ( elemName != NULL ) {
 		QTreeWidgetItem* structItem = NULL;
 		int structIndex = -1;
 
-		for ( int i = 0; i < elemItem->childCount(); ++i )
-		{
-			if ( elemItem->child( i )->text( 0 ).compare( elemName ) == 0 )
-			{
+		for ( int i = 0; i < elemItem->childCount(); ++i ) {
+			if ( elemItem->child( i )->text( 0 ).compare( elemName ) == 0 )	{
 				structItem = elemItem->child( i );
 				structIndex = i;
 				break;
@@ -2096,16 +2098,14 @@ DataUnion AttrViewer::_ReadListIndex( QWidget* widget, int index, cchar* elemNam
 		valueWidget = listWidget->treeWidget->itemWidget( structItem, 1 );
 		valueType = listWidget->structScheme[structIndex].attrType;
 	}
-	else
-	{
+	else {
 		valueWidget = listWidget->treeWidget->itemWidget( elemItem, 1 );
 		valueType = listWidget->elementType;
 	}
 
 	DataUnion attrValue;
 
-	switch ( valueType )
-	{
+	switch ( valueType ) {
 		case AttrType::STRING:
 			attrValue.SetString( _ReadString( valueWidget ).GetChar() );
 			break;

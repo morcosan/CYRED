@@ -30,7 +30,7 @@ namespace CYRED
 	{
 	public:
 		Font();
-		virtual ~Font();
+		virtual ~Font() {}
 
 
 	public:
@@ -44,14 +44,17 @@ namespace CYRED
 	public:
 		void		BindToGPU		();
 
-		cchar*		GetExternalPath	() const;
-		FontChar*	GetFontChar		( char c ) const;
+		cchar*		GetExternalPath	()			const;
+		int			GetMaxSize		()			const;
+		FontChar*	GetFontChar		( char c )	const;
 
 		void		SetExternalPath	( cchar* filePath );
+		void		SetMaxSize		( int size );
 
 
 	private:
 		String						_externalPath;
+		int							_maxSize;
 		FT_Face						_freetypeFace;
 		DataMap<char, FontChar*>	_fontChars;
 	};

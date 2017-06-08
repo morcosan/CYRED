@@ -10,8 +10,9 @@ namespace CYRED
 {
 	class DLL JsonSerializer_Font : public JsonSerializer
 	{
-		cchar* const ATTR_UNIQUE_ID		= "uid";
-		cchar* const ATTR_FILE_PATH		= "file_path";
+		cchar* const ATTR_UNIQUE_ID	= "uid";
+		cchar* const ATTR_FILE_PATH	= "file_path";
+		cchar* const ATTR_MAX_SIZE	= "max_size";
 
 
 	public:

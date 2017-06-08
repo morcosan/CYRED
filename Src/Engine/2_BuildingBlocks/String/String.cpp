@@ -128,3 +128,9 @@ int String::GetLength() const
 {
 	return strlen( _data );
 }
+
+
+int String::Length( cchar* other )
+{
+	return strlen( other );
+}

@@ -11,13 +11,13 @@ namespace CYRED
 	class DLL JsonSerializer_Text3D : public JsonSerializer
 	{
 		cchar* const ATTR_ENABLED		= "enabled";
-		cchar* const ATTR_TEXT			= "Text";
-		cchar* const ATTR_TEXT_COLOR	= "Color";
-		cchar* const ATTR_V_ALIGN		= "V. Align";
-		cchar* const ATTR_H_ALIGN		= "H. Align";
-		cchar* const ATTR_FONT			= "Font";
-		cchar* const ATTR_FONT_SIZE		= "Size";
-		cchar* const ATTR_MATERIAL		= "Material";
+		cchar* const ATTR_TEXT			= "text";
+		cchar* const ATTR_TEXT_SIZE		= "text_size";
+		cchar* const ATTR_TEXT_COLOR	= "text_color";
+		cchar* const ATTR_V_ALIGN		= "vertical_align";
+		cchar* const ATTR_H_ALIGN		= "horizontal_align";
+		cchar* const ATTR_FONT			= "font";
+		cchar* const ATTR_MATERIAL		= "material";
 		cchar* const V_ALIN_TOP			= "TOP";
 		cchar* const V_ALIN_MIDDLE		= "MIDDLE";
 		cchar* const V_ALIN_BOTTOM		= "BOTTOM";

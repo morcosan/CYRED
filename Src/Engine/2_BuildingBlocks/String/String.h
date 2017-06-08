@@ -30,6 +30,10 @@ namespace CYRED
 		int		GetLength	() const;
 
 
+	public:
+		static int Length	( cchar* other );
+
+
 	private:
 		char*	_data;
 	};
