@@ -4,6 +4,7 @@
 #include "FreeCameraControl.h"
 #include "CyredModule_Input.h"
 #include "CyredModule_Time.h"
+#include "CyredModule_Render.h"
 
 
 using namespace CYRED;

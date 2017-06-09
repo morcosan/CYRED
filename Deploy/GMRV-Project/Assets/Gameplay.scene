@@ -4,6 +4,7 @@
         {
             "name": "Sun",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {
@@ -39,6 +40,7 @@
         {
             "name": "LevelManager",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "scripter": {
@@ -66,6 +68,7 @@
         {
             "name": "Camera",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {
@@ -98,6 +101,7 @@
         {
             "name": "Ground",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {
@@ -138,8 +142,7 @@
                     "enabled": true,
                     "scripts": [
                         {
-                            "uid": "AMbncFu407agMe9H67gxgpVDqsiZQbvi",
-                            "variables": []
+                            "uid": ""
                         },
                         {
                             "uid": "0CUR4k4kcstk95nyZ2XeBRPltUPw76HS",
@@ -152,7 +155,8 @@
         {
             "name": "Spawner",
             "tag": "",
-            "enabled": false,
+            "layer": 0,
+            "enabled": true,
             "components": {
                 "transform": {
                     "enabled": true,
@@ -202,6 +206,7 @@
         {
             "name": "ForClick",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {
@@ -252,6 +257,7 @@
         {
             "name": "ForClick2",
             "tag": "",
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {

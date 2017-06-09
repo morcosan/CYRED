@@ -1,8 +1,8 @@
 {
-    "uid": "nTFiMsBvBLV2iUyTj20Y0vB7FfLBcGnm",
+    "uid": "gpCPADVCbqaANwDQI3Qgra8s67fc0yor",
     "root": {
-        "name": "Obstacle",
-        "tag": "Destructable",
+        "name": "GizmoDebugText",
+        "tag": "",
         "layer": 0,
         "enabled": true,
         "components": {
@@ -24,21 +24,20 @@
                     "z": 1.0
                 }
             },
-            "mesh_rendering": {
+            "text_3d": {
                 "enabled": true,
-                "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
-                "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
-            },
-            "rigid_body": {
-                "enabled": true,
-                "is_trigger": false,
-                "shape_type": "SPHERE",
-                "shape_size": {
-                    "x": 0.5,
-                    "y": 0.5,
-                    "z": 0.5
+                "text": "Debug",
+                "text_size": 8,
+                "text_color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
                 },
-                "mass": 1.0
+                "vertical_align": "TOP",
+                "horizontal_align": "LEFT",
+                "font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
+                "material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
             }
         }
     }

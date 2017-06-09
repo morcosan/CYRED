@@ -735,7 +735,7 @@ void PickingRenderer::_RecRenderText3D( GameObject* gameObject )
 	int offsetX = 0;
 	cchar* text = text3D->GetText();
 	int textLength = String::Length( text );
-	float unitRatio = (1.0f / font->GetMaxSize()) * (text3D->GetTextSize() / Text3D::RENDER_UNIT_SIZE);
+	float unitRatio = (1.0f * text3D->GetTextSize()) / (font->GetMaxSize() * Text3D::RENDER_UNIT_SIZE);
 
 	// calculate text total with and height
 	float totalWidth = 0;

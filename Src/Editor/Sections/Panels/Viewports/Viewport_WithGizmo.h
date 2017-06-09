@@ -27,6 +27,7 @@ namespace CYRED
 		cchar* const	GIZMO_PIVOT			= "GizmoPivot";
 		cchar* const	GIZMO_COLL_BOX		= "GizmoCollisionBox";
 		cchar* const	GIZMO_COLL_SPHERE	= "GizmoCollisionSphere";
+		cchar* const	GIZMO_DEBUG_TEXT	= "GizmoDebugText";
 
 
 	public:
@@ -45,18 +46,19 @@ namespace CYRED
 	protected:
 		DataArray<GameObject*>	_noLightsGO;	// empty lights list
 
-		GameObject*				_selectedGO;
-		Prefab*					_gizmoGrid;
-		Prefab*					_gizmoAxis;
-		Prefab*					_gizmoBackground;
-		Prefab*					_gizmoPointLight;
-		Prefab*					_gizmoDirLight;
-		Prefab*					_gizmoSpotLight;
-		Prefab*					_gizmoOrthoCamera;
-		Prefab*					_gizmoPerspCamera;
-		Prefab*					_gizmoPivot;
-		Prefab*					_gizmoCollBox;
-		Prefab*					_gizmoCollSphere;
+		GameObject*	_selectedGO;
+		GameObject*	_gizmoGrid;
+		GameObject*	_gizmoAxis;
+		GameObject*	_gizmoBackground;
+		GameObject*	_gizmoPointLight;
+		GameObject*	_gizmoDirLight;
+		GameObject*	_gizmoSpotLight;
+		GameObject*	_gizmoOrthoCamera;
+		GameObject*	_gizmoPerspCamera;
+		GameObject*	_gizmoPivot;
+		GameObject*	_gizmoCollBox;
+		GameObject*	_gizmoCollSphere;
+		GameObject*	_gizmoDebugText;
 
 
 	protected:

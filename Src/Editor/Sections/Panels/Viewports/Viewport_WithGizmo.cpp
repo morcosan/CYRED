@@ -8,6 +8,7 @@
 #include "CyredModule_Asset.h"
 #include "CyredModule_Physics.h"
 #include "CyredModule_Input.h"
+#include "CyredModule_Time.h"
 
 #include "../../../Utils/EditorEvents.h"
 
@@ -44,6 +45,7 @@ void Viewport_WithGizmo::LoadGizmo()
 	FiniteString gizmoPivot			( GIZMO_PIVOT );
 	FiniteString gizmoCollBox		( GIZMO_COLL_BOX );
 	FiniteString gizmoCollSphere	( GIZMO_COLL_SPHERE );
+	FiniteString gizmoDebugText		( GIZMO_DEBUG_TEXT );
 
 	// parse prefabs and find gizmo grid
 	for ( int i = 0; i < AssetManager::Singleton()->GetPrefabCount(); i++ ) {
@@ -51,37 +53,52 @@ void Viewport_WithGizmo::LoadGizmo()
 
 		// check name
 		if ( gizmoGrid == prefab->GetName() ) {
-			_gizmoGrid = prefab;
+			_gizmoGrid = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoGrid );
 		}
 		else if ( gizmoAxis == prefab->GetName() ) {
-			_gizmoAxis = prefab;
+			_gizmoAxis = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoAxis );
 		}
 		else if ( gizmoBackground == prefab->GetName() ) {
-			_gizmoBackground = prefab;
+			_gizmoBackground = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoBackground );
 		}
 		else if ( gizmoPointLight == prefab->GetName() ) {
-			_gizmoPointLight = prefab;
+			_gizmoPointLight = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoPointLight );
 		}
 		else if ( gizmoDirLight == prefab->GetName() ) {
-			_gizmoDirLight = prefab;
+			_gizmoDirLight = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoDirLight );
 		}
 		else if ( gizmoSpotLight == prefab->GetName() ) {
-			_gizmoSpotLight = prefab;
+			_gizmoSpotLight = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoSpotLight );
 		}
 		else if ( gizmoOrthoCamera == prefab->GetName() ) {
-			_gizmoOrthoCamera = prefab;
+			_gizmoOrthoCamera = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoOrthoCamera );
 		}
 		else if ( gizmoPerspCamera == prefab->GetName() ) {
-			_gizmoPerspCamera = prefab;
+			_gizmoPerspCamera = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoPerspCamera );
 		}
 		else if ( gizmoPivot == prefab->GetName() ) {
-			_gizmoPivot = prefab;
+			_gizmoPivot = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoPivot );
 		}
 		else if ( gizmoCollBox == prefab->GetName() ) {
-			_gizmoCollBox = prefab;
+			_gizmoCollBox = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoCollBox );
 		}
 		else if ( gizmoCollSphere == prefab->GetName() ) {
-			_gizmoCollSphere = prefab;
+			_gizmoCollSphere = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoCollSphere );
+		}
+		else if ( gizmoDebugText == prefab->GetName() ) {
+			_gizmoDebugText = new GameObject();
+			prefab->GetRoot()->Clone( _gizmoDebugText );
 		}
 	}
 }
@@ -164,20 +181,17 @@ void Viewport_WithGizmo::_RenderGizmo()
 
 	// render gizmo background
 	if ( _gizmoBackground != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
-							_cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoBackground, _cameraGO, _noLightsGO );
 	}
 
 	// render gizmo grid
 	if ( _gizmoGrid != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
-							_cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoGrid, _cameraGO, _noLightsGO );
 	}
 
 	// render gizmo axis
 	if ( _gizmoAxis != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
-							_cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoAxis, _cameraGO, _noLightsGO );
 	}
 
 	// render selected object gizmo
@@ -193,7 +207,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// gizmo point light
 				if ( _gizmoPointLight != NULL && light->GetLightType() == LightType::POINT ) {
 					// update transform
-					Transform* rootTran = _gizmoPointLight->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoPointLight->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -205,14 +219,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPointLight, 
 										_cameraGO, _noLightsGO );
 				}
 
 				// gizmo directional light
 				if ( _gizmoDirLight != NULL && light->GetLightType() == LightType::DIRECTIONAL ) {
 					// update transform
-					Transform* rootTran = _gizmoDirLight->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoDirLight->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -221,14 +235,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoDirLight, 
 										_cameraGO, _noLightsGO );
 				}
 
 				// gizmo spot light
 				if ( _gizmoSpotLight != NULL && light->GetLightType() == LightType::SPOT ) {
 					// update transform
-					Transform* rootTran = _gizmoSpotLight->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoSpotLight->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -242,7 +256,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoSpotLight, 
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -251,7 +265,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// gizmo ortho camera
 				if ( _gizmoOrthoCamera != NULL && camera->GetCameraType() == CameraType::ORTHOGRAPHIC ) {
 					// update transform
-					Transform* rootTran = _gizmoOrthoCamera->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoOrthoCamera->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -268,14 +282,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoOrthoCamera,
 										_cameraGO, _noLightsGO );
 				}
 
 				// gizmo perspective camera
 				if ( _gizmoPerspCamera != NULL && camera->GetCameraType() == CameraType::PERSPECTIVE ) {
 					// update transform
-					Transform* rootTran = _gizmoPerspCamera->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoPerspCamera->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -290,8 +304,8 @@ void Viewport_WithGizmo::_RenderGizmo()
 						float scaleFarY = far * tan;
 						float scaleFarX = scaleFarY * camera->GetAspectRatio();
 
-						Node* farNode  = _gizmoPerspCamera->GetRoot()->GetChildNodeAt( 0 );
-						Node* nearNode = _gizmoPerspCamera->GetRoot()->GetChildNodeAt( 1 );
+						Node* farNode  = _gizmoPerspCamera->GetChildNodeAt( 0 );
+						Node* nearNode = _gizmoPerspCamera->GetChildNodeAt( 1 );
 						Transform* farTran  = CAST_S( GameObject*, farNode )->GetComponent<Transform>();
 						Transform* nearTran = CAST_S( GameObject*, nearNode )->GetComponent<Transform>();
 						farTran->SetScaleWorld( Vector3( scaleFarX, scaleFarY, far ) );
@@ -300,7 +314,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPerspCamera,
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -309,7 +323,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 				// gizmo collision box
 				if ( _gizmoCollBox != NULL && rigidBody->GetShapeType() == CollisionShapeType::BOX ) {
 					// update transform
-					Transform* rootTran = _gizmoCollBox->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoCollBox->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -321,14 +335,14 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollBox,
 										_cameraGO, _noLightsGO );
 				}
 
 				// gizmo collision sphere
 				if ( _gizmoCollSphere != NULL && rigidBody->GetShapeType() == CollisionShapeType::SPHERE ) {
 					// update transform
-					Transform* rootTran = _gizmoCollSphere->GetRoot()->GetComponent<Transform>();
+					Transform* rootTran = _gizmoCollSphere->GetComponent<Transform>();
 					rootTran->SetEmitEvents( FALSE );
 					{
 						rootTran->SetPositionWorld( transform->GetPositionWorld() );
@@ -343,7 +357,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollSphere,
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -356,6 +370,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 void Viewport_WithGizmo::_RenderGizmoAfter()
 {
 	RenderManager* renderMngr = RenderManager::Singleton();
+	TimeManager* timeMngr = TimeManager::Singleton();
 
 	// reset depth
 	renderMngr->ResetDepth();
@@ -367,16 +382,40 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 		// render pivot
 		if ( transform != NULL && _gizmoPivot != NULL ) {
 			// update transform
-			Transform* rootTran = _gizmoPivot->GetRoot()->GetComponent<Transform>();
+			Transform* rootTran = _gizmoPivot->GetComponent<Transform>();
 			rootTran->SetEmitEvents( FALSE );
 			rootTran->SetPositionWorld( transform->GetPositionWorld() );
 			rootTran->SetRotationWorld( transform->GetRotationWorld() );
 			rootTran->SetEmitEvents( TRUE );
 
 			// render gizmo
-			renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
-								_cameraGO, _noLightsGO );
+			renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPivot, _cameraGO, _noLightsGO );
 		}
+	}
+
+	// reset depth
+	renderMngr->ResetDepth();
+
+	// render debug text
+	if ( _gizmoDebugText != NULL ) {
+		// get camera transform
+		Transform* cameraTran = _cameraGO->GetComponent<Transform>();
+
+		// update transform
+		Transform* rootTran = _gizmoDebugText->GetComponent<Transform>();
+		rootTran->SetEmitEvents( FALSE );
+		rootTran->SetPositionWorld( cameraTran->GetPositionWorld() );
+		rootTran->SetRotationWorld( cameraTran->GetRotationWorld() );
+		rootTran->TranslateByLocal( Vector3( 0, 5, -10 ) );
+		rootTran->SetEmitEvents( TRUE );
+
+		// update text
+		Text3D* rootText = _gizmoDebugText->GetComponent<Text3D>();
+		FiniteString text( "%.2f", (1.0f / timeMngr->GetRenderDeltaTime()) );
+		rootText->SetText( text.GetChar() );
+
+		// render gizmo
+		renderMngr->Render( 0, ComponentType::TEXT_3D, _gizmoDebugText, _cameraGO, _noLightsGO );
 	}
 }
 
