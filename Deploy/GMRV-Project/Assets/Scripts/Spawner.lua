@@ -10,9 +10,21 @@ local transform = nil
 
 function OnStart()
 	-- start spawning
-	timer = VARS.spawnInterval
+	-- timer = VARS.spawnInterval
 
 	transform = GAMEOBJECT:GetComponent_Transform()
+
+	-- test
+	GAMEOBJECT:DeleteAllChildNodes()
+	for i = 1, 1000 do
+		local obs = SCENE:Instantiate( VARS.obstacle, 0 )
+		local obsTran = obs:GetComponent_Transform()
+		local x = Random.FromRangeFloat( -transform.scaleWorld.x, transform.scaleWorld.x )
+		local y = Random.FromRangeFloat( 0, transform.positionWorld.y )
+		local z = Random.FromRangeFloat( -transform.scaleWorld.z, transform.scaleWorld.z )
+		obsTran.positionWorld = Vector3( x / 2, y, z / 2 )
+		obs.parentNode = GAMEOBJECT
+	end
 end
 
 

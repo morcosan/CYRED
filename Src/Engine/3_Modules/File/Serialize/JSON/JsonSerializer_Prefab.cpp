@@ -56,11 +56,15 @@ void JsonSerializer_Prefab::FromJson( rapidjson::Value& json, OUT void* object, 
 		// create root
 		prefab->CreateRoot();
 		GameObject* root = prefab->GetRoot();
-		// deserialize data
-		JsonSerializer_GameObject serializer;
-		serializer.FromJson( json[ATTR_ROOT], root, DeserFlag::FULL );
-		// set name as prefab
-		root->SetName( prefab->GetName() );
+		root->SetEmitEvents( FALSE );
+		{
+			// deserialize data
+			JsonSerializer_GameObject serializer;
+			serializer.FromJson( json[ATTR_ROOT], root, DeserFlag::FULL );
+			// set name as prefab
+			root->SetName( prefab->GetName() );
+		}
+		root->SetEmitEvents( TRUE );
 	}
 
 

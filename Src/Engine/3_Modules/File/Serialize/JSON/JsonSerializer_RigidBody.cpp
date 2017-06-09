@@ -48,6 +48,10 @@ void JsonSerializer_RigidBody::FromJson( rapidjson::Value& json, OUT void* objec
 	rigidBody->SetEmitEvents( FALSE );
 
 
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		rigidBody->SetEnabled( json[ATTR_ENABLED].GetBool() );
+	}
+
 	if ( json.HasMember( ATTR_IS_TRIGGER ) ) {
 		rigidBody->SetIsTrigger( json[ATTR_IS_TRIGGER].GetBool() );
 	}

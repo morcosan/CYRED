@@ -67,6 +67,10 @@ void JsonSerializer_MeshRendering::FromJson( rapidjson::Value& json, OUT void* o
 	meshRender->SetEmitEvents( FALSE );
 
 
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		meshRender->SetEnabled( json[ATTR_ENABLED].GetBool() );
+	}
+
 	if ( json.HasMember( ATTR_MESH ) ) {
 		if ( json[ATTR_MESH].IsNull() )	{
 			meshRender->SetMaterial( NULL );

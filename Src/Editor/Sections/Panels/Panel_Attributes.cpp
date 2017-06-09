@@ -209,52 +209,42 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 		case EventType::COMPONENT_UPDATE:
 		{
 			Component* comp = CAST_S( Component*, eventData );
-			if ( _target != NULL ) {
-				if ( _target == comp->GetGameObject() ) {
-					if ( comp->GetComponentType() == ComponentType::TRANSFORM ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::CAMERA ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::MESH_RENDERING ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::MORPH_RENDERING ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::PARTICLE_EMITTER ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::SCRIPTER ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::LIGHT ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_LIGHT )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::RIGID_BODY ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_RIGID_BODY )->viewer;
-						viewer->UpdateGUI();
-					}
-					else if ( comp->GetComponentType() == ComponentType::TEXT_3D ) {
-						AttrViewer* viewer = _attrViewers.Get( ATTR_TEXT_3D )->viewer;
-						viewer->UpdateGUI();
-					}
+			if ( _target != NULL && _target == comp->GetGameObject() ) {
+				if ( comp->GetComponentType() == ComponentType::TRANSFORM ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_TRANSFORM )->viewer;
+					viewer->UpdateGUI();
 				}
-				else {
-					// check if target is prefab
-					Asset* asset = CAST_S( Asset*, _target );
-					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
-						// send asset change event
-						EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
-					}
+				else if ( comp->GetComponentType() == ComponentType::CAMERA ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_CAMERA )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::MESH_RENDERING ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_MESH_RENDERING )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::MORPH_RENDERING ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_MORPH_RENDERING )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::PARTICLE_EMITTER ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_PARTICLES_EMITTER )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::SCRIPTER ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_SCRIPTER )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::LIGHT ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_LIGHT )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::RIGID_BODY ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_RIGID_BODY )->viewer;
+					viewer->UpdateGUI();
+				}
+				else if ( comp->GetComponentType() == ComponentType::TEXT_3D ) {
+					AttrViewer* viewer = _attrViewers.Get( ATTR_TEXT_3D )->viewer;
+					viewer->UpdateGUI();
 				}
 			}
 			break;

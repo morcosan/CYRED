@@ -91,6 +91,8 @@ void Hierarchy_Scene::OnEvent( int eventType, void* eventData )
 			GameObject* gameObject = CAST_S( GameObject*, eventData );
 			CustomTreeItem* treeItem = _FindGameObjectItem( gameObject->GetUniqueID() );
 			if ( treeItem != NULL ) {
+				// update 
+				_ResetHierarchy();
 				// change needs save
 				UpdateNeedsSave( TRUE );
 			}

@@ -63,6 +63,9 @@ void AttrViewer_ParticleEmitter::_OnChangeTarget( void* target )
 	// prepare settings
 	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
+
+	// change color for enable
+	_Colorize( _target->IsEnabled() );
 }
 
 
@@ -95,7 +98,7 @@ void AttrViewer_ParticleEmitter::_UpdateGUI()
 	{
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
-
+		// change color for enable
 		_Colorize( _target->IsEnabled() );
 	}
 }
@@ -104,31 +107,36 @@ void AttrViewer_ParticleEmitter::_UpdateGUI()
 void AttrViewer_ParticleEmitter::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
+	{
+		_target->SetMaxParticles		( _ReadAttrInt( ATTR_MAX_PARTICLES ) );
+		_target->SetParticleLifetime	( _ReadAttrFloat( ATTR_PARTICLE_LIFETIME ) );
+		_target->SetParticleVelocity	( _ReadAttrVector3( ATTR_PARTICLE_VELOCITY ) );
+		_target->SetParticleAccel		( _ReadAttrVector3( ATTR_PARTICLE_ACCEL ) );
+		_target->SetShapeDrivenSpeed	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_SPEED ) );
+		_target->SetShapeDrivenAccel	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_ACCEL ) );
 
-	_target->SetMaxParticles		( _ReadAttrInt( ATTR_MAX_PARTICLES ) );
-	_target->SetParticleLifetime	( _ReadAttrFloat( ATTR_PARTICLE_LIFETIME ) );
-	_target->SetParticleVelocity	( _ReadAttrVector3( ATTR_PARTICLE_VELOCITY ) );
-	_target->SetParticleAccel		( _ReadAttrVector3( ATTR_PARTICLE_ACCEL ) );
-	_target->SetShapeDrivenSpeed	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_SPEED ) );
-	_target->SetShapeDrivenAccel	( _ReadAttrFloat( ATTR_SHAPE_DRIVEN_ACCEL ) );
+		_target->SetWavesPerSec			( _ReadAttrFloat( ATTR_WAVES_PER_SEC ) );
+		_target->SetParticlesPerWave	( _ReadAttrInt( ATTR_PARTICLES_PER_WAVE ) );
+		_target->SetIsLooping			( _ReadAttrBool( ATTR_IS_LOOPING ) );
+		_target->SetSpawnDuration		( _ReadAttrFloat( ATTR_SPAWN_DURATION ) );
 
-	_target->SetWavesPerSec			( _ReadAttrFloat( ATTR_WAVES_PER_SEC ) );
-	_target->SetParticlesPerWave	( _ReadAttrInt( ATTR_PARTICLES_PER_WAVE ) );
-	_target->SetIsLooping			( _ReadAttrBool( ATTR_IS_LOOPING ) );
-	_target->SetSpawnDuration		( _ReadAttrFloat( ATTR_SPAWN_DURATION ) );
+		_target->SetEmitterShape		( _GetTypeForIndex( _ReadAttrDropdown( ATTR_EMITTER_SHAPE ) ) );
+		_target->SetShapeRadius			( _ReadAttrFloat( ATTR_SHAPE_RADIUS ) );
+		_target->SetSpawnFromEndge		( _ReadAttrBool( ATTR_SPAWN_FROM_EDGE ) );
 
-	_target->SetEmitterShape		( _GetTypeForIndex( _ReadAttrDropdown( ATTR_EMITTER_SHAPE ) ) );
-	_target->SetShapeRadius			( _ReadAttrFloat( ATTR_SHAPE_RADIUS ) );
-	_target->SetSpawnFromEndge		( _ReadAttrBool( ATTR_SPAWN_FROM_EDGE ) );
-			
-	_target->SetParticleSizeStart	( _ReadAttrVector2( ATTR_SIZE_START ) );
-	_target->SetParticleSizeEnd		( _ReadAttrVector2( ATTR_SIZE_END ) );
-	_target->SetMaterial			( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
+		_target->SetParticleSizeStart	( _ReadAttrVector2( ATTR_SIZE_START ) );
+		_target->SetParticleSizeEnd		( _ReadAttrVector2( ATTR_SIZE_END ) );
+		_target->SetMaterial			( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
 
-	_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		if ( _target->IsEnabled() != newValue ) {
+			_target->SetEnabled( newValue );
+			// change color for enable
+			_Colorize( _target->IsEnabled() );
+		}
 
-	_target->BindToGPU();
-
+		_target->BindToGPU();
+	}
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually

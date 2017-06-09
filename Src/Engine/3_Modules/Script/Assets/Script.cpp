@@ -31,7 +31,7 @@ cchar* const Script::TYPE_VECTOR4				= "VECTOR4";
 cchar* const Script::TYPE_STRING				= "STRING";
 cchar* const Script::TYPE_PREFAB				= "PREFAB";
 
-cchar* const Script::ERROR_UNKNOWN_TYPE			= "Unknown variable type: %.";
+cchar* const Script::ERROR_UNKNOWN_TYPE			= "Unknown variable type: %s";
 
 
 Script::Script()
@@ -281,7 +281,8 @@ void Script::_LoadLuaData( cchar* luaData )
 		case LUA_ERRSYNTAX:
 		{
 			// syntax error
-			DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
+			FiniteString error( "Script %s: %s", _name.GetChar(), lua_tostring( L, -1 ) );
+			DebugManager::Singleton()->Error( error.GetChar() );
 			break;
 		}
 
@@ -291,7 +292,8 @@ void Script::_LoadLuaData( cchar* luaData )
 			// run lua
 			if ( lua_pcall( L, 0, 0, 0 ) ) {
 				// run error
-				DebugManager::Singleton()->Error( lua_tostring( L, -1 ) );
+				FiniteString error( "Script %s: %s", _name.GetChar(), lua_tostring( L, -1 ) );
+				DebugManager::Singleton()->Error( error.GetChar() );
 				break;
 			}
 			else {

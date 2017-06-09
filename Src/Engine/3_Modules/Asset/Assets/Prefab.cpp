@@ -58,10 +58,6 @@ void Prefab::LoadFullFile()
 	ARRAY_FREE( fileData );
 
 	_emitEvents = oldEmitEvents;
-
-	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
-	}
 }
 
 

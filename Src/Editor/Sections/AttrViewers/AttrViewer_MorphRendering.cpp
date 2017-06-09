@@ -38,6 +38,9 @@ void AttrViewer_MorphRendering::_OnChangeTarget( void* target )
 	// prepare settings
 	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
+
+	// change color for enable
+	_Colorize( _target->IsEnabled() );
 }
 
 
@@ -59,7 +62,7 @@ void AttrViewer_MorphRendering::_UpdateGUI()
 	{
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
-
+		// change color for enable
 		_Colorize( _target->IsEnabled() );
 	}
 }
@@ -68,19 +71,23 @@ void AttrViewer_MorphRendering::_UpdateGUI()
 void AttrViewer_MorphRendering::_UpdateTarget()
 {
 	_target->SetEmitEvents( FALSE );
-
-	if ( _activatedGroup == CallbackGroup::GROUP_2 )
 	{
-		_target->SetMorph( CAST_S( Morph*, _ReadAttrSelector( ATTR_MORPH ) ) );
+		if ( _activatedGroup == CallbackGroup::GROUP_2 ) {
+			_target->SetMorph( CAST_S( Morph*, _ReadAttrSelector( ATTR_MORPH ) ) );
+		}
+		_target->SetMaterial( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
+
+		_target->SetDurationState		( _ReadAttrFloat( ATTR_DUR_STATE ) );
+		_target->SetDurationStateChange	( _ReadAttrFloat( ATTR_DUR_STATE_CHANGE ) );
+		_target->SetIsPlaying			( _ReadAttrBool( ATTR_IS_PLAYING ) );
+
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		if ( _target->IsEnabled() != newValue ) {
+			_target->SetEnabled( newValue );
+			// change color for enable
+			_Colorize( _target->IsEnabled() );
+		}
 	}
-	_target->SetMaterial( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
-
-	_target->SetDurationState		( _ReadAttrFloat( ATTR_DUR_STATE ) );
-	_target->SetDurationStateChange	( _ReadAttrFloat( ATTR_DUR_STATE_CHANGE ) );
-	_target->SetIsPlaying			( _ReadAttrBool( ATTR_IS_PLAYING ) );
-
-	_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
-
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually

@@ -39,8 +39,8 @@ namespace CYRED
 		virtual String		SerializeVec2	( Vector2 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec3	( Vector3 value )		PURE_VIRTUAL;
 		virtual String		SerializeVec4	( Vector4 value )		PURE_VIRTUAL;
-		virtual Vector2		DeserializeVec2	( cchar* data )	PURE_VIRTUAL;
-		virtual Vector3		DeserializeVec3	( cchar* data )	PURE_VIRTUAL;
-		virtual Vector4		DeserializeVec4	( cchar* data )	PURE_VIRTUAL;
+		virtual Vector2		DeserializeVec2	( cchar* data )			PURE_VIRTUAL;
+		virtual Vector3		DeserializeVec3	( cchar* data )			PURE_VIRTUAL;
+		virtual Vector4		DeserializeVec4	( cchar* data )			PURE_VIRTUAL;
 	};
 }

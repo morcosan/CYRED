@@ -186,7 +186,11 @@ void JsonSerializer_Scripter::FromJson( rapidjson::Value& json, OUT void* object
 	scripter->SetEmitEvents( FALSE );
 
 
-	// load script
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		scripter->SetEnabled( json[ATTR_ENABLED].GetBool() );
+	}
+
+	// load scripts
 	if ( json.HasMember( ATTR_SCRIPTS ) )
 	{
 		rapidjson::Value& scripts = json[ATTR_SCRIPTS];

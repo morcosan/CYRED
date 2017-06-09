@@ -37,6 +37,9 @@ void AttrViewer_RigidBody::_OnChangeTarget( void* target )
 	// prepare settings
 	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
+
+	// change color for enable
+	_Colorize( _target->IsEnabled() );
 }
 
 
@@ -60,6 +63,13 @@ void AttrViewer_RigidBody::_UpdateGUI()
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
 
+		_Colorize( _target->IsEnabled() );
+	}
+
+	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
+		DataUnion attr;
+		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
+		// change color for enable
 		_Colorize( _target->IsEnabled() );
 	}
 
@@ -95,7 +105,13 @@ void AttrViewer_RigidBody::_UpdateTarget()
 
 			_target->SetIsTrigger	( _ReadAttrBool( ATTR_IS_TRIGGER ) );
 			_target->SetMass		( _ReadAttrFloat( ATTR_MASS ) );
-			_target->SetEnabled		( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+			
+			bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+			if ( _target->IsEnabled() != newValue ) {
+				_target->SetEnabled( newValue );
+				// change color for enable
+				_Colorize( _target->IsEnabled() );
+			}
 		}
 	}
 	_target->SetEmitEvents( TRUE );

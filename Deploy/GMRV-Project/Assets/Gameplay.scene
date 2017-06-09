@@ -38,34 +38,6 @@
             }
         },
         {
-            "name": "LevelManager",
-            "tag": "",
-            "layer": 0,
-            "enabled": true,
-            "components": {
-                "scripter": {
-                    "enabled": true,
-                    "scripts": [
-                        {
-                            "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
-                            "variables": [
-                                {
-                                    "name": "obstacle",
-                                    "type": "PREFAB",
-                                    "value": ""
-                                },
-                                {
-                                    "name": "spawnInterval",
-                                    "type": "FLOAT",
-                                    "value": 0.0
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
-        },
-        {
             "name": "Camera",
             "tag": "",
             "layer": 0,

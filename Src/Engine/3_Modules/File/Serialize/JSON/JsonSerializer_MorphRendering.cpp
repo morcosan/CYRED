@@ -77,6 +77,10 @@ void JsonSerializer_MorphRendering::FromJson( rapidjson::Value& json, OUT void* 
 	morphRender->SetEmitEvents( FALSE );
 
 
+	if ( json.HasMember( ATTR_ENABLED ) ) {
+		morphRender->SetEnabled( json[ATTR_ENABLED].GetBool() );
+	}
+
 	if ( json.HasMember( ATTR_MORPH ) ) {
 		if ( json[ATTR_MORPH].IsNull() ) {
 			morphRender->SetMaterial( NULL );

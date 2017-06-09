@@ -49,6 +49,9 @@ void AttrViewer_Text3D::_OnChangeTarget( void* target )
 	// prepare settings
 	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
+
+	// change color for enable
+	_Colorize( _target->IsEnabled() );
 }
 
 
@@ -88,7 +91,7 @@ void AttrViewer_Text3D::_UpdateGUI()
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
-
+		// change color for enable
 		_Colorize( _target->IsEnabled() );
 	}
 }
@@ -118,7 +121,13 @@ void AttrViewer_Text3D::_UpdateTarget()
 		_target->SetTextColor	( _ReadAttrVector4( ATTR_TEXT_COLOR ) );
 		_target->SetFont		( CAST_S( Font*, _ReadAttrSelector( ATTR_FONT ) ) );
 		_target->SetMaterial	( CAST_S( Material*, _ReadAttrSelector( ATTR_MATERIAL ) ) );
-		_target->SetEnabled		( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+		
+		bool newValue = _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool();
+		if ( _target->IsEnabled() != newValue ) {
+			_target->SetEnabled( newValue );
+			// change color for enable
+			_Colorize( _target->IsEnabled() );
+		}
 	}
 	_target->SetEmitEvents( TRUE );
 

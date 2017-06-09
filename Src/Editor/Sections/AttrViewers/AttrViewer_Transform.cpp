@@ -38,6 +38,9 @@ void AttrViewer_Transform::_OnChangeTarget( void* target )
 	// prepare settings
 	DataUnion attr;
 	_WriteInnerAttribute( InnerAttrType::SETTINGS, attr.SetReference( _target ) );
+
+	// change color for enable
+	_Colorize( _target->IsEnabled() );
 }
 
 
@@ -58,7 +61,7 @@ void AttrViewer_Transform::_UpdateGUI()
 	if ( _target->IsEnabled() != _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() ) {
 		DataUnion attr;
 		_WriteInnerAttribute( InnerAttrType::ENABLED, attr.SetBool( _target->IsEnabled() ) );
-		// change color 
+		// change color for enable
 		_Colorize( _target->IsEnabled() );
 	}
 }
