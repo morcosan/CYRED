@@ -82,6 +82,13 @@ void AssetManagerImpl::ClearAll()
 		_prefabs[i]->ClearAsset();
 		_prefabs[i]->SetEmitEvents( emitEvents );
 	}
+	// clear fonts
+	for ( int i = 0; i < _fonts.Size(); ++i ) {
+		bool emitEvents = _fonts[i]->DoesEmitEvents();
+		_fonts[i]->SetEmitEvents( FALSE );
+		_fonts[i]->ClearAsset();
+		_fonts[i]->SetEmitEvents( emitEvents );
+	}
 
 	// do not clear scenes
 	for ( int i = 0; i < _scenes.Size(); ++i )	{

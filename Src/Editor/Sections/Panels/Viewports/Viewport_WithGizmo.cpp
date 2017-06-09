@@ -7,10 +7,9 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_Asset.h"
 #include "CyredModule_Physics.h"
+#include "CyredModule_Input.h"
 
-#include "QtWidgets\QComboBox"
-#include "QtWidgets\QHBoxLayout"
-#include "QtWidgets\qpushbutton.h"
+#include "../../../Utils/EditorEvents.h"
 
 
 using namespace CYRED;
@@ -426,6 +425,85 @@ bool Viewport_WithGizmo::_RecIsFound( GameObject* target, GameObject* root )
 	}
 
 	// not found
+	return false;
+}
+
+
+bool Viewport_WithGizmo::_IsPickingInput( Node* root, int selectEvent )
+{
+	RenderManager* renderMngr = RenderManager::Singleton();
+	InputManager* inputMngr = InputManager::Singleton();
+
+	// check target window
+	int targetWindow = inputMngr->GetWindowForMouse();
+
+	// check input for mouse down
+	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetWindow == _panelIndex ) {
+		// use picking rederer
+		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
+		// clear screen
+		renderMngr->ClearScreen( 0, 0, 0 );
+
+		// render
+		if ( root != NULL ) {
+			// check if root is gameobject
+			GameObject* rootObject = CAST_S( GameObject*, root );
+
+			// collect layers
+			DataArray<int> layers;
+			if ( rootObject != NULL ) {
+				_RecCollectLayers( rootObject, layers );
+			}
+			else {
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					_RecCollectLayers( CAST_S(GameObject*, root->GetChildNodeAt(i)), layers );
+				}
+			}
+			
+
+			// render by layers
+			for ( int i = 0; i < layers.Size(); i++ ) {
+				// render meshes
+				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, root, _cameraGO, _noLightsGO );
+				// render text 3d
+				renderMngr->Render( layers[i], ComponentType::TEXT_3D, root, _cameraGO, _noLightsGO );
+
+				// reset depth
+				renderMngr->ResetDepth();
+			}
+
+
+			// get pixel from mouse position
+			Vector2 mousePos = inputMngr->MousePosition();
+			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
+
+			// get object uid
+			int uid = pixel.x;
+			// find gameobject by uid
+			GameObject* gameObject = NULL;
+			if ( rootObject != NULL ) {
+				gameObject = _RecSearchByUID( uid, rootObject );
+			}
+			else {
+				for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+					gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, root->GetChildNodeAt(i)) );
+					if ( gameObject != NULL ) {
+						// found
+						break;
+					}
+				}
+			}
+			
+			// if found, send event
+			if ( gameObject != NULL ) {
+				// select gameobject
+				EventManager::Singleton()->EmitEvent( selectEvent, gameObject );
+			}
+		}
+
+		return true;
+	}
+
 	return false;
 }
 

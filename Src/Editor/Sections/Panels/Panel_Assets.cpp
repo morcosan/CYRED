@@ -257,6 +257,7 @@ void Panel_Assets::OnEvent( int eventType, void* eventData )
 						case AssetType::SHADER:		icon = EditorUtils::ICON_SHADER;	break;
 						case AssetType::TEXTURE:	icon = EditorUtils::ICON_TEXTURE;	break;
 						case AssetType::PREFAB:		icon = EditorUtils::ICON_PREFAB;	break;
+						case AssetType::FONT:		icon = EditorUtils::ICON_FONT;		break;
 					}
 					// create tree item
 					treeItem = AddAssetToTree( asset, parentItem, icon );

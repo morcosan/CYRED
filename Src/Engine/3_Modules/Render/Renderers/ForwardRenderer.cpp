@@ -89,7 +89,6 @@ void ForwardRenderer::Render( int layer, ComponentType compType, Node* target, G
 		case ComponentType::MESH_RENDERING:
 		case ComponentType::MORPH_RENDERING:
 		case ComponentType::TEXT_3D:
-		{
 			_gl->Enable( GLCapability::BLEND );
 			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
 			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE_MINUS_SRC_ALPHA );
@@ -97,15 +96,13 @@ void ForwardRenderer::Render( int layer, ComponentType compType, Node* target, G
 			_gl->DepthFunc( GLDepthFunc::LEQUAL );
 			_gl->DepthMask( TRUE );
 			break;
-		}
 
 		case ComponentType::PARTICLE_EMITTER:
-		{
 			_gl->Enable( GLCapability::BLEND );
+			_gl->BlendEquation( GLBlendMode::FUNC_ADD );
 			_gl->BlendFunc( GLBlendFactor::SRC_ALPHA, GLBlendFactor::ONE );
 			_gl->DepthMask( FALSE );
 			break;
-		}
 	}
 
 	// check if target is gameobject
@@ -745,7 +742,6 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
 	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
-
 }
 
 

@@ -39,9 +39,5 @@ namespace CYRED
 	private:
 		GameObject*	_target;
 		int			_openEventType;
-
-
-	private:
-		bool _IsPickingInput();
 	};
 }

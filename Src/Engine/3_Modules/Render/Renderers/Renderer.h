@@ -23,6 +23,15 @@ namespace CYRED
 	ABSTRACT class DLL Renderer
 	{
 	public:
+		cchar* const UNIFORM_IS_LOOPING		= "isLooping";
+		cchar* const UNIFORM_LIFETIME		= "lifetime";
+		cchar* const UNIFORM_DELTA_TIME		= "deltaTime";
+		cchar* const UNIFORM_STATE_RATIO	= "stateRatio";
+		cchar* const UNIFORM_TEXT_COLOR		= "textColor";
+		cchar* const UNIFORM_TEXT_TEXTURE	= "textTexture";
+
+
+	public:
 		Renderer() {}
 		virtual ~Renderer() {}
 

@@ -109,7 +109,7 @@ void Viewport_Isolate::_OnUpdate( bool isRuntime )
 	}
 
 	// check picking
-	if ( _IsPickingInput() ) {
+	if ( _IsPickingInput( _target, EditorEventType::ISOLATE_SELECT ) ) {
 		return;
 	}
 
@@ -148,56 +148,4 @@ void Viewport_Isolate::_OnUpdate( bool isRuntime )
 
 	// finish
 	renderMngr->SwapBuffers();
-}
-
-
-bool Viewport_Isolate::_IsPickingInput()
-{
-	RenderManager* renderMngr = RenderManager::Singleton();
-	InputManager* inputMngr = InputManager::Singleton();
-
-	// check target window
-	int targetWindow = inputMngr->GetWindowForMouse();
-
-	// check input for mouse down
-	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetWindow == _panelIndex ) {
-		// use picking rederer
-		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
-		// clear screen
-		renderMngr->ClearScreen( 0, 0, 0 );
-
-		// render prefab
-		if ( _target != NULL ) {
-			// collect layers
-			DataArray<int> layers;
-			_RecCollectLayers( _target, layers );
-
-			// render by layers
-			for ( int i = 0; i < layers.Size(); i++ ) {
-				// render meshes
-				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, _target, _cameraGO, _noLightsGO );
-			
-				// reset depth
-				renderMngr->ResetDepth();
-			}
-
-			// get pixel from mouse position
-			Vector2 mousePos = inputMngr->MousePosition();
-			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
-
-			// get object uid
-			int uid = pixel.x;
-			// find gameobject by uid
-			GameObject* gameObject = _RecSearchByUID( uid, _target );
-			// if found
-			if ( gameObject != NULL ) {
-				// select gameobject
-				EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_SELECT, gameObject );
-			}
-		}
-
-		return true;
-	}
-
-	return false;
 }

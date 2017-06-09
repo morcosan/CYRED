@@ -12,12 +12,14 @@
 #include "../Components/MeshRendering.h"
 #include "../Components/MorphRendering.h"
 #include "../Components/ParticleEmitter.h"
+#include "../Components/Text3D.h"
 
 #include "../Assets/Material.h"
 #include "../Assets/Mesh.h"
 #include "../Assets/Morph.h"
 #include "../Assets/Shader.h"
 #include "../Assets/Texture.h"
+#include "../Assets/Font.h"
 
 #include "../OpenGL/GL.h"
 #include "../OpenGL/Uniform.h"
@@ -100,20 +102,17 @@ void PickingRenderer::Render( int layer, ComponentType compType, Node* target, G
 	switch ( compType ) {
 		case ComponentType::MESH_RENDERING:
 		case ComponentType::MORPH_RENDERING:
-		{
+		case ComponentType::TEXT_3D:
 			_gl->Disable( GLCapability::BLEND );
 			_gl->Enable( GLCapability::DEPTH_TEST );
 			_gl->DepthFunc( GLDepthFunc::LEQUAL );
 			_gl->DepthMask( TRUE );
 			break;
-		}
 
 		case ComponentType::PARTICLE_EMITTER:
-		{
 			_gl->Disable( GLCapability::BLEND );
 			_gl->DepthMask( FALSE );
 			break;
-		}
 	}
 
 	// check if target is gameobject
@@ -123,6 +122,7 @@ void PickingRenderer::Render( int layer, ComponentType compType, Node* target, G
 			case ComponentType::MESH_RENDERING:		_RecRenderMesh( targetGO, lightsGO );	break;
 			case ComponentType::MORPH_RENDERING:	_RecRenderMorph( targetGO, lightsGO );	break;
 			case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( targetGO );		break;
+			case ComponentType::TEXT_3D:			_RecRenderText3D( targetGO );			break;
 		}
 	}
 	else {
@@ -133,6 +133,7 @@ void PickingRenderer::Render( int layer, ComponentType compType, Node* target, G
 				case ComponentType::MESH_RENDERING:		_RecRenderMesh( gameObject, lightsGO );		break;
 				case ComponentType::MORPH_RENDERING:	_RecRenderMorph( gameObject, lightsGO );	break;
 				case ComponentType::PARTICLE_EMITTER:	_RecRenderParticles( gameObject );			break;
+				case ComponentType::TEXT_3D:			_RecRenderText3D( gameObject );				break;
 			}
 		}
 	}
@@ -651,6 +652,165 @@ void PickingRenderer::_RecRenderParticles( GameObject* gameObject )
 
 void PickingRenderer::_RecRenderText3D( GameObject* gameObject )
 {
+	if ( !gameObject->IsEnabled() ) {
+		return;
+	}
+
+	// render children
+	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
+		_RecRenderText3D( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
+	}
+
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
+
+	Text3D*		text3D	= gameObject->GetComponent<Text3D>();
+	Transform*	objTran	= gameObject->GetComponent<Transform>();
+	if ( text3D == NULL || objTran == NULL || !text3D->IsEnabled() || !objTran->IsEnabled() ) {
+		return;
+	}
+
+	Font*		font		= text3D->GetFont();
+	Material*	material	= text3D->GetMaterial();
+	if ( font == NULL || material == NULL ) {
+		return;
+	}
+
+	Material* pickingProxy = material->GetPickingProxy();
+	if ( pickingProxy == NULL ) {
+		return;
+	}
+
+	Shader* shader = pickingProxy->GetShader();
+	if ( shader == NULL ) {
+		return;
+	}
+
+	int shaderProgram = shader->GetProgramID();
+	if ( shaderProgram == INVALID_SHADER ) {
+		return;
+	}
+
+	// add shader
+	_gl->UseProgram( shaderProgram );
+
+	// bind buffer
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, _textVBO );
+
+	// bind vertex data
+	_gl->EnableVertexAttribArray( 0 );
+	_gl->VertexAttribPointer( 0, 3, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
+		(const void*) (offsetof(Vertex, position)) );
+	_gl->EnableVertexAttribArray( 3 );
+	_gl->VertexAttribPointer( 3, 2, GLVarType::FLOAT, FALSE, sizeof(Vertex), 
+		(const void*) (offsetof(Vertex, uv)) );
+
+
+	// bind main 3 matrix
+	int worldUniform			= shader->GetUniformLocation( Uniform::WORLD		);
+	int viewUniform				= shader->GetUniformLocation( Uniform::VIEW			);
+	int projectionUniform		= shader->GetUniformLocation( Uniform::PROJECTION	);
+
+	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
+	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
+	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+
+	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
+	_gl->UniformMatrix4fv( projectionUniform,	1, FALSE, projectionMatrix.Ptr() );
+
+
+	// bind unique id uniform
+	int uidUniform = shader->GetUniformLocation( Uniform::UID );
+	_gl->Uniform1i( uidUniform, gameObject->GetUniqueID() );
+
+
+	// bind material
+	_BindMaterial( pickingProxy );
+
+
+	// prepare for drawing
+	int offsetX = 0;
+	cchar* text = text3D->GetText();
+	int textLength = String::Length( text );
+	float unitRatio = (1.0f / font->GetMaxSize()) * (text3D->GetTextSize() / Text3D::RENDER_UNIT_SIZE);
+
+	// calculate text total with and height
+	float totalWidth = 0;
+	float totalHeight = 0;
+	for ( int i = 0; i < textLength; i++ ) {
+		// get font char
+		FontChar* fontChar = font->GetFontChar( text[i] );
+
+		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		// bitshift by 6 to get value in pixels (2^6 = 64)
+		offsetX += (fontChar->advance >> 6);
+
+		// update width
+		if ( i == textLength - 1 ) {
+			totalWidth = CAST_S( float, offsetX );
+		}
+
+		// update height
+		if ( totalHeight < fontChar->height ) {
+			totalHeight = CAST_S( float, fontChar->height );
+		}
+	}
+
+	// draw font chars
+	offsetX = 0;
+	for ( int i = 0; i < textLength; i++ ) {
+		// get font char
+		FontChar* fontChar = font->GetFontChar( text[i] );
+
+		// calculate texture size and posistion
+		float w = unitRatio * CAST_S( float, fontChar->width );
+		float h = unitRatio * CAST_S( float, fontChar->height );
+		float x = unitRatio * CAST_S( float, offsetX + fontChar->bearingX );
+		float y = unitRatio * CAST_S( float, fontChar->bearingY - fontChar->height );
+
+		// apply horizontal alignment
+		switch ( text3D->GetHorizontalAlign() ) {
+			case HorizontalAlign::LEFT:											break;
+			case HorizontalAlign::MIDDLE:	x -= unitRatio * totalWidth / 2;	break;
+			case HorizontalAlign::RIGHT:	x -= unitRatio * totalWidth;		break;
+		}
+
+		// apply vertical alignment
+		switch ( text3D->GetVerticalAlign() ) {
+			case VerticalAlign::TOP:		y -= unitRatio * totalHeight;		break;
+			case VerticalAlign::MIDDLE:		y -= unitRatio * totalHeight / 2;	break;
+			case VerticalAlign::BOTTOM:											break;
+		}
+
+		// create vertices
+		Vertex vertices[6] = {
+			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+			Vertex { Vector3( x,	 y,		0 ), Vector2( 0, 1 ) },
+			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+
+			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+			Vertex { Vector3( x + w, y + h, 0 ), Vector2( 1, 0 ) }
+		};
+
+		// bind buffer data
+		_gl->BufferSubData( GLBuffer::ARRAY_BUFFER, 0, sizeof(vertices), vertices ); 
+
+		// render quad
+		_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
+
+		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		// bitshift by 6 to get value in pixels (2^6 = 64)
+		offsetX += (fontChar->advance >> 6); 
+	}
+
+	// unbind all
+	_gl->BindBuffer( GLBuffer::ARRAY_BUFFER, EMPTY_BUFFER );
+	_gl->UseProgram( EMPTY_SHADER );
+	_gl->BindTexture( GLTexture::TEXTURE_2D, INVALID_TEXTURE );
 }
 
 

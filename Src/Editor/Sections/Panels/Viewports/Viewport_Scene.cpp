@@ -107,15 +107,16 @@ void Viewport_Scene::_OnUpdate( bool isRuntime )
 		return;
 	}
 
-	// check picking
-	if ( _IsPickingInput() ) {
-		return;
-	}
-
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
 		// get first scene's root
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
+
+		// check picking
+		if ( _IsPickingInput( sceneRoot, EditorEventType::GAMEOBJECT_SELECT ) ) {
+			return;
+		}
+
 
 		// render gizmo
 		_RenderGizmo();
@@ -153,65 +154,4 @@ void Viewport_Scene::_OnUpdate( bool isRuntime )
 
 	// finish
 	renderMngr->SwapBuffers();
-}
-
-
-bool Viewport_Scene::_IsPickingInput()
-{
-	RenderManager* renderMngr = RenderManager::Singleton();
-	InputManager* inputMngr = InputManager::Singleton();
-
-	// check target window
-	int targetWindow = inputMngr->GetWindowForMouse();
-
-	// check input for mouse down
-	if ( inputMngr->KeyDownFirstTime( KeyCode::MOUSE_LEFT ) && targetWindow == _panelIndex ) {
-		// use picking rederer
-		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
-		// clear screen
-		renderMngr->ClearScreen( 0, 0, 0 );
-
-		// render scenes
-		if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
-			// get first scene's root
-			Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
-
-			// collect layers
-			DataArray<int> layers;
-			for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
-				_RecCollectLayers( CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)), layers );
-			}
-
-			// render by layers
-			for ( int i = 0; i < layers.Size(); i++ ) {
-				// render meshes
-				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, _noLightsGO );
-			
-				// reset depth
-				renderMngr->ResetDepth();
-			}
-
-			// get pixel from mouse position
-			Vector2 mousePos = inputMngr->MousePosition();
-			Vector4 pixel = renderMngr->ReadPixel( mousePos.x, mousePos.y );
-
-			// get object uid
-			int uid = pixel.x;
-			// find gameobject by uid
-			GameObject* gameObject;
-			for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
-				gameObject = _RecSearchByUID( uid, CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)) );
-				// if found
-				if ( gameObject != NULL ) {
-					// select gameobject
-					EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, gameObject );
-					break;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	return false;
 }

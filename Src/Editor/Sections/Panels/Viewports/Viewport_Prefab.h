@@ -39,9 +39,5 @@ namespace CYRED
 
 	private:
 		Prefab*		_targetPrefab;
-
-
-	private:
-		bool _IsPickingInput();
 	};
 }

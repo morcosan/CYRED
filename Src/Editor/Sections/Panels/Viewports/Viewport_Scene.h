@@ -39,9 +39,5 @@ namespace CYRED
 
 	private:
 		QComboBox*		_qtCameraDropdown;
-
-
-	private:
-		bool _IsPickingInput();
 	};
 }
