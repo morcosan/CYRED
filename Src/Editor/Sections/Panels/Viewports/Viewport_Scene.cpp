@@ -136,13 +136,13 @@ void Viewport_Scene::_OnUpdate( bool isRuntime )
 		// render by layers
 		for ( int i = 0; i < layers.Size(); i++ ) {
 			// render meshes
-			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, lightsGO );
 			// render morphs
-			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, sceneRoot, lightsGO );
 			// render text 3d
-			renderMngr->Render( layers[i], ComponentType::TEXT_3D, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, sceneRoot, lightsGO );
 			// render particles
-			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, sceneRoot, lightsGO );
 		
 			// reset depth
 			renderMngr->ResetDepth();

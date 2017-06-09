@@ -128,7 +128,7 @@ void PhysicsManagerImpl::Update()
 
 
 	// update physics
-	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetDeltaTime() );
+	_dynamicsWorld->stepSimulation( TimeManager::Singleton()->GetRenderDeltaTime() );
 
 	// check collisions
 	_CheckCollisions();

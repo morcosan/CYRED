@@ -124,19 +124,19 @@ void Viewport_Isolate::_OnUpdate( bool isRuntime )
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
-		lightsGO.Add( _cameraGO );
+		lightsGO.Add( _currCamera->GetGameObject() );
 		_RecCollectLights( _target, lightsGO );
 
 		// render by layers
 		for ( int i = 0; i < layers.Size(); i++ ) {
 			// render meshes
-			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, _target, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, _target, lightsGO );
 			// render morphs
-			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, _target, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, _target, lightsGO );
 			// render text 3d
-			renderMngr->Render( layers[i], ComponentType::TEXT_3D, _target, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, _target, lightsGO );
 			// render particles
-			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, _target, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, _target, lightsGO );
 		
 			// reset depth
 			renderMngr->ResetDepth();

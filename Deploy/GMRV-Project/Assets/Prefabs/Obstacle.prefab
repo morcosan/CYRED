@@ -24,13 +24,8 @@
                     "z": 1.0
                 }
             },
-            "mesh_rendering": {
-                "enabled": false,
-                "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
-                "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
-            },
             "rigid_body": {
-                "enabled": false,
+                "enabled": true,
                 "is_trigger": false,
                 "shape_type": "SPHERE",
                 "shape_size": {
@@ -39,6 +34,11 @@
                     "z": 0.5
                 },
                 "mass": 1.0
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
+                "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
             }
         }
     }

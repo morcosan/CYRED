@@ -32,21 +32,21 @@ namespace CYRED
 
 
 		public:
-			void	Initialize		( GLContext* glContext, GL* gl )		override;
-			void	Finalize		()										override;
-			
-			int		CreateCanvas	( GLContext* glContext )				override;
-			void	SwitchCanvas	( int canvasID )						override;
-			void	CreateRenderer	( RendererType rendererType )			override;
-			void	SwitchRenderer	( RendererType rendererType )			override;
-			void	ClearScreen		( float r, float g, float b )			override;
-			void	ResetDepth		()										override;
-			void	Render			( int layer, ComponentType compType, 
-									  Node* target, GameObject* cameraGO,
-									  DataArray<GameObject*>& lightsGO )	override;
-			void	SwapBuffers		()										override;
-			void	OnResize		( int canvasID )						override;
-			Vector4	ReadPixel		( int x, int y )						override;
+			void	Initialize		( GLContext* glContext, GL* gl )			override;
+			void	Finalize		()											override;
+				
+			int		CreateCanvas	( GLContext* glContext )					override;
+			void	SwitchCanvas	( int canvasID )							override;
+			void	CreateRenderer	( RendererType rendererType )				override;
+			void	SwitchRenderer	( RendererType rendererType )				override;
+			void	ClearScreen		( float r, float g, float b )				override;
+			void	ResetDepth		()											override;
+			void	SwitchCamera	( Transform* cameraTran, Camera* camera )	override;
+			void	Render			( int layer, ComponentType compType, Node* target,
+									  DataArray<GameObject*>& lightsGO )		override;
+			void	SwapBuffers		()											override;
+			void	OnResize		( int canvasID )							override;
+			Vector4	ReadPixel		( int x, int y )							override;
 
 
 		public:

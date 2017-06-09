@@ -50,7 +50,8 @@ Panel_Viewport::Panel_Viewport( int panelIndex )
 	, _panelIndex( panelIndex )
 	, _canvasSlot( INVALID_CANVAS_SLOT )
 	, _isFirstUpdate( TRUE )
-	, _cameraGO( NULL )
+	, _currCamera( NULL )
+	, _currCameraTran( NULL )
 {
 }
 

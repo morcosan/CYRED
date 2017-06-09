@@ -114,19 +114,19 @@ void Viewport_Prefab::_OnUpdate( bool isRuntime )
 
 		// collect lights
 		DataArray<GameObject*> lightsGO;
-		lightsGO.Add( _cameraGO );
+		lightsGO.Add( _currCamera->GetGameObject() );
 		_RecCollectLights( prefabRoot, lightsGO );
 
 		// render by layers
 		for ( int i = 0; i < layers.Size(); i++ ) {
 			// render meshes
-			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, prefabRoot, lightsGO );
 			// render morphs
-			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, prefabRoot, lightsGO );
 			// render text 3d
-			renderMngr->Render( layers[i], ComponentType::TEXT_3D, prefabRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, prefabRoot, lightsGO );
 			// render particles
-			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, prefabRoot, lightsGO );
 		
 			// reset depth
 			renderMngr->ResetDepth();

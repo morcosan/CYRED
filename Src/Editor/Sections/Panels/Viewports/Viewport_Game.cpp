@@ -47,7 +47,8 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
 	// clear screen
 	renderMngr->ClearScreen( 0, 0, 0 );
-
+	// set camera
+	renderMngr->SwitchCamera( _currCameraTran, _currCamera );
 
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
@@ -55,16 +56,16 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 		Node* sceneRoot = SceneManager::Singleton()->GetScene()->GetRoot();
 
 		// get main camera
-		_cameraGO = _RecFindMainCamera( sceneRoot );
-		if ( _cameraGO == NULL ) {
+		GameObject* cameraGO = _RecFindMainCamera( sceneRoot );
+		if ( cameraGO == NULL ) {
 			// finish
 			renderMngr->SwapBuffers();
 			return;
 		}
 
-		Camera* camera			= _cameraGO->GetComponent<Camera>();
-		Transform* cameraTran	= _cameraGO->GetComponent<Transform>();
-		if ( camera == NULL || cameraTran == NULL ) {
+		_currCamera		= cameraGO->GetComponent<Camera>();
+		_currCameraTran	= cameraGO->GetComponent<Transform>();
+		if ( _currCamera == NULL || _currCameraTran == NULL ) {
 			// finish
 			renderMngr->SwapBuffers();
 			return;
@@ -74,22 +75,22 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 
 		// update camera size
 		{
-			// disable events
-			bool emitEvents = camera->DoesEmitEvents();
-			camera->SetEmitEvents( FALSE );
-			// update camera
-			float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
-			float height = camera->GetOrthoSize().y;
-			camera->SetAspectRatio( aspectRatio );
-			camera->SetOrthoWidth( aspectRatio * height );
-			// set back emit events
-			camera->SetEmitEvents( emitEvents );
+			bool emitEvents = _currCamera->DoesEmitEvents();
+			_currCamera->SetEmitEvents( FALSE );
+			{
+				// update camera
+				float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
+				float height = _currCamera->GetOrthoSize().y;
+				_currCamera->SetAspectRatio( aspectRatio );
+				_currCamera->SetOrthoWidth( aspectRatio * height );
+			}
+			_currCamera->SetEmitEvents( emitEvents );
 		}
 
 
 		// apply mouse callbacks
 		if ( isRuntime ) {
-			_TestMouseInput( cameraTran, camera );
+			_TestMouseInput();
 		}
 		
 
@@ -106,13 +107,13 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 		// render by layers
 		for ( int i = 0; i < layers.Size(); i++ ) {
 			// render meshes
-			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, lightsGO );
 			// render morphs
-			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, sceneRoot, lightsGO );
 			// render text 3d
-			renderMngr->Render( layers[i], ComponentType::TEXT_3D, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, sceneRoot, lightsGO );
 			// render particles
-			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, sceneRoot, lightsGO );
 		
 			// reset depth
 			renderMngr->ResetDepth();
@@ -175,7 +176,7 @@ void Viewport_Game::_RecCollectLights( Node* root, DataArray<GameObject*>& light
 }
 
 
-void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
+void Viewport_Game::_TestMouseInput()
 {
 	InputManager* inputMngr		= InputManager::Singleton();
 
@@ -214,8 +215,8 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 				0.0f,
 				1.0f
 			);
-			const Matrix4& projMat = camera->GetProjectionMatrix();
-			const Matrix4& viewMat = cameraTran->GetViewMatrix();
+			const Matrix4& projMat = _currCamera->GetProjectionMatrix();
+			const Matrix4& viewMat = _currCameraTran->GetViewMatrix();
 			const Matrix4& mat = Matrix4::Inverse( projMat * viewMat );
 			Vector4 rayStartWorld = mat * rayStartNDC; 
 			rayStartWorld /= rayStartWorld.w;
@@ -225,8 +226,8 @@ void Viewport_Game::_TestMouseInput( Transform* cameraTran, Camera* camera )
 			// calculate ray
 			Vector4 diff = rayEndWorld - rayStartWorld;
 			Vector3 dir = Vector3::Normalize( Vector3( diff.x, diff.y, diff.z ) );
-			float far = camera->GetFarClipping();
-			float near = camera->GetNearClipping();
+			float far = _currCamera->GetFarClipping();
+			float near = _currCamera->GetNearClipping();
 			ray.start	= Vector3( rayStartWorld.x, rayStartWorld.y, rayStartWorld.z );
 			ray.end		= ray.start + dir * (far - near);
 			// do raycasting

@@ -14,6 +14,8 @@ namespace CYRED
 	class GLContext;
 	class Node;
 	class GameObject;
+	class Transform;
+	class Camera;
 }
 
 
@@ -37,20 +39,20 @@ namespace CYRED
 
 		
 	public:
-		virtual void	ClearScreen		( float r, float g, float b )			PURE_VIRTUAL;
-		virtual void	ResetDepth		()										PURE_VIRTUAL;
-		virtual void	Render			( int layer, ComponentType compType, 
-										  Node* target, GameObject* cameraGO,
-										  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
+		virtual void	ClearScreen		( float r, float g, float b )				PURE_VIRTUAL;
+		virtual void	ResetDepth		()											PURE_VIRTUAL;
+		virtual void	Render			( int layer, ComponentType compType, Node* target,
+										  DataArray<GameObject*>& lightsGO )		PURE_VIRTUAL;
 
-		virtual Vector4	ReadPixel		( int x, int y )						PURE_VIRTUAL;
+		virtual Vector4	ReadPixel		( int x, int y )							PURE_VIRTUAL;
 
-		virtual void	OnResize		()										PURE_VIRTUAL;
-		virtual void	DisplayOnScreen	()										PURE_VIRTUAL;
+		virtual void	OnResize		()											PURE_VIRTUAL;
+		virtual void	DisplayOnScreen	()											PURE_VIRTUAL;
 
 
 	public:
-		void Initialize	( GL* glAPI, GLContext* glContext );
+		void	Initialize		( GL* glAPI, GLContext* glContext );
+		void	SwitchCamera	( Transform* cameraTran, Camera* camera );
 
 
 	protected:
@@ -65,7 +67,8 @@ namespace CYRED
 		GL*			_gl;
 		GLContext*	_glContext;
 		int			_currLayer;
-
+		Transform*	_currCameraTran;
+		Camera*		_currCamera;
 
 	private:
 		void _CreateTextVBO();

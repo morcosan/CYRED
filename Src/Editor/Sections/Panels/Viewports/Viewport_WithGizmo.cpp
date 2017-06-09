@@ -106,7 +106,14 @@ void Viewport_WithGizmo::LoadGizmo()
 
 void Viewport_WithGizmo::SetCamera( GameObject* cameraGO )
 {
-	_cameraGO = cameraGO;
+	if ( cameraGO != NULL ) {
+		_currCameraTran = cameraGO->GetComponent<Transform>();
+		_currCamera		= cameraGO->GetComponent<Camera>();
+	}
+	else {
+		_currCameraTran = NULL;
+		_currCamera		= NULL;
+	}
 }
 
 
@@ -133,24 +140,26 @@ bool Viewport_WithGizmo::_IsRenderingReady()
 	renderMngr->ClearScreen( 0.3f, 0.3f, 0.3f );
 
 	// exit if no camera
-	if ( _cameraGO == NULL ) {
+	if ( _currCameraTran == NULL || _currCamera == NULL ) {
 		// finish
 		renderMngr->SwapBuffers();
 		return FALSE;
 	}
 
-	//! update camera size
-	Camera* camera = _cameraGO->GetComponent<Camera>();
-	// disable events
-	bool emitEvents = camera->DoesEmitEvents();
-	camera->SetEmitEvents( FALSE );
-	// update camera
-	float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
-	float height = camera->GetOrthoSize().y;
-	camera->SetAspectRatio( aspectRatio );
-	camera->SetOrthoWidth( aspectRatio * height );
-	// set back emit events
-	camera->SetEmitEvents( emitEvents );
+	// set camera
+	renderMngr->SwitchCamera( _currCameraTran, _currCamera );
+
+	// update camera size
+	bool emitEvents = _currCamera->DoesEmitEvents();
+	_currCamera->SetEmitEvents( FALSE );
+	{
+		// update camera
+		float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
+		float height = _currCamera->GetOrthoSize().y;
+		_currCamera->SetAspectRatio( aspectRatio );
+		_currCamera->SetOrthoWidth( aspectRatio * height );
+	}
+	_currCamera->SetEmitEvents( emitEvents );
 
 	return TRUE;
 }
@@ -181,17 +190,17 @@ void Viewport_WithGizmo::_RenderGizmo()
 
 	// render gizmo background
 	if ( _gizmoBackground != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoBackground, _cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoBackground, _noLightsGO );
 	}
 
 	// render gizmo grid
 	if ( _gizmoGrid != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoGrid, _cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoGrid, _noLightsGO );
 	}
 
 	// render gizmo axis
 	if ( _gizmoAxis != NULL ) {
-		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoAxis, _cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoAxis, _noLightsGO );
 	}
 
 	// render selected object gizmo
@@ -219,8 +228,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPointLight, 
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPointLight, _noLightsGO );
 				}
 
 				// gizmo directional light
@@ -235,8 +243,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoDirLight, 
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoDirLight, _noLightsGO );
 				}
 
 				// gizmo spot light
@@ -256,8 +263,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoSpotLight, 
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoSpotLight, _noLightsGO );
 				}
 			}
 
@@ -282,8 +288,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoOrthoCamera,
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoOrthoCamera, _noLightsGO );
 				}
 
 				// gizmo perspective camera
@@ -314,8 +319,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPerspCamera,
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPerspCamera, _noLightsGO );
 				}
 			}
 
@@ -335,8 +339,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollBox,
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollBox, _noLightsGO );
 				}
 
 				// gizmo collision sphere
@@ -357,8 +360,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollSphere,
-										_cameraGO, _noLightsGO );
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollSphere, _noLightsGO );
 				}
 			}
 
@@ -389,7 +391,7 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 			rootTran->SetEmitEvents( TRUE );
 
 			// render gizmo
-			renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPivot, _cameraGO, _noLightsGO );
+			renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPivot, _noLightsGO );
 		}
 	}
 
@@ -398,14 +400,11 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 
 	// render debug text
 	if ( _gizmoDebugText != NULL ) {
-		// get camera transform
-		Transform* cameraTran = _cameraGO->GetComponent<Transform>();
-
 		// update transform
 		Transform* rootTran = _gizmoDebugText->GetComponent<Transform>();
 		rootTran->SetEmitEvents( FALSE );
-		rootTran->SetPositionWorld( cameraTran->GetPositionWorld() );
-		rootTran->SetRotationWorld( cameraTran->GetRotationWorld() );
+		rootTran->SetPositionWorld( _currCameraTran->GetPositionWorld() );
+		rootTran->SetRotationWorld( _currCameraTran->GetRotationWorld() );
 		rootTran->TranslateByLocal( Vector3( 0, 5, -10 ) );
 		rootTran->SetEmitEvents( TRUE );
 
@@ -415,7 +414,7 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 		rootText->SetText( text.GetChar() );
 
 		// render gizmo
-		renderMngr->Render( 0, ComponentType::TEXT_3D, _gizmoDebugText, _cameraGO, _noLightsGO );
+		renderMngr->Render( 0, ComponentType::TEXT_3D, _gizmoDebugText, _noLightsGO );
 	}
 }
 
@@ -482,6 +481,8 @@ bool Viewport_WithGizmo::_IsPickingInput( Node* root, int selectEvent )
 		renderMngr->SwitchRenderer( RendererType::GL_PICKING );
 		// clear screen
 		renderMngr->ClearScreen( 0, 0, 0 );
+		// set camera
+		renderMngr->SwitchCamera( _currCameraTran, _currCamera );
 
 		// render
 		if ( root != NULL ) {
@@ -503,9 +504,9 @@ bool Viewport_WithGizmo::_IsPickingInput( Node* root, int selectEvent )
 			// render by layers
 			for ( int i = 0; i < layers.Size(); i++ ) {
 				// render meshes
-				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, root, _cameraGO, _noLightsGO );
+				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, root, _noLightsGO );
 				// render text 3d
-				renderMngr->Render( layers[i], ComponentType::TEXT_3D, root, _cameraGO, _noLightsGO );
+				renderMngr->Render( layers[i], ComponentType::TEXT_3D, root, _noLightsGO );
 
 				// reset depth
 				renderMngr->ResetDepth();

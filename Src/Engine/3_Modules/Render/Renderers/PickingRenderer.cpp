@@ -82,11 +82,11 @@ void PickingRenderer::ResetDepth()
 * 		cameraGO	- camera
 * 		lightsGO	- the list of lights to be used
 */
-void PickingRenderer::Render( int layer, ComponentType compType, Node* target, GameObject* cameraGO, 
+void PickingRenderer::Render( int layer, ComponentType compType, Node* target,
 							  DataArray<GameObject*>& lightsGO )
 {
 	// sanity check
-	if ( target == NULL || cameraGO == NULL ) { 
+	if ( target == NULL || _currCameraTran == NULL || _currCamera == NULL ) { 
 		return;
 	}
 
@@ -94,9 +94,7 @@ void PickingRenderer::Render( int layer, ComponentType compType, Node* target, G
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
 
 	// store data
-	_currCameraTran	= cameraGO->GetComponent<Transform>();
-	_currCameraCam	= cameraGO->GetComponent<Camera>();
-	_currLayer		= layer;
+	_currLayer = layer;
 
 	// prepare for rendering
 	switch ( compType ) {
@@ -363,7 +361,7 @@ void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
-	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+	Matrix4 projectionMatrix	= _currCamera->GetProjectionMatrix();
 
 	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );
@@ -475,7 +473,7 @@ void PickingRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
-	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+	Matrix4 projectionMatrix	= _currCamera->GetProjectionMatrix();
 
 	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()			);
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()			);
@@ -614,7 +612,7 @@ void PickingRenderer::_RecRenderParticles( GameObject* gameObject )
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
-	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+	Matrix4 projectionMatrix	= _currCamera->GetProjectionMatrix();
 
 	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()			);
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()			);
@@ -715,7 +713,7 @@ void PickingRenderer::_RecRenderText3D( GameObject* gameObject )
 
 	Matrix4 worldMatrix			= objTran->GetWorldMatrix();
 	Matrix4 viewMatrix			= _currCameraTran->GetViewMatrix();
-	Matrix4 projectionMatrix	= _currCameraCam->GetProjectionMatrix();
+	Matrix4 projectionMatrix	= _currCamera->GetProjectionMatrix();
 
 	_gl->UniformMatrix4fv( worldUniform,		1, FALSE, worldMatrix.Ptr()		 );
 	_gl->UniformMatrix4fv( viewUniform,			1, FALSE, viewMatrix.Ptr()		 );

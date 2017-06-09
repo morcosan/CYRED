@@ -39,6 +39,14 @@ void Renderer::Initialize( GL* glAPI, GLContext* glContext )
 }
 
 
+void Renderer::SwitchCamera( Transform* cameraTran, Camera* camera )
+{
+	// store camera
+	_currCameraTran = cameraTran;
+	_currCamera		= camera;
+}
+
+
 void Renderer::_CreateTextVBO()
 {
 	_gl->GenBuffers( 1, &_textVBO );

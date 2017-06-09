@@ -196,6 +196,21 @@ void RenderManagerImpl::ResetDepth()
 }
 
 
+void RenderManagerImpl::SwitchCamera( Transform* cameraTran, Camera* camera )
+{
+	ASSERT( _isInitialized );
+
+	// get canvas
+	_Canvas& canvas = _canvases[_currCanvas];
+	// get renderer
+	ASSERT( canvas.renderers.Has( _currRenderer ) );
+	Renderer* renderer = canvas.renderers.Get( _currRenderer );
+
+	// change camera
+	renderer->SwitchCamera( cameraTran, camera );
+}
+
+
 /*****
 * @desc: render the given component from given gameobject and its children
 * @params: 
@@ -205,7 +220,7 @@ void RenderManagerImpl::ResetDepth()
 * 		lightsGO	- the list of lights to be used
 * @assert: canvas and renderer are set
 */
-void RenderManagerImpl::Render( int layer, ComponentType compType, Node* target, GameObject* cameraGO, 
+void RenderManagerImpl::Render( int layer, ComponentType compType, Node* target,
 								DataArray<GameObject*>& lightsGO )
 {
 	ASSERT( _isInitialized );
@@ -217,7 +232,7 @@ void RenderManagerImpl::Render( int layer, ComponentType compType, Node* target,
 	Renderer* renderer = canvas.renderers.Get( _currRenderer );
 
 	// render
-	renderer->Render( layer, compType, target, cameraGO, lightsGO );
+	renderer->Render( layer, compType, target, lightsGO );
 	renderer->DisplayOnScreen();
 }
 

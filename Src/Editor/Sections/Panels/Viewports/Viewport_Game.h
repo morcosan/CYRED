@@ -36,6 +36,6 @@ namespace CYRED
 	private:
 		GameObject*	_RecFindMainCamera	( Node* root );
 		void		_RecCollectLights	( Node* root, DataArray<GameObject*>& lightsGO );
-		void		_TestMouseInput		( Transform* cameraTran, Camera* camera );
+		void		_TestMouseInput		();
 	};
 }

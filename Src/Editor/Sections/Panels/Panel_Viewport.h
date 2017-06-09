@@ -13,6 +13,8 @@ class QHBoxLayout;
 namespace CYRED
 {
 	class GameObject;
+	class Transform;
+	class Camera;
 	class GLContext;
 	class InputReceiverQT;
 }
@@ -87,7 +89,8 @@ namespace CYRED
 		bool			_mustResize;
 		int				_panelIndex;
 		bool			_isFirstUpdate;
-		GameObject*		_cameraGO;
+		Transform*		_currCameraTran;
+		Camera*			_currCamera;
 
 		QHBoxLayout*	_qtTopBarLayout;
 
