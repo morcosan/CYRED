@@ -164,8 +164,9 @@ void GameObject::SetInScene( bool value )
 
 void GameObject::SetLayer( int value )
 {
-	_layer = value;
-
+	// do not allow negative numbers
+	_layer = (value < 0) ? 0 : value;
+	
 	if ( _emitEvents ) {
 		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-2017 Morco (www.morco.ro)
 // MIT License
 
-
 #pragma once
 #include "CyredRequired.h"
 #include "CyredBuildingBlocks.h"
@@ -9,11 +8,11 @@
 
 #include <QtGui\qwindow.h>
 
-
 class QHBoxLayout;
 
 namespace CYRED
 {
+	class GameObject;
 	class GLContext;
 	class InputReceiverQT;
 }
@@ -92,6 +91,9 @@ namespace CYRED
 
 		QHBoxLayout*	_qtTopBarLayout;
 
+
+	protected:
+		void	_RecCollectLayers( GameObject* root, OUT DataArray<int>& layers );
 
 	private:
 		void	_CreateCanvasSlot();

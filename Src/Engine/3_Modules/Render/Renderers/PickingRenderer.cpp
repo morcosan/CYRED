@@ -80,7 +80,7 @@ void PickingRenderer::ResetDepth()
 * 		cameraGO	- camera
 * 		lightsGO	- the list of lights to be used
 */
-void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
+void PickingRenderer::Render( int layer, ComponentType compType, Node* target, GameObject* cameraGO, 
 							  DataArray<GameObject*>& lightsGO )
 {
 	// sanity check
@@ -92,8 +92,9 @@ void PickingRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	_gl->BindFramebuffer( GLFrameBuffer::FRAMEBUFFER, _frameBufferID );
 
 	// store data
-	_currCameraTran		= cameraGO->GetComponent<Transform>();
-	_currCameraCam		= cameraGO->GetComponent<Camera>();
+	_currCameraTran	= cameraGO->GetComponent<Transform>();
+	_currCameraCam	= cameraGO->GetComponent<Camera>();
+	_currLayer		= layer;
 
 	// prepare for rendering
 	switch ( compType ) {
@@ -310,6 +311,11 @@ void PickingRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 		_RecRenderMesh( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
+
 	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
 	if ( meshRender == NULL || objTran == NULL || !meshRender->IsEnabled() || !objTran->IsEnabled() ) {
@@ -399,6 +405,10 @@ void PickingRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 	// render child nodes
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderMorph( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
+	}
+
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
 	}
 
 
@@ -552,6 +562,10 @@ void PickingRenderer::_RecRenderParticles( GameObject* gameObject )
 		_RecRenderParticles( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
 	}
 
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
 
 	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
 	Transform*			objTran	= gameObject->GetComponent<Transform>();
@@ -632,6 +646,11 @@ void PickingRenderer::_RecRenderParticles( GameObject* gameObject )
 	_gl->BindBuffer( GLBuffer::ELEMENT_ARRAY_BUFFER,	EMPTY_BUFFER );
 	_gl->BindBufferBase( GLBaseBuffer::SHADER_STORAGE_BUFFER, 0, EMPTY_BUFFER );
 	_gl->UseProgram( EMPTY_SHADER );
+}
+
+
+void PickingRenderer::_RecRenderText3D( GameObject* gameObject )
+{
 }
 
 

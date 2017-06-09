@@ -175,7 +175,7 @@
         {
             "name": "Text 3D",
             "tag": "",
-            "layer": 1,
+            "layer": 0,
             "enabled": true,
             "components": {
                 "transform": {

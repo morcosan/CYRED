@@ -140,6 +140,45 @@ void Panel_Viewport::_OnResize()
 }
 
 
+void Panel_Viewport::_RecCollectLayers( GameObject * root, OUT DataArray<int>& layers )
+{
+	if ( root == NULL ) {
+		return;
+	}
+
+	// get layer
+	int layer = root->GetLayer();
+	// ignore negative numbers
+	if ( layer >= 0 ) {
+		// if layer does not exist, add it, keep the list ordered
+		bool found = false;
+		for ( int i = 0; i < layers.Size(); i++ ) {
+			if ( layer == layers[i] ) {
+				// found
+				found = true;
+				break;
+			}
+			else if ( layer < layers[i] ) {
+				// insert before this
+				layers.Insert( i, layer );
+				found = true;
+				break;
+			}
+		}
+
+		// if not found, just add it
+		if ( !found ) {
+			layers.Add( layer );
+		}
+	}
+
+	// parse children
+	for ( int i = 0; i < root->GetChildNodeCount(); i++ ) {
+		_RecCollectLayers( CAST_S(GameObject*, root->GetChildNodeAt(i)), layers );
+	}
+}
+
+
 void Panel_Viewport::_CreateCanvasSlot()
 {
 	ASSERT( _isInitialized );

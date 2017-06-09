@@ -71,7 +71,7 @@ void ForwardRenderer::ResetDepth()
 * 		cameraGO	- camera
 * 		lightsGO	- the list of lights to be used
 */
-void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
+void ForwardRenderer::Render( int layer, ComponentType compType, Node* target, GameObject* cameraGO, 
 							  DataArray<GameObject*>& lightsGO )
 {
 	// sanity check
@@ -80,8 +80,9 @@ void ForwardRenderer::Render( ComponentType compType, Node* target, GameObject* 
 	}
 
 	// store data
-	_currCameraTran		= cameraGO->GetComponent<Transform>();
-	_currCameraCam		= cameraGO->GetComponent<Camera>();
+	_currCameraTran	= cameraGO->GetComponent<Transform>();
+	_currCameraCam	= cameraGO->GetComponent<Camera>();
+	_currLayer		= layer;
 
 	// prepare for rendering
 	switch ( compType ) {
@@ -171,6 +172,11 @@ void ForwardRenderer::_RecRenderMesh( GameObject* gameObject, DataArray<GameObje
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderMesh( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
+
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
 
 	MeshRendering*	meshRender	= gameObject->GetComponent<MeshRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
@@ -331,6 +337,10 @@ void ForwardRenderer::_RecRenderMorph( GameObject* gameObject, DataArray<GameObj
 		_RecRenderMorph( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)), lightsGO );
 	}
 
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
 
 	MorphRendering*	morphRender	= gameObject->GetComponent<MorphRendering>();
 	Transform*		objTran		= gameObject->GetComponent<Transform>();
@@ -486,6 +496,10 @@ void ForwardRenderer::_RecRenderParticles( GameObject* gameObject )
 		_RecRenderParticles( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
 	}
 
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
 
 	ParticleEmitter*	emitter	= gameObject->GetComponent<ParticleEmitter>();
 	Transform*			objTran	= gameObject->GetComponent<Transform>();
@@ -580,6 +594,11 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 	for ( int i = 0; i < gameObject->GetChildNodeCount(); ++i ) {
 		_RecRenderText3D( CAST_S(GameObject*, gameObject->GetChildNodeAt(i)) );
 	}
+
+	if ( gameObject->GetLayer() != _currLayer ) {
+		return;
+	}
+
 
 	Text3D*		text3D	= gameObject->GetComponent<Text3D>();
 	Transform*	objTran	= gameObject->GetComponent<Transform>();

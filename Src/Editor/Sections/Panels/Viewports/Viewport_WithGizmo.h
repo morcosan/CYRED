@@ -8,7 +8,6 @@
 
 namespace CYRED
 {
-	class GameObject;
 	class Prefab;
 }
 

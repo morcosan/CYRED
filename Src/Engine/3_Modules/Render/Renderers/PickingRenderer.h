@@ -35,34 +35,12 @@ namespace CYRED
 
 
 		public:
-			/*****
-			* @desc: clear the previous frame
-			*/
 			void ClearScreen	( float r, float g, float b )			override;
-
-			/*****
-			* @desc: clear the depth buffer; new rendering goes over anything before
-			*/
 			void ResetDepth		()										override;
-
-			/*****
-			* @desc: render the given component from given gameobject and its children
-			* @params: 
-			* 		compType	- the component to render
-			* 		target		- the target gameobject
-			* 		cameraGO	- camera
-			* 		lightsGO	- the list of lights to be used
-			*/
-			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+			void Render			( int layer, ComponentType compType, 
+								  Node* target, GameObject* cameraGO,
 								  DataArray<GameObject*>& lightsGO )	override;
 
-			/*****
-			* @desc: read the pixel from renderer at given location
-			* @params: 
-			* 		x - location on x axis
-			* 		y - location on y axis
-			* @assert: canvas and renderer are set
-			*/
 			Vector4	ReadPixel	( int x, int y )						override;
 
 			void OnResize		()										override;
@@ -70,10 +48,6 @@ namespace CYRED
 
 
 		private:
-			/*****
-			* @desc: apply specific initialization per renderer; 
-			*		 called at the end of Initialize()
-			*/
 			void _OnInitialize	() override;
 
 
@@ -97,6 +71,7 @@ namespace CYRED
 			void _RecRenderMesh		( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderMorph	( GameObject* gameObject, DataArray<GameObject*>& lightsGO );
 			void _RecRenderParticles( GameObject* gameObject );
+			void _RecRenderText3D	( GameObject* gameObject );
 
 			void _BindMaterial		( Material* material );
 		};

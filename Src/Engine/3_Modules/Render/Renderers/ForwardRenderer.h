@@ -39,7 +39,8 @@ namespace CYRED
 		public:
 			void ClearScreen	( float r, float g, float b )			override;
 			void ResetDepth		()										override;
-			void Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+			void Render			( int layer, ComponentType compType, 
+								  Node* target, GameObject* cameraGO,
 								  DataArray<GameObject*>& lightsGO )	override;
 
 			Vector4	ReadPixel	( int x, int y )						override;

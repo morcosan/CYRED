@@ -41,7 +41,8 @@ namespace CYRED
 			void	SwitchRenderer	( RendererType rendererType )			override;
 			void	ClearScreen		( float r, float g, float b )			override;
 			void	ResetDepth		()										override;
-			void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+			void	Render			( int layer, ComponentType compType, 
+									  Node* target, GameObject* cameraGO,
 									  DataArray<GameObject*>& lightsGO )	override;
 			void	SwapBuffers		()										override;
 			void	OnResize		( int canvasID )						override;

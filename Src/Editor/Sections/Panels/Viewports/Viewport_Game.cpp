@@ -93,18 +93,30 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 		}
 		
 
+		// collect layers
+		DataArray<int> layers;
+		for ( int i = 0; i < sceneRoot->GetChildNodeCount(); i++ ) {
+			_RecCollectLayers( CAST_S(GameObject*, sceneRoot->GetChildNodeAt(i)), layers );
+		}
+
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		_RecCollectLights( sceneRoot, lightsGO );
 
-		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
-		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
-		// render text 3d
-		renderMngr->Render( ComponentType::TEXT_3D, sceneRoot, _cameraGO, lightsGO );
-		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
+		// render by layers
+		for ( int i = 0; i < layers.Size(); i++ ) {
+			// render meshes
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			// render morphs
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, sceneRoot, _cameraGO, lightsGO );
+			// render text 3d
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, sceneRoot, _cameraGO, lightsGO );
+			// render particles
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, sceneRoot, _cameraGO, lightsGO );
+		
+			// reset depth
+			renderMngr->ResetDepth();
+		}
 	}
 
 	// finish

@@ -53,7 +53,8 @@ namespace CYRED
 		virtual void	SwitchRenderer	( RendererType rendererType )			PURE_VIRTUAL;
 		virtual void	ClearScreen		( float r, float g, float b )			PURE_VIRTUAL;
 		virtual void	ResetDepth		()										PURE_VIRTUAL;
-		virtual void	Render			( ComponentType compType, Node* target, GameObject* cameraGO,
+		virtual void	Render			( int layer, ComponentType compType, 
+										  Node* target, GameObject* cameraGO,
 										  DataArray<GameObject*>& lightsGO )	PURE_VIRTUAL;
 		virtual void	SwapBuffers		()										PURE_VIRTUAL;
 		virtual void	OnResize		( int canvasID )						PURE_VIRTUAL;

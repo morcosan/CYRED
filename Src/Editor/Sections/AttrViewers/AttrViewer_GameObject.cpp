@@ -54,6 +54,9 @@ void AttrViewer_GameObject::_UpdateTarget()
 		_target->SetTag( _ReadAttrString( ATTR_TAG ).GetChar() );
 		_target->SetLayer( _ReadAttrInt( ATTR_LAYER ) );
 		_target->SetEnabled( _ReadInnerAttribute( InnerAttrType::ENABLED ).GetBool() );
+
+		// update layer, for allowed values
+		_WriteAttrInt( ATTR_LAYER,	_target->GetLayer() );
 	}
 	_target->SetEmitEvents( TRUE );
 

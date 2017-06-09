@@ -205,7 +205,7 @@ void RenderManagerImpl::ResetDepth()
 * 		lightsGO	- the list of lights to be used
 * @assert: canvas and renderer are set
 */
-void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject* cameraGO, 
+void RenderManagerImpl::Render( int layer, ComponentType compType, Node* target, GameObject* cameraGO, 
 								DataArray<GameObject*>& lightsGO )
 {
 	ASSERT( _isInitialized );
@@ -217,7 +217,7 @@ void RenderManagerImpl::Render( ComponentType compType, Node* target, GameObject
 	Renderer* renderer = canvas.renderers.Get( _currRenderer );
 
 	// render
-	renderer->Render( compType, target, cameraGO, lightsGO );
+	renderer->Render( layer, compType, target, cameraGO, lightsGO );
 	renderer->DisplayOnScreen();
 }
 

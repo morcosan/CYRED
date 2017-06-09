@@ -107,19 +107,29 @@ void Viewport_Prefab::_OnUpdate( bool isRuntime )
 		// render gizmo
 		_RenderGizmo();
 
+		// collect layers
+		DataArray<int> layers;
+		_RecCollectLayers( prefabRoot, layers );
+
 		// collect lights
 		DataArray<GameObject*> lightsGO;
 		lightsGO.Add( _cameraGO );
 		_RecCollectLights( prefabRoot, lightsGO );
 
-		// render meshes
-		renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
-		// render morphs
-		renderMngr->Render( ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
-		// render text 3d
-		renderMngr->Render( ComponentType::TEXT_3D, prefabRoot, _cameraGO, lightsGO );
-		// render particles
-		renderMngr->Render( ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
+		// render by layers
+		for ( int i = 0; i < layers.Size(); i++ ) {
+			// render meshes
+			renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+			// render morphs
+			renderMngr->Render( layers[i], ComponentType::MORPH_RENDERING, prefabRoot, _cameraGO, lightsGO );
+			// render text 3d
+			renderMngr->Render( layers[i], ComponentType::TEXT_3D, prefabRoot, _cameraGO, lightsGO );
+			// render particles
+			renderMngr->Render( layers[i], ComponentType::PARTICLE_EMITTER, prefabRoot, _cameraGO, lightsGO );
+		
+			// reset depth
+			renderMngr->ResetDepth();
+		}
 
 		// render gizmo after
 		_RenderGizmoAfter();
@@ -150,8 +160,18 @@ bool Viewport_Prefab::_IsPickingInput()
 			// get prefabs root
 			GameObject* prefabRoot = _targetPrefab->GetRoot();
 
-			// render meshes
-			renderMngr->Render( ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
+			// collect layers
+			DataArray<int> layers;
+			_RecCollectLayers( prefabRoot, layers );
+
+			// render by layers
+			for ( int i = 0; i < layers.Size(); i++ ) {
+				// render meshes
+				renderMngr->Render( layers[i], ComponentType::MESH_RENDERING, prefabRoot, _cameraGO, _noLightsGO );
+			
+				// reset depth
+				renderMngr->ResetDepth();
+			}
 
 			// get pixel from mouse position
 			Vector2 mousePos = inputMngr->MousePosition();

@@ -165,19 +165,19 @@ void Viewport_WithGizmo::_RenderGizmo()
 
 	// render gizmo background
 	if ( _gizmoBackground != NULL ) {
-		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoBackground->GetRoot(), 
 							_cameraGO, _noLightsGO );
 	}
 
 	// render gizmo grid
 	if ( _gizmoGrid != NULL ) {
-		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoGrid->GetRoot(), 
 							_cameraGO, _noLightsGO );
 	}
 
 	// render gizmo axis
 	if ( _gizmoAxis != NULL ) {
-		renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
+		renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoAxis->GetRoot(), 
 							_cameraGO, _noLightsGO );
 	}
 
@@ -206,7 +206,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPointLight->GetRoot(), 
 										_cameraGO, _noLightsGO );
 				}
 
@@ -222,7 +222,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoDirLight->GetRoot(), 
 										_cameraGO, _noLightsGO );
 				}
 
@@ -243,7 +243,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoSpotLight->GetRoot(), 
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -269,7 +269,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoOrthoCamera->GetRoot(),
 										_cameraGO, _noLightsGO );
 				}
 
@@ -301,7 +301,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPerspCamera->GetRoot(),
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -322,7 +322,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollBox->GetRoot(),
 										_cameraGO, _noLightsGO );
 				}
 
@@ -344,7 +344,7 @@ void Viewport_WithGizmo::_RenderGizmo()
 					rootTran->SetEmitEvents( TRUE );
 
 					// render gizmo
-					renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
+					renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoCollSphere->GetRoot(),
 										_cameraGO, _noLightsGO );
 				}
 			}
@@ -375,7 +375,7 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 			rootTran->SetEmitEvents( TRUE );
 
 			// render gizmo
-			renderMngr->Render( ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
+			renderMngr->Render( 0, ComponentType::MESH_RENDERING, _gizmoPivot->GetRoot(), 
 								_cameraGO, _noLightsGO );
 		}
 	}
