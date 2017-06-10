@@ -77,7 +77,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Editor" /y
-xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Standalone" /y</Command>
+xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Launcher" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,7 +109,7 @@ xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Sta
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Editor" /y
-xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Standalone" /y</Command>
+xcopy "$(SolutionDir)DeployLIB\CYRED_Engine.dll" "$(SolutionDir)Deploy\CYRED_Launcher" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

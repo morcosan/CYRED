@@ -47,8 +47,6 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 	renderMngr->SwitchRenderer( RendererType::GL_FORWARD );
 	// clear screen
 	renderMngr->ClearScreen( 0, 0, 0 );
-	// set camera
-	renderMngr->SwitchCamera( _currCameraTran, _currCamera );
 
 	// render scenes
 	if ( SceneManager::Singleton()->CountLoadedScenes() > 0 ) {
@@ -73,12 +71,14 @@ void Viewport_Game::_OnUpdate( bool isRuntime )
 
 		// all good
 
+		// set camera
+		renderMngr->SwitchCamera( _currCameraTran, _currCamera );
+
 		// update camera size
 		{
 			bool emitEvents = _currCamera->DoesEmitEvents();
 			_currCamera->SetEmitEvents( FALSE );
 			{
-				// update camera
 				float aspectRatio = CAST_S( float, _qtWindow->width() ) / _qtWindow->height();
 				float height = _currCamera->GetOrthoSize().y;
 				_currCamera->SetAspectRatio( aspectRatio );

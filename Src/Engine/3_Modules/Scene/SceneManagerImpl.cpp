@@ -103,11 +103,18 @@ Scene* SceneManagerImpl::LoadScene( cchar* sceneUID )
 {
 	ASSERT( _isInitialized );
 
+	// check if scene exists
 	String temp( sceneUID );
+	bool found = FALSE;
 	for ( int i = 0; i < _currScenes.Size(); ++i ) {
 		if ( temp == _currScenes[i]->GetUniqueID() ) {
-			return NULL;
+			found = TRUE;
 		}
+	}
+
+	// exit if not found
+	if ( !found ) {
+		return NULL;
 	}
 
 	Scene* scene = AssetManager::Singleton()->GetScene( sceneUID );

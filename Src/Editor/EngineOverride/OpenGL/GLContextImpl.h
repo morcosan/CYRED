@@ -20,10 +20,8 @@ namespace CYRED
 
 	public:
 		void Create		() override;
-
 		void MakeCurrent() override;
 		void SwapBuffers() override;
-
 		void OnResize	() override;
 
 		virtual void SetSharedContext	( GLContext* other )	override;

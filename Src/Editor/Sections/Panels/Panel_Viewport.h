@@ -98,6 +98,7 @@ namespace CYRED
 	protected:
 		void	_RecCollectLayers( GameObject* root, OUT DataArray<int>& layers );
 
+
 	private:
 		void	_CreateCanvasSlot();
 	};

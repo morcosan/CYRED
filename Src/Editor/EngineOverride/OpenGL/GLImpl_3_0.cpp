@@ -18,22 +18,18 @@ void GLImpl_3_0::Initialize()
 
 void GLImpl_3_0::Viewport( int x, int y, int width, int height )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glViewport( x, y, width, height );
 }
 
 
 void GLImpl_3_0::ClearColor( float r, float g, float b, float a )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glClearColor( r, g, b, a );
 }
 
 
 void GLImpl_3_0::Clear( int bitMask )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glBitMask = 0;
 
 	if ( (bitMask & GLBufferBit::COLOR_BUFFER_BIT) != 0 )
@@ -51,23 +47,18 @@ void GLImpl_3_0::Clear( int bitMask )
 
 void GLImpl_3_0::GenBuffers( int n, OUT uint* buffers )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glGenBuffers( n, buffers );
 }
 
 
 void GLImpl_3_0::DeleteBuffers( int n, uint* buffers )
 {
-	ASSERT( _qtGL != NULL );
-
 	_qtGL->glDeleteBuffers( n, buffers );
 }
 
 
 void GLImpl_3_0::BindBuffer( GLBuffer target, int buffer )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glTarget = 0;
 
 	switch ( target )
@@ -87,8 +78,6 @@ void GLImpl_3_0::BindBuffer( GLBuffer target, int buffer )
 
 void GLImpl_3_0::BufferData( GLBuffer target, int size, const void * data, GLDrawType usage )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glTarget = 0;
 	int glUsage = 0;
 
@@ -108,8 +97,6 @@ void GLImpl_3_0::BufferData( GLBuffer target, int size, const void * data, GLDra
 
 void GLImpl_3_0::BufferSubData( GLBuffer target, int offset, int size, const void* data )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glTarget = 0;
 
 	switch ( target ) {
@@ -123,10 +110,7 @@ void GLImpl_3_0::BufferSubData( GLBuffer target, int offset, int size, const voi
 
 void GLImpl_3_0::GetShaderiv( int shader, GLShaderInfo pname, OUT int* params )
 {
-	ASSERT( _qtGL != NULL );
-
-	switch ( pname )
-	{
+	switch ( pname ) {
 		case GLShaderInfo::COMPILE_STATUS:
 			_qtGL->glGetShaderiv( shader, GL_COMPILE_STATUS, params );
 			break;
@@ -136,15 +120,12 @@ void GLImpl_3_0::GetShaderiv( int shader, GLShaderInfo pname, OUT int* params )
 
 void GLImpl_3_0::GetShaderInfoLog( int shader, int maxLength, OUT int* size, OUT char* logs )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glGetShaderInfoLog( shader, maxLength, size, logs );
 }
 
 
 void GLImpl_3_0::GetProgramiv( int program, GLProgramInfo pname, OUT int* params )
 {
-	ASSERT( _qtGL != NULL );
-
 	switch ( pname )
 	{
 		case GLProgramInfo::LINK_STATUS:
@@ -164,36 +145,30 @@ void GLImpl_3_0::GetProgramiv( int program, GLProgramInfo pname, OUT int* params
 
 void GLImpl_3_0::GetProgramInfoLog( int program, int maxLength, OUT int* size, OUT char* logs )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glGetProgramInfoLog( program, maxLength, size, logs );
 }
 
 
 void GLImpl_3_0::ValidateProgram( int program )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glValidateProgram( program );
 }
 
 
 int GLImpl_3_0::CreateProgram()
 {
-	ASSERT( _qtGL != NULL );
 	return _qtGL->glCreateProgram();
 }
 
 
 void GLImpl_3_0::DeleteProgram( int program )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glDeleteProgram( program );
 }
 
 
 int GLImpl_3_0::CreateShader( GLShader shaderType )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glShaderType = 0;
 
 	switch ( shaderType )
@@ -217,49 +192,42 @@ int GLImpl_3_0::CreateShader( GLShader shaderType )
 
 void GLImpl_3_0::DeleteShader( int shader )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glDeleteShader( shader );
 }
 
 
 void GLImpl_3_0::ShaderSource( int shader, int count, cchar** string, const int* length )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glShaderSource( shader, count, string, length );
 }
 
 
 void GLImpl_3_0::CompileShader( int shader )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glCompileShader( shader );
 }
 
 
 void GLImpl_3_0::AttachShader( int program, int shader )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glAttachShader( program, shader );
 }
 
 
 void GLImpl_3_0::DetachShader( int program, int shader )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glDetachShader( program, shader );
 }
 
 
 void GLImpl_3_0::LinkProgram( int program )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glLinkProgram( program );
 }
 
 
 int GLImpl_3_0::GetUniformLocation( int program, cchar* name )
 {
-	ASSERT( _qtGL != NULL );
 	return _qtGL->glGetUniformLocation( program, name );
 }
 
@@ -306,22 +274,18 @@ void GLImpl_3_0::GetActiveUniform( int program, int index, int buffSize, OUT int
 
 void GLImpl_3_0::GenFramebuffers( int size, OUT uint* framebuffers )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glGenFramebuffers( size, framebuffers );
 }
 
 
 void GLImpl_3_0::DeleteFramebuffers( int size, uint* framebuffers )
 {
-	ASSERT( _qtGL != NULL );
 	_qtGL->glDeleteFramebuffers( size, framebuffers );
 }
 
 
 void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, int framebuffer )
 {
-	ASSERT( _qtGL != NULL );
-
 	switch ( target )
 	{
 		case GLFrameBuffer::FRAMEBUFFER:
@@ -333,24 +297,18 @@ void GLImpl_3_0::BindFramebuffer( GLFrameBuffer target, int framebuffer )
 
 void GLImpl_3_0::GenTextures( int size, OUT uint* textures )
 {
-	ASSERT( _qtGL != NULL );
-
 	_qtGL->glGenTextures( size, textures );
 }
 
 
 void GLImpl_3_0::DeleteTextures( int size, uint* textures )
 {
-	ASSERT( _qtGL != NULL );
-
 	_qtGL->glDeleteTextures( size, textures );
 }
 
 
 void GLImpl_3_0::BindTexture( GLTexture target, int texture )
 {
-	ASSERT( _qtGL != NULL );
-
 	switch ( target )
 	{
 		case GLTexture::TEXTURE_2D:
@@ -368,8 +326,6 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 							 int width, int height, int border, GLTexFormat format, 
 							 GLVarType type, const void* data )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glTarget = 0;
 	int glInternalformat = 0;
 	int glFormat = 0;
@@ -416,67 +372,29 @@ void GLImpl_3_0::TexImage2D( GLTextureImage target, int level, GLTexInternal int
 
 void GLImpl_3_0::TexParameteri( GLTexture target, GLTexParamType name, GLTexParamValue param )
 {
-	ASSERT( _qtGL != NULL );
-
 	int glTarget = 0;
 	int glName = 0;
 	int glParam = 0;
 
-	switch ( target )
-	{
-		case GLTexture::TEXTURE_2D:
-			glTarget = GL_TEXTURE_2D;
-			break;
-
-		case GLTexture::CUBE_MAP:
-			glTarget = GL_TEXTURE_CUBE_MAP;
-			break;
+	switch ( target ) {
+		case GLTexture::TEXTURE_2D:		glTarget = GL_TEXTURE_2D;			break;
+		case GLTexture::CUBE_MAP:		glTarget = GL_TEXTURE_CUBE_MAP;		break;
 	}
 
-	switch ( name )
-	{
-		case GLTexParamType::WRAP_S:
-			glName = GL_TEXTURE_WRAP_S;
-			break;
-
-		case GLTexParamType::WRAP_T:
-			glName = GL_TEXTURE_WRAP_T;
-			break;
-
-		case GLTexParamType::WRAP_R:
-			glName = GL_TEXTURE_WRAP_R;
-			break;
-
-		case GLTexParamType::MAG_FILTER:
-			glName = GL_TEXTURE_MAG_FILTER;
-			break;
-
-		case GLTexParamType::MIN_FILTER:
-			glName = GL_TEXTURE_MIN_FILTER;
-			break;
+	switch ( name ) {
+		case GLTexParamType::WRAP_S:		glName = GL_TEXTURE_WRAP_S;			break;
+		case GLTexParamType::WRAP_T:		glName = GL_TEXTURE_WRAP_T;			break;
+		case GLTexParamType::WRAP_R:		glName = GL_TEXTURE_WRAP_R;			break;
+		case GLTexParamType::MAG_FILTER:	glName = GL_TEXTURE_MAG_FILTER;		break;
+		case GLTexParamType::MIN_FILTER:	glName = GL_TEXTURE_MIN_FILTER;		break;
 	}
 
-	switch ( param )
-	{
-		case GLTexParamValue::CLAMP_TO_EDGE:
-			glParam = GL_CLAMP_TO_EDGE;
-			break;
-
-		case GLTexParamValue::NEAREST:
-			glParam = GL_NEAREST;
-			break;
-
-		case GLTexParamValue::LINEAR:
-			glParam = GL_LINEAR;
-			break;
-
-		case GLTexParamValue::REPEAT:
-			glParam = GL_REPEAT;
-			break;
-
-		case GLTexParamValue::LINEAR_MIPMAP_LINEAR:
-			glParam = GL_LINEAR_MIPMAP_LINEAR;
-			break;
+	switch ( param ) {
+		case GLTexParamValue::CLAMP_TO_EDGE:		glParam = GL_CLAMP_TO_EDGE;			break;
+		case GLTexParamValue::NEAREST:				glParam = GL_NEAREST;				break;
+		case GLTexParamValue::LINEAR:				glParam = GL_LINEAR;				break;
+		case GLTexParamValue::REPEAT:				glParam = GL_REPEAT;				break;
+		case GLTexParamValue::LINEAR_MIPMAP_LINEAR:	glParam = GL_LINEAR_MIPMAP_LINEAR;	break;
 	}
 
 	_qtGL->glTexParameteri( glTarget, glName, glParam );
@@ -485,17 +403,9 @@ void GLImpl_3_0::TexParameteri( GLTexture target, GLTexParamType name, GLTexPara
 
 void GLImpl_3_0::GenerateMipmap( GLTexture target )
 {
-	ASSERT( _qtGL != NULL );
-
-	switch ( target )
-	{
-		case GLTexture::TEXTURE_2D:
-			_qtGL->glGenerateMipmap( GL_TEXTURE_2D );
-			break;
-
-		case GLTexture::CUBE_MAP:
-			_qtGL->glGenerateMipmap( GL_TEXTURE_CUBE_MAP );
-			break;
+	switch ( target ) {
+		case GLTexture::TEXTURE_2D:	_qtGL->glGenerateMipmap( GL_TEXTURE_2D );		break;
+		case GLTexture::CUBE_MAP:	_qtGL->glGenerateMipmap( GL_TEXTURE_CUBE_MAP );	break;
 	}
 }
 
@@ -507,34 +417,16 @@ void GLImpl_3_0::PixelStorei( GLAlignType type, GLAlignValue value )
 	int glType = 0;
 	int glValue = 0;
 
-	switch ( type )
-	{
-		case GLAlignType::PACK_ALIGNMENT:
-			glType = GL_PACK_ALIGNMENT;
-			break;
-
-		case GLAlignType::UNPACK_ALIGNMENT:
-			glType = GL_UNPACK_ALIGNMENT;
-			break;
+	switch ( type )	{
+		case GLAlignType::PACK_ALIGNMENT:		glType = GL_PACK_ALIGNMENT;		break;
+		case GLAlignType::UNPACK_ALIGNMENT:		glType = GL_UNPACK_ALIGNMENT;	break;
 	}
 
-	switch ( value )
-	{
-		case GLAlignValue::VALUE_1:
-			glValue = 1;
-			break;
-
-		case GLAlignValue::VALUE_2:
-			glValue = 2;
-			break;
-
-		case GLAlignValue::VALUE_4:
-			glValue = 4;
-			break;
-
-		case GLAlignValue::VALUE_8:
-			glValue = 8;
-			break;
+	switch ( value ) {
+		case GLAlignValue::VALUE_1:	glValue = 1;	break;
+		case GLAlignValue::VALUE_2:	glValue = 2;	break;
+		case GLAlignValue::VALUE_4:	glValue = 4;	break;
+		case GLAlignValue::VALUE_8:	glValue = 8;	break;	
 	}
 
 	_qtGL->glPixelStorei( glType, glValue );
@@ -881,8 +773,3 @@ void GLImpl_3_0::ReadPixels( int x, int y, int width, int height, GLPixelFormat 
 
 	_qtGL->glReadPixels( x, y, width, height, glFormat, glType, data );
 }
-
-
-
-
-

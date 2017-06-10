@@ -7,7 +7,6 @@
 #include "../2_BuildingBlocks/Data/DataArray.h"
 
 
-
 namespace CYRED
 {
 	class DLL AppConfig
@@ -27,11 +26,11 @@ namespace CYRED
 
 
 	public:
-		int		width;		/* width of editor window						*/
-		int		height;		/* height of editor window						*/
+		int			width;		/* width of editor window						*/
+		int			height;		/* height of editor window						*/
 		int			posX;		/* x position on desktop from top-left corner	*/
 		int			posY;		/* y position on desktop						*/
-		int		fps;		/* desired FPS when rendering					*/
+		int			fps;		/* desired FPS when rendering					*/
 		bool		fullscreen;
 
 		String		appName;
@@ -45,5 +44,7 @@ namespace CYRED
 		DataArray<AssetConfig>	assetShaders;
 		DataArray<AssetConfig>	assetMaterials;
 		DataArray<AssetConfig>	assetScripts;
+		DataArray<AssetConfig>	assetFonts;
+		DataArray<AssetConfig>	assetPrefabs;
 	};
 }

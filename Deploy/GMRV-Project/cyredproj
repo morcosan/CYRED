@@ -8,7 +8,7 @@
         "pos_y": 50,
         "fps": 60
     },
-    "start_scene": "OpG9RI1FtJ7Khu4opRKMbcB8xDN9QMMX",
-    "build_dir_windows": "../CYRED_Standalone/",
+    "start_scene": "XKhnm22xmu0B1jVU1a1v6rYDkY2U9R6x",
+    "build_dir_windows": "../CYRED_Launcher/",
     "build_dir_android": ""
 }

@@ -1,0 +1,20 @@
+{
+    "uid": "ZUcMQ4O415dkLYq86aasYbuOhhQXcIzd",
+    "shader": "qYgaWilUh1KooYAHpNSpjqW4UTMG81pC",
+    "wireframe": false,
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
+    "properties": [
+        {
+            "name": "diffuseColor",
+            "type": "VEC4",
+            "value": {
+                "x": 0.5,
+                "y": 1.0,
+                "z": 1.0,
+                "w": 1.0
+            }
+        }
+    ],
+    "picking_proxy": "v2WfDVGXgCwRu0gzH2Q78Y8K66Rt6uSu"
+}

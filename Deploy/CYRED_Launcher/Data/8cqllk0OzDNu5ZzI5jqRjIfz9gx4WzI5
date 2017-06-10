@@ -1,0 +1,25 @@
+{
+    "uid": "8cqllk0OzDNu5ZzI5jqRjIfz9gx4WzI5",
+    "shader": "wVjCISzUz4f6ebIBanqcyKjCsZRuLgwq",
+    "wireframe": true,
+    "line_width": 1.0,
+    "cull_face": "CULL_BACK",
+    "properties": [
+        {
+            "name": "diffuseColor",
+            "type": "VEC4",
+            "value": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "name": "diffuseTexture",
+            "type": "TEXTURE",
+            "value": "GKZsidCsQORMpow2QG7BkcZQWwdRWUy4"
+        }
+    ],
+    "picking_proxy": null
+}

@@ -1,0 +1,110 @@
+{
+    "uid": "8kTnUOjjLevF4H5MXhpySj62P7OBYr98",
+    "game_objects": [
+        {
+            "name": "Text 3D",
+            "tag": "",
+            "layer": 1,
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "text_3d": {
+                    "enabled": true,
+                    "text": "005",
+                    "text_size": 12,
+                    "text_color": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    },
+                    "vertical_align": "BOTTOM",
+                    "horizontal_align": "MIDDLE",
+                    "font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
+                    "material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
+                }
+            }
+        },
+        {
+            "name": "Camera",
+            "tag": "",
+            "layer": 0,
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 7.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "camera": {
+                    "enabled": true,
+                    "camera_type": "PERSPECTIVE",
+                    "fovy_angle": 60.0,
+                    "near_clipping": 0.100,
+                    "far_clipping": 200.0
+                }
+            }
+        },
+        {
+            "name": "Mesh",
+            "tag": "",
+            "layer": 0,
+            "enabled": true,
+            "components": {
+                "transform": {
+                    "enabled": true,
+                    "position_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation_world": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale_world": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                "mesh_rendering": {
+                    "enabled": true,
+                    "mesh": "4fThkJlKroDSck0AQrotxjQZG3Tu5DVR",
+                    "material": "BxTFYR4SKJTcYpgM1tPSXjQLDPyLG9Vg"
+                }
+            }
+        }
+    ]
+}

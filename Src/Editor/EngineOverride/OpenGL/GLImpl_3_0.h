@@ -65,12 +65,12 @@ namespace CYRED
 		void TexImage2D				( GLTextureImage target, int level, GLTexInternal internalformat,
  									  int width, int height, int border, GLTexFormat format, 
 									  GLVarType type, const void * data )			override;
-		void	TexParameteri		( GLTexture target, GLTexParamType name, 
+		void TexParameteri			( GLTexture target, GLTexParamType name, 
 									  GLTexParamValue param )						override;
-		void	GenerateMipmap		( GLTexture target )							override;
-		void	PixelStorei			( GLAlignType type, GLAlignValue value )		override;
+		void GenerateMipmap			( GLTexture target )							override;
+		void PixelStorei			( GLAlignType type, GLAlignValue value )		override;
 
-		void	FramebufferTexture2D( GLFrameBuffer target, GLBufferAttachment attachment,	
+		void FramebufferTexture2D	( GLFrameBuffer target, GLBufferAttachment attachment,	
 									  GLTexture texTarget, int texture, int level )	override;
 		
 		GLBufferStatus CheckFramebufferStatus( GLFrameBuffer target )				override;
