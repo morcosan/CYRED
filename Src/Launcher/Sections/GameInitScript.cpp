@@ -131,7 +131,7 @@ void GameInitScript::_LoadAllAssets()
 		prefab->SetEmitEvents( FALSE );
 		prefab->SetName( _appConfig->assetPrefabs[i].path.GetChar(), FALSE );
 		prefab->SetDirPath( AppConfig::DIR_PATH_DATA );
-		prefab->LoadUniqueID();
+		prefab->LoadFullFile();
 		// manage asset
 		AssetManager::Singleton()->AddPrefab( prefab );
 	}

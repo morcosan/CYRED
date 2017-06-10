@@ -94,10 +94,10 @@ void LauncherApp::_UpdateLoop()
 
 		// update scripts
 		SceneManager::Singleton()->Update( TRUE );
-
-		// update physics
-		PhysicsManager::Singleton()->Update();
 	}
+
+	// update physics
+	PhysicsManager::Singleton()->Update();
 
 	// render
 	_RenderScene();

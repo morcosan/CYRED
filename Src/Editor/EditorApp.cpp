@@ -250,6 +250,13 @@ void EditorApp::_UpdateLoop()
 		iter.Next();
 	}
 
+	// get and process events
+	_qtApp->processEvents();
+	InputManager::Singleton()->ProcessEvents();
+
+	// process engine events after editor events
+	EventManager::Singleton()->Update();
+
 
 	// stop play mode if needed
 	if ( _shouldStopPlay ) {
@@ -264,13 +271,6 @@ void EditorApp::_UpdateLoop()
 		// announce stop
 		EventManager::Singleton()->PushEvent( EditorEventType::PLAY_MODE_STOP, NULL );
 	}
-
-	// get and process events
-	_qtApp->processEvents();
-	InputManager::Singleton()->ProcessEvents();
-
-	// process engine events after editor events
-	EventManager::Singleton()->Update();
 }
 
 

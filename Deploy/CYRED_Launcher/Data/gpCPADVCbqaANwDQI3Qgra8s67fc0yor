@@ -1,0 +1,44 @@
+{
+    "uid": "gpCPADVCbqaANwDQI3Qgra8s67fc0yor",
+    "root": {
+        "name": "GizmoDebugText",
+        "tag": "",
+        "layer": 0,
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "text_3d": {
+                "enabled": true,
+                "text": "Debug",
+                "text_size": 8,
+                "text_color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "vertical_align": "TOP",
+                "horizontal_align": "LEFT",
+                "font": "gHfkckUFA677qimC3lZ81NOmi5UJdUEr",
+                "material": "I7buEJzEElRXWjN5iRfNG8WCkcC1Fogk"
+            }
+        }
+    }
+}

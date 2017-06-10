@@ -1,0 +1,32 @@
+{
+    "uid": "EZiTttQwEpaRmLyDECeh0e5jcP2CKqnZ",
+    "root": {
+        "name": "GizmoCollisionBox",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "LODYxUL8oroQbsWGF43qTETKlviaxnYU",
+                "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+            }
+        }
+    }
+}

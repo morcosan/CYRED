@@ -1,0 +1,9 @@
+{
+    "uid": "cxjdxEB89KvW3Rp4BVnAy29e7boouTVs",
+    "shader": "xZgBg9rK4Z4EL7IXepbH5kkuJT2pQu3D",
+    "wireframe": true,
+    "line_width": 3.0,
+    "cull_face": "CULL_BACK",
+    "properties": [],
+    "picking_proxy": null
+}

@@ -1,6 +1,6 @@
 {
     "uid": "wUNMqUxnJSJkRs36M8iaT3mxjLDJQh5Y",
-    "run_in_editor": true,
+    "run_in_editor": false,
     "file_paths": [
         "Spawner.lua"
     ]

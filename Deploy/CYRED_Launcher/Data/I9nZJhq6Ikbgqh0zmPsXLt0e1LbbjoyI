@@ -1,0 +1,90 @@
+{
+    "uid": "I9nZJhq6Ikbgqh0zmPsXLt0e1LbbjoyI",
+    "root": {
+        "name": "GizmoPerspCamera",
+        "tag": "",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "child_nodes": [
+            {
+                "name": "Far",
+                "tag": "",
+                "enabled": true,
+                "components": {
+                    "transform": {
+                        "enabled": true,
+                        "position_world": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_world": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale_world": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "mesh_rendering": {
+                        "enabled": true,
+                        "mesh": "PsRKBAgXgVEq7y9QH1ktkEUxRIM7uXas",
+                        "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+                    }
+                }
+            },
+            {
+                "name": "Near",
+                "tag": "",
+                "enabled": true,
+                "components": {
+                    "transform": {
+                        "enabled": true,
+                        "position_world": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_world": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale_world": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "mesh_rendering": {
+                        "enabled": true,
+                        "mesh": "PsRKBAgXgVEq7y9QH1ktkEUxRIM7uXas",
+                        "material": "58LoBJiwlgChKLWvUhOsB5AjY3WkPB7y"
+                    }
+                }
+            }
+        ]
+    }
+}

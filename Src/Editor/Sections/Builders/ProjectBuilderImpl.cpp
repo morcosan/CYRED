@@ -116,7 +116,7 @@ void ProjectBuilderImpl::BuildWindows( cchar* buildPath )
 		}
 		for ( int i = 0; i < assetManager->GetPrefabCount(); i++ ) {
 			Prefab* asset = assetManager->GetPrefabAt( i );
-			ProjectSettings::appConfig.assetScripts.Add( AppConfig::AssetConfig {
+			ProjectSettings::appConfig.assetPrefabs.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
 			} );
@@ -541,4 +541,16 @@ void ProjectBuilderImpl::_BuildFontFile( Font* asset )
 
 void ProjectBuilderImpl::_BuildPrefabFile( Prefab* asset )
 {
+	ASSERT( asset != NULL );
+
+	// use shortcut
+	FileManager* fileManager = FileManager::Singleton();
+
+	// create paths
+	FiniteString srcPathAsset( "%s%s%s", asset->GetDirPath(), asset->GetName(), 
+										 FileManager::FILE_FORMAT_PREFAB );
+	FiniteString dstPathAsset( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+										 AppConfig::DIR_PATH_DATA, asset->GetUniqueID() );
+	// copy file
+	fileManager->CopyFile( srcPathAsset.GetChar(), dstPathAsset.GetChar() );
 }

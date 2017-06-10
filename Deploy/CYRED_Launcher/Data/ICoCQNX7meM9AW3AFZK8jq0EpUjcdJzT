@@ -1,0 +1,32 @@
+{
+    "uid": "ICoCQNX7meM9AW3AFZK8jq0EpUjcdJzT",
+    "root": {
+        "name": "Background",
+        "enabled": true,
+        "components": {
+            "transform": {
+                "enabled": true,
+                "position_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation_world": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale_world": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "mesh_rendering": {
+                "enabled": true,
+                "mesh": "YbqU8CFAy2okmP1Hxdm1IeSNs9yKsSRB",
+                "material": "fNWEA7c2A5KgQDtDHAXsB8i0AC3e97Fh"
+            }
+        }
+    }
+}
