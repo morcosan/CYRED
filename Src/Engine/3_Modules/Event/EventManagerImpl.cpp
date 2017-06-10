@@ -33,18 +33,18 @@ void EventManagerImpl::Update()
 		}
 
 		// send last async events
-		for ( int i = eventsCount - 1; i >= 0; i-- ) {
-			// check if the event was sent before
-			bool wasSent = false;
-			for ( int j = eventsCount - 1; j > i; j-- ) {
+		for ( int i = 0; i < eventsCount; i++ ) {
+			// check if there is same event later on
+			bool isLast = true;
+			for ( int j = i + 1; j < eventsCount; j++ ) {
 				if ( _pushedEvents[j].eventType == _pushedEvents[i].eventType ) {
-					wasSent = true;
+					isLast = false;
 					break;
 				}
 			}
 
-			// if new, send it
-			if ( !wasSent ) {
+			// if this is last one, send it
+			if ( isLast ) {
 				_SendEvent( &_listenersAsyncLast, _pushedEvents[i].eventType, _pushedEvents[i].eventData );
 			}
 		}
