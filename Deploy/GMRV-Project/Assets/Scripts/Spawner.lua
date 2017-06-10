@@ -16,7 +16,7 @@ function OnStart()
 
 	-- test
 	GAMEOBJECT:DeleteAllChildNodes()
-	for i = 1, 10 do
+	for i = 1, 1000 do
 		local obs = SCENE:Instantiate( VARS.obstacle, 0 )
 		local obsTran = obs:GetComponent_Transform()
 		local x = Random.FromRangeFloat( -transform.scaleWorld.x, transform.scaleWorld.x )

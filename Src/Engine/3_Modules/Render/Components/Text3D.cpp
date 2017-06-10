@@ -73,7 +73,7 @@ void Text3D::SetText( cchar* text )
 	_text = text;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -83,7 +83,7 @@ void Text3D::SetTextSize( int size )
 	_textSize = size;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -93,7 +93,7 @@ void Text3D::SetTextColor( const Vector4& color )
 	_textColor = color;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -103,7 +103,7 @@ void Text3D::SetFont( Font* font )
 	_font = font;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -113,7 +113,7 @@ void Text3D::SetVerticalAlign( VerticalAlign align )
 	_verticalAlign = align;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -123,7 +123,7 @@ void Text3D::SetHorizontalAlign( HorizontalAlign align )
 	_horizontalAlign = align;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -133,6 +133,6 @@ void Text3D::SetMaterial( Material* material )
 	_material = material;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }

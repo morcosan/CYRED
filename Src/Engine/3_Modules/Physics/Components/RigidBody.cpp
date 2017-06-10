@@ -61,7 +61,7 @@ void RigidBody::SetIsTrigger( bool value )
 	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -80,7 +80,7 @@ void RigidBody::SetShapeType( CollisionShapeType type )
 	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -99,7 +99,7 @@ void RigidBody::SetShapeSize( const Vector3& size )
 	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -118,6 +118,6 @@ void RigidBody::SetMass( float mass )
 	NonAPI::PhysicsManagerImpl::Singleton()->UpdateRigidBody( this );
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }

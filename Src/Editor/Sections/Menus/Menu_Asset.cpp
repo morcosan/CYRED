@@ -149,7 +149,7 @@ void Menu_Asset::A_ReloadAsset()
 		case AssetType::PREFAB:
 		{
 			// close prefab first
-			EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, asset );
+			EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_CLOSE, asset );
 
 			Prefab* prefab = CAST_S( Prefab*, asset );
 			prefab->LoadFullFile();
@@ -263,8 +263,8 @@ void Menu_Asset::A_Duplicate()
 	_qtTree->setCurrentItem( newItem );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, clone );
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, clone );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, clone );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, clone );
 }
 
 
@@ -311,7 +311,7 @@ void Menu_Asset::A_Delete()
 			case AssetType::PREFAB:
 				AssetManager::Singleton()->RemovePrefab( CAST_S( Prefab*, asset ) );
 				// send event
-				EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, asset );
+				EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_CLOSE, asset );
 				break;
 		}
 	}
@@ -327,7 +327,7 @@ void Menu_Asset::A_Delete()
 	_qtTree->setCurrentItem( NULL );
 	PTR_FREE( item );
 
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -340,7 +340,7 @@ void Menu_Asset::A_EditPrefab()
 	asset->LoadFullFile();
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, asset );
+	EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_OPEN, asset );
 }
 
 

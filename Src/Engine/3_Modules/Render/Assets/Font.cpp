@@ -61,7 +61,7 @@ void Font::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -84,7 +84,7 @@ void Font::ClearAsset()
 	_fontChars.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -148,7 +148,7 @@ void Font::SetExternalPath( cchar* filePath )
 	_externalPath = filePath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -163,6 +163,6 @@ void Font::SetMaxSize( int size )
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }

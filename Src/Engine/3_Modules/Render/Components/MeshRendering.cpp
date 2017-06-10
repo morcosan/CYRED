@@ -48,7 +48,7 @@ void MeshRendering::SetMaterial( Material* value )
 	_material = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -58,6 +58,6 @@ void MeshRendering::SetMesh( Mesh* value )
 	_mesh = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }

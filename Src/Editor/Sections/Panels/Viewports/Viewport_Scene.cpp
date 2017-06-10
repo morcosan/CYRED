@@ -81,20 +81,20 @@ void Viewport_Scene::_OnInitialize()
 	_qtTopBarLayout->addWidget( _qtCameraDropdown );
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->RegisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->Register( this, EditorEventType::GAMEOBJECT_SELECT,	EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Register( this, EditorEventType::ASSET_SELECT,		EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Register( this, EditorEventType::PREFAB_SELECT,		EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Register( this, EditorEventType::SCENE_SELECT,		EventListenMode::ASYNC_LAST );
 }
 
 
 void Viewport_Scene::_OnFinalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::GAMEOBJECT_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::ASSET_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::PREFAB_SELECT );
-	EventManager::Singleton()->UnregisterListener( this, EditorEventType::SCENE_SELECT );
+	EventManager::Singleton()->Unregister( this, EditorEventType::GAMEOBJECT_SELECT,	EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Unregister( this, EditorEventType::ASSET_SELECT,			EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Unregister( this, EditorEventType::PREFAB_SELECT,		EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Unregister( this, EditorEventType::SCENE_SELECT,			EventListenMode::ASYNC_LAST );
 }
 
 

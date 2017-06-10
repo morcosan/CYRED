@@ -1801,7 +1801,7 @@ void AttrViewer::_WriteFloat( QWidget* widget, float value )
 {
 	QLineEdit* textWidget = CAST_S( QLineEdit*, widget );
 	textWidget->blockSignals( TRUE );
-	textWidget->setText( QString::number( value ) );
+	textWidget->setText( QString::number( value, 'g', 3 ) );
 	textWidget->blockSignals( FALSE );
 }
 
@@ -1828,12 +1828,12 @@ void AttrViewer::_WriteVector2( QWidget* widget, const Vector2& value )
 
 	xWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 1 )->widget() );
 	xWidget->blockSignals( TRUE );
-	xWidget->setText( QString::number( value.x ) );
+	xWidget->setText( QString::number( value.x, 'g', 3 ) );
 	xWidget->blockSignals( FALSE );
 
 	yWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 3 )->widget() );
 	yWidget->blockSignals( TRUE );
-	yWidget->setText( QString::number( value.y ) );
+	yWidget->setText( QString::number( value.y, 'g', 3 ) );
 	yWidget->blockSignals( FALSE );
 }
 
@@ -1846,17 +1846,17 @@ void AttrViewer::_WriteVector3( QWidget* widget, const Vector3& value )
 
 	xWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 1 )->widget() );
 	xWidget->blockSignals( TRUE );
-	xWidget->setText( QString::number( value.x ) );
+	xWidget->setText( QString::number( value.x, 'g', 3 ) );
 	xWidget->blockSignals( FALSE );
 
 	yWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 3 )->widget() );
 	yWidget->blockSignals( TRUE );
-	yWidget->setText( QString::number( value.y ) );
+	yWidget->setText( QString::number( value.y, 'g', 3 ) );
 	yWidget->blockSignals( FALSE );
 
 	zWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 5 )->widget() );
 	zWidget->blockSignals( TRUE );
-	zWidget->setText( QString::number( value.z ) );
+	zWidget->setText( QString::number( value.z, 'g', 3 ) );
 	zWidget->blockSignals( FALSE );
 }
 
@@ -1870,22 +1870,22 @@ void AttrViewer::_WriteVector4( QWidget* widget, const Vector4& value )
 
 	xWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 1 )->widget() );
 	xWidget->blockSignals( TRUE );
-	xWidget->setText( QString::number( value.x ) );
+	xWidget->setText( QString::number( value.x, 'g', 3 ) );
 	xWidget->blockSignals( FALSE );
 
 	yWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 3 )->widget() );
 	yWidget->blockSignals( TRUE );
-	yWidget->setText( QString::number( value.y ) );
+	yWidget->setText( QString::number( value.y, 'g', 3 ) );
 	yWidget->blockSignals( FALSE );
 
 	zWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 5 )->widget() );
 	zWidget->blockSignals( TRUE );
-	zWidget->setText( QString::number( value.z ) );
+	zWidget->setText( QString::number( value.z, 'g', 3 ) );
 	zWidget->blockSignals( FALSE );
 
 	wWidget = CAST_S( QLineEdit*, widget->layout()->itemAt( 7 )->widget() );
 	wWidget->blockSignals( TRUE );
-	wWidget->setText( QString::number( value.w ) );
+	wWidget->setText( QString::number( value.w, 'g', 3 ) );
 	wWidget->blockSignals( FALSE );
 }
 

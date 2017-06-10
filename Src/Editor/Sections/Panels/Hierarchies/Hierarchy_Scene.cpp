@@ -226,10 +226,10 @@ void Hierarchy_Scene::A_ItemClicked( QTreeWidgetItem* item, int column )
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	if ( treeItem->asset != NULL ) {
-		EventManager::Singleton()->EmitEvent( EditorEventType::SCENE_SELECT, treeItem->asset );
+		EventManager::Singleton()->PushEvent( EditorEventType::SCENE_SELECT, treeItem->asset );
 	}
 	else {
-		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, treeItem->node );
+		EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, treeItem->node );
 	}
 }
 
@@ -254,7 +254,7 @@ void Hierarchy_Scene::A_RightClickMenu( const QPoint& pos )
 void Hierarchy_Scene::OnAction_Isolate( GameObject* gameObject )
 {
 	// isolate object
-	EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
 }
 
 

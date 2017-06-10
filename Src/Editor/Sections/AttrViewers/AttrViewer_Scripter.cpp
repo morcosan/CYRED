@@ -227,7 +227,7 @@ void AttrViewer_Scripter::_UpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
+	EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, _target );
 
 	_Colorize( _target->IsEnabled() );
 }

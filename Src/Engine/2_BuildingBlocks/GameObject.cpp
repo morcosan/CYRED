@@ -60,7 +60,7 @@ void GameObject::OnHierarchyChange()
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}
 }
 
@@ -134,7 +134,7 @@ void GameObject::SetEnabled( bool value )
 	_isEnabled = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}
 }
 
@@ -150,7 +150,7 @@ void GameObject::SetTag( cchar* value )
 	_tag = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}
 }
 
@@ -168,7 +168,7 @@ void GameObject::SetLayer( int value )
 	_layer = (value < 0) ? 0 : value;
 	
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_UPDATE, this );
 	}
 }
 
@@ -185,7 +185,7 @@ void GameObject::Clone( GameObject* clone ) const
 void GameObject::_OnRename()
 {
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_RENAME, this );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_RENAME, this );
 	}
 }
 
@@ -195,7 +195,7 @@ void GameObject::_EmitAddEvent( Component* component )
 	component->OnAdded();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_ADD, component );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_ADD, component );
 	}
 }
 
@@ -205,6 +205,6 @@ void GameObject::_EmitRemoveEvent( Component* component )
 	component->OnRemoved();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_REMOVE, component );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_REMOVE, component );
 	}
 }

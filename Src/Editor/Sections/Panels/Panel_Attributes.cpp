@@ -108,7 +108,7 @@ void Panel_Attributes::Initialize()
 	_ClearPanel();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
@@ -117,7 +117,7 @@ void Panel_Attributes::Finalize()
 	ASSERT( _isInitialized );
 
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
@@ -183,7 +183,7 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 					Asset* asset = CAST_S( Asset*, _target );
 					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
 						// send asset change event
-						EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+						EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 					}
 				}
 			}
@@ -200,7 +200,7 @@ void Panel_Attributes::OnEvent( int eventType, void* eventData )
 					Asset* asset = CAST_S( Asset*, _target );
 					if ( asset != NULL && asset->GetAssetType() == AssetType::PREFAB ) {
 						// send asset change event
-						EventManager::Singleton()->EmitEvent( EventType::ASSET_RENAME, asset );
+						EventManager::Singleton()->PushEvent( EventType::ASSET_RENAME, asset );
 					}
 				}
 			}

@@ -76,7 +76,7 @@ void AttrViewer_MeshRendering::_UpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
+	EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, _target );
 
 	// update ui
 	_Colorize( _target->IsEnabled() );

@@ -144,7 +144,7 @@ void Menu_GameObject::A_SavePrefab()
 	}
 	else {
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, prefab );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, prefab );
 
 		// colorize panel
 		_panel->UpdateNeedsSave( FALSE );
@@ -199,10 +199,10 @@ void Menu_GameObject::A_SavePrefabAs()
 		// add to manager
 		AssetManager::Singleton()->AddPrefab( newPrefab );
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, newPrefab );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, newPrefab );
 
 		// reload hierarchy
-		EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, newPrefab );
+		EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_OPEN, newPrefab );
 
 
 		// update hierarchy panel
@@ -223,7 +223,7 @@ void Menu_GameObject::A_ClosePrefab()
 	ASSERT( prefab != NULL );
 
 	// reload hierarchy
-	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_OPEN, NULL );
 }
 
 
@@ -246,8 +246,8 @@ void Menu_GameObject::A_Duplicate()
 		newObject->SetName( treeItem->node->GetName() );
 
 		// select object
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+		EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 	}
 }
 
@@ -265,8 +265,8 @@ void Menu_GameObject::A_Delete()
 	}
 
 	// unselect object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, NULL );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_DELETE, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 }
 
 
@@ -318,7 +318,7 @@ void Menu_GameObject::A_CreatePrefab()
 		// add to manager
 		AssetManager::Singleton()->AddPrefab( prefab );
 		// save file
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, prefab );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, prefab );
 	}
 }
 
@@ -332,8 +332,8 @@ void Menu_GameObject::A_GO_CreateEmpty()
 	GameObject* newObject = _CreateGameObject( treeItem->node );
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -349,8 +349,8 @@ void Menu_GameObject::A_GO_Create3D_Pivot()
 	newObject->SetName( MENU_GO_3D_PIVOT );
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -371,8 +371,8 @@ void Menu_GameObject::A_GO_Create3D_Camera()
 	camera->SetFarClipping( 200.0f );
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -390,8 +390,8 @@ void Menu_GameObject::A_GO_Create3D_Light()
 	newObject->AddComponent<Light>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -409,8 +409,8 @@ void Menu_GameObject::A_GO_Create3D_Mesh()
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -428,8 +428,8 @@ void Menu_GameObject::A_GO_Create3D_Morph()
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -447,8 +447,8 @@ void Menu_GameObject::A_GO_Particles_Emitter()
 	newObject->AddComponent<ParticleEmitter>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -466,8 +466,8 @@ void Menu_GameObject::A_GO_Text_3D()
 	newObject->AddComponent<Text3D>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 

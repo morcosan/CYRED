@@ -63,7 +63,7 @@ void Asset::SetName( cchar* name, bool useExtension )
 	_OnRename();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_RENAME, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_RENAME, this );
 	}
 }
 
@@ -74,7 +74,7 @@ void Asset::SetDirPath( cchar* dirPath )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

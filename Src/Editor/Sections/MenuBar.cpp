@@ -134,13 +134,13 @@ void MenuBar::A_Prefab_New()
 	prefab->SetEmitEvents( TRUE );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_OPEN, prefab );
+	EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_OPEN, prefab );
 }
 
 
 void MenuBar::A_Project_Settings()
 {
-	EventManager::Singleton()->EmitEvent( EditorEventType::EDITOR_PROJ_SETTINGS, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::EDITOR_PROJ_SETTINGS, NULL );
 }
 
 

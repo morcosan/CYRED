@@ -8,6 +8,17 @@
 namespace CYRED
 {
 	class IEventListener;
+
+	namespace Enum_EventListenMode
+	{
+		enum Enum
+		{
+			SYNC
+			, ASYNC_ALL
+			, ASYNC_LAST
+		};
+	}
+	typedef Enum_EventListenMode::Enum	EventListenMode;
 }
 
 
@@ -19,12 +30,16 @@ namespace CYRED
 
 
 	public:
-		virtual void Initialize			()											PURE_VIRTUAL;
-		virtual void Finalize			()											PURE_VIRTUAL;
+		virtual void Initialize	()											PURE_VIRTUAL;
+		virtual void Update		()											PURE_VIRTUAL;
+		virtual void Finalize	()											PURE_VIRTUAL;
 
-		virtual void RegisterListener	( IEventListener* listener, int eventType )	PURE_VIRTUAL;
-		virtual void UnregisterListener	( IEventListener* listener, int eventType )	PURE_VIRTUAL;
+		virtual void Register	( IEventListener* listener, int eventType,
+								  EventListenMode mode )					PURE_VIRTUAL;
+		virtual void Unregister	( IEventListener* listener, int eventType,
+								  EventListenMode mode )					PURE_VIRTUAL;
 
-		virtual void EmitEvent			( int eventType, void* eventData )			PURE_VIRTUAL;
+		virtual void EmitEvent	( int eventType, void* eventData )			PURE_VIRTUAL;
+		virtual void PushEvent	( int eventType, void* eventData )			PURE_VIRTUAL;
 	};
 }

@@ -197,7 +197,7 @@ void Menu_AssetFolder::A_Create_Folder()
 
 	// select item
 	_qtTree->setCurrentItem( treeItem );
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -232,7 +232,7 @@ void Menu_AssetFolder::A_Create_EmptyFile()
 
 	// select item
 	_qtTree->setCurrentItem( treeItem );
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 
@@ -245,7 +245,7 @@ void Menu_AssetFolder::A_Create_Mat_Empty()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MATERIAL );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -265,7 +265,7 @@ void Menu_AssetFolder::A_Create_Mat_PS()
 	material->SetEmitEvents( TRUE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -278,7 +278,7 @@ void Menu_AssetFolder::A_Create_Tex_2D()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::TEXTURE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -296,7 +296,7 @@ void Menu_AssetFolder::A_Create_Tex_CM()
 	texture->SetEmitEvents( TRUE );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -308,7 +308,7 @@ void Menu_AssetFolder::A_Create_Shader()
 									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SHADER );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -321,7 +321,7 @@ void Menu_AssetFolder::A_Create_Mesh()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MESH );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -333,7 +333,7 @@ void Menu_AssetFolder::A_Create_Morph()
 									 : ProjectSettings::dirPathAssets.GetChar();
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::MORPH );
 
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -346,7 +346,7 @@ void Menu_AssetFolder::A_Create_Script()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::SCRIPT );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -359,7 +359,7 @@ void Menu_AssetFolder::A_Create_Font()
 	Asset* asset = _AddNewAsset( dirPath.toUtf8().constData(), item, AssetType::FONT );
 
 	// refresh panel
-	EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, asset );
+	EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, asset );
 }
 
 
@@ -488,7 +488,7 @@ Asset* Menu_AssetFolder::_AddNewAsset( cchar* dirPath, QTreeWidgetItem* parentIt
 
 	// select item
 	_qtTree->setCurrentItem( newItem );
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, asset );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, asset );
 
 	return asset;
 }

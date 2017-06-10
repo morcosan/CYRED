@@ -163,7 +163,7 @@ void Hierarchy_Isolate::A_ItemClicked( QTreeWidgetItem* item, int column )
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	// show gameobject attributes
-	EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_SELECT, treeItem->node );
+	EventManager::Singleton()->PushEvent( EditorEventType::ISOLATE_SELECT, treeItem->node );
 }
 
 
@@ -182,11 +182,11 @@ void Hierarchy_Isolate::OnAction_Isolate( GameObject* gameObject )
 {
 	if ( _openEventType == EditorEventType::ISOLATE_OPEN_PREFAB ) {
 		// isolate object
-		EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
+		EventManager::Singleton()->PushEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
 	}
 	else if ( _openEventType == EditorEventType::ISOLATE_OPEN_SCENE ) {
 		// isolate object
-		EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
+		EventManager::Singleton()->PushEvent( EditorEventType::ISOLATE_OPEN_SCENE, gameObject );
 	}
 }
 

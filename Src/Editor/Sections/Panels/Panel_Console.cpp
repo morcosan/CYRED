@@ -89,8 +89,8 @@ void Panel_Console::Initialize()
 	_isInitialized = TRUE;
 
 	// register console events
-	EventManager::Singleton()->RegisterListener( this, EventType::CONSOLE_ERROR );
-	EventManager::Singleton()->RegisterListener( this, EventType::CONSOLE_LOG );
+	EventManager::Singleton()->Register( this, EventType::CONSOLE_ERROR, EventListenMode::SYNC );
+	EventManager::Singleton()->Register( this, EventType::CONSOLE_LOG,	 EventListenMode::SYNC );
 }
 
 
@@ -98,8 +98,8 @@ void Panel_Console::Finalize()
 {
 	ASSERT( _isInitialized );
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::CONSOLE_ERROR );
-	EventManager::Singleton()->UnregisterListener( this, EventType::CONSOLE_LOG );
+	EventManager::Singleton()->Unregister( this, EventType::CONSOLE_ERROR,	EventListenMode::SYNC );
+	EventManager::Singleton()->Unregister( this, EventType::CONSOLE_LOG,	EventListenMode::SYNC );
 }
 
 

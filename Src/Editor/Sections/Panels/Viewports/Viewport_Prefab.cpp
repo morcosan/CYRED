@@ -74,14 +74,14 @@ cchar* Viewport_Prefab::_GetPanelTitle()
 void Viewport_Prefab::_OnInitialize()
 {
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
 void Viewport_Prefab::_OnFinalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 

@@ -83,7 +83,7 @@ void Light::SetLightType( LightType value )
 	_lightType = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -93,7 +93,7 @@ void Light::SetColor( Vector3& value )
 	_color = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -103,7 +103,7 @@ void Light::SetIntensity( float value )
 	_intensity = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -113,7 +113,7 @@ void Light::SetRange( float value )
 	_range = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -123,7 +123,7 @@ void Light::SetSpotAngle( float value )
 	_spotAngle = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 

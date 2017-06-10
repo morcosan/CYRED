@@ -263,7 +263,7 @@ void Transform::SetPositionLocal( const Vector3& value )
 	_RecalculatePositionWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -307,7 +307,7 @@ void Transform::SetRotationLocal( const Quaternion& value )
 	_RecalculateRotationWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -379,7 +379,7 @@ void Transform::SetScaleLocal( const Vector3& value )
 	_RecalculateScaleWorld();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 

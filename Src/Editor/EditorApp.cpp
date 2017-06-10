@@ -262,13 +262,15 @@ void EditorApp::_UpdateLoop()
 		SceneManager::Singleton()->RestoreScenes();
 
 		// announce stop
-		EventManager::Singleton()->EmitEvent( EditorEventType::PLAY_MODE_STOP, NULL );
+		EventManager::Singleton()->PushEvent( EditorEventType::PLAY_MODE_STOP, NULL );
 	}
-
 
 	// get and process events
 	_qtApp->processEvents();
 	InputManager::Singleton()->ProcessEvents();
+
+	// process engine events after editor events
+	EventManager::Singleton()->Update();
 }
 
 
@@ -718,7 +720,7 @@ void EditorApp::StartPlayMode()
 	SceneManager::Singleton()->StoreScenes();
 
 	// announce play
-	EventManager::Singleton()->EmitEvent( EditorEventType::PLAY_MODE_START, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::PLAY_MODE_START, NULL );
 }
 
 

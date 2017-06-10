@@ -92,7 +92,7 @@ void AttrViewer_Transform::_UpdateTarget()
 	_target->SetEmitEvents( TRUE );
 
 	// emit event manually
-	EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, _target );
+	EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, _target );
 }
 
 

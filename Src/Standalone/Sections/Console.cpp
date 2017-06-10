@@ -14,16 +14,16 @@ using namespace CYRED;
 Console::Console()
 {
 	// register console events
-	EventManager::Singleton()->RegisterListener( EventType::CONSOLE_ERROR, this );
-	EventManager::Singleton()->RegisterListener( EventType::CONSOLE_LOG, this );
+	EventManager::Singleton()->Register( EventType::CONSOLE_ERROR, this );
+	EventManager::Singleton()->Register( EventType::CONSOLE_LOG, this );
 }
 
 
 Console::~Console()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( EventType::CONSOLE_ERROR, this );
-	EventManager::Singleton()->UnregisterListener( EventType::CONSOLE_LOG, this );
+	EventManager::Singleton()->Unregister( EventType::CONSOLE_ERROR, this );
+	EventManager::Singleton()->Unregister( EventType::CONSOLE_LOG, this );
 }
 
 

@@ -108,7 +108,7 @@ void Camera::SetFovYAngle( float value )
 	_projectionChanged = true;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -119,7 +119,7 @@ void Camera::SetNearClipping( float value )
 	_projectionChanged = true;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -131,7 +131,7 @@ void Camera::SetFarClipping( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -143,7 +143,7 @@ void Camera::SetAspectRatio( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -156,7 +156,7 @@ void Camera::SetOrthoHeight( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -169,7 +169,7 @@ void Camera::SetOrthoWidth( float value )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 
@@ -187,7 +187,7 @@ void Camera::SetCameraType( CameraType type )
 
 	if ( _emitEvents )
 	{
-		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::COMPONENT_UPDATE, this );
 	}
 }
 

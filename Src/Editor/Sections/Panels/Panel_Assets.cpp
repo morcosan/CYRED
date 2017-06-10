@@ -45,7 +45,7 @@ public:
 		if ( (item.row() == -1 && item.column() == -1) || selected ) {
 			this->clearSelection();
 			// send event
-			EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
+			EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, NULL );
 		}
 	}
 
@@ -193,14 +193,14 @@ void Panel_Assets::Initialize()
 	_CreateRightClickMenu();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
 void Panel_Assets::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
@@ -299,7 +299,7 @@ void Panel_Assets::A_ItemClicked( QTreeWidgetItem* item, int column )
 {
 	Asset* asset = CAST_S( CustomTreeItem*, item )->asset;
 
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, asset );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, asset );
 }
 
 
@@ -390,7 +390,7 @@ void Panel_Assets::A_DirChanged( const QString& path )
 void Panel_Assets::A_ReloadAll()
 {
 	// close prefab first
-	EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_CLOSE, _openedPrefab );
+	EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_CLOSE, _openedPrefab );
 
 	ReloadAllAssets();
 }

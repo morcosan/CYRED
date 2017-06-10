@@ -64,7 +64,7 @@ void Toolbar::A_PlayButton( bool checked )
 	}
 
 	// unselect everything
-	EventManager::Singleton()->EmitEvent( EditorEventType::ASSET_SELECT, NULL );
+	EventManager::Singleton()->PushEvent( EditorEventType::ASSET_SELECT, NULL );
 }
 
 

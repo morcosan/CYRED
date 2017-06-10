@@ -33,14 +33,14 @@ void Panel_Hierarchy::Initialize()
 	_OnInitialize();
 
 	// register events
-	EventManager::Singleton()->RegisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 
 void Panel_Hierarchy::Finalize()
 {
 	// unregister events
-	EventManager::Singleton()->UnregisterListener( this, EventType::ALL );
+	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::ASYNC_LAST );
 }
 
 

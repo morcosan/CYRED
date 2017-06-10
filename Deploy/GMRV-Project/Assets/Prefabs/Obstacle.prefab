@@ -25,7 +25,7 @@
                 }
             },
             "rigid_body": {
-                "enabled": true,
+                "enabled": false,
                 "is_trigger": false,
                 "shape_type": "SPHERE",
                 "shape_size": {
@@ -36,7 +36,7 @@
                 "mass": 1.0
             },
             "mesh_rendering": {
-                "enabled": true,
+                "enabled": false,
                 "mesh": "37Avro8vtrmxw4p2WnNPhpmG7zzwvOFw",
                 "material": "XMulYyWh68JqhnyzTIbsDtltUMFwhoTq"
             }

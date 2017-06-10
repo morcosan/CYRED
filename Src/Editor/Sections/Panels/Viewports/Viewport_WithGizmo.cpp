@@ -410,8 +410,10 @@ void Viewport_WithGizmo::_RenderGizmoAfter()
 
 		// update text
 		Text3D* rootText = _gizmoDebugText->GetComponent<Text3D>();
+		rootText->SetEmitEvents( FALSE );
 		FiniteString text( "%.2f", (1.0f / timeMngr->GetRenderDeltaTime()) );
 		rootText->SetText( text.GetChar() );
+		rootText->SetEmitEvents( TRUE );
 
 		// render gizmo
 		renderMngr->Render( 0, ComponentType::TEXT_3D, _gizmoDebugText, _noLightsGO );
@@ -537,7 +539,7 @@ bool Viewport_WithGizmo::_IsPickingInput( Node* root, int selectEvent )
 			// if found, send event
 			if ( gameObject != NULL ) {
 				// select gameobject
-				EventManager::Singleton()->EmitEvent( selectEvent, gameObject );
+				EventManager::Singleton()->PushEvent( selectEvent, gameObject );
 			}
 		}
 

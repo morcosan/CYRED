@@ -48,7 +48,7 @@ void SceneManagerImpl::Update( bool isRuntime )
 		// clear parent
 		gameObject->SetParentNode( NULL );
 		// send event
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_DELETE, gameObject );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_DELETE, gameObject );
 		// clear memory
 		PTR_FREE( gameObject );
 	}
@@ -74,7 +74,7 @@ Scene* SceneManagerImpl::OpenScene( cchar* sceneUID )
 	_currScenes.Add( scene );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_OPEN, scene );
+	EventManager::Singleton()->PushEvent( EventType::SCENE_OPEN, scene );
 
 	return NULL;
 }
@@ -93,7 +93,7 @@ Scene* SceneManagerImpl::OpenNewScene()
 	_currScenes.Add( scene );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_OPEN, scene );
+	EventManager::Singleton()->PushEvent( EventType::SCENE_OPEN, scene );
 
 	return scene;
 }
@@ -115,7 +115,7 @@ Scene* SceneManagerImpl::LoadScene( cchar* sceneUID )
 	_currScenes.Add( scene );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_OPEN, scene );
+	EventManager::Singleton()->PushEvent( EventType::SCENE_OPEN, scene );
 	
 	return scene;
 }
@@ -132,7 +132,7 @@ Scene* SceneManagerImpl::LoadNewScene()
 	_currScenes.Add( scene );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_OPEN, scene );
+	EventManager::Singleton()->PushEvent( EventType::SCENE_OPEN, scene );
 
 	return scene;
 }
@@ -228,7 +228,7 @@ void SceneManagerImpl::CloseScene( cchar* sceneUID )
 			_toDestroy.Clear();
 
 			// send event
-			EventManager::Singleton()->EmitEvent( EventType::SCENE_CLOSE, scene );
+			EventManager::Singleton()->PushEvent( EventType::SCENE_CLOSE, scene );
 
 			return;
 		}
@@ -249,7 +249,7 @@ void SceneManagerImpl::CloseAllScenes()
 	_toDestroy.Clear();
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::SCENE_CLOSE, NULL );
+	EventManager::Singleton()->PushEvent( EventType::SCENE_CLOSE, NULL );
 }
 
 
@@ -306,7 +306,7 @@ GameObject* SceneManagerImpl::NewGameObject( int sceneIndex )
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
 
 	return newObject;
 }
@@ -324,7 +324,7 @@ GameObject* SceneManagerImpl::NewGameObject( cchar* sceneUID )
 	scene->GetRoot()->AddChildNode( newObject );
 
 	// send event
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
 
 	return newObject;
 }
@@ -349,7 +349,7 @@ GameObject* SceneManagerImpl::Instantiate( const Prefab* prefab, int sceneIndex 
 		scene->GetRoot()->AddChildNode( newObject );
 
 		// update hierarchy
-		EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_CREATE, newObject );
+		EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_CREATE, newObject );
 
 		return newObject;
 	}

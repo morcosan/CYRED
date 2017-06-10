@@ -70,7 +70,7 @@ void Prefab::ClearAsset()
 	_isTemporary = TRUE; 
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

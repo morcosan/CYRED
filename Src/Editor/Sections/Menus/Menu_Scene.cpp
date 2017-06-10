@@ -126,7 +126,7 @@ void Menu_Scene::A_SaveSceneAs()
 		AssetManager::Singleton()->AddScene( newScene );
 
 		// update assets panel
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, newScene );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, newScene );
 
 		// use new scene
 		treeItem->asset = newScene;
@@ -166,7 +166,7 @@ void Menu_Scene::A_GO_CreateEmpty()
 
 	GameObject* newObject = SceneManager::Singleton()->NewGameObject( treeItem->assetIndex );
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -180,7 +180,7 @@ void Menu_Scene::A_GO_Create3D_Pivot()
 	newObject->SetName( MENU_GO_3D_PIVOT );
 
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -199,7 +199,7 @@ void Menu_Scene::A_GO_Create3D_Camera()
 	camera->SetFarClipping( 200.0f );
 
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -228,7 +228,7 @@ void Menu_Scene::A_GO_Create3D_Mesh()
 	MeshRendering* meshRender = newObject->AddComponent<MeshRendering>();
 
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -244,7 +244,7 @@ void Menu_Scene::A_GO_Create3D_Morph()
 	MorphRendering* morphRender = newObject->AddComponent<MorphRendering>();
 
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -263,7 +263,7 @@ void Menu_Scene::A_GO_Particles_Emitter()
 	newObject->AddComponent<ParticleEmitter>();
 
 	// select new object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }
 
 
@@ -281,5 +281,5 @@ void Menu_Scene::A_GO_Text_3D()
 	newObject->AddComponent<Text3D>();
 
 	// select object
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, newObject );
 }

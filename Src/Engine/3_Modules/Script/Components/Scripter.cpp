@@ -18,16 +18,16 @@ Scripter::Scripter( GameObject* gameObject )
 	_componentType = ComponentType::SCRIPTER;
 
 	// register event
-	EventManager::Singleton()->RegisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->RegisterListener( this, EventType::GAMEOBJECT_DELETE );
+	EventManager::Singleton()->Register( this, EventType::ASSET_UPDATE,		 EventListenMode::ASYNC_ALL );
+	EventManager::Singleton()->Register( this, EventType::GAMEOBJECT_DELETE, EventListenMode::ASYNC_ALL );
 }
 
 
 Scripter::~Scripter()
 {
 	// unregister
-	EventManager::Singleton()->UnregisterListener( this, EventType::ASSET_UPDATE );
-	EventManager::Singleton()->UnregisterListener( this, EventType::GAMEOBJECT_DELETE );
+	EventManager::Singleton()->Unregister( this, EventType::ASSET_UPDATE,		EventListenMode::ASYNC_ALL);
+	EventManager::Singleton()->Unregister( this, EventType::GAMEOBJECT_DELETE,	EventListenMode::ASYNC_ALL );
 }
 
 
@@ -163,7 +163,7 @@ void Scripter::SetScript( int index, cchar* scriptUID )
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -175,7 +175,7 @@ void Scripter::ClearScripts()
 	_scriptsAsset.Clear();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

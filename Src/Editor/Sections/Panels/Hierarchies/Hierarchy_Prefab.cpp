@@ -52,7 +52,7 @@ void Hierarchy_Prefab::OnEvent( int eventType, void* eventData )
 				// change color
 				UpdateNeedsSave( FALSE );
 				// unselect
-				EventManager::Singleton()->EmitEvent( EditorEventType::PREFAB_SELECT, NULL );
+				EventManager::Singleton()->PushEvent( EditorEventType::PREFAB_SELECT, NULL );
 			}
 			break;
 		
@@ -227,7 +227,7 @@ void Hierarchy_Prefab::A_ItemClicked( QTreeWidgetItem* item, int column )
 	CustomTreeItem* treeItem = CAST_S( CustomTreeItem*, item );
 
 	// show gameobject attributes
-	EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, treeItem->node );
+	EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, treeItem->node );
 }
 
 
@@ -245,7 +245,7 @@ void Hierarchy_Prefab::A_RightClickMenu( const QPoint& pos )
 void Hierarchy_Prefab::OnAction_Isolate( GameObject* gameObject )
 {
 	// isolate object
-	EventManager::Singleton()->EmitEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
+	EventManager::Singleton()->PushEvent( EditorEventType::ISOLATE_OPEN_PREFAB, gameObject );
 }
 
 

@@ -20,17 +20,36 @@ namespace CYRED
 
 
 		public:
-			void Initialize			()											override;
-			void Finalize			()											override;
+			void Initialize	()											override;
+			void Update		()											override;
+			void Finalize	()											override;
 
-			void RegisterListener	( IEventListener* listener, int eventType )	override;
-			void UnregisterListener	( IEventListener* listener, int eventType )	override;
+			void Register	( IEventListener* listener, int eventType,
+							  EventListenMode mode )					override;
+			void Unregister	( IEventListener* listener, int eventType,
+							  EventListenMode mode )					override;
 
-			void EmitEvent			( int eventType, void* eventData )			override;
+			void EmitEvent	( int eventType, void* eventData )			override;
+			void PushEvent	( int eventType, void* eventData )			override;
 
 
 		private:
-			DataMap<int, DataArray<IEventListener*>> _listeners;
+			struct _PushedEvent
+			{
+				int		eventType;
+				void*	eventData;
+			};
+
+			DataMap<int, DataArray<IEventListener*>>	_listenersSync;
+			DataMap<int, DataArray<IEventListener*>>	_listenersAsyncAll;
+			DataMap<int, DataArray<IEventListener*>>	_listenersAsyncLast;
+
+			DataArray<_PushedEvent>						_pushedEvents;
+
+
+		private:
+			void _SendEvent			( DataMap<int, DataArray<IEventListener*>>* listeners,
+									  int eventType, void* eventData );
 		};
 	}
 }

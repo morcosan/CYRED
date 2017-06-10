@@ -82,7 +82,7 @@ void Mesh::LoadFullFile()
 	_emitEvents = oldEmitEvents;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -97,7 +97,7 @@ void Mesh::ClearAsset()
 	_isTemporary = TRUE;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -255,7 +255,7 @@ void Mesh::SetMeshType( MeshType type )
 	_meshType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -265,7 +265,7 @@ void Mesh::SetLoadType( MeshLoadType type )
 	_loadType = type;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -279,7 +279,7 @@ void Mesh::SetVertices( DataArray<Vertex>& vertices )
 	}
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -295,7 +295,7 @@ void Mesh::SetIndices( DataArray<int>& indices )
 	_numIndices = indices.Size();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -305,7 +305,7 @@ void Mesh::SetClearBuffersOnBind( bool value )
 	_clearBuffersOnBind = value;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 
@@ -315,7 +315,7 @@ void Mesh::SetExternalPath( cchar* filePath )
 	_externalPath = filePath;
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->EmitEvent( EventType::ASSET_UPDATE, this );
+		EventManager::Singleton()->PushEvent( EventType::ASSET_UPDATE, this );
 	}
 }
 

@@ -62,7 +62,7 @@ void AttrViewer_GameObject::_UpdateTarget()
 
 	// emit event manually
 	++_ignoreUpdateGUI;
-	EventManager::Singleton()->EmitEvent( EventType::GAMEOBJECT_UPDATE, _target );
+	EventManager::Singleton()->PushEvent( EventType::GAMEOBJECT_UPDATE, _target );
 
 	// update ui
 	_Colorize( _target->IsEnabled(), TRUE );

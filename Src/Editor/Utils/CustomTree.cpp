@@ -24,7 +24,7 @@ void CustomTree::mousePressEvent( QMouseEvent* event )
 	if ( item.row() == -1 && item.column() == -1 ) {
 		this->clearSelection();
 		// unselect everything
-		EventManager::Singleton()->EmitEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
+		EventManager::Singleton()->PushEvent( EditorEventType::GAMEOBJECT_SELECT, NULL );
 	}
 }
 
