@@ -109,6 +109,7 @@ void Panel_Attributes::Initialize()
 
 	// register events
 	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Register( this, EventType::ALL, EventListenMode::SYNC );
 }
 
 
@@ -118,6 +119,7 @@ void Panel_Attributes::Finalize()
 
 	// unregister events
 	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::ASYNC_LAST );
+	EventManager::Singleton()->Unregister( this, EventType::ALL, EventListenMode::SYNC );
 }
 
 

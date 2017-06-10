@@ -253,6 +253,58 @@ rapidjson::Value JsonSerializer_AppConfig::ToJson( const void* object )
 								 _al );
 		}
 
+		// add fonts
+		{
+			// create list
+			rapidjson::Value arrayNode;
+			arrayNode.SetArray();
+			// add all to list
+			for ( int i = 0; i < appConfig->assetFonts.Size(); i++ ) {
+				// create object
+				rapidjson::Value objectNode;
+				objectNode.SetObject();
+				// add to object
+				objectNode.AddMember( rapidjson::StringRef( ASSET_NAME ),	
+									  rapidjson::StringRef( appConfig->assetFonts[i].name.GetChar() ),	
+									  _al );
+				objectNode.AddMember( rapidjson::StringRef( ASSET_PATH ),	
+									  rapidjson::StringRef( appConfig->assetFonts[i].path.GetChar() ),	
+									  _al );
+				// add to list
+				arrayNode.PushBack( objectNode, _al );
+			}
+			// add to assets
+			assetNode.AddMember( rapidjson::StringRef( ASSETS_FONTS ),	
+								 arrayNode,	
+								 _al );
+		}
+
+		// add prefabs
+		{
+			// create list
+			rapidjson::Value arrayNode;
+			arrayNode.SetArray();
+			// add all to list
+			for ( int i = 0; i < appConfig->assetPrefabs.Size(); i++ ) {
+				// create object
+				rapidjson::Value objectNode;
+				objectNode.SetObject();
+				// add to object
+				objectNode.AddMember( rapidjson::StringRef( ASSET_NAME ),	
+									  rapidjson::StringRef( appConfig->assetPrefabs[i].name.GetChar() ),	
+									  _al );
+				objectNode.AddMember( rapidjson::StringRef( ASSET_PATH ),	
+									  rapidjson::StringRef( appConfig->assetPrefabs[i].path.GetChar() ),	
+									  _al );
+				// add to list
+				arrayNode.PushBack( objectNode, _al );
+			}
+			// add to assets
+			assetNode.AddMember( rapidjson::StringRef( ASSETS_PREFABS ),	
+								 arrayNode,	
+								 _al );
+		}
+
 		// add to json
 		json.AddMember( rapidjson::StringRef( ATTR_ASSETS ),	
 						assetNode,	
@@ -373,6 +425,26 @@ void JsonSerializer_AppConfig::FromJson( rapidjson::Value& json, OUT void* objec
 			rapidjson::Value& assets = json[ATTR_ASSETS][ASSETS_SCRIPTS];
 			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
 				appConfig->assetScripts.Add( AppConfig::AssetConfig {
+					assets[i][ASSET_NAME].GetString(),
+					assets[i][ASSET_PATH].GetString()
+				});
+			}
+		}
+		// load fonts
+		if ( json[ATTR_ASSETS].HasMember( ASSETS_FONTS ) ) {
+			rapidjson::Value& assets = json[ATTR_ASSETS][ASSETS_FONTS];
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
+				appConfig->assetFonts.Add( AppConfig::AssetConfig {
+					assets[i][ASSET_NAME].GetString(),
+					assets[i][ASSET_PATH].GetString()
+				});
+			}
+		}
+		// load prefabs
+		if ( json[ATTR_ASSETS].HasMember( ASSETS_PREFABS ) ) {
+			rapidjson::Value& assets = json[ATTR_ASSETS][ASSETS_PREFABS];
+			for ( int i = 0; i < CAST_S(int, assets.Size()); i++ ) {
+				appConfig->assetPrefabs.Add( AppConfig::AssetConfig {
 					assets[i][ASSET_NAME].GetString(),
 					assets[i][ASSET_PATH].GetString()
 				});

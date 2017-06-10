@@ -21,6 +21,7 @@
 #include "../../3_Modules/Render/Components/MeshRendering.h"
 #include "../../3_Modules/Render/Components/MorphRendering.h"
 #include "../../3_Modules/Render/Components/ParticleEmitter.h"
+#include "../../3_Modules/Render/Components/Text3D.h"
 #include "../../3_Modules/Render/Assets/Material.h"
 #include "../../3_Modules/Render/Assets/Mesh.h"
 #include "../../3_Modules/Render/Assets/Morph.h"
@@ -34,6 +35,8 @@
 #include "../../3_Modules/Scene/SceneManager.h"
 #include "../../3_Modules/Time/TimeManager.h"
 #include "../../3_Modules/Debug/DebugManager.h"
+#include "../../3_Modules/Physics/Components/RigidBody.h"
+#include "../../3_Modules/Physics/PhysicsManager.h"
 #include "../../4_Application/Application.h"
 
 extern "C" 
@@ -128,6 +131,8 @@ void ScriptManagerImpl::Initialize()
 	_RegisterMeshRendering();
 	_RegisterMorphRendering();
 	_RegisterParticleEmitter();
+	_RegisterRigidBody();
+	_RegisterText3D();
 	
 	_RegisterFileManager();
 	_RegisterInputManager();
@@ -138,6 +143,7 @@ void ScriptManagerImpl::Initialize()
 	_RegisterDebugManager();
 	_RegisterTimeManager();
 	_RegisterEventManager();
+	_RegisterPhysicsManager();
 	
 	_RegisterAsset();
 	_RegisterMaterial();
@@ -228,12 +234,16 @@ void ScriptManagerImpl::_RegisterGameObject()
 		.addFunction( "AddComponent_MeshRendering",		&GameObject::AddComponent<MeshRendering> )
 		.addFunction( "AddComponent_MorphRendering",	&GameObject::AddComponent<MorphRendering> )
 		.addFunction( "AddComponent_ParticleEmitter",	&GameObject::AddComponent<ParticleEmitter> )
+		.addFunction( "AddComponent_RigidBody",			&GameObject::AddComponent<RigidBody> )
+		.addFunction( "AddComponent_Text3D",			&GameObject::AddComponent<Text3D> )
 
 		.addFunction( "GetComponent_Transform",			&GameObject::GetComponent<Transform> )
 		.addFunction( "GetComponent_Camera",			&GameObject::GetComponent<Camera> )
 		.addFunction( "GetComponent_MeshRendering",		&GameObject::GetComponent<MeshRendering> )
 		.addFunction( "GetComponent_MorphRendering",	&GameObject::GetComponent<MorphRendering> )
 		.addFunction( "GetComponent_ParticleEmitter",	&GameObject::GetComponent<ParticleEmitter> )
+		.addFunction( "GetComponent_RigidBody",			&GameObject::GetComponent<RigidBody> )
+		.addFunction( "GetComponent_Text3D",			&GameObject::GetComponent<Text3D> )
 	.endClass();
 }
 
@@ -309,6 +319,27 @@ void ScriptManagerImpl::_RegisterParticleEmitter()
 {
 	luabridge::getGlobalNamespace( _L )
 	.deriveClass<ParticleEmitter, Component>( "ParticleEmitter" )
+	.endClass ();
+}
+
+
+void ScriptManagerImpl::_RegisterRigidBody()
+{
+	luabridge::getGlobalNamespace( _L )
+	.deriveClass<RigidBody, Component>( "RigidBody" )
+	.endClass ();
+}
+
+
+void ScriptManagerImpl::_RegisterText3D()
+{
+	luabridge::getGlobalNamespace( _L )
+	.deriveClass<Text3D, Component>( "Text3D" )
+		.addProperty( "text",		&Text3D::GetText,		&Text3D::SetText )
+		.addProperty( "textSize",	&Text3D::GetTextSize,	&Text3D::SetTextSize )
+		.addProperty( "textColor",	&Text3D::GetTextColor,	&Text3D::SetTextColor )
+		.addProperty( "font",		&Text3D::GetFont,		&Text3D::SetFont )
+		.addProperty( "material",	&Text3D::GetMaterial,	&Text3D::SetMaterial )
 	.endClass ();
 }
 
@@ -484,6 +515,18 @@ void ScriptManagerImpl::_RegisterEventManager()
 	// set global
 	luabridge::LuaRef goRef( _L, EventManager::Singleton() );
 	luabridge::setGlobal( _L, goRef, "EVENT" );
+}
+
+
+void ScriptManagerImpl::_RegisterPhysicsManager()
+{
+	luabridge::getGlobalNamespace( _L )
+	.beginClass<PhysicsManager>( "PhysicsManager" )
+	.endClass();
+
+	// set global
+	luabridge::LuaRef goRef( _L, PhysicsManager::Singleton() );
+	luabridge::setGlobal( _L, goRef, "PHYSICS" );
 }
 
 

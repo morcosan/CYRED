@@ -41,6 +41,8 @@ namespace CYRED
 			void _RegisterMeshRendering();
 			void _RegisterMorphRendering();
 			void _RegisterParticleEmitter();
+			void _RegisterRigidBody();
+			void _RegisterText3D();
 
 			void _RegisterFileManager();
 			void _RegisterInputManager();
@@ -51,6 +53,7 @@ namespace CYRED
 			void _RegisterDebugManager();
 			void _RegisterTimeManager();
 			void _RegisterEventManager();
+			void _RegisterPhysicsManager();
 
 			void _RegisterAsset();
 			void _RegisterMaterial();

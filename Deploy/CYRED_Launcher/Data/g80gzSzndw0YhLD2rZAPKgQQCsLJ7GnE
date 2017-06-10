@@ -1,9 +1,0 @@
-{
-    "uid": "g80gzSzndw0YhLD2rZAPKgQQCsLJ7GnE",
-    "shader": "l26hzzdyUJq3JHwk58k1GHZa2R7nUuEg",
-    "wireframe": false,
-    "line_width": 1.0,
-    "cull_face": "CULL_BACK",
-    "properties": [],
-    "picking_proxy": null
-}

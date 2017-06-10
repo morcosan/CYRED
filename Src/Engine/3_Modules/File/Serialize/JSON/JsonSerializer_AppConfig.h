@@ -26,6 +26,8 @@ namespace CYRED
 		cchar* const ASSETS_MORPHS		= "morphs";
 		cchar* const ASSETS_SCENES		= "scenes";
 		cchar* const ASSETS_SCRIPTS		= "scripts";
+		cchar* const ASSETS_FONTS		= "fonts";
+		cchar* const ASSETS_PREFABS		= "prefabs";
 		cchar* const ASSET_NAME			= "name";
 		cchar* const ASSET_PATH			= "path";
 

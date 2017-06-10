@@ -7,6 +7,7 @@
 #include "../../../3_Modules/Event/EventManager.h"
 #include "../../../3_Modules/Asset/AssetManager.h"
 #include "../../../3_Modules/Physics/PhysicsManagerImpl.h"
+#include "../../../3_Modules/File/FileManager.h"
 
 
 using namespace CYRED;
@@ -55,7 +56,11 @@ void Scripter::OnEvent( int eventType, void* eventData )
 		for ( int i = 0; i < _scriptsAsset.Size(); i++ ) {
 			if ( eventData == _scriptsAsset[i] ) {
 				// reload this script
-				_scripts[i]->LoadFullFile();
+				Script* asset = CAST_S( Script*, eventData );
+				FileManager::Singleton()->Deserialize<Script>( 
+					FileManager::Singleton()->Serialize<Script>( asset ).GetChar(), 
+					_scripts[i]
+				);
 				_scripts[i]->LoadLuaFiles( FALSE );
 				break;
 			}

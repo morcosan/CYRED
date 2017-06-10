@@ -205,6 +205,6 @@ void GameObject::_EmitRemoveEvent( Component* component )
 	component->OnRemoved();
 
 	if ( _emitEvents ) {
-		EventManager::Singleton()->PushEvent( EventType::COMPONENT_REMOVE, component );
+		EventManager::Singleton()->EmitEvent( EventType::COMPONENT_REMOVE, component );
 	}
 }

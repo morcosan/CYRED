@@ -260,6 +260,7 @@ void Menu_GameObject::A_Delete()
 	// destroy object
 	GameObject* gameObject = CAST_S( GameObject*, treeItem->node );
 	if ( gameObject != NULL ) {
+		gameObject->SetEmitEvents( FALSE );
 		gameObject->SetParentNode( NULL );
 		PTR_FREE( gameObject );
 	}

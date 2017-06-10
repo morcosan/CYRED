@@ -506,6 +506,36 @@ void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
 
 void ProjectBuilderImpl::_BuildFontFile( Font* asset )
 {
+	ASSERT( asset != NULL );
+
+	// use shortcut
+	FileManager* fileManager = FileManager::Singleton();
+
+	// copy additional files, rename, replace in asset file
+
+	// read asset file
+	Font font;
+	font.SetEmitEvents( FALSE );
+	font.SetName( asset->GetName() );
+	font.SetDirPath( asset->GetDirPath() );
+	font.LoadFullFile();
+
+	// generate constant ids
+	FiniteString srcPath( "%s%s", asset->GetDirPath(), font.GetExternalPath() );
+	String fileCID = Random::GenerateConstantID( srcPath.GetChar() );
+	// copy file
+	FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+									AppConfig::DIR_PATH_DATA, fileCID.GetChar() );
+	fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
+
+	// replace data file in asset
+	font.SetExternalPath( fileCID.GetChar() );
+	
+
+	// write asset file
+	FiniteString dstPathAsset( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+										 AppConfig::DIR_PATH_DATA, asset->GetUniqueID() );
+	fileManager->WriteFile( dstPathAsset.GetChar(), fileManager->Serialize<Font>( &font ).GetChar() );
 }
 
 
