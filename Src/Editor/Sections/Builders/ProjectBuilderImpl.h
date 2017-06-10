@@ -4,7 +4,6 @@
 #pragma once
 #include "ProjectBuilder.h"
 
-
 namespace CYRED
 {
 	class Asset;
@@ -15,6 +14,8 @@ namespace CYRED
 	class Morph;
 	class Shader;
 	class Script;
+	class Font;
+	class Prefab;
 }
 
 
@@ -41,5 +42,7 @@ namespace CYRED
 		void _BuildMorphFile	( Morph* asset );
 		void _BuildShaderFile	( Shader* asset );
 		void _BuildScriptFile	( Script* asset );
+		void _BuildFontFile		( Font* asset );
+		void _BuildPrefabFile	( Prefab* asset );
 	};
 }

@@ -667,18 +667,20 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		// get font char
 		FontChar* fontChar = font->GetFontChar( text[i] );
 
-		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		// bitshift by 6 to get value in pixels (2^6 = 64)
-		offsetX += (fontChar->advance >> 6);
+		if ( fontChar != NULL ) {
+			// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+			// bitshift by 6 to get value in pixels (2^6 = 64)
+			offsetX += (fontChar->advance >> 6);
 
-		// update width
-		if ( i == textLength - 1 ) {
-			totalWidth = CAST_S( float, offsetX );
-		}
+			// update width
+			if ( i == textLength - 1 ) {
+				totalWidth = CAST_S( float, offsetX );
+			}
 
-		// update height
-		if ( totalHeight < fontChar->height ) {
-			totalHeight = CAST_S( float, fontChar->height );
+			// update height
+			if ( totalHeight < fontChar->height ) {
+				totalHeight = CAST_S( float, fontChar->height );
+			}
 		}
 	}
 
@@ -688,52 +690,54 @@ void ForwardRenderer::_RecRenderText3D( GameObject* gameObject )
 		// get font char
 		FontChar* fontChar = font->GetFontChar( text[i] );
 
-		// bind texture
-		int uniform = shader->GetUniformLocation( UNIFORM_TEXT_TEXTURE );
-		_gl->ActiveTexture( 0 );
-		_gl->BindTexture( GLTexture::TEXTURE_2D, fontChar->textureID );
-		_gl->Uniform1i( uniform, 0 );
+		if ( fontChar != NULL ) {
+			// bind texture
+			int uniform = shader->GetUniformLocation( UNIFORM_TEXT_TEXTURE );
+			_gl->ActiveTexture( 0 );
+			_gl->BindTexture( GLTexture::TEXTURE_2D, fontChar->textureID );
+			_gl->Uniform1i( uniform, 0 );
 
-		// calculate texture size and posistion
-		float w = unitRatio * CAST_S( float, fontChar->width );
-		float h = unitRatio * CAST_S( float, fontChar->height );
-		float x = unitRatio * CAST_S( float, offsetX + fontChar->bearingX );
-		float y = unitRatio * CAST_S( float, fontChar->bearingY - fontChar->height );
+			// calculate texture size and posistion
+			float w = unitRatio * CAST_S( float, fontChar->width );
+			float h = unitRatio * CAST_S( float, fontChar->height );
+			float x = unitRatio * CAST_S( float, offsetX + fontChar->bearingX );
+			float y = unitRatio * CAST_S( float, fontChar->bearingY - fontChar->height );
 
-		// apply horizontal alignment
-		switch ( text3D->GetHorizontalAlign() ) {
-			case HorizontalAlign::LEFT:											break;
-			case HorizontalAlign::MIDDLE:	x -= unitRatio * totalWidth / 2;	break;
-			case HorizontalAlign::RIGHT:	x -= unitRatio * totalWidth;		break;
+			// apply horizontal alignment
+			switch ( text3D->GetHorizontalAlign() ) {
+				case HorizontalAlign::LEFT:											break;
+				case HorizontalAlign::MIDDLE:	x -= unitRatio * totalWidth / 2;	break;
+				case HorizontalAlign::RIGHT:	x -= unitRatio * totalWidth;		break;
+			}
+
+			// apply vertical alignment
+			switch ( text3D->GetVerticalAlign() ) {
+				case VerticalAlign::TOP:		y -= unitRatio * totalHeight;		break;
+				case VerticalAlign::MIDDLE:		y -= unitRatio * totalHeight / 2;	break;
+				case VerticalAlign::BOTTOM:											break;
+			}
+
+			// create vertices
+			Vertex vertices[6] = {
+				Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+				Vertex { Vector3( x,	 y,		0 ), Vector2( 0, 1 ) },
+				Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+
+				Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
+				Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
+				Vertex { Vector3( x + w, y + h, 0 ), Vector2( 1, 0 ) }
+			};
+
+			// bind buffer data
+			_gl->BufferSubData( GLBuffer::ARRAY_BUFFER, 0, sizeof( vertices ), vertices );
+
+			// render quad
+			_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
+
+			// advance cursors for next glyph (note that advance is number of 1/64 pixels)
+			// bitshift by 6 to get value in pixels (2^6 = 64)
+			offsetX += (fontChar->advance >> 6);
 		}
-
-		// apply vertical alignment
-		switch ( text3D->GetVerticalAlign() ) {
-			case VerticalAlign::TOP:		y -= unitRatio * totalHeight;		break;
-			case VerticalAlign::MIDDLE:		y -= unitRatio * totalHeight / 2;	break;
-			case VerticalAlign::BOTTOM:											break;
-		}
-		
-		// create vertices
-		Vertex vertices[6] = {
-			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
-			Vertex { Vector3( x,	 y,		0 ), Vector2( 0, 1 ) },
-			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
-
-			Vertex { Vector3( x,	 y + h, 0 ), Vector2( 0, 0 ) },
-			Vertex { Vector3( x + w, y,		0 ), Vector2( 1, 1 ) },
-			Vertex { Vector3( x + w, y + h, 0 ), Vector2( 1, 0 ) }
-		};
-
-		// bind buffer data
-		_gl->BufferSubData( GLBuffer::ARRAY_BUFFER, 0, sizeof(vertices), vertices ); 
-
-		// render quad
-		_gl->DrawArrays( GLDrawMode::TRIANGLES, 0, 6 );
-
-		// advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		// bitshift by 6 to get value in pixels (2^6 = 64)
-		offsetX += (fontChar->advance >> 6); 
 	}
 
 	// unbind all

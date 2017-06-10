@@ -54,6 +54,8 @@ void ProjectBuilderImpl::BuildWindows( cchar* buildPath )
 		ProjectSettings::appConfig.assetShaders.Clear();
 		ProjectSettings::appConfig.assetTextures.Clear();
 		ProjectSettings::appConfig.assetScripts.Clear();
+		ProjectSettings::appConfig.assetFonts.Clear();
+		ProjectSettings::appConfig.assetPrefabs.Clear();
 
 		// fill lists
 		for ( int i = 0; i < assetManager->GetMaterialCount(); i++ ) {
@@ -100,6 +102,20 @@ void ProjectBuilderImpl::BuildWindows( cchar* buildPath )
 		}
 		for ( int i = 0; i < assetManager->GetScriptCount(); i++ ) {
 			Script* asset = assetManager->GetScriptAt( i );
+			ProjectSettings::appConfig.assetScripts.Add( AppConfig::AssetConfig {
+				asset->GetName(),
+				asset->GetUniqueID()
+			} );
+		}
+		for ( int i = 0; i < assetManager->GetFontCount(); i++ ) {
+			Font* asset = assetManager->GetFontAt( i );
+			ProjectSettings::appConfig.assetFonts.Add( AppConfig::AssetConfig {
+				asset->GetName(),
+				asset->GetUniqueID()
+			} );
+		}
+		for ( int i = 0; i < assetManager->GetPrefabCount(); i++ ) {
+			Prefab* asset = assetManager->GetPrefabAt( i );
 			ProjectSettings::appConfig.assetScripts.Add( AppConfig::AssetConfig {
 				asset->GetName(),
 				asset->GetUniqueID()
@@ -152,6 +168,14 @@ void ProjectBuilderImpl::BuildWindows( cchar* buildPath )
 	// copy scripts
 	for ( int i = 0; i < assetManager->GetScriptCount(); i++ ) {
 		_BuildScriptFile( assetManager->GetScriptAt( i ) );
+	}
+	// copy fonts
+	for ( int i = 0; i < assetManager->GetFontCount(); i++ ) {
+		_BuildFontFile( assetManager->GetFontAt( i ) );
+	}
+	// copy prefabs
+	for ( int i = 0; i < assetManager->GetPrefabCount(); i++ ) {
+		_BuildPrefabFile( assetManager->GetPrefabAt( i ) );
 	}
 
 	// send message
@@ -278,23 +302,36 @@ void ProjectBuilderImpl::_BuildMeshFile( Mesh* asset )
 	String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
 
 	// load data
-	DataArray<Vertex>	vertices;
-	DataArray<int>		indices;
-	int fileSize;
-	char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
-	if ( fileData != NULL ) {
-		// try custom format first, then try import
-		bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
-		if ( !isLoaded ) {
-			FileManager::Singleton()->ImportMesh( fileData, fileSize, vertices, indices );
-		}
+	if ( mesh.GetLoadType() == MeshLoadType::EXTERNAL ) {
+		DataArray<Vertex>	vertices;
+		DataArray<int>		indices;
+		int fileSize;
+		char* fileData = FileManager::Singleton()->ReadFile( srcPathFile.GetChar(), fileSize );
+		if ( fileData != NULL ) {
+			// try custom format first, then try import
+			bool isLoaded = FileManager::Singleton()->LoadMesh( fileData, vertices, indices );
+			if ( !isLoaded ) {
+				FileManager::Singleton()->ImportMesh( fileData, fileSize, vertices, indices );
+			}
 
-		// write data
-		FiniteString dstPathFile( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
-											AppConfig::DIR_PATH_DATA, 
-											fileCID.GetChar() );
-		fileManager->WriteFile( dstPathFile.GetChar(), 
-								fileManager->SaveMesh( vertices, indices ).GetChar() );
+			// write data
+			FiniteString dstPathFile( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+									  AppConfig::DIR_PATH_DATA, 
+									  fileCID.GetChar() );
+			fileManager->WriteFile( dstPathFile.GetChar(), 
+									fileManager->SaveMesh( vertices, indices ).GetChar() );
+		}
+	}
+	else if ( mesh.GetLoadType() == MeshLoadType::SCRIPTED ) {
+		// generate constant id
+		FiniteString srcPathFile( "%s%s", asset->GetDirPath(), mesh.GetExternalPath() );
+		String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
+
+		// copy lua file
+		FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
+							  AppConfig::DIR_PATH_DATA, 
+							  fileCID.GetChar() );
+		fileManager->CopyFile( srcPathFile.GetChar(), dstPath.GetChar() );
 	}
 
 	// replace data file in asset
@@ -444,7 +481,7 @@ void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
 	script.LoadFullFile();
 
 	for ( int i = 0; i < script.GetPathsCount(); i++ ) {
-		// generate constant ids
+		// generate constant id
 		FiniteString srcPathFile( "%s%s", asset->GetDirPath(), script.GetFilePath(i) );
 		String fileCID = Random::GenerateConstantID( srcPathFile.GetChar() );
 
@@ -467,38 +504,11 @@ void ProjectBuilderImpl::_BuildScriptFile( Script* asset )
 }
 
 
+void ProjectBuilderImpl::_BuildFontFile( Font* asset )
+{
+}
 
-//
-//
-//void ProjectBuilderImpl::_BuildAssetFiles( Asset* asset )
-//{
 
-//		case AssetType::TEXTURE:
-//		{
-//			srcPathAsset.Set( "%s%s", srcPathAsset.GetChar(), FileManager::FILE_FORMAT_TEXTURE );
-//
-//			// copy additional files
-//			Texture* texture = CAST_S( Texture*, asset );
-//			if ( texture->GetTextureType() == TextureType::TEXTURE_2D ) {
-//				// single texture
-//				FiniteString srcPath( "%s%s", asset->GetDirPath(), texture->GetImagePath(0) );
-//				FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
-//												AppConfig::DIR_PATH_DATA, 
-//												texture->GetImagePath(0) );
-//				fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
-//			}
-//			else {
-//				// cube texture
-//				for ( int i = 0; i < 6; i++ ) {
-//					FiniteString srcPath( "%s%s", asset->GetDirPath(), texture->GetImagePath(i) );
-//					FiniteString dstPath( "%s%s%s", ProjectSettings::dirPathBuildWindows.GetChar(),
-//													AppConfig::DIR_PATH_DATA, 
-//													texture->GetImagePath(i) );
-//					fileManager->CopyFile( srcPath.GetChar(), dstPath.GetChar() );
-//				}
-//			}
-//
-//			break;
-//		}
-//	}
-//}
+void ProjectBuilderImpl::_BuildPrefabFile( Prefab* asset )
+{
+}

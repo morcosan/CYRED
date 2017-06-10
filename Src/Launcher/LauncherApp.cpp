@@ -12,6 +12,7 @@
 #include "CyredModule_Scene.h"
 #include "CyredModule_Script.h"
 #include "CyredModule_Time.h"
+#include "CyredModule_Physics.h"
 
 #include "EngineOverride\OpenGL\GLImpl_3_0.h"
 #include "EngineOverride\OpenGL\GLContextImpl.h"
@@ -91,13 +92,11 @@ void LauncherApp::_UpdateLoop()
 		// time update
 		timeManager->Update();
 
-		//! game update
-		//! update scripts
-		SceneManager* sceneManager = SceneManager::Singleton();
-		int totalScenes = sceneManager->CountLoadedScenes();
-		for ( int i = 0; i < totalScenes; ++i ) {
-			sceneManager->GetScene( i )->OnUpdate();
-		}
+		// update scripts
+		SceneManager::Singleton()->Update( TRUE );
+
+		// update physics
+		PhysicsManager::Singleton()->Update();
 	}
 
 	// render
@@ -110,6 +109,9 @@ void LauncherApp::_UpdateLoop()
 
 	// process input
 	InputManager::Singleton()->ProcessEvents();
+
+	// process engine events after editor events
+	EventManager::Singleton()->Update();
 }
 
 
@@ -124,6 +126,7 @@ void LauncherApp::_CreateManagers()
 	TimeManager::CreateSingleton();
 	DebugManager::CreateSingleton();
 	ScriptManager::CreateSingleton();
+	PhysicsManager::CreateSingleton();
 
 	Random::Initialize();
 }
@@ -134,6 +137,7 @@ void LauncherApp::_InitializeManagers()
 	EventManager::Singleton()->Initialize();
 	SceneManager::Singleton()->Initialize();
 	AssetManager::Singleton()->Initialize();
+	PhysicsManager::Singleton()->Initialize();
 
 	SerializeSystem* serializeSystem = new JsonSerializeSystem();
 	
@@ -163,6 +167,7 @@ void LauncherApp::_FinalizeManagers()
 	TimeManager::Singleton()->Finalize();
 	DebugManager::Singleton()->Finalize();
 	ScriptManager::Singleton()->Finalize();
+	PhysicsManager::Singleton()->Finalize();
 }
 
 
@@ -177,6 +182,7 @@ void LauncherApp::_DestroyManagers()
 	TimeManager::DestroySingleton();
 	DebugManager::DestroySingleton();
 	ScriptManager::DestroySingleton();
+	PhysicsManager::DestroySingleton();
 }
 
 
