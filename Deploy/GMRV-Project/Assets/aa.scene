@@ -252,7 +252,7 @@
             "name": "FPS",
             "tag": "",
             "layer": 0,
-            "enabled": true,
+            "enabled": false,
             "components": {
                 "transform": {
                     "enabled": true,
